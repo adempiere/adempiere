@@ -503,8 +503,9 @@ public final class DisplayType
 			return "NUMBER";
 		if (displayType == DisplayType.Binary)
 			return "BLOB";
-		if (displayType == DisplayType.TextLong 
-			|| (displayType == DisplayType.Text && fieldLength >= 4000))
+		if (displayType == DisplayType.TextLong
+			|| (displayType == DisplayType.Text && fieldLength >= 4000)
+			|| (displayType == DisplayType.Memo && fieldLength >= 4000))
 			return "CLOB";
 		if (displayType == DisplayType.YesNo)
 			return "CHAR(1)";

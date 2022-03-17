@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    <New id="AdempiereDS" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>java/AdempiereDS</Arg>
+        <Arg>
+            <New class="com.zaxxer.hikari.HikariDataSource">
+                <Arg>
+                    <New class="com.zaxxer.hikari.HikariConfig">
+                        <Set name="DriverClassName">@@JDBC_DRIVER_CLASS@@</Set>
+                        <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
+                        <Set name="Username">@ADEMPIERE_DB_USER@</Set>
+                        <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
+                        <Set name="connectionTimeout">600000</Set>
+                        <Set name="connectionTestQuery">SELECT 1 </Set>
+                        <Set name="maximumPoolSize">50</Set>
+                        <Set name="minimumIdle">11</Set>
+                        <Set name="idleTimeout">60000</Set>
+                        <Set name="keepaliveTime">30000</Set>
+                    </New>
+                </Arg>
+            </New>
+        </Arg>
+    </New>
+    <New id="AdempiereSRDS" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg></Arg>
+        <Arg>java/AdempiereSRDS</Arg>
+        <Arg>
+            <New class="com.zaxxer.hikari.HikariDataSource">
+                <Arg>
+                    <New class="com.zaxxer.hikari.HikariConfig">
+                        <Set name="DriverClassName">@@JDBC_DRIVER_CLASS@@</Set>
+                        <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
+                        <Set name="Username">@ADEMPIERE_DB_USER@</Set>
+                        <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
+                        <Set name="connectionTimeout">10000</Set>
+                        <Set name="connectionTestQuery">SELECT 1 </Set>
+                        <Set name="maximumPoolSize">10</Set>
+                        <Set name="minimumIdle">11</Set>
+                        <Set name="idleTimeout">30000</Set>
+                        <Set name="keepaliveTime">1200</Set>
+                    </New>
+                </Arg>
+            </New>
+        </Arg>
+    </New>
+    <New id="threadPool" class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+        <Set name="maxThreads" type="int">
+            <Property name="jetty.threadPool.maxThreads" default="500"/>
+        </Set>
+    </New>
+</Configure>

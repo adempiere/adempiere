@@ -78,8 +78,7 @@ public class KeyStoreMgt
 	public static String		KEYSTORE_NAME = "myKeystore";
 	/** Certificate Alias				*/
 	public static String		CERTIFICATE_ALIAS = "adempiere";
-
-	public static String KEYTOOL_JAVA7 = "sun.security.tools.KeyTool";
+	
 	public static String KEYTOOL_JAVA8 = "sun.security.tools.keytool.Main";
 	
 
@@ -459,9 +458,11 @@ public class KeyStoreMgt
 		try
 		{
 			final String version = System.getProperty("java.version");
-			if (version.startsWith("1.7"))
-				keyTool = Class.forName(KEYTOOL_JAVA7);
-			else if (version.startsWith("1.8"))
+			if (version.startsWith("1.8"))
+				keyTool = Class.forName(KEYTOOL_JAVA8);
+			if (version.startsWith("11"))
+				keyTool = Class.forName(KEYTOOL_JAVA8);
+			if (version.startsWith("17"))
 				keyTool = Class.forName(KEYTOOL_JAVA8);
 
 			Class[] argTypes = new Class[] { String[].class };

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Index on Migration Data" ReleaseNo="3.9.4" SeqNo="7920">
+    <Comments>Index on Migration Data</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE INDEX AD_Migration_Data_Step_Active ON AD_MigrationData(AD_MigrationStep_ID,IsActive);</SQLStatement>
+      <RollbackStatement>DROP INDEX AD_Migration_Data_Step_Active;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

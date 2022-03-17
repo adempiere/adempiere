@@ -65,16 +65,6 @@ public class ConfigVMOpenJDK extends Config
 				pass, true, error);
 		if (!pass)
 			return error;
-		/**	Different VM structure
-		File tools = new File (p_data.getJavaHome() 
-			+ File.separator + "lib" + File.separator + "tools.jar");
-		pass = tools.exists();
-		error = "Not found: Java SDK = " + tools;
-		signalOK(getPanel().okJavaHome, "ErrorJavaHome",
-			pass, true, error);
-		if (!pass)
-			return error;
-		**/
 		if (CLogMgt.isLevelFinest())
 			CLogMgt.printProperties(System.getProperties(), "System", true);
 		//
@@ -83,35 +73,27 @@ public class ConfigVMOpenJDK extends Config
 		System.setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		
 		//	Java Version
-		final String VERSION15 = "1.5.0";
-		final String VERSION16 = "1.6.0";
-		final String VERSION17 = "1.7.0";
-        final String VERSION18 = "1.8.0";
+		final String VERSION_11 = "11";	//	The real one
+		final String VERSION_17 = "17";	//
+
 		pass = false;
 		String jh = javaHome.getAbsolutePath();
-		if (jh.indexOf(VERSION15) != -1)	//	file name has version = assuming OK
+		if (!pass && jh.indexOf(VERSION_11) != -1)	//
 			pass = true;
-		if (!pass && jh.indexOf(VERSION16) != -1)	//
+		if (!pass && jh.indexOf(VERSION_17) != -1)	//
 			pass = true;
-		if (!pass && jh.indexOf(VERSION17) != -1)	//
-			pass = true;
-        if (!pass && jh.indexOf(VERSION18) != -1)	//
-            pass = true;
 		String thisJH = System.getProperty("java.home");
 		if (thisJH.indexOf(jh) != -1)	//	we are running the version currently
 		{
 			String thisJV = System.getProperty("java.version");
-			pass = thisJV.indexOf(VERSION15) != -1;
-			if (!pass && thisJV.indexOf(VERSION16) != -1)
+			if (!pass && thisJV.indexOf(VERSION_11) != -1)
 				pass = true;
-			if (!pass && thisJV.indexOf(VERSION17) != -1)
+			if (!pass && thisJV.indexOf(VERSION_17) != -1)
 				pass = true;
-            if (!pass && thisJV.indexOf(VERSION18) != -1)
-            pass = true;
 			if (pass)
 			  log.info("OK: Version=" + thisJV);
 		}
-		error = "Wrong Java Version: Should be " + VERSION17;
+		error = "Wrong Java Version: Should be " + VERSION_11;
 		if (getPanel() != null)
 			signalOK(getPanel().okJavaHome, "ErrorJavaHome", pass, true, error);
 		if (!pass)

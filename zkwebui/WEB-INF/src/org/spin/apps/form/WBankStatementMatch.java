@@ -428,9 +428,6 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 *  Save Data
 	 */
 	public void saveData() {
-		if(!isAvailableForSave()) {
-			return;
-		}
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
@@ -454,7 +451,6 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 */
 	private void refresh() {
 		clear();
-		setIsAvailableForSave(false);
 		getParameters();
 		String message = validateParameters();
 		if(Util.isEmpty(message)) {
@@ -558,7 +554,6 @@ public class WBankStatementMatch extends BankStatementMatchController
 	 */
 	private void loadMatchedPaymentsFromMatch() {
 		Vector<Vector<Object>> matchedPayments = getMatchedPayments();
-		setIsAvailableForSave(matchedPayments != null && !matchedPayments.isEmpty());
 		fillMatchedPayments(matchedPayments);
 	}
 	

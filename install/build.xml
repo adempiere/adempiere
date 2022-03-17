@@ -20,7 +20,6 @@
   <property name="keystore.dir" value="../keystore"/>
   <property name="data.dir" value="../data"/>
   <property name="migration.dir" value="../migration"/>
-  <property name="jboss.dir" value="../jboss"/>
 
   <property name="src" value="src"/>
   <property name="compile.dir" value="lib"/>
@@ -35,8 +34,8 @@
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
 	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
-	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
-	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.10/lib/ant.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar"/>
   </path>
 
   <patternset id="manifest.exclude">
@@ -62,7 +61,7 @@
   <!-- ======================================================= -->
   <target name="installCompile" depends="installInit">
 	<!-- compile the java code from ${src} into ${build.dir} -->
-	<javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on">
+	<javac target="11" encoding="UTF-8" srcdir="${src}" destdir="${compile.dir}" deprecation="on" debug="on" includeantruntime="false">
 	  <classpath refid="project.class.path"/>
 	</javac>
 	<!-- copy all image & sound files from src to the build directory -->
@@ -86,13 +85,13 @@
 	  duplicate="preserve">
 	  <fileset dir="${compile.dir}"/>
 	  <!-- Ant (with ftp) files -->
-	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.10/lib/ant.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
 	  <zipfileset src="../tools/lib/commons-net-1.4.0.jar" >
@@ -326,22 +325,6 @@
 	    <include name="**/*.sql"/>
 	  </fileset>
 	</copy>
-
-	<!-- JBoss Directory		-->
-	<mkdir dir="${build.dir}/Adempiere/jboss"/>
-	<mkdir dir="${build.dir}/Adempiere/jboss/bin"/>
-	<copy todir="${build.dir}/Adempiere/jboss/bin">
-	  <fileset dir="${jboss.dir}/bin" excludes="**/CVS/**"/>
-	</copy>
-	<mkdir dir="${build.dir}/Adempiere/jboss/lib"/>
-	<copy todir="${build.dir}/Adempiere/jboss/lib">
-	  <fileset dir="${jboss.dir}/lib" excludes="**/CVS/**"/>
-	</copy>
-	<mkdir dir="${build.dir}/Adempiere/jboss/server"/>
-	<copy todir="${build.dir}/Adempiere/jboss/server">
-	  <fileset dir="${jboss.dir}/server"
-		excludes="**/CVS/**"/>
-	</copy>
   	
   	<!-- GlassFish -->
   	<mkdir dir="${build.dir}/Adempiere/glassfish"/>
@@ -360,7 +343,6 @@
           <include name="*.sh"/>
           <include name="utils/*.sh"/>
           <include name="utils/**/*.sh"/>
-          <include name="jboss/bin/*.sh"/>
       </fileset>
   </chmod>
 

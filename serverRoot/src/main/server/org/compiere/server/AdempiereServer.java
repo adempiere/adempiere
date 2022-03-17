@@ -102,6 +102,12 @@ public abstract class AdempiereServer extends Thread
 		Timestamp dateNextRun = getDateNextRun(true);
 		if (dateNextRun != null)
 			nextWork = dateNextRun.getTime();
+
+		long now = System.currentTimeMillis();
+		if (nextWork > now)
+		{
+			sleepTime = nextWork - now;
+		}
 	//	log.info(model.getName() + " - " + getThreadGroup());
 	}	//	ServerBase
 
@@ -195,9 +201,8 @@ public abstract class AdempiereServer extends Thread
 		p_runCount++;
 		m_runLastMS = now - p_startWork;
 		m_runTotalMS += m_runLastMS;
-		//
 		p_model.setDateLastRun(new Timestamp(now));
-		p_model.save();
+		p_model.saveEx();
 		//
 		log.fine(getName() + ": " + getStatistics());
 	}	//	runNow
@@ -226,8 +231,7 @@ public abstract class AdempiereServer extends Thread
 		}
 		catch (InterruptedException e)
 		{
-			log.log(Level.SEVERE, getName() + ": pre-nap interrupted", e);
-			return;
+			log.log(Level.INFO, getName() + ": pre-nap interrupted", e);
 		}
 
 		m_start = System.currentTimeMillis();
@@ -296,6 +300,7 @@ public abstract class AdempiereServer extends Thread
 			if(Optional.ofNullable(p_model.getFrequencyType()).orElse(MScheduler.FREQUENCYTYPE_Day).equals(MScheduler.FREQUENCYTYPE_DoesNotRepeat)) {
 				p_model.setDateNextRun(new Timestamp(nextWork));
 			}
+
 			p_model.saveEx();
 			//
 			log.fine(getName() + ": " + getStatistics());

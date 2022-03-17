@@ -43,7 +43,6 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MNote;
 import org.compiere.model.MPeriod;
-import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
@@ -220,52 +219,19 @@ public abstract class Doc
 	 *  @param trxName transaction name
 	 *  @return Document or null
 	 */
-	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, int Record_ID, String trxName)
+	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, int Record_ID, String trxName) 
 	{
-		String TableName = null;
-		for (int i = 0; i < getDocumentsTableID().length; i++)
-		{
-			if (getDocumentsTableID()[i] == AD_Table_ID)
-			{
-				TableName = getDocumentsTableName()[i];
-				break;
-			}
-		}
-		if (TableName == null)
-		{
-			s_log.severe("Not found AD_Table_ID=" + AD_Table_ID);
+		try {
+			return new DocFactory()
+					.withAccountingSchemes(ass)
+					.withTableID(AD_Table_ID)
+					.withRecordID(Record_ID)
+					.withTrxName(trxName)
+					.get();
+		} catch (AdempiereUserError e) {
+			s_log.log (Level.SEVERE, e.getMessage(), e);
 			return null;
 		}
-		//
-		Doc doc = null;
-		StringBuffer sql = new StringBuffer("SELECT * FROM ")
-			.append(TableName)
-			.append(" WHERE ").append(TableName).append("_ID=? AND Processed='Y'");
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql.toString(), trxName);
-			pstmt.setInt (1, Record_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				doc = get (ass, AD_Table_ID, rs, trxName);
-			}
-			else
-				s_log.severe("Not Found: " + TableName + "_ID=" + Record_ID);
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql.toString(), e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; 
-			pstmt = null;
-		}
-		return doc;
 	}	//	get
 	
 	/**
@@ -279,68 +245,14 @@ public abstract class Doc
 	 */
 	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName) throws AdempiereUserError
 	{
-		Doc doc = null;
 		
-		/* Classname of the Doc class follows this convention:
-		 * if the prefix (letters before the first underscore _) is 1 character, then the class is Doc_TableWithoutPrefixWithoutUnderscores
-		 * otherwise Doc_WholeTableWithoutUnderscores
-		 * i.e. following this query
-              SELECT t.ad_table_id, tablename, 
-              	CASE 
-              		WHEN instr(tablename, '_') = 2 
-              		THEN 'Doc_' || substr(tablename, 3) 
-              		WHEN instr(tablename, '_') > 2 
-              		THEN 'Doc_' || 
-              		ELSE '' 
-              	REPLACE
-              		(
-              			tablename, '_', ''
-              		)
-              	END AS classname 
-              FROM ad_table t, ad_column C 
-              WHERE t.ad_table_id = C.ad_table_id AND
-              	C.columnname = 'Posted' AND
-              	isview = 'N' 
-              ORDER BY 1
-		 * This is:
-		 * 224		GL_Journal			Doc_GLJournal
-		 * 259		C_Order				Doc_Order
-		 * 318		C_Invoice			Doc_Invoice
-		 * 319		M_InOut				Doc_InOut
-		 * 321		M_Inventory			Doc_Inventory
-		 * 323		M_Movement			Doc_Movement
-		 * 325		M_Production		Doc_Production
-		 * 335		C_Payment			Doc_Payment
-		 * 392		C_BankStatement		Doc_BankStatement
-		 * 407		C_Cash				Doc_Cash
-		 * 472		M_MatchInv			Doc_MatchInv
-		 * 473		M_MatchPO			Doc_MatchPO
-		 * 623		C_ProjectIssue		Doc_ProjectIssue
-		 * 702		M_Requisition		Doc_Requisition
-		 * 735		C_AllocationHdr		Doc_AllocationHdr
-		 * 53027	PP_Order			Doc_PPOrder
-		 * 53035	PP_Cost_Collector	Doc_PPCostCollector
-		 * 53037	DD_Order			Doc_DDOrder
-		 * 53092	HR_Process			Doc_HRProcess
-		 */
-		
-		String tableName = MTable.getTableName(Env.getCtx(), AD_Table_ID);
-		Class<?> cClass = getDocClass(tableName);
-		String className = cClass.getCanonicalName();
-		try
-		{
-			Constructor<?> cnstr = cClass.getConstructor(MAcctSchema[].class, ResultSet.class, String.class);
-			doc = (Doc) cnstr.newInstance(ass, rs, trxName);
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
-			throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
-		}
-
-		if (doc == null)
-			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
-		return doc;
+		return new DocFactory()
+				.withAccountingSchemes(ass)
+				.withTableID(AD_Table_ID)
+				.withResultSet(rs)
+				.withTrxName(trxName)
+				.get();
+	
 	}   //  get
 
 	/**
@@ -415,6 +327,9 @@ public abstract class Doc
         List<BigDecimal> listProcessedOn = new ArrayList<>();
         for (int i = 0; i < tableNames.length; i++) {
             String tableName = tableNames[i];
+			//check if table is not null
+			if (tableName == null)
+				continue;
 
             String sql = "SELECT DISTINCT ProcessedOn"
                     + " FROM " + tableName
@@ -685,7 +600,6 @@ public abstract class Doc
 		if (p_Error != null)
 			return p_Error;
 
-		Trx trx = Trx.get(getTrxName(), true);
 		//  Delete existing Accounting
 		if (repost)
 		{
@@ -693,7 +607,6 @@ public abstract class Doc
 			{
 				log.log(Level.SEVERE, toString() + " - Period Closed for already posed document");
 				unlock();
-				trx.commit(); trx.close();
 				return "PeriodClosed";
 			}
 			//	delete it
@@ -703,7 +616,6 @@ public abstract class Doc
 		{
 			log.log(Level.SEVERE, toString() + " - Document already posted");
 			unlock();
-			trx.commit(); trx.close();
 			return "AlreadyPosted";
 		}
 		

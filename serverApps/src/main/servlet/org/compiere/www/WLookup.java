@@ -427,12 +427,12 @@ public class WLookup extends HttpServlet
 			
 			String whereClause = null;
 			String orderBy = null;
-			
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
 			try
 			{			
-				PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);			
-				ResultSet rs = pstmt.executeQuery();			
-						
+				pstmt = DB.prepareStatement(sql.toString(), null);
+				rs = pstmt.executeQuery();
 				if (rs.next()){					
 					tableID = rs.getInt(1);	
 					
@@ -442,12 +442,13 @@ public class WLookup extends HttpServlet
 					colKey = DB.getSQLValueString(null, sql, rs.getInt(2), tableID);
 					colDisplay = DB.getSQLValueString(null, sql, rs.getInt(3), tableID);
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql.toString(), e);
+			} finally {
+				DB.close(rs , pstmt);
+				rs = null; pstmt = null;
 			}
 		
 			sql = "Select TableName FROM AD_Table Where AD_Table_ID = ?";
@@ -471,14 +472,16 @@ public class WLookup extends HttpServlet
 				colDisplay="Name";
 			else
 				colDisplay="Description";
-		}		
+		}
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{	
-			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(),
+			pstmt = DB.prepareStatement(sqlSelect.toString(),
 					ResultSet.TYPE_SCROLL_INSENSITIVE,	ResultSet.CONCUR_READ_ONLY, null);
 			
 			pstmt.setInt(1, Env.getAD_Client_ID(wsc.ctx));						
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			log.info("This is the page number "+page);
 			log.info("This is the MAX_LINES "+MAX_LINES);
 			//rs.absolute(((page-1)*MAX_LINES)+1);			
@@ -511,16 +514,14 @@ public class WLookup extends HttpServlet
 			
 			//count
 			m_recordCount = DB.getSQLValue(null, sqlCount.toString(),Env.getAD_Client_ID(wsc.ctx));
-				
-			
-			rs.close();
-			pstmt.close();
-			
 		}		
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
-		}		
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
+		}
 		return table1;
 	}   //  fillTable_Lookup_Rows
 
@@ -557,13 +558,12 @@ public class WLookup extends HttpServlet
 			filter.setOnKeyUp("Table.filter(this,this)");				
 			line.addElement(new th().addElement(filter));
 		}
-		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{			
-			PreparedStatement pstmt = DB.prepareStatement(sqlSelect.toString(), null);			
-			ResultSet rs = pstmt.executeQuery();
-					
-			
+			pstmt = DB.prepareStatement(sqlSelect.toString(), null);
+			rs = pstmt.executeQuery();
 			String col;
 			while (rs.next()){
 				col=rs.getString(1);
@@ -580,14 +580,13 @@ public class WLookup extends HttpServlet
 					}
 				}
 			}
-			
-			rs.close();
-			pstmt.close();
-			
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sqlSelect.toString(), e);
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 		return line;
 

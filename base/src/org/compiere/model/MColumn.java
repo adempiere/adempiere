@@ -582,9 +582,10 @@ public class MColumn extends X_AD_Column
 			String defaultValue = getDefaultValueSQL();
 			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ALTER ").append(getColumnName())
-			.append(" SET DEFAULT ").append(defaultValue)
-				.append(DB.SQLSTATEMENT_SEPARATOR);				
+			.append(" MODIFY ").append(getColumnName())
+			.append(" ").append(getSQLDataType())
+			.append(" DEFAULT ").append(defaultValue)
+			.append(DB.SQLSTATEMENT_SEPARATOR);
 
 			//  Set the default value in all existing records
 			if (defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL"))
@@ -600,8 +601,8 @@ public class MColumn extends X_AD_Column
 			//  Set the column to Not Null - makes it mandatory
 			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ALTER ").append(getColumnName())
-			.append(" SET NOT NULL")
+			.append(" MODIFY ").append(getColumnName())
+			.append(" NOT NULL")
 			.append(DB.SQLSTATEMENT_SEPARATOR);
 
 		}
@@ -722,43 +723,77 @@ public class MColumn extends X_AD_Column
 				return null;
 			return sql.toString();
 		}
-		
-		// For non ID columns, we can manage defaults and other stuff
-		StringBuffer sqlBase = new StringBuffer ("ALTER TABLE ")
-			.append(table.getTableName())
-			.append(" MODIFY ").append(getColumnName());
-		
-		//	Default
-		String defaultValue = getDefaultValueSQL();
-		sql.append(sqlBase).append(" ").append(getSQLDataType())
-			.append(" DEFAULT ").append(defaultValue);
-		
-		//	Constraint
-		//  TODO - rename inline constraints?
-		
-		//	Null Values - set to the default everywhere the value is currently null
-		if (isMandatory() && defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL"))
-		{
-			StringBuffer sqlSet = new StringBuffer("UPDATE ")
-				.append(table.getTableName())
-				.append(" SET ").append(getColumnName())
-				.append("=").append(defaultValue)
-				.append(" WHERE ").append(getColumnName()).append(" IS NULL");
-			sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlSet);
-		}
-		
-		//	Null
-		if (setNullOption)  // TODO Fails if there is a constraint on this column.
-		{
-			//  This may fail if the column has a calculated default and there are currently null values
-			//  in the column.  Solution is to set the default to a specific value, sync then reset to
-			//  the calculated default or manage the update via the database directly.
-			StringBuffer sqlNull = new StringBuffer(sqlBase);
-			if (isMandatory())
-				sqlNull.append(" NOT NULL");
-			else
-				sqlNull.append(" NULL");
-			sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlNull);
+
+		StringBuffer sqlBase = new StringBuffer("ALTER TABLE ");
+		if(DB.isOracle() && "CLOB".equals(getSQLDataType())) {
+
+			// ALTER TABLE <TABLE_NAME> ADD <COLUMN_NAME>_T CLOB;
+			sqlBase.append(table.getTableName())
+					.append(" ADD ").append(getColumnName()).append("_T CLOB")
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+
+			// UPDATE <TABLE_NAME> SET <COLUMN_NAME>_T = <COLUMN_NAME>;
+			sqlBase.append("UPDATE ").append(table.getTableName()).append(" SET ")
+					.append(getColumnName()).append("_T = ")
+					.append(getColumnName()).append(DB.SQLSTATEMENT_SEPARATOR);
+
+			// ALTER TABLE <TABLE_NAME> DROP(<COLUMN_NAME>);
+			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" DROP(")
+					.append(getColumnName()).append(")")
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+
+			// ALTER TABLE <TABLE_NAME> RENAME COLUMN <COLUMN_NAME>_T TO <COLUMN_NAME>;
+			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" RENAME COLUMN ")
+					.append(getColumnName()).append("_T TO ").append(getColumnName())
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+
+			//	Default
+			String defaultValue = getDefaultValueSQL();
+			sqlBase.append(" ALTER TABLE ")
+					.append(table.getTableName())
+					.append(" MODIFY ")
+					.append(getColumnName())
+					.append(" DEFAULT ")
+					.append(defaultValue)
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+
+			sql.append(sqlBase);
+		} else {
+
+			// For non ID columns, we can manage defaults and other stuff
+			sqlBase.append(table.getTableName())
+					.append(" MODIFY ").append(getColumnName());
+			//	Default
+			String defaultValue = getDefaultValueSQL();
+			sql.append(sqlBase).append(" ").append(getSQLDataType())
+					.append(" DEFAULT ").append(defaultValue);
+
+			//	Constraint
+			//  TODO - rename inline constraints?
+
+			//	Null Values - set to the default everywhere the value is currently null
+			if (isMandatory() && defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL")) {
+				StringBuffer sqlSet = new StringBuffer("UPDATE ")
+						.append(table.getTableName())
+						.append(" SET ").append(getColumnName())
+						.append("=").append(defaultValue)
+						.append(" WHERE ").append(getColumnName()).append(" IS NULL");
+				sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlSet);
+			}
+
+			//	Null
+			if (setNullOption)  // TODO Fails if there is a constraint on this column.
+			{
+				//  This may fail if the column has a calculated default and there are currently null values
+				//  in the column.  Solution is to set the default to a specific value, sync then reset to
+				//  the calculated default or manage the update via the database directly.
+				StringBuffer sqlNull = new StringBuffer(sqlBase);
+				if (isMandatory())
+					sqlNull.append(" NOT NULL");
+				else
+					sqlNull.append(" NULL");
+				sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlNull);
+			}
 		}
 		//
 		return sql.toString();
@@ -785,8 +820,8 @@ public class MColumn extends X_AD_Column
 		if (isKey()) {
 			String constraintName;
 			if (tableName.length() > 26)
-				// Oracle restricts object names to 30 characters
-				constraintName = tableName.substring(0, 26) + "_Key";
+			// Oracle restricts object names to 30 characters
+			constraintName = tableName.substring(0, 26) + "_Key";
 			else
 				constraintName = tableName + "_Key";
 			return "CONSTRAINT " + constraintName + " PRIMARY KEY (" + getColumnName() + ")";
@@ -1127,7 +1162,10 @@ public class MColumn extends X_AD_Column
 					POInfo.removeFromCache(getAD_Table_ID());
 					
 				}
-				
+				//	Throw message
+				if(errorOccured) {
+					throw new DBException(returnMessage);
+				}
 			}
 			else
 			{

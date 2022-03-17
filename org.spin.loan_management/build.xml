@@ -51,7 +51,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac encoding="UTF-8"  srcdir="${src}" sourcepath="${base}:${FinanceManagement}:${controller}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" sourcepath="${base}:${FinanceManagement}:${controller}" destdir="${build}" includeantruntime="false">
       <classpath refid="lib.class.path"/>
     </javac>
 
@@ -77,7 +77,7 @@
     <target name="zkcompile" depends="dist"
             description="compile the source " >
         <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" sourcepath="${base}:${FinanceManagement}:${controller}" destdir="${zkclasses}" >
+        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" sourcepath="${base}:${FinanceManagement}:${controller}" destdir="${zkclasses}" includeantruntime="false">
             <classpath refid="compile.classpath"/>
         </javac>
     </target>

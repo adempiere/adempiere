@@ -24,7 +24,7 @@
 	    <!-- create the build directory structure used by compile -->
 	    <mkdir dir="${build.dir}"/>
             <!--begin vpj-cd e-evolution PostgreSQL-->
-            <copy file="postgresql/sqlj.ddr" tofile="./${build.dir}/deployment/sqlj.ddr" failonerror="no"/>
+            <copy file="PostgreSQL/sqlj.ddr" tofile="./${build.dir}/deployment/sqlj.ddr" failonerror="no"/>
 	    <!--end vpj-cd e-evolution PostgreSQL-->
 	</target>
 	
@@ -35,8 +35,9 @@
 	<target name="sqljCompile" depends="sqljInit">
 	    <javac srcdir="${src}" destdir="${build.dir}" 
 	    	deprecation="on" 
-	    	source="1.3" target="1.1" optimize="off" 
-	    	debug="on">
+	    	source="11" target="11" optimize="off"
+				debug="on"
+				includeantruntime="false">
 	      <classpath refid="project.class.path"/>
 	    </javac>
 	</target>

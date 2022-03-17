@@ -154,7 +154,7 @@ public class StatusInfo extends HttpServlet
 	/**
 	 * 	Destroy
 	 */
-	public void destroy()
+	public synchronized void destroy()
 	{
 		getServletContext().log("StatusInfo.destroy");
 	}

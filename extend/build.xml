@@ -48,7 +48,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+    <javac target="11" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on" includeantruntime="false">
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->

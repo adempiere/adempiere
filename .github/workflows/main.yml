@@ -13,44 +13,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      
-      # Ensure a compatible version of java is used
-      - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
-        with:
-            java-version: '1.8'
-            java-package: jdk
-
-      # Build ADempiere with ant
-      - name: Build Adempiere ...
-        run: |
-          echo $(java -version)
-          echo $GITHUB_REF
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_BASE_REF
-          echo ${{ github.ref }}
-          echo "Current ant version: $(ant -version)"
-          echo "Installing ant version 1.10.9"
-          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
-          tar -xzf apache-ant-1.10.9-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.9
-          export PATH=${ANT_HOME}/bin:$PATH
-          echo $ANT_HOME
-          echo $PATH
-          echo $(ant -version)
-          cd utils_dev
-          ant complete
   # This workflow contains a single job called "build"
   create-seed:
-    needs: build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
@@ -80,7 +44,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
-            java-version: '1.8'
+            java-version: '11'
             java-package: jdk
 
       # Build ADempiere with ant
@@ -97,12 +61,24 @@ jobs:
           echo $GITHUB_BASE_REF
           echo ${{ github.ref }}
           echo "Current ant version: $(ant -version)"
-          echo "Installing ant version 1.10.9"
-          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
-          tar -xzf apache-ant-1.10.9-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.9
+          echo "Installing ant version 1.10.10"
+          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+          tar -xzf apache-ant-1.10.10-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.10
           export PATH=${ANT_HOME}/bin:$PATH
+          export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
           echo $ANT_HOME
           echo $PATH
           echo $(ant -version)
+          echo $ADEMPIERE_HOME
           ant build
+      - name: Upload Binary Files
+        uses: actions/upload-artifact@v2
+        with:
+            name: adempiere-binary-files
+            path: adempiere/install/
+      - name: Upload Seed
+        uses: actions/upload-artifact@v2
+        with:
+            name: adempiere-postgresql-seed
+            path: adempiere/Adempiere/data/Adempiere_pg.dmp

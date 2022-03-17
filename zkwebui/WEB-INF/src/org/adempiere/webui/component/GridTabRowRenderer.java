@@ -274,7 +274,47 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			label.setDynamicProperty("title", "");
 	}
 
+    /**
+     * Returns the index of the row across all pages if pagination 
+     * is active. For example if the row is the 4th row on the 
+     * page and there are 100 rows per page and this is the third
+     * page, the actual row index will be 2 * 100 + 3, considering
+     * zero-based indexes for the page and row.
+     * @param indexInThisPage
+     */
+	protected int getRowIndexAcrossAllPages(int indexInThisPage) {
+    
+	    int rowIndex = indexInThisPage;
+    	if (paging != null && paging.getPageSize() > 0) 
+    	    rowIndex = (paging.getActivePage() * paging.getPageSize()) 
+    	                + indexInThisPage;
+        return rowIndex;
+    
+    }
+
 	/**
+	 * Returns the index of the row in the current page or -1 if the
+	 * row is not in the current page range. If paging is not active
+	 * or the page size is zero, the parameter value is returned.
+	 * @param rowIndexAcrossAllPages
+	 * @return 
+	 */
+    protected int getRowIndexInPage(int rowIndexAcrossAllPages) {
+    
+        int pgIndex = -1;
+        int page = 0;
+        if(paging != null && paging.getPageSize() > 0) {
+            page = rowIndexAcrossAllPages / paging.getPageSize();
+            if (page == paging.getActivePage())
+                pgIndex = rowIndexAcrossAllPages >= 0 ? 
+                        rowIndexAcrossAllPages % paging.getPageSize() : 0;
+        } else 
+            pgIndex = rowIndexAcrossAllPages;
+        return pgIndex;
+    
+    }
+
+    /**
 	 *
 	 * @return active editor list
 	 */
@@ -354,10 +394,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		currentValues = (Object[])data;
 		
 		int columnCount = gridTab.getTableModel().getColumnCount();
-		int rowIndex = row.getParent().getChildren().indexOf(row);
-		if (paging != null && paging.getPageSize() > 0) {
-			rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
-		}
+		int indexInThisPage = row.getParent().getChildren().indexOf(row);
+		int rowIndex = getRowIndexAcrossAllPages(indexInThisPage);
 		 //	FR [ 1697 ] 
 		 HashMap<String, Object> columnValues = new  HashMap<String, Object>();
 		
@@ -731,11 +769,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * @return
 	 */
 	public boolean setCurrentColumn(int col) {
-		int pgIndex;
-		if(paging != null)
-			pgIndex = currentRowIndex >= 0 ? currentRowIndex % paging.getPageSize() : 0;
-		else
-			pgIndex = currentRowIndex;
+	    int pgIndex = getRowIndexInPage(currentRowIndex);
+		
 		if(grid != null) {
 			org.zkoss.zul.Row row = (org.zkoss.zul.Row) grid.getRows().getChildren().get(pgIndex);
 			currentRow.setStyle("");
@@ -787,21 +822,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		return currentDiv;
 	}
 	
-	public void setCurrentCell(int row) {
-		int pgIndex = currentRowIndex;
-		if(paging != null) 
-			pgIndex = row >= 0 ? row % paging.getPageSize() : 0;
-			
-		if (row != currentRowIndex || pgIndex != currentRowIndex)
-		{
-			if (grid.getRows().getChildren().size() <= 0)
-			{
-				currentColumn = -1;
-				return;
-			}
-			
-			gridTab.setCurrentRow(row);
-			
+	/**
+	 * Sets the 
+	 * @param rowIndexInPage
+	 */
+	public void setCurrentRowOnPage(int rowIndexInPage) {
+	    
+	    int currentRowInPage = getRowIndexInPage(currentRowIndex);
+	    
+        if (rowIndexInPage != currentRowInPage && rowIndexInPage != -1)
+		{			
+			gridTab.setCurrentRow(getRowIndexAcrossAllPages(rowIndexInPage));
 			currentRowIndex = gridTab.getCurrentRow();
 		}
 

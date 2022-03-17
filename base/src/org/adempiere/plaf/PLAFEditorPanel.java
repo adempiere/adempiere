@@ -57,11 +57,10 @@ import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CTextField;
 import org.compiere.util.ValueNamePair;
 
-import sun.awt.AppContext;
-
 /**
  * Look and feel selection panel.
  * @author Low Heng Sin
+ * @author Marek Mosiewicz - switching to correct way of detecting theme
  * @version 2006-11-27
  */
 public class PLAFEditorPanel extends CPanel {
@@ -186,7 +185,7 @@ public class PLAFEditorPanel extends CPanel {
 		updatePreviewComponents();
 		setLFSelection();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		this.repaint();
+		previewPanel.paint(previewPanel.getGraphics());
 	}
 
 	/**
@@ -205,7 +204,7 @@ public class PLAFEditorPanel extends CPanel {
 		updatePreviewComponents();
 		setLFSelection();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		this.repaint();
+		previewPanel.paint(previewPanel.getGraphics());
 	}
 
 	private void updatePreviewComponents() {
@@ -335,8 +334,7 @@ public class PLAFEditorPanel extends CPanel {
 		if (metal)
 		{
 			theme = null;
-			AppContext context = AppContext.getAppContext();
-			metalTheme = (MetalTheme)context.get("currentMetalTheme");
+			metalTheme = MetalLookAndFeel.getCurrentTheme();
 			if (metalTheme != null)
 			{
 				String lookTheme = metalTheme.getName();
@@ -421,6 +419,7 @@ class PreviewPanel extends CPanel {
 					UIManager.setLookAndFeel(laf);
 				} catch (UnsupportedLookAndFeelException e) {
 				}
+				SwingUtilities.updateComponentTreeUI(this);
 				laf = null;
 				theme = null;
 			}

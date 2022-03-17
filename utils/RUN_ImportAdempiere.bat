@@ -135,25 +135,25 @@ REM sanity checks
 SET sanityCheck=%errorSuccess%
 
 REM make sure environment is properly defined
-IF "%ADEMPIERE_HOME%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_PATH%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_NAME%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_SERVER%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_PORT%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_SYSTEM%"=="" GOTO :ENVNOK
-IF "%ADEMPIERE_DB_USER%"=="" GOTO :ENVNOK
+IF "%ADEMPIERE_HOME%"==""        GOTO :ENVNOK
+IF "%ADEMPIERE_DB_PATH%"==""     GOTO :ENVNOK
+IF "%ADEMPIERE_DB_NAME%"==""     GOTO :ENVNOK
+IF "%ADEMPIERE_DB_SERVER%"==""   GOTO :ENVNOK
+IF "%ADEMPIERE_DB_PORT%"==""     GOTO :ENVNOK
+IF "%ADEMPIERE_DB_SYSTEM%"==""   GOTO :ENVNOK
+IF "%ADEMPIERE_DB_USER%"==""     GOTO :ENVNOK
 IF "%ADEMPIERE_DB_PASSWORD%"=="" GOTO :ENVNOK
 GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
-ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO ADEMPIERE_DB_PATH	e.g. "PostgreSQL" or "Oracle"
-ECHO ADEMPIERE_DB_NAME	e.g. "adempiere" or "xe"
-ECHO ADEMPIERE_DB_SERVER	e.g. "dbserver.adempiere.org"
-ECHO ADEMPIERE_DB_PORT	e.g. "5432" or "1521"
-ECHO ADEMPIERE_DB_SYSTEM	system user password, e.g. "postgres" or "manager"
-ECHO ADEMPIERE_DB_USER	e.g. "adempiere"
-ECHO ADEMPIERE_DB_PASSWORD	e.g. "adempiere"
+ECHO ADEMPIERE_HOME	                       e.g. "C:\Adempiere"
+ECHO ADEMPIERE_DB_PATH	                       e.g. "PostgreSQL" or "Oracle"
+ECHO ADEMPIERE_DB_NAME	                       e.g. "adempiere" or "xe"
+ECHO ADEMPIERE_DB_SERVER                       e.g. "dbserver.adempiere.org"
+ECHO ADEMPIERE_DB_PORT	                       e.g. "5432" or "1521"
+ECHO ADEMPIERE_DB_SYSTEM system user password, e.g. "postgres" or "manager"
+ECHO ADEMPIERE_DB_USER	                       e.g. "adempiere"
+ECHO ADEMPIERE_DB_PASSWORD	               e.g. "adempiere"
 ECHO When in doubt, please run RUN_Setup.bat
 SET sanityCheck=%errorNoEnvironment%
 :ENVOK

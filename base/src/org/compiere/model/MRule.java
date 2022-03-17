@@ -171,6 +171,10 @@ public class MRule extends X_AD_Rule
 				return false;
 			}
 		}
+		if(is_ValueChanged(COLUMNNAME_Script)
+				|| is_ValueChanged(COLUMNNAME_EntityType)) {
+			setIsRuleClassGenerated(false);
+		}
 		return true;
 	}	//	beforeSave
 	

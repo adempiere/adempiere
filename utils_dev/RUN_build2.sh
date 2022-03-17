@@ -16,12 +16,6 @@ else
   exit
 fi
 
-# check jdk
-if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
-   echo "** Need full Java SDK **"
-   exit
-fi
-
 if [ $# -eq 0 ] 
   then
     echo "Usage:    $0 target"
@@ -30,7 +24,7 @@ if [ $# -eq 0 ]
 fi
 
 #classpath
-export ANT_HOME="../tools/lib/ant/apache-ant-1.10.9"
+export ANT_HOME="../tools/lib/ant/apache-ant-1.10.10"
 export JAVA_CLASSPATH=$CLASSPATH:$ANT_HOME/lib/ant-launcher.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
 export JAVA_OPTS="-Xms128m -Xmx512m"
 

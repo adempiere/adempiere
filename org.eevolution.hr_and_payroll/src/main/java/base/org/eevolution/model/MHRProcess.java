@@ -35,6 +35,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommission;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
@@ -55,6 +57,8 @@ import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
+import org.spin.util.PayrollEngineHandler;
+import org.spin.util.RuleInterface;
 import org.spin.util.TNAUtil;
 
 import javax.script.ScriptContext;
@@ -257,7 +261,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		reActivateIt();
 		//	Std Period open?
 		MHRPeriod period = MHRPeriod.getById(getCtx(), getHR_Period_ID(), get_TrxName());
-		MPeriod.testPeriodOpen(getCtx(), getHR_Period_ID() > 0 ? period.getDateAcct():getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), getHR_Period_ID() > 0 ? period.getDateAcct():getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID(), get_TrxName());
 
 		//	New or in Progress/Invalid
 		if (   DOCSTATUS_Drafted.equals(getDocStatus()) 
@@ -405,7 +409,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			boolean isAccrual = false;
 			try
 			{
-				MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
+				MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID(), get_TrxName());
 			}
 			catch (PeriodClosedException periodClosedException)
 			{
@@ -467,7 +471,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
 		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
-		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID(), get_TrxName());
 		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, get_TrxName() , true);
 		if (reversal == null)
 		{
@@ -558,7 +562,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			return false;
 		
 		//	Can we delete posting
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID(), get_TrxName());
 
 		//	Delete
 		int no =  deleteMovements();
@@ -783,37 +787,54 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
 				logger.log(Level.WARNING, " must be of type JSR 223 and event human resource");
 			}
+			boolean isRunned = false;
+			if(rule.isRuleClassGenerated()) {
+				try {
+					RuleInterface ruleEngine = PayrollEngineHandler.getInstance().getRuleEngine(rule);
+					if(ruleEngine != null) {
+						isRunned = true;
+						result = ruleEngine.run(this, scriptCtx);
+						description = ruleEngine.getDescription();
+					}
+				} catch (ClassNotFoundException e) {	//	For Class not found
+					logger.log(Level.WARNING, e.getLocalizedMessage());
+				} catch (Exception e) {	//	For other exception
+					throw new AdempiereException(e);
+				}
+			}
+			//	if the class is not loaded then run from rule
+			if(!isRunned) {
+				if (rule.getEngineName() != null)
+					return  executeScriptEngine(concept, rule , columnType);
 
-			if (rule.getEngineName() != null)
-				return  executeScriptEngine(concept, rule , columnType);
-
-			String text = "";
-			if (rule.getScript() != null) {
-				text = rule.getScript().trim().replaceAll("\\bget", "process.get")
-				.replace(".process.get", ".get");
+				String text = "";
+				if (rule.getScript() != null) {
+					text = rule.getScript().trim().replaceAll("\\bget", "process.get")
+					.replace(".process.get", ".get");
+				}
+				String resultType = "double";
+				//	Yamel Senih Add DefValue to another Types
+				String defValue = "0";
+				if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
+					resultType = "Timestamp";
+					defValue = "null";
+				} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
+					resultType = "String";
+					defValue = "null";
+				}
+				final String script =
+						s_scriptImport.toString()
+								+ Env.NL + resultType + " result = "+ defValue +";"
+								+ Env.NL + "String description = null;"
+								+ Env.NL + text;
+				Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
+				Exception ex = engine.execute();
+				if (ex != null) {
+					throw ex;
+				}
+				result = engine.getResult(false);
+				description = engine.getDescription();
 			}
-			String resultType = "double";
-			//	Yamel Senih Add DefValue to another Types
-			String defValue = "0";
-			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType)) {
-				resultType = "Timestamp";
-				defValue = "null";
-			} else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType)) {
-				resultType = "String";
-				defValue = "null";
-			}
-			final String script =
-					s_scriptImport.toString()
-							+ Env.NL + resultType + " result = "+ defValue +";"
-							+ Env.NL + "String description = null;"
-							+ Env.NL + text;
-			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
-			Exception ex = engine.execute();
-			if (ex != null) {
-				throw ex;
-			}
-			result = engine.getResult(false);
-			description = engine.getDescription();
 			long elapsed = System.currentTimeMillis() - startTime;
 			logger.info("ScriptResult -> Concept Name " + concept.getName() + " = " + result + " Time elapsed: " + TimeUtil.formatElapsed(elapsed));
 		} catch (Exception e) {
@@ -942,6 +963,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	private void createMovements() throws Exception
 	{
+		logger.info("CreateMovements #");
+		long startTime = System.currentTimeMillis();
 		scriptCtx.clear();
 		lastConceptMap = new HashMap<String, MHRMovement>();
 		conceptAgregateMap = new HashMap<String, BigDecimal>();
@@ -958,7 +981,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		else
 		{
 			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
-			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());	
+			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID(), get_TrxName());	
 			if(period != null)
 			{
 				payrollPeriod.setStartDate(period.getStartDate());
@@ -983,6 +1006,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		scriptCtx.put("_From", dateFrom);
 		scriptCtx.put("_To", dateTo);
 		scriptCtx.put("_Period", payrollPeriod.getPeriodNo());
+		scriptCtx.put("_PeriodNo", payrollPeriod.getPeriodNo());
+		scriptCtx.put("_HR_Period_ID", getHR_Period_ID());
 		scriptCtx.put("_HR_Payroll_Value", payroll.getValue());
 		//	Scope
 		scriptCtx.put("SCOPE_PROCESS", HRProcessActionMsg.SCOPE_PROCESS);
@@ -1020,6 +1045,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollPeriod.setProcessed(true);
 			payrollPeriod.saveEx();
 		}
+		logger.info("Calculation for CreateMovements # Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startTime));
 	}
 
 	/**
@@ -1217,13 +1243,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			if (description != null)
 				movement.setDescription(description.toString());
 		}
-		else
-		{
-			movement.setQty(attribute.getQty());
-			movement.setAmount(attribute.getAmount());
-			movement.setTextMsg(attribute.getTextMsg());
-			movement.setServiceDate(attribute.getServiceDate());
-		}
 		movement.setProcessed(true);
 		movements.put(concept.getHR_Concept_ID(), movement);
 	}
@@ -1317,8 +1336,27 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		movement.setIsManual(concept.isManual());
 		movement.setC_BP_Group_ID(businessPartner.getC_BP_Group_ID());
 		movement.setEmployee(employee);
+		if (!MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
+			int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+			if(concept.getStdPrecision() > 0) {
+				precision = concept.getStdPrecision();
+			}
+			BigDecimal rate = Env.ONE;
+			BigDecimal amount = attribute.getAmount();
+			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
+				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+				if(rate != null) {
+					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					
+				}
+			}
+			movement.setAmount(amount);
+			movement.setQty(attribute.getQty());
+			movement.setTextMsg(attribute.getTextMsg());
+			movement.setServiceDate(attribute.getServiceDate());
+		}
 		return movement;
-
 	}
 
 	// Helper methods -------------------------------------------------------------------------------
@@ -1803,8 +1841,26 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			return attribute.getQty().doubleValue();
 
 		// if column type is Amount return amount
-		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
-			return attribute.getAmount().doubleValue();
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)) {
+			BigDecimal rate = Env.ONE;
+			BigDecimal amount = attribute.getAmount();
+			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
+				int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+				if(concept.getStdPrecision() > 0) {
+					precision = concept.getStdPrecision();
+				}
+				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+				if(rate != null) {
+					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					
+				}
+			}
+			if(amount == null) {
+				return 0.0;
+			}
+			return amount.doubleValue();
+		}
 
 		//something else
 		return 0.0; //TODO throw exception ?? 

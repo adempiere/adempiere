@@ -17,17 +17,6 @@
 
 package org.adempiere.webui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.DrillCommand;
 import org.adempiere.webui.component.TokenCommand;
@@ -35,6 +24,7 @@ import org.adempiere.webui.component.ZoomCommand;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.event.TokenEvent;
+import org.adempiere.webui.session.ServerContext;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeManager;
@@ -48,9 +38,10 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
-import org.zkoss.web.Attributes;
+import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -68,6 +59,14 @@ import org.zkoss.zk.ui.sys.SessionCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Properties;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -81,9 +80,7 @@ import org.zkoss.zul.Window;
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
 {
-	/**
-	 *
-	 */
+
 	private static final long serialVersionUID = 3744725245132180915L;
 
 	public static final String APP_NAME = "ADempiere";
@@ -92,58 +89,41 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     private WLogin             loginDesktop;
 
-    private IDesktop           appDesktop;
+    private IDesktop applicationDesktop;
 
     private ClientInfo		   clientInfo;
 
 	private String langSession;
 
-	private UserPreference userPreference;
+	private Keylistener keyListener;
 
 	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
-	public static final String EXECUTION_CARRYOVER_SESSION_KEY = "execution.carryover";
-
-	public static final String ZK_DESKTOP_SESSION_KEY = "zk.desktop";
-
-	public static final String ZK_CLIENT_CONTEXT = "zk_client_context";
-
-	private static final String SAVED_CONTEXT = "saved.context";
-
-	public static final String APPLICATION_DESKTOP_KEY = "application.desktop";
-
-	public static String typedPassword = null;
-
-    public AdempiereWebUI()
+	public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);
-
-    	userPreference = new UserPreference();
     }
 
     public void onCreate()
     {
-        this.getPage().setTitle(ThemeManager.getBrowserTitle());
-
-        Properties ctx = Env.getCtx();
-        langSession = Env.getContext(ctx, Env.LANGUAGE);
-        SessionManager.setSessionApplication(this);
-        Session session = Executions.getCurrent().getDesktop().getSession();
-
-        @SuppressWarnings("unchecked")
-		Map<String, Object>map = (Map<String, Object>) session.getAttribute(SAVED_CONTEXT);
-        session.removeAttribute(SAVED_CONTEXT);
-        if (map != null && !map.isEmpty())
+		Session session = getDesktop().getSession();
+		HttpSession httpSession = (HttpSession) session.getNativeSession();
+		ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
+		this.getPage().setTitle(ThemeManager.getBrowserTitle());
+		setId(httpSession.getId());
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+		SessionManager.setApplication(httpSession.getId(), this);
+		int userId = Env.getAD_User_ID(Env.getCtx());
+		if (userId > 0 && !SessionManager.existsExecutionCarryOver(httpSession.getId())) {
+			onChangeRole(userId);
+			return;
+		}
+		if (!SessionManager.isUserLoggedIn(Env.getCtx()))
         {
-        	onChangeRole(map);
-        	return;
-        }
-
-        if (session.getAttribute(SessionContextListener.SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
-        {
-            loginDesktop = new WLogin(this);
+			loginDesktop = new WLogin();
             loginDesktop.createPart(this.getPage());
+			loginDesktop.getComponent().getRoot().addEventListener(Events.ON_CLIENT_INFO, this);
         }
         else
         {
@@ -159,15 +139,15 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     }
 
-	private void onChangeRole(Map<String, Object> map)
+	private void onChangeRole(int userId)
 	{
-		Locale locale = (Locale) map.get("locale");
-		Properties properties = (Properties) map.get("context");
-		SessionManager.setSessionApplication(this);
-		loginDesktop = new WLogin(this);
+		loginDesktop = new WLogin();
 		loginDesktop.createPart(this.getPage());
-		loginDesktop.setTypedPassword(typedPassword);
-		loginDesktop.changeRole(locale, properties);
+		loginDesktop.setTypedPassword(SessionManager.getUserAuthentication(getId()));
+		SessionManager.removeUserAuthentication(getId());
+		Properties newContext =  (Properties) Env.getCtx().clone();
+		Language language = Env.getLanguage(Env.getCtx());
+		loginDesktop.changeRole(language.getLocale(),newContext);
 	}
 
     /* (non-Javadoc)
@@ -175,13 +155,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void loginCompleted()
     {
-    	if (loginDesktop != null)
-    	{
-    		typedPassword = loginDesktop.getTypedPassword();
-    		loginDesktop.detach();
-    		loginDesktop = null;
-    	}
-
         Properties ctx = Env.getCtx();
         String langLogin = Env.getContext(ctx, Env.LANGUAGE);
         if (langLogin == null || langLogin.length() <= 0)
@@ -210,108 +183,59 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        Session currSess = Executions.getCurrent().getDesktop().getSession();
-        HttpSession httpSess = (HttpSession) currSess.getNativeSession();
+        Session currentSession = SessionManager.getApplication(getId()).getPage().getDesktop().getSession();
+        HttpSession httpSession = SessionManager.getSession(getId());
+		//Setting the timeout for this session
+		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
+		maybeMaxInactiveInterval.ifPresent(maxInactiveInterval -> {
+			httpSession.setAttribute("MaxInactiveInterval",maxInactiveInterval);
+			httpSession.setMaxInactiveInterval(maxInactiveInterval);
+		});
 
-		MSession mSession = MSession.get (ctx, currSess.getRemoteAddr(),
-			currSess.getRemoteHost(), httpSess.getId() );
+		MSession adempiereSession = MSession.get (ctx, currentSession.getRemoteAddr(),
+				currentSession.getRemoteHost(), httpSession.getId() );
 
 		//enable full interface, relook into this when doing preference
 		Env.setContext(ctx, "#ShowTrl", true);
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
-		// to reload preferences when the user refresh the browser
-		userPreference = loadUserPreference(Env.getAD_User_ID(ctx));
+		keyListener = new Keylistener();
+		keyListener.setPage(this.getPage());
+		keyListener.setCtrlKeys("@a@c@d@e@f@h@l@m@n@o@p@r@s@t@z@x@#left@#right@#up@#down@#home@#end#enter^u@u@#pgdn@#pgup$#f2^#f2");
+		keyListener.setAutoBlur(false);
 
 		//auto commit user preference
-		String autoCommit = userPreference.getProperty(UserPreference.P_AUTO_COMMIT);
+		String autoCommit = SessionManager.getUserPreference(httpSession.getId()).getProperty(UserPreference.P_AUTO_COMMIT);
 		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
 
 		//auto new user preference
-		String autoNew = userPreference.getProperty(UserPreference.P_AUTO_NEW);
+		String autoNew = SessionManager.getUserPreference(httpSession.getId()).getProperty(UserPreference.P_AUTO_NEW);
 		Env.setAutoNew(ctx, "true".equalsIgnoreCase(autoNew) || "y".equalsIgnoreCase(autoNew));
 
-		IDesktop d = (IDesktop) currSess.getAttribute("application.desktop");
-		if (d != null && d instanceof IDesktop)
-		{
-			ExecutionCarryOver eco = (ExecutionCarryOver) currSess.getAttribute(EXECUTION_CARRYOVER_SESSION_KEY);
-			if (eco != null) {
-				//try restore
-				try {
-					appDesktop = (IDesktop) d;
-
-					ExecutionCarryOver current = new ExecutionCarryOver(this.getPage().getDesktop());
-					ExecutionCtrl ctrl = ExecutionsCtrl.getCurrentCtrl();
-					Visualizer vi = ctrl.getVisualizer();
-					eco.carryOver();
-					Collection<Component> rootComponents = new ArrayList<Component>();
-					try {
-						ctrl = ExecutionsCtrl.getCurrentCtrl();
-						((DesktopCtrl)Executions.getCurrent().getDesktop()).setVisualizer(vi);
-
-						//detach root component from old page
-						Page page = appDesktop.getComponent().getPage();
-						Collection<?> collection = page.getRoots();
-						Object[] objects = new Object[0];
-						objects = collection.toArray(objects);
-						for(Object obj : objects) {
-							if (obj instanceof Component) {
-								((Component)obj).detach();
-								rootComponents.add((Component) obj);
-							}
-						}
-						appDesktop.getComponent().detach();
-						DesktopCache desktopCache = ((SessionCtrl)currSess).getDesktopCache();
-						if (desktopCache != null)
-							desktopCache.removeDesktop(Executions.getCurrent().getDesktop());
-					} catch (Exception e) {
-						appDesktop = null;
-					} finally {
-						eco.cleanup();
-						current.carryOver();
-					}
-
-					if (appDesktop != null) {
-						//re-attach root components
-						for (Component component : rootComponents) {
-							try {
-								component.setPage(this.getPage());
-							} catch (UiException e) {
-								// e.printStackTrace();
-								// an exception is thrown here when refreshing the page, it seems is harmless to catch and ignore it
-								// i.e.: org.zkoss.zk.ui.UiException: Not unique in the ID space of [Page z_kg_0]: zk_comp_2
-							}
-						}
-						appDesktop.setPage(this.getPage());
-						currSess.setAttribute(EXECUTION_CARRYOVER_SESSION_KEY, current);
-					}
-
-					currSess.setAttribute(ZK_DESKTOP_SESSION_KEY, this.getPage().getDesktop());
-				} catch (Throwable t) {
-					//restore fail
-					appDesktop = null;
-				}
-
-			}
-		}
-
-		if (appDesktop == null)
+		checkCarryover(currentSession);
+		MUser user = MUser.get(ctx);
+		if (applicationDesktop == null)
 		{
 			//create new desktop
 			createDesktop();
-			appDesktop.setClientInfo(clientInfo);
-			appDesktop.createPart(this.getPage());
-			currSess.setAttribute("application.desktop", appDesktop);
-			ExecutionCarryOver eco = new ExecutionCarryOver(this.getPage().getDesktop());
-			currSess.setAttribute(EXECUTION_CARRYOVER_SESSION_KEY, eco);
-			currSess.setAttribute(ZK_DESKTOP_SESSION_KEY, this.getPage().getDesktop());
+			applicationDesktop.setClientInfo(clientInfo);
+			applicationDesktop.createPart(this.getPage());
+			Desktop desktop = this.getPage().getDesktop();
+			ExecutionCarryOver executionCarryOver = new ExecutionCarryOver(desktop);
+			SessionManager.setApplicationDesktop(httpSession.getId(), applicationDesktop);
+			SessionManager.setExecutionCarryOverCache(httpSession.getId(), executionCarryOver);
+
+			if (loginDesktop != null)
+			{
+				loginDesktop.cleanup();
+				loginDesktop = null;
+			}
 		}
 
 		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)) && MSystem.isZKRememberUserAllowed())
 		{
-			MUser user = MUser.get(ctx);
-			BrowserToken.save(mSession, user);
+			BrowserToken.save(adempiereSession, user);
 		}
 		else
 		{
@@ -319,16 +243,86 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		}
     }
 
+	private void checkCarryover(Session currentSession) {
+		HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
+		Optional.ofNullable(SessionManager.getApplicationDesktop(httpSession.getId()))
+				.ifPresent(desktop -> {
+					Optional.ofNullable(SessionManager.getExecutionCarryOver(httpSession.getId()))
+							.ifPresent(executionCarryOver -> {
+								try {
+									applicationDesktop = desktop;
+									ExecutionCarryOver currentExecutionCarryOver = new ExecutionCarryOver(this.getPage().getDesktop());
+									ExecutionCtrl currentCtrl = ExecutionsCtrl.getCurrentCtrl();
+									Visualizer visualizer = currentCtrl.getVisualizer();
+									executionCarryOver.carryOver();
+									Collection<Component> rootComponents = new ArrayList<>();
+									try {
+										currentCtrl = ExecutionsCtrl.getCurrentCtrl();
+										((DesktopCtrl) Executions.getCurrent().getDesktop()).setVisualizer(visualizer);
+
+										//detach root component from old page
+										Page page = applicationDesktop.getComponent().getPage();
+										Collection<?> collection = page.getRoots();
+										Object[] objects = new Object[0];
+										objects = collection.toArray(objects);
+										for (Object obj : objects) {
+											if (obj instanceof Component) {
+												((Component) obj).detach();
+												rootComponents.add((Component) obj);
+											}
+										}
+										applicationDesktop.getComponent().detach();
+										DesktopCache desktopCache = ((SessionCtrl) currentSession).getDesktopCache();
+										if (desktopCache != null)
+											desktopCache.removeDesktop(Executions.getCurrent().getDesktop());
+									} catch (Exception e) {
+										applicationDesktop = null;
+									} finally {
+										executionCarryOver.cleanup();
+										currentExecutionCarryOver.carryOver();
+									}
+
+									if (applicationDesktop != null) {
+										//re-attach root components
+										for (Component component : rootComponents) {
+											try {
+												Optional.ofNullable(this.getPage()).ifPresent(component::setPage);
+											} catch (UiException e) {
+												// e.printStackTrace();
+												// an exception is thrown here when refreshing the page, it seems is harmless to catch and ignore it
+												// i.e.: org.zkoss.zk.ui.UiException: Not unique in the ID space of [Page z_kg_0]: zk_comp_2
+											}
+										}
+										Optional.ofNullable(this.getPage()).ifPresent(page -> applicationDesktop.setPage(page));
+										SessionManager.setExecutionCarryOverCache(httpSession.getId(), currentExecutionCarryOver);
+										SessionManager.setApplication(httpSession.getId() , this);
+									}
+								} catch (Throwable t) {
+									//restore fail
+									applicationDesktop = null;
+								}
+							});
+				});
+	}
+
+	/**
+	 * @return key listener
+	 */
+	public Keylistener getKeylistener() {
+		return keyListener;
+	}
+
+
     private void createDesktop()
     {
-    	appDesktop = null;
+    	applicationDesktop = null;
 		String className = MSysConfig.getValue(IDesktop.CLASS_NAME_KEY);
 		if ( className != null && className.trim().length() > 0)
 		{
 			try
 			{
 				Class<?> clazz = this.getClass().getClassLoader().loadClass(className);
-				appDesktop = (IDesktop) clazz.newInstance();
+				applicationDesktop = (IDesktop) clazz.newInstance();
 			}
 			catch (Throwable t)
 			{
@@ -336,8 +330,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			}
 		}
 		//fallback to default
-		if (appDesktop == null)
-			appDesktop = new DefaultDesktop();
+		if (applicationDesktop == null)
+			applicationDesktop = new DefaultDesktop();
 	}
 
 	/* (non-Javadoc)
@@ -345,29 +339,28 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void logout()
     {
-    	typedPassword = null;
-    	appDesktop.logout();
-    	Executions.getCurrent().getDesktop().getSession().getAttributes().clear();
 
-    	MSession mSession = MSession.get(Env.getCtx(), false);
-    	if (mSession != null) {
-    		mSession.logout();
-    	}
-
-        SessionManager.clearSession();
-        super.getChildren().clear();
-        Page page = this.getPage();
-        page.removeComponents();
-        Executions.sendRedirect("index.zul");
+		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+		//Get current session
+		HttpSession httpSession = httpRequest.getSession(false);
+		// save context for re-login
+		Env.getCtx().clear();
+		Properties context = new Properties();
+		Env.setContext(context, SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		Env.setCtx(context);
+		Env.setContext(Env.getCtx(), SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+		SessionManager.clearSession(httpSession.getId());
+		SessionManager.removeExecutionCarryOver(httpSession.getId());
+		SessionManager.removeDestop(httpSession.getId());
+		SessionManager.removeUserAuthentication(httpSession.getId());
+		SessionManager.removeApplication(httpSession.getId());
+		Executions.sendRedirect("index.zul");
     }
 
-    /**
-     * @return IDesktop
-     */
-    public IDesktop getAppDeskop()
-    {
-    	return appDesktop;
-    }
+	public IDesktop getApplicationDesktop(){
+		return applicationDesktop;
+	}
 
 	public void onEvent(Event event) {
 		if (event instanceof ClientInfoEvent) {
@@ -379,26 +372,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			clientInfo.desktopXOffset = c.getDesktopXOffset();
 			clientInfo.desktopYOffset = c.getDesktopYOffset();
 			clientInfo.timeZone = c.getTimeZone();
-			if (appDesktop != null)
-				appDesktop.setClientInfo(clientInfo);
+			if (applicationDesktop != null)
+				applicationDesktop.setClientInfo(clientInfo);
 		}
 
-	}
-
-	/**
-	 * @param userId
-	 * @return UserPreference
-	 */
-	public UserPreference loadUserPreference(int userId) {
-		userPreference.loadPreference(userId);
-		return userPreference;
-	}
-
-	/**
-	 * @return UserPrerence
-	 */
-	public UserPreference getUserPreference() {
-		return userPreference;
 	}
 
 	//global command
@@ -412,49 +389,25 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	@Override
 	public void changeRole(MUser user)
 	{
-		// save context for re-login
-		Properties properties = new Properties();
-		Env.setContext(properties, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_ORG_ID, Env.getAD_Org_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_USER_ID, user.getAD_User_ID());
-		Env.setContext(properties, Env.AD_ROLE_ID, Env.getAD_Role_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_ORG_NAME, Env.getContext(Env.getCtx(), Env.AD_ORG_NAME));
-		Env.setContext(properties, Env.M_WAREHOUSE_ID, Env.getContext(Env.getCtx(), Env.M_WAREHOUSE_ID));
-		Env.setContext(properties, BrowserToken.REMEMBER_ME, Env.getContext(Env.getCtx(), BrowserToken.REMEMBER_ME));
-		Env.setContext(properties, UserPreference.LANGUAGE_NAME,
-				Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
-		Env.setContext(properties, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
-		Env.setContext(properties, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
-
-		Locale locale = (Locale) Executions.getCurrent().getDesktop().getSession().getAttribute(Attributes.PREFERRED_LOCALE);
 		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
-
-		Session session = Executions.getCurrent().getDesktop().getSession();
-
-		// stop background thread
-		IDesktop appDesktop = getAppDeskop();
-		if (appDesktop != null)
-			appDesktop.logout();
-
-		// clear remove all children and root component
-		getChildren().clear();
-		getPage().removeComponents();
-
+		HttpSession httpSession = httpRequest.getSession(false);
+		// save context for re-login
+		Properties context = new Properties();
+		Env.setContext(context, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_ORG_ID, Env.getAD_Org_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_USER_ID, user.getAD_User_ID());
+		Env.setContext(context, Env.AD_ROLE_ID, Env.getAD_Role_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_ORG_NAME, Env.getContext(Env.getCtx(), Env.AD_ORG_NAME));
+		Env.setContext(context, Env.M_WAREHOUSE_ID, Env.getContext(Env.getCtx(), Env.M_WAREHOUSE_ID));
+		Env.setContext(context, BrowserToken.REMEMBER_ME, Env.getContext(Env.getCtx(), BrowserToken.REMEMBER_ME));
+		Env.setContext(context, UserPreference.LANGUAGE_NAME, Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
+		Env.setContext(context, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
+		Env.setContext(context, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
+		Env.setContext(context, SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 		Env.getCtx().clear();
-
-		// clear session attributes
-		session.getAttributes().clear();
-
-		// put saved context into new session
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("context", properties);
-		map.put("locale", locale);
-
-		HttpSession newSession = httpRequest.getSession(false);
-
-		newSession.setAttribute(SAVED_CONTEXT, map);
-		properties.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
-
+		Env.setCtx(context);
+		SessionManager.cleanSessionBackground(httpSession.getId());
 		Executions.sendRedirect("index.zul");
 	}
 
@@ -463,52 +416,28 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		loginDesktop.changeRole(locale, properties);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.adempiere.webui.IWebClient#logoutAfterTabDestroyed()
-	 */
-	@Override
-	public void logoutAfterTabDestroyed()
-	{
-		Session session = logout0();
+	public void clearDesktop(){
+		//Reset the password
+		keyListener = null;
+		clientInfo = null;
+		loginDesktop = null;
+		applicationDesktop = null;
 
-		// clear context, invalidate session
-		Env.getCtx().clear();
-		session.invalidate();
-	}
-
-	/**
-	 * @author Sachin Bhimani
-	 * @return Session
-	 */
-	protected Session logout0()
-	{
-		String clientValue = Env.getContext(Env.getCtx(), ZK_CLIENT_CONTEXT);
-		Session session = Executions.getCurrent().getDesktop().getSession();
-
-		// stop background thread
-		IDesktop appDesktop = getAppDeskop();
-		if (appDesktop != null)
-			appDesktop.logout();
-
-		// clear remove all children and root component
-//		getChildren().clear();
-//		getPage().removeComponents();
-
-		// clear session attributes
-		session.getAttributes().clear();
-
-		Env.logout();
-
-		if (clientValue != null && clientValue.length() > 0)
-		{
-			Executions.sendRedirect("?" + clientValue);
-		}
-		else
-		{
-			Executions.sendRedirect("index.zul");
+		//stop key listener
+		/*if (keyListener != null) {
+			//keyListener.detach();
+			keyListener = null;
 		}
 
-		return session;
+		if (clientInfo != null) {
+			clientInfo = null;
+		}
+
+		if (loginDesktop != null){
+			loginDesktop.cleanup();
+			loginDesktop = null;
+		}
+
+		desktop = null;*/
 	}
 }

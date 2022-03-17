@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -283,114 +284,19 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 	// end MZ
 	
 	/**
-	 * 	Find/Create PO(Inv) Match
-	 *	@param iLine invoice line
-	 *	@param sLine receipt line
-	 *	@param dateTrx date
-	 *	@param qty qty
-	 *	@return Match Record
+	 * @return PO matched qty
 	 */
-	@Deprecated
-	public static MMatchPO create (MInvoiceLine iLine, MInOutLine sLine,  
-		Timestamp dateTrx, BigDecimal qty)
-	{
-		String trxName = null;
-		Properties ctx = null;
-		int C_OrderLine_ID = 0;
-		if (iLine != null)
-		{
-			trxName = iLine.get_TrxName();
-			ctx = iLine.getCtx();
-			C_OrderLine_ID = iLine.getC_OrderLine_ID();
-		}
-		if (sLine != null)
-		{
-			trxName = sLine.get_TrxName();
-			ctx = sLine.getCtx();
-			C_OrderLine_ID = sLine.getC_OrderLine_ID();
-		}
-		
-		MMatchPO retValue = null;
-		String sql = "SELECT * FROM M_MatchPO WHERE C_OrderLine_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_OrderLine_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MMatchPO mpo = new MMatchPO (ctx, rs, trxName);
-				if (qty.compareTo(mpo.getQty()) == 0)
-				{
-					if (iLine != null)
-					{
-						if (mpo.getC_InvoiceLine_ID() == 0 
-							|| mpo.getC_InvoiceLine_ID() == iLine.getC_InvoiceLine_ID())
-						{
-							mpo.setC_InvoiceLine_ID(iLine);
-							if (iLine.getM_AttributeSetInstance_ID() != 0)
-							{
-								if (mpo.getM_AttributeSetInstance_ID() == 0)
-									mpo.setM_AttributeSetInstance_ID(iLine.getM_AttributeSetInstance_ID());
-								else if (mpo.getM_AttributeSetInstance_ID() != iLine.getM_AttributeSetInstance_ID())
-									continue;
-							}
-						}
-						else
-							continue;
-					}
-					if (sLine != null)
-					{
-						if (mpo.getM_InOutLine_ID() == 0 
-							|| mpo.getM_InOutLine_ID() == sLine.getM_InOutLine_ID())
-						{
-							mpo.setM_InOutLine_ID(sLine.getM_InOutLine_ID());
-							if (sLine.getM_AttributeSetInstance_ID() != 0)
-							{
-								if (mpo.getM_AttributeSetInstance_ID() == 0)
-									mpo.setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
-								else if (mpo.getM_AttributeSetInstance_ID() != sLine.getM_AttributeSetInstance_ID())
-									continue;
-							}
-						}
-						else
-							continue;
-					}
-					retValue = mpo;
-					break;
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
-		//	Create New
-		if (retValue == null)
-		{
-			if (sLine != null)
-			{
-				retValue = new MMatchPO (sLine, dateTrx, qty);
-				if (iLine != null)
-					retValue.setC_InvoiceLine_ID(iLine);
-			}
-			else if (iLine != null)
-			{
-				retValue = new MMatchPO (iLine, dateTrx, qty);
-			}
-		}
-		
-		return retValue;
-	}	//	create
-	
+	public static BigDecimal getPOMatchedQuantity(MOrderLine orderLine) {
+		Optional<BigDecimal> maybeMatchedQty = Optional.ofNullable(
+				new Query(orderLine.getCtx() , MMatchPO.Table_Name , MMatchPO.COLUMNNAME_C_OrderLine_ID
+						+ "=? AND " + MMatchPO.COLUMNNAME_M_InOutLine_ID
+						+" IS NOT NULL AND "+ MMatchPO.COLUMNNAME_Processed + "=? ",  orderLine.get_TrxName())
+						.setClient_ID()
+						.setParameters(orderLine.getC_OrderLine_ID(), true)
+						.sum(MMatchPO.COLUMNNAME_Qty)
+		);
+		return maybeMatchedQty.orElse(BigDecimal.ZERO);
+	}
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MMatchPO.class);

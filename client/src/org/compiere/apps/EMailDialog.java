@@ -39,7 +39,6 @@ import org.compiere.model.Lookup;
 import org.compiere.model.MClient;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -47,9 +46,11 @@ import org.compiere.swing.CTextArea;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	EMail Dialog
@@ -394,43 +395,50 @@ public class EMailDialog extends CDialog
 		{
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			confirmPanel.getOKButton().setEnabled(false);
-
-			StringTokenizer st = new StringTokenizer(getTo(), " ,;", false);
-			String to = st.nextToken();
-			EMail email = m_client.createEMail(getFrom(), to, getSubject(), getMessage());
-			String status = "Check Setup";
-			if (email != null)
-			{
-				while (st.hasMoreTokens())
-					email.addTo(st.nextToken());
-				// cc
+			Trx.run(transactionName -> {
+				//	Get instance for notifier
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(Env.getCtx())
+						.withTransactionName(transactionName);
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+					.withText(getMessage())
+					.withDescription(getSubject());
+				if (m_user != null) {
+					notifier.withUserId(m_user.getAD_User_ID());
+				}
+				//	Attachment with name
+				if (m_attachFile != null && m_attachFile.exists()) {
+					notifier.addAttachment(m_attachFile);
+				}
+				StringTokenizer st = new StringTokenizer(getTo(), " ,;", false);
+				String to = st.nextToken();
+				notifier.addRecipient(to);
+				while (st.hasMoreTokens()) {
+					String recipient = st.nextToken();
+					if (recipient != null && recipient.length() > 0) {
+						notifier.addRecipient(recipient);
+					}
+				}
+				//	Copy
 				StringTokenizer stcc = new StringTokenizer(getCc(), " ,;", false);
-				while (stcc.hasMoreTokens())
-				{
-					String cc = stcc.nextToken();
-					if (cc != null && cc.length() > 0)
-                        email.addCc(cc);
+				while (stcc.hasMoreTokens()) {
+					String recipient = stcc.nextToken();
+					if (recipient != null && recipient.length() > 0) {
+						notifier.addRecipient(recipient);
+					}
 				}
-				//	Attachment
-				if (m_attachFile != null && m_attachFile.exists())
-					email.addAttachment(m_attachFile);
-				status = email.send();
-				//
-				if (m_user != null)
-					new MUserMail(m_user, m_user.getAD_User_ID(), email).saveEx();
-				if (email.isSentOK())
-				{
-					ADialog.info(0, this, "MessageSent");
-					dispose();
-				}
-				else
-					ADialog.error(0, this, "MessageNotSent", status);
-			}
-			else
-				ADialog.error(0, this, "MessageNotSent", status);
+				//	Add to queue
+				notifier.addToQueue();
+			});
+			//	Notify to user
+			ADialog.error(0, this, "MessageAddedToQueue");
 			//
 			confirmPanel.getOKButton().setEnabled(false);
 			setCursor(Cursor.getDefaultCursor());
+			dispose();
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 			dispose();

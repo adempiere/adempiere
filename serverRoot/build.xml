@@ -40,15 +40,17 @@
   <path id="base.path">
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/j2ee.jar" />
+    <!--pathelement location="../tools/lib/j2ee.jar" /-->
 	<pathelement location="../tools/lib/jnlp.jar" />
-	<pathelement location="../tools/lib/servlet-api.jar" />
+    <pathelement location="../tools/lib/ejb-api-3.0.jar" />
+    <pathelement location="../tools/lib/javax.servlet-api-4.0.1.jar"/>
+	<pathelement location="../tools/lib/javax.annotation-api-1.3.2.jar"/>
+    <pathelement location="../tools/lib/javax.jms-api-2.0.1.jar"/>
 	<pathelement location="../tools/lib/mail.jar" />
 	<pathelement location="../tools/lib/bsh-1.3.0.jar" />
 	<pathelement location="../tools/lib/junit.jar" />
   	<pathelement location="../tools/lib/cron4j-2.2.1.jar" />
 	<pathelement location="../lib/oracle.jar" />
-	<pathelement location="../lib/jboss.jar" />
 	<pathelement location="../lib/postgresql.jar" />
 	<pathelement location="../tools/lib/mysql-connector-java-5.1.13-bin.jar" />
     <pathelement location="${build.classes.dir}" />
@@ -72,15 +74,17 @@
 
     <!--	Compile all -->
     <javac
-      target="1.8" encoding="UTF-8"
+      target="11" encoding="UTF-8"
 	  destdir="${build.classes.dir}"
 	  debug="on"
 	  deprecation="off"
 	  optimize="on"
-      classpathref="base.path">
+				classpathref="base.path"
+				includeantruntime="false">
       <src path="${src.ejb.dir}"/>
       <src path="${src.servlet.dir}"/>
       <src path="${src.server.dir}"/>
+      <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
     </javac>
 
   </target>
@@ -217,7 +221,7 @@
   <target name="compile.test" depends="adempiereRootCompile, clean.tests"
         if="${test.performTests}">
     <mkdir dir="${test.build.dir}"/>
-    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" 
+    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false"
         destdir="${test.build.dir}" deprecation="on" debug="on" 
         memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>

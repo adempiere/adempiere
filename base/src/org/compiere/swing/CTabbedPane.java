@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -32,12 +33,11 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.plaf.CompiereLookAndFeel;
 
-import sun.swing.UIAction;
-
 /**
  *  Adempiere Color Tabbed Pane
  *
  *  @author     Jorg Janke
+ *  @author     Marek Mosiewicz - adopt to JDK10
  *  @version    $Id: CTabbedPane.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
 public class CTabbedPane extends JTabbedPane
@@ -352,7 +352,7 @@ public class CTabbedPane extends JTabbedPane
 	 *  @author Jorg Janke
 	 *  @version $Id: CTabbedPane.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
 	 */
-	private static class CTAction extends UIAction
+	private static class CTAction extends AbstractAction
 	{
 		/**
 		 * 	Constructor
@@ -364,7 +364,7 @@ public class CTabbedPane extends JTabbedPane
 
 		public void actionPerformed (ActionEvent e)
 		{
-            String key = getName();
+            String key = (String) getValue(NAME);
             if (!key.equals(ACTION_SELECT) 
             	|| !(e.getSource() instanceof CTabbedPane))
             	return;

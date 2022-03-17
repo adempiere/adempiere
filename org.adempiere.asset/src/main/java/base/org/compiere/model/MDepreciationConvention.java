@@ -3,7 +3,6 @@ import java.sql.*;
 import java.math.*;
 import java.util.*;
 import java.util.logging.*;
-import org.compiere.model.*;
 import org.compiere.util.*;
 
 /**	Convention for the first year of depreciation (ex. FMCON, FYCON ...)

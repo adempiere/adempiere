@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Queue: Add Notifier Implementation" ReleaseNo="3.9.4" SeqNo="8800">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54843" Action="I" Record_ID="50003" Table="AD_QueueType">
+        <Data AD_Column_ID="98902" Column="AD_QueueType_ID">50003</Data>
+        <Data AD_Column_ID="98903" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="98904" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="98911" Column="Classname">org.spin.queue.notification.DefaultNotifier</Data>
+        <Data AD_Column_ID="98906" Column="Created">2021-06-02 10:46:50.069</Data>
+        <Data AD_Column_ID="98908" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="98914" Column="Description">A default notifier for system, can be used for handle:
+- Mails
+- Notices
+- SMS
+- Social Media</Data>
+        <Data AD_Column_ID="98915" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="98905" Column="IsActive">true</Data>
+        <Data AD_Column_ID="98912" Column="Name">Default Notifier</Data>
+        <Data AD_Column_ID="98916" Column="QueueType">NTF</Data>
+        <Data AD_Column_ID="98907" Column="Updated">2021-06-02 10:46:50.069</Data>
+        <Data AD_Column_ID="98909" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="98910" Column="UUID">cb4e463c-d448-49f3-9932-9b5be1eee0dc</Data>
+        <Data AD_Column_ID="98913" Column="Value">DNQ</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

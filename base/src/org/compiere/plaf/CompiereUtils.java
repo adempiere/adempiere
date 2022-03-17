@@ -30,8 +30,6 @@ import java.awt.geom.RectangularShape;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
@@ -77,7 +75,7 @@ public class CompiereUtils
 			cc = CompiereColor.getDefaultBackground();
 
 		//  Paint AdempiereColor
-		if (cc != null)
+		if (cc != null && !cc.isFlat())
 		{
 			//  bounds is often not within Panel bouunds
 			cc.paint(g2D, c);

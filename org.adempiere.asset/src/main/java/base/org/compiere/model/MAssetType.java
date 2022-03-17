@@ -3,10 +3,6 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.CalloutEngine;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.Query;
 import org.compiere.FA.exceptions.ArhRuntimeException;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

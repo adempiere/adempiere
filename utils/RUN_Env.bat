@@ -2,6 +2,8 @@
 
 @Rem $Id: RUN_Env.bat,v 1.16 2005/01/22 21:59:15 jjanke Exp $
 
+@call functions.bat
+
 @if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat)
 
 @Echo General ...
@@ -11,7 +13,7 @@
 @Echo .
 @Echo Homes ...
 @Echo ADEMPIERE_HOME        = %ADEMPIERE_HOME%
-@Echo JAVA_HOME            = %JAVA_HOME%
+@Echo JAVA_HOME             = %JAVA_HOME%
 @Echo ADEMPIERE_DB_URL      = %ADEMPIERE_DB_URL%
 
 @Echo .
@@ -22,12 +24,12 @@
 
 @Echo .. Oracle specifics
 @Echo ADEMPIERE_DB_NAME      = %ADEMPIERE_DB_NAME%
-@Echo ADEMPIERE_DB_SYSTEM   = %ADEMPIERE_DB_SYSTEM%
+@Echo ADEMPIERE_DB_SYSTEM    = %ADEMPIERE_DB_SYSTEM%
 
 %JAVA_HOME%\bin\java -version
 
 @Echo .
-@Echo Java Version should be "1.4.2"
+@Echo Java Version should be "11"
 @Echo ---------------------------------------------------------------
 @Pause
 

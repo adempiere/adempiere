@@ -30,7 +30,6 @@ import org.compiere.model.MRule;
 import org.compiere.print.ServerReportCtl;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;

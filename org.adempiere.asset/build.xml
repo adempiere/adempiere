@@ -42,7 +42,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}" includeantruntime="false">
       <classpath refid="lib.class.path"/>
     </javac>
 
@@ -120,7 +120,7 @@
   <target name="compile.test" depends="compile, clean.tests"
         if="${test.performTests}">
     <mkdir dir="${test.build.dir}"/>
-    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" 
+    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false"
         destdir="${test.build.dir}" deprecation="on" debug="on" 
         memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>

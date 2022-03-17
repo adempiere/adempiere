@@ -35,10 +35,14 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.I_M_InOutLine;
+import org.compiere.model.I_M_MovementLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -70,6 +74,32 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 				.setParameters(orderLine.getC_OrderLine_ID())
 				.first();
 	}
+
+
+	public BigDecimal getShipmentQtyDelivered() {
+		return new Query(getCtx(), I_M_InOutLine.Table_Name,
+				I_M_InOutLine.COLUMNNAME_WM_InOutBoundLine_ID + "=?" , get_TrxName())
+				.setClient_ID()
+				.setParameters(getWM_InOutBoundLine_ID())
+				.sum(MInOutLine.COLUMNNAME_MovementQty);
+	}
+
+	public BigDecimal getManufacturingOrderQtyDelivered() {
+		return new Query(getCtx(), I_PP_Cost_Collector.Table_Name,
+				I_PP_Cost_Collector.COLUMNNAME_WM_InOutBoundLine_ID + "=?" , get_TrxName())
+				.setClient_ID()
+				.setParameters(getWM_InOutBoundLine_ID())
+				.sum(I_PP_Cost_Collector.COLUMNNAME_MovementQty);
+	}
+
+	public BigDecimal getDistributionOrderQtyDelivered() {
+		return new Query(getCtx(), I_M_MovementLine.Table_Name,
+				I_M_MovementLine.COLUMNNAME_WM_InOutBoundLine_ID + "=? AND " + I_M_MovementLine.COLUMNNAME_M_Locator_ID +  "=? ", get_TrxName())
+				.setClient_ID()
+				.setParameters(getWM_InOutBoundLine_ID(), getM_LocatorTo_ID())
+				.sum(MInOutLine.COLUMNNAME_MovementQty);
+	}
+
 	/**
 	 * 
 	 */
@@ -156,7 +186,8 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		setWM_InOutBound_ID(inOutBound.get_ID());
 		setC_Order_ID(orderLine.getC_Order_ID());
 		setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
-		setMovementQty(orderLine.getQtyOrdered().subtract(getQtyToDeliver()));
+		
+		setMovementQty(getQtyToDeliver());
 		setM_Product_ID(orderLine.getM_Product_ID());
 		setC_Charge_ID(orderLine.getC_Charge_ID());
 		setC_UOM_ID(orderLine.getC_UOM_ID());
@@ -237,14 +268,16 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 			Optional<I_C_OrderLine> maybeOrderLine = Optional.ofNullable(getOrderLine());
 			AtomicReference<BigDecimal> quantityToDeliver = new AtomicReference<>(BigDecimal.ZERO);
 			maybeOrderLine.ifPresent( orderLine -> {
-				quantityToDeliver.set(orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+				BigDecimal convertedQuantity = MUOMConversion.convertProductFrom(getCtx(), orderLine.getM_Product_ID(), orderLine.getC_UOM_ID(), orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+				quantityToDeliver.set(convertedQuantity);
 			});
 			return quantityToDeliver.get();
 		} else if(getDD_OrderLine_ID() != 0) {
 			Optional<I_DD_OrderLine> maybeOrderLine = Optional.ofNullable(getDD_OrderLine());
 			AtomicReference<BigDecimal> quantityToDeliver = new AtomicReference<>(BigDecimal.ZERO);
 			maybeOrderLine.ifPresent( orderLine -> {
-				quantityToDeliver.set(orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+				BigDecimal convertedQuantity = MUOMConversion.convertProductFrom(getCtx(), orderLine.getM_Product_ID(), orderLine.getC_UOM_ID(), orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+				quantityToDeliver.set(convertedQuantity);
 			});
 			return quantityToDeliver.get();
 		}

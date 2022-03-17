@@ -12,7 +12,6 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;

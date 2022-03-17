@@ -1240,7 +1240,7 @@ public class CConnection implements Serializable, Cloneable
 	public AdempiereDatabase getDatabase ()
 	{
 		//  different driver
-		if (m_db != null && !m_db.getName ().equals (m_type))
+		if (m_db != null && !m_db.getName().equals(m_type))
 			m_db = null;
 
 		if (m_db == null)
@@ -1334,7 +1334,7 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public Connection getConnection (boolean autoCommit, int transactionIsolation)
 	{
-		Connection conn = null;
+		Connection connection = null;
 		m_dbException = null;
 		m_okDB = false;
 		//
@@ -1354,19 +1354,20 @@ public class CConnection implements Serializable, Cloneable
 			Exception ee = null;
 			try
 			{
-				conn = m_db.getCachedConnection(this, autoCommit, transactionIsolation);
+				connection = m_db.getFromConnectionPool(this, autoCommit, transactionIsolation);
 			}
-			catch (Exception e)
+			catch (Exception exception)
 			{
-				ee = e;
+				log.severe(exception.getMessage());
+				ee = exception;
 			}
 			//	Verify Connection
-			if (conn != null)
+			if (connection != null)
 			{
-				if (conn.getTransactionIsolation() != transactionIsolation)
-					conn.setTransactionIsolation (transactionIsolation);
-				if (conn.getAutoCommit() != autoCommit)
-					conn.setAutoCommit (autoCommit);
+				if (connection.getTransactionIsolation() != transactionIsolation)
+					connection.setTransactionIsolation (transactionIsolation);
+				if (connection.getAutoCommit() != autoCommit)
+					connection.setAutoCommit (autoCommit);
 				m_okDB = true;
 			}
 		}
@@ -1380,14 +1381,8 @@ public class CConnection implements Serializable, Cloneable
 		catch (SQLException ex)
 		{
 			m_dbException = ex;
-			if (conn == null)
+			if (connection == null)
 			{
-				//log might cause infinite loop since it will try to acquire database connection again
-				/*
-				log.log(Level.SEVERE, getConnectionURL ()
-					+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
-					+ " - " + ex.getMessage());
-				*/
 				System.err.println(getConnectionURL ()
 						+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
 						+ " - " + ex.getMessage());
@@ -1397,8 +1392,8 @@ public class CConnection implements Serializable, Cloneable
 				try
 				{
 					log.severe(getConnectionURL ()
-						+ ", (2) AutoCommit=" + conn.getAutoCommit() + "->" + autoCommit
-						+ ", TrxIso=" + getTransactionIsolationInfo(conn.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
+						+ ", (2) AutoCommit=" + connection.getAutoCommit() + "->" + autoCommit
+						+ ", TrxIso=" + getTransactionIsolationInfo(connection.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
 					//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
 						+ " - " + ex.getMessage());
 				}
@@ -1414,12 +1409,96 @@ public class CConnection implements Serializable, Cloneable
 		catch (Exception ex)
 		{
 			m_dbException = ex;
-			//log might cause infinite loop since it will try to acquire database connection again
-			//log.log(Level.SEVERE, getConnectionURL(), ex);
 			System.err.println(getConnectionURL() + " - " + ex.getLocalizedMessage());
 		}
-	//	System.err.println ("CConnection.getConnection - " + conn);
-		return conn;
+		return connection;
+	}	//  getConnection
+
+	/**
+	 *  Create Connection - no not close.
+	 * 	Sets m_dbException
+	 *  @param autoCommit true if autocommit connection
+	 *  @param readOnly
+	 *  @param transactionIsolation Connection transaction level
+	 *  @return Connection
+	 */
+	public Connection getConnectionShortRunning (boolean autoCommit,boolean readOnly ,  int transactionIsolation)
+	{
+		Connection connection = null;
+		m_dbException = null;
+		m_okDB = false;
+		//
+		getDatabase (); //  updates m_db
+		if (m_db == null)
+		{
+			m_dbException = new IllegalStateException("No Database Connector");
+			return null;
+		}
+		//
+
+		try
+		{
+			Exception ee = null;
+			try
+			{
+				connection = m_db.getFromConnectionPoolShortRunning(this, autoCommit, transactionIsolation);
+			}
+			catch (Exception exception)
+			{
+				log.severe(exception.getMessage());
+				ee = exception;
+			}
+			//	Verify Connection
+			if (connection != null)
+			{
+				if (connection.getTransactionIsolation() != transactionIsolation)
+					connection.setTransactionIsolation (transactionIsolation);
+				if (connection.getAutoCommit() != autoCommit)
+					connection.setAutoCommit (autoCommit);
+				m_okDB = true;
+			}
+		}
+		catch (UnsatisfiedLinkError ule)
+		{
+			String msg = ule.getLocalizedMessage()
+					+ " -> Did you set the LD_LIBRARY_PATH ? - " + getConnectionURL();
+			m_dbException = new Exception(msg);
+			log.severe(msg);
+		}
+		catch (SQLException ex)
+		{
+			m_dbException = ex;
+			if (connection == null)
+			{
+				System.err.println(getConnectionURL ()
+						+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
+						+ " - " + ex.getMessage());
+			}
+			else
+			{
+				try
+				{
+					log.severe(getConnectionURL ()
+							+ ", (2) AutoCommit=" + connection.getAutoCommit() + "->" + autoCommit
+							+ ", TrxIso=" + getTransactionIsolationInfo(connection.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
+							//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
+							+ " - " + ex.getMessage());
+				}
+				catch (Exception ee)
+				{
+					log.severe(getConnectionURL ()
+							+ ", (3) AutoCommit=" + autoCommit + ", TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
+							//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
+							+ " - " + ex.getMessage());
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			m_dbException = ex;
+			System.err.println(getConnectionURL() + " - " + ex.getLocalizedMessage());
+		}
+		return connection;
 	}	//  getConnection
 
 	/**
@@ -1549,7 +1628,7 @@ public class CConnection implements Serializable, Cloneable
 	}	//  setAppsServerInfo
 
 	/**
-	 *  Get Last Exception of Apps Server Connection attempt
+	 *  Get Last Exception of Apps Server Connectin attempt
 	 *  @return Exception or null
 	 */
 	public Exception getAppsServerException ()

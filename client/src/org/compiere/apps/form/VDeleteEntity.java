@@ -110,9 +110,9 @@ public class VDeleteEntity extends DeleteEntityControler
 		//	Load from parent
 		loadChilds(currentNode, root, isParent);
 		//	
-		Enumeration<DefaultMutableTreeNode> kids = root.children();
+		Enumeration kids = root.children();
 		while (kids.hasMoreElements()) {
-			DefaultMutableTreeNode node = kids.nextElement();
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode)kids.nextElement();
 			if (root.isNodeAncestor(node)) {
 				log.log(Level.WARNING, "Loop detected, escaping.");
 				break;

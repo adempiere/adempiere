@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="org.adempiere.project/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.request/src/main/java"/>
 	<classpathentry kind="src" path="glassfishfacet/src"/>
-	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
 	<classpathentry kind="src" path="install/src"/>
@@ -77,221 +76,187 @@
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.store/src/main/java"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+			<attribute name="add-exports" value="java.desktop/sun.swing=ALL-UNNAMED:java.desktop/sun.awt=ALL-UNNAMED:java.base/sun.security.provider=ALL-UNNAMED:java.naming/com.sun.jndi.ldap=ALL-UNNAMED:java.xml/org.w3c.dom=ALL-UNNAMED"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar">
+	<classpathentry kind="lib" path="tools/lib/mail.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/mail.jar">
+	<classpathentry kind="lib" path="tools/lib/standard.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/standard.jar">
+	<classpathentry kind="lib" path="tools/lib/Verisign.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/Verisign.jar">
+	<classpathentry kind="lib" path="tools/lib/jsp-api.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-httpclient.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar">
+	<classpathentry kind="lib" path="tools/lib/jpayment.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar">
+	<classpathentry kind="lib" path="tools/lib/jnlp.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar">
+	<classpathentry kind="lib" path="tools/lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-net-1.4.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jnlp.jar">
+	<classpathentry kind="lib" path="tools/lib/jgraph.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.2.2.jar">
+	<classpathentry kind="lib" path="tools/lib/postgresql.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-logging-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-net-1.4.0.jar">
+	<classpathentry kind="lib" path="tools/lib/activemq-core-5.7.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jgraph.jar">
+	<classpathentry kind="lib" path="tools/lib/looks-2.0.4.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/postgresql.jar">
+	<classpathentry kind="lib" path="tools/lib/xercesImpl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-0.9.1.2.jar">
+	<classpathentry kind="lib" path="tools/lib/xjavadoc-1.1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+	<classpathentry kind="lib" path="tools/lib/swingx-1.6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/activemq-core-5.7.0.jar">
+	<classpathentry kind="lib" path="tools/lib/bsh-2.0b6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/looks-2.0.4.jar">
+	<classpathentry kind="lib" path="tools/lib/bsh-engine.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xercesImpl.jar">
+	<classpathentry kind="lib" path="tools/lib/groovy-engine.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar">
+	<classpathentry kind="lib" path="tools/lib/jython.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-1.6.jar">
+	<classpathentry kind="lib" path="tools/lib/jython-engine.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b6.jar">
+	<classpathentry kind="lib" path="tools/lib/barbecue-1.5-beta1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-engine.jar">
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iReport.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-engine.jar">
+	<classpathentry kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/asm.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-el.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/fckez.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/Filters.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/gmapsz.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jruby.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/js.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/json_simple.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jxl.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/mvel.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/ognl.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/timelinez.jar" sourcepath="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommons-el.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkex.jar" sourcepath="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkmax.jar" sourcepath="zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar" sourcepath="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
+	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
+	<classpathentry kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jython.jar">
+	<classpathentry kind="lib" path="tools/lib/payflow.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jython-engine.jar">
+	<classpathentry kind="lib" path="tools/lib/cron4j-2.2.1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/script-api.jar">
+	<classpathentry kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/barbecue-1.5-beta1.jar">
+	<classpathentry kind="lib" path="tools/lib/jcommon-1.0.18.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javaee.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-validator-1.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iReport.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jbosssx-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jnp-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="jboss/client/jbossall-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk.jar" sourcepath="zkwebui/WEB-INF/lib/zk-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul.jar" sourcepath="zkwebui/WEB-INF/lib/zul-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/asm.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-el.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-io.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/fckez.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/Filters.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/gmapsz.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jruby.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/js.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/json_simple.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jxl.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/mvel.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/ognl.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez.jar" sourcepath="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommons-el.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkex.jar" sourcepath="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkmax.jar" sourcepath="zkwebui/WEB-INF/lib/zkmax-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus.jar" sourcepath="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/bsh.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/testing/spiffy-with_source-all-0.05.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/payflow.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/cron4j-2.2.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jcommon-1.0.18.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jfreechart-1.0.15.jar">
+	<classpathentry kind="lib" path="tools/lib/jfreechart-1.0.15.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -309,7 +274,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar"/>
-	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jackson-databind-2.10.4.jar"/>
@@ -319,24 +283,13 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/scala-sdk-2.11.7"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-reflect:2.11.2:jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-library:2.11.7:jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: javax.servlet:javax.servlet-api:3.0.1:jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scalatest:scalatest_2.11:2.2.4:jar"/>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
@@ -386,7 +339,6 @@
 	<classpathentry kind="lib" path="tools/lib/junit/mockito-junit-jupiter-3.6.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/objenesis-3.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/opentest4j-1.2.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
@@ -413,7 +365,6 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/log4j-api-2.11.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-analyzers-common-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-backward-codecs-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-core-8.6.2.jar"/>
@@ -433,8 +384,48 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-antlr.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bcel.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bsf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-oro.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-regexp.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-resolver.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-xalan2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-imageio.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jai.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-javamail.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jdepend.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jmf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junitlauncher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-netrexx.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-swing.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-testutil.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-xz.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.jms-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.annotation-api-1.3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-1.2-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/vavr-1.0.0-alpha-4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

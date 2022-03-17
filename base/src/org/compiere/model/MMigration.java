@@ -173,7 +173,11 @@ public class MMigration extends X_AD_Migration {
 				{
 					// Set the status code to trigger a rollback
 					setStatusCode(X_AD_Migration.STATUSCODE_Failed);
-					apply();  // Apply/rollback
+					try {
+						apply();  // Apply/rollback
+					} catch (Exception rolbackException) {
+						log.warning(rolbackException.getMessage());
+					}
 				}
 				throw new AdempiereException(e.getMessage() , e);
 			}

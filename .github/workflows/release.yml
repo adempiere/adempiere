@@ -42,7 +42,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3
         with:
-            java-version: '1.8'
+            java-version: '11'
             java-package: jdk
 
       # Build ADempiere with ant
@@ -59,14 +59,16 @@ jobs:
           echo $GITHUB_BASE_REF
           echo ${{ github.ref }}
           echo "Current ant version: $(ant -version)"
-          echo "Installing ant version 1.10.9"
-          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
-          tar -xzf apache-ant-1.10.9-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.9
+          echo "Installing ant version 1.10.10"
+          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+          tar -xzf apache-ant-1.10.10-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.10
           export PATH=${ANT_HOME}/bin:$PATH
+          export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
           echo $ANT_HOME
           echo $PATH
           echo $(ant -version)
+          echo $ADEMPIERE_HOME
           ant build
       # Create Artifact for Download
       - name: Upload zip

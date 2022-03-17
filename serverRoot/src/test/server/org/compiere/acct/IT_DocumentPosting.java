@@ -897,4 +897,48 @@ class IT_DocumentPosting extends CommonGWSetup {
 
     }
 
+    @Nested
+    @DisplayName("Given an existing document "
+            + "and has no errors")
+    class GivenAnExistingDocumentWithNoErrors {
+        
+        private int invoiceId;
+        
+        @BeforeEach
+        void getExistingDocument() {
+            
+            int windowNo = 0;
+            invoiceId = 103;
+            MInvoice existingInvoice = new MInvoice(ctx, invoiceId, null);
+            Env.setContext(ctx, windowNo, "IsSOTrx", existingInvoice.isSOTrx());
+            Env.setContext(ctx, windowNo, "IsApproved", existingInvoice.isApproved());
+            Env.setContext(ctx, windowNo,  "C_Currency_ID", existingInvoice.getC_Currency_ID());
+            
+        }
+        
+        @Test
+        final void whenRepostedFromSwing_postingShouldSucceed() {
+            
+            String error = DocumentEngine.postImmediate(ctx, AD_CLIENT_ID, 
+                    I_C_Invoice.Table_ID, invoiceId, false, null);
+            assertNull(error);
+            MInvoice existingInvoice = new MInvoice(ctx, invoiceId, null);
+            assertTrue(existingInvoice.isPosted());
+            
+        }
+
+        @Test
+        final void whenRepostedFormZK_postingShouldSucceed() {
+            
+            MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_CLIENT_ID);
+            String error = Doc.postImmediate(ass, I_C_Invoice.Table_ID, invoiceId, false, null);
+
+            assertNull(error);
+            MInvoice existingInvoice = new MInvoice(ctx, invoiceId, null);
+            assertTrue(existingInvoice.isPosted());
+            
+        }
+
+    }
+
 }

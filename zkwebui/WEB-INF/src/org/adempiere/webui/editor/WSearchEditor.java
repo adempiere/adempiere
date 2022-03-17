@@ -18,7 +18,6 @@
 package org.adempiere.webui.editor;
 
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,13 +34,10 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.grid.WBPartner;
 import org.adempiere.webui.panel.ADTabPanel;
-import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;

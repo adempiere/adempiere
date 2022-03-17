@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.adempiere.impexp.ArrayExcelExporter;
@@ -32,11 +33,7 @@ import org.compiere.model.MAlert;
 import org.compiere.model.MAlertProcessor;
 import org.compiere.model.MAlertProcessorLog;
 import org.compiere.model.MAlertRule;
-import org.compiere.model.MAttachment;
-import org.compiere.model.MClient;
-import org.compiere.model.MNote;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -45,6 +42,8 @@ import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Alert Processor
@@ -68,7 +67,6 @@ public class AlertProcessor extends AdempiereServer
 	{
 		super (model, 180);		//	3 minute delay 
 		m_model = model;
-		m_client = MClient.get(model.getCtx(), model.getAD_Client_ID());
 	}	//	AlertProcessor
 
 	/**	The Concrete Model			*/
@@ -77,8 +75,6 @@ public class AlertProcessor extends AdempiereServer
 	private StringBuffer 		m_summary = new StringBuffer();
 	/**	Last Error Msg				*/
 	private StringBuffer 		m_errors = new StringBuffer();
-	/** Client info					*/
-	private MClient 			m_client = null;
 
 	/**
 	 * 	Work
@@ -112,6 +108,7 @@ public class AlertProcessor extends AdempiereServer
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
 		pLog.setTextMsg(m_errors.toString());
 		pLog.saveEx();
+
 	}	//	doWork
 
 	/**
@@ -201,17 +198,6 @@ public class AlertProcessor extends AdempiereServer
 					break;
 				}
 			}	//	Post
-			
-			/**	Trx				*/
-			if (trxName != null)
-			{
-				Trx trx = Trx.get(trxName, false);
-				if (trx != null)
-				{
-					trx.commit();
-					trx.close();
-				}
-			}
 		}	//	 for all rules
 		
 		//	Update header if error
@@ -251,46 +237,29 @@ public class AlertProcessor extends AdempiereServer
 	 * @param attachments 
 	 * @return how many email were sent
 	 */
-	private int notifyUsers(Collection<Integer> users, String subject, String message, Collection<File> attachments)
-	{
-		int countMail = 0;
-		for (int user_id : users) {
-			MUser user = MUser.get(getCtx(), user_id);
-			if (user.isNotificationEMail()) {
-				if (m_client.sendEMailAttachments (user_id, subject, message, attachments))
-				{
-					countMail++;
-				}
-			}
-
-			if (user.isNotificationNote()) {
-				Trx trx = null;
-				try {
-					trx = Trx.get(Trx.createTrxName("AP_NU"), true);
-					// Notice
-					int AD_Message_ID = 52244;  /* TODO - Hardcoded message=notes */
-					MNote note = new MNote(getCtx(), AD_Message_ID, user_id, trx.getTrxName());
-					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-					note.setTextMsg(message);
-					note.saveEx();
-					// Attachment
-					MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
-					for (File f : attachments) {
-						attachment.addEntry(f);
-					}
-					attachment.setTextMsg(message);
-					attachment.saveEx();
-					countMail++;
-					trx.commit();
-				} catch (Throwable e) {
-					if (trx != null) trx.rollback();
-				} finally {
-					if (trx != null) trx.close();
-				}
-			}
-
-		}
-		return countMail;
+	private int notifyUsers(Collection<Integer> users, String subject, String message, Collection<File> attachments) {
+		AtomicInteger countMail = new AtomicInteger(0);
+		users.forEach(userId -> {
+			Trx.run(transactionName -> {
+				//	Get instance for notifier
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(getCtx())
+						.withTransactionName(transactionName);
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+					.addRecipient(userId)
+					.withText(message)
+					.withDescription(subject);
+				//	Add Attachments
+				attachments.forEach(attachment -> notifier.addAttachment(attachment));
+				//	Add to queue
+				notifier.addToQueue();
+				countMail.incrementAndGet();
+			});
+		});
+		return countMail.get();
 	}
 	
 	/**

@@ -19,8 +19,6 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**

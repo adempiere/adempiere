@@ -43,6 +43,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
@@ -91,7 +92,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 	private Borderlayout layout;
 
-	private Thread dashboardThread;
+	private Portallayout portalLayout;
 
 	private DashboardRunnable dashboardRunnable;
 
@@ -107,9 +108,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     }
 
     DashboardRunnable createDashboardRunnable() {
-    
-        return new DashboardRunnable(layout.getDesktop(), this);
-    
+		return new DashboardRunnable(layout.getDesktop(), this);
     }
 
     HeaderPanel createHeaderPanel() {
@@ -126,7 +125,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
     UserPreference getUserPreference() {
     
-        return SessionManager.getSessionApplication().getUserPreference();
+        return SessionManager.getUserPreference();
     
     }
 
@@ -192,7 +191,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 		Tabpanel homeTab = new Tabpanel();
 		windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-		Portallayout portalLayout = createPortalLayout();
+		portalLayout = createPortalLayout();
 		portalLayout.setWidth("100%");
 		portalLayout.setHeight("100%");
 		portalLayout.setStyle("position: absolute; overflow: auto");
@@ -398,45 +397,31 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			portalLayout.getDesktop().enableServerPush(true);
 
 		dashboardRunnable.refreshDashboard();
-		dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-		dashboardThread.setDaemon(true);
-		dashboardThread.start();
+		dashboardRunnable.start();
 	}
 
     Portallayout createPortalLayout() {
-
         return new Portallayout();
-
     }
 
     CLogger getLogger() {
-
         return logger;
-
     }
 
-    MRole getDefaultRole() {   
-
+    MRole getDefaultRole() {
         return MRole.getDefault(Env.getCtx(), false);
-
     }
 
     MDashboardContent[] getDashboardContent() {
-
         return MDashboardContent.getForSession();
-
     }
 
     int getSessionColumnCount() {
-
         return MDashboardContent.getForSessionColumnCount();
-
     }
 
     String getSysConfigValue(String sysConfigName) {
-
         return MSysConfig.getValue(sysConfigName, Env.getAD_Client_ID(Env.getCtx()));
-
     }
 
     public void onEvent(Event event)
@@ -469,7 +454,6 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     	noOfNotice = DPActivities.getNoticeCount();
     	noOfRequest = DPActivities.getRequestCount();
     	noOfWorkflow = DPActivities.getWorkflowCount();
-
     	template.execute(this);
 	}
 
@@ -481,16 +465,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 		if (this.page != page) {
 			layout.setPage(page);
 			this.page = page;
-			if (dashboardThread != null && dashboardThread.isAlive()) {
-				dashboardRunnable.stop();
-				dashboardThread.interrupt();
-
+		}
+		if (dashboardRunnable != null && dashboardRunnable.isRunning()) {
+				dashboardRunnable.interrupt();
 				DashboardRunnable tmp = dashboardRunnable;
 				dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop(), this);
-				dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-		        dashboardThread.setDaemon(true);
-		        dashboardThread.start();
-			}
+				dashboardRunnable.start();
 		}
 	}
 
@@ -503,9 +483,15 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	}
 
 	public void logout() {
-		if (dashboardThread != null && dashboardThread.isAlive()) {
-			dashboardRunnable.stop();
-			dashboardThread.interrupt();
+		if (dashboardRunnable != null && dashboardRunnable.isRunning()) {
+			dashboardRunnable.interrupt();
+			if (portalLayout != null) {
+				Desktop desktop = portalLayout.getDesktop();
+				if (desktop != null) {
+					desktop.enableServerPush(false);
+					portalLayout = null;
+				}
+			}
 		}
 	}
 

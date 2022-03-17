@@ -7,9 +7,6 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.FillMandatoryException;
-import org.compiere.model.MClient;
-import org.compiere.model.MProduct;
-import org.compiere.model.MUOM;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

@@ -13,12 +13,6 @@ else
   exit
 fi
 
-# check jdk
-if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
-   echo "** Need full Java SDK **"
-   exit
-fi
-
 # check adempiere home
 if [ ! $ADEMPIERE_HOME ] ; then
   echo Warning: ADEMPIERE_HOME is not set.

@@ -44,10 +44,7 @@ import org.compiere.util.Msg;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -144,7 +141,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
         if (!isEmbedded() && adTab.isUseExternalSelection())
         {
-        	String tabPlacement = SessionManager.getSessionApplication().getUserPreference().getProperty(UserPreference.P_WINDOW_TAB_PLACEMENT);
+        	String tabPlacement = SessionManager.getUserPreference().getProperty(UserPreference.P_WINDOW_TAB_PLACEMENT);
         	if (tabPlacement == null || "left".equalsIgnoreCase(tabPlacement))
         	{
         		west = new West();
@@ -156,7 +153,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
     	        adTab.setTabplacement(IADTab.LEFT);
     	        adTab.getTabSelectionComponent().setParent(west);
 
-    	        if (SessionManager.getSessionApplication().getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
+    	        if (SessionManager.getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
     	        {
     	        	west.setTitle(Msg.getElement(Env.getCtx(), "AD_Tab_ID"));
     	        	west.setCollapsible(true);
@@ -173,7 +170,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 		        adTab.setTabplacement(IADTab.RIGHT);
 		        adTab.getTabSelectionComponent().setParent(east);
 
-		        if (SessionManager.getSessionApplication().getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
+		        if (SessionManager.getUserPreference().isPropertyBool(UserPreference.P_WINDOW_TAB_COLLAPSIBLE))
     	        {
 		        	east.setTitle(Msg.getElement(Env.getCtx(), "AD_Tab_ID"));
     	        	east.setCollapsible(true);

@@ -1,15 +1,12 @@
 package org.compiere.util;
 
+import org.apache.commons.codec.binary.Base64;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
-
-import org.apache.commons.codec.binary.Base64; 
-
-import sun.security.provider.Sun;
-
 
 /**
  * @author rlemeill
@@ -95,8 +92,6 @@ public class DigestOfFile
     {
         try
         {
-            java.security.Security.addProvider(new Sun());
-
             DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
             
             for (int argIndex = 0; argIndex < args.length; argIndex++)
@@ -124,7 +119,6 @@ public class DigestOfFile
     	//compute Hash of exisiting and downloaded
     	String hashFile1;
     	String hashFile2;
-    	java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hashFile1 = md5DigestAgent.digestAsBase64(file1);
@@ -143,7 +137,6 @@ public class DigestOfFile
     public static String GetLocalMD5Hash(File file)
     {
     	String hash;
-    	java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hash = md5DigestAgent.digestAsBase64(file);
@@ -162,7 +155,6 @@ public class DigestOfFile
     public static String getMD5Hash(byte[] input)
     {
     	String hash;
-    	java.security.Security.addProvider(new Sun());
     	try{
     		DigestOfFile md5DigestAgent = new DigestOfFile("MD5");
     		hash = md5DigestAgent.digestAsBase64(input);

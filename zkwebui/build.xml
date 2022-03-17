@@ -59,13 +59,14 @@
 
   <target name="compile" depends="clean" description="Compile Java sources">
     <mkdir dir="${classes.dir}" />
-    <javac target="1.8"
+    <javac target="11"
            encoding="UTF-8"
            srcdir="WEB-INF/src"
            destdir="${classes.dir}"
            debug="${compile.debug}"
            deprecation="${compile.deprecation}"
-           optimize="${compile.optimize}">
+				optimize="${compile.optimize}"
+				includeantruntime="false">
       <classpath refid="compile.classpath" />
     </javac>
     <copy todir="${classes.dir}" overwrite="true">
@@ -145,7 +146,7 @@
           depends="compile, clean.tests"
           if="${test.performTests}">
     <mkdir dir="${test.build.dir}" />
-    <javac target="1.8"
+    <javac target="11"
            encoding="UTF-8"
            fork="true"
            includeantruntime="false"

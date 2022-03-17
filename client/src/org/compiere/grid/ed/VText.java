@@ -20,8 +20,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -51,8 +49,7 @@ import org.compiere.util.Msg;
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
  */
-public class VText extends CTextArea
-	implements VEditor, KeyListener, ActionListener, FocusListener
+public class VText extends CTextArea implements VEditor, KeyListener, ActionListener
 {
 	/**
 	 * 
@@ -118,7 +115,6 @@ public class VText extends CTextArea
 		if (isReadOnly || !isUpdateable)
 			setReadWrite(false);
 		addKeyListener(this);
-		addFocusListener(this);
 
 		//	Popup
 		addMouseListener(new VText_mouseAdapter(this));
@@ -143,7 +139,6 @@ public class VText extends CTextArea
 	private String				m_columnName;
 	private String				m_oldText;
 	private String				m_initialText;
-	private volatile boolean	m_setting = false;
 	private GridField m_mField;
 
 	/**
@@ -156,12 +151,8 @@ public class VText extends CTextArea
 			m_oldText = "";
 		else
 			m_oldText = value.toString();
-		if (m_setting)
-			return;
 		super.setValue(m_oldText);
 		m_initialText = m_oldText;
-		//	Always position Top 
-		setCaretPosition(0);
 	}	//	setValue
 
 	/**
@@ -170,7 +161,7 @@ public class VText extends CTextArea
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
+		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY) && !getText().equals(evt.getNewValue()))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
 
@@ -237,6 +228,11 @@ public class VText extends CTextArea
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
+
+		try {
+			fireVetoableChange(m_columnName, m_oldText, getText());
+		} catch (PropertyVetoException pve) {
+		}
 	}	//	keyReleased
 
 	/**
@@ -254,20 +250,4 @@ public class VText extends CTextArea
 	public GridField getField() {
 		return m_mField;
 	}
-	
-	@Override
-	public void focusGained(FocusEvent e) {
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, getText());
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
-	}
-
 }	//	VText

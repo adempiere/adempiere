@@ -18,10 +18,10 @@ else
 fi
 
 # check jdk
-if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
-   echo "** Need full Java SDK **"
-   exit
-fi
+#if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
+#   echo "** Need full Java SDK **"
+#   exit
+#fi
 
 SUFFIX=""
 SYSUSER=system
@@ -32,11 +32,11 @@ then
 fi
 
 #classpath
-MYCLASSPATH=../lib/Adempiere.jar:../lib/CCTools.jar:../lib/postgresql.jar:../lib/oracle.jar:../lib/jboss.jar
+MYCLASSPATH=../lib/Adempiere.jar:../lib/CCTools.jar:../lib/postgresql.jar:../lib/oracle.jar
 
 JAVA_OPTS="-Xms128m -Xmx512m -Djava.awt.headless=true"
 
-ADEMPIERE_OPTS="-DADEMPIERE_HOME=$ADEMPIERE_HOME -DPropertyFile=../Adempiere.properties"
+ADEMPIERE_OPTS="-DADEMPIERE_HOME=$ADEMPIERE_HOME -DPropertyFile=$ADEMPIERE_HOME/AdempiereEnv.properties"
 
 #Run generate model
 #echo

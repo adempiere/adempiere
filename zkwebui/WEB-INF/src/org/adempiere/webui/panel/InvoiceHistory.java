@@ -34,7 +34,6 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
-import org.compiere.model.MDocType;
 import org.compiere.model.MPriceList;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;

@@ -2,20 +2,8 @@ package org.compiere.process;
 
 import java.util.logging.Level;
 
-import org.compiere.model.MProduction;
 import org.compiere.model.MProductionBatch;
 import org.compiere.util.AdempiereUserError;
-
-
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
-import org.compiere.util.Env;
 
 /**
  * Contributed by Adaxa

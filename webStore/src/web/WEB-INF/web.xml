@@ -106,6 +106,10 @@
 		<servlet-name>LoginServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.LoginServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>#AD_Client_ID</param-name>
+			<param-value>0</param-value>
+		</init-param>
 	</servlet>
 	<servlet>
 		<display-name>Web Notification</display-name>
@@ -160,6 +164,10 @@
         <servlet-name>UpdateServlet</servlet-name>
         <servlet-class>org.compiere.wstore.UpdateServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>#AD_Client_ID</param-name>
+			<param-value>0</param-value>
+		</init-param>
     </servlet>
 	<servlet>
 		<display-name>Web Workflow Servlet</display-name>
@@ -202,6 +210,10 @@
 		<servlet-name>EMailServlet</servlet-name>
 		<servlet-class>org.compiere.wstore.EMailServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
+		<init-param>
+			<param-name>#AD_Client_ID</param-name>
+			<param-value>0</param-value>
+		</init-param>
 	</servlet>
 	<servlet>
 		<display-name>Adempiere Issue Reporting</display-name>
@@ -335,10 +347,18 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
-	<!--env-entry>
-		<env-entry-name>ADEMPIERE_HOME</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/opt/adempiere/</env-entry-value>
-	</env-entry-->
+
+	<resource-ref>
+		<description>Adempiere Connection Pool</description>
+		<res-ref-name>java/AdempiereDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<resource-ref>
+		<description>Adempiere Short Running Connection Pool</description>
+		<res-ref-name>java/AdempiereSRDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
 </web-app>

@@ -156,7 +156,6 @@ public class SessionPoster {
     }
 
     boolean postDocumentInItsOwnTransaction(int tableId, int recordId) {
-
         boolean ok = true;
         String errorTrxName = null;
         String perDocTrxName = Trx.createTrxName("CAP");
@@ -164,8 +163,10 @@ public class SessionPoster {
         String postStatus = Doc.STATUS_NotPosted;
         Doc doc = getDoc(tableId, recordId, perDocTrxName);
         if (doc == null) {
-            log.log(Level.SEVERE, "Unable to find doc with tableId=" + tableId 
+            log.log(Level.SEVERE, "Unable to find doc with tableId=" + tableId
                     + " and recordId=" + recordId);
+            innerTrx.close();
+            innerTrx = null;
             return false;
         }
         try {
@@ -188,7 +189,6 @@ public class SessionPoster {
             innerTrx = null;
         }
         return ok;
-
     }
 
     void savePostedStatus(Doc doc, String postStatus, String errorTrxName) {

@@ -37,6 +37,7 @@ import org.compiere.model.I_AD_Process_Para;
 import org.compiere.model.I_AD_Tab;
 import org.compiere.model.I_AD_Window;
 import org.compiere.model.I_AD_WindowCustom;
+import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MBrowseCustom;
 import org.compiere.model.MBrowseFieldCustom;
 import org.compiere.model.MColumn;
@@ -780,11 +781,18 @@ public class ASPUtil {
 	 * @return
 	 */
 	private String getIncludedRoleWhereClause() {
-		StringBuffer whereClause = new StringBuffer("AD_Role_ID IN(").append(roleId);
-		MRole.get(context, roleId).getIncludedRoles(true).forEach(role -> whereClause.append(", ").append(role.getAD_Role_ID()));
+		StringBuffer inClause = new StringBuffer("IN(").append(roleId);
+		MRole.get(context, roleId).getIncludedRoles(true).forEach(role -> inClause.append(", ").append(role.getAD_Role_ID()));
 		//	Add last
-		whereClause.append(")");
-		return whereClause.toString();
+		inClause.append(")");
+		if(MTable.get(context, "ASP_Level_Access") == null) {
+			return "AD_Role_ID " + inClause;
+		}
+		StringBuffer aspAccess = new StringBuffer("IN(0");
+		new Query(context, I_ASP_Level.Table_Name, "EXISTS(SELECT 1 FROM ASP_Level_Access la WHERE la.ASP_Level_ID = ASP_Level.ASP_Level_ID AND la.AD_Role_ID " + inClause.toString() + ")", null)
+			.getIDsAsList().forEach(levelId -> aspAccess.append(", ").append(levelId));
+		aspAccess.append(")");
+		return "(AD_Role_ID " + inClause + " OR ASP_Level_ID " + aspAccess + ")";
 	}
 	
 	/**

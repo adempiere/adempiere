@@ -26,13 +26,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import oracle.jdbc.OracleDriver;
-
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
@@ -44,8 +49,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  *  Oracle Database Port
@@ -105,9 +108,11 @@ public class DB_Oracle implements AdempiereDatabase
 
     /** Statement Cache (50)        */
     public static final String     MAX_STATEMENTS = "200";
-    /** Data Source                 */
-    private ComboPooledDataSource   m_ds = null;
 
+    /** Data Source	Long Running 	*/
+    private DataSource datasourceLongRunning = null;
+    /** Data Source	Short Running 	*/
+    private DataSource datasourceShortRunning = null;
     /** Cached User Name            */
     private String                  m_userName = null;
 
@@ -314,10 +319,11 @@ public class DB_Oracle implements AdempiereDatabase
         try
         {
             StringBuffer logBuffer = new StringBuffer(50);
-            logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
+            logBuffer.append("# Connections: ").append(datasourceLongRunning.toString());
+           /* logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
             logBuffer.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
             logBuffer.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-            logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+            logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
         }
         catch (Exception e)
         {
@@ -333,7 +339,7 @@ public class DB_Oracle implements AdempiereDatabase
      */
     public String getStatus()
     {
-        if (m_ds == null)
+        if (datasourceLongRunning == null)
         {
             return null;
         }
@@ -341,10 +347,11 @@ public class DB_Oracle implements AdempiereDatabase
         StringBuffer sb = new StringBuffer();
         try
         {
-            sb.append("# Connections: ").append(m_ds.getNumConnections());
+            sb.append("# Connections: ").append(datasourceLongRunning.toString());
+            /*sb.append("# Connections: ").append(m_ds.getNumConnections());
             sb.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
             sb.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-            sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+            sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
         }
         catch (Exception e)
         {}
@@ -553,64 +560,215 @@ public class DB_Oracle implements AdempiereDatabase
      *  @param connection connection
      *  @return data dource
      */
-    public DataSource getDataSource(CConnection connection)
-    {
-        if (m_ds != null)
-            return m_ds;
+    public DataSource getDataSource(CConnection connection) {
+        if (datasourceLongRunning != null)
+            return datasourceLongRunning;
 
         try
         {
-            System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
-            //System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "ALL");
-            ComboPooledDataSource cpds = new ComboPooledDataSource();
-            cpds.setDataSourceName("AdempiereDS");
-            cpds.setDriverClass(DRIVER);
-            //loads the jdbc driver
-            cpds.setJdbcUrl(getConnectionURL(connection));
-            cpds.setUser(connection.getDbUid());
-            cpds.setPassword(connection.getDbPwd());
-            cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
-            cpds.setIdleConnectionTestPeriod(1200);
-            cpds.setAcquireRetryAttempts(2);
-            //cpds.setTestConnectionOnCheckin(true);
-            //cpds.setTestConnectionOnCheckout(true);
-            //cpds.setCheckoutTimeout(60);
-
-            if (Ini.isClient())
-            {
-                cpds.setInitialPoolSize(1);
-                cpds.setMinPoolSize(1);
-                cpds.setMaxPoolSize(15);
-                cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(900);
-                m_maxbusyconnections = 10;
+            if (Ini.isClient()) {
+                log.warning("Config Hikari Connection Pool Datasource");
+                HikariConfig config = new HikariConfig();
+                config.setDriverClassName(DRIVER);
+                config.setJdbcUrl(getConnectionURL(connection));
+                config.setUsername(connection.getDbUid());
+                config.setPassword(connection.getDbPwd());
+                config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+                config.setIdleTimeout(0);
+                config.setKeepaliveTime(30000);
+                config.setMinimumIdle(15);
+                config.setMaximumPoolSize(150);
+                config.setPoolName("AdempiereDS");
+                config.addDataSourceProperty( "cachePrepStmts" , "true" );
+                config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+                config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+                datasourceLongRunning = new HikariDataSource(config);
+                log.warning("Starting Client Hikari Connection Pool");
+            } else {
+                Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+                datasourceLongRunning = maybeApplicationType
+                        .map(applicationType -> {
+                            if ("wildfly".equals(applicationType)) {
+                                try {
+                                    Context initCtx = new InitialContext();
+                                    DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereDS");
+                                    log.warning("Connection Lookup JNDI Datasource for java:/AdempiereDS Hikari Connection Pool");
+                                    return dataSource;
+                                } catch (Exception namingException) {
+                                    datasourceLongRunning = null;
+                                    log.log(Level.SEVERE, "Could not initialise Hikari Connection Pool", namingException);
+                                    namingException.printStackTrace();
+                                }
+                            }
+                            try {
+                                DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereDS");
+                                log.warning("Connection Lookup JNDI Datasource for java:comp/env/java/AdempiereDS Hikari Connection Pool");
+                                return dataSource;
+                            } catch (Exception namingException) {
+                                datasourceLongRunning = null;
+                                log.log(Level.SEVERE, "Application Server does not exist Could not initialise Hikari Connection Pool", namingException);
+                                namingException.printStackTrace();
+                            }
+                            log.warning("Connection successful using Standalone Hikari Config Connection Pool");
+                            HikariConfig config = new HikariConfig();
+                            config.setDriverClassName(DRIVER);
+                            config.setJdbcUrl(getConnectionURL(connection));
+                            config.setUsername(connection.getDbUid());
+                            config.setPassword(connection.getDbPwd());
+                            config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+                            config.setIdleTimeout(60000);
+                            config.setKeepaliveTime(30000);
+                            config.setMinimumIdle(15);
+                            config.setMaximumPoolSize(150);
+                            config.setPoolName("AdempiereDS");
+                            config.addDataSourceProperty( "cachePrepStmts" , "true" );
+                            config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+                            config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+                            return new HikariDataSource(config);
+                        }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
             }
-            else
-            {
-                cpds.setInitialPoolSize(10);
-                cpds.setMinPoolSize(5);
-                cpds.setMaxPoolSize(150);
-                cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(1200);
-                m_maxbusyconnections = 120;
-            }
-
-            //the following sometimes kill active connection!
-            //cpds.setUnreturnedConnectionTimeout(1200);
-            //cpds.setDebugUnreturnedConnectionStackTraces(true);
-
-            m_ds = cpds;
+        } catch (Exception exception) {
+            datasourceLongRunning = null;
+            log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the initialise Hikari Connection Pool", exception);
+            exception.printStackTrace();
         }
-        catch (Exception ex)
+        return datasourceLongRunning;
+    }
+
+    /**
+     * 	Create DataSource Short Running
+     *	@param connection connection
+     *	@return data source Short Running
+     */
+    public DataSource getDataSourceShortRunning(CConnection connection) {
+        if (datasourceShortRunning != null)
+            return datasourceShortRunning;
+
+        try
         {
-            m_ds = null;
-            //log might cause infinite loop since it will try to acquire database connection again
-            //log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
-            System.err.println("Could not initialise C3P0 Datasource: " + ex.getLocalizedMessage());
+            if (Ini.isClient()) {
+                log.warning("Config Hikari Connection Pool Short Running Datasource");
+                HikariConfig config = new HikariConfig();
+                config.setDriverClassName(DRIVER);
+                config.setJdbcUrl(getConnectionURL(connection));
+                config.setUsername(connection.getDbUid());
+                config.setPassword(connection.getDbPwd());
+                config.addDataSourceProperty( "poolName" , "AdempiereSRDS" );
+                config.addDataSourceProperty( "cachePrepStmts" , "true" );
+                config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+                config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+                config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
+                config.addDataSourceProperty( "idleTimeout" , "1200" );
+                config.addDataSourceProperty("maximumPoolSize", "10");
+                HikariDataSource cpds = new HikariDataSource(config);
+                datasourceShortRunning = cpds;
+                log.warning("Starting Client Hikari Connection Pool");
+            } else {
+                Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+                datasourceShortRunning = maybeApplicationType
+                        .map(applicationType -> {
+                            if ("wildfly".equals(applicationType)) {
+                                try {
+                                    Context initCtx = new InitialContext();
+                                    DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereSRDS");
+                                    log.warning("Connection Lookup JNDI Short Running Datasource for java:/AdempiereSRDS Hikari Connection Pool");
+                                    return dataSource;
+                                } catch (Exception namingException) {
+                                    datasourceShortRunning = null;
+                                    log.log(Level.SEVERE, "Could not initialise Short Running Hikari Connection Pool", namingException);
+                                    namingException.printStackTrace();
+                                }
+                            }
+                            try {
+                                DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereSRDS");
+                                log.warning("Connection Lookup JNDI Short Running Datasource for java:comp/env/java/AdempiereSRDS Hikari Connection Pool");
+                                return dataSource;
+                            } catch (Exception namingException) {
+                                datasourceShortRunning = null;
+                                log.log(Level.SEVERE, "Application Server does not exist Could not initialise Short Running Hikari Connection Pool", namingException);
+                                namingException.printStackTrace();
+                            }
+                            log.warning("Connection successful using Standalone Short Running Hikari Config Connection Pool");
+                            HikariConfig config = new HikariConfig();
+                            config.setDriverClassName(DRIVER);
+                            config.setJdbcUrl(getConnectionURL(connection));
+                            config.setUsername(connection.getDbUid());
+                            config.setPassword(connection.getDbPwd());
+                            config.addDataSourceProperty("poolName", "AdempiereSRDS");
+                            config.addDataSourceProperty("cachePrepStmts", "true");
+                            config.addDataSourceProperty("prepStmtCacheSize", "250");
+                            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+                            config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
+                            config.addDataSourceProperty("idleTimeout", "1200");
+                            config.addDataSourceProperty("maximumPoolSize", "5");
+                            return new HikariDataSource(config);
+                        }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));
+            }
+        } catch (Exception exception) {
+            datasourceShortRunning = null;
+            log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the Short Running initialise Short Running Hikari Connection Pool", exception);
+            exception.printStackTrace();
+        }
+        return datasourceShortRunning;
+    }
+
+    /**
+     *  Get Cached Connection
+     *  @param connection info
+     *  @param autoCommit true if autocommit connection
+     *  @param transactionIsolation Connection transaction level
+     *  @return connection or null
+     *  @throws Exception
+     */
+    public Connection getFromConnectionPool(CConnection connection,
+                                            boolean autoCommit, int transactionIsolation)
+        throws Exception
+    {
+        Connection conn = null;
+        Exception exception = null;
+        try
+        {
+            if (datasourceLongRunning == null)
+                getDataSource(connection);
+
+            //
+            try
+            {
+                conn = (Connection) datasourceLongRunning.getConnection();
+                if (conn != null)
+                {
+                    if (conn.getTransactionIsolation() != transactionIsolation)
+                        conn.setTransactionIsolation(transactionIsolation);
+                    if (conn.getAutoCommit() != autoCommit)
+                        conn.setAutoCommit(autoCommit);
+                }
+            }
+            catch (Exception e)
+            {
+                exception = e;
+                conn = null;
+                if (DBException.isInvalidUserPassError(e))
+                {
+                	System.err.println("Cannot connect to database: "
+                            + getConnectionURL(connection)
+                            + " - UserID=" + connection.getDbUid());
+                }
+            }
+
+            if (conn == null && exception != null)
+            {
+            	System.err.println(exception.toString());
+            }
+        }
+        catch (Exception e)
+        {
+            exception = e;
         }
 
-        return m_ds;
-    }   //  getDataSource
+        if (exception != null)
+            throw exception;
+        return conn;
+    }   //  getCachedConnection
 
 
     /**
@@ -621,55 +779,45 @@ public class DB_Oracle implements AdempiereDatabase
      *  @return connection or null
      *  @throws Exception
      */
-    public Connection getCachedConnection (CConnection connection,
-        boolean autoCommit, int transactionIsolation)
-        throws Exception
+    @Override
+    public Connection getFromConnectionPoolShortRunning(CConnection connection,
+                                            boolean autoCommit, int transactionIsolation)
+            throws Exception
     {
-        Connection conn = null;
+        Connection localConnection = null;
         Exception exception = null;
         try
         {
-            if (m_ds == null)
+            if (datasourceShortRunning == null)
                 getDataSource(connection);
 
             //
             try
             {
-                conn = (Connection)m_ds.getConnection();
-                if (conn != null)
+                localConnection = datasourceShortRunning.getConnection();
+                if (localConnection != null)
                 {
-                    if (conn.getTransactionIsolation() != transactionIsolation)
-                        conn.setTransactionIsolation(transactionIsolation);
-                    if (conn.getAutoCommit() != autoCommit)
-                        conn.setAutoCommit(autoCommit);
-//                      conn.setDefaultRowPrefetch(20);     //  10 default - reduces round trips
+                    if (localConnection.getTransactionIsolation() != transactionIsolation)
+                        localConnection.setTransactionIsolation(transactionIsolation);
+                    if (localConnection.getAutoCommit() != autoCommit)
+                        localConnection.setAutoCommit(autoCommit);
                 }
             }
             catch (Exception e)
             {
                 exception = e;
-                conn = null;
+                localConnection = null;
                 if (DBException.isInvalidUserPassError(e))
                 {
-                	//log might cause infinite loop since it will try to acquire database connection again
-                	/*
-                    log.severe("Cannot connect to database: "
-                        + getConnectionURL(connection)
-                        + " - UserID=" + connection.getDbUid());
-                    */
-                	System.err.println("Cannot connect to database: "
+                    System.err.println("Cannot connect to database: "
                             + getConnectionURL(connection)
                             + " - UserID=" + connection.getDbUid());
                 }
             }
 
-            if (conn == null && exception != null)
+            if (localConnection == null && exception != null)
             {
-            	//log might cause infinite loop since it will try to acquire database connection again
-            	/*
-                log.log(Level.SEVERE, exception.toString());
-                log.fine(toString()); */
-            	System.err.println(exception.toString());
+                System.err.println(exception.toString());
             }
         }
         catch (Exception e)
@@ -677,26 +825,12 @@ public class DB_Oracle implements AdempiereDatabase
             exception = e;
         }
 
-        try
-        {
-        	if (conn != null) {
-        		int numConnections = m_ds.getNumBusyConnections();
-	            if(numConnections >= m_maxbusyconnections && m_maxbusyconnections > 0)
-	            {
-	                log.warning(getStatus());
-	                //hengsin: make a best effort to reclaim leak connection
-	                Runtime.getRuntime().runFinalization();
-	            }
-        	}
-        }
-        catch (Exception ex)
-        {
-
-        }
         if (exception != null)
             throw exception;
-        return conn;
+        return localConnection;
     }   //  getCachedConnection
+
+
 
     /**
      *  Get Connection from Driver
@@ -732,18 +866,18 @@ public class DB_Oracle implements AdempiereDatabase
     public void close()
     {
         log.config(toString());
-        if (m_ds != null)
+        if (datasourceLongRunning != null)
         {
             try
             {
-                m_ds.close();
+               datasourceLongRunning.getConnection().close(); //m_ds.close();
             }
             catch (Exception e)
             {
                 log.log(Level.SEVERE, "Could not close Data Source");
             }
         }
-        m_ds = null;
+        datasourceLongRunning = null;
     }   //  close
 
     /**
@@ -895,7 +1029,7 @@ public class DB_Oracle implements AdempiereDatabase
         //  System.out.println("Driver=" + db.getDriverConnection(cc));
             DataSource ds = db.getDataSource(cc);
             System.out.println("DS=" + ds.getConnection());
-            conn = db.getCachedConnection(cc, true, Connection.TRANSACTION_READ_COMMITTED);
+            conn = db.getFromConnectionPool(cc, true, Connection.TRANSACTION_READ_COMMITTED);
             System.out.println("Cached=" + conn);
             System.out.println(db);
             //////////////////////////
@@ -944,7 +1078,7 @@ public class DB_Oracle implements AdempiereDatabase
             System.out.println(myString.length());
             System.out.println(Util.size(myString));
             //
-            Connection conn2 = db.getCachedConnection(cc, true, Connection.TRANSACTION_READ_COMMITTED);
+            Connection conn2 = db.getFromConnectionPool(cc, true, Connection.TRANSACTION_READ_COMMITTED);
             /** **/
             PreparedStatement pstmt = conn2.prepareStatement
                 ("INSERT INTO X_Test(Text1, Text2) values(?,?)");
@@ -968,14 +1102,14 @@ public class DB_Oracle implements AdempiereDatabase
         System.out.println("--------------------------------------------------");
         try
         {
-            Connection conn1 = db.getCachedConnection(cc, false, Connection.TRANSACTION_READ_COMMITTED);
-            Connection conn2 = db.getCachedConnection(cc, true, Connection.TRANSACTION_READ_COMMITTED);
-            Connection conn3 = db.getCachedConnection(cc, false, Connection.TRANSACTION_READ_COMMITTED);
+            Connection conn1 = db.getFromConnectionPool(cc, false, Connection.TRANSACTION_READ_COMMITTED);
+            Connection conn2 = db.getFromConnectionPool(cc, true, Connection.TRANSACTION_READ_COMMITTED);
+            Connection conn3 = db.getFromConnectionPool(cc, false, Connection.TRANSACTION_READ_COMMITTED);
             System.out.println("3 -> " + db);
             conn1.close();
             conn2.close();
-            conn1 = db.getCachedConnection(cc, true, Connection.TRANSACTION_READ_COMMITTED);
-            conn2 = db.getCachedConnection(cc, true, Connection.TRANSACTION_READ_COMMITTED);
+            conn1 = db.getFromConnectionPool(cc, true, Connection.TRANSACTION_READ_COMMITTED);
+            conn2 = db.getFromConnectionPool(cc, true, Connection.TRANSACTION_READ_COMMITTED);
             System.out.println("3 -> " + db);
             conn1.close();
             conn2.close();
@@ -1222,6 +1356,7 @@ public class DB_Oracle implements AdempiereDatabase
                 throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
             } finally {
                 DB.close(rs, stmt);
+                rs = null; stmt = null;
             }
         }
         return false;

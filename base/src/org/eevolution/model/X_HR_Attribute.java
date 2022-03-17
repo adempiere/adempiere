@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20210715L;
 
     /** Standard Constructor */
     public X_HR_Attribute (Properties ctx, int HR_Attribute_ID, String trxName)
@@ -177,34 +177,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BP_Relation)MTable.get(getCtx(), org.compiere.model.I_C_BP_Relation.Table_Name)
-			.getPO(getC_BP_Relation_ID(), get_TrxName());	}
-
-	/** Set Partner Relation.
-		@param C_BP_Relation_ID 
-		Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
-	{
-		if (C_BP_Relation_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Relation_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
-	}
-
-	/** Get Partner Relation.
-		@return Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -228,6 +200,34 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BP_Relation getC_BP_Relation() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Relation)MTable.get(getCtx(), org.compiere.model.I_C_BP_Relation.Table_Name)
+			.getPO(getC_BP_Relation_ID(), get_TrxName());	}
+
+	/** Set Partner Relation.
+		@param C_BP_Relation_ID 
+		Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
+	{
+		if (C_BP_Relation_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Relation_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
+	}
+
+	/** Get Partner Relation.
+		@return Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -289,6 +289,34 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
+
+	/** Set Currency.
+		@param C_Currency_ID 
+		The Currency for this record
+	  */
+	public void setC_Currency_ID (int C_Currency_ID)
+	{
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+	}
+
+	/** Get Currency.
+		@return The Currency for this record
+	  */
+	public int getC_Currency_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -345,6 +373,31 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	/** ColumnType AD_Reference_ID=53243 */
+	public static final int COLUMNTYPE_AD_Reference_ID=53243;
+	/** Amount = A */
+	public static final String COLUMNTYPE_Amount = "A";
+	/** Date = D */
+	public static final String COLUMNTYPE_Date = "D";
+	/** Quantity = Q */
+	public static final String COLUMNTYPE_Quantity = "Q";
+	/** Text = T */
+	public static final String COLUMNTYPE_Text = "T";
+	/** Set Column Type.
+		@param ColumnType Column Type	  */
+	public void setColumnType (String ColumnType)
+	{
+
+		set_Value (COLUMNNAME_ColumnType, ColumnType);
+	}
+
+	/** Get Column Type.
+		@return Column Type	  */
+	public String getColumnType () 
+	{
+		return (String)get_Value(COLUMNNAME_ColumnType);
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -371,31 +424,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** ColumnType AD_Reference_ID=53243 */
-	public static final int COLUMNTYPE_AD_Reference_ID=53243;
-	/** Amount = A */
-	public static final String COLUMNTYPE_Amount = "A";
-	/** Date = D */
-	public static final String COLUMNTYPE_Date = "D";
-	/** Quantity = Q */
-	public static final String COLUMNTYPE_Quantity = "Q";
-	/** Text = T */
-	public static final String COLUMNTYPE_Text = "T";
-	/** Set Column Type.
-		@param ColumnType Column Type	  */
-	public void setColumnType (String ColumnType)
-	{
-
-		set_Value (COLUMNNAME_ColumnType, ColumnType);
-	}
-
-	/** Get Column Type.
-		@return Column Type	  */
-	public String getColumnType () 
-	{
-		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
 	/** Set Description.
@@ -675,6 +703,31 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_Value (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_EmployeeType)MTable.get(getCtx(), org.eevolution.model.I_HR_EmployeeType.Table_Name)
@@ -698,31 +751,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	public int getHR_EmployeeType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
-			.getPO(getHR_Employee_ID(), get_TrxName());	}
-
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_Value (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -784,6 +812,31 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
+	/** Set Payroll Job.
+		@param HR_Job_ID Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID)
+	{
+		if (HR_Job_ID < 1) 
+			set_Value (COLUMNNAME_HR_Job_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
+	}
+
+	/** Get Payroll Job.
+		@return Payroll Job	  */
+	public int getHR_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_JobType)MTable.get(getCtx(), org.eevolution.model.I_HR_JobType.Table_Name)
@@ -807,31 +860,6 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	public int getHR_JobType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
-			.getPO(getHR_Job_ID(), get_TrxName());	}
-
-	/** Set Payroll Job.
-		@param HR_Job_ID Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID)
-	{
-		if (HR_Job_ID < 1) 
-			set_Value (COLUMNNAME_HR_Job_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Job_ID, Integer.valueOf(HR_Job_ID));
-	}
-
-	/** Get Payroll Job.
-		@return Payroll Job	  */
-	public int getHR_Job_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Job_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1028,6 +1056,27 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Converted Amount Based.
+		@param IsConvertedAmount Converted Amount Based	  */
+	public void setIsConvertedAmount (boolean IsConvertedAmount)
+	{
+		set_Value (COLUMNNAME_IsConvertedAmount, Boolean.valueOf(IsConvertedAmount));
+	}
+
+	/** Get Converted Amount Based.
+		@return Converted Amount Based	  */
+	public boolean isConvertedAmount () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsConvertedAmount);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Printed.

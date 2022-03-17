@@ -34,12 +34,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.logging.Level;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
@@ -48,8 +54,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import org.compiere.dbPort.Convert_MySQL;
 
@@ -84,8 +88,10 @@ public class DB_MySQL implements AdempiereDatabase {
 	/** Default Port */
 	public static final int DEFAULT_PORT = 3306;
 
-	/** Data Source */
-	private ComboPooledDataSource m_ds = null;
+	/** Data Source	Long Running 	*/
+	private DataSource datasourceLongRunning = null;
+	/** Data Source	Short Running 	*/
+	private DataSource datasourceShortRunning = null;
 
 	/** Statement Converter */
 	private Convert_MySQL m_convert = new Convert_MySQL();
@@ -245,10 +251,12 @@ public class DB_MySQL implements AdempiereDatabase {
 		sb.append(m_connectionURL);
 		try {
 			StringBuffer logBuffer = new StringBuffer(50);
-			logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
+			logBuffer.append("# Connections: ").append(datasourceLongRunning.toString());
+			/*logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
 			logBuffer.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
 			logBuffer.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-			logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+			logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
+
 		} catch (Exception e) {
 			sb.append("=").append(e.getLocalizedMessage());
 		}
@@ -262,16 +270,17 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return status info
 	 */
 	public String getStatus() {
-		if (m_ds == null) {
+		if (datasourceLongRunning == null) {
 			return null;
 		}
 
 		StringBuffer sb = new StringBuffer();
 		try {
-			sb.append("# Connections: ").append(m_ds.getNumConnections());
+			sb.append("# Connections: ").append(datasourceLongRunning.toString());
+			/*sb.append("# Connections: ").append(m_ds.getNumConnections());
 			sb.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
 			sb.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-			sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+			sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
 		} catch (Exception e) {
 		}
 		return sb.toString();
@@ -479,86 +488,200 @@ public class DB_MySQL implements AdempiereDatabase {
 	 * @return Connection
 	 * @throws Exception
 	 */
-	public Connection getCachedConnection(CConnection connection,
-			boolean autoCommit, int transactionIsolation) throws Exception {
-		if (m_ds == null)
+	public Connection getFromConnectionPool(CConnection connection,
+											boolean autoCommit, int transactionIsolation) throws Exception {
+		if (datasourceLongRunning == null)
 			getDataSource(connection);
 		//
-		Connection conn = m_ds.getConnection();
+		Connection conn = datasourceLongRunning.getConnection();
 		if (conn != null) {
 			//
 			conn.setAutoCommit(autoCommit);
 			conn.setTransactionIsolation(transactionIsolation);
-
-			try {
-				int numConnections = m_ds.getNumBusyConnections();
-				if (numConnections >= m_maxbusyconnections
-						&& m_maxbusyconnections > 0) {
-					log.warning(getStatus());
-					// hengsin: make a best effort to reclaim leak connection
-					Runtime.getRuntime().runFinalization();
-				}
-			} catch (Exception ex) {
-			}
 		}
 		return conn;
 	}
 
 	/**
+	 * 	Get Connection from Pool Short Running
+	 *	@param connection connection
+	 *	@param autoCommit auto commit
+	 *	@param transactionIsolation trx isolation
+	 *	@return Connection
+	 *	@throws Exception
+	 */
+	public Connection getFromConnectionPoolShortRunning(CConnection connection,
+													   boolean autoCommit, int transactionIsolation)
+			throws Exception
+	{
+		if (datasourceShortRunning == null)
+			getDataSourceShortRunning(connection);
+		//
+		Connection localConnection = datasourceShortRunning.getConnection();
+		if (localConnection != null) {
+			//
+			localConnection.setAutoCommit(autoCommit);
+			localConnection.setTransactionIsolation(transactionIsolation);
+		}
+		return localConnection;
+	}
+
+	/**
 	 * Create DataSource (Client)
-	 * 
+	 *
 	 * @param connection connection
 	 * @return data source
 	 */
 	public DataSource getDataSource(CConnection connection) {
-		if (m_ds != null)
-			return m_ds;
+		if (datasourceLongRunning != null)
+			return datasourceLongRunning;
 
-		try {
-			System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
-			// System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL",
-			// "ALL");
-			ComboPooledDataSource cpds = new ComboPooledDataSource();
-			cpds.setDataSourceName("AdempiereDS");
-			cpds.setDriverClass(DRIVER);
-			// loads the jdbc driver
-			cpds.setJdbcUrl(getConnectionURL(connection));
-			cpds.setUser(connection.getDbUid());
-			cpds.setPassword(connection.getDbPwd());
-			cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
-			cpds.setIdleConnectionTestPeriod(1200);
-			// cpds.setTestConnectionOnCheckin(true);
-			// cpds.setTestConnectionOnCheckout(true);
-			cpds.setAcquireRetryAttempts(2);
-			// cpds.setCheckoutTimeout(60);
-
+		try
+		{
 			if (Ini.isClient()) {
-				cpds.setInitialPoolSize(1);
-				cpds.setMinPoolSize(1);
-				cpds.setMaxPoolSize(15);
-				cpds.setMaxIdleTimeExcessConnections(1200);
-				cpds.setMaxIdleTime(900);
-				m_maxbusyconnections = 10;
+				log.warning("Config Hikari Connection Pool Datasource");
+				HikariConfig config = new HikariConfig();
+				config.setDriverClassName(DRIVER);
+				config.setJdbcUrl(getConnectionURL(connection));
+				config.setUsername(connection.getDbUid());
+				config.setPassword(connection.getDbPwd());
+				config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+				config.setIdleTimeout(0);
+				config.setKeepaliveTime(30000);
+				config.setMinimumIdle(15);
+				config.setMaximumPoolSize(150);
+				config.setPoolName("AdempiereDS");
+				config.addDataSourceProperty( "cachePrepStmts" , "true" );
+				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+				datasourceLongRunning = new HikariDataSource(config);;
+				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				cpds.setInitialPoolSize(10);
-				cpds.setMinPoolSize(5);
-				cpds.setMaxPoolSize(150);
-				cpds.setMaxIdleTimeExcessConnections(1200);
-				cpds.setMaxIdleTime(1200);
-				m_maxbusyconnections = 120;
+				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+				datasourceLongRunning = maybeApplicationType
+						.map(applicationType -> {
+							if ("wildfly".equals(applicationType)) {
+								try {
+									Context initCtx = new InitialContext();
+									DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereDS");
+									log.warning("Connection Lookup JNDI Datasource for java:/AdempiereDS Hikari Connection Pool");
+									return dataSource;
+								} catch (Exception namingException) {
+									datasourceLongRunning = null;
+									log.log(Level.SEVERE, "Could not initialise Hikari Connection Pool", namingException);
+									namingException.printStackTrace();
+								}
+							}
+							try {
+								DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereDS");
+								log.warning("Connection Lookup JNDI Datasource for java:comp/env/java/AdempiereDS Hikari Connection Pool");
+								return dataSource;
+							} catch (Exception namingException) {
+								datasourceLongRunning = null;
+								log.log(Level.SEVERE, "Application Server does not exist Could not initialise Hikari Connection Pool", namingException);
+								namingException.printStackTrace();
+							}
+							log.warning("Connection successful using Standalone Hikari Config Connection Pool");
+							HikariConfig config = new HikariConfig();
+							config.setDriverClassName(DRIVER);
+							config.setJdbcUrl(getConnectionURL(connection));
+							config.setUsername(connection.getDbUid());
+							config.setPassword(connection.getDbPwd());
+							config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+							config.setIdleTimeout(60000);
+							config.setKeepaliveTime(30000);
+							config.setMinimumIdle(15);
+							config.setMaximumPoolSize(150);
+							config.setPoolName("AdempiereDS");
+							config.addDataSourceProperty( "cachePrepStmts" , "true" );
+							config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+							config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+							return new HikariDataSource(config);
+						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
 			}
-
-			// the following sometimes kill active connection!
-			// cpds.setUnreturnedConnectionTimeout(1200);
-			// cpds.setDebugUnreturnedConnectionStackTraces(true);
-
-			m_ds = cpds;
-		} catch (Exception ex) {
-			m_ds = null;
-			log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
+		} catch (Exception exception) {
+			datasourceLongRunning = null;
+			log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the initialise Hikari Connection Pool", exception);
+			exception.printStackTrace();
 		}
+		return datasourceLongRunning;
+	}
 
-		return m_ds;
+	/**
+	 * 	Create DataSource Short Running
+	 *	@param connection connection
+	 *	@return data source Short Running
+	 */
+	public DataSource getDataSourceShortRunning(CConnection connection) {
+		if (datasourceShortRunning != null)
+			return datasourceShortRunning;
+
+		try
+		{
+			if (Ini.isClient()) {
+				log.warning("Config Hikari Connection Pool Short Running Datasource");
+				HikariConfig config = new HikariConfig();
+				config.setDriverClassName(DRIVER);
+				config.setJdbcUrl(getConnectionURL(connection));
+				config.setUsername(connection.getDbUid());
+				config.setPassword(connection.getDbPwd());
+				config.addDataSourceProperty( "poolName" , "AdempiereSRDS" );
+				config.addDataSourceProperty( "cachePrepStmts" , "true" );
+				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+				config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
+				config.addDataSourceProperty( "idleTimeout" , "1200" );
+				config.addDataSourceProperty("maximumPoolSize", "10");
+				HikariDataSource cpds = new HikariDataSource(config);
+				datasourceShortRunning = cpds;
+				log.warning("Starting Client Hikari Connection Pool");
+			} else {
+				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+				datasourceShortRunning = maybeApplicationType
+						.map(applicationType -> {
+							if ("wildfly".equals(applicationType)) {
+								try {
+									Context initCtx = new InitialContext();
+									DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereSRDS");
+									log.warning("Connection Lookup JNDI Short Running Datasource for java:/AdempiereSRDS Hikari Connection Pool");
+									return dataSource;
+								} catch (Exception namingException) {
+									datasourceShortRunning = null;
+									log.log(Level.SEVERE, "Could not initialise Short Running Hikari Connection Pool", namingException);
+									namingException.printStackTrace();
+								}
+							}
+							try {
+								DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereSRDS");
+								log.warning("Connection Lookup JNDI Short Running Datasource for java:comp/env/java/AdempiereSRDS Hikari Connection Pool");
+								return dataSource;
+							} catch (Exception namingException) {
+								datasourceShortRunning = null;
+								log.log(Level.SEVERE, "Application Server does not exist Could not initialise Short Running Hikari Connection Pool", namingException);
+								namingException.printStackTrace();
+							}
+							log.warning("Connection successful using Standalone Short Running Hikari Config Connection Pool");
+							HikariConfig config = new HikariConfig();
+							config.setDriverClassName(DRIVER);
+							config.setJdbcUrl(getConnectionURL(connection));
+							config.setUsername(connection.getDbUid());
+							config.setPassword(connection.getDbPwd());
+							config.addDataSourceProperty("poolName", "AdempiereSRDS");
+							config.addDataSourceProperty("cachePrepStmts", "true");
+							config.addDataSourceProperty("prepStmtCacheSize", "250");
+							config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+							config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
+							config.addDataSourceProperty("idleTimeout", "1200");
+							config.addDataSourceProperty("maximumPoolSize", "5");
+							return new HikariDataSource(config);
+						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));
+			}
+		} catch (Exception exception) {
+			datasourceShortRunning = null;
+			log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the Short Running initialise Short Running Hikari Connection Pool", exception);
+			exception.printStackTrace();
+		}
+		return datasourceShortRunning;
 	}
 
 	/**
@@ -604,14 +727,14 @@ public class DB_MySQL implements AdempiereDatabase {
 
 		log.config(toString());
 
-		if (m_ds != null) {
+		if (datasourceLongRunning != null) {
 			try {
-				m_ds.close();
+				datasourceLongRunning.getConnection().close(); //m_ds.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		m_ds = null;
+		datasourceLongRunning = null;
 	}
 
 	/**
@@ -663,10 +786,11 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public static void dumpLocks(Connection conn) {
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
 			String sql = "select pg_class.relname,pg_locks.* from pg_class,pg_locks where pg_class.relfilenode=pg_locks.relation order by 1";
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 			int cnt = rs.getMetaData().getColumnCount();
 			System.out.println();
 			while (rs.next()) {
@@ -682,11 +806,8 @@ public class DB_MySQL implements AdempiereDatabase {
 		} catch (Exception e) {
 
 		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (Exception e) {
-			}
+			DB.close(rs,stmt);
+			rs = null; stmt = null;
 		}
 	}
 
@@ -809,7 +930,7 @@ public class DB_MySQL implements AdempiereDatabase {
 				throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
 			} finally {
 				DB.close(rs, stmt);
-				rs = null;stmt = null;
+				rs = null; stmt = null;
 			}
 		}
 		return false;
