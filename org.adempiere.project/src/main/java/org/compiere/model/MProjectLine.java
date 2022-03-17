@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import org.apache.commons.net.ntp.TimeStamp;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

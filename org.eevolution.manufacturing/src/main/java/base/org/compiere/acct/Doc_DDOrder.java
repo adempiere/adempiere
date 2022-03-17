@@ -17,13 +17,10 @@ package org.compiere.acct;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
-import org.compiere.model.MOrder;
 import org.compiere.util.Env;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;

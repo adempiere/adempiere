@@ -24,7 +24,6 @@ import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.Properties;
 
-import org.compiere.model.MUOM;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;

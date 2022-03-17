@@ -20,8 +20,6 @@ import java.sql.Timestamp;
 import java.util.logging.*;
 
 import org.compiere.model.*;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
  

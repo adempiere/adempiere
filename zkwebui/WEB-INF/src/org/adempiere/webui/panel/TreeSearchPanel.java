@@ -19,7 +19,6 @@ package org.adempiere.webui.panel;
 
 import java.util.TreeMap;
 
-import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.component.Label;

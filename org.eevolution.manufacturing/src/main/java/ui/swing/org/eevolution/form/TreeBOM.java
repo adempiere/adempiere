@@ -16,18 +16,14 @@
 
 package org.eevolution.form;
 
-import java.util.List;
 import java.util.Properties;
 
 import org.compiere.apps.form.TreeMaintenance;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
-import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.model.X_PP_Product_BOM;
 
 public class TreeBOM {
 

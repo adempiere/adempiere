@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
-import java.util.logging.Level;
-
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectType;
 

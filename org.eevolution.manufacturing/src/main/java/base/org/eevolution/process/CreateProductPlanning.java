@@ -18,19 +18,13 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.DBException;
 import org.compiere.model.MProduct;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MPPProductPlanning;
 
