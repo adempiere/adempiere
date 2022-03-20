@@ -13,7 +13,7 @@
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
                         <Set name="connectionTimeout">600000</Set>
-                        <Set name="connectionTestQuery">SELECT 1 </Set>
+                        <Set name="connectionTestQuery">SELECT Version FROM AD_System</Set>
                         <Set name="maximumPoolSize">50</Set>
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">60000</Set>
@@ -35,8 +35,8 @@
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
                         <Set name="connectionTimeout">10000</Set>
-                        <Set name="connectionTestQuery">SELECT 1 </Set>
-                        <Set name="maximumPoolSize">10</Set>
+                        <Set name="connectionTestQuery">SELECT Version FROM AD_System</Set>
+                        <Set name="maximumPoolSize">20</Set>
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">30000</Set>
                         <Set name="keepaliveTime">1200</Set>
