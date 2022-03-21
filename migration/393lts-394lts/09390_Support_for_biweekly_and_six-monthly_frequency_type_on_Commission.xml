@@ -56,7 +56,7 @@
         <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
         <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
-        <Data AD_Column_ID="200" Column="Value">B</Data>
+        <Data AD_Column_ID="200" Column="Value">S</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
