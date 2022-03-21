@@ -48,6 +48,9 @@ import org.compiere.util.Util;
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/1080">
  * 		@see FR [ 1080 ] Commission: percentage definition not only as multiplier, but also as percentage</a>
+ *  @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, http://www.erpya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/3771">
+ * 		@see FR [ 3489 ] Support for biweekly and six-monthly frequency types in Commissions.</a>
  **/
 public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocOptions {
 
@@ -1598,9 +1601,25 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.YEAR, 1);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
-			
+			cal.add(Calendar.DAY_OF_YEAR, -1);
+		}
+		//	Six-monthly
+		else if (MCommission.FREQUENCYTYPE_Six_Monthly.equals(frequencyType)) {
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			int month = cal.get(Calendar.MONTH);
+			// first six-monthly
+			if (month <= Calendar.JUNE) {
+				cal.set(Calendar.MONTH, Calendar.JANUARY);
+				setStartDate(new Timestamp (cal.getTimeInMillis()));
+			}
+			// second six-monthly
+			else {
+				cal.set(Calendar.MONTH, Calendar.JULY);
+				setStartDate(new Timestamp (cal.getTimeInMillis()));
+			}
+			//
+			cal.add(Calendar.MONTH, 6);
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
 		//	Quarterly
 		else if (MCommission.FREQUENCYTYPE_Quarterly.equals(frequencyType)) {
@@ -1617,16 +1636,34 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 3);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
 		//	Weekly
 		else if (MCommission.FREQUENCYTYPE_Weekly.equals(frequencyType)) {
 			cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
-			cal.add(Calendar.DAY_OF_YEAR, 7); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, 7);
+		}
+		//	Biweekly
+		else if (MCommission.FREQUENCYTYPE_Biweekly.equals(frequencyType)) {
+			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+			// first biweekly
+			if (dayOfMonth <= 15) {
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				setStartDate(new Timestamp(cal.getTimeInMillis()));
+				//
+				cal.set(Calendar.DAY_OF_MONTH, 15);
+			}
+			// second biweekly
+			else {
+				cal.set(Calendar.DAY_OF_MONTH, 16);
+				setStartDate(new Timestamp(cal.getTimeInMillis()));
+				//
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				cal.add(Calendar.MONTH, 1);
+				cal.add(Calendar.DAY_OF_YEAR, -1);
+			}
 		}
 		//	Monthly
 		else {
@@ -1634,9 +1671,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 1);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
+		
+		setEndDate(new Timestamp(cal.getTimeInMillis()));
+		
 		log.fine("setStartEndDate = " + getStartDate() + " - " + getEndDate());
 	}	//	setStartEndDate
 	

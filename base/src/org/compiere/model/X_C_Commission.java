@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220321L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -334,6 +334,10 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public static final String FREQUENCYTYPE_Quarterly = "Q";
 	/** Yearly = Y */
 	public static final String FREQUENCYTYPE_Yearly = "Y";
+	/** Biweekly = B */
+	public static final String FREQUENCYTYPE_Biweekly = "B";
+	/** Six-monthly = S */
+	public static final String FREQUENCYTYPE_Six_Monthly = "S";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event

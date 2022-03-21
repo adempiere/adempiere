@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Support for biweekly and six-monthly frequency types in Commissions." ReleaseNo="3.9.4" SeqNo="9390">
+    <Comments>https://github.com/adempiere/adempiere/issues/3771</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="1000001" Table="AD_Ref_List">
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">1000001</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">225</Data>
+        <Data AD_Column_ID="564" Column="Created">2022-03-19 18:38:24.154</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="149" Column="Name">Biweekly</Data>
+        <Data AD_Column_ID="84390" Column="UUID">f1da8b7c-cd53-4546-8290-913df9fb031e</Data>
+        <Data AD_Column_ID="566" Column="Updated">2022-03-19 18:38:24.154</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="200" Column="Value">B</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="0" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">1000001</Data>
+        <Data AD_Column_ID="707" Column="Created">2022-03-19 18:38:24.388</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Quincenalmente</Data>
+        <Data AD_Column_ID="84391" Column="UUID">88728ffb-7574-4494-8df1-cff5ef0566a7</Data>
+        <Data AD_Column_ID="709" Column="Updated">2022-03-19 18:38:24.388</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="1000002" Table="AD_Ref_List">
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">1000002</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">225</Data>
+        <Data AD_Column_ID="564" Column="Created">2022-03-19 18:38:24.154</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="149" Column="Name">Six-monthly</Data>
+        <Data AD_Column_ID="84390" Column="UUID">9ac71ec5-1cbe-4b2e-bc37-b8a2a51da4d2</Data>
+        <Data AD_Column_ID="566" Column="Updated">2022-03-19 18:38:24.154</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="200" Column="Value">B</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="0" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">1000002</Data>
+        <Data AD_Column_ID="707" Column="Created">2022-03-19 18:38:24.388</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Semestralmente</Data>
+        <Data AD_Column_ID="84391" Column="UUID">2672e460-1119-4c39-b8de-16678700dc7c</Data>
+        <Data AD_Column_ID="709" Column="Updated">2022-03-19 18:38:24.388</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
