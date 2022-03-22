@@ -22,7 +22,6 @@ import java.sql.Timestamp;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
-import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellEditor;
 

@@ -21,8 +21,6 @@ import java.util.Properties;
 
 import org.compiere.util.Msg;
 
-import org.compiere.util.Msg;
-
 /**
  *	Payment Batch Model
  *	

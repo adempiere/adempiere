@@ -42,7 +42,6 @@ import javax.swing.table.DefaultTableModel;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MDocType;
 import org.compiere.model.MPriceList;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;

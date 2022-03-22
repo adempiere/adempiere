@@ -24,8 +24,6 @@ import java.util.Properties;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CommissionRun
  *  @author Adempiere (generated) 

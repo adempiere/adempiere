@@ -23,7 +23,6 @@ import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
 
-import org.compiere.apps.wf.WFIcon;
 import org.compiere.wf.MWFNode;
 
 /**

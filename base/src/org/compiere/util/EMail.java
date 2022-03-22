@@ -534,10 +534,13 @@ public final class EMail implements Serializable
 		//
 		Properties props = System.getProperties();
 		//	For Debug
-		if (CLogMgt.isLevelFinest())
+		if (CLogMgt.isLevelFinest()) {
 			props.put("mail.debug", "true");
+		}
 		//	Set Host
 		props.put("mail.host", host);
+		props.put("mail.store.protocol", getStringProtocol());
+		props.put("mail.transport.protocol", getStringProtocol());
 		//	SMTP
 		if(protocol.equals(MEMailConfig.PROTOCOL_SMTP)) {
 			//	Timeout
@@ -550,16 +553,15 @@ public final class EMail implements Serializable
 			}
 			//	Set Port
 			props.put("mail.smtp.port", String.valueOf(getPort()));
-			//	
-			if (isSmtpAuthorization && auth != null)		//	createAuthenticator was called
+			//	createAuthenticator was called
+			if (isSmtpAuthorization && auth != null) {
 				props.put("mail.smtp.auth", "true");
-			props.put("mail.store.protocol", getStringProtocol());
-			props.put("mail.transport.protocol", getStringProtocol());
+			}
 			//	Encryption Type
 			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
 				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL)) {
 					props.put("mail.smtp.ssl.enable", "true");
-				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS)) {
+				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS) || getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_STARTTLS)) {
 					props.put("mail.smtp.starttls.enable", "true");
 				}
 				//	
@@ -584,19 +586,17 @@ public final class EMail implements Serializable
 			if(timeout > 0) {
 				props.put("mail.imap.connectiontimeout", String.valueOf(connectionTimeout));
 			}
-			//	
-			if (auth != null) {		//	createAuthenticator was called
+			//	createAuthenticator was called
+			if (auth != null) {
 				props.put("mail.imap.auth", "true");
 			}
 			//	Set Port
 			props.put("mail.imap.port", String.valueOf(getPort()));
-			props.put("mail.store.protocol", getStringProtocol());
-			props.put("mail.transport.protocol", getStringProtocol());
 			//	Encryption Type
 			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
 				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL)) {
 					props.put("mail.imap.ssl.enable", "true");
-				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS)) {
+				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS) || getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_STARTTLS)) {
 					props.put("mail.imap.starttls.enable", "true");
 				}
 				//	

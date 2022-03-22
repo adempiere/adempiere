@@ -23,7 +23,6 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 /**
  * 	Enitity Type Model

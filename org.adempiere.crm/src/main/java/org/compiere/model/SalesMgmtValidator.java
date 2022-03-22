@@ -17,14 +17,6 @@ package org.compiere.model;
  *****************************************************************************/
 
 
-import java.math.BigDecimal;
-
-import org.compiere.model.MClient;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
-import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 
 

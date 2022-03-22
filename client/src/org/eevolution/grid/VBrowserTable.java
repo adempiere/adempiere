@@ -34,7 +34,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.model.I_AD_Browse_Field;
-import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.compiere.grid.ed.VCellRenderer;

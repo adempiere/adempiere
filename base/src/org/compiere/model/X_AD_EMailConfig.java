@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_EMailConfig
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220111L;
 
     /** Standard Constructor */
     public X_AD_EMailConfig (Properties ctx, int AD_EMailConfig_ID, String trxName)
@@ -169,6 +169,8 @@ public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persiste
 	public static final String ENCRYPTIONTYPE_SSL = "S";
 	/** TLS = T */
 	public static final String ENCRYPTIONTYPE_TLS = "T";
+	/** STARTTLS = R */
+	public static final String ENCRYPTIONTYPE_STARTTLS = "R";
 	/** Set Encryption Type.
 		@param EncryptionType 
 		Encryption Type used for securing data content

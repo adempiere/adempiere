@@ -23,7 +23,6 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
 import org.compiere.util.Env;
 import org.eevolution.model.I_PP_Order;
-import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MPPOrder;
 
 /**
