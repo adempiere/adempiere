@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 
 public class UniversalSubstitution extends SvrProcess {

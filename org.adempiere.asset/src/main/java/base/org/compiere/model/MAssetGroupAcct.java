@@ -21,7 +21,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.Query;
 import org.compiere.FA.feature.UseLife;
 import org.compiere.FA.feature.UseLifeImpl;
 

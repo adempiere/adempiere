@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.I_M_Production;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -30,7 +29,6 @@ import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
-import org.compiere.model.MInventory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
 import org.compiere.model.ProductCost;

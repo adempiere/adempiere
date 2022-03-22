@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.compiere.model.MClient;
@@ -33,12 +34,15 @@ import org.compiere.process.StateEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFProcess;
 import org.compiere.wf.MWFResponsible;
 import org.compiere.wf.MWorkflowProcessor;
 import org.compiere.wf.MWorkflowProcessorLog;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 
 /**
@@ -104,7 +108,6 @@ public class WorkflowProcessor extends AdempiereServer
 				+ " AND (wf.AD_WorkflowProcessor_ID IS NULL OR wf.AD_WorkflowProcessor_ID=?))";
 		PreparedStatement pstmt = null;
 		int count = 0;
-		int countEMails = 0;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -146,7 +149,6 @@ public class WorkflowProcessor extends AdempiereServer
 				+ " AND wfn.DynPriorityUnit IS NOT NULL AND wfn.DynPriorityChange IS NOT NULL)";
 		PreparedStatement pstmt = null;
 		int count = 0;
-		int countEMails = 0;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
@@ -354,15 +356,14 @@ public class WorkflowProcessor extends AdempiereServer
 		MWFProcess process = new MWFProcess (getCtx(), activity.getAD_WF_Process_ID(), null);
 
 		String subjectVar = activity.getNode().getName();
-		String message = activity.getTextMsg();
-		if (message == null || message.length() == 0)
-			message = process.getTextMsg();
-		File pdf = null; 
+		AtomicReference<String> message = new AtomicReference<String>(activity.getTextMsg());
+		if (message.get() == null || message.get().length() == 0)
+			message.set(process.getTextMsg());
+		AtomicReference<File> attachmentAsPDF = new AtomicReference<>();
 		PO po = activity.getPO();
-		if (po instanceof DocAction)
-		{
-			message = ((DocAction)po).getDocumentInfo() + "\n" + message;
-			pdf = ((DocAction)po).createPDF();
+		if (po instanceof DocAction) {
+			message.set(((DocAction)po).getDocumentInfo() + "\n" + message.get());
+			attachmentAsPDF.set(((DocAction)po).createPDF());
 		}
 		
 		//  Inactivity Alert: Workflow Activity {0}
@@ -374,45 +375,61 @@ public class WorkflowProcessor extends AdempiereServer
 		int counter = 0;
 		
 		//	To Activity Owner
-		if (m_client.sendEMail(activity.getAD_User_ID(), subject, message, pdf))
-			counter++;
+		counter++;
 		list.add (new Integer(activity.getAD_User_ID()));
 
 		//	To Process Owner
 		if (toProcess
-			&& process.getAD_User_ID() != activity.getAD_User_ID())
-		{
-			if (m_client.sendEMail(process.getAD_User_ID(), subject, message, pdf))
-				counter++;
+			&& process.getAD_User_ID() != activity.getAD_User_ID()) {
+			counter++;
 			list.add (new Integer(process.getAD_User_ID()));
 		}
 		
 		//	To Activity Responsible
 		MWFResponsible responsible = MWFResponsible.get(getCtx(), activity.getAD_WF_Responsible_ID());
 		counter += sendAlertToResponsible (responsible, list, process,
-			subject, message, pdf);
+			subject, message.get(), attachmentAsPDF.get(), po);
 		
 		//	To Process Responsible
 		if (toProcess
-			&& process.getAD_WF_Responsible_ID() != activity.getAD_WF_Responsible_ID())
-		{
+			&& process.getAD_WF_Responsible_ID() != activity.getAD_WF_Responsible_ID()) {
 			responsible = MWFResponsible.get(getCtx(), process.getAD_WF_Responsible_ID());
 			counter += sendAlertToResponsible (responsible, list, process,
-				subject, message, pdf);
+				subject, message.get(), attachmentAsPDF.get(), po);
 		}
 		
 		//	Processor SuperVisor
 		if (toSupervisor 
 			&& m_model.getSupervisor_ID() != 0
-			&& !list.contains(new Integer(m_model.getSupervisor_ID())))
-		{
-			if (m_client.sendEMail(m_model.getSupervisor_ID(), subject, message, pdf))
-				counter++;
+			&& !list.contains(new Integer(m_model.getSupervisor_ID()))) {
+			counter++;
 			list.add (new Integer(m_model.getSupervisor_ID()));
 		}
-
+		Trx.run(transactionName -> {
+			DefaultNotifier notifier = getDefaultNotifierInstance(transactionName);
+			notifier.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(subject)
+				.addAttachment(attachmentAsPDF.get())
+				.withDescription(message.get())
+				.withTableId(po.get_Table_ID())
+				.withRecordId(po.get_ID());
+			list.forEach(userId -> notifier.addRecipient(userId));
+			notifier.addToQueue();
+		});
 		return counter;
 	}   //  sendAlert
+	
+	/**
+	 * Get Default notifier
+	 * @param transactionName
+	 * @return
+	 */
+	private DefaultNotifier getDefaultNotifierInstance(String transactionName) {
+		return (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(transactionName);
+	}
 	
 	/**
 	 * 	Send Alert To Responsible
@@ -426,7 +443,7 @@ public class WorkflowProcessor extends AdempiereServer
 	 */
 	private int sendAlertToResponsible (MWFResponsible responsible, 
 		ArrayList<Integer> list, MWFProcess process,
-		String subject, String message, File pdf)
+		String subject, String message, File pdf, PO po)
 	{
 		int counter = 0;
 		if (responsible.isInvoker())
@@ -434,32 +451,25 @@ public class WorkflowProcessor extends AdempiereServer
 		//	Human
 		else if (MWFResponsible.RESPONSIBLETYPE_Human.equals(responsible.getResponsibleType())
 			&& responsible.getAD_User_ID() != 0
-			&& !list.contains(new Integer(responsible.getAD_User_ID())))
-		{
-			if (m_client.sendEMail(responsible.getAD_User_ID(), subject, message, pdf))
-				counter++;
+			&& !list.contains(new Integer(responsible.getAD_User_ID()))) {
+			counter++;
 			list.add (new Integer(responsible.getAD_User_ID()));
 		}
 		//	Org of the Document
-		else if (MWFResponsible.RESPONSIBLETYPE_Organization.equals(responsible.getResponsibleType()))
-		{
+		else if (MWFResponsible.RESPONSIBLETYPE_Organization.equals(responsible.getResponsibleType())) {
 			PO document = process.getPO();
-			if (document != null)
-			{
+			if (document != null) {
 				MOrgInfo org = MOrgInfo.get (getCtx(), document.getAD_Org_ID(), null);
 				if (org.getSupervisor_ID() != 0
-					&& !list.contains(new Integer(org.getSupervisor_ID())))
-				{
-					if (m_client.sendEMail(org.getSupervisor_ID(), subject, message, pdf))
-						counter++;
+					&& !list.contains(new Integer(org.getSupervisor_ID()))) {
+					counter++;
 					list.add (new Integer(org.getSupervisor_ID()));
 				}
 			}
 		}
 		//	Role
 		else if (MWFResponsible.RESPONSIBLETYPE_Role.equals(responsible.getResponsibleType())
-			&& responsible.getAD_Role_ID() != 0)
-		{
+			&& responsible.getAD_Role_ID() != 0) {
 			MUserRoles[] userRoles = MUserRoles.getOfRole(getCtx(), responsible.getAD_Role_ID());
 			for (int i = 0; i < userRoles.length; i++)
 			{
@@ -467,14 +477,28 @@ public class WorkflowProcessor extends AdempiereServer
 				if (!roles.isActive())
 					continue;
 				int AD_User_ID = roles.getAD_User_ID();
-				if (!list.contains(new Integer(AD_User_ID)))
-				{
-					if (m_client.sendEMail(AD_User_ID, subject, message, pdf))
-						counter++;
+				if (!list.contains(new Integer(AD_User_ID))) {
+					counter++;
 					list.add (new Integer(AD_User_ID));
 				}
 			}
 		}
+		//	Send
+		Trx.run(transactionName -> {
+			DefaultNotifier notifier = getDefaultNotifierInstance(transactionName);
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(subject)
+				.addAttachment(pdf)
+				.withDescription(message)
+				.withTableId(po.get_Table_ID())
+				.withRecordId(po.get_ID());
+			//	Add all recipients
+			list.forEach(userId -> notifier.addRecipient(userId));
+			//	Add to queue
+			notifier.addToQueue();
+		});
 		return counter;
 	}	//	sendAlertToResponsible
 	

@@ -35,7 +35,7 @@ public class EMailOAuth2Provider extends Provider {
 	 * Default Constructor
 	 */
 	public EMailOAuth2Provider() {
-		super("ADempiere OAuth2 Provider", 1.0,
+		super("ADempiere OAuth2 Provider", "1.0",
 	            "Provides the XOAUTH2 SASL Mechanism");
 	      put("SaslClientFactory.XOAUTH2",
 	          "org.adempiere.util.EMailOAuth2SaslFactory");

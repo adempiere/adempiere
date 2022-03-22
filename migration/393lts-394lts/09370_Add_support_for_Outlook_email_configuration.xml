@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support for Outllook email configuration" ReleaseNo="3.9.4" SeqNo="9370">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="1000000" Table="AD_Ref_List">
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">1000000</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53835</Data>
+        <Data AD_Column_ID="564" Column="Created">2022-01-11 11:14:17.891</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="149" Column="Name">STARTTLS</Data>
+        <Data AD_Column_ID="84390" Column="UUID">bdda6162-32f3-4262-99de-3619dfa67d21</Data>
+        <Data AD_Column_ID="566" Column="Updated">2022-01-11 11:14:17.891</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="200" Column="Value">R</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="0" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">1000000</Data>
+        <Data AD_Column_ID="707" Column="Created">2022-01-11 11:14:18.089</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="338" Column="Name">STARTTLS</Data>
+        <Data AD_Column_ID="84391" Column="UUID">b2dca53d-7569-4074-a800-c54083fbfb6d</Data>
+        <Data AD_Column_ID="709" Column="Updated">2022-01-11 11:14:18.089</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54127" Action="I" Record_ID="1000000" Table="AD_EMailConfig">
+        <Data AD_Column_ID="80497" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="80504" Column="AD_EMailConfig_ID">1000000</Data>
+        <Data AD_Column_ID="80498" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="80510" Column="AuthMechanism">L</Data>
+        <Data AD_Column_ID="80515" Column="ConnectionTimeout">0</Data>
+        <Data AD_Column_ID="80500" Column="Created">2022-01-11 11:20:49.133</Data>
+        <Data AD_Column_ID="80502" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="80511" Column="Description">SMTP microsoft server (Outlook.com, Hotmail, Live.com, Microsoft 365) configuration</Data>
+        <Data AD_Column_ID="80509" Column="EncryptionType">R</Data>
+        <Data AD_Column_ID="80499" Column="IsActive">true</Data>
+        <Data AD_Column_ID="80506" Column="IsSmtpAuthorization">true</Data>
+        <Data AD_Column_ID="80516" Column="LDAPDomain" isNewNull="true"/>
+        <Data AD_Column_ID="80505" Column="Name">Outlook (SMTP)</Data>
+        <Data AD_Column_ID="80508" Column="Port">587</Data>
+        <Data AD_Column_ID="80529" Column="Protocol">S</Data>
+        <Data AD_Column_ID="80507" Column="SMTPHost">smtp.office365.com</Data>
+        <Data AD_Column_ID="80514" Column="Timeout">0</Data>
+        <Data AD_Column_ID="84315" Column="UUID">bbb49405-cfbb-4182-9683-d1770d95a3b2</Data>
+        <Data AD_Column_ID="80501" Column="Updated">2022-01-11 11:20:49.133</Data>
+        <Data AD_Column_ID="80503" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
