@@ -735,7 +735,7 @@ public class MTree extends X_AD_Tree
 		getNodeDetails();
 		rootNode = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
 		//  The Node Loop
-		Try<Void> addToTree = DB.runResultSetFunction.apply(get_TrxName(), sql.toString(), parameters, resultSet -> {
+		Try<Void> addToTree = DB.runResultSetFunction.apply(get_TrxName(), sql.toString(), io.vavr.collection.List.ofAll(parameters), resultSet -> {
 			ResultSetIterable<Tuple4<Integer, Integer, Integer, String>> records = new ResultSetIterable<>(resultSet, row -> {
 				return Tuple.of(
 						row.getInt(1),
