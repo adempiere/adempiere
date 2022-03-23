@@ -126,6 +126,18 @@ public class CLogger extends Logger implements Serializable
 	}   //  saveError
 
 	/**
+	 *  Set and issue Error and save as ValueNamePair
+	 *  @param AD_Message message key
+	 *  @param  throwable Throwable
+	 *  @return true (to avoid removal of method)
+	 */
+	public boolean saveError (String AD_Message, Throwable throwable)
+	{
+		Env.getCtx().put(LAST_EXCEPTION, throwable);
+		return saveError (AD_Message, throwable.getLocalizedMessage(), true);
+	}   //  saveError
+
+	/**
 	 *  Set and issue (if specified) Error and save as ValueNamePair
 	 *  @param AD_Message message key
 	 *  @param ex exception 

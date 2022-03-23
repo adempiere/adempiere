@@ -17,11 +17,12 @@
 package org.compiere.util;
 
 import io.vavr.CheckedFunction1;
+import io.vavr.collection.List;
+import io.vavr.collection.Stream;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
-import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
@@ -85,7 +86,20 @@ public class ResultSetIterable<T> implements Iterable<T> {
     }
 
     //adding stream support based on iterable is easy
+    public Stream<T> asJavaStream() {
+        return Stream.ofAll(StreamSupport.stream(this.spliterator(), false));
+    }
+
+    //adding stream support based on iterable is easy
     public Stream<T> stream() {
-        return StreamSupport.stream(this.spliterator(), false);
+        return Stream.ofAll(asJavaStream());
+    }
+
+    public List<T> toList() {
+        return stream().toList();
+    }
+
+    public java.util.List<T>  asJavaList() {
+        return stream().toList().asJava();
     }
 }

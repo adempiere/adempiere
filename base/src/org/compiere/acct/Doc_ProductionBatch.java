@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.I_M_ProductionBatch;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MProductionBatch;

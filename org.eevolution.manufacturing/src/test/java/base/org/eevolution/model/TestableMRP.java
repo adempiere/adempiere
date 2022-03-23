@@ -25,10 +25,6 @@ import org.compiere.model.PO;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
-import org.eevolution.model.I_PP_MRP;
-import org.eevolution.model.I_PP_Product_Planning;
-import org.eevolution.model.MPPProductPlanning;
-import org.eevolution.model.X_PP_MRP;
 import org.eevolution.process.MRP;
 
 /**

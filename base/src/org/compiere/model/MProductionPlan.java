@@ -18,8 +18,6 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_M_ProductionPlan;
-
 /**
  * Contributed from Adaxa
  * @author Mario Calderon, mario.calderon@westfalia-it.com, Systemhaus Westfalia, http://www.westfalia-it.com

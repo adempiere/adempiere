@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Properties;
 
-import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.Env;

@@ -45,21 +45,31 @@ public class MRefList extends X_AD_Ref_List
 	 * 
 	 */
 	private static final long serialVersionUID = -6948532574960232289L;
-
-
+	static CCache<String , MRefList> referenceListCache = new CCache<>("MRefList", 50);
 	/**
 	 * 	Get Reference List 
 	 *	@param ctx context
-	 *	@param AD_Reference_ID reference
-	 *	@param Value value
+	 *	@param referenceId reference
+	 *	@param value value
 	 *	@param trxName transaction
 	 *	@return List or null
 	 */
-	public static MRefList get (Properties ctx, int AD_Reference_ID, String Value, String trxName)
+	public static MRefList get (Properties ctx, int referenceId, String value, String trxName)
 	{
-		return new Query(ctx, Table_Name, "AD_Reference_ID=? AND Value=?", trxName)
-					.setParameters(AD_Reference_ID, Value)
+		String key = referenceId + "-" + value;
+		MRefList referenceList = referenceListCache.get(key);
+		if (referenceList != null)
+			return referenceList;
+
+		referenceList = new Query(ctx, Table_Name, "AD_Reference_ID=? AND Value=?", trxName)
+					.setParameters(referenceId, value)
 					.firstOnly();
+		if (referenceList != null) {
+			referenceList.set_TrxName(null);
+			referenceListCache.put(key, referenceList);
+		}
+
+		return referenceList;
 	}	//	get
 
 	/**

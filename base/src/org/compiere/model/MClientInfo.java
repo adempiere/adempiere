@@ -16,15 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**

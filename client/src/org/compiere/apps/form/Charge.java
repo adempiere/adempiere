@@ -28,7 +28,6 @@ import org.compiere.model.MElementValue;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 /**

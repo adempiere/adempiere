@@ -36,7 +36,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import org.compiere.grid.ed.VNumber;
 import org.compiere.util.Env;
 
 

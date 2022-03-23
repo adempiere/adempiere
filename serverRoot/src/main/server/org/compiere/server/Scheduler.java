@@ -21,12 +21,12 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
-import org.compiere.model.MNote;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
@@ -42,6 +42,8 @@ import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.eevolution.service.dsl.ProcessBuilder;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 import it.sauronsoftware.cron4j.Predictor;
 import it.sauronsoftware.cron4j.SchedulingPattern;
@@ -159,10 +161,6 @@ public class Scheduler extends AdempiereServer
 		log.info(process.toString());
 		
 		boolean isReport = (process.isReport() || process.getAD_ReportView_ID() > 0);
-		
-		//	Process (see also MWFActivity.performWork
-		int AD_Table_ID = schedulerConfiguration.get_Table_ID();
-		int Record_ID = schedulerConfiguration.getRecord_ID();
 		//
 		ProcessBuilder builder = ProcessBuilder.create(getCtx())
 			.process(process.getAD_Process_ID())
@@ -179,89 +177,81 @@ public class Scheduler extends AdempiereServer
 		}
 		//	Get Process Info
 		ProcessInfo info = builder.getProcessInfo();
-		MUser from = new MUser(getCtx(), getAD_User_ID(), null);
 		if(info.isError()) {
 			// notify supervisor if error
 			int supervisor = schedulerConfiguration.getSupervisor_ID();
 			if (supervisor > 0) {
-				MUser user = new MUser(getCtx(), supervisor, null);
-				boolean email = user.isNotificationEMail();
-				boolean notice = user.isNotificationNote();
-				
-				if (email || notice) {
-					ProcessInfoUtil.setLogFromDB(info);
-				}
+				ProcessInfoUtil.setLogFromDB(info);
 				//	
-				if (email) {
-					MClient client = MClient.get(schedulerConfiguration.getCtx(), schedulerConfiguration.getAD_Client_ID());
-					client.sendEMail(from, user, process.getName(), info.getSummary() + " " + info.getLogInfo(), null);
-				}
-				if (notice) {
-					int AD_Message_ID = 442; // HARDCODED ProcessRunError
-					MNote note = new MNote(getCtx(), AD_Message_ID, supervisor, null);
-					note.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
-					note.setTextMsg(info.getSummary());
-					note.setRecord(MPInstance.Table_ID, info.getAD_PInstance_ID());
-					note.saveEx();
-				}
+				Trx.run(transactionName -> {
+					//	Get instance for notifier
+					DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+							.withContext(getCtx())
+							.withTransactionName(transactionName);
+					//	Send notification to queue
+					notifier
+						.clearMessage()
+						.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+						.withUserId(getAD_User_ID())
+						.addRecipient(supervisor)
+						.withText(info.getSummary() + " " + info.getLogInfo())
+						.withDescription(process.getName())
+						.withTableId(MPInstance.Table_ID)
+						.withRecordId(info.getAD_PInstance_ID());
+					//	Add to queue
+					notifier.addToQueue();
+				});
 			}
 		} else {
 			// notify recipients on success
 			Integer[] userIDs = schedulerConfiguration.getRecipientAD_User_IDs();
-			if (userIDs.length > 0) 
-			{
+			StringBuffer errorsSending = new StringBuffer();
+			if (userIDs.length > 0)  {
 				ProcessInfoUtil.setLogFromDB(info);
-				for (int i = 0; i < userIDs.length; i++)
-				{
-					MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
-					boolean email = user.isNotificationEMail();
-					boolean notice = user.isNotificationNote();
-					
-					File report = null;
+				Arrays.asList(userIDs).forEach(userId -> {
+					AtomicReference<File> report = new AtomicReference<File>();
 					if (isReport) {
 						//	Report
-						ReportEngine reportEngine = ReportEngine.get(schedulerContext, info);
-						if (reportEngine == null)
-							return "Cannot create Report AD_Process_ID=" + process.getAD_Process_ID()
-							+ " - " + process.getName();
-						report = reportEngine.getPDF();
-
-					}
-					
-					if (notice) {
-						int AD_Message_ID = 441; // ProcessOK
-						if (isReport)
-							AD_Message_ID = 884; //	HARDCODED SchedulerResult
-						MNote note = new MNote(getCtx(), AD_Message_ID, userIDs[i].intValue(), null);
-						note.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
-						if (isReport) {
-							note.setTextMsg(schedulerConfiguration.getName());
-							note.setDescription(schedulerConfiguration.getDescription());
-							note.setRecord(AD_Table_ID, Record_ID);
+						ReportEngine re = ReportEngine.get(getCtx(), info);
+						if (re != null) {
+							report.set(re.getPDF());
 						} else {
-							note.setTextMsg(info.getSummary());
-							note.setRecord(MPInstance.Table_ID, info.getAD_PInstance_ID());
-						}
-						note.saveEx();
-						if (isReport) {
-							//	Attachment
-							MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), null);
-							attachment.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
-							attachment.addEntry(report);
-							attachment.setTextMsg(schedulerConfiguration.getName());
-							attachment.saveEx();
+							if(errorsSending.length() > 0) {
+								errorsSending.append(Env.NL);
+							}
+							errorsSending.append("@Error@ " + process.getAD_Process_ID() + " - " + process.getName());
 						}
 					}
 					//	
-					if (email) {
-						MClient client = MClient.get(schedulerConfiguration.getCtx(), schedulerConfiguration.getAD_Client_ID());
+					Trx.run(transactionName -> {
+						//	Get instance for notifier
+						DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+								.withContext(getCtx())
+								.withTransactionName(transactionName);
+						//	Send notification to queue
+						notifier
+							.clearMessage()
+							.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+							.withUserId(getAD_User_ID())
+							.addRecipient(userId)
+							.addAttachment(report.get())
+							.withText(info.getSummary() + " " + info.getLogInfo())
+							.withDescription(process.getName())
+							.withTableId(schedulerConfiguration.getAD_Table_ID())
+							.withRecordId(schedulerConfiguration.getRecord_ID());
+						//	Change Subject and Text
 						if (isReport) {
-							client.sendEMail(from, user, schedulerConfiguration.getName(), schedulerConfiguration.getDescription(), report);
-						} else {
-							client.sendEMail(from, user, process.getName(), info.getSummary() + " " + info.getLogInfo(), null);
+							notifier
+								.withText(schedulerConfiguration.getDescription())
+								.withDescription(schedulerConfiguration.getName());
 						}
-					}
-					
+						//	Add to queue
+						notifier.addToQueue();
+					});
+				});
+				//	report all errors
+				if(errorsSending.length() > 0) {
+					info.setSummary(Optional.ofNullable(info.getSummary()).orElse("") + Env.NL + errorsSending.toString());
 				}
 			}
 		}

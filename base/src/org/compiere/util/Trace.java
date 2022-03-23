@@ -17,7 +17,6 @@
 package org.compiere.util;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import org.compiere.db.CConnectionDialog;
 

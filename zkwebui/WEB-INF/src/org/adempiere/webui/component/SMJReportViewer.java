@@ -10,8 +10,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.excel.SmjReportLogic;
 import org.adempiere.excel.SmjXlsReport;
 import org.adempiere.pdf.SmjPdfReport;
-import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.ZkReportViewer;
