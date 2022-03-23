@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Requisition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_M_Requisition 
 {
@@ -245,6 +245,19 @@ public interface I_M_Requisition
 	  * Document sequence number of the document
 	  */
 	public String getDocumentNo();
+
+    /** Column name GrandTotal */
+    public static final String COLUMNNAME_GrandTotal = "GrandTotal";
+
+	/** Set Grand Total.
+	  * Total amount of document
+	  */
+	public void setGrandTotal (BigDecimal GrandTotal);
+
+	/** Get Grand Total.
+	  * Total amount of document
+	  */
+	public BigDecimal getGrandTotal();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
