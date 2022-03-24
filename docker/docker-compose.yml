@@ -1,0 +1,33 @@
+version: "3.7"
+
+networks:
+  adempiere:
+
+volumes:
+  pgdata:
+
+services:
+  adempiere.db:
+    image: adempiere.db
+    volumes:
+      - "pgdata:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_PASSWORD=adempiere
+      - DB_NAME=adempiere
+      - ADEMPERE_PASSWORD=adempiere
+    networks:
+      - adempiere
+
+  adempiere.app:
+    image: adempiere.app
+    ports:
+      - "8888:8888"
+    environment:
+      - "ADEMPIERE_DB_HOST=adempiere.db"
+      - "ADEMPIERE_DB_NAME=adempiere"
+      - "ADEMPIERE_DB_PASSWORD=adempiere"
+      - "ADEMPIERE_DB_ADMIN_PASSWORD=adempiere"
+    depends_on:
+      - adempiere.db
+    networks:
+      - adempiere
