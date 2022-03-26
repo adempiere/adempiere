@@ -166,12 +166,14 @@ public class WProcessCtl extends Thread
 				+ "WHERE p.IsActive='Y'"
 				+ " AND i.AD_PInstance_ID=?";
 		//
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, 
+			pstmt = DB.prepareStatement(sql,
 				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
 			pstmt.setInt(1, m_pi.getAD_PInstance_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_pi.setTitle (rs.getString(1));
@@ -201,8 +203,7 @@ public class WProcessCtl extends Thread
 			}
 			else
 				log.log(Level.SEVERE, "No AD_PInstance_ID=" + m_pi.getAD_PInstance_ID());
-			rs.close();
-			pstmt.close();
+
 		}
 		catch (SQLException e)
 		{
@@ -210,6 +211,9 @@ public class WProcessCtl extends Thread
 			//unlock();
 			log.log(Level.SEVERE, "run", e);
 			return;
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  No PL/SQL Procedure
@@ -490,12 +494,12 @@ public class WProcessCtl extends Thread
 		//  execute on this thread/connection
 		log.fine(ProcedureName + "(" + m_pi.getAD_PInstance_ID() + ")");
 		String sql = "{call " + ProcedureName + "(?)}";
+		CallableStatement cstmt = null;
 		try
 		{
-			CallableStatement cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE,null);	//	ro??
+			cstmt = DB.prepareCall(sql, ResultSet.CONCUR_UPDATABLE,null);	//	ro??
 			cstmt.setInt(1, m_pi.getAD_PInstance_ID());
 			cstmt.executeUpdate();
-			cstmt.close();
 		}
 		catch (Exception e)
 		{
@@ -503,10 +507,10 @@ public class WProcessCtl extends Thread
 			m_pi.setSummary (Msg.getMsg(m_wscctx, "ProcessRunError") + " " + e.getLocalizedMessage());
 			m_pi.setError (true);
 			return false;
+		} finally {
+			DB.close(cstmt);
+			cstmt = null;
 		}
-	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;
 	}   //  startDBProcess
-
-	
 }	//	ProcessCtl

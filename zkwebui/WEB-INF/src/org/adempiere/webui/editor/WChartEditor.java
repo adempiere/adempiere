@@ -15,18 +15,12 @@ package org.adempiere.webui.editor;
 
 
 import java.awt.image.BufferedImage;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.util.logging.Level;
 
-import org.adempiere.apps.graph.GraphColumn;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.exceptions.ValueChangeEvent;
-import org.adempiere.webui.window.WImageDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MChart;
-import org.compiere.model.MImage;
 import org.compiere.model.MQuery;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -47,7 +41,6 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zul.Area;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Imagemap;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;

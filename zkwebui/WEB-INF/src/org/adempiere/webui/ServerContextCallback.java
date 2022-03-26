@@ -31,7 +31,7 @@ public class ServerContextCallback implements InvocationHandler, Serializable {
 	 */
 	private static final long serialVersionUID = 6708635918931322152L;
 
-	public Object invoke(Object proxy, Method method, Object[] args)
+	public synchronized Object invoke(Object proxy, Method method, Object[] args)
 			throws Throwable {
 		Properties context = ServerContext.getCurrentInstance();
 		//optimize for the 2 most common access

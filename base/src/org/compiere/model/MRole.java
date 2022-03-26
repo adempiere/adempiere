@@ -48,6 +48,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trace;
+import org.spin.model.X_AD_Dashboard_Access;
 
 /**
  *	Role Model.
@@ -122,26 +123,23 @@ public final class MRole extends X_AD_Role
 	/**
 	 * 	Get Role for User
 	 * 	@param ctx context
-	 * 	@param AD_Role_ID role
-	 * 	@param AD_User_ID user
+	 * 	@param roleId role
+	 * 	@param userId user
 	 * 	@param reload if true forces load
 	 *	@return role
 	 */
-	public static MRole get (Properties ctx, int AD_Role_ID, int AD_User_ID, boolean reload)
+	public static MRole get (Properties ctx, int roleId, int userId, boolean reload)
 	{
-		s_log.info("AD_Role_ID=" + AD_Role_ID + ", AD_User_ID=" + AD_User_ID + ", reload=" + reload);
-		String key = AD_Role_ID + "_" + AD_User_ID;
-		MRole role = (MRole)s_roles.get (key);
+		s_log.info("AD_Role_ID=" + roleId + ", AD_User_ID=" + userId + ", reload=" + reload);
+		String key = roleId + "_" + userId;
+		MRole role = s_roles.get (key);
 		if (role == null || reload)
 		{
-			role = new MRole (ctx, AD_Role_ID, null);
+			role = new Query(ctx, MRole.Table_Name , "AD_Role_ID=?", null)
+					.setParameters(roleId)
+					.first();
 			s_roles.put (key, role);
-			if (AD_Role_ID == 0)
-			{
-				String trxName = null;
-				role.load(trxName);			//	special Handling
-			}
-			role.setAD_User_ID(AD_User_ID);
+			role.setAD_User_ID(userId);
 			role.loadAccess(reload);
 			s_log.info(role.toString());
 		}
@@ -152,12 +150,12 @@ public final class MRole extends X_AD_Role
 	 * 	Get Role (cached).
 	 * 	Did not set user - so no access loaded
 	 * 	@param ctx context
-	 * 	@param AD_Role_ID role
+	 * 	@param roleId role
 	 *	@return role
 	 */
-	public static MRole get (Properties ctx, int AD_Role_ID)
+	public static MRole get (Properties ctx, int roleId)
 	{
-		return get(ctx, AD_Role_ID, Env.getAD_User_ID(ctx), false); // metas-2009_0021_AP1_G94 - we need to use this method because we need to load/reload all accesses
+		return get(ctx, roleId, Env.getAD_User_ID(ctx), false); // metas-2009_0021_AP1_G94 - we need to use this method because we need to load/reload all accesses
 		/* metas-2009_0021_AP1_G94
 		String key = String.valueOf(AD_Role_ID);
 		MRole role = (MRole)s_roles.get (key);
@@ -182,30 +180,10 @@ public final class MRole extends X_AD_Role
 	 */
 	public static MRole[] getOfClient (Properties ctx)
 	{
-		String sql = "SELECT * FROM AD_Role WHERE AD_Client_ID=?";
-		ArrayList<MRole> list = new ArrayList<MRole> ();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRole(ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MRole[] retValue = new MRole[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return new Query(ctx, MRole.Table_Name, "AD_Client_ID=?", null)
+				.setParameters(Env.getAD_Client_ID(ctx))
+				.<MRole>list()
+				.toArray(MRole[]::new);
 	}	//	getOfClient
 	
 	/**
@@ -216,31 +194,9 @@ public final class MRole extends X_AD_Role
 	 */
 	public static MRole[] getOf (Properties ctx, String whereClause)
 	{
-		String sql = "SELECT * FROM AD_Role";
-		if (whereClause != null && whereClause.length() > 0)
-			sql += " WHERE " + whereClause;
-		ArrayList<MRole> list = new ArrayList<MRole> ();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRole(ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MRole[] retValue = new MRole[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return new Query(ctx, MRole.Table_Name , whereClause , null)
+				.<MRole>list()
+				.toArray(MRole[]::new);
 	}	//	getOf
 		
 	/** Role/User Cache			*/
@@ -772,29 +728,16 @@ public final class MRole extends X_AD_Role
 	 */
 	private void loadOrgAccessUser(ArrayList<OrgAccess> list)
 	{
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_User_OrgAccess "
-			+ "WHERE AD_User_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_User_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MUserOrgAccess oa = new MUserOrgAccess(getCtx(), rs, get_TrxName()); 
-				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		List<MUserOrgAccess> userOrgAccesses = new Query(getCtx(), MUserOrgAccess.Table_Name, "AD_User_ID=?", null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_User_ID())
+				.list();
+
+		userOrgAccesses.forEach(userOrgAccess -> loadOrgAccessAdd(
+				list,
+				new OrgAccess(userOrgAccess.getAD_Client_ID(), userOrgAccess.getAD_Org_ID(), userOrgAccess.isReadOnly())
+				)
+		);
 	}	//	loadOrgAccessRole
 
 	/**
@@ -803,29 +746,15 @@ public final class MRole extends X_AD_Role
 	 */
 	private void loadOrgAccessRole(ArrayList<OrgAccess> list)
 	{
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Role_OrgAccess "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MRoleOrgAccess oa = new MRoleOrgAccess(getCtx(), rs, get_TrxName()); 
-				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		List<MRoleOrgAccess> roleOrgAccesses = new Query(getCtx(), MRoleOrgAccess.Table_Name , "AD_Role_ID=? ", null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.list();
+
+		roleOrgAccesses.forEach(roleOrgAccess -> loadOrgAccessAdd (
+				list,
+				new OrgAccess(roleOrgAccess.getAD_Client_ID(), roleOrgAccess.getAD_Org_ID(), roleOrgAccess.isReadOnly()))
+		);
 	}	//	loadOrgAccessRole
 	
 	/**
@@ -886,30 +815,14 @@ public final class MRole extends X_AD_Role
 	{
 		if (m_tableAccess != null && !reload)
 			return;
-		ArrayList<MTableAccess> list = new ArrayList<MTableAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Table_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MTableAccess(getCtx(), rs, get_TrxName())); 
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
-		m_tableAccess = new MTableAccess[list.size()];
-		list.toArray(m_tableAccess); 
-		log.fine("#" + m_tableAccess.length); 
+
+		m_tableAccess = new Query(getCtx(), MTableAccess.Table_Name , "AD_Role_ID=?" , null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.<MTableAccess>list()
+				.toArray(MTableAccess[]::new);
+
+		log.fine("#" + m_tableAccess.length);
 	}	//	loadTableAccess
 
 	/**
@@ -958,6 +871,7 @@ public final class MRole extends X_AD_Role
 		finally
 		{
 			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + m_tableAccessLevel.size()); 
 	}	//	loadTableAccessLevel
@@ -987,30 +901,14 @@ public final class MRole extends X_AD_Role
 	{
 		if (m_columnAccess != null && !reload)
 			return;
-		ArrayList<MColumnAccess> list = new ArrayList<MColumnAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Column_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MColumnAccess(getCtx(), rs, get_TrxName())); 
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
-		m_columnAccess = new MColumnAccess[list.size()];
-		list.toArray(m_columnAccess); 
-		log.fine("#" + m_columnAccess.length); 
+
+		m_columnAccess = new Query(getCtx() , MColumnAccess.Table_Name , "AD_Role_ID=?" , null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.<MColumnAccess>list()
+				.toArray(MColumnAccess[]::new);
+
+		log.fine("#" + m_columnAccess.length);
 	}	//	loadColumnAccess
 	
 	/**
@@ -1613,6 +1511,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			//
 			log.fine("#" + m_windowAccess.size());
@@ -1711,6 +1610,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_processAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1777,7 +1677,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_taskAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_taskAccess.put(rs.getInt(1), "Y".equals(rs.getString(2)));
 			}
 			catch (Exception e)
 			{
@@ -1786,6 +1686,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_taskAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1862,6 +1763,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_formAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1950,6 +1852,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null ; pstmt = null;
 			}
 		}	//	reload
 		
@@ -2035,11 +1938,11 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_workflowAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
-		Boolean retValue = m_workflowAccess.get(AD_Workflow_ID);
-		return retValue;
+		return m_workflowAccess.get(AD_Workflow_ID);
 	}	//	getTaskAccess
 
 	/**
@@ -2050,32 +1953,17 @@ public final class MRole extends X_AD_Role
 	public Boolean getDashboardAccess (int PA_DashboardContent_ID) {
 		if (m_dashboardAccess == null)
 		{
-			m_dashboardAccess = new HashMap<Integer, Boolean>(50);
-			
-			
-			String sql = "SELECT PA_DashboardContent_ID, IsActive FROM AD_Dashboard_Access WHERE AD_Role_ID=? AND IsActive='Y'" ;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getAD_Role_ID());
-				rs = pstmt.executeQuery();
-				while (rs.next())
-					m_dashboardAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-			}
+			m_dashboardAccess = new HashMap<>(50);
+
+			List<X_AD_Dashboard_Access> dashboardAccessList = new Query(getCtx() , X_AD_Dashboard_Access.Table_Name , "AD_Role_ID=? " , null )
+					.setOnlyActiveRecords(true)
+					.setParameters(getAD_Role_ID())
+					.list();
+
+			dashboardAccessList.forEach(dashboardAccess -> m_dashboardAccess.put(dashboardAccess.getPA_DashboardContent_ID() , dashboardAccess.isActive()));
 			mergeIncludedAccess("m_dashboardAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
-		Boolean retValue = m_dashboardAccess.get(PA_DashboardContent_ID) == null ? false : m_dashboardAccess.get(PA_DashboardContent_ID);
-		return retValue;
+		return m_dashboardAccess.get(PA_DashboardContent_ID) != null && m_dashboardAccess.get(PA_DashboardContent_ID);
 	}	//	getProcessAccess
 	
 	/*************************************************************************

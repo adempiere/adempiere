@@ -16,7 +16,6 @@
 package org.compiere.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import org.adempiere.test.CommonGWSetup;
 import org.junit.jupiter.api.Tag;

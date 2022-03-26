@@ -66,6 +66,9 @@ public class CallableStatementProxy extends PreparedStatementProxy {
         {
             log.log(Level.SEVERE, p_vo.getSql(), e);
             throw new DBException(e);
+        } finally {
+            DB.close(p_stmt);
+            p_stmt = null;
         }
     }
 }

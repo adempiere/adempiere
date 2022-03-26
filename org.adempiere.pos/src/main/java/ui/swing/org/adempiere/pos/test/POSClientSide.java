@@ -24,7 +24,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.net.Socket;
 import java.util.Properties;
 
@@ -40,9 +39,7 @@ import javax.swing.JTextArea;
 
 import org.compiere.model.MSysConfig;
 import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
-import org.zkoss.util.media.AMedia;
 
 
 /**

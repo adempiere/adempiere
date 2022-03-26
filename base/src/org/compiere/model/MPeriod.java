@@ -827,7 +827,7 @@ public class MPeriod extends X_C_Period
         
         if (calendarId == 0)
         {
-            MClientInfo cInfo = MClientInfo.get(ctx, clientId, trxName);
+            MClientInfo cInfo = MClientInfo.get(ctx, clientId);
             calendarId = cInfo.getC_Calendar_ID();
         }
         

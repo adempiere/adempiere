@@ -25,7 +25,6 @@ import org.compiere.model.MAcctProcessorLog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaProvider;
 import org.compiere.util.TimeUtil;
-import org.compiere.util.Trx;
 
 /**
  * Accounting Processor
@@ -118,10 +117,7 @@ public class AcctProcessor extends AdempiereServer {
                 new MAcctProcessorLog(getModel(), summary.toString());
         pLog.setReference("#" + p_runCount + " - " 
                 + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-        Trx.run(trxName -> {
-            pLog.set_TrxName(trxName);
-            pLog.saveEx();
-        });
+        pLog.saveEx();
 
     
     }

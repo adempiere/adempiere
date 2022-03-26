@@ -28,7 +28,6 @@ import org.compiere.model.MInventory;
 import org.compiere.model.MInventoryLine;
 import org.compiere.model.ProductCost;
 import org.compiere.util.Env;
-import org.eevolution.model.I_DD_Order;
 
 /**
  *  Post Inventory Documents.

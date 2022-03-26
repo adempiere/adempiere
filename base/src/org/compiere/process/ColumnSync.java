@@ -16,18 +16,10 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.compiere.model.MColumn;
-import org.compiere.model.MTable;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.ValueNamePair;
 
 /**
  *	Synchronize Column with Database

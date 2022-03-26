@@ -36,7 +36,6 @@ import org.compiere.model.MSystem;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
-import org.compiere.util.Trx;
 import org.compiere.wf.MWorkflowProcessor;
 import org.eevolution.model.MProjectProcessor;
 
@@ -202,12 +201,8 @@ public abstract class AdempiereServer extends Thread
 		p_runCount++;
 		m_runLastMS = now - p_startWork;
 		m_runTotalMS += m_runLastMS;
-		//
 		p_model.setDateLastRun(new Timestamp(now));
-		Trx.run(trxName -> {
-			p_model.set_TrxName(trxName);
-			p_model.saveEx();
-		});
+		p_model.saveEx();
 		//
 		log.fine(getName() + ": " + getStatistics());
 	}	//	runNow
@@ -306,10 +301,7 @@ public abstract class AdempiereServer extends Thread
 				p_model.setDateNextRun(new Timestamp(nextWork));
 			}
 
-			Trx.run( trxName -> {
-				p_model.set_TrxName(trxName);
 			p_model.saveEx();
-			});
 			//
 			log.fine(getName() + ": " + getStatistics());
 			if (!sleep())

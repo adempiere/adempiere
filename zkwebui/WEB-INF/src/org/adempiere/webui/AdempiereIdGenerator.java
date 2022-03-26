@@ -21,7 +21,6 @@ package org.adempiere.webui;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MSysConfig;
-import org.compiere.util.Env;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Page;

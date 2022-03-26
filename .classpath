@@ -87,11 +87,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/log4j.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/mail.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -370,7 +365,6 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/log4j-api-2.11.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-analyzers-common-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-backward-codecs-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-core-8.6.2.jar"/>
@@ -421,7 +415,6 @@
 	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
-	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
@@ -429,5 +422,10 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-1.2-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/vavr-1.0.0-alpha-4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

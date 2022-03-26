@@ -39,7 +39,6 @@ import org.compiere.model.MProductPO;
 import org.compiere.model.MRefList;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
-import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
