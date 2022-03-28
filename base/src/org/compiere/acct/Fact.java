@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
@@ -823,21 +824,43 @@ public final class Fact
 					factLine.setUser3_ID(distributionLine.getUser3_ID());
 				if(distributionLine.isOverwriteUser4())
 					factLine.setUser4_ID(distributionLine.getUser4_ID());
+
 				// F3P end
 
 				if (distributionLine.isInvertAccountSign()) {
-					if (distributionLine.getAmt() != null && distributionLine.getAmt().signum() < 0)
-						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
-					else
-						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
+					// Original document with inverse accounting sing
+					if (distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() <= 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() ,  null , distributionLine.getAmt().negate());
+					// Original document with inverse accounting sing with negative amount and positive quantity or positive amount and negative quantity
+					if (distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() > 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() ,  null , distributionLine.getAmt().negate());
+					// Reversal document with  inverse accounting sing
+					if (distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() > 0
+					||  distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() < 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() , null , distributionLine.getAmt().negate());
+					if (I_C_BankStatement.Table_ID == m_doc.get_Table_ID() && distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() == 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() ,   distributionLine.getAmt() , null);
+					else if (distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() == 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() ,  null , distributionLine.getAmt().negate());
 				}
 				else
 				{
-					if (distributionLine.getAmt() != null && distributionLine.getAmt().signum() < 0)
-						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
-					else
-						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
+					// Original document without  inverse accounting sing
+					if (distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() >= 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() , distributionLine.getAmt() ,null );
+					// Original document without inverse accounting sing with negative amount and positive quantity or positive amount and negative quantity
+					if (distributionLine.getAmt().signum() > 0 && distributionLine.getQty().signum() < 0
+					||	distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() > 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() ,  distributionLine.getAmt() , null);
+					// Reversal document without  inverse accounting sing
+					if (distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() < 0 )
+						factLine.setAmtSource(factLineSource.getC_Currency_ID(),  distributionLine.getAmt() , null );
+					if (I_C_BankStatement.Table_ID == m_doc.get_Table_ID() && distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() == 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() , null , distributionLine.getAmt().negate());
+					else if (distributionLine.getAmt().signum() < 0 && distributionLine.getQty().signum() == 0)
+						factLine.setAmtSource(factLineSource.getC_Currency_ID() , distributionLine.getAmt() , null);
 				}
+
 
 				factLine.setQty(distributionLine.getQty());
 				//  Convert
