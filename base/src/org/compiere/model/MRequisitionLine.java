@@ -39,6 +39,9 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 2609604 ] Add M_RequisitionLine.C_BPartner_ID
  * 			<li>FR [ 2841841 ] Requisition Improvements
  * 				https://sourceforge.net/tracker/?func=detail&aid=2841841&group_id=176962&atid=879335
+ *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
+ *			<>[Feature Request] Add tax functionality to the requisition #3737</>
+ *  		<li> https://github.com/adempiere/adempiere/issues/3737 </>	
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
@@ -146,22 +149,22 @@ public class MRequisitionLine extends X_M_RequisitionLine
 
 	/**
 	 * 	Parent Constructor
-	 *	@param req requisition
+	 *	@param requisition requisition
 	 */
-	public MRequisitionLine (MRequisition req)
+	public MRequisitionLine (MRequisition requisition)
 	{
-		this (req.getCtx(), 0, req.get_TrxName());
-		setClientOrg(req);
-		setM_Requisition_ID(req.getM_Requisition_ID());
-		m_M_PriceList_ID = req.getM_PriceList_ID();
-		m_parent = req;
+		this (requisition.getCtx(), 0, requisition.get_TrxName());
+		setClientOrg(requisition);
+		setM_Requisition_ID(requisition.getM_Requisition_ID());
+		priceListId = requisition.getM_PriceList_ID();
+		parent = requisition;
 	}	//	MRequisitionLine
 
 	/** Parent					*/
-	private MRequisition	m_parent = null;
+	private MRequisition parent = null;
 	
 	/**	PriceList				*/
-	private int 	m_M_PriceList_ID = 0;
+	private int priceListId = 0;
 	
 	/**
 	 * Get Ordered Qty
@@ -181,9 +184,9 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	 */
 	public MRequisition getParent()
 	{
-		if (m_parent == null)
-			m_parent = new MRequisition (getCtx(), getM_Requisition_ID(), get_TrxName());
-		return m_parent;
+		if (parent == null)
+			parent = new MRequisition (getCtx(), getM_Requisition_ID(), get_TrxName());
+		return parent;
 	}	//	getParent
 	
 	@Override
@@ -213,13 +216,13 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		}
 		if (getM_Product_ID() == 0)
 			return;
-		if (m_M_PriceList_ID == 0)
-			m_M_PriceList_ID = getParent().getM_PriceList_ID();
-		if (m_M_PriceList_ID == 0)
+		if (priceListId == 0)
+			priceListId = getParent().getM_PriceList_ID();
+		if (priceListId == 0)
 		{
 			throw new AdempiereException("PriceList unknown!");
 		}
-		setPrice (m_M_PriceList_ID);
+		setPrice (priceListId);
 	}	//	setPrice
 	
 	/**
@@ -281,24 +284,47 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		//
 		if (getPriceActual().signum() == 0)
 			setPrice();
+
+		//	Set Tax
+		if (getC_Tax_ID() == 0)
+			setTax();
+
+		if (getTaxAmt().compareTo(Env.ZERO) == 0)
+			setTaxAmt();
+
+		if (newRecord
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_Qty) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
+		) {
+			setTaxAmt();
+		}
+
 		setLineNetAmt();
 		return true;
 	}	//	beforeSave
-	
+
 	/**
-	 * 	After Save.
-	 * 	Update Total on Header
-	 *	@param newRecord if new record
-	 *	@param success save was success
-	 *	@return true if saved
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return saved
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
 			return success;
-		return updateHeader();
-	}	//	afterSave
+		if (newRecord
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_Qty) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MRequisitionLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
+		) {
+			setTaxAmt();
+			return updateHeaderTax();
+		}
 
+		return true;
+	}	//	afterSave
 	
 	/**
 	 * 	After Delete
@@ -325,16 +351,96 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	private boolean updateHeader()
 	{
 		log.fine("");
-		String sql = "UPDATE M_Requisition r"
+		final String sql = "UPDATE M_Requisition r"
 			+ " SET TotalLines="
 				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM M_RequisitionLine rl "
 				+ "WHERE r.M_Requisition_ID=rl.M_Requisition_ID) "
-			+ "WHERE M_Requisition_ID=?";
-		int no = DB.executeUpdateEx(sql, new Object[]{getM_Requisition_ID()}, get_TrxName());
+			+ "WHERE M_Requisition_ID = ?";
+		int no = DB.executeUpdateEx(sql, List.of(getM_Requisition_ID()).toArray(), get_TrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "Header update #" + no);
-		m_parent = null;
+		parent = null;
 		return no == 1;
 	}	//	updateHeader
-	
+
+	/**
+	 *	Set Tax
+	 *	@return true if tax is set
+	 */
+	public boolean setTax()  {
+		int taxId = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getParent().getDateDoc(), getParent().getDateDoc(),
+				getAD_Org_ID(), getParent().getM_Warehouse_ID(),
+				0,		//	should be bill to
+				0, false, get_TrxName());
+		if (taxId == 0)
+		{
+			log.log(Level.SEVERE, "No Tax found");
+			return false;
+		}
+		setC_Tax_ID (taxId);
+		return true;
+	}	//	setTax
+
+	/**
+	 * 	Calculate Tax Amt.
+	 * 	Assumes Line Net is calculated
+	 */
+	public void setTaxAmt ()
+	{
+		BigDecimal taxAmt = Env.ZERO;
+		if (getC_Tax_ID() == 0)
+			return;
+		//	setLineNetAmt();
+		MTax tax = MTax.get (getCtx(), getC_Tax_ID());
+		if (tax.isDocumentLevel())	{	//	AR Inv Tax
+			setLineTotalAmt(getLineNetAmt()); // @Trifon
+			return;
+		}
+		//
+		taxAmt = tax.calculateTax(getLineNetAmt(), getParent().isTaxIncluded(), getParent().getPrecision());
+		if (getParent().isTaxIncluded())
+			setLineTotalAmt(getLineNetAmt());
+		else
+			setLineTotalAmt(getLineNetAmt().add(taxAmt));
+		super.setTaxAmt (taxAmt);
+	}	//	setTaxAmt
+
+	/**
+	 *	Update Tax & Header
+	 *	@return true if header updated
+	 */
+	private boolean updateHeaderTax()
+	{
+		//	Recalculate Tax for this Tax
+		if (!getParent().isProcessed())
+			getParent().calculateTaxTotal();
+
+		//	Update Order Header
+		final String updateRequisitionTotalLines = "UPDATE M_Requisition r"
+				+ " SET TotalLines="
+				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM M_RequisitionLine rl WHERE r.M_Requisition_ID=rl.M_Requisition_ID) "
+				+ "WHERE M_Requisition_ID = ? ";
+		int no = DB.executeUpdateEx(updateRequisitionTotalLines, List.of(getM_Requisition_ID()).toArray(),get_TrxName());
+		if (no != 1)
+			log.warning("(1) #" + no);
+
+		if (getParent().isTaxIncluded()) {
+			final String updateRequisitionGrandTotal = "UPDATE M_Requisition r "
+					+ " SET GrandTotal=TotalLines "
+					+ "WHERE M_Requisition_ID = ? ";
+			no = DB.executeUpdateEx(updateRequisitionGrandTotal , List.of(getM_Requisition_ID()).toArray(), get_TrxName());
+		}
+		else {
+			final String updateRequisitionGrandTotal = "UPDATE M_Requisition r "
+					+ " SET GrandTotal=TotalLines+"
+					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM M_RequisitionTax rt WHERE rt.M_Requisition_ID=rt.M_Requisition_ID) "
+					+ "WHERE M_Requisition_ID = ? ";
+			no = DB.executeUpdateEx(updateRequisitionGrandTotal , List.of(getM_Requisition_ID()).toArray() , get_TrxName());
+		}
+		if (no != 1)
+			log.warning("(2) #" + no);
+		parent = null;
+		return no == 1;
+	}	//	updateHeaderTax
+
 }	//	MRequisitionLine

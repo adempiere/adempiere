@@ -5,8 +5,8 @@
         <driver>AdempiereSLib.jar</driver>
         <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
         <pool>
-            <min-pool-size>10</min-pool-size>
-            <max-pool-size>150</max-pool-size>
+            <min-pool-size>11</min-pool-size>
+            <max-pool-size>50</max-pool-size>
             <prefill>true</prefill>
         </pool>
         <security>
@@ -15,7 +15,33 @@
         </security>
         <validation>
             <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
-            <check-valid-connection-sql>/* ping */ SELECT Version FROM AD_System</check-valid-connection-sql>
+            <check-valid-connection-sql>SELECT Version FROM AD_System</check-valid-connection-sql>
+            <background-validation>true</background-validation>
+            <use-fast-fail>true</use-fast-fail>
+            <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
+        </validation>
+        <statement>
+            <prepared-statement-cache-size>64</prepared-statement-cache-size>
+            <share-prepared-statements>true</share-prepared-statements>
+        </statement>
+    </datasource>
+    <datasource jta="true" jndi-name="java:/AdempiereSRDS" pool-name="AdempiereSRDS" enabled="true" use-ccm="true" use-java-context="true">
+        <connection-url>@ADEMPIERE_DB_URL@</connection-url>
+        <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
+        <driver>AdempiereSLib.jar</driver>
+        <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+        <pool>
+            <min-pool-size>11</min-pool-size>
+            <max-pool-size>20</max-pool-size>
+            <prefill>true</prefill>
+        </pool>
+        <security>
+            <user-name>@ADEMPIERE_DB_NAME@</user-name>
+            <password>@ADEMPIERE_DB_PASSWORD@</password>
+        </security>
+        <validation>
+            <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"/>
+            <check-valid-connection-sql>SELECT Version FROM AD_System</check-valid-connection-sql>
             <background-validation>true</background-validation>
             <use-fast-fail>true</use-fast-fail>
             <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
