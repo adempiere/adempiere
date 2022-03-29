@@ -3,7 +3,6 @@
   <component name="CompilerConfiguration">
     <option name="BUILD_PROCESS_HEAP_SIZE" value="1700" />
     <excludeFromCompile>
-      <file url="file://$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/test/AdempiereTestCase.scala" />
     </excludeFromCompile>
     <wildcardResourcePatterns>
       <entry name="!?*.java" />

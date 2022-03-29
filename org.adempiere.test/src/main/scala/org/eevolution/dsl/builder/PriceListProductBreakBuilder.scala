@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Price List Product Break Builder allows create a Price List Product Break using a DSL
@@ -26,7 +26,7 @@ import org.eevolution.dsl._
   */
 object PriceListProductBreakBuilder {
 
-  def apply()(implicit context: Context , transaction: Transaction) = {
+  def apply()(implicit context: Context , transaction: Transaction): Builder[Mandatory, Mandatory, Optional, Mandatory, Optional, Optional, Optional] = {
       new Builder[Mandatory, Mandatory, Optional , Mandatory , Optional, Optional, Optional]()
   }
 
@@ -51,7 +51,7 @@ object PriceListProductBreakBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withPriceListVersion[PLV <: WithPriceListVersionTracking : IsMandatory] (plv: dsl.PriceListVersion) =
+    def withPriceListVersion[PLV <: WithPriceListVersionTracking : IsMandatory] (plv: dsl.PriceListVersion): Builder[Once, WithProductTracking, WithPartnerTracking, WithBreakValueTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
     copy[
       Once,
       WithProductTracking,
@@ -62,7 +62,7 @@ object PriceListProductBreakBuilder {
       WithPriceLimitAmountTracking
       ](priceListVersion = Some(plv))
 
-    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product) =
+    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product): Builder[WithPriceListVersionTracking, Once, WithPartnerTracking, WithBreakValueTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         Once,
@@ -73,7 +73,7 @@ object PriceListProductBreakBuilder {
         WithPriceLimitAmountTracking
         ](product = Some(p))
 
-    def withPartner[Partner<: WithPartnerTracking : IsMandatory] (bp: dsl.Partner) =
+    def withPartner[Partner<: WithPartnerTracking : IsMandatory] (bp: dsl.Partner): Builder[WithPriceListVersionTracking, WithProductTracking, Once, WithBreakValueTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -85,7 +85,7 @@ object PriceListProductBreakBuilder {
         ](partner = Some(bp))
 
 
-    def withBreakValue[BreakValue <: WithBreakValueTracking : IsMandatory] (bv: BigDecimal) =
+    def withBreakValue[BreakValue <: WithBreakValueTracking : IsMandatory] (bv: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPartnerTracking, Once, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -96,7 +96,7 @@ object PriceListProductBreakBuilder {
         WithPriceLimitAmountTracking
         ](breakValue = Some(bv))
 
-    def withPriceListAmount[PriceListAmount <: WithPriceListAmountTracking : IsMandatory] (list: BigDecimal) =
+    def withPriceListAmount[PriceListAmount <: WithPriceListAmountTracking : IsMandatory] (list: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPartnerTracking, WithBreakValueTracking, Once, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -107,7 +107,7 @@ object PriceListProductBreakBuilder {
         WithPriceLimitAmountTracking
         ](priceList = Some(list))
 
-    def withPriceStdAmount[PriceListStdAmount <: WithPriceStdAmountTracking : IsMandatory] (std: BigDecimal) =
+    def withPriceStdAmount[PriceListStdAmount <: WithPriceStdAmountTracking : IsMandatory] (std: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPartnerTracking, WithBreakValueTracking, WithPriceListAmountTracking, Once, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -118,7 +118,7 @@ object PriceListProductBreakBuilder {
         WithPriceLimitAmountTracking
         ](priceStd = Some(std))
 
-    def withPriceLimitAmount[PriceLimitAmount <: WithPriceLimitAmountTracking: IsMandatory] (limit: BigDecimal) =
+    def withPriceLimitAmount[PriceLimitAmount <: WithPriceLimitAmountTracking: IsMandatory] (limit: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPartnerTracking, WithBreakValueTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, Once] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,

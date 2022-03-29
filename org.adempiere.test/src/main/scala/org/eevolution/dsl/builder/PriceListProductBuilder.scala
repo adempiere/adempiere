@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Price List Product Builder allows create a Price List Product using a DSL
@@ -26,7 +26,7 @@ import org.eevolution.dsl._
   */
 object PriceListProductBuilder {
 
-  def apply()(implicit context: Context , transaction: Transaction) = {
+  def apply()(implicit context: Context , transaction: Transaction): Builder[Mandatory, Mandatory, Optional, Optional, Optional] = {
       new Builder[Mandatory, Mandatory, Optional, Optional, Optional]()
   }
 
@@ -47,7 +47,7 @@ object PriceListProductBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withPriceListVersion[PLV <: WithPriceListVersionTracking : IsMandatory] (plv: dsl.PriceListVersion) =
+    def withPriceListVersion[PLV <: WithPriceListVersionTracking : IsMandatory] (plv: dsl.PriceListVersion): Builder[Once, WithProductTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
     copy[
       Once,
       WithProductTracking,
@@ -56,7 +56,7 @@ object PriceListProductBuilder {
       WithPriceLimitAmountTracking
       ](priceListVersion = Some(plv))
 
-    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product) =
+    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product): Builder[WithPriceListVersionTracking, Once, WithPriceListAmountTracking, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         Once,
@@ -66,7 +66,7 @@ object PriceListProductBuilder {
         ](product = Some(p))
 
 
-    def withPriceListAmount[PriceListAmount <: WithPriceListAmountTracking : IsMandatory] (list: BigDecimal) =
+    def withPriceListAmount[PriceListAmount <: WithPriceListAmountTracking : IsMandatory] (list: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, Once, WithPriceStdAmountTracking, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -75,7 +75,7 @@ object PriceListProductBuilder {
         WithPriceLimitAmountTracking
         ](priceList = Some(list))
 
-    def withPriceStdAmount[PriceListStdAmount <: WithPriceStdAmountTracking : IsMandatory] (std: BigDecimal) =
+    def withPriceStdAmount[PriceListStdAmount <: WithPriceStdAmountTracking : IsMandatory] (std: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPriceListAmountTracking, Once, WithPriceLimitAmountTracking] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,
@@ -84,7 +84,7 @@ object PriceListProductBuilder {
         WithPriceLimitAmountTracking
         ](priceStd = Some(std))
 
-    def withPriceLimitAmount[PriceLimitAmount <: WithPriceLimitAmountTracking: IsMandatory] (limit: BigDecimal) =
+    def withPriceLimitAmount[PriceLimitAmount <: WithPriceLimitAmountTracking: IsMandatory] (limit: BigDecimal): Builder[WithPriceListVersionTracking, WithProductTracking, WithPriceListAmountTracking, WithPriceStdAmountTracking, Once] =
       copy[
         WithPriceListVersionTracking,
         WithProductTracking,

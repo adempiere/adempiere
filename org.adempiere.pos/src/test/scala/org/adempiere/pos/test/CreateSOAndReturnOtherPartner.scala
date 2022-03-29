@@ -16,28 +16,29 @@
 
 package org.adempiere.pos.test
 
-import org.compiere.model._
+import org.compiere.model.*
 import org.compiere.process.DocAction
 import org.eevolution.dsl.builder.PaymentBuilder
-
 import org.eevolution.service.dsl.ProcessBuilder
-import org.eevolution.services.{ProductService, PaymentService, SystemConfigService}
-import org.eevolution.test._
-import org.scalatest.{FeatureSpec, GivenWhenThen}
-import org.eevolution.dsl.{Order,Payment}
-import scala.collection.JavaConversions._
+import org.eevolution.services.{PaymentService, ProductService, SystemConfigService}
+import org.eevolution.test.*
+import org.scalatest.GivenWhenThen
+import org.scalatest.featurespec.AnyFeatureSpec
+import org.eevolution.dsl.{Order, Payment}
+
+import scala.jdk.CollectionConverters.*
 
 /**
   * Test to validate process of  Sales in POS
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 05/01/16.
   */
-class CreateSOAndReturnOtherPartner extends FeatureSpec
+class CreateSOAndReturnOtherPartner extends AnyFeatureSpec
 with AdempiereTestCase
 with GivenWhenThen
 with ProductService
 with PaymentService
 with SystemConfigService{
-  feature("Create a sales ticket and invoice next day on behalf of other business partner") {
+  Feature("Create a sales ticket and invoice next day on behalf of other business partner") {
     info("The customer Joe Block buy one Oak Trees and two Azalea Bush")
     info("The customer do not ask for an invoice so that the delivery is made using final consumer")
     info("The customer pays using his credit card for 50 % of sales ticket and the order pay 50% in cash")
@@ -50,12 +51,12 @@ with SystemConfigService{
     val TotalSales = { (OakPrice * 1)+(AzaleaPrice * 2) }
 
     //Functions for this scenario
-    scenario("Creating the sales order") {
+    Scenario("Creating the sales order") {
       val HQ = { Organization }
       val JoeBlock = { MBPartner.get(Context , "JoeBlock") }
       val Azalea = { getProductByValue("Azalea Bush") }
       val SalePriceList = { MPriceList.getDefault(Context, true) }
-      import X_C_DocType._
+      import X_C_DocType.*
       val AsWarehouseOrder = { DOCSUBTYPESO_WarehouseOrder }
       val HQWarehouse = { Warehouse }
       val QtyOak = { BigDecimal(1) }
