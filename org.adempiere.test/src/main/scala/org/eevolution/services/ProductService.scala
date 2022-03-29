@@ -17,9 +17,10 @@
 package org.eevolution.services
 
 import java.util.{ArrayList, List}
+import org.compiere.model.{I_C_UOM, I_M_Product, I_M_Product_Category, Query}
+import org.eevolution.dsl.*
 
-import org.compiere.model.{I_C_UOM, I_M_Product_Category, I_M_Product, Query}
-import org.eevolution.dsl._
+import java.util
 
 /**
  * Product Service
@@ -29,7 +30,7 @@ trait ProductService {
 
    def getProductByValue (value : String) (implicit context : Context, transaction : Transaction) : Product = {
      val whereClause: StringBuilder = new StringBuilder("IsStocked='Y' AND ProductType='I'")
-     val parameters:  List[Object] with Object = new ArrayList[Object]()
+     val parameters:  util.List[Object] with Object = new util.ArrayList[Object]()
 
      if (value != null) {
        whereClause.append(" AND ").append(I_M_Product.COLUMNNAME_Value).append("=?")
@@ -42,26 +43,26 @@ trait ProductService {
      product
    }
 
-  def getProductCategoryByValue (value : String) (implicit context : Context, transaction : Transaction) : ProductCategory = {
-    val whereClause: StringBuilder = new StringBuilder()
-    val parameters:  List[Object] with Object = new ArrayList[Object]()
+    def getProductCategoryByValue (value : String) (implicit context : Context, transaction : Transaction) : ProductCategory = {
+      val whereClause: StringBuilder = new StringBuilder()
+      val parameters:  util.List[Object] with Object = new util.ArrayList[Object]()
 
-    if (value != null) {
-      whereClause.append(I_M_Product_Category.COLUMNNAME_Value).append("=?")
-      parameters.add(value)
+      if (value != null) {
+        whereClause.append(I_M_Product_Category.COLUMNNAME_Value).append("=?")
+        parameters.add(value)
+      }
+
+      val product : ProductCategory =  new Query(context, I_M_Product_Category.Table_Name, whereClause.toString(), transaction.getTrxName)
+        .setClient_ID()
+        .setParameters(parameters).first()
+      product
     }
 
-    val product : ProductCategory =  new Query(context, I_M_Product_Category.Table_Name, whereClause.toString(), transaction.getTrxName)
-      .setClient_ID()
-      .setParameters(parameters).first()
-    product
-  }
-
-  def getUOMByCode(symbol : String)(implicit context : Context, transaction : Transaction) : UOM = {
-    val whereClause: StringBuilder = new StringBuilder()
-      whereClause.append(I_C_UOM.COLUMNNAME_UOMSymbol).append("=?")
-    val uom : UOM =  new Query(context, I_C_UOM.Table_Name, whereClause.toString(), transaction.getTrxName)
-      .setParameters(symbol).first()
-    uom
-  }
+    def getUOMByCode(symbol : String)(implicit context : Context, transaction : Transaction) : UOM = {
+      val whereClause: StringBuilder = new StringBuilder()
+        whereClause.append(I_C_UOM.COLUMNNAME_UOMSymbol).append("=?")
+      val uom : UOM =  new Query(context, I_C_UOM.Table_Name, whereClause.toString(), transaction.getTrxName)
+        .setParameters(symbol).first()
+      uom
+    }
 }

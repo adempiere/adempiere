@@ -17,7 +17,6 @@
 package org.compiere.model;
 
 import java.awt.Color;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,9 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import javax.sql.RowSet;
 
+
+import io.vavr.Tuple;
+import io.vavr.Tuple4;
+import io.vavr.control.Try;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.print.MPrintColor;
 import org.compiere.util.CCache;
@@ -37,6 +39,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.ResultSetIterable;
 import org.compiere.util.Util;
 
 /**
@@ -519,17 +522,19 @@ public class MTree extends X_AD_Tree
 	/**
 	 * 	Update Trees
 	 *	@param treeType tree type
-	 *	@param AD_Table_ID table
+	 *	@param tableId table
 	 *	@return true if no error
 	 */
-	private boolean updateTrees(String treeType, int AD_Table_ID)
+	private boolean updateTrees(String treeType, int tableId)
 	{
-		if (AD_Table_ID == 0)
+		if (tableId == 0)
 			return true;
-		StringBuffer sb = new StringBuffer("UPDATE AD_Tree SET AD_Table_ID=")
-			.append (AD_Table_ID)
-			.append (" WHERE TreeType='").append (treeType).append ("' AND AD_Table_ID IS NULL");
-		int no = DB.executeUpdate(sb.toString(), get_TrxName());
+		StringBuilder sb = new StringBuilder("UPDATE AD_Tree SET AD_Table_ID=?")
+			.append (" WHERE TreeType=?").append (" AND AD_Table_ID IS NULL");
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(tableId);
+		parameters.add(treeType);
+		int no = DB.executeUpdateEx(sb.toString() , parameters.toArray() , get_TrxName());
 		log.fine (treeType + " #" + no);
 		return no >= 0;
 	}	//	updateTrees
@@ -696,74 +701,63 @@ public class MTree extends X_AD_Tree
 	 * 	@param whereClause
 	 */
 	private void loadNodes (int userId, String whereClause) {
+		List<Object> parameters = new ArrayList<>();
 		String fromClause = getSourceTableName();
 		//  SQL for TreeNodes
-		StringBuffer sql = new StringBuffer("SELECT "
-			+ "tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive "
-			+ "FROM ").append(getNodeTableName()).append(" tn ")
-			.append("LEFT JOIN ")
+		StringBuilder sql = new StringBuilder("SELECT tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive FROM ")
+				.append(getNodeTableName())
+				.append(" tn ")
+				.append("LEFT JOIN ")
 				.append(fromClause).append(" ON(")
-					.append(fromClause).append(".").append(fromClause + "_ID").append(" = tn.Node_ID) ")
-			//
-			.append(" LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
-			+ " AND tn.Node_ID=tb.Node_ID "
-			+ (userId != -1 ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
-			+ ") "
-			+ "WHERE tn.AD_Tree_ID=?");								//	#2
-		if (!isTreeEditable)
-			sql.append(" AND tn.IsActive='Y'");
+				.append(fromClause).append(".").append(fromClause).append("_ID").append(" = tn.Node_ID) ")
+				.append(" LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID AND tn.Node_ID=tb.Node_ID ")
+				.append(userId != -1 ? " AND tb.AD_User_ID=? " : "").append(") ").append("WHERE tn.AD_Tree_ID=?");								//	#2
+		if (userId != -1) {
+			parameters.add(userId);
+		}
+		parameters.add(getAD_Tree_ID());
+		if (!isTreeEditable) {
+			sql.append(" AND tn.IsActive=?");
+			parameters.add(true);
+		}
 		//	Add GridTab Where Class
 		if(whereClause != null
 				&& whereClause.length() > 0)
 			sql.append(" AND ").append(whereClause);
 		//	End Yamel Senih
-		
+
 		//suppress duplicated items
 		sql.append(" GROUP BY tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive ");
-				
 		sql.append(" ORDER BY COALESCE(tn.Parent_ID, -1), tn.SeqNo");
 		log.finest(sql.toString());
+
+		// load Node details - addToTree -> getNodeDetail
+		getNodeDetails();
+		rootNode = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
 		//  The Node Loop
-		try
-		{
-			// load Node details - addToTree -> getNodeDetail
-			getNodeDetails(); 
-			//
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			int idx = 1;
-			if (userId != -1)
-				pstmt.setInt(idx++, userId);
-			pstmt.setInt(idx++, getAD_Tree_ID());
-			//	Get Tree & Bar
-			ResultSet rs = pstmt.executeQuery();
-			rootNode = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
-			while (rs.next())
-			{
-				int node_ID = rs.getInt(1);
-				int parent_ID = rs.getInt(2);
-				int seqNo = rs.getInt(3);
-				boolean onBar = (rs.getString(4) != null);
-				//
-				if (node_ID == 0 && parent_ID == 0)
-					;
-				else
-					addToTree (node_ID, parent_ID, seqNo, onBar);	//	calls getNodeDetail
-			}
-			rs.close();
-			pstmt.close();
-			//
-			//closing the rowset will also close connection for oracle rowset implementation
-			//nodeRowSet.close();
+		Try<Void> addToTree = DB.runResultSetFunction.apply(get_TrxName(), sql.toString(), io.vavr.collection.List.ofAll(parameters), resultSet -> {
+			ResultSetIterable<Tuple4<Integer, Integer, Integer, String>> records = new ResultSetIterable<>(resultSet, row -> {
+				return Tuple.of(
+						row.getInt(1),
+						row.getInt(2),
+						row.getInt(3),
+						row.getString(4));
+			});
+			records.stream()
+			// Node_ID != 0 || Parent_ID Id != 0
+			.filter(node -> node._1  != 0 || node._2 != 0)
+			// addToTree (Node_ID , Parent_ID , SeqNo , IsActive)
+			.forEach(node -> addToTree(node._1, node._2, node._3, node._4 != null));
+		}).andFinally(() -> {
 			nodeRowSet = null;
 			nodeIdMap = null;
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-			nodeRowSet = null;
-			nodeIdMap = null;
-		}
-			
+		}).onFailure(throwable -> {
+			log.log(Level.SEVERE, sql.toString(), throwable);
+		});
+
+		if (addToTree.isFailure())
+			return;
+
 		//  Done with loading - add remainder from buffer
 		if (treeNodes.size() != 0)
 		{
@@ -935,7 +929,7 @@ public class MTree extends X_AD_Tree
 	 */
 	private void getNodeDetails () {
 		//  SQL for Node Info
-		StringBuffer sqlNode = new StringBuffer();
+		StringBuilder sqlNode = new StringBuilder();
 		String sourceTable = "t";
 		String fromClause = getSourceTableName();
 		String color = getActionColorName();
@@ -1197,7 +1191,7 @@ public class MTree extends X_AD_Tree
 		int count = 0;
 		while (en.hasMoreElements())
 		{
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			MTreeNode nd = (MTreeNode)en.nextElement();
 			for (int i = 0; i < nd.getLevel(); i++)
 				sb.append(" ");
@@ -1252,7 +1246,7 @@ public class MTree extends X_AD_Tree
 	 */
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("MTree[");
+		StringBuilder sb = new StringBuilder("MTree[");
 		sb.append("AD_Tree_ID=").append(getAD_Tree_ID())
 			.append(", Name=").append(getName());
 		sb.append("]");

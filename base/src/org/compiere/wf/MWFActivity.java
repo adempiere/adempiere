@@ -28,6 +28,7 @@ import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
@@ -38,7 +39,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_Process;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MMailText;
@@ -66,6 +66,8 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Workflow Activity Model.
@@ -239,8 +241,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	private String				m_newValue = null;
 	/** Process						*/
 	private MWFProcess 			m_process = null;
-	/** List of email recipients	*/
-	private ArrayList<String> 	m_emails = new ArrayList<String>();
 
 	/**************************************************************************
 	 * 	Get State
@@ -961,7 +961,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				throw new Exception("@WFA.PO@ @NotFound@ - @AD_Table_ID@ = " 
 						+ (table != null? table.getTableName(): getAD_Table_ID()) + ", @Record_ID@ = " + getRecord_ID());
 			}
-			m_emails = new ArrayList<String>();
 			//	Send EMail
 			sendEMail();
 			return true;	//	done
@@ -1213,30 +1212,23 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			}
 			// Send Approval Notification
 			if (newState.equals(StateEngine.STATE_Aborted)) {
-				MUser to = new MUser(getCtx(), doc.getDoc_User_ID(), null);
-				
-				// send email
-				if (to.isNotificationEMail()) {
-					MClient client = MClient.get(getCtx(), doc.getAD_Client_ID());
-					client.sendEMail(doc.getDoc_User_ID(), Msg.getMsg(getCtx(), "NotApproved")
-							+ ": " + doc.getDocumentNo(), 
-							(doc.getSummary() != null ? doc.getSummary() + Env.NL : "" )
+				//	Get instance for notifier
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(Env.getCtx())
+						.withTransactionName(trx.getTrxName());
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+					.addRecipient(doc.getDoc_User_ID())
+					.withText((doc.getSummary() != null ? doc.getSummary() + Env.NL : "" )
 							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + Env.NL : "") 
-							+ (getTextMsg() != null ? getTextMsg() : ""), null);
-				}
-
-				// Send Note
-				if (to.isNotificationNote()) {
-					MNote note = new MNote(getCtx(), "NotApproved", doc.getDoc_User_ID(), null);
-					note.setTextMsg((doc.getSummary() != null ? doc.getSummary() + Env.NL : "" )
-							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + Env.NL : "") 
-							+ (getTextMsg() != null ? getTextMsg() : ""));
-					// 2007-06-08, matthiasO.
-					// Add record information to the note, so that the user receiving the
-					// note can jump to the doc easily
-					note.setRecord(m_po.get_Table_ID(), m_po.get_ID());
-					note.saveEx();
-				}
+							+ (getTextMsg() != null ? getTextMsg() : ""))
+					.withDescription(Msg.getMsg(getCtx(), "NotApproved") + ": " + doc.getDocumentNo())
+					.withTableId(m_po.get_Table_ID())
+					.withRecordId(m_po.get_ID());
+				//	Add to queue
+				notifier.addToQueue();
 			}
 		}
 		setWFState (newState);
@@ -1462,16 +1454,13 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		String message = text.getMailText(true)
 			+ Env.NL + "-----" + Env.NL + documentInfo
 			+ Env.NL + documentSummary;
-		//
-		MClient client = MClient.get(m_po.getCtx(), m_po.getAD_Client_ID());
-		
 		//	Explicit EMail
-		sendEMail(client, 0, m_node.getEMail(), subject, message, pdf, text.isHtml());
+		sendNotification(0, m_node.getEMail(), subject, message, pdf);
 		//	Recipient Type
 		String recipient = m_node.getEMailRecipient();
 		//	email to document user
 		if (recipient == null || recipient.length() == 0)
-			sendEMail(client, userId, null, subject, message, pdf, text.isHtml()); 
+			sendNotification(userId, null, subject, message, pdf); 
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentBusinessPartner))
 		{
 			int index = m_po.get_ColumnIndex("AD_User_ID");
@@ -1482,7 +1471,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				{
 					int AD_User_ID = ((Integer)oo).intValue();
 					if (AD_User_ID != 0)
-						sendEMail(client, AD_User_ID, null, subject, message, pdf, text.isHtml());
+						sendNotification(AD_User_ID, null, subject, message, pdf);
 					else
 						log.fine("No User in Document");
 				}
@@ -1493,27 +1482,28 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				log.fine("No User Field in Document");
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_DocumentOwner))
-			sendEMail(client, userId, null, subject, message, pdf, text.isHtml());
+			sendNotification(userId, null, subject, message, pdf);
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfDocumentOwner) && userId > 0) {
 			MUser documentUser = new MUser(getCtx() , userId, get_TrxName());
 			if (documentUser.getSupervisor_ID() > 0 )
-				sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+				sendNotification(documentUser.getSupervisor_ID(), null, subject, message, pdf);
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_WFResponsible))
 		{
 			MWFResponsible resp = getResponsible();
 			if (resp.isInvoker())
-				sendEMail(client, userId, null, subject, message, pdf, text.isHtml()); 
+				sendNotification(userId, null, subject, message, pdf); 
 			else if (resp.isHuman())
-				sendEMail(client, resp.getAD_User_ID(), null, subject, message, pdf, text.isHtml()); 
+				sendNotification(resp.getAD_User_ID(), null, subject, message, pdf); 
 			else if (resp.isRole())
 			{
 				MRole role = resp.getRole();
 				if (role != null)
 				{
 					MUser[] users = MUser.getWithRole(role);
-					for (int i = 0; i < users.length; i++)
-						sendEMail(client, users[i].getAD_User_ID(), null, subject, message, pdf, text.isHtml()); 
+					for (int i = 0; i < users.length; i++) {
+						sendNotification(users[i].getAD_User_ID(), null, subject, message, pdf); 
+					}
 				}
 			}
 			else if (resp.isOrganization())
@@ -1522,7 +1512,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				if (org.getSupervisor_ID() == 0)
 					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
 				else
-					sendEMail(client, org.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+					sendNotification(org.getSupervisor_ID(), null, subject, message, pdf);
 			}
 		}
 		else if (recipient.equals(MWFNode.EMAILRECIPIENT_SupervisorOfWFResponsible))
@@ -1531,13 +1521,13 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			if (resp.isInvoker()) {
 				MUser documentUser = new MUser(getCtx() , userId, get_TrxName());
 				if (documentUser.getSupervisor_ID() > 0)
-					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+					sendNotification(documentUser.getSupervisor_ID(), null, subject, message, pdf);
 
 			}
 			else if (resp.isHuman()) {
 				MUser documentUser = new MUser(getCtx() , resp.getAD_User_ID() , get_TrxName());
 				if (documentUser.getSupervisor_ID() > 0)
-					sendEMail(client, documentUser.getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+					sendNotification(documentUser.getSupervisor_ID(), null, subject, message, pdf);
 			}
 			else if (resp.isRole())
 			{
@@ -1547,7 +1537,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					MUser[] users = MUser.getWithRole(role);
 					for (int i = 0; i < users.length; i++) {
 						if (users[i].getSupervisor_ID() > 0) {
-							sendEMail(client, users[i].getSupervisor_ID(), null, subject, message, pdf, text.isHtml());
+							sendNotification(users[i].getSupervisor_ID(), null, subject, message, pdf);
 						}
 					}
 				}
@@ -1560,7 +1550,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				else {
 					MUser user = new MUser(getCtx() , org.getSupervisor_ID() , get_TrxName());
 					if (user.getSupervisor_ID() > 0)
-						sendEMail(client, user.getSupervisor_ID() , null, subject, message, pdf, text.isHtml());
+						sendNotification(user.getSupervisor_ID() , null, subject, message, pdf);
 				}
 			}
 		}
@@ -1568,60 +1558,54 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	
 	/**
 	 * 	Send actual EMail
-	 *	@param client client
-	 *	@param AD_User_ID user
+	 *	@param userId user
 	 *	@param email email string
 	 *	@param subject subject
 	 *	@param message message
 	 *	@param pdf attachment
-	 *  @param  isHtml isHtml
 	 */
-	private void sendEMail (MClient client, int AD_User_ID, String email,
-		String subject, String message, File pdf, boolean isHtml)
-	{
-		if (AD_User_ID != 0)
-		{
-			MUser user = MUser.get(getCtx(), AD_User_ID);
-			email = user.getEMail();
-			if (email != null && email.length() > 0)
-			{
-				email = email.trim();
-				if (!m_emails.contains(email))
-				{
-					client.sendEMail(null, user, subject, message, pdf,isHtml);
-					m_emails.add(email);
+	private void sendNotification (int userId, String email,
+		String subject, String message, File pdf) {
+		//	Get instance for notifier
+		Trx.run(transactionName -> {
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(Env.getCtx())
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(message)
+				.addAttachment(pdf)
+				.withDescription(subject)
+				.withTableId(m_po.get_Table_ID())
+				.withRecordId(m_po.get_ID());
+			//	For user
+			if (userId != 0) {
+				notifier.addRecipient(userId);
+			} else if (email != null && email.length() > 0) {
+				//	Only EMail
+				notifier.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail);
+				//	Just one
+				if (email.indexOf(' ') == -1
+						&& email.indexOf(',') == -1
+						&& email.indexOf(';') == -1) {
+					notifier.addRecipient(email);
+				}
+				//	Multiple EMail
+				StringTokenizer st = new StringTokenizer(email, " ,;");
+				while (st.hasMoreTokens()) {
+					String email1 = st.nextToken().trim();
+					if (email1.length() == 0) {
+						continue;
+					}
+					//	Add
+					notifier.addRecipient(email1);
 				}
 			}
-			else
-				log.info("No EMail for User " + user.getName());
-		}
-		else if (email != null && email.length() > 0)
-		{
-			//	Just one
-			if (email.indexOf(';') == -1)
-			{
-				email = email.trim();
-				if (!m_emails.contains(email))
-				{
-					client.sendEMail(email, subject, message, pdf, isHtml);
-					m_emails.add(email);
-				}
-				return;
-			}
-			//	Multiple EMail
-			StringTokenizer st = new StringTokenizer(email, ";");
-			while (st.hasMoreTokens())
-			{
-				String email1 = st.nextToken().trim();
-				if (email1.length() == 0)
-					continue;
-				if (!m_emails.contains(email1))
-				{
-					client.sendEMail(email1, subject, message, pdf, isHtml);
-					m_emails.add(email1);
-				}
-			}
-		}
+			//	Add to queue
+			notifier.addToQueue();
+		});
 	}	//	sendEMail
 	
 	/**************************************************************************
@@ -1632,20 +1616,17 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.DateTime);
 		StringBuffer sb = new StringBuffer();
-		MWFEventAudit[] events = MWFEventAudit.get(getCtx(), getAD_WF_Process_ID(), get_TrxName());
-		for (int i = 0; i < events.length; i++)
-		{
-			MWFEventAudit audit = events[i];
-		//	sb.append("<p style=\"width:400\">");
+		Arrays.asList(MWFEventAudit.get(getCtx(), getAD_WF_Process_ID(), get_TrxName())).forEach(event -> {
 			sb.append("<p>");
-			sb.append(format.format(audit.getCreated()))
+			sb.append(format.format(event.getCreated()))
 				.append(" ")
-				.append(getHTMLpart("b", audit.getNodeName()))
+				.append(getHTMLpart("b", event.getNodeName()))
 				.append(": ")
-				.append(getHTMLpart(null, audit.getDescription()))
-				.append(getHTMLpart("i", audit.getTextMsg()));
+				.append(getHTMLpart(null, event.getDescription()))
+				.append(getHTMLpart("i", event.getTextMsg()));
 			sb.append("</p>");
-		}
+		});
+		//	
 		return sb.toString();
 	}	//	getHistory
 	

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Requisition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220226L;
 
     /** Standard Constructor */
     public X_M_Requisition (Properties ctx, int M_Requisition_ID, String trxName)
@@ -426,6 +426,26 @@ public class X_M_Requisition extends PO implements I_M_Requisition, I_Persistent
     {
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
+
+	/** Set Grand Total.
+		@param GrandTotal 
+		Total amount of document
+	  */
+	public void setGrandTotal (BigDecimal GrandTotal)
+	{
+		set_Value (COLUMNNAME_GrandTotal, GrandTotal);
+	}
+
+	/** Get Grand Total.
+		@return Total amount of document
+	  */
+	public BigDecimal getGrandTotal () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_GrandTotal);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Comment/Help.
 		@param Help 

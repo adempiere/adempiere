@@ -17,9 +17,9 @@
 package org.eevolution.services
 
 
-import org.compiere.model._
-import org.eevolution.dsl._
-import scala.jdk.CollectionConverters._
+import org.compiere.model.*
+import org.eevolution.dsl.*
+import scala.jdk.CollectionConverters.*
 
 /**
  *  Payment Service

@@ -18,8 +18,8 @@ package org.eevolution.services
 
 import java.util.Properties
 
-import org.compiere.model._
-import org.eevolution.dsl._
+import org.compiere.model.*
+import org.eevolution.dsl.*
 
 /**
  * SysConfigService

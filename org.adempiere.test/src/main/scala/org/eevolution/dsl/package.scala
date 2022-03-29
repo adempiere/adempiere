@@ -18,9 +18,9 @@ package org.eevolution
 
 import java.sql.Timestamp
 
-import org.compiere.model._
+import org.compiere.model.*
 import org.compiere.util.Trx
-import org.eevolution.model._
+import org.eevolution.model.*
 
 /*
 * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 06/01/16.
