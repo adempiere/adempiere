@@ -63,9 +63,9 @@ public class MRequestProcessorLog extends X_R_RequestProcessorLog
 	 *	@param parent parent
 	 *	@param summary summary
 	 */
-	public MRequestProcessorLog (MRequestProcessor parent, String summary)
+	public MRequestProcessorLog (MRequestProcessor parent, String summary, String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setR_RequestProcessor_ID(parent.getR_RequestProcessor_ID());
 		setSummary(summary);

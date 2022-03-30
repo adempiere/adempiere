@@ -48,10 +48,11 @@ public class MProjectProcessorLog extends X_C_ProjectProcessorLog implements Ade
      * 	Parent Constructor
      *	@param parent parent
      *	@param summary summary
+	 *  @param trxName transaction name
      */
-    public MProjectProcessorLog (MProjectProcessor parent, String summary)
+    public MProjectProcessorLog (MProjectProcessor parent, String summary, String trxName)
     {
-        this (parent.getCtx(), 0, parent.get_TrxName());
+        this (parent.getCtx(), 0, trxName);
         setClientOrg(parent);
         setC_ProjectProcessor_ID(parent.getC_ProjectProcessor_ID());
         setSummary(summary);

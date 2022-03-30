@@ -16,9 +16,13 @@
 
 package org.eevolution.model;
 
-import org.compiere.model.*;
+import org.compiere.model.AdempiereProcessor;
+import org.compiere.model.AdempiereProcessorLog;
+import org.compiere.model.MClient;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;

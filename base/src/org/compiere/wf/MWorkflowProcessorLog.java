@@ -67,10 +67,11 @@ public class MWorkflowProcessorLog extends X_AD_WorkflowProcessorLog
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 *	@param Summary Summary
+	 *  @param trxName Transaction Name
 	 */
-	public MWorkflowProcessorLog (MWorkflowProcessor parent, String Summary)
+	public MWorkflowProcessorLog (MWorkflowProcessor parent, String Summary , String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setAD_WorkflowProcessor_ID(parent.getAD_WorkflowProcessor_ID());
 		setSummary(Summary);

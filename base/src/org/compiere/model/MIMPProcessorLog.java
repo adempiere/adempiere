@@ -69,10 +69,11 @@ public class MIMPProcessorLog
 	 * 
 	 * @param parent
 	 * @param summary
+	 * @param trxName
 	 */
-	public MIMPProcessorLog (MIMPProcessor parent, String summary)
+	public MIMPProcessorLog (MIMPProcessor parent, String summary, String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setIMP_Processor_ID(parent.getIMP_Processor_ID());
 		setSummary(summary);

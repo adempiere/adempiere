@@ -173,7 +173,7 @@ public class ProjectProcessorUtils {
     	MProject project = null;
 		MProjectPhase projectPhase = null;
 		MProjectTask projectTask = null;
-		MProjectProcessorLog pLog = null;
+		MProjectProcessorLog projectProcessorLog = null;
 		//Set Project / Phase / Task
 		if (entity instanceof MProject) 
 			project = (MProject) entity;
@@ -218,10 +218,10 @@ public class ProjectProcessorUtils {
 			int no = currentProcessor.deleteLog();
 			m_summary +="Logs deleted=" + no;
 			
-			pLog = new MProjectProcessorLog(currentProcessor, m_summary);
-			pLog.setEventChangeLog(eventChangeLog);
+			projectProcessorLog = new MProjectProcessorLog(currentProcessor, m_summary, entity.get_TrxName());
+			projectProcessorLog.setEventChangeLog(eventChangeLog);
 			
-			if (!pLog.save())
+			if (!projectProcessorLog.save())
 				throw new AdempiereException ("@SaveError@ @C_ProjectProcessorLog_ID@");
 			else {
 					
@@ -230,7 +230,7 @@ public class ProjectProcessorUtils {
 					if (entity.get_Table_ID() == MProject.Table_ID) 
 						if (project!= null 
 								&& project.getProjectManager_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
 								addQueued ++; 
 	
 					//Process Project Phase
@@ -238,12 +238,12 @@ public class ProjectProcessorUtils {
 					
 						if (projectPhase!= null 
 								&& projectPhase.getResponsible_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), projectPhase.getResponsible_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), projectPhase.getResponsible_ID()))
 								addQueued ++;
 						
 						if (project!= null 
 								&& project.getProjectManager_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
 								addQueued ++;
 					}
 					//Process Project Task
@@ -251,17 +251,17 @@ public class ProjectProcessorUtils {
 						
 						if (projectTask!= null 
 								&& projectTask.getResponsible_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), projectTask.getResponsible_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), projectTask.getResponsible_ID()))
 								addQueued ++;
 						
 						if (projectPhase!= null 
 								&& projectPhase.getResponsible_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), projectPhase.getResponsible_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), projectPhase.getResponsible_ID()))
 								addQueued ++;
 						
 						if (project!= null 
 								&& project.getProjectManager_ID()!=0)
-							if (addQueued(pLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), project.getProjectManager_ID()))
 								addQueued ++;
 					}
 					
@@ -269,18 +269,18 @@ public class ProjectProcessorUtils {
 					if (project!=null) {
 						List<MProjectMember> members = MProjectMember.getMembers(project);
 						for (MProjectMember mProjectMember : members) 
-							if (addQueued(pLog, entity.getUpdatedBy(), mProjectMember.getAD_User_ID(),mProjectMember.getNotificationType()))
+							if (addQueued(projectProcessorLog, entity.getUpdatedBy(), mProjectMember.getAD_User_ID(),mProjectMember.getNotificationType()))
 								addQueued ++;
 						
 					}
 					//Add Changes
 					if (addQueued > 0)
-						addChanges(pLog, entity);
+						addChanges(projectProcessorLog, entity);
 				
 			}
     	}
 		
-		return pLog;
+		return projectProcessorLog;
 	}	//MProjectProcessorLog
 	
 	/**
