@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="New functionality to enable the process of a document" ReleaseNo="3.9.4" SeqNo="9390">
+    <Comments>https://github.com/adempiere/adempiere/issues/3690</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50161" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50161</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="50190" Column="Created">2022-03-30 18:36:09.25</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50197" Column="Description">Process the document with The Workflow Engine</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50195" Column="Name">PROCESS_THE_DOCUMENT_WITH_WORKFLOW_ENGINE</Data>
+        <Data AD_Column_ID="84421" Column="UUID">4f0dea0f-ff6e-47b0-b6f4-e25420ebdad1</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2022-03-30 18:36:09.25</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50196" Column="Value">N</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
