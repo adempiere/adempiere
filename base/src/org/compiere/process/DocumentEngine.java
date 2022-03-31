@@ -29,6 +29,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.util.ProcessUtil;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
@@ -46,16 +47,19 @@ import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MPayment;
+import org.compiere.model.MProcess;
 import org.compiere.model.MProduction;
 import org.compiere.model.MProductionBatch;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.wf.MWFProcess;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
@@ -254,13 +258,36 @@ public class DocumentEngine implements DocAction
 
 	/**
 	 * 	Process actual document.
-	 * 	Checks if user (document) action is valid and then process action 
+	 * 	Checks if user (document) action is valid and then process action
 	 * 	Calls the individual actions which call the document action
 	 *	@param processAction document action based on workflow
 	 *	@param docAction document action based on document
 	 *	@return true if performed
 	 */
-	public boolean processIt (String processAction, String docAction)
+	public boolean processIt (String processAction, String docAction) {
+		boolean processDocumentsWithTheWorkflowEngine = MSysConfig
+				.getBooleanValue(
+						"PROCESS_THE_DOCUMENT_WITH_WORKFLOW_ENGINE",
+						false ,
+						document.getAD_Client_ID()
+				);
+		if (processDocumentsWithTheWorkflowEngine){
+			return processIt (processAction,  docAction, true);
+		} else {
+			return processIt (processAction,  docAction, false);
+		}
+	}
+
+	/**
+	 * 	Process actual document.
+	 * 	Checks if user (document) action is valid and then process action 
+	 * 	Calls the individual actions which call the document action
+	 *	@param processAction document action based on workflow
+	 *	@param docAction document action based on document
+	 *  @param processDocumentWithTheWorkflowEngine Process the document with The Workflow Engine
+	 *	@return true if performed
+	 */
+	public boolean processIt (String processAction, String docAction ,  boolean processDocumentWithTheWorkflowEngine)
 	{
 		message = null;
 		action = null;
@@ -286,12 +313,54 @@ public class DocumentEngine implements DocAction
 		}
 		if (document != null)
 			document.get_Logger().info ("**** Action=" + action + " (Prc=" + processAction + "/Doc=" + docAction + ") " + document);
-		boolean success = processIt (action);
+
+		boolean success = false;
+		if (processDocumentWithTheWorkflowEngine) {
+			success = processItWithTheWorkflowEngine(action);
+		}
+		else{
+			success = processIt(action);
+		}
+
 		if (document != null)
 			document.get_Logger().fine("**** Action=" + action + " - Success=" + success);
 		return success;
 	}	//	process
-	
+
+	/**
+	 * 	Process actual document - do not call directly.
+	 * 	Calls the individual actions which call the document action
+	 *	@param action document action
+	 *	@return true if performed
+	 */
+	public boolean processItWithTheWorkflowEngine(String action){
+		//Execute the Process It with the Workflow Engine
+		int columnId = MColumn.getColumn_ID(MTable.get(document.getCtx(), document.get_Table_ID()).getTableName(), "DocAction");
+		if (columnId > 0) {
+			MColumn column = MColumn.get(document.getCtx(), columnId);
+			if (column.getAD_Process_ID() >= 0) {
+				Optional<MProcess> maybeWorkflowProcess = Optional.of(MProcess.get(document.getCtx(), column.getAD_Process_ID()));
+				return maybeWorkflowProcess.map(workflowProcess -> {
+					PO entity = (PO) document;
+					entity.set_ValueOfColumn("DocAction", action);
+					entity.saveEx();
+					ProcessInfo processInfo = new ProcessInfo(
+							workflowProcess.getName(),
+							workflowProcess.get_ID(),
+							document.get_Table_ID(),
+							document.get_ID(),
+							false);
+					processInfo.setAD_Client_ID(document.getAD_Client_ID());
+					processInfo.setAD_User_ID(document.getDoc_User_ID());
+					processInfo.setTransactionName(document.get_TrxName());
+					MWFProcess wfProcess = ProcessUtil.startWorkFlow(document.getCtx(), processInfo, workflowProcess.getAD_Workflow_ID());
+					return wfProcess != null;
+				}).orElse(false);
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * 	Process actual document - do not call directly.
 	 * 	Calls the individual actions which call the document action

@@ -58,6 +58,7 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.DisplayType;
@@ -858,7 +859,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				doc = (DocAction)m_po;
 				//
 				try {
-					success = doc.processIt (m_node.getDocAction());	//	** Do the work
+					DocumentEngine engine = new DocumentEngine (doc, doc.getDocStatus());
+					success = engine.processIt(m_node.getDocAction() , doc.getDocAction() , false); //	** Do the work
 					setTextMsg(doc.getSummary());
 					processMsg = doc.getProcessMsg();
 					// Bug 1904717 - Invoice reversing has incorrect doc status
