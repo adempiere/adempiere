@@ -20,7 +20,7 @@ package org.adempiere.pos.test;
 import java.awt.KeyboardFocusManager;
 import java.util.Properties;
 
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AKeyboardFocusManager;
 import org.compiere.apps.ALogin;

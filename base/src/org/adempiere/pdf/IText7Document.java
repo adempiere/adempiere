@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
 
 import org.compiere.util.Language;
 
@@ -54,8 +54,8 @@ import io.konik.harness.exception.InvoiceAppendError;
  * @see https://github.com/adempiere/adempiere/issues/1567
  * @author eugen.hanussek@klst.com https://github.com/homebeaver
  */
-@Named
-@Singleton
+//@Named
+//@Singleton
 public class IText7Document implements FileAppender  {
 
     private final static String ICC_URL = "images/sRGBColorSpaceProfile.icm"; // from pdfa/src/test/resources

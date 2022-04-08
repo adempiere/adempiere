@@ -68,6 +68,7 @@ import org.spin.util.ExportFormatPS;
 import org.spin.util.ExportFormatXLS;
 import org.spin.util.ExportFormatXLSX;
 import org.spin.util.ExportFormatXML;
+import org.spin.util.PrinterUtil;
 
 /**
  *	Report Engine.
@@ -488,8 +489,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	private PrinterJob getPrinterJob (String printerName)
 	{
 		if (printerName != null && printerName.length() > 0)
-			return CPrinter.getPrinterJob(printerName);
-		return CPrinter.getPrinterJob(m_printerName);
+			return PrinterUtil.getPrinterJob(printerName);
+		return PrinterUtil.getPrinterJob(m_printerName);
 	}	//	getPrinterJob
 
 	/**

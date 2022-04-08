@@ -139,7 +139,7 @@ public final class Attachment extends CDialog
 	private CPanel graphPanel = new CPanel(new BorderLayout());
 	private GImage gifPanel = new GImage();
 	private JScrollPane gifScroll = new JScrollPane (gifPanel);
-	private PDFViewerBean pdfViewer = new ITextDocument().getViewer();
+	private PDFViewerBean pdfViewer = new PDFViewerBean();
 	private CTextArea info = new CTextArea();
 
 	/**

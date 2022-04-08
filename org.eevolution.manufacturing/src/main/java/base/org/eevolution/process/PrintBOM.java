@@ -24,6 +24,7 @@ import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
+import org.compiere.apps.AEnv;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
@@ -148,7 +149,7 @@ public class PrintBOM extends SvrProcess
 		// records are deleted when process ends 
 		while (re.getView().isDisplayable()) 
 		{
-			Env.sleep(1);
+			AEnv.sleep(1);
 		}	
 	}
 

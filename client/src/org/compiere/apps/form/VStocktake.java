@@ -30,6 +30,7 @@ import java.util.logging.Level;
 
 import javax.swing.JLabel;
 
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.grid.GridController;
@@ -280,7 +281,7 @@ public class VStocktake extends Stocktake
 		
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		refresh(inventory, locator, product, movementType, lineFrom, lineTo, statusBar, isSecondCount);
-		Env.sleep(1);
+		AEnv.sleep(1);
 		m_gridController.getTable().autoSize(true);
 		panel.setCursor(Cursor.getDefaultCursor());
 	}   //  refresh

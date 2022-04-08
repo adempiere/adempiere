@@ -33,7 +33,7 @@ import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Locale;
 
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 
 /**
  *  Splash Screen.

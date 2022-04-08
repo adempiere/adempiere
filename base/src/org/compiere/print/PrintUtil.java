@@ -45,6 +45,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.spin.util.PrinterUtil;
 
 /**
  *  Print Utilities
@@ -115,7 +116,7 @@ public class PrintUtil
 		if (jobName != null)
 			name += jobName;
 		//
-		PrinterJob job = CPrinter.getPrinterJob(printerName);
+		PrinterJob job = PrinterUtil.getPrinterJob(printerName);
 		job.setJobName (name);
 		job.setPageable (pageable);
 		//	Attributes
@@ -139,7 +140,7 @@ public class PrintUtil
 	 */
 	static public void print (Pageable pageable, PrintRequestAttributeSet prats)
 	{
-		PrinterJob job = CPrinter.getPrinterJob();
+		PrinterJob job = PrinterUtil.getPrinterJob();
 		job.setPageable(pageable);
 		print (job, prats, true, false);
 	}	//	print

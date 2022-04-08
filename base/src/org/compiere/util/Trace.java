@@ -18,8 +18,6 @@ package org.compiere.util;
 
 import java.util.ArrayList;
 
-import org.compiere.db.CConnectionDialog;
-
 /**
  *  Trace Information
  *
@@ -29,7 +27,7 @@ import org.compiere.db.CConnectionDialog;
 public class Trace
 {
 	/**	Logger	*/
-	private static CLogger	log	= CLogger.getCLogger (CConnectionDialog.class);
+	private static CLogger	log	= CLogger.getCLogger (Trace.class);
 	
 	/**
 	 * Get Caller Array

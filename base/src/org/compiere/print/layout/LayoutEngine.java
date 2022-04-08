@@ -950,13 +950,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		PrintElement element = null;
 		if (ci.getLogoReport_ID() > 0) {
 			element = new ImageElement(ci.getLogoReport_ID(), false);
-		} else {
-			element = new ImageElement(org.compiere.Adempiere.getImageLogoSmall(true));	//	48x15
+			element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
+			element.setLocation(m_header.getLocation());
+			m_headerFooter.addElement(element);
 		}
-	//	element = new ImageElement(org.compiere.Adempiere.getImageLogo());	//	100x30
-		element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
-		element.setLocation(m_header.getLocation());
-		m_headerFooter.addElement(element);
 		//
 		MPrintTableFormat tf = m_format.getTableFormat();
 		Font font = tf.getPageHeader_Font();

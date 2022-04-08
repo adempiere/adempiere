@@ -24,10 +24,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
 
-import org.adempiere.pdf.viewer.PDFViewerBean;
+//import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.compiere.util.CLogger;
 
 import com.itextpdf.awt.PdfGraphics2D;
@@ -54,8 +54,8 @@ import io.konik.harness.FileExtractor;
  * 
  * @author eugen.hanussek@klst.com https://github.com/homebeaver
  */
-@Named
-@Singleton
+//@Named
+//@Singleton
 public class ITextDocument implements FileExtractor, FileAppender  {
 	
 	private static CLogger log	= CLogger.getCLogger(ITextDocument.class);
@@ -138,9 +138,9 @@ public class ITextDocument implements FileExtractor, FileAppender  {
         return null;		
 	}
 	
-    public PDFViewerBean getViewer() {
-    	return new PDFViewerBean();
-    }
+//    public PDFViewerBean getViewer() {
+//    	return new PDFViewerBean();
+//    }
     
     public boolean isValid(Pageable layout) {
     	return true;
@@ -153,12 +153,12 @@ public class ITextDocument implements FileExtractor, FileAppender  {
 	// --------------------------------------------------------------------------
 	// interface implementations:
 	
-	@Override
+//	@Override
 	public byte[] extract(InputStream inpStream) {
 		return invoiceExtractor.extract(inpStream);
 	}
 
-	@Override
+//	@Override
 	public InputStream extractToStream(InputStream inpStream) {
 		return invoiceExtractor.extractToStream(inpStream);
 	}

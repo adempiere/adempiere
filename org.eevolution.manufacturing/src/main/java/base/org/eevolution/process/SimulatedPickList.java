@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import javax.sql.RowSet;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.apps.AEnv;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
@@ -179,7 +180,7 @@ public class SimulatedPickList extends SvrProcess {
 		// wait for report window to be closed as t_bomline
 		// records are deleted when process ends
 		while (re.getView().isDisplayable()) {
-			Env.sleep(1);
+			AEnv.sleep(1);
 		}
 	}
 
