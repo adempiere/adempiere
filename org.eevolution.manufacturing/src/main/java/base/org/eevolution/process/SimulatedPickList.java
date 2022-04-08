@@ -179,7 +179,8 @@ public class SimulatedPickList extends SvrProcess {
 		ReportCtl.preview(re);
 		// wait for report window to be closed as t_bomline
 		// records are deleted when process ends
-		while (re.getView().isDisplayable()) {
+		while (re.showView()
+				&& re.isDisplayable()) {
 			AEnv.sleep(1);
 		}
 	}

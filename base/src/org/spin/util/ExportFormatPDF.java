@@ -89,7 +89,7 @@ public class ExportFormatPDF extends AbstractExportFormat {
 		log.fine(uri.toString());
 
 		try {
-			getReportEngine().getView();
+			getReportEngine().showView();
 			ArchiveEngine.get().archive(getLayoutEngine(), getPrintInfo());
 			new ITextDocument().getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
 		} catch (Exception e) {

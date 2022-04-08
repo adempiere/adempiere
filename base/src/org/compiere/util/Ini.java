@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
+import org.adempiere.exceptions.AdempiereException;
 //import org.adempiere.plaf.AdempiereLookAndFeel;
 //import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
@@ -310,11 +311,12 @@ public final class Ini implements Serializable
 		{
 			log.config(filename);
 			firstTime = true;
-			if (isShowLicenseDialog())
-				if (!IniDialog.accept())
-					System.exit(-1);
-
-            checkProperties();
+			throw new AdempiereException("Default config not found");
+//			if (isShowLicenseDialog())
+//				if (!IniDialog.accept())
+//					System.exit(-1);
+//
+//            checkProperties();
 		}
 
 		//  Save if not exist or could not be read

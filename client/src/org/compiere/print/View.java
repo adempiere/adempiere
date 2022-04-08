@@ -29,6 +29,7 @@ import org.compiere.print.layout.LayoutEngine;
 import org.compiere.print.layout.Page;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
+import org.spin.util.ILayoutView;
 
 /**
  *	View Panel
@@ -40,21 +41,11 @@ import org.compiere.util.CLogger;
  * 			<li>FR [ 2539927 ] Display Zoom combobox
  * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2539927&group_id=176962
  */
-public class View extends CPanel
-{
+public class View extends CPanel implements ILayoutView {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5640892952739279088L;
-
-	/**
-	 *	Print Preview
-	 *  @param layout Layout
-	 */
-	public View (LayoutEngine layout)
-	{
-		m_layout = layout;
-	}	//	View
 
 	/**	Layout to be Printed		*/
 	private LayoutEngine 			m_layout;
@@ -344,5 +335,18 @@ public class View extends CPanel
 		return page.getDrillAcross (relativePoint);
 	}	//	getDrillAcross
 
+	@Override
+	public void loadView(LayoutEngine layoutEngine) {
+		m_layout = layoutEngine;
+	}
 
+	@Override
+	public void reloadVew() {
+		revalidate();
+	}
+
+	@Override
+	public boolean isLoaded() {
+		return m_layout != null;
+	}
 }	//	View
