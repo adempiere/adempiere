@@ -311,12 +311,11 @@ public final class Ini implements Serializable
 		{
 			log.config(filename);
 			firstTime = true;
+			checkProperties();
 			throw new AdempiereException("Default config not found");
 //			if (isShowLicenseDialog())
 //				if (!IniDialog.accept())
 //					System.exit(-1);
-//
-//            checkProperties();
 		}
 
 		//  Save if not exist or could not be read
@@ -531,7 +530,7 @@ public final class Ini implements Serializable
 	public static String getAsString()
 	{
 		StringBuffer buf = new StringBuffer ("Ini[");
-		Enumeration<?> e = s_prop.keys();
+		Enumeration e = s_prop.keys();
 		while (e.hasMoreElements())
 		{
 			String key = (String)e.nextElement();
