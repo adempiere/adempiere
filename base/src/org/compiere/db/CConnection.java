@@ -151,8 +151,8 @@ public class CConnection implements Serializable, Cloneable
 			if(attributes != null && attributes.length() > 0) {
 				s_cc = new CConnection (null);
 				s_cc.setAttributes (attributes);
+				log.fine(s_cc.toString());
 			}
-			log.fine(s_cc.toString());
 		}
 
 		return s_cc;
