@@ -152,6 +152,8 @@ public class CConnection implements Serializable, Cloneable
 				s_cc = new CConnection (null);
 				s_cc.setAttributes (attributes);
 				log.fine(s_cc.toString());
+				Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+				Ini.saveProperties (Ini.isClient ());
 			} else {
 				s_cc = new CConnection(apps_host);
 				//  set also in ALogin and Ctrl
