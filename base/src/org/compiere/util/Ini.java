@@ -312,7 +312,7 @@ public final class Ini implements Serializable
 			log.config(filename);
 			firstTime = true;
 			checkProperties();
-			throw new AdempiereException("Default config not found");
+//			throw new AdempiereException("Default config not found");
 //			if (isShowLicenseDialog())
 //				if (!IniDialog.accept())
 //					System.exit(-1);
