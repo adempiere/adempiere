@@ -37,17 +37,17 @@
 	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
 
 	<echo message="Java Home : ${env.JAVA_HOME}"/>
-	<echo message="Adempiere Home : /opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere"/>
+	<echo message="Adempiere Home : ${env.ADEMPIERE_HOME}"/>
 	<echo message="Copy AdempiereEnvTemplate.properties to AdempiereEnv.properties"/>
 	<copy file="${AdempierePropertiesFrom}" tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
-	<replaceregexp file="${AdempierePropertiesTo}" match="ADEMPIERE_HOME=/opt/Adempiere" replace="ADEMPIERE_HOME=/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere" byline="true"/>
-	<replaceregexp file="${AdempierePropertiesTo}" match="JAVA_HOME=/usr/lib/jvm/jdk-11" replace="JAVA_HOME=/usr/local/jdk11" byline="true"/>
+	<replaceregexp file="${AdempierePropertiesTo}" match="ADEMPIERE_HOME=/opt/Adempiere" replace="ADEMPIERE_HOME=${env.ADEMPIERE_HOME}" byline="true"/>
+	<replaceregexp file="${AdempierePropertiesTo}" match="JAVA_HOME=/usr/lib/jvm/jdk-11" replace="JAVA_HOME=${env.JAVA_HOME}" byline="true"/>
 	<property file="${AdempierePropertiesTo}"/>
 	<filter filtersfile="${AdempierePropertiesTo}" />
 	<echo message="Generate myEnvironment.sh"/>
 	<copy file="${myEnvironmentTemplate}" tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
 
-	<java dir="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere" classname="org.compiere.install.SilentSetup" fork="true">
+	<java dir="${env.ADEMPIERE_HOME}" classname="org.compiere.install.SilentSetup" fork="true">
 	  <arg value="ALL"/>
 	  <jvmarg value="--add-opens"/>
 	  <jvmarg value="java.base/sun.security.tools.keytool=ALL-UNNAMED"/>
@@ -55,13 +55,13 @@
 	  <jvmarg value="java.base/jdk.internal.misc=ALL-UNNAMED"/>
 	  <jvmarg value="--add-opens"/>
 	  <jvmarg value="java.base/java.lang=ALL-UNNAMED"/>
-	  <sysproperty key="ADEMPIERE_HOME" value="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere"/>
+	  <sysproperty key="ADEMPIERE_HOME" value="${env.ADEMPIERE_HOME}"/>
 	  <classpath>
-		  <pathelement location="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere/lib/CInstall.jar"/>
-		  <pathelement location="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere/lib/Adempiere.jar"/>
-		  <pathelement location="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere/lib/CCTools.jar"/>
-		  <pathelement location="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere/lib/oracle.jar"/>
-		  <pathelement location="/opt/Development/workspace-jdk-11/adempiereForkPullRequest/adempiere/Adempiere/lib/postgresql.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CInstall.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/Adempiere.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CCTools.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/oracle.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/postgresql.jar"/>
 		  <pathelement path="${java.class.path}"/>
 	  </classpath>
 	</java>
@@ -74,14 +74,14 @@
 			tofile="${myDBcopy}" filtering="yes" overwrite="yes" />
 
   	<echo message="Run Import Adempiere"/>
-  	<!--<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
+  	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
   	
   	<echo message="Run DB Restore Adempiere"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
-  	</exec>-->
+  	</exec>
   	
 	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
