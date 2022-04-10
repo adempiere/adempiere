@@ -52,7 +52,7 @@ import javax.swing.event.ChangeListener;
 
 import org.adempiere.apps.graph.PAPanel;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.apps.wf.WFActivity;
 import org.compiere.apps.wf.WFPanel;
 import org.compiere.grid.tree.VTreePanel;
@@ -106,7 +106,6 @@ public final class AMenu extends CFrame
 	public AMenu ()
 	{
 		super();
-		log.info("CodeBase=" + Adempiere.getCodeBase());		
 		Splash splash = Splash.getSplash();
 		//
 		m_WindowNo = Env.createWindowNo(this);

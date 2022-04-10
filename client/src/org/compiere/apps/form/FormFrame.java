@@ -169,7 +169,7 @@ public class FormFrame
 	 */
 	private void jbInit() throws Exception
 	{
-		setIconImage(org.compiere.Adempiere.getImage16());
+		setIconImage(org.adempiere.Adempiere.getImage16());
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 		setJMenuBar(menuBar);
 	}	//	jbInit

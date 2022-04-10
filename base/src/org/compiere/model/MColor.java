@@ -16,14 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.awt.Color;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-
-import org.compiere.plaf.CompiereColor;
 
 /**
  *  Color Persistent Object Model
@@ -105,81 +100,5 @@ public class MColor extends X_AD_Color
 			return "NULL";
 		return value.toString();
 	}   //  saveNewSpecial
-
-	
-	/**************************************************************************
-	 *  Get AdempiereColor.
-	 *  see org.compiere.grid.ed.VColor#getAdempiereColor
-	 *  @return AdempiereColor
-	 */
-	public CompiereColor getAdempiereColor()
-	{
-		if (get_ID() == 0)
-			return null;
-
-		//  Color Type
-		String ColorType = (String)getColorType();
-		if (ColorType == null)
-		{
-			log.log(Level.SEVERE, "MColor.getAdempiereColor - No ColorType");
-			return null;
-		}
-		CompiereColor cc = null;
-		//
-		if (ColorType.equals(CompiereColor.TYPE_FLAT))
-		{
-			cc = new CompiereColor(getColor(true), true);
-		}
-		else if (ColorType.equals(CompiereColor.TYPE_GRADIENT))
-		{
-			int RepeatDistance = getRepeatDistance();
-			String StartPoint = getStartPoint();
-			int startPoint = StartPoint == null ? 0 : Integer.parseInt(StartPoint);
-			cc = new CompiereColor(getColor(true), getColor(false), startPoint, RepeatDistance);
-		}
-		else if (ColorType.equals(CompiereColor.TYPE_LINES))
-		{
-			int LineWidth = getLineWidth();
-			int LineDistance = getLineDistance();
-			cc = new CompiereColor(getColor(false), getColor(true), LineWidth, LineDistance);
-		}
-		else if (ColorType.equals(CompiereColor.TYPE_TEXTURE))
-		{
-			int AD_Image_ID = getAD_Image_ID();
-			String url = getURL(AD_Image_ID);
-			if (url == null)
-				return null;
-			BigDecimal ImageAlpha = getImageAlpha();
-			float compositeAlpha = ImageAlpha == null ? 0.7f : ImageAlpha.floatValue();
-			cc = new CompiereColor(url, getColor(true), compositeAlpha);
-		}
-		return cc;
-	}   //  getAdempiereColor
-
-	/**
-	 *  Get Color
-	 *  @param primary true if primary false if secondary
-	 *  @return Color
-	 */
-	private Color getColor (boolean primary)
-	{
-		int red = primary ? getRed() : getRed_1();
-		int green = primary ? getGreen() : getGreen_1();
-		int blue = primary ? getBlue() : getBlue_1();
-		//
-		return new Color (red, green, blue);
-	}   //  getColor
-
-	/**
-	 *  Get URL from Image
-	 *  @param AD_Image_ID image
-	 *  @return URL as String or null
-	 */
-	private String getURL (int AD_Image_ID)
-	{
-		if (AD_Image_ID == 0)
-			return null;
-		return MImage.get(getCtx(), AD_Image_ID, get_TrxName()).getImageURL();
-	}   //  getURL
 
 }   //  MColor
