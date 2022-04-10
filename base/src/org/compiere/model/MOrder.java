@@ -2032,7 +2032,7 @@ public class MOrder extends X_C_Order implements DocAction
 		MOrderTax[] taxes = getTaxes(true);
 		for (MOrderTax tax : taxes )
 		{
-			if(tax.calculateTaxFromLines()) {
+			if(!tax.calculateTaxFromLines()) {
 				return false;
 			}
 			//	Save
