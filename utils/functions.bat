@@ -12,7 +12,9 @@
 
 @Rem Check java home
 @SET JAVA_HOME=%JAVA_HOME:Program Files=PROGRA~1%
-@IF EXIST %JAVA_HOME%\bin goto JAVAOK
+@IF EXIST %JAVA_HOME%\bin (
+  GOTO JAVAOK
+)
 @SET PATH=%JAVA_HOME%\bin;%PATH%
 
 :JAVAHOME
