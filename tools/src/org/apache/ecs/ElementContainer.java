@@ -26,12 +26,14 @@ import java.util.Vector;
     this class and then you can place this class into other elements in order 
     to combine elements together.
 
-<code><pre>
+<pre>
+<code>
     P p = new P().addElement("foo");
     P p1 = new P().addElement("bar");
     ElementContainer ec = new ElementContainer(p).addElement(p1);
     System.out.println(ec.toString());
-</pre></code>
+</code>
+</pre>
 
     @version $Id: ElementContainer.java,v 1.2 2006/07/30 00:54:03 jjanke Exp $
     @author <a href="mailto:snagy@servletapi.com">Stephan Nagy</a>

@@ -161,7 +161,7 @@ public class param extends SinglePartElement implements Printable
 
         Sets the mime type of this object
 
-        @param the mime type of this object
+        @param cdata the mime type of this object
 
     */
 

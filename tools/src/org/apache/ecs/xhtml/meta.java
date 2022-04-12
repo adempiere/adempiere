@@ -69,7 +69,7 @@ public class meta extends SinglePartElement
 	/**
 	 * Sets the name="" attribute.
 	 * 
-	 * @param content
+	 * @param name
 	 *            the value that should go into the name attribute
 	 */
 	public meta setName (String name)
@@ -94,7 +94,7 @@ public class meta extends SinglePartElement
 	/**
 	 * Sets the scheme="" attribute.
 	 * 
-	 * @param content
+	 * @param scheme
 	 *            the value that should go into the scheme attribute
 	 */
 	public meta setScheme (String scheme)
@@ -106,7 +106,7 @@ public class meta extends SinglePartElement
 	/**
 	 * Sets the http-equiv="" attribute.
 	 * 
-	 * @param content
+	 * @param http_equiv
 	 *            the value that should go into the http-equiv attribute
 	 */
 	public meta setHttpEquiv (String http_equiv)

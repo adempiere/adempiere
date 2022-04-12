@@ -249,7 +249,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -269,7 +269,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -289,7 +289,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -309,7 +309,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -329,7 +329,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -349,7 +349,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -369,7 +369,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -391,7 +391,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -413,7 +413,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -435,7 +435,7 @@ public class cite extends MultiPartElement implements Printable, MouseEvents, Ke
 
         
 
-        @param The script
+        @param script
 
     */
 

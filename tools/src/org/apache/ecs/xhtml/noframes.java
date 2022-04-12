@@ -251,7 +251,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -271,7 +271,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -291,7 +291,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -311,7 +311,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -331,7 +331,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -351,7 +351,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -371,7 +371,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -393,7 +393,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -415,7 +415,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -437,7 +437,7 @@ public class noframes extends MultiPartElement implements Printable, MouseEvents
 
         
 
-        @param The script
+        @param script
 
     */
 

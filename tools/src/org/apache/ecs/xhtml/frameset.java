@@ -406,7 +406,7 @@ public class frameset extends MultiPartElement implements Printable, PageEvents
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -430,7 +430,7 @@ public class frameset extends MultiPartElement implements Printable, PageEvents
 
         
 
-        @param The script
+        @param script
 
     */
 

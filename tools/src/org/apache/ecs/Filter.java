@@ -21,7 +21,8 @@ package org.apache.ecs;
     <P>
     For example:
     <P>
-    <pre><code>
+    <pre>
+    <code>
     Filter filter = new CharacterFilter();
     filter.addAttribute("$","dollar");
     filter.addAttribute("#",Entities.POUND);
@@ -31,7 +32,8 @@ package org.apache.ecs;
     
     Document doc = new Document();
     doc.getBody().addElement(p);
-    </pre></code>
+    </code>
+    </pre>
 
     The filter is applied when the addElement() method is called.
     

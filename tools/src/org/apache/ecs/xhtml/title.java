@@ -87,7 +87,7 @@ public class title extends MultiPartElement implements Printable
 
         This method creates a &lt;title&gt; tag and sets the Element value.
 
-        @param   value what goes between &lt;start_tag&gt; &lt;end_tag&gt;
+        @param title value what goes between &lt;start_tag&gt; &lt;end_tag&gt;
 
     */
 

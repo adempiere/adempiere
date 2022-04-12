@@ -233,7 +233,7 @@ public class form extends MultiPartElement
 	 * Sets the accept-charset="" attribute
 	 * Only NN
 	 * 
-	 * @ p ara m accept the accept-charset="" attribute
+	 * Param accept the accept-charset="" attribute
 	 *
 	public form setAcceptCharset (String acceptcharset)
 	{

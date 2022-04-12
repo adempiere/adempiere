@@ -391,7 +391,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -411,7 +411,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -431,7 +431,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -451,7 +451,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -471,7 +471,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -491,7 +491,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -511,7 +511,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -533,7 +533,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -555,7 +555,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -577,7 +577,7 @@ public class thead extends MultiPartElement implements Printable, MouseEvents, K
 
         
 
-        @param The script
+        @param script
 
     */
 

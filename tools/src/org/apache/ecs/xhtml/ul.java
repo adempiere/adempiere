@@ -255,7 +255,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
         Add a list to the ul
 
-        @param list a list of Strings to be converted to li objects.
+        @param element a list of Strings to be converted to li objects.
 
     */
 
@@ -299,7 +299,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -319,7 +319,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -339,7 +339,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -359,7 +359,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -379,7 +379,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -399,7 +399,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -419,7 +419,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
 
 
-        @param The script
+        @param script
 
     */
 
@@ -441,7 +441,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -463,7 +463,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
         
 
-        @param The script
+        @param script
 
     */
 
@@ -485,7 +485,7 @@ public class ul extends MultiPartElement implements Printable, MouseEvents, KeyE
 
         
 
-        @param The script
+        @param script
 
     */
 

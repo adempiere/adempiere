@@ -125,7 +125,7 @@ public class XMLDocument
      * @param version -
      *            version of XML document is
      * @param standalone -
-     *            boolean: <code>true</code if standalone, else false
+     *            boolean: <code>true</code> if standalone, else false
 	 * @param codeset - String codeset to use
      */
 	public XMLDocument (double version, boolean standalone, String codeset)

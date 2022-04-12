@@ -106,7 +106,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 
 	/**
 		Registers an element in the head element list
-		@hashcode named element for hashcode
+		Param named element for hashcode
 		@param   element element to be added to the registry.
 		@param   filter does this need to be filtered?
 	*/
@@ -149,7 +149,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 
 	/**
 		Registers an element in the head element list
-		@hashcode named element for hashcode
+		Param named element for hashcode
 		@param   value element to be added to the registry.
 		@param   filter does this need to be filtered?
 	*/

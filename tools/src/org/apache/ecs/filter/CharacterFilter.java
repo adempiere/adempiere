@@ -23,11 +23,11 @@ import org.apache.ecs.Entities;
 import org.apache.ecs.Filter;
 /**
     This class creates a Filter object.  The default characters filtered are:<br>
-    " ' & < >
     <p>
     For example:
 
-    <pre><code>
+    <pre>
+    <code>
     Filter filter = new CharacterFilter();
     filter.addAttribute("$","dollar");
     filter.addAttribute("#",Entities.POUND);
@@ -37,7 +37,8 @@ import org.apache.ecs.Filter;
 
     Document doc = new Document();
     doc.getBody().addElement(p);
-    </pre></code>
+    </code>
+    </pre>
 
     The filter is applied when the addElement() method is called.
 
