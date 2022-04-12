@@ -185,7 +185,9 @@ public class Viewer extends CFrame
 		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
-			m_viewPanel = re.getView();
+			m_viewPanel = new View();
+			re.setLayoutView(m_viewPanel);
+			re.showView();
 			m_ctx = m_reportEngine.getCtx();
 			String type = m_reportEngine.getReportType();
 			if (type == null) {

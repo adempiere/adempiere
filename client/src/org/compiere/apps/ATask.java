@@ -26,7 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.model.MTask;
 import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;

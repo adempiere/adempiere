@@ -115,12 +115,10 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				MImage mimage = MImage.get(Env.getCtx(), logoId);
 				byte[] imageData = mimage.getData();
 				img = Toolkit.getDefaultToolkit().createImage(imageData);
-			} else {
-				img = org.compiere.Adempiere.getImageLogoSmall(true); // 48x15
+				Image logo = Image.getInstance(img, null);
+				logo.scaleToFit(100, 30);
+				document.add(logo);
 			}
-			Image logo = Image.getInstance(img, null);
-			logo.scaleToFit(100, 30);
-			document.add(logo);
 			// Titulo General - general Title
 			Paragraph genTitle = new Paragraph(dataNull(generalTitle[0]).toUpperCase(), titleFont);
 			genTitle.setAlignment(Paragraph.ALIGN_CENTER);

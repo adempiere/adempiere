@@ -68,6 +68,8 @@ import org.spin.util.ExportFormatPS;
 import org.spin.util.ExportFormatXLS;
 import org.spin.util.ExportFormatXLSX;
 import org.spin.util.ExportFormatXML;
+import org.spin.util.ILayoutView;
+import org.spin.util.PrinterUtil;
 
 /**
  *	Report Engine.
@@ -176,7 +178,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/**	Printer					*/
 	private String			m_printerName = Ini.getProperty(Ini.P_PRINTER);
 	/**	View					*/
-	private View			m_view = null;
+//	private View			m_view = null;
 	/** Transaction Name 		*/
 	protected String 			m_trxName = null;
 	/** Where filter */
@@ -189,6 +191,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private boolean m_summary = false;
 	//	FR [ 237 ]
 	private int 			m_AD_ReportView_ID = 0;
+	private ILayoutView layoutView;
 	
 	/**
 	 * Set Optional Report View
@@ -196,6 +199,10 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public void setAD_ReportView_ID(int p_AD_ReportView_ID) {
 		m_AD_ReportView_ID = p_AD_ReportView_ID;
+	}
+	
+	public void setLayoutView(ILayoutView layoutView) {
+		this.layoutView = layoutView;
 	}
 	
 	/**
@@ -228,8 +235,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 			m_layout.setPrintFormat(pf, false);
 			m_layout.setPrintData(m_printData, m_query, true);	//	format changes data
 		}
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	setPrintFormat
 	
 	/**
@@ -246,8 +253,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 		setPrintData();
 		if (m_layout != null)
 			m_layout.setPrintData(m_printData, m_query, true);
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	setQuery
 
 	/**
@@ -384,14 +391,22 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 * 	Get View Panel
 	 * 	@return view panel
 	 */
-	public View getView()
+	public boolean showView()
 	{
 		if (m_layout == null)
 			layout();
-		if (m_view == null)
-			m_view = new View (m_layout);
-		return m_view;
+		if (layoutView != null
+				&& !layoutView.isLoaded()) {
+			layoutView.loadView(m_layout);
+			return true;
+		}
+		return false;
 	}	//	getView
+	
+	
+	public boolean isDisplayable() {
+		return layoutView != null && layoutView.isDisplayable();
+	}
 	
 	/**************************************************************************
 	 * 	Print Report
@@ -488,8 +503,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	private PrinterJob getPrinterJob (String printerName)
 	{
 		if (printerName != null && printerName.length() > 0)
-			return CPrinter.getPrinterJob(printerName);
-		return CPrinter.getPrinterJob(m_printerName);
+			return PrinterUtil.getPrinterJob(printerName);
+		return PrinterUtil.getPrinterJob(m_printerName);
 	}	//	getPrinterJob
 
 	/**
@@ -501,8 +516,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		if (m_layout == null)
 			layout();
 		m_layout.pageSetupDialog(getPrinterJob(m_printerName));
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	pageSetupDialog
 
 	/**

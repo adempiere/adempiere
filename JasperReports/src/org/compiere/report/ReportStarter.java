@@ -70,6 +70,8 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.spin.util.PrinterUtil;
+
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
@@ -616,7 +618,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     		JasperPrintManager.printReport(jasperPrint, false);
                     	} else {	//	Old compatibility
                         	// Get printer job
-                        	PrinterJob printerJob = org.compiere.print.CPrinter.getPrinterJob(printerName);
+                        	PrinterJob printerJob = PrinterUtil.getPrinterJob(printerName);
                         	// Set print request attributes
                         	
                     		//	Paper Attributes:

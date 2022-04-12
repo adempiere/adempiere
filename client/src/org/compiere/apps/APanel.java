@@ -98,6 +98,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.form.VBrowser;
 import org.spin.util.ASPUtil;
+import org.spin.util.ColorUtil;
 
 /**
  *	Main Panel of application window.
@@ -807,7 +808,7 @@ public final class APanel extends CPanel
 					else	//	normal tab
 					{
 						GridController gc = new GridController();			        //  Timing: ca. .1 sec
-						CompiereColor cc = mainWindow.getColor();
+						CompiereColor cc = ColorUtil.getColor(ctx, mainWindow.getColorId());
 						if (cc != null)
 							gc.setBackgroundColor(cc);                  //  set color on Window level
 						gc.initGrid(gTab, false, m_curWindowNo, this, mainWindow, (tab != 0));  //  will set color on Tab level

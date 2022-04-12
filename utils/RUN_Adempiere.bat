@@ -39,7 +39,7 @@ set ADEMPIERE_HOME=%~dp0..
 @SET SECURE=
 
 :START
-@"%JAVA%" -Xms512m -Xmx1024m -DADEMPIERE_HOME=%ADEMPIERE_HOME% %PROP% %SECURE% -classpath "%CLASSPATH%" org.compiere.Adempiere 
+@"%JAVA%" -Xms512m -Xmx1024m -DADEMPIERE_HOME=%ADEMPIERE_HOME% %PROP% %SECURE% -classpath "%CLASSPATH%" org.adempiere.Adempiere 
 
 @Rem @sleep 15
 @CHOICE /C YN /T 15 /D N > NUL

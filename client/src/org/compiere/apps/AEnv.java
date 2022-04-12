@@ -29,7 +29,9 @@ import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -81,6 +83,8 @@ import org.compiere.util.Splash;
  */
 public final class AEnv
 {
+	/**	Logging								*/
+	private static CLogger				s_log = CLogger.getCLogger(AEnv.class);
 	/**
 	 * Show window: de-iconify and bring it to front
 	 * @author teo_sarca [ 1707221 ]
@@ -991,7 +995,7 @@ public final class AEnv
 	 */
 	public static void updateUI()
 	{
-		Set<Window> updated = Env.updateUI();
+		Set<Window> updated = updateBaseUI();
 		JFrame top = Env.getWindow(0);
 		if (top instanceof AMenu)
 		{
@@ -1011,6 +1015,149 @@ public final class AEnv
 				updated.add(f);
 			}
 		}
+	}
+	
+	/** Array of hidden Windows				*/
+	private static ArrayList<CFrame>	s_hiddenWindows = new ArrayList<CFrame>();
+	/** Closing Window Indicator			*/
+	private static boolean 				s_closingWindows = false;
+	
+	/**
+	 * 	Hide Window
+	 *	@param window window
+	 *	@return true if window is hidden, otherwise close it
+	 */
+	static public boolean hideWindow(CFrame window)
+	{
+		if (!Ini.isCacheWindow() || s_closingWindows)
+			return false;
+		for (int i = 0; i < s_hiddenWindows.size(); i++)
+		{
+			CFrame hidden = s_hiddenWindows.get(i);
+			s_log.info(i + ": " + hidden);
+			if (hidden.getAD_Window_ID() == window.getAD_Window_ID())
+				return false;	//	already there
+		}
+		if (window.getAD_Window_ID() != 0)	//	workbench
+		{
+			if (s_hiddenWindows.add(window))
+			{
+				window.setVisible(false);
+				s_log.info(window.toString());
+			//	window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_ICONIFIED));
+				if (s_hiddenWindows.size() > 10) {
+					CFrame toClose = s_hiddenWindows.remove(0);		//	sort of lru
+					try {
+						s_closingWindows = true;
+						toClose.dispose();
+					} finally {
+						s_closingWindows = false;
+					}
+				}
+				return true;
+			}
+		}
+		return false;
+	}	//	hideWindow
+	
+	/**
+	 * 	Show Window
+	 *	@param AD_Window_ID window
+	 *	@return true if window re-displayed
+	 */
+	static public CFrame showWindow (int AD_Window_ID)
+	{
+		for (int i = 0; i < s_hiddenWindows.size(); i++)
+		{
+			CFrame hidden = s_hiddenWindows.get(i);
+			if (hidden.getAD_Window_ID() == AD_Window_ID)
+			{
+				s_hiddenWindows.remove(i);
+				s_log.info(hidden.toString());
+				hidden.setVisible(true);
+				// De-iconify window - teo_sarca [ 1707221 ]
+				int state = hidden.getExtendedState();
+				if ((state & CFrame.ICONIFIED) > 0)
+					hidden.setExtendedState(state & ~CFrame.ICONIFIED);
+				//
+				hidden.toFront();
+				return hidden;
+			}
+		}
+		return null;
+	}	//	showWindow
+
+	/**
+	 * 	Clode Windows.
+	 */
+	static void closeWindows ()
+	{
+		s_closingWindows = true;
+		for (int i = 0; i < s_hiddenWindows.size(); i++)
+		{
+			CFrame hidden = s_hiddenWindows.get(i);
+			hidden.dispose();
+		}
+		s_hiddenWindows.clear();
+		s_closingWindows = false;
+	}	//	closeWindows
+
+	/**
+	 * 	Sleep
+	 *	@param sec seconds
+	 */
+	public static void sleep (int sec)
+	{
+		s_log.info("Start - Seconds=" + sec);
+		try
+		{
+			Thread.sleep(sec*1000);
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.WARNING, "", e);
+		}
+		s_log.info("End");
+	}	//	sleep
+	
+	/**
+	 * Update all windows after look and feel changes.
+	 * @since 2006-11-27 
+	 */
+	public static Set<Window>updateBaseUI() 
+	{
+		Set<Window> updated = new HashSet<Window>();
+		for (Container c : Env.getContainers())
+		{
+			Window w = Env.getFrame(c);
+			if (w == null) continue;
+			if (updated.contains(w)) continue;
+			SwingUtilities.updateComponentTreeUI(w);
+			w.validate();
+			RepaintManager mgr = RepaintManager.currentManager(w);
+			Component childs[] = w.getComponents();
+			for (Component child : childs) {
+				if (child instanceof JComponent)
+					mgr.markCompletelyDirty((JComponent)child);
+			}
+			w.repaint();
+			updated.add(w);
+		}
+		for (Window w : s_hiddenWindows)
+		{
+			if (updated.contains(w)) continue;
+			SwingUtilities.updateComponentTreeUI(w);
+			w.validate();
+			RepaintManager mgr = RepaintManager.currentManager(w);
+			Component childs[] = w.getComponents();
+			for (Component child : childs) {
+				if (child instanceof JComponent)
+					mgr.markCompletelyDirty((JComponent)child);
+			}
+			w.repaint();
+			updated.add(w);
+		}
+		return updated;
 	}
 	
 	/**
