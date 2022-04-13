@@ -144,8 +144,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 							data = id;
 							p_table.setColumnReadOnly(0, false);
 						} else if (c == Boolean.class)
-							data = new Boolean("Y".equals(rs
-									.getString(colIndex)));
+							data = Boolean.valueOf("Y".equals(rs.getString(colIndex)));
 						else if (c == Timestamp.class)
 							data = rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)

@@ -1678,8 +1678,7 @@ public abstract class Browser {
 												&& DisplayType.Integer != field.getAD_Reference_ID())))
 							data = new IDColumn(no);
 						else if (DisplayType.YesNo == field.getAD_Reference_ID())
-							data = new Boolean("Y".equals(resultSet
-									.getString(colIndex)));
+							data = Boolean.valueOf("Y".equals(resultSet.getString(colIndex)));
 						else if (DisplayType.isDate(field.getAD_Reference_ID()))
 							data = resultSet.getTimestamp(colIndex);
 						else if(DisplayType.isID(field.getAD_Reference_ID())

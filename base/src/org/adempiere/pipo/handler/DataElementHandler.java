@@ -213,7 +213,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						else if (((String)(thisValue.get(2))).equals("Integer"))
 							genericPO.set_ValueOfColumn((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
 						else if (((String)(thisValue.get(2))).equals("Boolean"))
-							genericPO.set_ValueOfColumn((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
+							genericPO.set_ValueOfColumn((String) thisValue.get(0), Boolean.valueOf((String) thisValue.get(1)));
 					}
 				}
 			}
@@ -274,7 +274,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
 					}	
 					else if (atts.getValue("class").equals("Boolean")) {
-						genericPO.set_ValueOfColumn(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), Boolean.valueOf(atts.getValue("value")));
 					}
 					else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
 							|| atts.getValue("class").equals("Time")) {

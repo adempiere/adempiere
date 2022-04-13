@@ -805,9 +805,9 @@ public class ModelADServiceImpl implements ModelADService {
 			value = null;
 		} else if (columnClass == Boolean.class) {
 			if ("Y".equalsIgnoreCase(field.getVal()) || "true".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(true);
+				value = Boolean.TRUE;
 			else if ("N".equalsIgnoreCase(field.getVal()) || "false".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(false);
+				value = Boolean.FALSE;
 			else
 				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "

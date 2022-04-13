@@ -149,7 +149,7 @@ public class MProductPricing
 			calculateDiscount();
 		setPrecision();		//	from Price List
 		//
-		found = new Boolean (calculated);
+		found = Boolean.valueOf(calculated);
 		return calculated;
 	}	//	calculatePrice
 

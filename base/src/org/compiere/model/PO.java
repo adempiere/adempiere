@@ -821,7 +821,7 @@ public abstract class PO
 			//	Set Boolean
 			else if (p_info.getColumnClass(index) == Boolean.class
 				&& ("Y".equals(value) || "N".equals(value)) )
-				m_newValues[index] = new Boolean("Y".equals(value));
+				m_newValues[index] = Boolean.valueOf("Y".equals(value));
 			// added by vpj-cd
 			// To solve BUG [ 1618423 ] Set Project Type button in Project window throws warning
 			// generated because C_Project.C_Project_Type_ID is defined as button in dictionary
@@ -947,7 +947,7 @@ public abstract class PO
 			//	Set Boolean
 			else if (p_info.getColumnClass(index) == Boolean.class
 				&& ("Y".equals(value) || "N".equals(value)) )
-				m_newValues[index] = new Boolean("Y".equals(value));
+				m_newValues[index] = Boolean.valueOf("Y".equals(value));
 			else if (p_info.getColumnClass(index) == Integer.class
 				&& value.getClass() == String.class)
 			{
@@ -1513,7 +1513,7 @@ public abstract class PO
 				else if (clazz == BigDecimal.class)
 					m_oldValues[index] = decrypt(index, rs.getBigDecimal(columnName));
 				else if (clazz == Boolean.class)
-					m_oldValues[index] = new Boolean ("Y".equals(decrypt(index, rs.getString(columnName))));
+					m_oldValues[index] = Boolean.valueOf("Y".equals(decrypt(index, rs.getString(columnName))));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = decrypt(index, rs.getTimestamp(columnName));
 				else if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(index) > 4000))
@@ -1577,7 +1577,7 @@ public abstract class PO
 				else if (clazz == BigDecimal.class)
 					m_oldValues[index] = new BigDecimal(value);
 				else if (clazz == Boolean.class)
-					m_oldValues[index] = new Boolean ("Y".equals(value));
+					m_oldValues[index] = Boolean.valueOf("Y".equals(value));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = Timestamp.valueOf(value);
 				else if (DisplayType.isLOB(dt))
@@ -1731,17 +1731,17 @@ public abstract class PO
 			else if (colName.equals(p_info.getTableName() + "_ID"))    //  KeyColumn
 				m_newValues[i] = I_ZERO;
 			else if (colName.equals("IsActive"))
-				m_newValues[i] = new Boolean(true);
+				m_newValues[i] = Boolean.TRUE;
 			else if (colName.equals("AD_Client_ID"))
 				m_newValues[i] = new Integer(Env.getAD_Client_ID(p_ctx));
 			else if (colName.equals("AD_Org_ID"))
 				m_newValues[i] = new Integer(Env.getAD_Org_ID(p_ctx));
 			else if (colName.equals("Processed"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else if (colName.equals("Processing"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else if (colName.equals("Posted"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else
 				m_newValues[i] = getDefaultValue(get_ColumnName(i));
 		}
@@ -1948,7 +1948,7 @@ public abstract class PO
 	 */
 	public final void setIsActive (boolean active)
 	{
-		set_Value("IsActive", new Boolean(active));
+		set_Value("IsActive", Boolean.valueOf(active));
 	}	//	setActive
 
 	/**
