@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -423,7 +424,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		}
 		
 		if (lineNetAmount.scale() > getPrecision())
-			lineNetAmount = lineNetAmount.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+			lineNetAmount = lineNetAmount.setScale(getPrecision(), RoundingMode.HALF_UP);
 		super.setLineNetAmt (lineNetAmount);
 	}	//	setLineNetAmt
 	
@@ -719,7 +720,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		if (QtyEntered != null && getC_UOM_ID() != 0)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
-			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyEntered = QtyEntered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyEntered (QtyEntered);
 	}	//	setQtyEntered
@@ -734,7 +735,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		if (QtyOrdered != null && product != null)
 		{
 			int precision = product.getUOMPrecision();
-			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyOrdered = QtyOrdered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered

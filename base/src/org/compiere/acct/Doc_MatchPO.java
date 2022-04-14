@@ -17,6 +17,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -169,7 +170,7 @@ public class Doc_MatchPO extends Doc
 			}
 			poCost = poCost.multiply(rate);
 			if (poCost.scale() > as.getCostingPrecision())
-				poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				poCost = poCost.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP);
 		}
 
 		//	Calculate PPV for standard costing
@@ -202,7 +203,7 @@ public class Doc_MatchPO extends Doc
             }
 	
 			//	Difference
-			BigDecimal difference = poCost.subtract(costs.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+			BigDecimal difference = poCost.subtract(costs.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP));
 			//	Nothing to post
 			if (difference.signum() == 0)
 			{

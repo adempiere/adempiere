@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -203,13 +204,13 @@ public abstract class LoanSimulator {
 		//	
 		List<AmortizationValue> amortizationList = (List<AmortizationValue>) returnValues.get("AMORTIZATION_LIST");
 		if(interestFeeAmt != null) {
-			setInterestFeeAmt(interestFeeAmt.setScale(currencyPrecision, BigDecimal.ROUND_HALF_UP));
+			setInterestFeeAmt(interestFeeAmt.setScale(currencyPrecision, RoundingMode.HALF_UP));
 		}
 		if(taxAmt != null) {
-			setTaxAmt(taxAmt.setScale(currencyPrecision, BigDecimal.ROUND_HALF_UP));
+			setTaxAmt(taxAmt.setScale(currencyPrecision, RoundingMode.HALF_UP));
 		}
 		if(grandTotal != null) {
-			setGrandToral(grandTotal.setScale(currencyPrecision, BigDecimal.ROUND_HALF_UP));
+			setGrandToral(grandTotal.setScale(currencyPrecision, RoundingMode.HALF_UP));
 		}
 		//	Reload table
 		reloadAmortization(amortizationList);

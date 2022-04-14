@@ -16,6 +16,7 @@ package org.adempiere.webui.apps.graph;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -484,8 +485,7 @@ public class WGraph extends Div implements IdSpace {
 		td.setDynamicProperty("colspan", "2");
 		td.setSclass("pa-tdcontent");
 		tr.appendChild(td);
-		text = new Text(builder.getMGoal().getMeasureTarget().setScale(2,
-				BigDecimal.ROUND_HALF_UP).toPlainString());
+		text = new Text(builder.getMGoal().getMeasureTarget().setScale(2, RoundingMode.HALF_UP).toPlainString());
 		td.appendChild(text);
 
 		tr = new Tr();
@@ -499,8 +499,7 @@ public class WGraph extends Div implements IdSpace {
 		td.setDynamicProperty("colspan", "2");
 		td.setSclass("pa-tdcontent");
 		tr.appendChild(td);
-		text = new Text(builder.getMGoal().getMeasureActual().setScale(2,
-				BigDecimal.ROUND_HALF_UP).toPlainString());
+		text = new Text(builder.getMGoal().getMeasureActual().setScale(2, RoundingMode.HALF_UP).toPlainString());
 		td.appendChild(text);
 
 		GraphColumn[] bList = getGraphColumnList();
@@ -552,11 +551,11 @@ public class WGraph extends Div implements IdSpace {
 
 				});
 				a.setDynamicProperty("href", "javascript:;");
-				text = new Text(value.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+				text = new Text(value.setScale(2, RoundingMode.HALF_UP).toPlainString());
 				a.appendChild(text);
 
 			} else {
-				text = new Text(value.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString());
+				text = new Text(value.setScale(2, RoundingMode.HALF_UP).toPlainString());
 			}
 		}
 		tr = new Tr();

@@ -18,6 +18,7 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -261,7 +262,7 @@ public class RollupBillOfMaterial extends RollupBillOfMaterialAbstract
 
 					BigDecimal qtyBatchSize = DB.getSQLValueBD(trxName, "SELECT QtyBatchSize FROM AD_Workflow WHERE AD_Workflow_ID=?",workflowId);
 					if (qtyBatchSize != null && qtyBatchSize.signum() != 0)
-						qty = qty.divide(qtyBatchSize , acctSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+						qty = qty.divide(qtyBatchSize, acctSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 				}
 
 				BigDecimal componentCost = costPrice.multiply(qty);

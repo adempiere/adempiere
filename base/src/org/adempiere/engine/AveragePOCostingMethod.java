@@ -555,8 +555,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
     public void updateInventoryValue() {
         if (accumulatedQuantity.signum() != 0)
         {
-            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
-            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
+            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
         }
         dimension.setCumulatedAmt(accumulatedAmount);
         dimension.setCumulatedAmtLL(accumulatedAmountLowerLevel);

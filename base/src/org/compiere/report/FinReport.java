@@ -17,6 +17,7 @@
 package org.compiere.report;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -642,7 +643,7 @@ public class FinReport extends FinReportAbstract {
 		}
 		if (col>0) {
 			BigDecimal bd = new BigDecimal(Float.toString(col*percentage));
-			bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+			bd = bd.setScale(2, RoundingMode.HALF_UP);
         	return bd.floatValue();
 		}
 		else

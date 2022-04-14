@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -406,7 +407,7 @@ public class DistributionRun extends SvrProcess
 					if (detail.isCanAdjust())
 					{
 						BigDecimal diffRatio = detail.getRatio().multiply(difference)
-							.divide(ratioTotal, BigDecimal.ROUND_HALF_UP);	// precision from total
+							.divide(ratioTotal, RoundingMode.HALF_UP);	// precision from total
 						log.fine("Detail=" + detail.toString()
 							+ ", Allocation=" + detail.getActualAllocation()
 							+ ", DiffRatio=" + diffRatio);

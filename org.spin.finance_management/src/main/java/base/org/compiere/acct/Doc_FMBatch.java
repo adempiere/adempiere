@@ -17,6 +17,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class   Doc_FMBatch extends Doc {
 			//	Get Source Amount
 			BigDecimal sumAmount = line.getAmtSource();
 			// round amount according to currency
-			sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			sumAmount = sumAmount.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 			//	Get Concept Account
 			X_FM_TransactionType_Acct transactionTypeAcct = batchDocLine.getTransactionTypeAcct(as.getC_AcctSchema_ID());
 			if(transactionTypeAcct == null) {

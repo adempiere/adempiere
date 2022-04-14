@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
@@ -544,11 +545,11 @@ public class WLoanSimulator extends org.spin.form.LoanSimulator
 				line.add(amortizationLine.getStartDate());	//	StartDate
 				line.add(amortizationLine.getEndDate());	//	EndDate
 				line.add(amortizationLine.getDueDate());	//	DueDate
-				line.add(amortizationLine.getCapitalAmtFee().setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP));	//	CapitalAmtFee
-				line.add(amortizationLine.getInterestAmtFee().setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP));	//	InterestAmtFee
-				line.add(amortizationLine.getTaxAmtFee().setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP));	//	TaxAmtFee
-				line.add(amortizationLine.getFixedFeeAmt().setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP));	//	FixedFeeAmt
-				line.add(amortizationLine.getRemainingCapital().setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP));	//	RemainingCapital
+				line.add(amortizationLine.getCapitalAmtFee().setScale(getStdPrecision(), RoundingMode.HALF_UP));	//	CapitalAmtFee
+				line.add(amortizationLine.getInterestAmtFee().setScale(getStdPrecision(), RoundingMode.HALF_UP));	//	InterestAmtFee
+				line.add(amortizationLine.getTaxAmtFee().setScale(getStdPrecision(), RoundingMode.HALF_UP));	//	TaxAmtFee
+				line.add(amortizationLine.getFixedFeeAmt().setScale(getStdPrecision(), RoundingMode.HALF_UP));	//	FixedFeeAmt
+				line.add(amortizationLine.getRemainingCapital().setScale(getStdPrecision(), RoundingMode.HALF_UP));	//	RemainingCapital
 				//	Add to model
 				model.add(line);
 			}

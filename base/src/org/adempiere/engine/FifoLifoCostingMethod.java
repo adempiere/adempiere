@@ -4,6 +4,7 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -162,11 +163,11 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 			accumulatedAmount = costDetail.getCumulatedAmt().add(amount).add(adjustCost);
 			accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(lastCostDetail).add(amountLowerLevel);
 			if(accumulatedAmount.signum() != 0)
-				currentCostPrice = accumulatedAmount.divide(accumulatedQuantity.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				currentCostPrice = accumulatedAmount.divide(accumulatedQuantity.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 			else
 				currentCostPrice = Env.ZERO;
 			if(accumulatedAmountLowerLevel.signum() != 0)
-				currentCostPriceLowerLevel = accumulatedAmountLowerLevel.divide(accumulatedQuantity.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				currentCostPriceLowerLevel = accumulatedAmountLowerLevel.divide(accumulatedQuantity.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 			else
 				currentCostPriceLowerLevel = Env.ZERO;
 
@@ -199,7 +200,7 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 		BigDecimal price = costDetail.getAmt();
 
 		if (costDetail.getQty().signum() != 0)
-			price = costDetail.getAmt().divide(costDetail.getQty(), precision, BigDecimal.ROUND_HALF_UP);
+			price = costDetail.getAmt().divide(costDetail.getQty(), precision, RoundingMode.HALF_UP);
 
 		int AD_Org_ID = costDetail.getAD_Org_ID();
 		int M_ASI_ID = costDetail.getM_AttributeSetInstance_ID();
@@ -233,7 +234,7 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 				{
 					BigDecimal priceQueue = Env.ZERO;
 					if (costDetail.getQty().signum() != 0)
-						priceQueue = amtQueue.divide(costDetail.getQty(), precision, BigDecimal.ROUND_HALF_UP);
+						priceQueue = amtQueue.divide(costDetail.getQty(), precision, RoundingMode.HALF_UP);
 					log.warning("Amt not match "+this+": price="+price+", priceQueue="+priceQueue+" [ADJUSTED]");
 					// FIXME: teo_sarca: should not happen
 					if ("Y".equals(Env.getContext(costDetail.getCtx(), "#M_CostDetail_CorrectAmt")))

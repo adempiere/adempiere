@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -826,9 +827,9 @@ public class OutBoundOrder {
 					BigDecimal qtyAvailable = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					//	
-					if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+					if(qty.setScale(precision, RoundingMode.HALF_UP).doubleValue() 
 							> qtyAvailable.doubleValue()) {
 						if(errorMessage.length() > 0) {
 							errorMessage.append(Env.NL);

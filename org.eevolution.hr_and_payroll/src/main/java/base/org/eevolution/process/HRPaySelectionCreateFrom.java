@@ -23,6 +23,7 @@ import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionLine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -124,8 +125,8 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
             paySelectionLine.setPaymentRule(paymentRule);
             paySelectionLine.setAD_Org_ID(paySelection.getAD_Org_ID());
             paySelectionLine.setLine(lineNo.get());
-            paySelectionLine.setOpenAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
-            paySelectionLine.setPayAmt(movement.getAmount().setScale(2, BigDecimal.ROUND_HALF_DOWN));
+            paySelectionLine.setOpenAmt(movement.getAmount().setScale(2, RoundingMode.HALF_DOWN));
+            paySelectionLine.setPayAmt(movement.getAmount().setScale(2, RoundingMode.HALF_DOWN));
             paySelectionLine.setDescription(partner.getName() + " " + partner.getName2());
             paySelectionLine.setDifferenceAmt(BigDecimal.ZERO);
             paySelectionLine.setDiscountAmt(BigDecimal.ZERO);

@@ -4,6 +4,7 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.compiere.model.MAcctSchema;
@@ -54,7 +55,7 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 		BigDecimal price = costDetail.getAmt();
 
 		if (costDetail.getQty().signum() != 0)
-			price = costDetail.getAmt().divide(costDetail.getQty(), precision, BigDecimal.ROUND_HALF_UP);
+			price = costDetail.getAmt().divide(costDetail.getQty(), precision, RoundingMode.HALF_UP);
 		if (costDetail.getC_OrderLine_ID() != 0) {
 			if (!isReturnTrx) {
 				if (costDetail.getQty().signum() != 0)
