@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -129,7 +130,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 		retValue = retValue.multiply(Amt);
 		int stdPrecision = MCurrency.getStdPrecision(ctx, CurTo_ID);
 		if (retValue.scale() > stdPrecision)
-			retValue = retValue.setScale(stdPrecision, BigDecimal.ROUND_HALF_UP);
+			retValue = retValue.setScale(stdPrecision, RoundingMode.HALF_UP);
 			
 		return retValue;
 	}	//	convert

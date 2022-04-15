@@ -271,7 +271,7 @@ public class PromotionRule {
 									}
 									else {  // : Gift line
 										BigDecimal qtyreward = pr.getM_PromotionDistribution().getQty();
-										BigDecimal qtymodulo = ol.getQtyOrdered().divide(qtyreward,0);
+										BigDecimal qtymodulo = ol.getQtyOrdered().divide(qtyreward, RoundingMode.UP);
 										addGiftLine(order, ol, pr.getAmount(), pr.getQty().multiply(qtymodulo), pr.getC_Charge_ID(), pr.getM_Promotion());
 									} 
 								}

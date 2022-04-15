@@ -134,7 +134,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel
 
 		// Pre-converts to minutes, because its the lowest time unit of compiere 
 		BigDecimal scale = new BigDecimal(1000*60);
-		BigDecimal minutes = new BigDecimal(millis).divide(scale, 2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal minutes = new BigDecimal(millis).divide(scale, 2, RoundingMode.HALF_UP);
 		return convert(minutes);
 	}
 	

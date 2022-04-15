@@ -184,7 +184,7 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine ,
 			if (product != null)
 			{
 				int precision = product.getUOMPrecision(); 
-				QtyInternalUse = QtyInternalUse.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				QtyInternalUse = QtyInternalUse.setScale(precision, RoundingMode.HALF_UP);
 			}
 		}
 		super.setQtyInternalUse(QtyInternalUse);

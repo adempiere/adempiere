@@ -446,7 +446,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		//	Calculate & Scale
 		retValue = retValue.multiply(qty);
 		if (retValue.scale() > precision)
-			retValue = retValue.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			retValue = retValue.setScale(precision, RoundingMode.HALF_UP);
 		return retValue;
 	}   //  convert
 

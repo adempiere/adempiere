@@ -316,7 +316,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			setPriceEntered(getPriceActual());
 		else
 			setPriceEntered(getPriceActual().multiply(getQtyOrdered()
-				.divide(getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP)));	//	recision
+				.divide(getQtyEntered(), 12, RoundingMode.HALF_UP)));	//	recision
 		
 		//	Calculate Discount
 		setDiscount(m_productPrice.getDiscount());
@@ -679,7 +679,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			return;
 		BigDecimal discount = list.subtract(getPriceActual())
 			.multiply(new BigDecimal(100))
-			.divide(list, getPrecision(), BigDecimal.ROUND_HALF_UP);
+			.divide(list, getPrecision(), RoundingMode.HALF_UP);
 		setDiscount(discount);
 	}	//	setDiscount
 
