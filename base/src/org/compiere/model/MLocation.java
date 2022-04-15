@@ -70,7 +70,7 @@ public class MLocation extends X_C_Location implements Comparator
 		if (C_Location_ID == 0)
 			return new MLocation(ctx, C_Location_ID, trxName);
 		//
-		Integer key = new Integer (C_Location_ID);
+		Integer key = Integer.valueOf(C_Location_ID);
 		MLocation retValue = null;
 		if (trxName == null)
 			retValue = (MLocation) s_cache.get (key);

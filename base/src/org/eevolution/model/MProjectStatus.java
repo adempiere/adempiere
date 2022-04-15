@@ -59,7 +59,7 @@ public class MProjectStatus extends X_C_ProjectStatus{
 	{
 		if (C_ProjectStatus_ID == 0)
 			return null;
-		Integer key = new Integer (C_ProjectStatus_ID);
+		Integer key = Integer.valueOf(C_ProjectStatus_ID);
 		MProjectStatus retValue = (MProjectStatus)s_cache.get(key);
 		if (retValue == null)
 		{

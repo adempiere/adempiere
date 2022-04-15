@@ -2671,7 +2671,7 @@ public class DBConnection {
 			s_logger.log(Level.FINER, sqlCommand);
 
 			int recordsUpdated = stmt.executeUpdate();
-			result = new Integer(recordsUpdated);
+			result = Integer.valueOf(recordsUpdated);
 
 		} catch (SQLException e) {
 			// exception when running SQL command means database may be OK but transaction is invalid
@@ -2730,7 +2730,7 @@ public class DBConnection {
 			s_logger.log(Level.FINER, sqlCommand);
 
 			int recordsUpdated = stmt.executeUpdate(sqlCommand);
-			result = new Integer(recordsUpdated);
+			result = Integer.valueOf(recordsUpdated);
 
 		} catch (SQLException e) {
 			// exception when running SQL command means database may be OK but transaction is invalid
@@ -2792,7 +2792,7 @@ public class DBConnection {
 			s_logger.log(Level.FINER, sqlCommand);
 
 			int recordsUpdated = stmt.executeUpdate(sqlCommand);
-			result = new Integer(recordsUpdated);
+			result = Integer.valueOf(recordsUpdated);
 
 		} catch (SQLException e) {
 			// exception when running SQL command means database may be OK but transaction is invalid

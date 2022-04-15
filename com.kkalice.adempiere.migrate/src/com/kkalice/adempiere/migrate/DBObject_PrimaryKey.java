@@ -116,7 +116,7 @@ public class DBObject_PrimaryKey implements DBObjectInterface {
 			boolean isDeferred = dbEngine.isTrue(parent.getResultSetString(rs, "INITIALLY_DEFERRED"));
 			DBObject_PrimaryKey_Table obj = new DBObject_PrimaryKey_Table(parent, pkName, counter);
 			obj.initializeDefinition(tableName, isDeferrable, isDeferred);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 			counter ++;
 		}
 		parent.releaseResultSet(rs);
@@ -136,7 +136,7 @@ public class DBObject_PrimaryKey implements DBObjectInterface {
 			String columnName = parent.getResultSetString(rs, "COLUMN_NAME");
 			DBObject_PrimaryKey_Column obj = new DBObject_PrimaryKey_Column(parent, pkName, pkSeq);
 			obj.initializeDefinition(tableName, columnName);
-			contentMap.put(new Integer(pkSeq), obj);
+			contentMap.put(Integer.valueOf(pkSeq), obj);
 		}
 		parent.releaseResultSet(rs);
 	}

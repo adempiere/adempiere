@@ -159,7 +159,7 @@ public class MColumn extends X_AD_Column
 	 */
 	public static MColumn get (Properties ctx, int AD_Column_ID)
 	{
-		Integer key = new Integer (AD_Column_ID);
+		Integer key = Integer.valueOf(AD_Column_ID);
 		MColumn retValue = (MColumn) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

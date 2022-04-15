@@ -145,7 +145,7 @@ public class MTable extends X_AD_Table
 	 */
 	public static MTable get (Properties ctx, int AD_Table_ID)
 	{
-		Integer key = new Integer (AD_Table_ID);
+		Integer key = Integer.valueOf(AD_Table_ID);
 		MTable retValue = s_cache.get (key);
 		if (retValue != null && retValue.getCtx() == ctx) {
 			return retValue;
@@ -173,7 +173,7 @@ public class MTable extends X_AD_Table
 		}
 		MTable retValue = MTable.get(ctx, tableId);
 		if (retValue != null) {
-			Integer key = new Integer (retValue.getAD_Table_ID());
+			Integer key = Integer.valueOf(retValue.getAD_Table_ID());
 			s_cache.put (key, retValue);
 		}
 		return retValue;
@@ -525,7 +525,7 @@ public class MTable extends X_AD_Table
 			//log.log(Level.WARNING, "(id) - Class not found for " + tableName);
 			//return null;
 			log.log(Level.INFO, "Using GenericPO for " + tableName);
-			GenericPO po = new GenericPO(tableName, getCtx(), new Integer(Record_ID), trxName);
+			GenericPO po = new GenericPO(tableName, getCtx(), Integer.valueOf(Record_ID), trxName);
 			return po;
 		}
 		
@@ -545,7 +545,7 @@ public class MTable extends X_AD_Table
 				log.warning("No transaction Constructor for " + clazz + " (" + msg + ")");
 			}
 			
-			PO po = (PO)constructor.newInstance(new Object[] {getCtx(), new Integer(Record_ID), trxName});
+			PO po = (PO) constructor.newInstance(new Object[] {getCtx(), Integer.valueOf(Record_ID), trxName});
 			if (po != null && po.get_ID() != Record_ID && Record_ID > 0)
 				return null;
 			return po;

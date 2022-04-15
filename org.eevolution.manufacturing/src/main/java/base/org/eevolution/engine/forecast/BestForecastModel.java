@@ -82,8 +82,7 @@ public class BestForecastModel implements ForecastRule {
 
 			int peridoNo = (int) dp.getIndependentValue(getKey());
 			BigDecimal calculateQty = new BigDecimal(dp.getDependentValue());
-			DataElement data = new DataElement(new Integer(getKey()), peridoNo,
-					calculateQty, calculateQty.toString());
+			DataElement data = new DataElement(Integer.valueOf(getKey()), peridoNo, calculateQty, calculateQty.toString());
 			forecastDataResult.addDataElement(data);
 		}
 

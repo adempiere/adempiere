@@ -875,7 +875,7 @@ public class MTree extends X_AD_Tree
 	 */
 	public static MTree get (Properties ctx, int AD_Tree_ID, String trxName)
 	{
-		Integer key = new Integer (AD_Tree_ID);
+		Integer key = Integer.valueOf(AD_Tree_ID);
 		MTree retValue = (MTree) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

@@ -61,7 +61,7 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public static MWFNode get (Properties ctx, int AD_WF_Node_ID)
 	{
-		Integer key = new Integer (AD_WF_Node_ID);
+		Integer key = Integer.valueOf(AD_WF_Node_ID);
 		MWFNode retValue = (MWFNode) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -104,7 +104,7 @@ public class MWFNode extends X_AD_WF_Node
 		}
 		//	Save to Cache
 		if (get_ID() != 0)
-			s_cache.put (new Integer(getAD_WF_Node_ID()), this);
+			s_cache.put (Integer.valueOf(getAD_WF_Node_ID()), this);
 	}	//	MWFNode
 
 	/**

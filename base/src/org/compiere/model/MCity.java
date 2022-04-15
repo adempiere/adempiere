@@ -45,7 +45,7 @@ public final class MCity extends X_C_City
 	 */
 	public static MCity get (Properties ctx, int C_City_ID)
 	{
-		Integer key = new Integer (C_City_ID);
+		Integer key = Integer.valueOf(C_City_ID);
 		MCity r = s_Cities.get(key);
 		if (r != null)
 			return r;

@@ -844,7 +844,7 @@ public final class APanel extends CPanel
 						//	Is this tab included?
 						if (includedMap.size() > 0)
 						{
-							GridController parent = (GridController)includedMap.get(new Integer(gTab.getAD_Tab_ID()));
+							GridController parent = (GridController)includedMap.get(Integer.valueOf(gTab.getAD_Tab_ID()));
 							if (parent != null)
 							{
 								// FR [ 1757088 ]
@@ -2142,7 +2142,7 @@ public final class APanel extends CPanel
 		{
 			if (queryColumn.endsWith("_ID"))
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-					new Integer(Env.getContextAsInt(ctx, m_curWindowNo, queryColumn)),
+					Integer.valueOf(Env.getContextAsInt(ctx, m_curWindowNo, queryColumn)),
 					infoName, infoDisplay);
 			else
 				query.addRestriction(queryColumn, MQuery.EQUAL,
@@ -2174,8 +2174,7 @@ public final class APanel extends CPanel
 		if (link.length() != 0)
 		{
 			if (link.endsWith("_ID"))
-				query.addRestriction(link, MQuery.EQUAL,
-					new Integer(Env.getContextAsInt(ctx, m_curWindowNo, link)));
+				query.addRestriction(link, MQuery.EQUAL, Integer.valueOf(Env.getContextAsInt(ctx, m_curWindowNo, link)));
 			else
 				query.addRestriction(link, MQuery.EQUAL,
 					Env.getContext(ctx, m_curWindowNo, link));

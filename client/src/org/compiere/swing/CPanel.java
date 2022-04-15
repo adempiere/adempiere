@@ -164,8 +164,9 @@ public class CPanel extends JPanel
 	{
 		if (level == 0)
 			putClientProperty(AdempiereLookAndFeel.TABLEVEL, null);
-		else
-			putClientProperty(AdempiereLookAndFeel.TABLEVEL, new Integer(level));
+		else {
+			putClientProperty(AdempiereLookAndFeel.TABLEVEL, Integer.valueOf(level));
+		}
 	}   //  setTabLevel
 
 	/**

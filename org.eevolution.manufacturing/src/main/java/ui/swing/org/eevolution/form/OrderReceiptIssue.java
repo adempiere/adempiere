@@ -282,7 +282,7 @@ public class OrderReceiptIssue extends GenForm {
 			if (product != null && product.get_ID() != 0 && product.isStocked()) {
 				if (value == null && isSelected) {
 					attributeSetInstanceId =  key.getKey();
-					locatorId =  new Integer((String)m_issue[i][0].get(6));
+					locatorId =  Integer.valueOf((String)m_issue[i][0].get(6));
 					if (attributeSetInstanceId == 0 )
 						attributeSetInstanceId = (Integer) key.getKey();
 

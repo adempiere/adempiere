@@ -122,7 +122,7 @@ public class AcctSchemaCopyAcct extends SvrProcess
 			String columnName = keyNamePair.getName();
 			MAccount sourceAccount = MAccount.getValidCombination(getCtx(), sourceValidCombinationId, get_TrxName());
 			MAccount targetAccount = createAccount(targetAS, sourceAccount);
-			target.setValue(columnName, new Integer(targetAccount.getC_ValidCombination_ID()));
+			target.setValue(columnName, Integer.valueOf(targetAccount.getC_ValidCombination_ID()));
 		}
 		if (!target.save())
 			throw new AdempiereSystemError("Could not Save GL");
@@ -147,7 +147,7 @@ public class AcctSchemaCopyAcct extends SvrProcess
 			String columnName = pp.getName();
 			MAccount sourceAccount = MAccount.getValidCombination(getCtx(), sourceValidCombinationId , get_TrxName());
 			MAccount targetAccount = createAccount(acctSchema, sourceAccount);
-			target.setValue(columnName, new Integer(targetAccount.getC_ValidCombination_ID()));
+			target.setValue(columnName, Integer.valueOf(targetAccount.getC_ValidCombination_ID()));
 		}
 		if (!target.save())
 			throw new AdempiereSystemError("Could not Save Default");

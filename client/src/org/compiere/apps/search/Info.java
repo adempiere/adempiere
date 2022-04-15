@@ -1823,7 +1823,7 @@ public abstract class Info extends CDialog
 						else if (c == Double.class)
 							data = new Double(m_rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(m_rs.getInt(colIndex));
+							data = Integer.valueOf(m_rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)
 						{
 							String display = m_rs.getString(colIndex);

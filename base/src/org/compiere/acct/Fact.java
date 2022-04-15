@@ -356,7 +356,7 @@ public final class Fact
 			for (int i = 0; i < m_lines.size(); i++)
 			{
 				FactLine line = (FactLine)m_lines.get(i);
-				Integer key = new Integer(line.getAD_Org_ID());
+				Integer key = Integer.valueOf(line.getAD_Org_ID());
 				BigDecimal bal = line.getSourceBalance();
 				BigDecimal oldBal = (BigDecimal)map.get(key);
 				if (oldBal != null)
@@ -423,7 +423,7 @@ public final class Fact
 			for (int i = 0; i < m_lines.size(); i++)
 			{
 				FactLine line = (FactLine)m_lines.get(i);
-				Integer key = new Integer(line.getAD_Org_ID());
+				Integer key = Integer.valueOf(line.getAD_Org_ID());
 			//	BigDecimal balance = line.getSourceBalance();
 				Balance oldBalance = (Balance)map.get(key);
 				if (oldBalance == null)

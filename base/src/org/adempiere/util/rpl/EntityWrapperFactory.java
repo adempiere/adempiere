@@ -558,7 +558,7 @@ public class EntityWrapperFactory {
 						//
 						if (!Util.isEmpty(value.toString())) {
 							int intValue = Integer.parseInt(value.toString());
-							value = new Integer( intValue );
+							value = Integer.valueOf(intValue);
 						} else {
 							value = null;
 						}

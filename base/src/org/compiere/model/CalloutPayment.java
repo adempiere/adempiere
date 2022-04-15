@@ -94,9 +94,9 @@ public class CalloutPayment extends CalloutEngine
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
-				mTab.setValue ("C_BPartner_ID", new Integer (rs.getInt (1)));
+				mTab.setValue("C_BPartner_ID", Integer.valueOf(rs.getInt (1)));
 				int C_Currency_ID = rs.getInt (2); // Set Invoice Currency
-				mTab.setValue ("C_Currency_ID", new Integer (C_Currency_ID));
+				mTab.setValue("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 				//
 				BigDecimal InvoiceOpen = rs.getBigDecimal (3); // Set Invoice
 				// OPen Amount
@@ -170,9 +170,9 @@ public class CalloutPayment extends CalloutEngine
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
-				mTab.setValue ("C_BPartner_ID", new Integer (rs.getInt (1)));
+				mTab.setValue("C_BPartner_ID", Integer.valueOf(rs.getInt (1)));
 				int C_Currency_ID = rs.getInt (2); // Set Order Currency
-				mTab.setValue ("C_Currency_ID", new Integer (C_Currency_ID));
+				mTab.setValue("C_Currency_ID", Integer.valueOf(C_Currency_ID));
 				//
 				BigDecimal GrandTotal = rs.getBigDecimal (3); // Set Pay
 				// Amount

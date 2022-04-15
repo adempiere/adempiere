@@ -156,7 +156,7 @@ public class DBDataSource extends compiereDataSource
 				}
 				else if (clazz.equals(java.lang.Integer.class))
 				{
-					objValue = new Integer(m_resultSet.getInt(field.getName()));
+					objValue = Integer.valueOf(m_resultSet.getInt(field.getName()));
 					if(m_resultSet.wasNull())
 					{
 						objValue = null;

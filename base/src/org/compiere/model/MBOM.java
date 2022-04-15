@@ -45,7 +45,7 @@ public class MBOM extends X_M_BOM
 	 */
 	public static MBOM get (Properties ctx, int M_BOM_ID)
 	{
-		Integer key = new Integer (M_BOM_ID);
+		Integer key = Integer.valueOf(M_BOM_ID);
 		MBOM retValue = (MBOM) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

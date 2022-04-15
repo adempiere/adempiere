@@ -390,7 +390,7 @@ public class ADServiceImpl implements ADService {
     	{
     		GridWindowVO wo = getWindowVO( req.getWindowNo(), req.getADWindowID(), req.getADMenuID() );
     		ws = new WWindowStatus(wo);
-    		WindowStatusMap.put(new Integer(req.getWindowNo()), ws);
+    		WindowStatusMap.put(Integer.valueOf(req.getWindowNo()), ws);
     		    		
         	ws.curTab.query(ws.mWindow.isTransaction()); //!!!!!!!!!!
         	ws.curTab.navigate(0);		
@@ -1022,7 +1022,7 @@ public class ADServiceImpl implements ADService {
 			Integer ii = null;
 			try
 			{
-				ii = new Integer (value);
+				ii = Integer.valueOf(value);
 			}
 			catch (Exception e)
 			{

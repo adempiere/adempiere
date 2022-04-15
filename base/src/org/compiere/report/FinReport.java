@@ -133,7 +133,7 @@ public class FinReport extends FinReportAbstract {
 			.append(" - ").append(parameterWhere);
 		//	
 		ProcessInfoParameter[] pi = getProcessInfo().getParameter();
-		pi[0].setParameter(new Integer(getPeriodId()));
+		pi[0].setParameter(Integer.valueOf(getPeriodId()));
 		getProcessInfo().setParameter(pi);
 		//	
 		log.info(sb.toString());

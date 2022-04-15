@@ -128,7 +128,7 @@ public class DBObject_Trigger implements DBObjectInterface {
 
 			DBObject_Trigger_Table obj = new DBObject_Trigger_Table (parent, triggerName, counter);
 			obj.initializeDefinition(triggerType, triggerEvent, tableName, actionType, actionOrientation);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 
 			counter++;
 		}
@@ -150,7 +150,7 @@ public class DBObject_Trigger implements DBObjectInterface {
 
 			DBObject_Trigger_Definition obj = new DBObject_Trigger_Definition (parent, triggerName, counter);
 			obj.initializeDefinition(triggerBody);
-			contentMap.put(new Integer(counter), obj);
+			contentMap.put(Integer.valueOf(counter), obj);
 
 			counter++;
 		}

@@ -320,9 +320,8 @@ public class TableElement extends PrintElement
 		{
 			int col = dataCol;
 			//	Print below existing column
-			if (m_additionalLines.containsKey(new Integer(dataCol)))
-			{
-				col = ((Integer)m_additionalLines.get(new Integer(dataCol))).intValue();
+			if (m_additionalLines.containsKey(Integer.valueOf(dataCol))) {
+				col = ((Integer)m_additionalLines.get(Integer.valueOf(dataCol))).intValue();
 				if (log.isLoggable(Level.FINEST)) log.finest("DataColumn=" + dataCol + ", BelowColumn=" + col);
 			}
 			float colWidth = 0;
@@ -654,7 +653,7 @@ public class TableElement extends PrintElement
 		if (m_firstPage.height >= p_height && m_pageBreak.size() == 0)
 		{
 			if (log.isLoggable(Level.FINEST)) log.finest("Page Y=1 - PageHeight=" + m_firstPage.height + " - TableHeight=" + p_height);
-			m_firstRowOnPage.add(new Integer(0));	//	Y
+			m_firstRowOnPage.add(Integer.valueOf(0));	//	Y
 			m_pageHeight.add(new Float(p_height));	//	Y index only
 		}
 		//	multiple pages on Y | Axis
@@ -692,7 +691,7 @@ public class TableElement extends PrintElement
 				if (pageBreak)
 				{
 					availableHeight = firstPage ? m_firstPage.height : m_nextPages.height;
-					m_firstRowOnPage.add(new Integer(dataRow+addlRows));	//	Y
+					m_firstRowOnPage.add(Integer.valueOf(dataRow+addlRows));	//	Y
 					if (!firstPage)
 					{
 						m_pageHeight.add(new Float(usedHeight));	//	Y index only
@@ -728,7 +727,7 @@ public class TableElement extends PrintElement
 		{
 			if (log.isLoggable(Level.FINEST)) log.finest("Page X=1 - PageWidth=" + m_firstPage.width 
 					+ " - TableWidth=" + p_width);
-			m_firstColumnOnPage.add(new Integer(0));	//	X
+			m_firstColumnOnPage.add(Integer.valueOf(0));	//	X
 			//
 			distributeColumns (m_firstPage.width-(int)p_width, 0, m_columnWidths.size());
 		}
@@ -746,7 +745,7 @@ public class TableElement extends PrintElement
 					if (col != 0)
 						distributeColumns (availableWidth, lastStart, col);
 					//
-					m_firstColumnOnPage.add(new Integer(col));	//	X
+					m_firstColumnOnPage.add(Integer.valueOf(col));	//	X
 					if (log.isLoggable(Level.FINEST)) log.finest("Page X=" + m_firstColumnOnPage.size()
 							+ " - Col=" + col);
 					lastStart = col;
@@ -1129,7 +1128,7 @@ public class TableElement extends PrintElement
 		String tableName = MQuery.getZoomTableName(columnName);
 		Object code = pp.getID();
 		if (pp instanceof KeyNamePair)
-			code = new Integer(((KeyNamePair)pp).getKey());
+			code = Integer.valueOf(((KeyNamePair) pp).getKey());
 		//
 		MQuery query = new MQuery(tableName);
 		query.addRestriction(columnName, MQuery.EQUAL, code, null, pp.toString());
@@ -1752,11 +1751,11 @@ public class TableElement extends PrintElement
             else
             {
                 //  next line is a function column -> underline this
-                boolean nextIsFunction = m_functionRows.contains(new Integer(row+1));
-                if (nextIsFunction && m_functionRows.contains(new Integer(row)))
+                boolean nextIsFunction = m_functionRows.contains(Integer.valueOf(row + 1));
+                if (nextIsFunction && m_functionRows.contains(Integer.valueOf(row))) {
                     nextIsFunction = false;     //  this is a function line too
-                if (nextIsFunction || (m_finReportSumRows.contains(new Integer(row + 1)) && getReportLine(row + 1,col) != null))
-                {
+				}
+                if (nextIsFunction || (m_finReportSumRows.contains(Integer.valueOf(row + 1)) && getReportLine(row + 1,col) != null)) {
                     g2D.setPaint(m_tFormat.getFunctFG_Color());
                     g2D.setStroke(m_tFormat.getHLine_Stroke());
                     g2D.drawLine(origX, curY,               //   -> - (bottom)

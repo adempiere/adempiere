@@ -52,7 +52,7 @@ public class MRequestType extends X_R_RequestType
 	 */
 	public static MRequestType get (Properties ctx, int R_RequestType_ID)
 	{
-		Integer key = new Integer (R_RequestType_ID);
+		Integer key = Integer.valueOf(R_RequestType_ID);
 		MRequestType retValue = (MRequestType)s_cache.get(key);
 		if (retValue == null)
 		{

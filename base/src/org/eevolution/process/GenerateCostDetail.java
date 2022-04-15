@@ -221,7 +221,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             for (KeyNamePair keyNamePair : transactions) {
 
                 int transactionId = keyNamePair.getKey();
-                int transactionProductId = new Integer(keyNamePair.getName());
+                int transactionProductId = Integer.valueOf(keyNamePair.getName());
 
                 //Detected a new product
                 if (productId != transactionProductId) {

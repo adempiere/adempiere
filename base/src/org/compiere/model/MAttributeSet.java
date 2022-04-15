@@ -99,7 +99,7 @@ public class MAttributeSet extends X_M_AttributeSet
     public static MAttributeSet get (Properties ctx, int M_AttributeSet_ID, String trxName)
     {
 
-		Integer key = new Integer (M_AttributeSet_ID);
+		Integer key = Integer.valueOf(M_AttributeSet_ID);
 		MAttributeSet retValue = (MAttributeSet) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

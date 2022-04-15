@@ -590,7 +590,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	{
 		if (M_Product_ID == 0)
 			return new MUOMConversion[0];
-		Integer key = new Integer (M_Product_ID);
+		Integer key = Integer.valueOf(M_Product_ID);
 		MUOMConversion[] result = (MUOMConversion[])s_conversionProduct.get(key);
 		if (result != null)
 			return result;

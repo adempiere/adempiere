@@ -88,7 +88,7 @@ public class MColorSchema extends X_PA_ColorSchema
 			retValue.setDefault();
 			return retValue;
 		}
-		Integer key = new Integer (PA_ColorSchema_ID);
+		Integer key = Integer.valueOf(PA_ColorSchema_ID);
 		MColorSchema retValue = (MColorSchema)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

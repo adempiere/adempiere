@@ -243,7 +243,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public void setHeaderInfo (MOrder order)
 	{
 		m_parent = order;
-		m_precision = new Integer(order.getPrecision());
+		m_precision = Integer.valueOf(order.getPrecision());
 		m_M_PriceList_ID = order.getM_PriceList_ID();
 		m_IsSOTrx = order.isSOTrx();
 	}	//	setHeaderInfo
@@ -468,7 +468,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			MCurrency cur = MCurrency.get(getCtx(), getC_Currency_ID());
 			if (cur.get_ID() != 0)
 			{
-				m_precision = new Integer (cur.getStdPrecision());
+				m_precision = Integer.valueOf(cur.getStdPrecision());
 				return m_precision.intValue();
 			}
 		}
@@ -477,7 +477,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			+ "FROM C_Currency c INNER JOIN C_Order x ON (x.C_Currency_ID=c.C_Currency_ID) "
 			+ "WHERE x.C_Order_ID=?";
 		int i = DB.getSQLValue(get_TrxName(), sql, getC_Order_ID());
-		m_precision = new Integer(i);
+		m_precision = Integer.valueOf(i);
 		return m_precision.intValue();
 	}	//	getPrecision
 	
@@ -548,7 +548,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
 		if (M_AttributeSetInstance_ID == 0)		//	 0 is valid ID
-			set_Value("M_AttributeSetInstance_ID", new Integer(0));
+			set_Value("M_AttributeSetInstance_ID", Integer.valueOf(0));
 		else
 			super.setM_AttributeSetInstance_ID (M_AttributeSetInstance_ID);
 	}	//	setM_AttributeSetInstance_ID

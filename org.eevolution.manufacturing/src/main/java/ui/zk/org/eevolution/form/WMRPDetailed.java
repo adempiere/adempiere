@@ -457,7 +457,7 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 		WPAttributeInstance pai = new WPAttributeInstance(title, m_warehouse_id, 0, m_product_id, 0);
 		if(pai.getM_AttributeSetInstance_ID() != -1) {
 			fAttrSetInstance_ID.setLabel(pai.getM_AttributeSetInstanceName());
-			ASI_ID = new Integer(pai.getM_AttributeSetInstance_ID());
+			ASI_ID = Integer.valueOf(pai.getM_AttributeSetInstance_ID());
 		}
 		else {
 			ASI_ID = 0;

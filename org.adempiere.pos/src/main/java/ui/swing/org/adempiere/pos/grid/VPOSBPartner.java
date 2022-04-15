@@ -279,7 +279,7 @@ public final class VPOSBPartner extends CDialog implements ActionListener
 		if (partnerLocation != null)
 		{
 			int location = partnerLocation.getC_Location_ID();
-			fAddress.setValue (new Integer(location));
+			fAddress.setValue(Integer.valueOf(location));
 			//
 			fPhone.setText(partnerLocation.getPhone());
 			fPhone2.setText(partnerLocation.getPhone2());

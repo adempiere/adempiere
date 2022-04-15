@@ -131,8 +131,8 @@ public class MRequest extends X_R_Request
 		int R_RequestType_ID, String Summary, boolean isSelfService, String trxName)
 	{
 		this(ctx, 0, trxName);
-		set_Value ("SalesRep_ID", new Integer(SalesRep_ID));	//	could be 0
-		set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
+		set_Value("SalesRep_ID", Integer.valueOf(SalesRep_ID));	//	could be 0
+		set_Value("R_RequestType_ID", Integer.valueOf(R_RequestType_ID));
 		setSummary (Summary);
 		setIsSelfService(isSelfService);
 		if (getRequestType() != null)
@@ -1145,7 +1145,7 @@ public class MRequest extends X_R_Request
 						|| getConfidentialTypeEntry().equals(CONFIDENTIALTYPE_PrivateInformation)))
 					continue;
 				//	Check duplicate receivers
-				Integer ii = new Integer (userId);
+				Integer ii = Integer.valueOf(userId);
 				if (recipients.contains(ii))
 					continue;
 				recipients.add(ii);

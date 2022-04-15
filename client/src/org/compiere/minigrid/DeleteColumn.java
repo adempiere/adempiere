@@ -31,7 +31,7 @@ public class DeleteColumn implements java.io.Serializable {
 
 
 	public DeleteColumn(int record_ID) {
-		this(new Integer(record_ID));
+		this(Integer.valueOf(record_ID));
 	}
 	
 	public DeleteColumn(Integer record_ID) {

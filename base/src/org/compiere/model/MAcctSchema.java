@@ -63,7 +63,7 @@ public class MAcctSchema extends X_C_AcctSchema
 	public static MAcctSchema get (Properties ctx, int C_AcctSchema_ID, String trxName)
 	{
 		//  Check Cache
-		Integer key = new Integer(C_AcctSchema_ID);
+		Integer key = Integer.valueOf(C_AcctSchema_ID);
 		MAcctSchema retValue = (MAcctSchema)s_cache.get(key);
 		if (retValue != null)
 			return retValue;
@@ -94,7 +94,7 @@ public class MAcctSchema extends X_C_AcctSchema
 	public static MAcctSchema[] getClientAcctSchema (Properties ctx, int AD_Client_ID, String trxName)
 	{
 		//  Check Cache
-		Integer key = new Integer(AD_Client_ID);
+		Integer key = Integer.valueOf(AD_Client_ID);
 		if (s_schema.containsKey(key))
 			return (MAcctSchema[])s_schema.get(key);
 

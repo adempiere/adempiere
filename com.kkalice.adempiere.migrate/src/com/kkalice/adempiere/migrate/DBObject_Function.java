@@ -122,7 +122,7 @@ public class DBObject_Function implements DBObjectInterface {
 
 			DBObject_Function_Argument obj = new DBObject_Function_Argument(parent, argName, seqNum);
 			obj.initializeDefinition(funcName, funcLang, funcType, retType, argDir, argType);
-			headerMap.put(new Integer(seqNum), obj);
+			headerMap.put(Integer.valueOf(seqNum), obj);
 
 		}
 		parent.releaseResultSet(rs);
@@ -152,7 +152,7 @@ public class DBObject_Function implements DBObjectInterface {
 
 			DBObject_Function_Body obj = new DBObject_Function_Body(parent, funcName, seqNum);
 			obj.initializeDefinition (funcDef);
-			contentMap.put(new Integer(seqNum), obj);
+			contentMap.put(Integer.valueOf(seqNum), obj);
 
 		}
 		parent.releaseResultSet(rs);

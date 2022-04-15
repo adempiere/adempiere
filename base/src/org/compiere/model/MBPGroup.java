@@ -58,7 +58,7 @@ public class MBPGroup extends X_C_BP_Group
 	 */
 	public static MBPGroup get (Properties ctx, int C_BP_Group_ID, String trxName)
 	{
-		Integer key = new Integer (C_BP_Group_ID);
+		Integer key = Integer.valueOf(C_BP_Group_ID);
 		MBPGroup retValue = (MBPGroup) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -76,7 +76,7 @@ public class MBPGroup extends X_C_BP_Group
 	public static MBPGroup getDefault (Properties ctx)
 	{
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		Integer key = new Integer (AD_Client_ID);
+		Integer key = Integer.valueOf(AD_Client_ID);
 		MBPGroup retValue = (MBPGroup) s_cacheDefault.get (key);
 		if (retValue != null)
 			return retValue;
@@ -140,7 +140,7 @@ public class MBPGroup extends X_C_BP_Group
 			if (rs.next ())
 			{
 				retValue = new MBPGroup (ctx, rs, null);
-				Integer key = new Integer (retValue.getC_BP_Group_ID());
+				Integer key = Integer.valueOf(retValue.getC_BP_Group_ID());
 				if (retValue.get_ID () != 0)
 					s_cache.put (key, retValue);
 			}

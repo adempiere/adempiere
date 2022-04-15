@@ -488,7 +488,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		log.fine(getColumnName() + " - Unique ID=" + id);
 
-		actionCombo(new Integer(id));          //  data binding
+		actionCombo(Integer.valueOf(id));          //  data binding
 		//m_text.requestFocus();
 	}	//	actionText
 
@@ -564,9 +564,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			return;
 		
 		//  Maybe new BPartner - put in cache
-		m_lookup.getDirect(new Integer(result), false, true);
-		setValue(new Integer(result));
-		actionCombo (new Integer(result));      //  data binding
+		m_lookup.getDirect(Integer.valueOf(result), false, true);
+		setValue(Integer.valueOf(result));
+		actionCombo(Integer.valueOf(result));      //  data binding
 		
 		//setValue(getValue());
 	}	//	actionBPartner

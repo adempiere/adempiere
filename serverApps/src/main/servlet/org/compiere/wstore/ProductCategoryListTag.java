@@ -97,7 +97,7 @@ public class ProductCategoryListTag extends TagSupport
 	 */
 	private option[] getCategories (int AD_Client_ID)
 	{
-		option[] options = (option[])s_categories.get(new Integer(AD_Client_ID));
+		option[] options = (option[])s_categories.get(Integer.valueOf(AD_Client_ID));
 		if (options != null)
 			return options;
 		
@@ -123,7 +123,7 @@ public class ProductCategoryListTag extends TagSupport
 			}
 		}
 		//
-		s_categories.put(new Integer(AD_Client_ID), options);
+		s_categories.put(Integer.valueOf(AD_Client_ID), options);
 		return options;
 	}	//	getCountries
 

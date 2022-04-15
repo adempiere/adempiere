@@ -96,7 +96,7 @@ public class MBPartner extends X_C_BPartner
 		if (source == null)
 			source = new MBPartner (ctx, 0, null);
 		//	Reset
-		source.set_ValueNoCheck ("C_BPartner_ID", new Integer(0));
+		source.set_ValueNoCheck("C_BPartner_ID", Integer.valueOf(0));
 		source.setTaxID("");
 		source.setValue("");
 		source.setName("");
@@ -694,7 +694,7 @@ public class MBPartner extends X_C_BPartner
 	 */
 	public void setPrimaryC_BPartner_Location_ID(int C_BPartner_Location_ID)
 	{
-		m_primaryC_BPartner_Location_ID = new Integer (C_BPartner_Location_ID);
+		m_primaryC_BPartner_Location_ID = Integer.valueOf(C_BPartner_Location_ID);
 	}	//	setPrimaryC_BPartner_Location_ID
 	
 	/**
@@ -703,7 +703,7 @@ public class MBPartner extends X_C_BPartner
 	 */
 	public void setPrimaryAD_User_ID(int AD_User_ID)
 	{
-		m_primaryAD_User_ID = new Integer (AD_User_ID);
+		m_primaryAD_User_ID = Integer.valueOf(AD_User_ID);
 	}	//	setPrimaryAD_User_ID
 	
 	

@@ -50,7 +50,7 @@ public class MRfQ extends X_C_RfQ
 	 */
 	public static MRfQ get (Properties ctx, int C_RfQ_ID, String trxName)
 	{
-		Integer key = new Integer (C_RfQ_ID);
+		Integer key = Integer.valueOf(C_RfQ_ID);
 		MRfQ retValue = (MRfQ) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

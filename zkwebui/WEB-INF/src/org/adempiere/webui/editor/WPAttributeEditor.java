@@ -79,7 +79,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private String 				oldWhere;
 
 	/**	No Instance Key					*/
-	private static Integer		NO_INSTANCE = new Integer(0);
+	private static Integer		NO_INSTANCE = Integer.valueOf(0);
 
 	public WPAttributeEditor(GridTab gridTab, GridField gridField)
 	{
@@ -343,7 +343,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			if (attributeSetInstanceId == 0)
 				setValue(null);
 			else
-				setValue(new Integer(attributeSetInstanceId));
+				setValue(Integer.valueOf(attributeSetInstanceId));
 			// Change Locator
 			if (this.gridTabAttribute != null && locatorId > 0)
 			{

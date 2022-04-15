@@ -1684,7 +1684,7 @@ public abstract class Browser {
 							data = resultSet.getTimestamp(colIndex);
 						else if(DisplayType.isID(field.getAD_Reference_ID())
 								|| DisplayType.Integer == field.getAD_Reference_ID())
-							data = new Integer(resultSet.getInt(colIndex));
+							data = Integer.valueOf(resultSet.getInt(colIndex));
 						else if (DisplayType.isNumeric(field.getAD_Reference_ID()))
 							data = resultSet.getBigDecimal(colIndex);
 						else

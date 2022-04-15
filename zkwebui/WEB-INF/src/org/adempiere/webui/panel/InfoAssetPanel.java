@@ -230,19 +230,19 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	        	String aid = Env.getContext(Env.getCtx(), p_WindowNo, "A_Asset_ID");
 				if (aid != null && aid.length() != 0)
 				{
-					fieldID = new Integer(aid).intValue();
+					fieldID = Integer.valueOf(aid).intValue();
 				}
 				//  C_BPartner_ID
 				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
 				if (bp != null && bp.length() != 0)
 				{
-					fBPartner_ID.setValue(new Integer(bp).intValue());
+					fBPartner_ID.setValue(Integer.valueOf(bp).intValue());
 				}
 				//  M_Product_ID
 				String pid = Env.getContext(Env.getCtx(), p_WindowNo, "M_Product_ID");
 				if (pid != null && pid.length() != 0)
 				{
-					fProduct_ID.setValue(new Integer(pid).intValue());
+					fProduct_ID.setValue(Integer.valueOf(pid).intValue());
 				}
 			}
 		}

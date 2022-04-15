@@ -188,7 +188,7 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 		//	
 		MPrintFormat format = MPrintFormat.get (getCtx(), printForm.getRemittance_PrintFormat_ID(), false);
 		MQuery query = new MQuery("C_PaySelection_Remittance_v");
-		query.addRestriction(I_C_Payment.COLUMNNAME_C_Payment_ID, MQuery.EQUAL, new Integer(payment.getC_Payment_ID()));
+		query.addRestriction(I_C_Payment.COLUMNNAME_C_Payment_ID, MQuery.EQUAL, Integer.valueOf(payment.getC_Payment_ID()));
 		//	Engine
 		PrintInfo info = new PrintInfo(payment.getDocumentNo(), payment.get_Table_ID(), payment.getC_Payment_ID(), payment.getC_BPartner_ID());
 		info.setDescription(payment.getDocumentInfo());

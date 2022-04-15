@@ -1292,7 +1292,7 @@ public class DataEngine
 
 		sortColumnsByGroupOrder();  // runs once
 		
-		Integer nextColIndex = columnsSortedByGroupOrder.higherKey(new Integer(columnIndex));
+		Integer nextColIndex = columnsSortedByGroupOrder.higherKey(Integer.valueOf(columnIndex));
 		
 		if (nextColIndex == null)
 			return printData.getColumnInfo().length;
@@ -1307,7 +1307,7 @@ public class DataEngine
 
 		sortColumnsByGroupOrder();  // runs once
 		
-		Integer prevColIndex = columnsSortedByGroupOrder.lowerKey(new Integer(columnIndex));
+		Integer prevColIndex = columnsSortedByGroupOrder.lowerKey(Integer.valueOf(columnIndex));
 		
 		if (prevColIndex == null)
 			return -1;
@@ -1351,7 +1351,7 @@ public class DataEngine
 
 		for (int i=0; i<printData.getColumnInfo().length; i++)
 		{
-			columnsSortedByGroupOrder.put(new Integer(i), printData.getColumnInfo()[i]);
+			columnsSortedByGroupOrder.put(Integer.valueOf(i), printData.getColumnInfo()[i]);
 		}
 		
 	}
