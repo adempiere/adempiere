@@ -375,16 +375,23 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale,
 			int roundingMode) 
-	{		
-		if(getNewAccumulatedQuantity(cd).signum() != 0 && getNewAccumulatedAmount(cd).signum() != 0)
-			return getNewAccumulatedAmount(cd).divide(getNewAccumulatedQuantity(cd), scale , roundingMode);
-		else return BigDecimal.ZERO;
+	{
+		return getNewCurrentCostPrice(cd, scale, RoundingMode.valueOf(roundingMode));
 	}
 
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cd, int scale, RoundingMode roundingMode) 
+	{
+		if (getNewAccumulatedQuantity(cd).signum() != 0 && getNewAccumulatedAmount(cd).signum() != 0) {
+			return getNewAccumulatedAmount(cd).divide(getNewAccumulatedQuantity(cd), scale , roundingMode);
+		}
 
+		return BigDecimal.ZERO;
+	}
+	
 	/**
 	 * Get the New Cumulated Amt This Level
 	 * @param cd Cost Detail
@@ -408,12 +415,26 @@ public class FifoLifoCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cd, int scale,
                                                        int roundingMode) {
-		if(getNewAccumulatedQuantity(cd).signum() != 0 && getNewAccumulatedAmountLowerLevel(cd).signum() != 0)
+		return getNewCurrentCostPriceLowerLevel(cd, scale , RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Get the New Current Cost Price low level
+	 * @param cd Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cd, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cd).signum() != 0 && getNewAccumulatedAmountLowerLevel(cd).signum() != 0) {
 			return getNewAccumulatedAmountLowerLevel(cd).divide(getNewAccumulatedQuantity(cd), scale , roundingMode);
-		else return BigDecimal.ZERO;
+		}
+
+		return BigDecimal.ZERO;
 	}
 
 
