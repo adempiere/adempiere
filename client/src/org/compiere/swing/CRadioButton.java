@@ -260,7 +260,7 @@ public class CRadioButton extends JRadioButton implements CEditor {
 	public Object getValue() {
 		if (m_value instanceof String)
 			return super.isSelected() ? "Y" : "N";
-		return new Boolean(isSelected());
+		return Boolean.valueOf(isSelected());
 	} // getValue
 
 	/**

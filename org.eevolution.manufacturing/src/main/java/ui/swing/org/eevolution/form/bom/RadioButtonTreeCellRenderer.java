@@ -173,8 +173,8 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 
 
 		Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
-		line.add( new Boolean(false));  //  0 Select
-		line.add( new Boolean(true));   //  1 IsActive
+		line.add(Boolean.FALSE);  //  0 Select
+		line.add(Boolean.TRUE);   //  1 IsActive
 		line.add(Integer.valueOf(bomline.getLine())); // 2 Line                
 		line.add( (Timestamp) bomline.getValidFrom()); //  3 ValidDrom
 		line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
@@ -182,10 +182,10 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 		line.add(pp); //  5 M_Product_ID
 		KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),"");
 		line.add(uom); //  6 C_UOM_ID
-		line.add(new Boolean(bomline.isQtyPercentage())); //  7 IsQtyPorcentage
+		line.add(Boolean.valueOf(bomline.isQtyPercentage())); //  7 IsQtyPorcentage
 		line.add((BigDecimal) bomline.getQtyBatch());  //  8 BatchPercent
 		line.add((BigDecimal) ((bomline.getQtyBOM()!=null) ? bomline.getQtyBOM() : new BigDecimal(0)));  //  9 QtyBOM
-		line.add(new Boolean(bomline.isCritical())); //  10 IsCritical                  
+		line.add(Boolean.valueOf(bomline.isCritical())); //  10 IsCritical                  
 		line.add( (Integer) bomline.getLeadTimeOffset()); // 11 LTOffSet
 		line.add( (BigDecimal) bomline.getAssay()); // 12 Assay
 		line.add( (BigDecimal) (bomline.getScrap())); // 13 Scrap
@@ -227,8 +227,8 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 			//System.out.println("Componente :" + component.getValue() + "[" + component.getName() + "]");
 			//component(component);
 			Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
-			line.add( new Boolean(false));  //  0 Select
-			line.add( new Boolean(true));   //  1 IsActive
+			line.add(Boolean.FALSE);  //  0 Select
+			line.add(Boolean.TRUE);   //  1 IsActive
 			line.add(Integer.valueOf(bomline.getLine())); // 2 Line                
 			line.add( (Timestamp) bomline.getValidFrom()); //  3 ValidDrom
 			line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
@@ -236,10 +236,10 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 			line.add(pp); //  5 M_Product_ID
 			KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),"");
 			line.add(uom); //  6 C_UOM_ID
-			line.add(new Boolean(bomline.isQtyPercentage())); //  7 IsQtyPercentage
+			line.add(Boolean.valueOf(bomline.isQtyPercentage())); //  7 IsQtyPercentage
 			line.add((BigDecimal) bomline.getQtyBatch());  //  8 BatchPercent
 			line.add((BigDecimal) bomline.getQtyBOM());  //  9 QtyBom
-			line.add(new Boolean(bomline.isCritical())); //  10 IsCritical       
+			line.add(Boolean.valueOf(bomline.isCritical())); //  10 IsCritical       
 			line.add( (Integer) bomline.getLeadTimeOffset()); // 11 LTOffSet
 			line.add( (BigDecimal) bomline.getAssay()); // 12 Assay
 			line.add( (BigDecimal) (bomline.getScrap())); // 13 Scrap

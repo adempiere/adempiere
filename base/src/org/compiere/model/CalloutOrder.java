@@ -662,7 +662,7 @@ public class CalloutOrder extends CalloutEngine
 			if (rs.next())
 			{
 				//	Tax Included
-				mTab.setValue("IsTaxIncluded", new Boolean("Y".equals(rs.getString(1))));
+				mTab.setValue("IsTaxIncluded", Boolean.valueOf("Y".equals(rs.getString(1))));
 				//	Currency
 				Integer ii = Integer.valueOf(rs.getInt(3));
 				mTab.setValue("C_Currency_ID", ii);

@@ -921,7 +921,7 @@ public class MiniTable extends CTable implements IMiniTable
 					if (c == IDColumn.class)
 						data = new IDColumn(rs.getInt(colIndex));
 					else if (c == Boolean.class)
-						data = new Boolean("Y".equals(rs.getString(colIndex)));
+						data = Boolean.valueOf("Y".equals(rs.getString(colIndex)));
 					else if (c == Timestamp.class)
 						data = rs.getTimestamp(colIndex);
 					else if (c == BigDecimal.class)

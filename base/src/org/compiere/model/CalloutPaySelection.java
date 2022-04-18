@@ -293,7 +293,7 @@ public class CalloutPaySelection extends CalloutEngine
 				AmtSource = rs.getBigDecimal(1);
 				OpenAmt = rs.getBigDecimal(2);
 				DiscountAmt = rs.getBigDecimal(3);
-				IsSOTrx = new Boolean ("Y".equals(rs.getString(4)));
+				IsSOTrx = Boolean.valueOf("Y".equals(rs.getString(4)));
 				C_ConversionType_ID = rs.getInt(5);
 				C_BPartner_ID = rs.getInt(6);
 			}
@@ -371,7 +371,7 @@ public class CalloutPaySelection extends CalloutEngine
 			if (rs.next()) {
 				AmtSource = rs.getBigDecimal(1);
 				OpenAmt = rs.getBigDecimal(2);
-				IsSOTrx = new Boolean ("Y".equals(rs.getString(3)));
+				IsSOTrx = Boolean.valueOf("Y".equals(rs.getString(3)));
 				C_ConversionType_ID = rs.getInt(4);
 				C_BPartner_ID = rs.getInt(5);
 			}

@@ -456,7 +456,7 @@ public class EntityWrapper {
      * 	@param active active
      */
     public final void setIsActive (boolean active) {
-        setValue("IsActive", new Boolean(active));
+        setValue("IsActive", Boolean.valueOf(active));
     }	//	setActive
 
     /**
