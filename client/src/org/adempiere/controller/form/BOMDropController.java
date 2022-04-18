@@ -222,7 +222,7 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 		String explodeBOMDesc = Msg.translate(ctx, MSG_ExplodeBOMTooltip);
 		String isExplodeBOMName = Msg.translate(ctx, MSG_IsExplodeBOMName);
 		explodeBomEditor = form.createSelectionEditor(DisplayType.YesNo, null, isExplodeBOMName, explodeBOMName, explodeBOMDesc, row++, 1);
-		explodeBomEditor.setValue(new Boolean(false)); // Default - don't explode 
+		explodeBomEditor.setValue(Boolean.FALSE); // Default - don't explode 
 		addListener(explodeBomEditor);
 		
 		//  If no PO, create editors for the possible documents

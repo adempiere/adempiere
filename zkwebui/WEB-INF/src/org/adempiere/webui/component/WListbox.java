@@ -637,7 +637,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 					}	
 					else if (columnClass == Boolean.class)
 					{
-						data = rs.getString(rsColIndex) == null ?  new Boolean(false) : new Boolean(rs.getString(rsColIndex).equals("Y"));
+						data = rs.getString(rsColIndex) == null ? Boolean.FALSE : Boolean.valueOf(rs.getString(rsColIndex).equals("Y"));
 					}
 					else if (columnClass == Timestamp.class)
 					{

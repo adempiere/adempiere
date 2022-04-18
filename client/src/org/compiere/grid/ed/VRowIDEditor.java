@@ -116,7 +116,7 @@ public class VRowIDEditor extends AbstractCellEditor implements TableCellEditor
 		log.fine("" + m_cb.isSelected());
 		if (m_rid == null)
 			return null;
-		m_rid[1] = new Boolean (m_cb.isSelected());
+		m_rid[1] = Boolean.valueOf(m_cb.isSelected());
 		return m_rid;
 	}	//	getCellEditorValue
 

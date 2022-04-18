@@ -326,7 +326,7 @@ public class OutBoundOrder {
 			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       		//  0-Selection
+				line.add(Boolean.FALSE);       		//  0-Selection
 				line.add(rs.getString(column++));       	//  1-Warehouse
 				KeyNamePair pp = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(pp);				       			//  2-DocumentNo
@@ -677,7 +677,7 @@ public class OutBoundOrder {
 				}
 				//	Fill Row
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       			//  0-Selection
+				line.add(Boolean.FALSE);       			//  0-Selection
 				line.add(warehouse);       					//  1-Warehouse
 				line.add(documentNo);				       		//  2-DocumentNo
 				line.add(product);				      		//  3-Product

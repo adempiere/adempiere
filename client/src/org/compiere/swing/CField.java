@@ -181,14 +181,14 @@ public class CField extends JComboBox
 				Constructor<?> constructor = m_popupClass.getConstructor
 					(new Class<?>[] {Dialog.class, String.class, Boolean.class});
 				popup = (CFieldPopup)constructor.newInstance(new Object[]
-					{(Dialog)win, m_title, new Boolean(true)});
+					{(Dialog) win, m_title, Boolean.TRUE });
 			}
 			else if (win instanceof Frame)
 			{
 				Constructor<?> constructor = m_popupClass.getConstructor
 					(new Class[] {Frame.class, String.class, Boolean.class});
 				popup = (CFieldPopup)constructor.newInstance(new Object[]
-					{(Frame)win, m_title, new Boolean(true)});
+					{(Frame) win, m_title, Boolean.TRUE });
 			}
 			if (popup == null)
 				return false;
