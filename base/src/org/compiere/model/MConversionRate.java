@@ -320,7 +320,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 		if (C_Conversion_Rate_ID <= 0) {
 			return null;
 		}
-		Integer key = new Integer (C_Conversion_Rate_ID);
+		Integer key = Integer.valueOf(C_Conversion_Rate_ID);
 		MConversionRate retValue = (MConversionRate) s_cache.get (key);
 		if (retValue != null) {
 			return retValue;

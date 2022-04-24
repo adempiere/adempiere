@@ -136,7 +136,7 @@ public class WPOSTable extends WListbox {
 					}
 					else if (columnClass == Integer.class)
 					{
-						data = new Integer(rs.getInt(rsColIndex));
+						data = Integer.valueOf(rs.getInt(rsColIndex));
 					}
 					else if (columnClass == KeyNamePair.class)
 					{

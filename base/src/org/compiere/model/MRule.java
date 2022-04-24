@@ -62,7 +62,7 @@ public class MRule extends X_AD_Rule
 	 */
 	public static MRule get (Properties ctx, int AD_Rule_ID)
 	{
-		Integer key = new Integer (AD_Rule_ID);
+		Integer key = Integer.valueOf(AD_Rule_ID);
 		MRule retValue = (MRule) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -98,7 +98,7 @@ public class MRule extends X_AD_Rule
 		
 		if (retValue != null)
 		{
-			Integer key = new Integer (retValue.getAD_Rule_ID());
+			Integer key = Integer.valueOf(retValue.getAD_Rule_ID());
 			s_cache.put (key, retValue);
 		}
 		return retValue;

@@ -823,7 +823,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			else if (c == Double.class)
 		        value = new Double(rs.getDouble(colIndex));
 			else if (c == Integer.class)
-		        value = new Integer(rs.getInt(colIndex));
+		        value = Integer.valueOf(rs.getInt(colIndex));
 			else if (c == KeyNamePair.class)
 			{
 				String display = rs.getString(colIndex);

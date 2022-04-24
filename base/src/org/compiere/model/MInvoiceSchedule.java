@@ -48,7 +48,7 @@ public class MInvoiceSchedule extends X_C_InvoiceSchedule
 	 */
 	public static MInvoiceSchedule get (Properties ctx, int C_InvoiceSchedule_ID, String trxName)
 	{
-		Integer key = new Integer (C_InvoiceSchedule_ID);
+		Integer key = Integer.valueOf(C_InvoiceSchedule_ID);
 		MInvoiceSchedule retValue = (MInvoiceSchedule) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

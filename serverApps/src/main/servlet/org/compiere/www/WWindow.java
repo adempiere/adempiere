@@ -831,7 +831,7 @@ public class WWindow extends HttpServlet
 			Integer ii = null;
 			try
 			{
-				ii = new Integer (value);
+				ii = Integer.valueOf(value);
 			}
 			catch (Exception e)
 			{

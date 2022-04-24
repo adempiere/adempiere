@@ -282,7 +282,7 @@ public final class VAccount extends JComponent
 	 */
 	public Object getValue()
 	{
-		return new Integer (m_mAccount.C_ValidCombination_ID);
+		return Integer.valueOf(m_mAccount.C_ValidCombination_ID);
 	}	//	getValue
 
 	/**
@@ -410,7 +410,7 @@ public final class VAccount extends JComponent
 		//	We have a Value
 		if (C_ValidCombination_ID > 0)
 		{
-			Integer newValue = new Integer(C_ValidCombination_ID);
+			Integer newValue = Integer.valueOf(C_ValidCombination_ID);
 
 			//	set & redisplay
 			setValue(newValue);

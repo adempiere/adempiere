@@ -50,7 +50,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 	 */
 	public static MDiscountSchema get (Properties ctx, int M_DiscountSchema_ID)
 	{
-		Integer key = new Integer (M_DiscountSchema_ID);
+		Integer key = Integer.valueOf(M_DiscountSchema_ID);
 		MDiscountSchema retValue = (MDiscountSchema) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

@@ -72,7 +72,7 @@ public class MChangeLog extends X_AD_ChangeLog
 			pstmt = DB.prepareStatement(sql, null);
 			rs = pstmt.executeQuery();
 			while (rs.next())
-				list.add(new Integer(rs.getInt(1)));
+				list.add(Integer.valueOf(rs.getInt(1)));
 		}
 		catch (Exception e)
 		{

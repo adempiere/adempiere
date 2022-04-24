@@ -52,7 +52,7 @@ public class MConversionType extends X_C_ConversionType
 	public static int getDefault (int AD_Client_ID)
 	{
 		//	Try Cache
-		Integer key = new Integer (AD_Client_ID);
+		Integer key = Integer.valueOf(AD_Client_ID);
 		Integer ii = (Integer)s_cache.get(key);
 		if (ii != null)
 			return ii.intValue();
@@ -66,7 +66,7 @@ public class MConversionType extends X_C_ConversionType
 			+ "ORDER BY IsDefault DESC, AD_Client_ID DESC";
 		C_ConversionType_ID = DB.getSQLValue(null, sql, AD_Client_ID);
 		//	Return
-		s_cache.put(key, new Integer(C_ConversionType_ID));
+		s_cache.put(key, Integer.valueOf(C_ConversionType_ID));
 		return C_ConversionType_ID;
 	}	//	getDefault
 	

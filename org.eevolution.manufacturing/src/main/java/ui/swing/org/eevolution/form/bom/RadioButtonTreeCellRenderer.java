@@ -175,7 +175,7 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 		Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
 		line.add(Boolean.FALSE);  //  0 Select
 		line.add(Boolean.TRUE);   //  1 IsActive
-		line.add( new Integer(bomline.getLine())); // 2 Line                
+		line.add(Integer.valueOf(bomline.getLine())); // 2 Line                
 		line.add( (Timestamp) bomline.getValidFrom()); //  3 ValidDrom
 		line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getName());
@@ -229,7 +229,7 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 			Vector<Comparable<?>> line = new Vector<Comparable<?>>(17);
 			line.add(Boolean.FALSE);  //  0 Select
 			line.add(Boolean.TRUE);   //  1 IsActive
-			line.add( new Integer(bomline.getLine())); // 2 Line                
+			line.add(Integer.valueOf(bomline.getLine())); // 2 Line                
 			line.add( (Timestamp) bomline.getValidFrom()); //  3 ValidDrom
 			line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
 			KeyNamePair pp = new KeyNamePair(component.getM_Product_ID(),component.getName());

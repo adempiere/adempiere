@@ -604,8 +604,9 @@ public final class VAccountDialog extends CDialog
 		int intValue = rs.getInt(name);
 		if (rs.wasNull())
 			editor.setValue(null);
-		else
-			editor.setValue(new Integer (intValue));
+		else {
+			editor.setValue(Integer.valueOf(intValue));
+		}
 	}	//	loadInfoOf
 
 
@@ -1182,7 +1183,7 @@ public final class VAccountDialog extends CDialog
 		log.config("C_ValidCombination_ID=" + m_C_ValidCombination_ID + ", Changed=" + m_changed);
 		if (!m_changed || m_C_ValidCombination_ID == 0)
 			return null;
-		return new Integer(m_C_ValidCombination_ID);
+		return Integer.valueOf(m_C_ValidCombination_ID);
 	}
 
 	/**

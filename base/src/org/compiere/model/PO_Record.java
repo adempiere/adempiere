@@ -104,7 +104,7 @@ public class PO_Record
 			//	DELETE FROM table WHERE AD_Table_ID=#1 AND Record_ID=#2
 			if (s_cascades[i] != AD_Table_ID)
 			{
-				Object[] params = new Object[]{new Integer(AD_Table_ID), new Integer(Record_ID)};
+				Object[] params = new Object[]{Integer.valueOf(AD_Table_ID), Integer.valueOf(Record_ID)};
 				StringBuffer sql = new StringBuffer ("DELETE FROM ")
 					.append(s_cascadeNames[i])
 					.append(" WHERE AD_Table_ID=? AND Record_ID=?");
@@ -126,7 +126,7 @@ public class PO_Record
 			if (s_parents[j] == AD_Table_ID)
 			{
 				int AD_Table_IDchild = s_parentChilds[j];
-				Object[] params = new Object[]{new Integer(AD_Table_IDchild), new Integer(Record_ID)};
+				Object[] params = new Object[]{Integer.valueOf(AD_Table_IDchild), Integer.valueOf(Record_ID)};
 				for (int i = 0; i < s_cascades.length; i++)
 				{
 					StringBuffer sql = new StringBuffer ("DELETE FROM ")

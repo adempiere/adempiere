@@ -172,7 +172,7 @@ public class CalloutDistributionOrder extends CalloutEngine
 				{
 					Integer DD_OrderLine_ID = (Integer)mTab.getValue("DD_OrderLine_ID");
 					if (DD_OrderLine_ID == null)
-						DD_OrderLine_ID = new Integer(0);
+						DD_OrderLine_ID = Integer.valueOf(0);
 					BigDecimal notReserved = MDDOrderLine.getNotReserved(ctx, 
 						M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID,
 						DD_OrderLine_ID.intValue());

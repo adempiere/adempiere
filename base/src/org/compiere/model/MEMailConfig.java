@@ -56,7 +56,7 @@ public class MEMailConfig extends X_AD_EMailConfig {
 	 *	@return eMailConfig
 	 */
 	public static MEMailConfig get (Properties ctx, int AD_EMailConfig_ID) {
-		Integer key = new Integer (AD_EMailConfig_ID);
+		Integer key = Integer.valueOf(AD_EMailConfig_ID);
 		MEMailConfig eMailConfig = (MEMailConfig) s_cache.get(key);
 		if (eMailConfig != null)
 			return eMailConfig;

@@ -336,9 +336,9 @@ public class RecordInfoController {
 			else if (column.getAD_Reference_ID() == DisplayType.Integer)
 			{
 				if (OldValue != null)
-					showOldValue = m_intFormat.format (new Integer (OldValue));
+					showOldValue = m_intFormat.format(Integer.valueOf(OldValue));
 				if (NewValue != null)
-					showNewValue = m_intFormat.format (new Integer (NewValue));
+					showNewValue = m_intFormat.format(Integer.valueOf(NewValue));
 			}
 			else if (DisplayType.isNumeric (column.getAD_Reference_ID ()))
 			{

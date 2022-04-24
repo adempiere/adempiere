@@ -135,7 +135,7 @@ public class MUser extends X_AD_User
 	 */
 	public static MUser get (Properties ctx, int AD_User_ID)
 	{
-		Integer key = new Integer(AD_User_ID);
+		Integer key = Integer.valueOf(AD_User_ID);
 		MUser retValue = (MUser)s_cache.get(key);
 		if (retValue == null)
 		{

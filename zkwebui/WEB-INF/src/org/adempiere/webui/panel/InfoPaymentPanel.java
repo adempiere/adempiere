@@ -319,8 +319,9 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			
 			//  C_BPartner_ID
 			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
-			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				fBPartner_ID.setValue(new Integer(id));
+			if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+				fBPartner_ID.setValue(Integer.valueOf(id));
+			}
 			
 			//  The value passed in from the field
 			if (value != null && value.length() > 0)
@@ -331,9 +332,8 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			{
 				//  C_Payment_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Payment_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fieldID = new Integer(id).intValue();
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fieldID = Integer.valueOf(id).intValue();
 		        	String trxName = Trx.createTrxName();
 		        	MPayment p = new MPayment(Env.getCtx(),record_id, trxName);
 					fCheckReceipt.setSelected(p.isReceipt());
@@ -343,8 +343,9 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 				}
 				//  C_BankAccount_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BankAccount_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-					fBankAccount_ID.setValue(new Integer(id));
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fBankAccount_ID.setValue(Integer.valueOf(id));
+				}
 			}
         }
 	} // initInfo

@@ -109,7 +109,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		{
 			return null;
 		}
-		Integer key = new Integer (M_InOutLine_ID);
+		Integer key = Integer.valueOf(M_InOutLine_ID);
 		MInOutLine retValue = (MInOutLine) s_cache.get (key);
 		if (retValue != null)
 		{
@@ -318,7 +318,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		if (M_Locator_ID < 0)
 			throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
 		//	set to 0 explicitly to reset
-		set_Value (COLUMNNAME_M_Locator_ID, new Integer(M_Locator_ID));
+		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}	//	setM_Locator_ID
 
 	/**

@@ -172,7 +172,7 @@ public class PackOut extends PackOutAbstract {
 			packageDocStream = new FileOutputStream (file_document, false);		
 			StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
 			SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-			tf_document.setAttribute("indent-number", new Integer(4));
+			tf_document.setAttribute("indent-number", Integer.valueOf(4));
 			TransformerHandler packageDocument = tf_document.newTransformerHandler();		
 			Transformer serializer_document = packageDocument.getTransformer();		
 			serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
@@ -245,7 +245,7 @@ public class PackOut extends PackOutAbstract {
 			packOutDocStream = new FileOutputStream (file_menu, false);
 			StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
 			SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
-			tf_menu.setAttribute("indent-number", new Integer(4));
+			tf_menu.setAttribute("indent-number", Integer.valueOf(4));
 			TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		
 			Transformer serializer_menu = packOutDocument.getTransformer();		
 			serializer_menu.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		

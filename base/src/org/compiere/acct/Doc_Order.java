@@ -162,7 +162,7 @@ public class Doc_Order extends Doc
 		for (int i = 0; i < oLines.length; i++)
 		{
 			MOrderLine line = oLines[i];
-			qtys.put(new Integer(line.getC_OrderLine_ID()), line.getQtyOrdered());
+			qtys.put(Integer.valueOf(line.getC_OrderLine_ID()), line.getQtyOrdered());
 		}
 		//
 		ArrayList<DocLine> list = new ArrayList<DocLine>();
@@ -185,7 +185,7 @@ public class Doc_Order extends Doc
 				DocLine docLine = new DocLine (line, this);
 				//	Quantity - not more then OrderLine
 				//	Issue: Split of Requisition to multiple POs & different price
-				Integer key = new Integer(line.getC_OrderLine_ID());
+				Integer key = Integer.valueOf(line.getC_OrderLine_ID());
 				BigDecimal maxQty = qtys.get(key);
 				BigDecimal Qty = line.getQty().max(maxQty);
 				if (Qty.signum() == 0)

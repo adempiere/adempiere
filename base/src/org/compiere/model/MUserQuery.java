@@ -343,7 +343,7 @@ public class MUserQuery extends X_AD_UserQuery
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -399,7 +399,7 @@ public class MUserQuery extends X_AD_UserQuery
 				if (in instanceof Integer)
 					return in;
 				int i = Integer.parseInt(in.toString());
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

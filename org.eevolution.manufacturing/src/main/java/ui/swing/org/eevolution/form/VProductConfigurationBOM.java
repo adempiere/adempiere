@@ -561,8 +561,8 @@ public class VProductConfigurationBOM extends CPanel
 		}
 		
 		//	Add to List & display
-		m_productList.add (new Integer(M_Product_ID));
-			m_bomLineIDList.add(new Integer(PP_Product_BOMLine_ID));
+		m_productList.add(Integer.valueOf(M_Product_ID));
+			m_bomLineIDList.add(Integer.valueOf(PP_Product_BOMLine_ID));
 		/*VNumber qty = new VNumber ("Qty", true, false, true, DisplayType.Quantity, name);
 		qty.setValue(lineQty);
 		qty.setReadWrite(selected);
@@ -860,10 +860,10 @@ public class VProductConfigurationBOM extends CPanel
       //Collection<MPPProductBOMLine> col = new ArrayList<MPPProductBOMLine>();
       //Collections.addAll(col, bomLines);
 
-      m_BOMLevelToLinesMap.put(new Integer(bomLevel), (ArrayList)col);
+      m_BOMLevelToLinesMap.put(Integer.valueOf(bomLevel), (ArrayList)col);
       MPPProductBOMLine m_MPPProductBOMLine = bomLines[0];
       int PP_Product_BOM_ID = m_MPPProductBOMLine.getPP_Product_BOM_ID();
-      m_ConfigBOMIDToBOMLevelToLinesMap.put(new Integer(PP_Product_BOM_ID), m_BOMLevelToLinesMap);
+      m_ConfigBOMIDToBOMLevelToLinesMap.put(Integer.valueOf(PP_Product_BOM_ID), m_BOMLevelToLinesMap);
 
 
       return m_ConfigBOMIDToBOMLevelToLinesMap;
@@ -901,12 +901,12 @@ public class VProductConfigurationBOM extends CPanel
 		   log.fine("PP_Product_BOMLine_ID: " + PP_Product_BOMLine_ID);
 		   MPPProductBOMLine m_MPPProductBOMLine = new MPPProductBOMLine(Env.getCtx(), PP_Product_BOMLine_ID, null);
 		
-			m_BOMLevelToLinesMapFromKey = (HashMap<Integer, ArrayList<MPPProductBOMLine>>)m_ConfigBOMIDToBOMLevelToLinesMapFromSelectionList.get(new Integer(m_MPPProductBOMLine.getPP_Product_BOM_ID()));
+			m_BOMLevelToLinesMapFromKey = (HashMap<Integer, ArrayList<MPPProductBOMLine>>)m_ConfigBOMIDToBOMLevelToLinesMapFromSelectionList.get(Integer.valueOf(m_MPPProductBOMLine.getPP_Product_BOM_ID()));
 
 			if (m_BOMLevelToLinesMapFromKey == null)
 			{
 				m_BOMLevelToLinesMapFromKey = new HashMap<Integer, ArrayList<MPPProductBOMLine>>();
-				m_ConfigBOMIDToBOMLevelToLinesMapFromSelectionList.put(new Integer(m_MPPProductBOMLine.getPP_Product_BOM_ID()), m_BOMLevelToLinesMapFromKey);
+				m_ConfigBOMIDToBOMLevelToLinesMapFromSelectionList.put(Integer.valueOf(m_MPPProductBOMLine.getPP_Product_BOM_ID()), m_BOMLevelToLinesMapFromKey);
 				//ArrayList<MPPProductBOMLine> bomLines = (ArrayList<MPPProductBOMLine>)m_BOMLevelToLinesMapFromKey.get(getBomLevelBetweenPPProductBOMIDs(PP_ConfigProduct_BOM_ID, m_MPPProductBOMLine.getPP_Product_BOM_ID()));
 				ArrayList<MPPProductBOMLine> bomLines = new ArrayList<MPPProductBOMLine>();
 				bomLines.add(m_MPPProductBOMLine);

@@ -229,7 +229,7 @@ public class HTMLMessenger {
         	asi = new MAttributeSetInstance(Env.getCtx(), lines[i].getM_AttributeSetInstance_ID(), MAttributeSetInstance.Table_Name);
         	
         	Object[] obj = new Object[] {
-        			new Integer(lines[i].getPo()),
+        			Integer.valueOf(lines[i].getPo()),
                 	lines[i].getQtyBOM(),
                 	p.getName(),
                 	getAttributeSetInstanceInfo(asi, true)
@@ -249,7 +249,7 @@ public class HTMLMessenger {
     	MAttributeSetInstance asi = new MAttributeSetInstance(Env.getCtx(), mpbl.getM_AttributeSetInstance_ID(), MAttributeSetInstance.Table_Name);
     	
     	Object[] obj = new Object[] {
-    			new Integer(mpbl.getPo()),
+    			Integer.valueOf(mpbl.getPo()),
             	mpbl.getComponentType(),
             	mpbl.getValidFrom() == null ? "" : df.format(mpbl.getValidFrom()),
                 mpbl.getValidTo() == null ? "" : df.format(mpbl.getValidTo()),

@@ -1101,12 +1101,12 @@ public abstract class Doc
 		}
 		//  Get All Currencies
 		HashSet<Integer> set = new HashSet<Integer>();
-		set.add(new Integer(getC_Currency_ID()));
+		set.add(Integer.valueOf(getC_Currency_ID()));
 		for (int i = 0; p_lines != null && i < p_lines.length; i++)
 		{
 			int C_Currency_ID = p_lines[i].getC_Currency_ID();
 			if (C_Currency_ID != NO_CURRENCY)
-				set.add(new Integer(C_Currency_ID));
+				set.add(Integer.valueOf(C_Currency_ID));
 		}
 
 		//  just one and the same
@@ -1159,7 +1159,7 @@ public abstract class Doc
 				m_period = MPeriod.get(getCtx(), ii.intValue());
 		}
 		if (m_period == null)
-			m_period = MPeriod.get(getCtx(), getDateAcct(), getAD_Org_ID());
+			m_period = MPeriod.get(getCtx(), getDateAcct(), getAD_Org_ID(), null);
 		//	Is Period Open?
 		if (m_period != null 
 			&& m_period.isOpen(getDocumentType(), getDateAcct()))

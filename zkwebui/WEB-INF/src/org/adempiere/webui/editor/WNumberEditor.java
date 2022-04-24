@@ -149,10 +149,10 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 	        
 	        if (displayType == DisplayType.Integer) {
 		        if (newValue != null && newValue instanceof BigDecimal) {
-		        	newValue = new Integer(((BigDecimal)newValue).intValue());
+		        	newValue = Integer.valueOf(((BigDecimal) newValue).intValue());
 		        }
 		        if (oldValue != null && oldValue instanceof BigDecimal) {
-		        	oldValue = new Integer(((BigDecimal)oldValue).intValue());
+		        	oldValue = Integer.valueOf(((BigDecimal) oldValue).intValue());
 		        }
 	        }
 	        

@@ -99,7 +99,7 @@ public class ReportProcessor
 			// add parameter
 			m_Param.putAll(reportInfo.getSubReport());
             addProcessParameters( m_AD_PInstance_ID, m_Param);
-            m_Param.put("RECORD_ID", new Integer( m_Record_ID));
+            m_Param.put("RECORD_ID", Integer.valueOf(m_Record_ID));
 	    // Marco LOMBARDO: REPORT_HOME used to express subreports path.
             m_Param.put("REPORT_HOME", REPORT_PATH__fix ); //System.getProperty("REPORT_HOME"));
         // End Marco LOMBARDO.
@@ -147,8 +147,8 @@ public class ReportProcessor
         MPInstancePara[] pinstancePara = pinstance.getParameters();
         
         m_Record_ID = pinstance.getRecord_ID();
-        params.put("AD_Client_ID",new Integer(pinstance.getAD_Client_ID()));
-        params.put("AD_Org_ID",new Integer(pinstance.getAD_Org_ID()));
+        params.put("AD_Client_ID", Integer.valueOf(pinstance.getAD_Client_ID()));
+        params.put("AD_Org_ID", Integer.valueOf(pinstance.getAD_Org_ID()));
         
         for(int i=0; i<pinstancePara.length; i++)
         {

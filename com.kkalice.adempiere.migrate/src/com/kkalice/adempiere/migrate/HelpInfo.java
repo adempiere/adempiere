@@ -151,7 +151,7 @@ public class HelpInfo extends JDialog implements ActionListener {
 
         // close button
         m_buttonClose = new JButton(s_logger.localizeMessage("guiButtonClose"));
-        m_buttonClose.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonCloseMnemonic")));
+        m_buttonClose.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonCloseMnemonic")));
         m_buttonClose.setIcon(new ImageIcon(getImage("Cancel16.png")));
         m_buttonClose.addActionListener(this);
         pane.add(m_buttonClose, getCloseConstraints());
@@ -531,7 +531,7 @@ public class HelpInfo extends JDialog implements ActionListener {
    	   		doc.append("<dd>");
    	   		doc.append("<b>").append(getHtmlMessage("guiButtonViewTraceTip")).append("</b>");
    	   		String message = getHtmlMessage("guiButtonViewTraceHelp");
-   	   		message = message.replaceAll("\\{0\\}", new Integer(s_parameters.MAXLOGLINES).toString());
+   	   		message = message.replaceAll("\\{0\\}", Integer.valueOf(s_parameters.MAXLOGLINES).toString());
    	   		doc.append("<p>").append(message).append("</p>");
    	   		doc.append("</dd>");
     	// warnings
@@ -539,7 +539,7 @@ public class HelpInfo extends JDialog implements ActionListener {
    	   		doc.append("<dd>");
    	   		doc.append("<b>").append(getHtmlMessage("guiButtonViewWarningsTip")).append("</b>");
    	   		message = getHtmlMessage("guiButtonViewWarningsHelp");
-   	   		message = message.replaceAll("\\{0\\}", new Integer(s_parameters.MAXLOGLINES).toString());
+   	   		message = message.replaceAll("\\{0\\}", Integer.valueOf(s_parameters.MAXLOGLINES).toString());
    	   		doc.append("<p>").append(message).append("</p>");
    	   		doc.append("</dd>");
     	// errors
@@ -547,7 +547,7 @@ public class HelpInfo extends JDialog implements ActionListener {
    	   		doc.append("<dd>");
    	   		doc.append("<b>").append(getHtmlMessage("guiButtonViewErrorsTip")).append("</b>");
    	   		message = getHtmlMessage("guiButtonViewErrorsHelp");
-   	   		message = message.replaceAll("\\{0\\}", new Integer(s_parameters.MAXLOGLINES).toString());
+   	   		message = message.replaceAll("\\{0\\}", Integer.valueOf(s_parameters.MAXLOGLINES).toString());
    	   		doc.append("<p>").append(message).append("</p>");
    	   		doc.append("</dd>");
     	doc.append("</dl>");

@@ -126,7 +126,7 @@ public class MPPPeriod extends X_PP_Period {
 		if (period == null)
 			return period;
 
-		Integer key = new Integer(period.getPP_Period_ID());
+		Integer key = Integer.valueOf(period.getPP_Period_ID());
 		s_cache.put(key, period);
 		return period;
 	}

@@ -55,7 +55,7 @@ public class MCalendar extends X_C_Calendar
 	 */
 	public static MCalendar get (Properties ctx, int C_Calendar_ID)
 	{
-		Integer key = new Integer (C_Calendar_ID);
+		Integer key = Integer.valueOf(C_Calendar_ID);
 		MCalendar retValue = (MCalendar) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

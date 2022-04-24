@@ -260,7 +260,7 @@ public class SendMailText extends SvrProcess
 	 */
 	private Boolean sendIndividualMail (String Name, int userId, String unsubscribe) {
 		//	Prevent two email
-		Integer ii = new Integer (userId);
+		Integer ii = Integer.valueOf(userId);
 		if (m_list.contains(ii))
 			return null;
 		m_list.add(ii);

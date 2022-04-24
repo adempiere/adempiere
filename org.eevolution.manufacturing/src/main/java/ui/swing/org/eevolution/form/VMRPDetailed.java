@@ -152,7 +152,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 						else if (c == Double.class)
 							data = new Double(rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(rs.getInt(colIndex));
+							data = Integer.valueOf(rs.getInt(colIndex));
 						else if (c == KeyNamePair.class) {
 							String display = rs.getString(colIndex);
 							int key = rs.getInt(colIndex + 1);
@@ -824,8 +824,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 				m_warehouse_id, 0, m_product_id, 0);
 		if (pai.getM_AttributeSetInstance_ID() != -1) {
 			fAttrSetInstance_ID.setText(pai.getM_AttributeSetInstanceName());
-			fAttrSetInstance_ID.setValue(new Integer(pai
-					.getM_AttributeSetInstance_ID()));
+			fAttrSetInstance_ID.setValue(Integer.valueOf(pai.getM_AttributeSetInstance_ID()));
 		} else {
 			fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 		}
@@ -1086,7 +1085,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 
 			public void setValue(Object arg0) {
 				super.setValue(arg0);
-				fAttrSetInstance_ID.setValue(new Integer(0));
+				fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 			};
 		};
 
@@ -1118,7 +1117,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 			};
 		};
 
-		fAttrSetInstance_ID.setValue(new Integer(0));
+		fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 		fAttrSetInstance_ID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectAttributeSetInstance();

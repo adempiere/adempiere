@@ -120,7 +120,7 @@ public class DBObject_Check implements DBObjectInterface {
 			boolean isDeferred = dbEngine.isTrue(parent.getResultSetString(rs, "INITIALLY_DEFERRED"));
 			DBObject_Check_Table obj = new DBObject_Check_Table(parent, checkName, counter);
 			obj.initializeDefinition(tableName, isDeferrable, isDeferred);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 			counter ++;
 		}
 		parent.releaseResultSet(rs);
@@ -149,7 +149,7 @@ public class DBObject_Check implements DBObjectInterface {
 			if (!checkClause.toUpperCase().endsWith("NULL")) {
 				DBObject_Check_Rule obj = new DBObject_Check_Rule (parent, checkName, counter);
 				obj.initializeDefinition(checkTable, checkClause);
-				contentMap.put(new Integer(counter), obj);
+				contentMap.put(Integer.valueOf(counter), obj);
 				counter++;
 			}
 

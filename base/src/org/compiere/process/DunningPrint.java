@@ -139,7 +139,7 @@ public class DunningPrint extends DunningPrintAbstract {
 			//	query
 			MQuery query = new MQuery("C_Dunning_Header_v");
 			query.addRestriction("C_DunningRunEntry_ID", MQuery.EQUAL, 
-				new Integer(entry.getC_DunningRunEntry_ID()));
+				Integer.valueOf(entry.getC_DunningRunEntry_ID()));
 
 			//	Engine
 			PrintInfo info = new PrintInfo(

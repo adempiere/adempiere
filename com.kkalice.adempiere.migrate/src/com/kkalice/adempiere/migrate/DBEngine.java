@@ -3971,7 +3971,7 @@ public class DBEngine {
 		// 1 day old means everything updated before today, etc.
 		// since daysOld is subtracted from sysdate, we decrement it by 1
 		if (daysOld!=null)
-			daysOld = new Integer(daysOld.intValue()-1);
+			daysOld = Integer.valueOf(daysOld.intValue() - 1);
 
 		// get SQL command
 		return m_interfaces.get(getDBVendorID(vendorName)).sql_delete(catalogName, schemaName, tableName, tableAlias, conditions, daysOld);

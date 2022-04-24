@@ -157,7 +157,7 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement get (Properties ctx, int M_CostElement_ID)
 	{
-		Integer key = new Integer (M_CostElement_ID);
+		Integer key = Integer.valueOf(M_CostElement_ID);
 		MCostElement retValue = (MCostElement) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

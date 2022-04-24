@@ -102,9 +102,9 @@ public class CalloutEngine implements Callout
 		{
 			Object[] args = null;
 			if (argLength == 6)
-				args = new Object[] {ctx, new Integer(WindowNo), mTab, mField, value, oldValue};
+				args = new Object[] {ctx, Integer.valueOf(WindowNo), mTab, mField, value, oldValue};
 			else
-				args = new Object[] {ctx, new Integer(WindowNo), mTab, mField, value}; 
+				args = new Object[] {ctx, Integer.valueOf(WindowNo), mTab, mField, value}; 
 			retValue = (String)method.invoke(this, args);
 		}
 		catch (Exception e)

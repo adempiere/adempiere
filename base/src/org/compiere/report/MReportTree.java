@@ -275,7 +275,7 @@ public class MReportTree {
 				MTreeNode treeNode = (MTreeNode) enumeration.nextElement();
 				if (!treeNode.isSummary())
 				{
-					list.add(new Integer(treeNode.getNode_ID()));
+					list.add(Integer.valueOf(treeNode.getNode_ID()));
 					logger.finest("- " + treeNode);
 				}
 				else
@@ -283,7 +283,7 @@ public class MReportTree {
 			}
 		}
 		else	//	not found or not summary 
-			list.add(new Integer(ID));
+			list.add(Integer.valueOf(ID));
 		//
 		Integer[] retValue = new Integer[list.size()];
 		list.toArray(retValue);

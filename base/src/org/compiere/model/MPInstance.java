@@ -245,7 +245,7 @@ public class MPInstance extends X_AD_PInstance
 			log.info("Set to 0 from " + Record_ID);
 			Record_ID = 0;
 		}
-		set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+		set_ValueNoCheck("Record_ID", Integer.valueOf(Record_ID));
 	}	//	setRecord_ID
 
 	/**

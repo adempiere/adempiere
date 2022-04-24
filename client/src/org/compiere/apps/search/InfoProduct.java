@@ -759,7 +759,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         if (!(record_id == 0))  // A record is defined
         {
         	fieldID = record_id;
-        	fWarehouse_ID.setValue(new Integer(M_Warehouse_ID).intValue());
+			fWarehouse_ID.setValue(Integer.valueOf(M_Warehouse_ID).intValue());
         	fPriceList_ID.setValue(findPLV(M_PriceList_ID));
         } 
         else
@@ -795,15 +795,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Try to find other criteria in the context
 				//  M_Product_ID - only if visible
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_Product_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fieldID = new Integer(id).intValue();
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fieldID = Integer.valueOf(id).intValue();
 				}
 				
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_PriceList_Version_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fPriceList_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fPriceList_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				else
 				{	
@@ -815,29 +813,26 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				if(M_Warehouse_ID == 0)
 				{
 					id = Env.getContext(Env.getCtx(), "#M_Warehouse_ID");
-					if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-					{
-						fWarehouse_ID.setValue(new Integer(id).intValue());
+					if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+						fWarehouse_ID.setValue(Integer.valueOf(id).intValue());
 					}
 					else 
 					{
 						id = Env.getContext(Env.getCtx(), p_WindowNo, "M_Warehouse_ID");
-						if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-						{
-							fWarehouse_ID.setValue(new Integer(id).intValue());
+						if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+							fWarehouse_ID.setValue(Integer.valueOf(id).intValue());
 						}
 					}
 				}
 				else
 				{
-		        	fWarehouse_ID.setValue(new Integer(M_Warehouse_ID).intValue());
+					fWarehouse_ID.setValue(Integer.valueOf(M_Warehouse_ID).intValue());
 				}
 				
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
 				boolean isSOTrx = "Y".equals(Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "IsSOTrx", false));
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0) && !isSOTrx)
-				{
-					fVendor_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0) && !isSOTrx) {
+					fVendor_ID.setValue(Integer.valueOf(id).intValue());
 				}			
 			}
 		}
@@ -1194,8 +1189,9 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				//  Get the business partner from the context - it may be different than the Vendor
 				int bp_id = 0;
 				String s_bp_id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", false);
-				if (s_bp_id != null && s_bp_id.length() != 0 && (new Integer(s_bp_id).intValue() > 0))
-					bp_id = new Integer(s_bp_id).intValue();
+				if (s_bp_id != null && s_bp_id.length() != 0 && (Integer.valueOf(s_bp_id).intValue() > 0)) {
+					bp_id = Integer.valueOf(s_bp_id).intValue();
+				}
 				//  Display the window
 				PAttributeInstance pai = new PAttributeInstance (this, title, 
 						wh_id, 0, p_table.getLeadRowKey(), bp_id);

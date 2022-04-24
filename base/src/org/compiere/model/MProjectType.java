@@ -46,7 +46,7 @@ public class MProjectType extends X_C_ProjectType
 	 */
 	public static MProjectType get (Properties ctx, int C_ProjectType_ID)
 	{
-		Integer key = new Integer (C_ProjectType_ID);
+		Integer key = Integer.valueOf(C_ProjectType_ID);
 		MProjectType retValue = (MProjectType)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

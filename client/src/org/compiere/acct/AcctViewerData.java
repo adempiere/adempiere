@@ -219,7 +219,7 @@ class AcctViewerData
 				//
 				ValueNamePair pp = new ValueNamePair(tableName, name);
 				cb.addItem(pp);
-				tableInfo.put (tableName, new Integer(id));
+				tableInfo.put(tableName, Integer.valueOf(id));
 				if (id == AD_Table_ID)
 					select = pp;
 			}

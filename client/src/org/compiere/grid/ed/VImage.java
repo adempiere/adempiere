@@ -130,7 +130,7 @@ public class VImage extends JButton
 	{
 		if (m_mImage == null || m_mImage.get_ID() == 0)
 			return null;
-		return new Integer(m_mImage.get_ID());
+		return Integer.valueOf(m_mImage.get_ID());
 	}   //  getValue
 
 	/**
@@ -223,7 +223,7 @@ public class VImage extends JButton
 		int AD_Image_ID = vid.getAD_Image_ID();
 		Integer newValue = null;
 		if (AD_Image_ID != 0)
-			newValue = new Integer (AD_Image_ID);
+			newValue = Integer.valueOf(AD_Image_ID);
 		//
 		m_mImage = null;	//	force reload
 		setValue(newValue);	//	set explicitly

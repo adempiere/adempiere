@@ -211,7 +211,7 @@ public class MPrintFont extends X_AD_PrintFont
 	 */
 	static public MPrintFont get (int AD_PrintFont_ID)
 	{
-		Integer key = new Integer(AD_PrintFont_ID);
+		Integer key = Integer.valueOf(AD_PrintFont_ID);
 		MPrintFont pf = (MPrintFont)s_fonts.get(key);
 		if (pf == null)
 		{
