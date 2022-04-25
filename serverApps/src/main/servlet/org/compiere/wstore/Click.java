@@ -150,7 +150,7 @@ public class Click  extends HttpServlet
 		//	Check parameters		-	/click?www...
 		if (url == null || url.length() == 0)
 		{
-			Enumeration e = request.getParameterNames ();
+			Enumeration<String> e = request.getParameterNames();
 			if (e.hasMoreElements ())
 				url = (String)e.nextElement ();
 		}

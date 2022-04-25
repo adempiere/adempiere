@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import javax.sql.RowSet;
-
+import javax.swing.tree.TreeNode;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple4;
@@ -1169,7 +1169,7 @@ public class MTree extends X_AD_Tree
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration en = rootNode.preorderEnumeration();
+			Enumeration<TreeNode> en = rootNode.preorderEnumeration();
 			while (rootNode.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();
@@ -1187,7 +1187,7 @@ public class MTree extends X_AD_Tree
 	 */
 	private void dumpTree()
 	{
-		Enumeration en = rootNode.preorderEnumeration();
+		Enumeration<TreeNode> en = rootNode.preorderEnumeration();
 		int count = 0;
 		while (en.hasMoreElements())
 		{

@@ -140,8 +140,7 @@ public class ProcessInfoHandler {
 		return this.param.get(param);
 	}
 	
-	public Enumeration getParameters() {
-		
+	public Enumeration<?> getParameters() {
 		if(this.param == null) {
 			
 			this.param = extractParameters();

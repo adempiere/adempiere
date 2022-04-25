@@ -17,6 +17,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 
+import javax.swing.tree.TreeNode;
+
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
@@ -116,7 +118,7 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	 */
 	public static SimpleTreeModel createFrom(MTreeNode root) {
 		SimpleTreeModel model = null;
-		Enumeration nodeEnum = root.children();
+		Enumeration<TreeNode> nodeEnum = root.children();
 		SimpleTreeNode stRoot = new SimpleTreeNode(root, new ArrayList());
         while(nodeEnum.hasMoreElements()) {
         	MTreeNode childNode = (MTreeNode)nodeEnum.nextElement();
@@ -131,7 +133,7 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 	}
 
 	private static void populate(SimpleTreeNode stNode, MTreeNode root) {
-		Enumeration nodeEnum = root.children();
+		Enumeration<TreeNode> nodeEnum = root.children();
 		while(nodeEnum.hasMoreElements()) {
 			MTreeNode childNode = (MTreeNode)nodeEnum.nextElement();
 			SimpleTreeNode stChildNode = new SimpleTreeNode(childNode, new ArrayList());

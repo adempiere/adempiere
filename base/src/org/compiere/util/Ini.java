@@ -530,7 +530,7 @@ public final class Ini implements Serializable
 	public static String getAsString()
 	{
 		StringBuffer buf = new StringBuffer ("Ini[");
-		Enumeration e = s_prop.keys();
+		Enumeration<Object> e = s_prop.keys();
 		while (e.hasMoreElements())
 		{
 			String key = (String)e.nextElement();

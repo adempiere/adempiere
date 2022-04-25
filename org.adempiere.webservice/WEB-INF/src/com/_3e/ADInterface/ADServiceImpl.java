@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
 
+import javax.swing.tree.TreeNode;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -846,7 +847,7 @@ public class ADServiceImpl implements ADService {
 	{
 	
 		boolean error = false;
-		Enumeration en = null; //request.getParameterNames();
+		Enumeration<TreeNode> en = null;
 		DataField[] df = dr.getFieldArray();
 		DataField f;
 		for (int i=0; i<df.length; i++)
@@ -1292,8 +1293,7 @@ public class ADServiceImpl implements ADService {
 		MTree tree = new MTree (m_cs.getM_ctx(), AD_Tree_ID, false, null);	// Language set in WLogin
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
-		Enumeration en = root.preorderEnumeration();
-		
+		Enumeration<TreeNode> en = root.preorderEnumeration();
 		
 		ADMenuItemList itl = null;// menu.addNewItems();
 		ADMenuItem it = menu;//, it_last = null;

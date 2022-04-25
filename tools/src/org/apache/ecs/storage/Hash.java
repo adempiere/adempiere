@@ -95,7 +95,7 @@ public class Hash implements java.io.Serializable
         }
     }
 
-    public Enumeration keys()
+    public Enumeration<Object> keys()
     {
         return keys;
     }
@@ -113,7 +113,7 @@ public class Hash implements java.io.Serializable
         return(true);
     }
 
-    public Enumeration elements()
+    public Enumeration<Object> elements()
     {
         return elements;
     }
