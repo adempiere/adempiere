@@ -38,7 +38,7 @@ import org.compiere.util.CLogger;
  */
 public class ReportPool
 {
-    private static HashMap   pool   = new HashMap();
+    private static HashMap<Integer, ReportInfo> pool = new HashMap<Integer, ReportInfo>();
 
     private static final int MAXNUM = 15;
     private static int 	size = 0;
