@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_AD_Table;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTab;
 import org.compiere.model.PO;
@@ -128,6 +129,13 @@ public class GenericZoomProvider implements IZoomProvider {
 		
 		MTab tab = new MTab(Env.getCtx(), AD_Tab_ID, null);
 		final MQuery query = new MQuery();
+		
+		if(targetTableName.equals("RV_UnPosted")) {
+			query.addRestriction(I_AD_Table.COLUMNNAME_AD_Table_ID + "=" + po.get_Table_ID());
+			query.addRestriction("Record_ID = " + po.get_ID());
+		} else {
+			query.addRestriction(targetTableName + "." + po.get_TableName() + "_ID=" + po.get_ID());
+		}
 
 		query.addRestriction(targetTableName + "." + po.get_TableName() + "_ID=" + po.get_ID());
 		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0)
