@@ -143,7 +143,8 @@ public class GenericZoomProvider implements IZoomProvider {
 		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0) {
 			String whereClause = tab.getWhereClause();
 			whereClause = Env.parseVariable(whereClause, po, po.get_TrxName(), true);
-			whereClause =Env.parseContext (po.getCtx(), tab.getAD_Window_ID(), whereClause,false, false);
+			if(whereClause.contains("@"))
+				whereClause =Env.parseContext (po.getCtx(), tab.getAD_Window_ID(), whereClause,false, false);
 			if(whereClause.length()>0)
 				query.addRestriction("(" + whereClause + ")");
 			
