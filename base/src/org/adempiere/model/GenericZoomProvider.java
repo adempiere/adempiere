@@ -140,8 +140,14 @@ public class GenericZoomProvider implements IZoomProvider {
 			query.addRestriction(targetTableName + "." + po.get_TableName() + "_ID=" + po.get_ID());
 		}
 
-		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0)
-			query.addRestriction("(" + tab.getWhereClause() + ")");
+		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0) {
+			String whereClause = tab.getWhereClause();
+			whereClause = Env.parseVariable(whereClause, po, po.get_TrxName(), true);
+			whereClause =Env.parseContext (po.getCtx(), tab.getAD_Window_ID(), whereClause,false, false);
+			if(whereClause.length()>0)
+				query.addRestriction("(" + whereClause + ")");
+			
+		}
 		query.setZoomTableName(targetTableName);
 		query.setZoomColumnName(po.get_KeyColumns()[0]);
 		query.setZoomValue(po.get_ID());
