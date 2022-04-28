@@ -419,28 +419,38 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 			return DocAction.STATUS_Invalid;
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
-		//	Get Period
-		MPeriod period = MPeriod.get (getCtx(), getDateAcct(), getAD_Org_ID());
-		if (period == null)
-		{
-			log.warning("No Period for " + getDateAcct());
-			m_processMsg = "@PeriodNotFound@";
-			return DocAction.STATUS_Invalid;
-		}
-		//	Standard Period
-		if (period.getC_Period_ID() != getC_Period_ID()
-			&& period.isStandardPeriod())
-		{
-			m_processMsg = "@PeriodNotValid@";
-			return DocAction.STATUS_Invalid;
-		}
-		boolean open = period.isOpen(dt.getDocBaseType(), getDateAcct());
-		if (!open)
-		{
-			log.warning(period.getName()
-				+ ": Not open for " + dt.getDocBaseType() + " (" + getDateAcct() + ")");
-			m_processMsg = "@PeriodClosed@";
-			return DocAction.STATUS_Invalid;
+		MPeriod currentPeriod = MPeriod.get(getCtx() , getC_Period_ID());
+		assert currentPeriod != null;
+		if (MPeriod.PERIODTYPE_AdjustmentPeriod.equals(currentPeriod.getPeriodType())) {
+			boolean open = currentPeriod.isOpen(dt.getDocBaseType(), getDateAcct());
+			if (!open)
+			{
+				log.warning(currentPeriod.getName()
+						+ ": Not open for " + dt.getDocBaseType() + " (" + getDateAcct() + ")");
+				m_processMsg = "@PeriodClosed@";
+				return DocAction.STATUS_Invalid;
+			}
+		} else {
+			//	Get Period
+			MPeriod period = MPeriod.get(getCtx(), getDateAcct(), getAD_Org_ID());
+			if (period == null) {
+				log.warning("No Period for " + getDateAcct());
+				m_processMsg = "@PeriodNotFound@";
+				return DocAction.STATUS_Invalid;
+			}
+			//	Standard Period
+			if (period.getC_Period_ID() != getC_Period_ID() && period.isStandardPeriod())
+			{
+				m_processMsg = "@PeriodNotValid@";
+				return DocAction.STATUS_Invalid;
+			}
+			boolean open = period.isOpen(dt.getDocBaseType(), getDateAcct());
+			if (!open) {
+				log.warning(period.getName()
+						+ ": Not open for " + dt.getDocBaseType() + " (" + getDateAcct() + ")");
+				m_processMsg = "@PeriodClosed@";
+				return DocAction.STATUS_Invalid;
+			}
 		}
 
 		//	Lines
@@ -475,15 +485,16 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 			}
 			
 			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
-			if (line.isDocControlled() && 
-					( getPostingType().equals(POSTINGTYPE_Actual)) ||
-					  getPostingType().equals(POSTINGTYPE_Commitment) ||
-					  getPostingType().equals(POSTINGTYPE_Reservation)
-					 )
-			{
-				m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
-					+ " - " + line.getAccountElementValue();
-				return DocAction.STATUS_Invalid;
+			if (currentPeriod.isStandardPeriod()) {
+				if (line.isDocControlled() &&
+						(getPostingType().equals(POSTINGTYPE_Actual)) ||
+						getPostingType().equals(POSTINGTYPE_Commitment) ||
+						getPostingType().equals(POSTINGTYPE_Reservation)
+				) {
+					m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
+							+ " - " + line.getAccountElementValue();
+					return DocAction.STATUS_Invalid;
+				}
 			}
 			//
 			
