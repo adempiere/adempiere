@@ -25,6 +25,7 @@ import org.compiere.model.I_AD_Table;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTab;
 import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -130,9 +131,11 @@ public class GenericZoomProvider implements IZoomProvider {
 		MTab tab = new MTab(Env.getCtx(), AD_Tab_ID, null);
 		final MQuery query = new MQuery();
 		
-		if(targetTableName.equals("RV_UnPosted")) {
-			query.addRestriction(I_AD_Table.COLUMNNAME_AD_Table_ID + "=" + po.get_Table_ID());
+		POInfo targetInfo = POInfo.getPOInfo(po.getCtx(), targetTableName); 
+		if(targetInfo.getColumnIndex("Record_ID") > 0) {
 			query.addRestriction("Record_ID = " + po.get_ID());
+			if(targetInfo.getColumnIndex(I_AD_Table.COLUMNNAME_AD_Table_ID)>0)
+				query.addRestriction(I_AD_Table.COLUMNNAME_AD_Table_ID + "=" + po.get_Table_ID());
 		} else {
 			query.addRestriction(targetTableName + "." + po.get_TableName() + "_ID=" + po.get_ID());
 		}
