@@ -73,7 +73,7 @@ public class MPrintFormatProcess extends SvrProcess
 		if (m_AD_Table_ID != null && m_AD_Table_ID.intValue() > 0)
 		{
 			log.info("Create from AD_Table_ID=" + m_AD_Table_ID);
-			MPrintFormat pf = MPrintFormat.createFromTable(getCtx(), m_AD_Table_ID.intValue(), getRecord_ID());
+			MPrintFormat pf = MPrintFormat.createFromTable(getCtx(), m_AD_Table_ID.intValue(), getRecord_ID() , get_TrxName());
 			addLog(m_AD_Table_ID.intValue(), null, new BigDecimal(pf.getItemCount()), pf.getName());
 			return pf.getName() + " #" + pf.getItemCount();
 		}
