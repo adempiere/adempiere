@@ -46,19 +46,13 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPO;
-import org.compiere.model.MQuery;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
-import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_BP_Group;
 import org.compiere.model.X_C_DocType;
-import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -145,13 +139,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract {
         });
         Optional.ofNullable(orderDistribution).ifPresent(order -> {
             if (isPrintPickList()) {
-                // Get Format & Data
-                ReportEngine reportEngine = getReportEngine("DistributionOrder_Header  ** TEMPLATE **", "DD_Order_Header_v", orderDistribution.getDD_Order_ID());
-                if (reportEngine == null)
-                    throw new AdempiereException("@NotFound@ @AD_PrintFormat_ID@");
-
-                ReportCtl.preview(reportEngine);
-                reportEngine.print(); // prints only original
+            	printDocument(orderDistribution, "DistributionOrder_Header  ** TEMPLATE **");
             }
         });
         Optional<String> createdDescription =  Optional.ofNullable(orderDistribution).map(order -> "@Created@ " + order.getDocumentInfo());
@@ -402,27 +390,6 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract {
             outBoundOrderLine.setDescription(boundDescription.toString());
             outBoundOrderLine.saveEx();
             return order;
-        });
-    }
-
-    /*
-     * get the a Report Engine Instance using the view table
-     * @param tableName
-     */
-    private ReportEngine getReportEngine(String formatName, String tableName, int recordId) {
-        // Get Format & Data
-        int formatId = MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
-        Optional<MPrintFormat> maybeFormat = Optional.ofNullable(MPrintFormat.get(getCtx(), formatId, true));
-        return maybeFormat.map(format -> {
-            MQuery query = new MQuery(tableName);
-            query.addRestriction(MDDOrder.COLUMNNAME_DD_Order_ID, MQuery.EQUAL, recordId);
-            // Engine
-            PrintInfo info = new PrintInfo(tableName, MTable.getTable_ID(tableName), recordId);
-            ReportEngine reportEngine = new ReportEngine(getCtx(), format, query, info, get_TrxName());
-            return reportEngine;
-        }).orElseGet(() -> {
-            addLog("@NotFound@ @AD_PrintFormat_ID@");
-            return null;
         });
     }
 
