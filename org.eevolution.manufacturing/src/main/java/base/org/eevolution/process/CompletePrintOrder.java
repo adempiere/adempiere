@@ -26,6 +26,7 @@ import org.compiere.model.PO;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.eevolution.model.I_PP_Order;
 import org.eevolution.model.MPPOrder;
 
 /**
@@ -109,16 +110,13 @@ implements ClientProcess
 			}
 		}
 		String formatName = "Manufacturing_Order_BOM_Header ** TEMPLATE **";
-		String tableName = "PP_Order_BOM_Header_v";
 		if (p_IsPrintPackList) {
 			formatName = "Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **";
-			tableName = "PP_Order_BOM_Header_v";
 		}
 		if (p_IsPrintWorkflow) {
 			formatName = "Manufacturing_Order_Workflow_Header ** TEMPLATE **";
-			tableName = "PP_Order_Workflow_Header_v";
 		}
-		MTable table = MTable.get(getCtx(), tableName);
+		MTable table = MTable.get(getCtx(), I_PP_Order.Table_Name);
 		PO entity = table.getPO(p_PP_Order_ID, get_TrxName());
 		if(entity == null) {
 			addLog("@NotFound@ @PP_Order_ID@");
