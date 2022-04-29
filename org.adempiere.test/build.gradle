@@ -75,11 +75,11 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'test'
+            artifactId 'adempiere.test'
             version
            	from components.java
            	pom {
-                name = 'Test'
+                name = 'Adempiere Test'
                 description = 'Test api dedicated to manage project, and members.'
                 url = 'http://adempiere.io/'
                 licenses {
