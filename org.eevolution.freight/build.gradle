@@ -65,12 +65,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'project'
+            artifactId 'freight'
             version
            	from components.java
            	pom {
-                name = 'Project'
-                description = 'Project Management dedicated to manage project, and members.'
+                name = 'Freight'
+                description = 'Freight Engine to calculate rates between locations of transportation.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
