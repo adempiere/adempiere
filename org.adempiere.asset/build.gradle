@@ -32,10 +32,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 }
 
-test {
-    exclude 'org/compiere/model/IT_MAsset'
-}
-
 sourceSets {
     main {
          java {
