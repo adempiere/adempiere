@@ -63,7 +63,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'hr'
+            artifactId 'human-resource-and-payroll'
             version
            	from components.java
            	pom {
