@@ -27,8 +27,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.compiere.process.MMDocument;
-import org.compiere.process.MMScenario;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
