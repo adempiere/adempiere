@@ -109,19 +109,20 @@ implements ClientProcess
 				throw new AdempiereException(order.getProcessMsg());
 			}
 		}
-		String formatName = "Manufacturing_Order_BOM_Header ** TEMPLATE **";
-		if (p_IsPrintPackList) {
-			formatName = "Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **";
-		}
-		if (p_IsPrintWorkflow) {
-			formatName = "Manufacturing_Order_Workflow_Header ** TEMPLATE **";
-		}
 		MTable table = MTable.get(getCtx(), I_PP_Order.Table_Name);
 		PO entity = table.getPO(p_PP_Order_ID, get_TrxName());
 		if(entity == null) {
 			addLog("@NotFound@ @PP_Order_ID@");
 		} else {
-			printDocument(entity, formatName);
+			if (p_IsPrintPickList) {
+				printDocument(entity, "Manufacturing_Order_BOM_Header ** TEMPLATE **");
+			}
+			if (p_IsPrintPackList) {
+				printDocument(entity, "Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **");
+			}
+			if (p_IsPrintWorkflow) {
+				printDocument(entity, "Manufacturing_Order_Workflow_Header ** TEMPLATE **");
+			}
 		}
 		return "@OK@";
 
