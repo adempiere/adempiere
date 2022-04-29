@@ -22,26 +22,16 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.sql.RowSet;
-
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.AEnv;
 import org.compiere.model.MProduct;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
-import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Product;
 import org.compiere.model.X_M_Warehouse;
-import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
@@ -113,77 +103,13 @@ public class SimulatedPickList extends SvrProcess {
 
 		try {
 			loadBOM();
-			print();
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "PrintBOM", e.toString());
 			throw new Exception(e.getLocalizedMessage());
-		} finally {
-			String sql = "DELETE FROM T_BomLine WHERE AD_PInstance_ID = "
-					+ AD_PInstance_ID;
-			DB.executeUpdateEx(sql, get_TrxName());
 		}
 
 		return "@OK@";
 	} // doIt
-
-	private static final String X_RV_PP_Product_BOMLine_Storage_TableName = "RV_PP_Product_BOMLine_Storage";
-
-	/**
-	 * Print result generate for this report
-	 */
-	void print() throws Exception {
-		Language language = Language.getLoginLanguage(); // Base Language
-		MPrintFormat pf = null;
-		int pfid = 0;
-
-		// get print format for client, else copy system to client
-		RowSet pfrs = MPrintFormat.getAccessiblePrintFormats(
-				MTable.getTable_ID(X_RV_PP_Product_BOMLine_Storage_TableName),
-				-1, null);
-		pfrs.next();
-		pfid = pfrs.getInt("AD_PrintFormat_ID");
-
-		if (pfrs.getInt("AD_Client_ID") != 0)
-			pf = MPrintFormat.get(getCtx(), pfid, false);
-		else
-			pf = MPrintFormat.copyToClient(getCtx(), pfid, getAD_Client_ID());
-		pfrs.close();
-
-		if (pf == null)
-			raiseError("Error: ", "No Print Format");
-
-		pf.setLanguage(language);
-		pf.setTranslationLanguage(language);
-		// query
-		MQuery query = new MQuery(X_RV_PP_Product_BOMLine_Storage_TableName);
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID,
-				MQuery.EQUAL, AD_PInstance_ID,
-				getParamenterName(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID),
-				getParamenterInfo(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID));
-
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID,
-				MQuery.EQUAL, p_M_Warehouse_ID,
-				getParamenterName(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID),
-				getParamenterInfo(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID));
-
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID,
-				MQuery.EQUAL, p_M_Warehouse_ID, getParamenterName("DateTrx"),
-				getParamenterInfo("DateTrx"));
-
-		PrintInfo info = new PrintInfo(
-				X_RV_PP_Product_BOMLine_Storage_TableName,
-				MTable.getTable_ID(X_RV_PP_Product_BOMLine_Storage_TableName),
-				getRecord_ID());
-		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
-
-		ReportCtl.preview(re);
-		// wait for report window to be closed as t_bomline
-		// records are deleted when process ends
-		while (re.showView()
-				&& re.isDisplayable()) {
-			AEnv.sleep(1);
-		}
-	}
 
 	public String getParamenterInfo(String name) {
 		final String sql = "SELECT ip.Info FROM AD_PInstance_Para ip"
