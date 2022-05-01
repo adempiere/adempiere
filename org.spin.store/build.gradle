@@ -19,23 +19,17 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
-	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
     api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
-    api 'io.github.adempiere:project:3.9.4-develop-1.0'
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
+    api 'org.apache.httpcomponents:httpcore:4.4.10'
+    // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
+    api 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.9.1'
 }
 
 sourceSets {
     main {
          java {
-            srcDirs = ['src/main/java/base']
+            srcDirs = ['src/main/java']
          }
     }
 }
@@ -73,12 +67,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'asset'
+            artifactId 'store'
             version
            	from components.java
            	pom {
-                name = 'Asset'
-                description = 'Fixed Asset Management of ADempiere.'
+                name = 'Web Store'
+                description = 'Web Store Functionality, a integration with VueStoreFront'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {

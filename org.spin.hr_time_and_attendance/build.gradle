@@ -19,17 +19,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
-	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
-    api 'io.github.adempiere:project:3.9.4-develop-1.0'
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    api 'io.github.adempiere:base:3.9.4-develop-1.1'
+    api 'io.github.adempiere:human-resource-and-payroll:3.9.4-develop-1.0'
 }
 
 sourceSets {
@@ -50,7 +41,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = "3.9.4-develop-1.1"
 
 jar {
     manifest {
@@ -73,12 +64,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'asset'
+            artifactId 'time-and-attendance'
             version
            	from components.java
            	pom {
-                name = 'Asset'
-                description = 'Fixed Asset Management of ADempiere.'
+                name = 'Time and Attendance Management'
+                description = 'Time and Attendance Management dedicated to manage Attendance, and members.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {

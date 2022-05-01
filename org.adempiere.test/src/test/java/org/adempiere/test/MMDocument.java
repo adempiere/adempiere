@@ -11,10 +11,12 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package org.compiere.process;
+package org.adempiere.test;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.process.DocAction;
 
 /**
  * @author Teo Sarca, www.arhipac.ro

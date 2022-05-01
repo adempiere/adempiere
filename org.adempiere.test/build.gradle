@@ -19,23 +19,25 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
-    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
-	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
+    implementation fileTree(
+        dir: '../tools/lib/testing', 
+        include: [
+        'SuperCSV-with_src-1.52.jar'
+        ]
+    )
     api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
-    api 'io.github.adempiere:project:3.9.4-develop-1.0'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    api 'org.mockito:mockito-junit-jupiter:3.6.0'
+    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone
+    api 'org.junit.platform:junit-platform-console-standalone:1.7.0'
 }
 
 sourceSets {
     main {
          java {
-            srcDirs = ['src/main/java/base']
+            srcDirs = ['src']
          }
     }
 }
@@ -73,12 +75,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'asset'
+            artifactId 'adempiere.test'
             version
            	from components.java
            	pom {
-                name = 'Asset'
-                description = 'Fixed Asset Management of ADempiere.'
+                name = 'Adempiere Test'
+                description = 'Test api dedicated to manage project, and members.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
