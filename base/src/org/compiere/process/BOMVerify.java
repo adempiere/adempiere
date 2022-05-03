@@ -20,9 +20,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import org.compiere.model.*;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.project.*;
+import org.compiere.util.*;
 import org.eevolution.model.MPPProductBOMLine;
 
 /**
