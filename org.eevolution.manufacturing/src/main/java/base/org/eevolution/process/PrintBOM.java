@@ -15,18 +15,13 @@
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.X_T_BOMLine;
 
@@ -37,40 +32,11 @@ import org.eevolution.model.X_T_BOMLine;
  * @version $Id: PrintBOM.java,v 1.2 2005/04/19 12:54:30 srama Exp $
  * 
  */
-public class PrintBOM extends SvrProcess
+public class PrintBOM extends PrintBOMAbstract
 {
-	private static final Properties ctx = Env.getCtx();
-	private int p_M_Product_ID = 0;
-	private boolean p_implosion = false;
 	private int LevelNo = 1;
 	private int SeqNo = 0;
 	private String levels = new String("....................");
-	private int AD_PInstance_ID = 0;
-
-	/**
-	 * Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("M_Product_ID"))
-			{
-				p_M_Product_ID = ((BigDecimal) para[i].getParameter()).intValue();
-			}
-			else if (name.equals("Implosion"))
-			{
-				p_implosion = ((String) para[i].getParameter()).equals("N") ? false : true;
-			}
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-	} // prepare
 
 	/**
 	 * Perform process.
@@ -81,8 +47,6 @@ public class PrintBOM extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		AD_PInstance_ID = getAD_PInstance_ID();
-
 		try 
 		{
 			loadBOM();
@@ -102,22 +66,22 @@ public class PrintBOM extends SvrProcess
 	private void loadBOM() throws Exception
 	{
 		int count = 0;
-		if (p_M_Product_ID == 0) 
+		if (getProductId() == 0) 
 			raiseError("Error: ","Product ID not found");
 
-		X_T_BOMLine tboml = new X_T_BOMLine(ctx, 0, null);
+		X_T_BOMLine tboml = new X_T_BOMLine(getCtx(), 0, get_TrxName());
 		tboml.setPP_Product_BOM_ID(0);
 		tboml.setPP_Product_BOMLine_ID(0);
-		tboml.setM_Product_ID(p_M_Product_ID);
-		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplosion(p_implosion);
+		tboml.setM_Product_ID(getProductId());
+		tboml.setSel_Product_ID(getProductId());
+		tboml.setImplosion(isImplosion());
 		tboml.setLevelNo(0);
 		tboml.setLevels("0");
 		tboml.setSeqNo(0);
-		tboml.setAD_PInstance_ID(AD_PInstance_ID);
+		tboml.setAD_PInstance_ID(getAD_PInstance_ID());
 		tboml.save();
 
-		if (p_implosion)
+		if (isImplosion())
 		{
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
@@ -126,7 +90,7 @@ public class PrintBOM extends SvrProcess
 			try
 			{
 				stmt = DB.prepareStatement(sql, get_TrxName());
-				stmt.setInt(1, p_M_Product_ID);
+				stmt.setInt(1, getProductId());
 				rs = stmt.executeQuery();
 
 				while (rs.next())
@@ -158,7 +122,7 @@ public class PrintBOM extends SvrProcess
 			try
 			{
 				stmt = DB.prepareStatement(sql, get_TrxName());
-				stmt.setInt(1, p_M_Product_ID);
+				stmt.setInt(1, getProductId());
 				rs = stmt.executeQuery();
 				while (rs.next())
 				{
@@ -193,13 +157,13 @@ public class PrintBOM extends SvrProcess
 		int PP_Product_BOM_ID = 0;
 		int M_Product_ID = 0;
 		
-		X_T_BOMLine tboml = new X_T_BOMLine(ctx, 0, null);
+		X_T_BOMLine tboml = new X_T_BOMLine(getCtx(), 0, get_TrxName());
 		 
-		PP_Product_BOM_ID = DB.getSQLValue(null, 
+		PP_Product_BOM_ID = DB.getSQLValue(get_TrxName(), 
 				"SELECT PP_Product_BOM_ID FROM PP_Product_BOMLine WHERE PP_Product_BOMLine_ID=?",PP_Product_BOMLine_ID);
 		if (PP_Product_BOM_ID < 0)
 			throw new Exception(CLogger.retrieveErrorString("Error: PrintBOM.parentImplotion()"));
-		M_Product_ID = DB.getSQLValue(null,
+		M_Product_ID = DB.getSQLValue(get_TrxName(),
 				"SELECT M_Product_ID FROM PP_Product_BOM WHERE PP_Product_BOM_ID=?", PP_Product_BOM_ID);
 		if (M_Product_ID < 0)
 			throw new Exception(CLogger.retrieveErrorString("Error: PrintBOM.parentImplotion()"));
@@ -208,15 +172,15 @@ public class PrintBOM extends SvrProcess
 		tboml.setPP_Product_BOMLine_ID(PP_Product_BOMLine_ID);
 		tboml.setM_Product_ID(M_Product_ID);
 		tboml.setLevelNo(LevelNo);
-		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setImplosion(p_implosion);
+		tboml.setSel_Product_ID(getProductId());
+		tboml.setImplosion(isImplosion());
 
 		if (LevelNo >= 11)
 			tboml.setLevels(levels + ">" + LevelNo);
 		else if (LevelNo >= 1) tboml.setLevels(levels.substring(0, LevelNo) + LevelNo);
 
 		tboml.setSeqNo(SeqNo);
-		tboml.setAD_PInstance_ID(AD_PInstance_ID);
+		tboml.setAD_PInstance_ID(getAD_PInstance_ID());
 		tboml.save();
 
 		PreparedStatement stmt = null;
@@ -268,16 +232,16 @@ public class PrintBOM extends SvrProcess
 			while (rs.next())
 			{
 				SeqNo += 1;
-				X_T_BOMLine tboml = new X_T_BOMLine(ctx, 0, null);
+				X_T_BOMLine tboml = new X_T_BOMLine(getCtx(), 0, get_TrxName());
 				tboml.setPP_Product_BOM_ID(PP_Product_BOM_ID);
 				tboml.setPP_Product_BOMLine_ID(rs.getInt(1));
 				tboml.setM_Product_ID(rs.getInt(2));
 				tboml.setLevelNo(LevelNo);
 				tboml.setLevels(levels.substring(0, LevelNo) + LevelNo);
 				tboml.setSeqNo(SeqNo);
-				tboml.setAD_PInstance_ID(AD_PInstance_ID);
-				tboml.setSel_Product_ID(p_M_Product_ID);
-				tboml.setImplosion(p_implosion);
+				tboml.setAD_PInstance_ID(getAD_PInstance_ID());
+				tboml.setSel_Product_ID(getProductId());
+				tboml.setImplosion(isImplosion());
 				tboml.save();
 				component(rs.getInt(2));
 			}
@@ -303,7 +267,7 @@ public class PrintBOM extends SvrProcess
 	 */
 	public void component(int M_Product_ID) throws Exception
 	{
-		if (p_implosion)
+		if (isImplosion())
 		{
 			LevelNo += 1;
 			PreparedStatement stmt = null;
