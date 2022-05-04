@@ -21,8 +21,10 @@
 
 package org.adempiere.webui.window;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
@@ -32,6 +34,7 @@ import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
+import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Textbox;
@@ -99,6 +102,12 @@ public class WLocationDialog extends Window implements EventListener
 	private Label lblPostalAdd;
 	private Label lblCountry;
 
+	private Label lblLatitude;
+
+	private Label lblLongitude;
+
+	private Label lblAltitude;
+
 	private Textbox txtAddress1;
 	private Textbox txtAddress2;
 	private Textbox txtAddress3;
@@ -106,8 +115,15 @@ public class WLocationDialog extends Window implements EventListener
 	private WAutoCompleterCity txtCity;
 	private Textbox txtPostal;
 	private Textbox txtPostalAdd;
+
 	private Listbox lstRegion;
 	private Listbox lstCountry;
+
+	private NumberBox fieldLatitude;
+
+	private NumberBox fieldLongitude;
+
+	private NumberBox fieldAltitude;
 
 	private Button btnOk;
 	private Button btnCancel;
@@ -213,6 +229,15 @@ public class WLocationDialog extends Window implements EventListener
 		lblCountry      = new Label(Msg.getMsg(Env.getCtx(), "Country"));
 		lblCountry.setStyle(LABEL_STYLE);
 
+		lblLatitude = new Label(Msg.getMsg(Env.getCtx(), "Latitude"));
+		lblLatitude.setStyle(LABEL_STYLE);
+
+		lblLongitude = new Label(Msg.getMsg(Env.getCtx(), "Longitude"));
+		lblLongitude.setStyle(LABEL_STYLE);
+
+		lblAltitude = new Label(Msg.getMsg(Env.getCtx(), "Altitude"));
+		lblAltitude.setStyle(LABEL_STYLE);
+
 		txtAddress1 = new Textbox();
 		txtAddress1.setCols(20);
 		txtAddress2 = new Textbox();
@@ -244,6 +269,16 @@ public class WLocationDialog extends Window implements EventListener
 		lstCountry.setMold("select");
 		lstCountry.setWidth("154px");
 		lstCountry.setRows(0);
+
+		fieldLatitude = new NumberBox(true);
+		fieldLatitude.setValue(0);
+
+		fieldLongitude = new NumberBox(true);
+		fieldLongitude.setValue(0);
+
+		fieldAltitude = new NumberBox(true);
+		fieldAltitude.setValue(0);
+
 
 		btnOk = new Button();
 		btnOk.setImage("/images/Ok16.png");
@@ -301,6 +336,18 @@ public class WLocationDialog extends Window implements EventListener
 		Row pnlCountry  = new Row();
 		pnlCountry.appendChild(lblCountry.rightAlign());
 		pnlCountry.appendChild(lstCountry);
+
+		Row pnlLatitude  = new Row();
+		pnlLatitude.appendChild(lblLatitude.rightAlign());
+		pnlLatitude.appendChild(fieldLatitude);
+
+		Row pnlLongitude  = new Row();
+		pnlLongitude.appendChild(lblLongitude.rightAlign());
+		pnlLongitude.appendChild(fieldLongitude);
+
+		Row pnlAltitude  = new Row();
+		pnlAltitude.appendChild(lblAltitude.rightAlign());
+		pnlAltitude.appendChild(fieldAltitude);
 
 		Panel pnlLinks    = new Panel();
 		pnlLinks.appendChild(toLink);
@@ -433,6 +480,10 @@ public class WLocationDialog extends Window implements EventListener
 			}
 		}
 
+		addComponents((Row)fieldLatitude.getParent());
+		addComponents((Row)fieldLongitude.getParent());
+		addComponents((Row)fieldAltitude.getParent());
+
 		//      Fill it
 		if (m_location.getC_Location_ID() != 0)
 		{
@@ -443,6 +494,11 @@ public class WLocationDialog extends Window implements EventListener
 			txtCity.setText(m_location.getCity());
 			txtPostal.setText(m_location.getPostal());
 			txtPostalAdd.setText(m_location.getPostal_Add());
+
+			fieldLatitude.setValue(m_location.getLatitude());
+			fieldLongitude.setValue(m_location.getLongitude());
+			fieldAltitude.setValue(m_location.getAltitude());
+
 			if (m_location.getCountry().isHasRegion())
 			{
 				if (m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
@@ -649,6 +705,16 @@ public class WLocationDialog extends Window implements EventListener
 		m_location.setC_City_ID(txtCity.getC_City_ID()); 
 		m_location.setCity(txtCity.getValue());
 		m_location.setPostal(txtPostal.getValue());
+
+		Optional.ofNullable(fieldLatitude.getValue())
+				.ifPresent(latitude -> m_location.setLatitude((BigDecimal) latitude));
+
+		Optional.ofNullable(fieldLongitude.getValue())
+				.ifPresent(longitude -> m_location.setLongitude((BigDecimal) longitude));
+
+		Optional.ofNullable(fieldAltitude.getValue())
+				.ifPresent(altitude -> m_location.setAltitude((BigDecimal) altitude));
+
 		//  Country/Region
 		MCountry country = (MCountry)lstCountry.getSelectedItem().getValue();
 		m_location.setCountry(country);
