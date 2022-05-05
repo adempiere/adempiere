@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -100,7 +101,7 @@ public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
 				MProduct product = MProduct.get(getCtx(), productId);
 				precision = product.getUOMPrecision();
 			}
-			qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+			qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 			//
 			log.fine("Line QtyEntered=" + qtyEntered
 					+ ", Product=" + productId
@@ -119,7 +120,7 @@ public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0) {
 				inOutLine.setMovementQty(qtyEntered
 						.multiply(orderLine.getQtyOrdered())
-						.divide(orderLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
+						.divide(orderLine.getQtyEntered(), 12, RoundingMode.HALF_UP));
 				inOutLine.setC_UOM_ID(orderLine.getC_UOM_ID());
 			}
 			inOutLine.setM_AttributeSetInstance_ID(orderLine.getM_AttributeSetInstance_ID());

@@ -16,6 +16,7 @@
 package org.compiere.db;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -405,7 +406,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 		int scale = DisplayType.getDefaultPrecision(displayType);
 		if (scale > number.scale()) {
 			try {
-				result = number.setScale(scale, BigDecimal.ROUND_HALF_UP);
+				result = number.setScale(scale, RoundingMode.HALF_UP);
 			} catch (Exception e) {
 				// log.severe("Number=" + number + ", Scale=" + " - " +
 				// e.getMessage());

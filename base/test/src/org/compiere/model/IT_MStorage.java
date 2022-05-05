@@ -19,6 +19,7 @@ package org.compiere.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.util.Env;
@@ -41,8 +42,7 @@ class IT_MStorage extends CommonGWSetup {
         loc.setXYZ("X" + locatorValue, "Y" + locatorValue, "Z" + locatorValue);
         loc.saveEx();
         //
-        BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand).setScale(12,
-                BigDecimal.ROUND_HALF_UP);
+        BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand).setScale(12, RoundingMode.HALF_UP);
         MStorage s1 = MStorage.getCreate(getCtx(), loc.get_ID(), product_id, 0,
                 getTrxName());
         s1.setQtyOnHand(targetQty);
@@ -50,7 +50,7 @@ class IT_MStorage extends CommonGWSetup {
         //
         BigDecimal qty =
                 MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id,
-                        0, getTrxName()).setScale(12, BigDecimal.ROUND_HALF_UP);
+                        0, getTrxName()).setScale(12, RoundingMode.HALF_UP);
         assertEquals(targetQty, qty, "Error on locator " + locatorValue);
         //
         return loc;
@@ -72,8 +72,8 @@ class IT_MStorage extends CommonGWSetup {
 
         BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), 0, product_id, 0,
                 getTrxName());
-        qty = qty.setScale(12, BigDecimal.ROUND_HALF_UP);
-        targetQty = targetQty.setScale(12, BigDecimal.ROUND_HALF_UP);
+        qty = qty.setScale(12, RoundingMode.HALF_UP);
+        targetQty = targetQty.setScale(12, RoundingMode.HALF_UP);
         assertEquals(targetQty, qty);
 
     }

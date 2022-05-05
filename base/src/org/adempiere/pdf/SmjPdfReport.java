@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -573,7 +574,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			return "";
 		else{
 			DecimalFormat frm = new DecimalFormat("###,###,###,##0.00");
-			return frm.format(data.setScale(2, BigDecimal.ROUND_HALF_UP));	// Goodwill BF Rounding is necessary
+			return frm.format(data.setScale(2, RoundingMode.HALF_UP));	// Goodwill BF Rounding is necessary
 		}
 	}// formatValue
 

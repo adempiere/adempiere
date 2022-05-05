@@ -17,6 +17,7 @@
 package org.compiere.sla;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -146,7 +147,7 @@ public class DeliveryAccuracy extends SLACriteria
 			
 		//	Calculate with 2 digits precision
 		if (count != 0)
-			retValue = total.divide(new BigDecimal(count), 2, BigDecimal.ROUND_HALF_UP);
+			retValue = total.divide(new BigDecimal(count), 2, RoundingMode.HALF_UP);
 		return retValue;
 	}	//	calculateMeasure
 

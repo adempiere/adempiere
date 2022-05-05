@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.logging.Level;
 
 import org.compiere.model.MProduct;
@@ -95,8 +96,8 @@ public class ProductUOMConvert extends SvrProcess
 			throw new AdempiereUserError("@NotFound@: @C_UOM_Conversion_ID@");
 		
 		MUOM uomTo = MUOM.get(getCtx(), productTo.getC_UOM_ID());
-		BigDecimal qtyTo = p_Qty.divide(conversion.getDivideRate(), uomTo.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-		BigDecimal qtyTo6 = p_Qty.divide(conversion.getDivideRate(), 6, BigDecimal.ROUND_HALF_UP);
+		BigDecimal qtyTo = p_Qty.divide(conversion.getDivideRate(), uomTo.getStdPrecision(), RoundingMode.HALF_UP);
+		BigDecimal qtyTo6 = p_Qty.divide(conversion.getDivideRate(), 6, RoundingMode.HALF_UP);
 		if (qtyTo.compareTo(qtyTo6) != 0)
 			throw new AdempiereUserError("@StdPrecision@: " + qtyTo + " <> " + qtyTo6 
 				+ " (" + p_Qty + "/" + conversion.getDivideRate() + ")");

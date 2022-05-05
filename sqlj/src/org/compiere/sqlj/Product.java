@@ -17,6 +17,7 @@
 package org.compiere.sqlj;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -372,7 +373,7 @@ public class Product
 				//hengsin, [ 1649453 ] bomQtyAvailable sqlj function throw ArithmeticException
 				//productQuantity = productQuantity.setScale(uomPrecision)
 				//	.divide(bomQty, uomPrecision, BigDecimal.ROUND_HALF_UP);
-				productQuantity = productQuantity.divide(bomQty, uomPrecision, BigDecimal.ROUND_HALF_UP);
+				productQuantity = productQuantity.divide(bomQty, uomPrecision, RoundingMode.HALF_UP);
 				//	How much can we make overall
 				if (productQuantity.compareTo(quantity) < 0)
 					quantity = productQuantity;
@@ -391,7 +392,7 @@ public class Product
 		if (quantity.signum() != 0)
 		{
 			int uomPrecision = getUOMPrecision(p_M_Product_ID);
-			return quantity.setScale(uomPrecision, BigDecimal.ROUND_HALF_UP);
+			return quantity.setScale(uomPrecision, RoundingMode.HALF_UP);
 		}
 		return Adempiere.ZERO;
 	}	//	bomQtyOnHand
@@ -602,8 +603,8 @@ public class Product
 				//	Get Rounding Precision
 				int StdPrecision = getUOMPrecision(M_ProductBOM_ID);
 				//	How much can we make with this product
-				productQuantity = productQuantity.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP)
-					.divide(bomQty, BigDecimal.ROUND_HALF_UP);
+				productQuantity = productQuantity.setScale(StdPrecision, RoundingMode.HALF_UP)
+					.divide(bomQty, RoundingMode.HALF_UP);
 				//	How much can we make overall
 				if (productQuantity.compareTo(quantity) < 0)
 					quantity = productQuantity;
@@ -622,7 +623,7 @@ public class Product
 		if (quantity.signum() > 0)
 		{
 			int StdPrecision = getUOMPrecision(p_M_Product_ID);
-			return quantity.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
+			return quantity.setScale(StdPrecision, RoundingMode.HALF_UP);
 		}
 		return Adempiere.ZERO;
 	}	//	bomQtyOnHand

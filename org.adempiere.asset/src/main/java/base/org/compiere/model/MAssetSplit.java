@@ -24,6 +24,7 @@ import org.compiere.util.DB;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -420,9 +421,9 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
                     if (getA_QTY_Split().signum() <= 0)
                         throw new AdempiereException("@A_QTY_Split@ @NotFound@");
 
-                    acquisitionCost = assetBalance.getA_Asset_Cost().divide(getA_QTY_Split(),7 , BigDecimal.ROUND_HALF_UP);
-                    accumulatedCost = assetBalance.getA_Accumulated_Depr().divide(getA_QTY_Split(),7 , BigDecimal.ROUND_HALF_UP);
-                    remainingCost = assetBalance.getA_Asset_Remaining().divide(getA_QTY_Split(),7 , BigDecimal.ROUND_HALF_UP);
+                    acquisitionCost = assetBalance.getA_Asset_Cost().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                    accumulatedCost = assetBalance.getA_Accumulated_Depr().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                    remainingCost = assetBalance.getA_Asset_Remaining().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
                     for (int sequence = 1; sequence < getA_QTY_Split().intValue() + 1; sequence++) {
                         MAsset fixedAssetSplit = createAssetSplit(
                                 fixedAssetToBeSplit,
@@ -435,7 +436,7 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
                 }
 
                 if (MAssetSplit.A_SPLIT_TYPE_Amount.equals(getA_Split_Type())) {
-                    BigDecimal percentage = getA_Amount_Split().divide(getA_Asset_Cost() , 7 , BigDecimal.ROUND_HALF_UP);
+                    BigDecimal percentage = getA_Amount_Split().divide(getA_Asset_Cost(), 7, RoundingMode.HALF_UP);
                     acquisitionCost = assetBalance.getA_Asset_Cost().subtract(getA_Amount_Split());
                     accumulatedCost = assetBalance.getA_Accumulated_Depr().multiply(percentage);
                     remainingCost = assetBalance.getA_Asset_Remaining().multiply(percentage);
@@ -605,19 +606,19 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
 
                     if (MAssetSplit.A_SPLIT_TYPE_Quantity.equals(getA_Split_Type())) {
 
-                        accumulated = depreciation.getA_Accumulated_Depr().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
-                        accumulatedDelta = depreciation.getA_Accumulated_Depr_Delta().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
-                        remaining = depreciation.getA_Asset_Remaining().divide(getA_QTY_Split(),  7 , BigDecimal.ROUND_HALF_UP);
-                        expense = depreciation.getExpense().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
+                        accumulated = depreciation.getA_Accumulated_Depr().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                        accumulatedDelta = depreciation.getA_Accumulated_Depr_Delta().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                        remaining = depreciation.getA_Asset_Remaining().divide(getA_QTY_Split(),  7, RoundingMode.HALF_UP);
+                        expense = depreciation.getExpense().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
 
-                        accumulatedFiscal = depreciation.getA_Accumulated_Depr_F().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
-                        accumulatedDeltaFiscal = depreciation.getA_Accumulated_Depr_F_Delta().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
-                        remainingFiscal = depreciation.getA_Asset_Remaining_F().divide(getA_QTY_Split(), 7 , BigDecimal.ROUND_HALF_UP);
+                        accumulatedFiscal = depreciation.getA_Accumulated_Depr_F().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                        accumulatedDeltaFiscal = depreciation.getA_Accumulated_Depr_F_Delta().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
+                        remainingFiscal = depreciation.getA_Asset_Remaining_F().divide(getA_QTY_Split(), 7, RoundingMode.HALF_UP);
                         expenseFiscal = depreciation.getExpense_F().divide(getA_QTY_Split());
                     }
 
                     if (MAssetSplit.A_SPLIT_TYPE_Amount.equals(getA_Split_Type())) {
-                        BigDecimal proportion = acquisitionCost.divide(depreciation.getA_Asset_Cost(),7 , BigDecimal.ROUND_HALF_UP);
+                        BigDecimal proportion = acquisitionCost.divide(depreciation.getA_Asset_Cost(), 7, RoundingMode.HALF_UP);
                         BigDecimal percentage = getA_Amount_Split().divide(getA_Asset_Cost());
 
                         accumulated = depreciation.getA_Accumulated_Depr().multiply(proportion).multiply(percentage);
@@ -632,7 +633,7 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
                     }
 
                     if (MAssetSplit.A_SPLIT_TYPE_Percentage.equals(getA_Split_Type())) {
-                        BigDecimal proportion = acquisitionCost.divide(depreciation.getA_Asset_Cost(),7 , BigDecimal.ROUND_HALF_UP);
+                        BigDecimal proportion = acquisitionCost.divide(depreciation.getA_Asset_Cost(), 7, RoundingMode.HALF_UP);
                         BigDecimal percentage = getA_Percent_Split().divide(BigDecimal.valueOf(100));
 
                         accumulated = depreciation.getA_Accumulated_Depr().multiply(proportion).multiply(percentage);

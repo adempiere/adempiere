@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -996,10 +997,10 @@ public class WOutBoundOrder extends OutBoundOrder
 				BigDecimal unitWeight = product.getWeight();
 				BigDecimal unitVolume = product.getVolume();
 				//	Calculate Weight
-				weight = qty.multiply(unitWeight).setScale(weightPrecision, BigDecimal.ROUND_HALF_UP);
+				weight = qty.multiply(unitWeight).setScale(weightPrecision, RoundingMode.HALF_UP);
 				orderLineTable.setValueAt(weight, row, OL_WEIGHT);
 				//	Calculate Volume
-				volume = qty.multiply(unitVolume).setScale(volumePrecision, BigDecimal.ROUND_HALF_UP);
+				volume = qty.multiply(unitVolume).setScale(volumePrecision, RoundingMode.HALF_UP);
 				orderLineTable.setValueAt(volume, row, OL_VOLUME);
 				
 				//  Load Stock Product
@@ -1103,7 +1104,7 @@ public class WOutBoundOrder extends OutBoundOrder
 			stockModel.setValueAt(qtyOnHand
 					.subtract(qtyInTransitOld)
 					.subtract(qtySet)
-					.setScale(2, BigDecimal.ROUND_HALF_UP), pos, SW_QTY_AVAILABLE);
+					.setScale(2, RoundingMode.HALF_UP), pos, SW_QTY_AVAILABLE);
 		} else if(isSelected) {
 			//	Get Quantity in Transit
 			Vector<Object> line = new Vector<Object>();
@@ -1116,7 +1117,7 @@ public class WOutBoundOrder extends OutBoundOrder
 			line.add(qtyOnHand
 					.subtract(qtyInTransit)
 					.subtract(qtySet)
-					.setScale(2, BigDecimal.ROUND_HALF_UP));
+					.setScale(2, RoundingMode.HALF_UP));
 			//	
 			stockModel.add(line);
 		}

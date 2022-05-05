@@ -15,6 +15,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -927,7 +928,7 @@ public class MHRMovement extends X_HR_Movement
 				//	Set from type
 				if(MHRConcept.COLUMNTYPE_Amount.equals(columnType)) {
 					BigDecimal amount = new BigDecimal(doubleValue)
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					setAmount(amount);
 					setQty(Env.ZERO);
 				} else {

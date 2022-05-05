@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -167,7 +168,7 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		commissionAmt = commissionAmt.multiply(commissionLine.getAmtMultiplier());
 		//	Scale
 		if (commissionAmt.scale() > stdPrecision) {
-			commissionAmt = commissionAmt.setScale(stdPrecision, BigDecimal.ROUND_HALF_UP);
+			commissionAmt = commissionAmt.setScale(stdPrecision, RoundingMode.HALF_UP);
 		}
 		//	Set Commission
 		setCommissionAmt(commissionAmt);
@@ -313,13 +314,13 @@ public class MCommissionDetail extends X_C_CommissionDetail
 		// Proportional overall commission reduction: there is no distinction among the different commissions paid (too complex)
 		BigDecimal percentage = Env.ONE;
 		if (getActualQty().compareTo(qtyReturned)==1) {
-			percentage = qtyReturned.divide(getActualQty(), 4, BigDecimal.ROUND_HALF_UP);
+			percentage = qtyReturned.divide(getActualQty(), 4, RoundingMode.HALF_UP);
 		}
 		
 		// all negated
-		setActualAmt(getActualAmt().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());	
-		setActualQty(getActualQty().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());
-		setConvertedAmt(getConvertedAmt().multiply(percentage).setScale(2, BigDecimal.ROUND_HALF_UP).negate());
+		setActualAmt(getActualAmt().multiply(percentage).setScale(2, RoundingMode.HALF_UP).negate());	
+		setActualQty(getActualQty().multiply(percentage).setScale(2, RoundingMode.HALF_UP).negate());
+		setConvertedAmt(getConvertedAmt().multiply(percentage).setScale(2, RoundingMode.HALF_UP).negate());
 		return;		
 	}  // correctForRMA
 }	//	MCommissionDetail

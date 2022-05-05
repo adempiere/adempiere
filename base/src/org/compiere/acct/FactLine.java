@@ -17,6 +17,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -226,14 +227,14 @@ public final class FactLine extends X_Fact_Acct
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtSourceDr != null && AmtSourceDr.scale() > precision)
 		{
-			BigDecimal AmtSourceDr1 = AmtSourceDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal AmtSourceDr1 = AmtSourceDr.setScale(precision, RoundingMode.HALF_UP);
 			if (AmtSourceDr1.compareTo(AmtSourceDr) != 0)
 				log.warning("Source DR Precision " + AmtSourceDr + " -> " + AmtSourceDr1);
 			setAmtSourceDr(AmtSourceDr1);
 		}
 		if (AmtSourceCr != null && AmtSourceCr.scale() > precision)
 		{
-			BigDecimal AmtSourceCr1 = AmtSourceCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal AmtSourceCr1 = AmtSourceCr.setScale(precision, RoundingMode.HALF_UP);
 			if (AmtSourceCr1.compareTo(AmtSourceCr) != 0)
 				log.warning("Source CR Precision " + AmtSourceCr + " -> " + AmtSourceCr1);
 			setAmtSourceCr(AmtSourceCr1);
@@ -269,14 +270,14 @@ public final class FactLine extends X_Fact_Acct
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtAcctDr != null && AmtAcctDr.scale() > precision)
 		{
-			BigDecimal AmtAcctDr1 = AmtAcctDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal AmtAcctDr1 = AmtAcctDr.setScale(precision, RoundingMode.HALF_UP);
 			if (AmtAcctDr1.compareTo(AmtAcctDr) != 0)
 				log.warning("Accounted DR Precision " + AmtAcctDr + " -> " + AmtAcctDr1);
 			setAmtAcctDr(AmtAcctDr1);
 		}
 		if (AmtAcctCr != null && AmtAcctCr.scale() > precision)
 		{
-			BigDecimal AmtAcctCr1 = AmtAcctCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal AmtAcctCr1 = AmtAcctCr.setScale(precision, RoundingMode.HALF_UP);
 			if (AmtAcctCr1.compareTo(AmtAcctCr) != 0)
 				log.warning("Accounted CR Precision " + AmtAcctCr + " -> " + AmtAcctCr1);
 			setAmtAcctCr(AmtAcctCr1);

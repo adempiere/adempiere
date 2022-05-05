@@ -21,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -656,7 +657,7 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 						return;						
 					}
 					// Update the qty editor
-					newQty = newQty.setScale(MUOM.getPrecision(ctx, selectionList.get(index).c_uom_id), BigDecimal.ROUND_HALF_UP);
+					newQty = newQty.setScale(MUOM.getPrecision(ctx, selectionList.get(index).c_uom_id), RoundingMode.HALF_UP);
 					selectionList.get(index).c_uom_id = new_id;
 					selectionList.get(index).uomEditor.setValue(new_id);
 					selectionList.get(index).qtyEditor.setValue(newQty);
@@ -910,7 +911,7 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 				selection.feature = line.getFeature();
 				selection.name = product.getName();
 				selection.baseQty = line.getQty().multiply(baseQty);
-				BigDecimal displayedQty = line.getQty().multiply(qty).setScale(MUOM.getPrecision(ctx, line.getC_UOM_ID()), BigDecimal.ROUND_HALF_UP);
+				BigDecimal displayedQty = line.getQty().multiply(qty).setScale(MUOM.getPrecision(ctx, line.getC_UOM_ID()), RoundingMode.HALF_UP);
 				selection.qty = displayedQty;
 				
 				selectionList.add(selection);

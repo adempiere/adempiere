@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -638,7 +639,7 @@ public class CalloutInvoice extends CalloutEngine
 			{
 				discount = new BigDecimal ((priceList.doubleValue () - priceActual.doubleValue ()) / priceList.doubleValue () * 100.0);
 				if (discount.scale () > 2)
-					discount = discount.setScale (2, BigDecimal.ROUND_HALF_UP);
+					discount = discount.setScale(2, RoundingMode.HALF_UP);
 			//	mTab.setValue ("Discount", Discount);
 			}
 		}
@@ -658,7 +659,7 @@ public class CalloutInvoice extends CalloutEngine
 			lineNetAmount = quantityInvoiced.multiply(priceActual);
 		}
 		if (lineNetAmount.scale() > standardPrecision)
-			lineNetAmount = lineNetAmount.setScale(standardPrecision, BigDecimal.ROUND_HALF_UP);
+			lineNetAmount = lineNetAmount.setScale(standardPrecision, RoundingMode.HALF_UP);
 		log.info("amt = LineNetAmt=" + lineNetAmount);
 		mTab.setValue("LineNetAmt", lineNetAmount);
 
@@ -744,7 +745,7 @@ public class CalloutInvoice extends CalloutEngine
 		{
 			int C_UOM_To_ID = ((Integer)value).intValue();
 			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), RoundingMode.HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
 				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
@@ -775,7 +776,7 @@ public class CalloutInvoice extends CalloutEngine
 		{
 			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 			QtyEntered = (BigDecimal)value;
-			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), RoundingMode.HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
 				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
@@ -801,7 +802,7 @@ public class CalloutInvoice extends CalloutEngine
 			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 			QtyInvoiced = (BigDecimal)value;
 			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision(); 
-			BigDecimal QtyInvoiced1 = QtyInvoiced.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyInvoiced1 = QtyInvoiced.setScale(precision, RoundingMode.HALF_UP);
 			if (QtyInvoiced.compareTo(QtyInvoiced1) != 0)
 			{
 				log.fine("Corrected QtyInvoiced Scale "
