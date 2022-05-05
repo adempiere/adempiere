@@ -16,6 +16,7 @@
 package org.compiere.cm.request;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -367,7 +368,7 @@ public class Request {
 				l_bdValue = new BigDecimal(0);
 			}
 		}
-		l_bdValue = l_bdValue.setScale(2, BigDecimal.ROUND_CEILING);
+		l_bdValue = l_bdValue.setScale(2, RoundingMode.CEILING);
 		return l_bdValue;
 	}
 	

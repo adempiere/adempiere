@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -664,12 +665,15 @@ public class OutBoundOrder {
 				//	Valid Quantity On Hand
 				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
 					//FR [ 1 ]
-					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
+					BigDecimal diff = ((BigDecimal) (isStocked ? Env.ONE : Env.ZERO))
+						.multiply(
+							qtyOnHand.subtract(qty).setScale(precision, RoundingMode.HALF_UP)
+						);
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
 						qty = qty
 							.subtract(diff.abs())
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					}
 					//	Valid Zero
 					if(qty.doubleValue() <= 0)
@@ -826,9 +830,9 @@ public class OutBoundOrder {
 					BigDecimal qtyAvailable = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					//	
-					if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+					if(qty.setScale(precision, RoundingMode.HALF_UP).doubleValue() 
 							> qtyAvailable.doubleValue()) {
 						if(errorMessage.length() > 0) {
 							errorMessage.append(Env.NL);

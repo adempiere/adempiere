@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -93,7 +94,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 					invoiceLine.setM_Product_ID(product.getM_Product_ID(), uomId);
 					precision = product.getUOMPrecision();
 					if (product.getC_UOM_ID() != uomId) {
-						qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+						qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 						qtyInvoiced = MUOMConversion.convertProductFrom(Env.getCtx(), productId, uomId, qtyEntered);
 					}
 				}
@@ -101,7 +102,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 				invoiceLine.setC_Charge_ID(chargeId);
 			}
 
-			qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+			qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 			if (qtyInvoiced == null)
 				qtyInvoiced = qtyEntered;
 

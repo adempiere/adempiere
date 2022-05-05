@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -163,10 +164,10 @@ public class MInvoicePaySchedule extends X_C_InvoicePaySchedule
 		else
 		{
 			due = due.multiply(paySchedule.getPercentage())
-				.divide(HUNDRED, scale, BigDecimal.ROUND_HALF_UP);
+				.divide(HUNDRED, scale, RoundingMode.HALF_UP);
 			setDueAmt (due);
 			BigDecimal discount = due.multiply(paySchedule.getDiscount())
-				.divide(HUNDRED, scale, BigDecimal.ROUND_HALF_UP);
+				.divide(HUNDRED, scale, RoundingMode.HALF_UP);
 			setDiscountAmt (discount);
 			setIsValid(true);
 		}

@@ -17,6 +17,7 @@
 package org.adempiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -231,7 +232,7 @@ public class SB_InvoiceGenerateFromOrderLine extends SB_InvoiceGenerateFromOrder
 						if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
 							qtyEntered = toInvoice
 								.multiply(oLine.getQtyEntered())
-								.divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP);
+								.divide(oLine.getQtyOrdered(), 12, RoundingMode.HALF_UP);
 						createLine (order, oLine, toInvoice, qtyEntered);
 					}
 					else

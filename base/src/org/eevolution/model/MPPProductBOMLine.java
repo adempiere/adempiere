@@ -250,8 +250,8 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		//
 		if (includeScrapQty)
 		{
-			BigDecimal scrapDec = getScrap().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_UP);
-			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal scrapDec = getScrap().divide(Env.ONEHUNDRED, 12, RoundingMode.UP);
+			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, RoundingMode.UP);
 		}
 		//
 		if (qty.scale() > precision)

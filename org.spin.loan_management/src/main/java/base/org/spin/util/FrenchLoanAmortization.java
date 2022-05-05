@@ -17,6 +17,7 @@
 package org.spin.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,15 +83,15 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 			for (AmortizationValue amortization : amortizationList) {
 				//Create Amortization
 				MFMAmortization.createAmortization(account.getCtx(), 
-													amortization.getCapitalAmtFee().setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP), 
+													amortization.getCapitalAmtFee().setScale(currency.getStdPrecision(), RoundingMode.HALF_UP), 
 													"", 
 													amortization.getDueDate(), 
 													amortization.getEndDate(), 
 													account.getFM_Account_ID(), 
-													amortization.getInterestAmtFee().setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP), 
+													amortization.getInterestAmtFee().setScale(currency.getStdPrecision(), RoundingMode.HALF_UP), 
 													amortization.getPeriodNo(), 
 													amortization.getStartDate(), 
-													amortization.getTaxAmtFee().setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP), 
+													amortization.getTaxAmtFee().setScale(currency.getStdPrecision(), RoundingMode.HALF_UP), 
 													transactionName);
 			}
 			

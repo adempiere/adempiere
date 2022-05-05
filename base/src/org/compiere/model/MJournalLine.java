@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
@@ -310,11 +311,11 @@ public class MJournalLine extends X_GL_JournalLine implements DocumentReversalLi
 		BigDecimal currencyRate = getCurrencyRate();
 		BigDecimal amountDebit = currencyRate.multiply(getAmtSourceDr());
 		if (amountDebit.scale() > getPrecision())
-			amountDebit = amountDebit.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+			amountDebit = amountDebit.setScale(getPrecision(), RoundingMode.HALF_UP);
 		setAmtAcctDr(amountDebit);
 		amountDebit = currencyRate.multiply(getAmtSourceCr());
 		if (amountDebit.scale() > getPrecision())
-			amountDebit = amountDebit.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+			amountDebit = amountDebit.setScale(getPrecision(), RoundingMode.HALF_UP);
 		setAmtAcctCr(amountDebit);
 		//	Set Line Org to Acct Org
 	/*	if (newRecord 

@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
@@ -216,7 +217,7 @@ public class MUOM extends X_C_UOM
 		if (!stdPrecision)
 			precision = getCostingPrecision();
 		if (qty.scale() > precision)
-			return qty.setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			return qty.setScale(getStdPrecision(), RoundingMode.HALF_UP);
 		return qty;
 	}	//	round
 

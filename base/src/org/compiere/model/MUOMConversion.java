@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.awt.Point;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -191,7 +192,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 					s_conversions.put(p, mr);
 				//	reverse
 				if (dr == null && mr != null)
-					dr = Env.ONE.divide(mr, BigDecimal.ROUND_HALF_UP);
+					dr = Env.ONE.divide(mr, RoundingMode.HALF_UP);
 				if (dr != null)
 					s_conversions.put(new Point(p.y,p.x), dr);
 			}
@@ -445,7 +446,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		//	Calculate & Scale
 		retValue = retValue.multiply(qty);
 		if (retValue.scale() > precision)
-			retValue = retValue.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			retValue = retValue.setScale(precision, RoundingMode.HALF_UP);
 		return retValue;
 	}   //  convert
 

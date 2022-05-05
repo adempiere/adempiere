@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class CreateOrderFromReturnOrder extends CreateOrderFromReturnOrderAbstra
 				orderLine.setM_Product_ID(product.getM_Product_ID(), uomId);
 				precision = product.getUOMPrecision();
 				if (product.getC_UOM_ID() != uomId) {
-					qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+					qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 					qtyOrdered = MUOMConversion.convertProductFrom(Env.getCtx(), returnOrderLine.getM_Product_ID(), uomId, qtyEntered);
 				}
 			}
@@ -94,7 +95,7 @@ public class CreateOrderFromReturnOrder extends CreateOrderFromReturnOrderAbstra
 			orderLine.setC_Charge_ID(returnOrderLine.getC_Charge_ID());
 		}
 		//	
-		qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+		qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 		if (qtyOrdered == null) {
 			qtyOrdered = qtyEntered;
 		}

@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
@@ -251,7 +252,7 @@ public class GeneratePaySelectionFromLoan extends GeneratePaySelectionFromLoanAb
 		BigDecimal convertedAmt = sourceAmt.multiply(conversionRate.getMultiplyRate());
 		int stdPrecision = MCurrency.getStdPrecision(getCtx(), conversionRate.getC_Currency_ID_To());
 		if (convertedAmt.scale() > stdPrecision) {
-			convertedAmt = convertedAmt.setScale(stdPrecision, BigDecimal.ROUND_HALF_UP);
+			convertedAmt = convertedAmt.setScale(stdPrecision, RoundingMode.HALF_UP);
 		}
 		//	Default Return
 		return convertedAmt;

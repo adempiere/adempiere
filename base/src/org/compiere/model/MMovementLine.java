@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -140,7 +141,7 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 			if (product != null)
 			{
 				int precision = product.getUOMPrecision(); 
-				MovementQty = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				MovementQty = MovementQty.setScale(precision, RoundingMode.HALF_UP);
 			}
 		}
 		super.setMovementQty(MovementQty);

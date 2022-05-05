@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -365,7 +366,7 @@ public class CalloutInvoiceBatch extends CalloutEngine
 		//	Line Net Amt
 		BigDecimal LineNetAmt = QtyEntered.multiply(PriceEntered);
 		if (LineNetAmt.scale() > StdPrecision)
-			LineNetAmt = LineNetAmt.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
+			LineNetAmt = LineNetAmt.setScale(StdPrecision, RoundingMode.HALF_UP);
 
 		//	Calculate Tax Amount
 		boolean IsSOTrx = "Y".equals(Env.getContext(Env.getCtx(), WindowNo, "IsSOTrx"));
