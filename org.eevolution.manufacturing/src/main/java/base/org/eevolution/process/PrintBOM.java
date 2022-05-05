@@ -22,11 +22,20 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.sql.RowSet;
+
+import org.compiere.apps.AEnv;
+import org.compiere.model.MQuery;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.X_T_BOMLine;
 
@@ -86,15 +95,63 @@ public class PrintBOM extends SvrProcess
 		try 
 		{
 			loadBOM();
+			print();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "PrintBOM", e.toString());
 			throw new Exception(e.getLocalizedMessage());
 		}
+		finally
+		{
+			String sql = "DELETE FROM T_BomLine WHERE AD_PInstance_ID = " + AD_PInstance_ID;
+			DB.executeUpdate(sql, null);		
+		}
 
 		return "@OK@";
 	} // doIt
+
+	private static final int X_RV_PP_Product_BOMLine_Table_ID = 53063;
+	private static final String X_RV_PP_Product_BOMLine_Table_Name = "RV_PP_Product_BOMLine";
+	
+	/**
+	 * Print result generate for this report
+	 */
+	void print() throws Exception
+	{
+		Language language = Language.getLoginLanguage(); // Base Language
+		MPrintFormat pf = null;
+		int pfid = 0;
+		
+		// get print format for client, else copy system to client  
+		RowSet pfrs = MPrintFormat.getAccessiblePrintFormats(X_RV_PP_Product_BOMLine_Table_ID, -1, null);
+		pfrs.next();
+		pfid = pfrs.getInt("AD_PrintFormat_ID");
+		
+		if(pfrs.getInt("AD_Client_ID") != 0) pf = MPrintFormat.get(getCtx(), pfid, false);
+		else pf = MPrintFormat.copyToClient(getCtx(), pfid, getAD_Client_ID());
+		pfrs.close();		
+
+		if (pf == null) raiseError("Error: ","No Print Format");
+
+		pf.setLanguage(language);
+		pf.setTranslationLanguage(language);
+		// query
+		MQuery query = MQuery.get(getCtx(), AD_PInstance_ID, X_RV_PP_Product_BOMLine_Table_Name);
+		query.addRestriction("AD_PInstance_ID", MQuery.EQUAL, AD_PInstance_ID);
+
+		PrintInfo info = new PrintInfo(X_RV_PP_Product_BOMLine_Table_Name, 
+				X_RV_PP_Product_BOMLine_Table_ID, getRecord_ID());
+		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
+
+		ReportCtl.preview(re);
+		// wait for report window to be closed as t_bomline   
+		// records are deleted when process ends 
+		while (re.showView()
+				&& re.isDisplayable()) {
+			AEnv.sleep(1);
+		}	
+	}
 
 	/**
 	 * Action: Fill Tree with all nodes
