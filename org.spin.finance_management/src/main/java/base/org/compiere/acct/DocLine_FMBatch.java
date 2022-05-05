@@ -19,7 +19,11 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 
 import org.compiere.util.Env;
-import org.spin.model.*;
+import org.spin.model.MFMAgreement;
+import org.spin.model.MFMBatch;
+import org.spin.model.MFMTransaction;
+import org.spin.model.MFMTransactionType;
+import org.spin.model.X_FM_TransactionType_Acct;
 
 /**
  * Post Batch Document Transaction

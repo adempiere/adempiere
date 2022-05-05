@@ -27,7 +27,12 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
-import org.spin.model.*;
+import org.spin.model.I_FM_Transaction;
+import org.spin.model.MFMAccount;
+import org.spin.model.MFMAgreement;
+import org.spin.model.MFMBatch;
+import org.spin.model.MFMTransaction;
+import org.spin.model.X_FM_TransactionType_Acct;
 
 /**
  * Post Batch Document
