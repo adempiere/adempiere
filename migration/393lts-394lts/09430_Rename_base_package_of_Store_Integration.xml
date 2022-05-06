@@ -13,6 +13,7 @@
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
       <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.model.validator.VueStoreFront';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront';</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
