@@ -558,7 +558,7 @@ public class DB_MySQL implements AdempiereDatabase {
 				datasourceLongRunning = new HikariDataSource(config);;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+				Optional<String> maybeApplicationType = Optional.ofNullable(Optional.ofNullable(Ini.getApplicationType()).orElse(System.getenv("ADEMPIERE_APPS_TYPE")));
 				datasourceLongRunning = maybeApplicationType
 						.map(applicationType -> {
 							if ("wildfly".equals(applicationType)) {
@@ -637,7 +637,7 @@ public class DB_MySQL implements AdempiereDatabase {
 				datasourceShortRunning = cpds;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+				Optional<String> maybeApplicationType = Optional.ofNullable(Optional.ofNullable(Ini.getApplicationType()).orElse(System.getenv("ADEMPIERE_APPS_TYPE")));
 				datasourceShortRunning = maybeApplicationType
 						.map(applicationType -> {
 							if ("wildfly".equals(applicationType)) {
