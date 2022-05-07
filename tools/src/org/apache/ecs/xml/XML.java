@@ -196,7 +196,7 @@ public class XML extends MultiPartElement
 	{
 		boolean linebreak = true;
 
-		java.util.Enumeration en = elements ();
+		java.util.Enumeration<Element> en = elements();
 
 		// if this tag has one child, and it's a String, then don't
 		// do any linebreaks to preserve whitespace

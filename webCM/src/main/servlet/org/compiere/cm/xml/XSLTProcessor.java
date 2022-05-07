@@ -67,7 +67,7 @@ public class XSLTProcessor
 		XMLUtils.setDefaultFeatures(tFactory);
 		Transformer transformer = tFactory.newTransformer (new StreamSource (
 			new StringReader (xslStream)));
-		Enumeration e = request.getParameterNames ();
+		Enumeration<String> e = request.getParameterNames();
 		StringBuffer tStrHTML = new StringBuffer ();
 		while (e.hasMoreElements ())
 		{
