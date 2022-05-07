@@ -60,7 +60,7 @@ public class GenerateModelJPA
 	public static final String COPY = 
 		 "/******************************************************************************\n"
 		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
-		+" * Copyright (C) 2006-2008 Adempiere Bazaar. All Rights Reserved.                *\n"
+		+" * Copyright (C) 2006-2008 Adempiere Bazaar. All Rights Reserved.             *\n"
 		+" * This program is free software; you can redistribute it and/or modify it    *\n"
 		+" * under the terms version 2 of the GNU General Public License as published   *\n"
 		+" * by the Free Software Foundation. This program is distributed in the hope   *\n"
@@ -69,10 +69,8 @@ public class GenerateModelJPA
 		+" * See the GNU General Public License for more details.                       *\n"
 		+" * You should have received a copy of the GNU General Public License along    *\n"
 		+" * with this program; if not, write to the Free Software Foundation, Inc.,    *\n"
-		//+" * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *\n"
-		//+" * For the text or an alternative of this public license, you may reach us    *\n"
-		+" * or via www.adempiere.org or http://www.adempiere.org/wiki		           *\n"
-                   +" * Contributor: Victor Perez Juarez                                           *\n" 
+		+" * or via https://adempiere.io                                                *\n"
+        +" * Contributor: ADempiere ERP (generated)                                     *\n" 
 		+" *****************************************************************************/\n";
 	
 	/**	Generated on					*/
@@ -145,7 +143,7 @@ public class GenerateModelJPA
                         + "import org.adempiere.util.*;"                        
 			//	Class
 			+ "/** Generated Model for ").append(tableName).append("\n"
-			+ " *  @author Victor Perez (generated) \n"
+			+ " *  @author ADempiere ERP (generated) \n"
 			+ " *  @version ").append(Adempiere.MAIN_VERSION).append(" - ").append(s_run).append(" */\n"
                         + " @Entity"
                         + "@Table(name=\""+ tableName +"\")" 
@@ -314,7 +312,7 @@ public class GenerateModelJPA
 		boolean virtualColumn, boolean IsEncrypted)
 	{
 		//	Clazz
-		Class clazz = DisplayType.getClass(displayType, true);
+		Class<?> clazz = DisplayType.getClass(displayType, true);
 		if (defaultValue == null)
 			defaultValue = "";
 		if (DisplayType.isLOB(displayType))		//	No length check for LOBs

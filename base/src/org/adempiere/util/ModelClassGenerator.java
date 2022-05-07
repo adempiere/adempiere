@@ -88,23 +88,25 @@ public class ModelClassGenerator
 		StringBuffer mandatory = new StringBuffer();
 		StringBuffer sb = createColumns(AD_Table_ID, mandatory);
 		// Header
-		String tableName = createHeader(table, sb, mandatory, packageName);
+		String className = createHeader(table, sb, mandatory, packageName);
 		// Save
 		if ( ! directory.endsWith(File.separator) )
 			directory += File.separator;
 		//	Write to file "X_" class
-		writeToFile (sb, directory + tableName + ".java");
+		writeToFile (sb, directory + className + ".java");
 		//	Create Document Class
 		if(table.isDocument()) {
 			sb = new StringBuffer();
-			tableName = createHeaderDocument(table, tableName, sb, packageName);
-			//	Write to file "M" class
-			String fileName = directory + tableName + ".java";
-			//	Validate if exists
-			File out = new File (fileName);
-			if(!out.exists()) {
-				//	Create a File
-				writeToFile (sb, fileName);
+			className = createHeaderDocument(table, className, sb, packageName);
+			if(className != null) {
+				//	Write to file "M" class
+				String fileName = directory + className + ".java";
+				//	Validate if exists
+				File out = new File (fileName);
+				if(!out.exists()) {
+					//	Create a File
+					writeToFile (sb, fileName);
+				}
 			}
 		}
 	}
@@ -264,7 +266,11 @@ public class ModelClassGenerator
 	private String createHeaderDocument(MTable p_Table, String p_ParentClassName, StringBuffer sb, String packageName) {
 		String tableName = p_Table.getTableName();
 		String keyColumn = tableName + "_ID";
-		String className = "M" + tableName.replaceAll("_", "");
+		Class<?> clazz = MTable.getClass(tableName);
+		if(clazz == null) {
+			return null;
+		}
+		String className = clazz.getSimpleName();
 		//
 		StringBuffer start = new StringBuffer ()
 			.append (ModelInterfaceGenerator.COPY)
