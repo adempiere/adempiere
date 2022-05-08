@@ -742,6 +742,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 
 		//setProcessed(true);
 		setDocAction(DOCACTION_Close);
+		setProcessed(true);
 
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
