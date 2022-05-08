@@ -4,6 +4,7 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,8 +261,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	
 	protected void setReversalCostDetail()
 	{
-		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
-		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
+		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
 		costDetail.setCurrentQty(Env.ZERO);
 		costDetail.setQty(Env.ZERO);
 		costDetail.setAmt(Env.ZERO);
@@ -304,7 +305,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
 		accumulatedAmount = getNewAccumulatedAmount(costDetail);
 		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
-		currentCostPrice = getNewCurrentCostPrice(costDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		currentCostPrice = getNewCurrentCostPrice(costDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 	}
 	
 	public abstract void updateAmountCost();
@@ -316,8 +317,19 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	abstract public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode);
+	/**
+	 * Method to implement the costing method Get the New Current Cost Price
+	 * This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	abstract public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode);
+
 
 	/**
 	 * Method to implement the costing method Get the New Cumulated Amt This Level
@@ -332,8 +344,18 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	abstract public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode);
+	
+	/**
+	 * Method to implement the costing method Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	abstract public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode);
 
 	/**
 	 * Method to implement the costing method Get the new Cumulated Amt Low Level

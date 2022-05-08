@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_Location 
 {
@@ -48,19 +48,6 @@ public interface I_C_Location
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
@@ -114,6 +101,32 @@ public interface I_C_Location
 	  */
 	public String getAddress4();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name Altitude */
+    public static final String COLUMNNAME_Altitude = "Altitude";
+
+	/** Set Altitude.
+	  * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	  */
+	public void setAltitude (BigDecimal Altitude);
+
+	/** Get Altitude.
+	  * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	  */
+	public BigDecimal getAltitude();
+
     /** Column name C_City_ID */
     public static final String COLUMNNAME_C_City_ID = "C_City_ID";
 
@@ -144,34 +157,6 @@ public interface I_C_Location
 
 	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException;
 
-    /** Column name C_Location_ID */
-    public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
-
-	/** Set Address.
-	  * Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID);
-
-	/** Get Address.
-	  * Location or Address
-	  */
-	public int getC_Location_ID();
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
-
-	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException;
-
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
 
@@ -184,6 +169,19 @@ public interface I_C_Location
 	  * Identifies a City
 	  */
 	public String getCity();
+
+    /** Column name C_Location_ID */
+    public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
+
+	/** Set Address.
+	  * Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID);
+
+	/** Get Address.
+	  * Location or Address
+	  */
+	public int getC_Location_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -201,6 +199,21 @@ public interface I_C_Location
 	  */
 	public int getCreatedBy();
 
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
+
+	/** Set Region.
+	  * Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID);
+
+	/** Get Region.
+	  * Identifies a geographical Region
+	  */
+	public int getC_Region_ID();
+
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -213,6 +226,32 @@ public interface I_C_Location
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Latitude */
+    public static final String COLUMNNAME_Latitude = "Latitude";
+
+	/** Set Latitude.
+	  * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	  */
+	public void setLatitude (BigDecimal Latitude);
+
+	/** Get Latitude.
+	  * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	  */
+	public BigDecimal getLatitude();
+
+    /** Column name Longitude */
+    public static final String COLUMNNAME_Longitude = "Longitude";
+
+	/** Set Longitude.
+	  * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	  */
+	public void setLongitude (BigDecimal Longitude);
+
+	/** Get Longitude.
+	  * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	  */
+	public BigDecimal getLongitude();
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";
@@ -253,19 +292,6 @@ public interface I_C_Location
 	  */
 	public String getRegionName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -281,4 +307,17 @@ public interface I_C_Location
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

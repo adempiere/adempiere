@@ -31,6 +31,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.tree.TreeNode;
 
 import org.apache.ecs.Element;
 import org.apache.ecs.xhtml.a;
@@ -420,7 +421,7 @@ public class WMenu extends HttpServlet
 		MTree tree = new MTree (wsc.ctx, AD_Tree_ID, false, null);	// Language set in WLogin
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
-		Enumeration en = root.preorderEnumeration();
+		Enumeration<TreeNode> en = root.preorderEnumeration();
 		/*while (en.hasMoreElements())
 		{
 			MTreeNode nd = (MTreeNode)en.nextElement();

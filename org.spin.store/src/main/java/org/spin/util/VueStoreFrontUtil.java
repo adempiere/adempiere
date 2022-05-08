@@ -18,6 +18,7 @@
 package org.spin.util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -222,10 +223,10 @@ public class VueStoreFrontUtil {
 		BigDecimal priceListAmount = productPricing.getPriceList().setScale(productPricing.getPrecision());
 		BigDecimal priceAmount = productPricing.getPriceStd().setScale(productPricing.getPrecision());
 		BigDecimal discount = productPricing.getDiscount();
-		BigDecimal lineListAmount = priceListAmount.multiply(quantity).setScale(productPricing.getPrecision(), BigDecimal.ROUND_HALF_UP);
-		BigDecimal lineDiscountAmount = lineListAmount.multiply(discount).divide(Env.ONEHUNDRED, BigDecimal.ROUND_HALF_UP).setScale(productPricing.getPrecision(), BigDecimal.ROUND_HALF_UP);
-		BigDecimal lineNetAmount = priceAmount.multiply(quantity).setScale(productPricing.getPrecision(), BigDecimal.ROUND_HALF_UP);
-		BigDecimal taxAmount = lineNetAmount.multiply(tax.getRate()).divide(Env.ONEHUNDRED, BigDecimal.ROUND_HALF_UP);
+		BigDecimal lineListAmount = priceListAmount.multiply(quantity).setScale(productPricing.getPrecision(), RoundingMode.HALF_UP);
+		BigDecimal lineDiscountAmount = lineListAmount.multiply(discount).divide(Env.ONEHUNDRED, RoundingMode.HALF_UP).setScale(productPricing.getPrecision(), RoundingMode.HALF_UP);
+		BigDecimal lineNetAmount = priceAmount.multiply(quantity).setScale(productPricing.getPrecision(), RoundingMode.HALF_UP);
+		BigDecimal taxAmount = lineNetAmount.multiply(tax.getRate()).divide(Env.ONEHUNDRED, RoundingMode.HALF_UP);
 		BigDecimal lineTotalAmount = lineNetAmount.add(taxAmount);
 		//	Set values
 		basketLine.set_ValueOfColumn(COLUMNNAME_M_Warehouse_ID, store.getM_Warehouse_ID());

@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -406,7 +407,7 @@ public class DistributionRun extends SvrProcess
 					if (detail.isCanAdjust())
 					{
 						BigDecimal diffRatio = detail.getRatio().multiply(difference)
-							.divide(ratioTotal, BigDecimal.ROUND_HALF_UP);	// precision from total
+							.divide(ratioTotal, RoundingMode.HALF_UP);	// precision from total
 						log.fine("Detail=" + detail.toString()
 							+ ", Allocation=" + detail.getActualAllocation()
 							+ ", DiffRatio=" + diffRatio);
@@ -637,7 +638,7 @@ public class DistributionRun extends SvrProcess
 					log.info("Qty Target:" + record.getMinQty());
 					log.info("Qty Total Available:" + drl.getTotalQty());
 					log.info("Qty Total Demand:" +  totalration);			
-					BigDecimal factor = ration.divide(totalration, 12 , BigDecimal.ROUND_HALF_UP);
+					BigDecimal factor = ration.divide(totalration, 12, RoundingMode.HALF_UP);
 					record.setQty(drl.getTotalQty().multiply(factor));
 					record.saveEx();
 			}			
@@ -737,7 +738,7 @@ public class DistributionRun extends SvrProcess
 					, p_M_DistributionRun_ID, record.getM_Product_ID());
 					MDistributionRunLine drl = (MDistributionRunLine) MTable.get(getCtx(), MDistributionRunLine.Table_ID).getPO(record.getM_DistributionRunLine_ID(), get_TrxName());
 					BigDecimal ration = record.getRatio();
-					BigDecimal factor = ration.divide(total_ration,BigDecimal.ROUND_HALF_UP);
+					BigDecimal factor = ration.divide(total_ration, RoundingMode.HALF_UP);
 					record.setQty(factor.multiply(drl.getTotalQty()));
 					record.saveEx();
 			}			

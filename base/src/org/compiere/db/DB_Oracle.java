@@ -17,6 +17,7 @@
 package org.compiere.db;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
@@ -513,7 +514,7 @@ public class DB_Oracle implements AdempiereDatabase
         {
             try
             {
-                result = number.setScale(scale, BigDecimal.ROUND_HALF_UP);
+                result = number.setScale(scale, RoundingMode.HALF_UP);
             }
             catch (Exception e)
             {
@@ -585,7 +586,7 @@ public class DB_Oracle implements AdempiereDatabase
                 datasourceLongRunning = new HikariDataSource(config);
                 log.warning("Starting Client Hikari Connection Pool");
             } else {
-                Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+            	Optional<String> maybeApplicationType = Optional.ofNullable(Ini.getApplicationType());
                 datasourceLongRunning = maybeApplicationType
                         .map(applicationType -> {
                             if ("wildfly".equals(applicationType)) {
@@ -664,7 +665,7 @@ public class DB_Oracle implements AdempiereDatabase
                 datasourceShortRunning = cpds;
                 log.warning("Starting Client Hikari Connection Pool");
             } else {
-                Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+            	Optional<String> maybeApplicationType = Optional.ofNullable(Ini.getApplicationType());
                 datasourceShortRunning = maybeApplicationType
                         .map(applicationType -> {
                             if ("wildfly".equals(applicationType)) {

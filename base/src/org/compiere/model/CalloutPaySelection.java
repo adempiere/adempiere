@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -191,10 +192,8 @@ public class CalloutPaySelection extends CalloutEngine
 		if(OpenAmt.doubleValue() != 0) {
 			CurrentCurrencyRate = AmtSource.divide(OpenAmt, MathContext.DECIMAL128);
 			//	
-			DiscountAmt = DiscountAmt.multiply(CurrentCurrencyRate).setScale(
-					currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-			PayAmt = PayAmt.multiply(CurrentCurrencyRate).setScale(
-					currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			DiscountAmt = DiscountAmt.multiply(CurrentCurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
+			PayAmt = PayAmt.multiply(CurrentCurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 		}
 		//	For Conversion Rate
 		if(C_Conversion_Rate_ID != 0) {
@@ -218,13 +217,10 @@ public class CalloutPaySelection extends CalloutEngine
 		log.fine ("Rate=" + CurrencyRate + ", InvoiceOpenAmt="
 			+ AmtSource);
 		//	Set Open Amount
-		OpenAmt = AmtSource.multiply(CurrencyRate).setScale(
-				currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+		OpenAmt = AmtSource.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 		// Currency Changed - convert all
-		PayAmt = PayAmt.multiply(CurrencyRate).setScale(
-				currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-		DiscountAmt = DiscountAmt.multiply (CurrencyRate).setScale(
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+		PayAmt = PayAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
+		DiscountAmt = DiscountAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision (), RoundingMode.HALF_UP);
 		//	Set difference
 		DifferenceAmt = OpenAmt.subtract(PayAmt).subtract(DiscountAmt);
 		//	Set values

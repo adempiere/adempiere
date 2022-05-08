@@ -58,7 +58,7 @@ public class Compiere implements Serializable
 	public static String getProperties()
 	{
 		StringBuffer sb = new StringBuffer();
-		Enumeration en = System.getProperties().keys();
+		Enumeration<Object> en = System.getProperties().keys();
 		while (en.hasMoreElements())
 		{
 			if (sb.length() != 0)

@@ -18,6 +18,7 @@ package org.spin.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -594,7 +595,7 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 			amount = amount.multiply(conversionRate);
 		}
 		//	Set values
-		transaction.setAmount(amount.setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
+		transaction.setAmount(amount.setScale(currency.getStdPrecision(), RoundingMode.HALF_UP));
 		transaction.saveEx();
 		return transaction;
 	}

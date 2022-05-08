@@ -700,7 +700,7 @@ public class RequestEMailProcessor extends RequestEMailProcessorAbstract {
 		
 		//	All
 		log.finer("ALL HEADERs:");
-		Enumeration en = m.getAllHeaders();
+		Enumeration<Header> en = m.getAllHeaders();
 		while (en.hasMoreElements())
 		{
 			Header hdr = (Header)en.nextElement();

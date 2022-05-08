@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.report;
 
+
 import io.vavr.Tuple;
 import io.vavr.Tuple3;
 import io.vavr.collection.List;
@@ -47,6 +48,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -999,7 +1001,7 @@ public class FinReport extends FinReportAbstract {
                 Float percentage = percentageTuple._3;
                 if (col > 0) {
                     BigDecimal result = new BigDecimal(Float.toString(col * percentage));
-                    fixedPercentageReference.set(result.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue());
+                    fixedPercentageReference.set(result.setScale(2, RoundingMode.HALF_UP).floatValue());
                 } else
                     fixedPercentageReference.set((float) 0);
             });
@@ -1030,7 +1032,7 @@ public class FinReport extends FinReportAbstract {
 
 		if (col>0) {
 			BigDecimal bd = new BigDecimal(Float.toString(col*percentage));
-			bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+			bd = bd.setScale(2, RoundingMode.HALF_UP);
         	return bd.floatValue();
 		}
 		else

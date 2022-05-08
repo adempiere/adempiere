@@ -17,6 +17,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -796,7 +797,7 @@ public class Doc_AllocationHdr extends Doc
 			//	Round
 			int precision = acctSchema.getStdPrecision();
 			if (acctDifference.scale() > precision)
-				acctDifference = acctDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				acctDifference = acctDifference.setScale(precision, RoundingMode.HALF_UP);
 			String d2 = "(partial) = " + acctDifference + " - Multiplier=" + multiplier;
 			log.fine(d2);
 			description += " - " + d2;
@@ -1104,10 +1105,10 @@ class Doc_AllocationTax
 			|| amt.signum() == 0)
 			return Env.ZERO;
 		//
-		BigDecimal multiplier = tax.divide(total, 10, BigDecimal.ROUND_HALF_UP); 
+		BigDecimal multiplier = tax.divide(total, 10, RoundingMode.HALF_UP); 
 		BigDecimal retValue = multiplier.multiply(amt);
 		if (retValue.scale() > precision)
-			retValue = retValue.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			retValue = retValue.setScale(precision, RoundingMode.HALF_UP);
 		log.fine(retValue + " (Mult=" + multiplier + "(Prec=" + precision + ")");
 		return retValue;
 	}	//	calcAmount

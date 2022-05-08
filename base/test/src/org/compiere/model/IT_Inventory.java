@@ -29,9 +29,9 @@ import java.util.stream.Stream;
 
 import org.adempiere.exceptions.DBException;
 import org.adempiere.test.CommonGWSetup;
+import org.adempiere.test.MMDocument;
+import org.adempiere.test.MMScenario;
 import org.compiere.process.DocAction;
-import org.compiere.process.MMDocument;
-import org.compiere.process.MMScenario;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;

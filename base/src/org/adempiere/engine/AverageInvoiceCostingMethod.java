@@ -167,10 +167,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			currentCostPrice = accumulatedAmount.divide(
 					accumulatedQuantity.signum() != 0 ? accumulatedQuantity
 							: BigDecimal.ONE, accountSchema.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP);
+							RoundingMode.HALF_UP);
 			currentCostPriceLowerLevel = accumulatedAmountLowerLevel.divide(accumulatedQuantity
 					.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema
-					.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					.getCostingPrecision(), RoundingMode.HALF_UP);
 
 			if(adjustCost.add(adjustCostLowerLevel).signum() == 0)
 				return;
@@ -210,10 +210,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 								.multiply(movementQuantity));
 			} // Logic to calculate adjustment when inventory is negative
 			else if (quantityOnHand.add(movementQuantity).signum() < 0
-			&& getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP).signum() != 0
+			&& getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP).signum() != 0
 			&& costThisLevel.signum() == 0  )
 			{
-				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP);
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 				adjustCost = currentCostPrice.multiply(movementQuantity).abs();
 			}
             // If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
@@ -273,8 +273,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 			// Use the last current cost price for out transaction			
 			if (quantityOnHand.add(movementQuantity).signum() >= 0)
 			{
-				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
+				currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 			} 
 			else
 			{
@@ -439,12 +439,25 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+		return getNewCurrentCostPrice(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0) {
 			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 	/**
@@ -496,12 +509,25 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+		return getNewCurrentCostPriceLowerLevel(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+
+	/**
+	 * Average Invoice Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0) {
 			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 
@@ -575,8 +601,8 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
     public void updateInventoryValue() {
         if (accumulatedQuantity.signum() != 0)
         {
-            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
-            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
+            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
         }
         if (model.getReversalLine_ID() != 0)
 		{

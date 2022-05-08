@@ -18,8 +18,8 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.test.MMDocument;
 import org.compiere.process.DocAction;
-import org.compiere.process.MMDocument;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;

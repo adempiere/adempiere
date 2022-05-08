@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -44,6 +45,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
@@ -610,13 +612,13 @@ public class VProductConfigurationBOM extends CPanel
 				while (it.hasNext())
 				{
 					ButtonGroup group = (ButtonGroup)it.next();
-					Enumeration en = group.getElements();
+					Enumeration<AbstractButton> en = group.getElements();
 					while (en.hasMoreElements())
 					{
 						//	We found the group
 						if (source == en.nextElement())
 						{
-							Enumeration info = group.getElements();
+							Enumeration<AbstractButton> info = group.getElements();
 							while (info.hasMoreElements())
 							{
 								Object infoObj = info.nextElement();
@@ -1152,7 +1154,7 @@ public class VProductConfigurationBOM extends CPanel
      log.fine("In pruneProductConfig");
      boolean retVal = false;
      DefaultMutableTreeNode rootProductConfig = this.m_RadioButtonTreeCellRenderer.root;
-        Enumeration children = rootProductConfig.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = rootProductConfig.breadthFirstEnumeration();
         log.fine("About to prune");
         if (children != null) {
            while (children.hasMoreElements()) {
@@ -1177,7 +1179,7 @@ public class VProductConfigurationBOM extends CPanel
    }
 
    private int getNumNodesFromRoot(DefaultMutableTreeNode root) {
-        Enumeration children = root.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = root.breadthFirstEnumeration();
         ArrayList m_ArrayList = Collections.list(children);
 
         return  m_ArrayList.size();
@@ -1191,8 +1193,7 @@ public class VProductConfigurationBOM extends CPanel
 
    boolean retValue = false;
         
-
-        Enumeration children = rootProductInstance.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = rootProductInstance.breadthFirstEnumeration();
         if (children != null) {
            while (children.hasMoreElements()) {
 
@@ -1215,7 +1216,7 @@ public class VProductConfigurationBOM extends CPanel
      log.fine("root.getDepth: " + root.getDepth());
      log.fine("root.getNumNodesFromRoot: " + getNumNodesFromRoot(root));
 
-        Enumeration children = root.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = root.breadthFirstEnumeration();
         if (children != null) {
            while (children.hasMoreElements()) {
 
@@ -1245,7 +1246,7 @@ public class VProductConfigurationBOM extends CPanel
      if(getNumNodesFromRoot(rootProductConfig) == (getNumNodesFromRoot(rootProductInstance))) {
 
      if(rootProductConfig.getDepth() == rootProductInstance.getDepth()) {
-        Enumeration children = rootProductConfig.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = rootProductConfig.breadthFirstEnumeration();
         if (children != null) {
            while (children.hasMoreElements()) {
 
@@ -1284,7 +1285,7 @@ public class VProductConfigurationBOM extends CPanel
      if(getNumNodesFromRoot(rootProductConfig) == (getNumNodesFromRoot(rootProductInstance))) {
 
      if(rootProductConfig.getDepth() == rootProductInstance.getDepth()) {
-        Enumeration children = rootProductConfig.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = rootProductConfig.breadthFirstEnumeration();
         if (children != null) {
            while (children.hasMoreElements()) {
 
@@ -1361,7 +1362,7 @@ public class VProductConfigurationBOM extends CPanel
            log.fine("In getLowestConfigurableBOMTreeNode");
 
         DefaultMutableTreeNode rootProductConfig = this.m_RadioButtonTreeCellRenderer.root;
-        Enumeration children = rootProductConfig.breadthFirstEnumeration();
+        Enumeration<TreeNode> children = rootProductConfig.breadthFirstEnumeration();
         if (children != null) {
            while (children.hasMoreElements()) {
 

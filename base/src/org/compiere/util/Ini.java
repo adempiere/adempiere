@@ -33,10 +33,6 @@ import java.util.logging.Logger;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
-import org.adempiere.exceptions.AdempiereException;
-//import org.adempiere.plaf.AdempiereLookAndFeel;
-//import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
 
 /**
@@ -171,6 +167,7 @@ public final class Ini implements Serializable
 	private static final String DEFAULT_WARNING =	"Do_not_change_any_of_the_data_as_they_will_have_undocumented_side_effects.";
 	private static final String P_WARNING_de =		"WarningD";
 	private static final String DEFAULT_WARNING_de ="Einstellungen_nicht_aendern,_da_diese_undokumentierte_Nebenwirkungen_haben.";
+	public static final String P_ADEMPIERE_APPS_TYPE = "ADEMPIERE_APPS_TYPE";
 	
 	/** Charset */
 	public static final String P_CHARSET = "Charset";
@@ -262,6 +259,14 @@ public final class Ini implements Serializable
 		log.finer(fileName);
 	}	//	save
 
+	/**
+	 * Get Application Type
+	 * @return
+	 */
+	public static String getApplicationType() {
+		return getProperty(P_ADEMPIERE_APPS_TYPE);
+	}
+	
 	/**
 	 *	Load INI parameters from disk
 	 *  @param reload reload
@@ -530,7 +535,7 @@ public final class Ini implements Serializable
 	public static String getAsString()
 	{
 		StringBuffer buf = new StringBuffer ("Ini[");
-		Enumeration e = s_prop.keys();
+		Enumeration<Object> e = s_prop.keys();
 		while (e.hasMoreElements())
 		{
 			String key = (String)e.nextElement();

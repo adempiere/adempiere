@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -250,7 +251,7 @@ public class GenerateInvoiceFromLoan extends GenerateInvoiceFromLoanAbstract {
 		}
 		invoiceLine.setQty(Env.ONE);
 		if(precision > 0) {
-			amount.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			amount.setScale(precision, RoundingMode.HALF_UP);
 		}
 		invoiceLine.setPrice(amount);
 		invoiceLine.setDescription(
