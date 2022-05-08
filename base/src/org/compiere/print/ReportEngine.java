@@ -907,7 +907,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		query.setWindowNo(pi.getWindowNo());
+		if (query != null) {
+			query.setWindowNo(pi.getWindowNo());
+		}
 
 		//	FR [ 295 ]
 		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
