@@ -22,6 +22,7 @@ import java.util.logging.Level;
 
 import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -459,7 +460,7 @@ public final class MTreeNode extends DefaultMutableTreeNode
 		if (ID == m_lastID && m_lastNode != null)
 			return m_lastNode;
 		//
-		Enumeration en = preorderEnumeration();
+		Enumeration<TreeNode> en = preorderEnumeration();
 		while (en.hasMoreElements())
 		{
 			MTreeNode nd = (MTreeNode)en.nextElement();

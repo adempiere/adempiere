@@ -18,7 +18,7 @@ package org.apache.ecs.storage;
 
 import java.io.Serializable;
 
-public class Array implements java.util.Enumeration, Serializable
+public class Array implements java.util.Enumeration<Object>, Serializable
 {
     /**
 	 * 
@@ -166,7 +166,7 @@ public class Array implements java.util.Enumeration, Serializable
         return elements[location];
     }
 
-    public java.util.Enumeration elements()
+    public java.util.Enumeration<?> elements()
     {
         return this;
     }

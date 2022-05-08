@@ -672,7 +672,7 @@ public class WWindow extends HttpServlet
 			log.log(Level.SEVERE, "Set CharacterEndocung=" + WebEnv.ENCODING, e);
 		}
 		//  loop through parameters
-		Enumeration en = request.getParameterNames();
+		Enumeration<String> en = request.getParameterNames();
 		while (en.hasMoreElements())
 		{
 			String key = (String)en.nextElement();

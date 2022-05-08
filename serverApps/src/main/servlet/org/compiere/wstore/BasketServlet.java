@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.tree.TreeNode;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -167,7 +168,7 @@ public class BasketServlet extends HttpServlet
 		String sPrice = WebUtil.getParameter (request, "Price");
 
 		//	Search for Product ID	Add_134 = Add
-		Enumeration en = request.getParameterNames ();
+		Enumeration<String> en = request.getParameterNames();
 		while (M_Product_ID == 0 && en.hasMoreElements ())
 		{
 			String parameter = (String)en.nextElement ();
@@ -281,7 +282,7 @@ public class BasketServlet extends HttpServlet
 		{
 			log.log(Level.SEVERE, "Set CharacterEncoding=" + WebEnv.ENCODING, e);
 		}
-		Enumeration en = request.getParameterNames();
+		Enumeration<String> en = request.getParameterNames();
 		while (en.hasMoreElements())
 		{
 			String parameter = (String)en.nextElement();

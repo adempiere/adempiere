@@ -504,7 +504,7 @@ public class a extends MultiPartElement
 	 */
 	public boolean getNeedLineBreak ()
 	{
-		java.util.Enumeration en = elements ();
+		java.util.Enumeration<Element> en = elements();
 		int i = 0;
 		int j = 0;
 		while (en.hasMoreElements ())
