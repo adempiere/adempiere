@@ -393,7 +393,7 @@ public abstract class Doc
 	 * 	@param defaultDocumentType default document type or null
 	 * 	@param trxName trx
 	 */
-	Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
+	public Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
 	{
 		p_Status = STATUS_Error;
 		accountingSchemes = ass;
@@ -491,7 +491,7 @@ public abstract class Doc
 	private ArrayList<Fact>    	m_fact = null;
 
 	/** No Currency in Document Indicator (-1)	*/
-	protected static final int  NO_CURRENCY = -2;
+	public static final int  NO_CURRENCY = -2;
 	
 	/**	Actual Document Status  */
 	protected String			p_Status = null;
@@ -501,8 +501,7 @@ public abstract class Doc
 
 	/** Error Message			*/
 	protected String			p_Error = null;
-	
-	
+
 	/**
 	 * 	Get Context
 	 *	@return context
@@ -543,7 +542,7 @@ public abstract class Doc
 	 * 	Get Persistent Object
 	 *	@return po
 	 */
-	protected PO getPO()
+	public PO getPO()
 	{
 		return p_po;
 	}	//	getPO
@@ -2669,5 +2668,36 @@ public abstract class Doc
         return dateAcctColumnName;
 
     }
+    
+    public void setDocumentLines(List<DocLine> documentLines) {
+    	if(documentLines == null) {
+    		p_lines = null;
+    	}
+    	p_lines = documentLines.toArray(DocLine[]::new);
+    }
+    
+    /**
+     * Set source entity or document
+     * @param entity
+     */
+    public void setSourceEntity(PO entity) {
+    	p_po = entity;
+    }
+    
+	public String getDocumentStatus() {
+		return p_Status;
+	}
+
+	public void setDocumentStatus(String p_Status) {
+		this.p_Status = p_Status;
+	}
+
+	public String getError() {
+		return p_Error;
+	}
+
+	public void setError(String error) {
+		this.p_Error = error;
+	}
 
 }   //  Doc
