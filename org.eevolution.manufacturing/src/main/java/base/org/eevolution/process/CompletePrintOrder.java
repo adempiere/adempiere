@@ -21,21 +21,20 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
-import org.compiere.model.PrintInfo;
+import org.compiere.model.PO;
 import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.eevolution.model.I_PP_Order;
 import org.eevolution.model.MPPOrder;
 
 /**
  * Complete & Print Manufacturing Order
  * @author victor.perez@e-evolution.com
  * @author Teo Sarca, www.arhipac.ro
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
 public class CompletePrintOrder extends SvrProcess
 implements ClientProcess
@@ -111,65 +110,25 @@ implements ClientProcess
 				throw new AdempiereException(order.getProcessMsg());
 			}
 		}
-
-		if (p_IsPrintPickList)
-		{
-			// Get Format & Data
-			ReportEngine re = this.getReportEngine("Manufacturing_Order_BOM_Header ** TEMPLATE **","PP_Order_BOM_Header_v");
-			if(re == null )
-			{
-				return "";
+		MTable table = MTable.get(getCtx(), I_PP_Order.Table_Name);
+		PO entity = table.getPO(p_PP_Order_ID, get_TrxName());
+		if(entity == null) {
+			addLog("@NotFound@ @PP_Order_ID@");
+		} else {
+			if (p_IsPrintPickList) {
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_BOM_Header ** TEMPLATE **", "PP_Order_BOM_Header_v"), false);
 			}
-			ReportCtl.preview(re);
-			re.print(); // prints only original
-		}
-		if (p_IsPrintPackList)
-		{
-			// Get Format & Data
-			ReportEngine re = this.getReportEngine("Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **","PP_Order_BOM_Header_v");
-			if(re == null )
-			{
-				return "";
+			if (p_IsPrintPackList) {
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **", "PP_Order_BOM_Header_v"), false);
 			}
-			ReportCtl.preview(re);
-			re.print(); // prints only original
-		}
-		if (p_IsPrintWorkflow)
-		{
-			// Get Format & Data
-			ReportEngine re = this.getReportEngine("Manufacturing_Order_Workflow_Header ** TEMPLATE **","PP_Order_Workflow_Header_v");
-			if(re == null )
-			{
-				return "";
+			if (p_IsPrintWorkflow) {
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_Workflow_Header ** TEMPLATE **", "PP_Order_Workflow_Header_v"), false);
 			}
-			ReportCtl.preview(re);
-			re.print(); // prints only original
 		}
-
 		return "@OK@";
-
 	} // doIt
 	
-	/*
-	 * get the a Report Engine Instance using the view table 
-	 * @param tableName
-	 */
-	private ReportEngine getReportEngine(String formatName, String tableName)
-	{
-		// Get Format & Data
-		int format_id= MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
-		MPrintFormat format = MPrintFormat.get(getCtx(), format_id, true);
-		if (format == null)
-		{
-			addLog("@NotFound@ @AD_PrintFormat_ID@");
-			return null;
-		}
-		// query
-		MQuery query = new MQuery(tableName);
-		query.addRestriction("PP_Order_ID", MQuery.EQUAL, p_PP_Order_ID);
-		// Engine
-		PrintInfo info = new PrintInfo(tableName,  MTable.getTable_ID(tableName), p_PP_Order_ID);
-		ReportEngine re = new ReportEngine(getCtx(), format, query, info);
-		return re;
+	private int getPrintFormatId(String formatName, String tableName) {
+		return MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
 	}
 } // CompletePrintOrder
