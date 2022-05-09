@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import org.adempiere.util.DeleteEntitiesModel;
 import org.compiere.apps.ADialog;
@@ -110,7 +111,7 @@ public class VDeleteEntity extends DeleteEntityControler
 		//	Load from parent
 		loadChilds(currentNode, root, isParent);
 		//	
-		Enumeration kids = root.children();
+		Enumeration<TreeNode> kids = root.children();
 		while (kids.hasMoreElements()) {
 			DefaultMutableTreeNode node = (DefaultMutableTreeNode)kids.nextElement();
 			if (root.isNodeAncestor(node)) {

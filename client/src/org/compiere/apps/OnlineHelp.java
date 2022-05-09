@@ -287,7 +287,7 @@ class Worker extends Thread
 				//  key keys
 				if (target == null || href == null)
 				{
-					Enumeration en = as.getAttributeNames();
+					Enumeration<?> en = as.getAttributeNames();
 					while (en.hasMoreElements())
 					{
 						Object o = en.nextElement();

@@ -485,7 +485,7 @@ public class Generator
 		xmlCode.append ("  <request>\n");
 		xmlCode.append ("    <query_complete><![CDATA["
 			+ request.getQueryString () + "]]></query_complete>\n");
-		Enumeration e = request.getParameterNames ();
+		Enumeration<String> e = request.getParameterNames();
 		String tempArray[] = new String[255];
 		int j = 0;
 		while (e.hasMoreElements ())
