@@ -51,11 +51,11 @@ public class DBDataSource extends compiereDataSource
     private PreparedStatement m_pstmt = null;
     private ResultSet	m_resultSet = null;
     
-    public DBDataSource(Properties ctx, ReportInfo ri, HashMap params)
+    public DBDataSource(Properties ctx, ReportInfo ri, HashMap<String, Object> params)
     {
         JasperReport jr = ri.getJasperReport();
         //Generate parameters map
-        HashMap parametersMap = new HashMap();
+        HashMap<String, JRParameter> parametersMap = new HashMap<String, JRParameter>();
         JRParameter[] jpara = jr.getParameters();
         for (int i=0; i<jpara.length; i++)
         {
