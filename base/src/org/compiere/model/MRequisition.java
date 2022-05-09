@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -280,7 +281,7 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		{
 			MRequisitionLine line = lines[i];
 			BigDecimal lineNet = line.getQty().multiply(line.getPriceActual());
-			lineNet = lineNet.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			lineNet = lineNet.setScale(precision, RoundingMode.HALF_UP);
 			if (lineNet.compareTo(line.getLineNetAmt()) != 0)
 			{
 				line.setLineNetAmt(lineNet);

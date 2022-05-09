@@ -17,20 +17,22 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220425L;
 
     /** Standard Constructor */
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
@@ -139,6 +141,26 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
 
+	/** Set Altitude.
+		@param Altitude 
+		Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	  */
+	public void setAltitude (BigDecimal Altitude)
+	{
+		set_Value (COLUMNNAME_Altitude, Altitude);
+	}
+
+	/** Get Altitude.
+		@return Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	  */
+	public BigDecimal getAltitude () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Altitude);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_City getC_City() throws RuntimeException
     {
 		return (org.compiere.model.I_C_City)MTable.get(getCtx(), org.compiere.model.I_C_City.Table_Name)
@@ -195,6 +217,31 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCity());
+    }
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -246,30 +293,45 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
+	/** Set Latitude.
+		@param Latitude 
+		Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
 	  */
-	public void setCity (String City)
+	public void setLatitude (BigDecimal Latitude)
 	{
-		set_Value (COLUMNNAME_City, City);
+		set_Value (COLUMNNAME_Latitude, Latitude);
 	}
 
-	/** Get City.
-		@return Identifies a City
+	/** Get Latitude.
+		@return Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
 	  */
-	public String getCity () 
+	public BigDecimal getLatitude () 
 	{
-		return (String)get_Value(COLUMNNAME_City);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Latitude);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getCity());
-    }
+	/** Set Longitude.
+		@param Longitude 
+		Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	  */
+	public void setLongitude (BigDecimal Longitude)
+	{
+		set_Value (COLUMNNAME_Longitude, Longitude);
+	}
+
+	/** Get Longitude.
+		@return Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	  */
+	public BigDecimal getLongitude () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Longitude);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set ZIP.
 		@param Postal 

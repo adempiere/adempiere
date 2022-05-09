@@ -132,7 +132,7 @@ public class ReportEngineEx { //extends  ReportEngine  {
 						{
 							td td = new td();
 							tr.addElement(td);
-							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
+							Object obj = m_printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 							if (obj == null)
 								td.addElement("&nbsp;");
 							else if (obj instanceof PrintDataElement)

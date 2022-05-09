@@ -171,7 +171,7 @@ public class ReplicationLocal extends SvrProcess
 			+ "WHERE rt.IsActive='Y' AND t.IsActive='Y'"
 			+ " AND AD_ReplicationStrategy_ID=? "	//	#1
 			+ "ORDER BY t.LoadSeq";
-		RowSet rowset = getRowSet(sql, new Object[]{new Integer(m_replication.getAD_ReplicationStrategy_ID())});
+		RowSet rowset = getRowSet(sql, new Object[]{Integer.valueOf(m_replication.getAD_ReplicationStrategy_ID())});
 		if (rowset == null)
 			throw new Exception("setupRemote - No RowSet Data");
 
@@ -223,7 +223,7 @@ public class ReplicationLocal extends SvrProcess
 			+ " AND AD_ReplicationStrategy_ID=?" 	//	#1
 			+ " AND rt.ReplicationType='M' "		//	Merge
 			+ "ORDER BY t.LoadSeq";
-		RowSet rowset = getRowSet(sql, new Object[]{new Integer(m_replication.getAD_ReplicationStrategy_ID())});
+		RowSet rowset = getRowSet(sql, new Object[]{Integer.valueOf(m_replication.getAD_ReplicationStrategy_ID())});
 		try
 		{
 			while (rowset.next())
@@ -405,7 +405,7 @@ public class ReplicationLocal extends SvrProcess
 			+ " AND AD_ReplicationStrategy_ID=?" 	//	#1
 			+ " AND rt.ReplicationType='R' "		//	Reference
 			+ "ORDER BY t.LoadSeq";
-		RowSet rowset = getRowSet(sql, new Object[]{new Integer(m_replication.getAD_ReplicationStrategy_ID())});
+		RowSet rowset = getRowSet(sql, new Object[]{Integer.valueOf(m_replication.getAD_ReplicationStrategy_ID())});
 		try
 		{
 			while (rowset.next())

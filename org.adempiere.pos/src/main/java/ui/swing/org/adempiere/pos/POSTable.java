@@ -124,7 +124,7 @@ public class POSTable extends MiniTable {
 				tableColumn.setCellEditor(new ROCellEditor());
 				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 			}
-			minWidth.add(new Integer(10));
+			minWidth.add(Integer.valueOf(10));
 			tableColumn.setMaxWidth(20);
 			tableColumn.setPreferredWidth(20);
 			tableColumn.setResizable(false);
@@ -153,7 +153,7 @@ public class POSTable extends MiniTable {
 					checkRenderer.addChangeListener(headerRenderer);  //  Connect the check control with the header
 				}
 			}
-			minWidth.add(new Integer(30));
+			minWidth.add(Integer.valueOf(30));
 			
 		}
 		/*else if (c == DeleteColumn.class)
@@ -166,7 +166,7 @@ public class POSTable extends MiniTable {
 				tableColumn.setCellEditor(new ROCellEditor());
 				tableColumn.setHeaderRenderer(new VHeaderRenderer());
 			}
-			minWidth.add(new Integer(30));
+			minWidth.add(Integer.valueOf(30));
 			
 		}*/
 		//  Date
@@ -184,7 +184,7 @@ public class POSTable extends MiniTable {
 			else 
 				tableColumn.setCellEditor(new MiniCellEditor(c));
 			
-			minWidth.add(new Integer(30));
+			minWidth.add(Integer.valueOf(30));
 			if (DisplayType.DateTime == displayType)
 				tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
 			else 
@@ -197,12 +197,12 @@ public class POSTable extends MiniTable {
 			if (readOnly)
 			{
 				tableColumn.setCellEditor(new ROCellEditor());
-				minWidth.add(new Integer(70));
+				minWidth.add(Integer.valueOf(70));
 			}
 			else
 			{
 				tableColumn.setCellEditor(new MiniCellEditor(c));
-				minWidth.add(new Integer(80));
+				minWidth.add(Integer.valueOf(80));
 			}
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -214,12 +214,12 @@ public class POSTable extends MiniTable {
 			if (readOnly)
 			{
 				tableColumn.setCellEditor(new ROCellEditor());
-				minWidth.add(new Integer(70));
+				minWidth.add(Integer.valueOf(70));
 			}
 			else
 			{
 				tableColumn.setCellEditor(new MiniCellEditor(c));
-				minWidth.add(new Integer(80));
+				minWidth.add(Integer.valueOf(80));
 			}
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -232,7 +232,7 @@ public class POSTable extends MiniTable {
 				tableColumn.setCellEditor(new ROCellEditor());
 			else
 				tableColumn.setCellEditor(new MiniCellEditor(c));
-			minWidth.add(new Integer(30));
+			minWidth.add(Integer.valueOf(30));
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
@@ -244,7 +244,7 @@ public class POSTable extends MiniTable {
 				tableColumn.setCellEditor(new ROCellEditor());
 			else
 				tableColumn.setCellEditor(new MiniCellEditor(String.class));
-			minWidth.add(new Integer(30));
+			minWidth.add(Integer.valueOf(30));
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
 		}

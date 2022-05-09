@@ -18,8 +18,6 @@ package org.adempiere.process;
 
 import java.sql.PreparedStatement;
 import java.util.logging.Level;
-
-import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -37,7 +35,7 @@ public class SignDatabaseBuild
 
 	public static void main(String[] args)
 	{
-		Adempiere.startupEnvironment(true);
+		org.compiere.Adempiere.startupEnvironment(true);
 		CLogMgt.setLevel(Level.FINE);
 		s_log.info("Sign Database Build");
 		s_log.info("-------------------");
@@ -49,7 +47,7 @@ public class SignDatabaseBuild
 		
 		PreparedStatement updateStmt = null;
 		try {
-			String implementationVersion = Adempiere.getImplementationVersion();
+			String implementationVersion = org.compiere.Adempiere.getImplementationVersion();
 			String upd = "UPDATE AD_System SET LastBuildInfo = ?";
 			updateStmt = DB.prepareStatement(upd, null);
 			updateStmt.setString(1, implementationVersion);

@@ -1468,7 +1468,11 @@ public class DocumentEngine implements DocAction
             getLogger().info ("Table=" + tableName + ", Record=" + recordId);
             MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, clientId);
             Doc doc = getDoc(ass, tableName, recordId, trxName);
-            error = doc.postImmediate(force);
+			if (doc != null) {
+				error = doc.postImmediate(force);
+			} else {
+				error = EXCEPTION_MSG;
+			}
             return error;
         }
         

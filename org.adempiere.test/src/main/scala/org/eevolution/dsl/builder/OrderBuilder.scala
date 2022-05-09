@@ -21,7 +21,7 @@ package org.eevolution.dsl.builder
 import org.compiere.model.{X_C_DocType, MDocType}
 import org.compiere.process.DocAction
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Order Builder allows create a sales order using a DSL
@@ -32,7 +32,7 @@ import org.eevolution.dsl._
   */
 object OrderBuilder {
 
-  def apply(context: Context , trxName : String) = {
+  def apply(context: Context , trxName : String): Builder[Mandatory, Mandatory, Mandatory, Mandatory, Mandatory, Mandatory, Once] = {
       new Builder[Mandatory, Mandatory, Mandatory, Mandatory, Mandatory , Mandatory , Once ](context: Context , trxName : String)
     }
 
@@ -61,25 +61,25 @@ object OrderBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization) =
+    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization): Builder[Once, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, WithLinesTracking] =
       copy[Once, WithPartnerTracking, WithWarehouseTracking , WithPriceListTracking, WithBaseDocumentTypeTracking , WithSubTypeDocumentTracking, WithLinesTracking](organization = Some(o))
 
-    def withPartner[Partner <: WithPartnerTracking : IsMandatory](p: dsl.Partner) =
+    def withPartner[Partner <: WithPartnerTracking : IsMandatory](p: dsl.Partner): Builder[WithOrganizationTracking, Once, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, Once, WithWarehouseTracking , WithPriceListTracking, WithBaseDocumentTypeTracking , WithSubTypeDocumentTracking, WithLinesTracking](partner = Some(p))
 
-    def withWarehouse[Warehouse <: WithWarehouseTracking : IsMandatory](w : dsl.Warehouse) =
+    def withWarehouse[Warehouse <: WithWarehouseTracking : IsMandatory](w : dsl.Warehouse): Builder[WithOrganizationTracking, WithPartnerTracking, Once, WithPriceListTracking, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking , Once , WithPriceListTracking, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, WithLinesTracking] (warehouse = Some(w))
 
-    def withPriceList[PriceList <: WithPriceListTracking : IsMandatory](pl: dsl.PriceList) =
+    def withPriceList[PriceList <: WithPriceListTracking : IsMandatory](pl: dsl.PriceList): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, Once, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, Once , WithBaseDocumentTypeTracking,WithSubTypeDocumentTracking, WithLinesTracking](priceList = Some(pl))
 
-    def withBaseDocumentType[BaseDocumentType <: WithBaseDocumentTypeTracking : IsMandatory](bdt: String) =
+    def withBaseDocumentType[BaseDocumentType <: WithBaseDocumentTypeTracking : IsMandatory](bdt: String): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, Once, WithSubTypeDocumentTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, Once, WithSubTypeDocumentTracking , WithLinesTracking](baseDocumentType = Some(bdt))
 
-    def withSubType[SubTypeDocument <: WithSubTypeDocumentTracking : IsMandatory](sdt: String) =
+    def withSubType[SubTypeDocument <: WithSubTypeDocumentTracking : IsMandatory](sdt: String): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking, Once, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking, Once , WithLinesTracking](subTypeDocument = Some(sdt))
 
-    def AddLine[OrderLine <: WithLinesTracking : IsOnce ](product: Product , quantity: Quantity) =
+    def AddLine[OrderLine <: WithLinesTracking : IsOnce ](product: Product , quantity: Quantity): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking, WithSubTypeDocumentTracking, Once] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithPriceListTracking, WithBaseDocumentTypeTracking,WithSubTypeDocumentTracking, Once] (orderLines = orderLines + (product -> Some(quantity)))
 
 

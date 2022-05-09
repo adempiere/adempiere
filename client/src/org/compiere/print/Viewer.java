@@ -185,7 +185,9 @@ public class Viewer extends CFrame
 		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
-			m_viewPanel = re.getView();
+			m_viewPanel = new View();
+			re.setLayoutView(m_viewPanel);
+			re.showView();
 			m_ctx = m_reportEngine.getCtx();
 			String type = m_reportEngine.getReportType();
 			if (type == null) {
@@ -428,7 +430,7 @@ public class Viewer extends CFrame
 		summary.addActionListener(this);
 		//	Max Page
 		m_pageMax = m_viewPanel.getPageCount();
-		spinnerModel.setMaximum(new Integer(m_pageMax));
+		spinnerModel.setMaximum(Integer.valueOf(m_pageMax));
 		spinner.addChangeListener(this);
 
 		fillComboReport(m_reportEngine.getPrintFormat().get_ID());
@@ -637,7 +639,7 @@ public class Viewer extends CFrame
 	public void revalidate()
 	{
 		m_pageMax = m_viewPanel.getPageCount();
-		spinnerModel.setMaximum(new Integer(m_pageMax));
+		spinnerModel.setMaximum(Integer.valueOf(m_pageMax));
 
 		//	scroll area (page size dependent)
 		centerScrollPane.setPreferredSize(new Dimension
@@ -949,7 +951,7 @@ public class Viewer extends CFrame
 	//	System.out.println("scrollTo " + pageRectangle);
 
 		//	Set Page
-		spinnerModel.setValue(new Integer(m_pageNo));
+		spinnerModel.setValue(Integer.valueOf(m_pageNo));
 		StringBuffer sb = new StringBuffer (Msg.getMsg(m_ctx, "Page"))
 			.append(" ").append(m_pageNo)
 			.append(m_viewPanel.getPageInfo(m_pageNo))
@@ -1615,7 +1617,7 @@ public class Viewer extends CFrame
 		Login.initTest(true);
 
 		MQuery q = new MQuery("C_Invoice");
-		q.addRestriction("C_Invoice_ID", MQuery.EQUAL, new Integer(103));
+		q.addRestriction("C_Invoice_ID", MQuery.EQUAL, Integer.valueOf(103));
 
 		//	102 = Invoice - 100 = Order
 		PrintInfo i = new PrintInfo("test", X_C_Invoice.Table_ID, 102, 0);

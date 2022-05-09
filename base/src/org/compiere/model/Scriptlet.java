@@ -307,12 +307,12 @@ public class Scriptlet
 		//  Boolean
 		if (stringValue.equals("Y"))
 		{
-			m_ctx.put(convertKey(key), new Boolean(true));
+			m_ctx.put(convertKey(key), Boolean.TRUE);
 			return;
 		}
 		if (stringValue.equals("N"))
 		{
-			m_ctx.put(convertKey(key), new Boolean(false));
+			m_ctx.put(convertKey(key), Boolean.FALSE);
 			return;
 		}
 

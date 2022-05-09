@@ -404,7 +404,7 @@ public class EntityWrapper {
      * 	@param clientId client
      */
     protected final void setClientId(int clientId) {
-        setValueNoCheck("AD_Client_ID", new Integer(clientId));
+        setValueNoCheck("AD_Client_ID", Integer.valueOf(clientId));
     }	//	setAD_Client_ID
 
     /**
@@ -420,7 +420,7 @@ public class EntityWrapper {
      * 	@param orgId org
      */
     public final void setOrgId(int orgId) {
-        setValueNoCheck("AD_Org_ID", new Integer(orgId));
+        setValueNoCheck("AD_Org_ID", Integer.valueOf(orgId));
     }	//	setOrgId
 
     /**
@@ -456,7 +456,7 @@ public class EntityWrapper {
      * 	@param active active
      */
     public final void setIsActive (boolean active) {
-        setValue("IsActive", new Boolean(active));
+        setValue("IsActive", Boolean.valueOf(active));
     }	//	setActive
 
     /**
@@ -504,7 +504,7 @@ public class EntityWrapper {
      * 	@param userId user
      */
     protected final void setUpdatedBy (int userId) {
-        setValueNoCheck("UpdatedBy", new Integer(userId));
+        setValueNoCheck("UpdatedBy", Integer.valueOf(userId));
     }	//	setAD_User_ID
 
     /**

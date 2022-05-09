@@ -175,7 +175,7 @@ public class MLocator extends X_M_Locator
 	{
 		if (s_cache == null)
 			s_cache	= new CCache<Integer,MLocator>("M_Locator", 20);
-		Integer key = new Integer (M_Locator_ID);
+		Integer key = Integer.valueOf(M_Locator_ID);
 		MLocator retValue = (MLocator) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

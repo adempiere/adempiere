@@ -147,7 +147,7 @@ public class VCreateFromRMAUI extends CreateFromRMA
 		bPartnerField = new VLookup ("C_BPartner_ID", true, false, true, lookup);
 		//
 		int C_BPartner_ID = getC_BPartner_ID();
-		bPartnerField.setValue(new Integer(C_BPartner_ID));
+		bPartnerField.setValue(Integer.valueOf(C_BPartner_ID));
 	}   //  initBPartner
 	
 	/**

@@ -848,7 +848,7 @@ public final class MRole extends X_AD_Role
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				Integer ii = new Integer(rs.getInt(1));
+				Integer ii = Integer.valueOf(rs.getInt(1));
 				m_tableAccessLevel.put(ii, rs.getString(2));
 				String tableName = rs.getString(3); 
 				m_tableName.put(tableName, ii);
@@ -1300,7 +1300,7 @@ public final class MRole extends X_AD_Role
 		//	AccessLevel
 		//		1 = Org - 2 = Client - 4 = System
 		//		3 = Org+Client - 6 = Client+System - 7 = All
-		String roleAccessLevel = (String)m_tableAccessLevel.get(new Integer(AD_Table_ID));
+		String roleAccessLevel = (String) m_tableAccessLevel.get(Integer.valueOf(AD_Table_ID));
 		if (roleAccessLevel == null)
 		{
 			log.fine("NO - No AccessLevel - AD_Table_ID=" + AD_Table_ID);
@@ -1502,7 +1502,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_windowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_windowAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1601,7 +1601,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_processAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_processAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1754,7 +1754,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_formAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_formAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1843,7 +1843,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_browseAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_browseAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1929,7 +1929,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_workflowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_workflowAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{

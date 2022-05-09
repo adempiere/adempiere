@@ -226,7 +226,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
         //  is the column RW?
         if (column == 0 
         		|| (isSelected
-        				&& m_readWriteColumn.contains(new Integer(column)))) {
+				&& m_readWriteColumn.contains(Integer.valueOf(column)))) {
         	return true;
         }
         //	Default
@@ -241,7 +241,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
      */
     public void setColumnReadOnly(int column, boolean readOnly) {
         //  Column is ReadWrite
-        if (m_readWriteColumn.contains(new Integer(column))) {
+        if (m_readWriteColumn.contains(Integer.valueOf(column))) {
             //  Remove from list
             if (readOnly) {
                 int size = m_readWriteColumn.size();
@@ -255,7 +255,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
         }
         //  current column is R/O - ReadWrite - add to list
         else if (!readOnly)
-            m_readWriteColumn.add(new Integer(column));
+            m_readWriteColumn.add(Integer.valueOf(column));
     }   //  setColumnReadOnly
     
     @Override
@@ -354,7 +354,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
             } else {
                 tc.setCellEditor(new ROCellEditor());
             }
-            m_minWidth.add(new Integer(10));
+            m_minWidth.add(Integer.valueOf(10));
             tc.setMaxWidth(20);
             tc.setPreferredWidth(20);
             tc.setResizable(false);
@@ -363,7 +363,7 @@ public class VBrowserTable extends CTable implements IBrowserTable {
         } else {
             tc.setCellRenderer(new VCellRenderer(gridField));
             tc.setCellEditor(new VBrowserCellEditor(gridField));
-            m_minWidth.add(new Integer(30));
+            m_minWidth.add(Integer.valueOf(30));
             tc.setHeaderRenderer(new VHeaderRenderer(displayType));
         }
     }   //  setColumnClass

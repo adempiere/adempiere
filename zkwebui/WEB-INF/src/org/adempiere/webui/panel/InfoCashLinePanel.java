@@ -387,45 +387,38 @@ public class InfoCashLinePanel extends InfoPanel implements ValueChangeListener,
 				String id;
 				//  C_CashLine_ID - only if visible
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_CashLine_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fieldID = new Integer(id).intValue();
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fieldID = Integer.valueOf(id).intValue();
 				}
 				//  C_Cash_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Cash_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fCash_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fCash_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				//  C_Invoice_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Invoice_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fInvoice_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fInvoice_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				//  C_Payment_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Payment_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fPayment_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fPayment_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				//  C_Cashbook_ID - general - as a default
 				id = Env.getContext(Env.getCtx(), p_WindowNo, "C_CashBook_ID");
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fCashBook_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fCashBook_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				//  C_BankAccount_ID - window only
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BankAccount_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fBankAccount_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fBankAccount_ID.setValue(Integer.valueOf(id).intValue());
 				}
 				//  C_Charge_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Charge_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fCharge_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fCharge_ID.setValue(Integer.valueOf(id).intValue());
 				}
 			}
 		}

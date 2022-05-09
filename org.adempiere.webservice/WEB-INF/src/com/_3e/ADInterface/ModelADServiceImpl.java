@@ -30,6 +30,7 @@
 package com._3e.ADInterface;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -805,9 +806,9 @@ public class ModelADServiceImpl implements ModelADService {
 			value = null;
 		} else if (columnClass == Boolean.class) {
 			if ("Y".equalsIgnoreCase(field.getVal()) || "true".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(true);
+				value = Boolean.TRUE;
 			else if ("N".equalsIgnoreCase(field.getVal()) || "false".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(false);
+				value = Boolean.FALSE;
 			else
 				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "
@@ -1090,7 +1091,7 @@ public class ModelADServiceImpl implements ModelADService {
 			
 			// Set Quantity of Pages
 			if (records.size() != 0)
-				qtyPages = new BigDecimal(records.size()).divide(new BigDecimal(m_RecByPage)).setScale(0, BigDecimal.ROUND_UP).intValue();
+				qtyPages = new BigDecimal(records.size()).divide(new BigDecimal(m_RecByPage)).setScale(0, RoundingMode.UP).intValue();
 			
 			int begin= 0, end = 0;
 			begin = currentPage * m_RecByPage;

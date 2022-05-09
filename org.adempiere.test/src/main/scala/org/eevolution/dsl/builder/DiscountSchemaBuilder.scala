@@ -17,9 +17,9 @@
 
 package org.eevolution.dsl.builder
 
-import org.compiere.model.{X_M_DiscountSchema}
+import org.compiere.model.X_M_DiscountSchema
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Discount Schema Builder allows create a Discount Schema using a DSL
@@ -57,7 +57,7 @@ object DiscountSchemaBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization) =
+    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization): Builder[Once, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         Once,
         WithNameTracking ,
@@ -70,7 +70,7 @@ object DiscountSchemaBuilder {
         WithDiscountSchemaBreakTracking
         ](organization = Some(o))
 
-    def withName[Name <: WithNameTracking : IsMandatory](n: String) =
+    def withName[Name <: WithNameTracking : IsMandatory](n: String): Builder[WithOrganizationTracking, Once, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         Once ,
@@ -82,7 +82,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking](name = Some(n))
 
-    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String) =
+    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String): Builder[WithOrganizationTracking, WithNameTracking, Once, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking,
@@ -94,7 +94,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking](description = Some(d))
 
-    def withDiscountType[DiscountType <: WithDiscountTypeTracking : IsMandatory](dt: String) =
+    def withDiscountType[DiscountType <: WithDiscountTypeTracking : IsMandatory](dt: String): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, Once, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -107,7 +107,7 @@ object DiscountSchemaBuilder {
         WithDiscountSchemaBreakTracking](discountType = Some(dt))
 
 
-    def asPartnerFlatDiscount[IsPartnerFlatDiscount <: WithIsPartnerFlatDiscountTracking: IsMandatory] =
+    def asPartnerFlatDiscount[IsPartnerFlatDiscount <: WithIsPartnerFlatDiscountTracking: IsMandatory]: Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, Once, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -119,7 +119,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking](isPartnerFlatDiscount = Some(true))
 
-    def withFlatDiscount[FlatDiscount <: WithFlatDiscountTracking: IsMandatory](d : BigDecimal) =
+    def withFlatDiscount[FlatDiscount <: WithFlatDiscountTracking: IsMandatory](d : BigDecimal): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, Once, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -131,7 +131,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking](flatDiscount = Some(d))
 
-    def asQuantityBased[IsQuantityBased <: WithIsQuantityBasedTracking: IsMandatory]() =
+    def asQuantityBased[IsQuantityBased <: WithIsQuantityBasedTracking: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, Once, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -143,7 +143,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking]( isQuantityBased = Some(true))
 
-    def withAccumulationLevel[AccumulationLevel <: WithAccumulationLevelTracking: IsMandatory](al : String) =
+    def withAccumulationLevel[AccumulationLevel <: WithAccumulationLevelTracking: IsMandatory](al : String): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, WithDiscountSchemaBreakTracking] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -155,7 +155,7 @@ object DiscountSchemaBuilder {
         WithAccumulationLevelTracking,
         WithDiscountSchemaBreakTracking](accumulationLevel = Some(al))
 
-    def AddDiscountSchemaBreak[DiscountSchemaBreak <: WithDiscountSchemaBreakTracking : IsOnce ](discountSchemaBreak: dsl.DiscountSchemaBreak , sequenceNo: Integer) =
+    def AddDiscountSchemaBreak[DiscountSchemaBreak <: WithDiscountSchemaBreakTracking : IsOnce ](discountSchemaBreak: dsl.DiscountSchemaBreak , sequenceNo: Integer): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithDiscountTypeTracking, WithIsPartnerFlatDiscountTracking, WithFlatDiscountTracking, WithIsQuantityBasedTracking, WithAccumulationLevelTracking, Once] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,

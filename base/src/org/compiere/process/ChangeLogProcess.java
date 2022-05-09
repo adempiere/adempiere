@@ -91,9 +91,9 @@ public class ChangeLogProcess extends SvrProcess
 			if (para[i].getParameter() == null)
 				;
 			else if (name.equals("CheckNewValue"))
-				p_CheckNewValue = new Boolean("Y".equals(para[i].getParameter()));
+				p_CheckNewValue = Boolean.valueOf("Y".equals(para[i].getParameter()));
 			else if (name.equals("CheckOldValue"))
-				p_CheckOldValue = new Boolean("Y".equals(para[i].getParameter()));
+				p_CheckOldValue = Boolean.valueOf("Y".equals(para[i].getParameter()));
 			else if (name.equals("SetCustomization"))
 				p_SetCustomization = "Y".equals(para[i].getParameter());
 			else

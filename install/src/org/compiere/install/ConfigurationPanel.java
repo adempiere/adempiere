@@ -660,7 +660,7 @@ public class ConfigurationPanel extends CPanel implements ActionListener
 					m_success = true;
 				bTest.setEnabled(true);
 				m_testing = false;
-				return new Boolean(m_success);
+				return Boolean.valueOf(m_success);
 			}
 			//	Finish it
 			public void finished()

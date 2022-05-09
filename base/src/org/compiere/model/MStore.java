@@ -58,7 +58,7 @@ public class MStore extends X_W_Store
 	 */
 	public static MStore get (Properties ctx, int W_Store_ID)
 	{
-		Integer key = new Integer (W_Store_ID);
+		Integer key = Integer.valueOf(W_Store_ID);
 		MStore retValue = (MStore) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -152,7 +152,7 @@ public class MStore extends X_W_Store
 			return null;
 		
 		//	Save
-		Integer key = new Integer (wstore.getW_Store_ID());
+		Integer key = Integer.valueOf(wstore.getW_Store_ID());
 		s_cache.put (key, wstore);
 		return wstore;
 	}	//	get

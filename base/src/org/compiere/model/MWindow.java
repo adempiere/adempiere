@@ -244,7 +244,7 @@ public class MWindow extends X_AD_Window
 	 *	@return MProcess
 	 */
 	public static MWindow get (Properties ctx, int windowId) {
-		Integer key = new Integer (windowId);
+		Integer key = Integer.valueOf(windowId);
 		MWindow retValue = (MWindow) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

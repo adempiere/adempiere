@@ -512,7 +512,7 @@ public class VLocator extends JComponent
 		if (M_Locator_ID == 0)
 			return false;
 
-		setValue (new Integer(M_Locator_ID), true);
+		setValue(Integer.valueOf(M_Locator_ID), true);
 		return true;
 	}	//	actionText
 

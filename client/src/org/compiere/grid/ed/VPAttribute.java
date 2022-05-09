@@ -241,7 +241,7 @@ public class VPAttribute extends JComponent
 	private String 				oldText = "";
 	private String 				oldWhere = "";
 	/**	No Instance Key					*/
-	private static Integer		NO_INSTANCE = new Integer(0);
+	private static Integer		NO_INSTANCE = Integer.valueOf(0);
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VPAttribute.class);
 		
@@ -549,8 +549,9 @@ public class VPAttribute extends JComponent
 			this.value = new Object();				//	force re-query display
 			if (attributeSetInstanceId == 0)
 				setValue(null);
-			else
-				setValue(new Integer(attributeSetInstanceId));
+			else {
+				setValue(Integer.valueOf(attributeSetInstanceId));
+			}
 			// Change Locator
 			if (this.gridTabAttribute != null && locatorId > 0)
 			{

@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -159,14 +160,14 @@ public class CalloutInvoice extends CalloutEngine
 			if (rs.next())
 			{
 				//	PriceList & IsTaxIncluded & Currency
-				Integer ii = new Integer(rs.getInt(IsSOTrx ? "M_PriceList_ID" : "PO_PriceList_ID"));
+				Integer ii = Integer.valueOf(rs.getInt(IsSOTrx ? "M_PriceList_ID" : "PO_PriceList_ID"));
 				if (!rs.wasNull())
 					mTab.setValue("M_PriceList_ID", ii);
 				else
 				{	//	get default PriceList
 					int i = Env.getContextAsInt(ctx, "#M_PriceList_ID");
 					if (i != 0)
-						mTab.setValue("M_PriceList_ID", new Integer(i));
+						mTab.setValue("M_PriceList_ID", Integer.valueOf(i));
 				}
 
 				//	PaymentRule
@@ -180,7 +181,7 @@ public class CalloutInvoice extends CalloutEngine
 					mTab.setValue("PaymentRule", s);
 				}
 				//  Payment Term
-				ii = new Integer(rs.getInt(IsSOTrx ? "C_PaymentTerm_ID" : "PO_PaymentTerm_ID"));
+				ii = Integer.valueOf(rs.getInt(IsSOTrx ? "C_PaymentTerm_ID" : "PO_PaymentTerm_ID"));
 				if (!rs.wasNull())
 					mTab.setValue("C_PaymentTerm_ID", ii);
 
@@ -197,7 +198,7 @@ public class CalloutInvoice extends CalloutEngine
 				if (locID == 0)
 					mTab.setValue("C_BPartner_Location_ID", null);
 				else
-					mTab.setValue("C_BPartner_Location_ID", new Integer(locID));
+					mTab.setValue("C_BPartner_Location_ID", Integer.valueOf(locID));
 
 				//	Contact - overwritten by InfoBP selection
 				int contID = rs.getInt("AD_User_ID");
@@ -210,7 +211,7 @@ public class CalloutInvoice extends CalloutEngine
 				if (contID == 0)
 					mTab.setValue("AD_User_ID", null);
 				else
-					mTab.setValue("AD_User_ID", new Integer(contID));
+					mTab.setValue("AD_User_ID", Integer.valueOf(contID));
 
 				//	CreditAvailable
 				if (IsSOTrx)
@@ -346,9 +347,9 @@ public class CalloutInvoice extends CalloutEngine
 		mTab.setValue("PriceLimit", pp.getPriceLimit());
 		mTab.setValue("PriceActual", pp.getPriceStd());
 		mTab.setValue("PriceEntered", pp.getPriceStd());
-		mTab.setValue("C_Currency_ID", new Integer(pp.getC_Currency_ID()));
+		mTab.setValue("C_Currency_ID", Integer.valueOf(pp.getC_Currency_ID()));
 	//	mTab.setValue("Discount", pp.getDiscount());
-		mTab.setValue("C_UOM_ID", new Integer(pp.getC_UOM_ID()));
+		mTab.setValue("C_UOM_ID", Integer.valueOf(pp.getC_UOM_ID()));
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 		//
 		return tax (ctx, WindowNo, mTab, mField, value);
@@ -380,7 +381,7 @@ public class CalloutInvoice extends CalloutEngine
 		}
 		mTab.setValue("M_AttributeSetInstance_ID", null);
 		mTab.setValue("S_ResourceAssignment_ID", null);
-		mTab.setValue("C_UOM_ID", new Integer(100));	//	EA
+		mTab.setValue("C_UOM_ID", Integer.valueOf(100));	//	EA
 
 		Env.setContext(ctx, WindowNo, "DiscountSchema", "N");
 		String sql = "SELECT ChargeAmt FROM C_Charge WHERE C_Charge_ID=?";
@@ -477,7 +478,7 @@ public class CalloutInvoice extends CalloutEngine
 		if (C_Tax_ID == 0)
 			mTab.fireDataStatusEEvent(CLogger.retrieveError());
 		else
-			mTab.setValue("C_Tax_ID", new Integer(C_Tax_ID));
+			mTab.setValue("C_Tax_ID", Integer.valueOf(C_Tax_ID));
 		//
 		return amt (ctx, WindowNo, mTab, mField, value);
 	}	//	tax
@@ -638,7 +639,7 @@ public class CalloutInvoice extends CalloutEngine
 			{
 				discount = new BigDecimal ((priceList.doubleValue () - priceActual.doubleValue ()) / priceList.doubleValue () * 100.0);
 				if (discount.scale () > 2)
-					discount = discount.setScale (2, BigDecimal.ROUND_HALF_UP);
+					discount = discount.setScale(2, RoundingMode.HALF_UP);
 			//	mTab.setValue ("Discount", Discount);
 			}
 		}
@@ -658,7 +659,7 @@ public class CalloutInvoice extends CalloutEngine
 			lineNetAmount = quantityInvoiced.multiply(priceActual);
 		}
 		if (lineNetAmount.scale() > standardPrecision)
-			lineNetAmount = lineNetAmount.setScale(standardPrecision, BigDecimal.ROUND_HALF_UP);
+			lineNetAmount = lineNetAmount.setScale(standardPrecision, RoundingMode.HALF_UP);
 		log.info("amt = LineNetAmt=" + lineNetAmount);
 		mTab.setValue("LineNetAmt", lineNetAmount);
 
@@ -744,7 +745,7 @@ public class CalloutInvoice extends CalloutEngine
 		{
 			int C_UOM_To_ID = ((Integer)value).intValue();
 			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), RoundingMode.HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
 				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
@@ -775,7 +776,7 @@ public class CalloutInvoice extends CalloutEngine
 		{
 			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 			QtyEntered = (BigDecimal)value;
-			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyEntered1 = QtyEntered.setScale(MUOM.getPrecision(ctx, C_UOM_To_ID), RoundingMode.HALF_UP);
 			if (QtyEntered.compareTo(QtyEntered1) != 0)
 			{
 				log.fine("Corrected QtyEntered Scale UOM=" + C_UOM_To_ID 
@@ -801,7 +802,7 @@ public class CalloutInvoice extends CalloutEngine
 			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
 			QtyInvoiced = (BigDecimal)value;
 			int precision = MProduct.get(ctx, M_Product_ID).getUOMPrecision(); 
-			BigDecimal QtyInvoiced1 = QtyInvoiced.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal QtyInvoiced1 = QtyInvoiced.setScale(precision, RoundingMode.HALF_UP);
 			if (QtyInvoiced.compareTo(QtyInvoiced1) != 0)
 			{
 				log.fine("Corrected QtyInvoiced Scale "

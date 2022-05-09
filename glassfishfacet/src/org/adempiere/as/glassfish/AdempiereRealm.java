@@ -40,7 +40,7 @@ public class AdempiereRealm extends AppservRealm {
 	}
 
 	@Override
-	public Enumeration getGroupNames(String username)
+	public Enumeration<?> getGroupNames(String username)
 			throws InvalidOperationException, NoSuchUserException {
 		if (groupCache.containsKey(username))
 			return Collections.enumeration(groupCache.get(username));

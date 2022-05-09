@@ -598,7 +598,7 @@ public final class WAccountDialog extends Window
 		if (rs.wasNull())
 			editor.setValue(null);
 		else
-			editor.setValue(new Integer (intValue));
+			editor.setValue(Integer.valueOf(intValue));
 	}	//	loadInfoOf
 
 
@@ -1171,7 +1171,7 @@ public final class WAccountDialog extends Window
 		log.config("C_ValidCombination_ID=" + m_C_ValidCombination_ID + ", Changed=" + m_changed);
 		if (!m_changed || m_C_ValidCombination_ID == 0)
 			return null;
-		return new Integer(m_C_ValidCombination_ID);
+		return Integer.valueOf(m_C_ValidCombination_ID);
 	}
 
 	/**

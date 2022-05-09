@@ -110,7 +110,7 @@ public class WRadioEditor extends WEditor implements ContextMenuListener
     @Override
     public Object getValue()
     {
-        return new Boolean(getComponent().isChecked());
+        return Boolean.valueOf(getComponent().isChecked());
     }
 
     @Override

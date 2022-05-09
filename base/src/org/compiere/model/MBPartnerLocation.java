@@ -111,7 +111,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		this (bp.getCtx(), 0, bp.get_TrxName());
 		setClientOrg(bp);
 		//	may (still) be 0
-		set_ValueNoCheck ("C_BPartner_ID", new Integer(bp.getC_BPartner_ID()));
+		set_ValueNoCheck("C_BPartner_ID", Integer.valueOf(bp.getC_BPartner_ID()));
 	}	//	MBPartner_Location
 
 	/**

@@ -1264,7 +1264,7 @@ public class VLookup extends JComponent
 		log.fine(m_columnName + " - Unique ID=" + id);
 		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
 		resetTabInfo();
-		actionCombo (new Integer(id));          //  data binding
+		actionCombo(Integer.valueOf(id));          //  data binding
 		//
 		// Don't request focus if value was solved - teo_sarca [ 2552901 ]
 		if (id <= 0)
@@ -1558,9 +1558,9 @@ public class VLookup extends JComponent
 			&& result == BPartner_ID)	//	the same
 			return;
 		//  Maybe new BPartner - put in cache
-		m_lookup.getDirect(new Integer(result), false, true);
+		m_lookup.getDirect(Integer.valueOf(result), false, true);
 
-		actionCombo (new Integer(result));      //  data binding
+		actionCombo(Integer.valueOf(result));      //  data binding
 	}	//	actionBPartner
 
 	/**

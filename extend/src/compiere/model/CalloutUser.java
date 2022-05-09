@@ -118,7 +118,7 @@ public class CalloutUser extends CalloutEngine {
         if (locId == 0) {
           tab.setValue("C_BPartner_Location_ID", null);
         } else {
-          tab.setValue("C_BPartner_Location_ID", new Integer(locId));
+          tab.setValue("C_BPartner_Location_ID", Integer.valueOf(locId));
         }
 
         // Contact - overwritten by InfoBP selection
@@ -133,7 +133,7 @@ public class CalloutUser extends CalloutEngine {
         if (contId == 0) {
           tab.setValue("AD_User_ID", null);
         } else {
-          tab.setValue("AD_User_ID", new Integer(contId));
+          tab.setValue("AD_User_ID", Integer.valueOf(contId));
         }
       }
       rs.close();

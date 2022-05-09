@@ -303,7 +303,7 @@ public class Allocation
 			return;
 
 		//	Async BPartner Test
-		Integer key = new Integer(bPartnerId);
+		Integer key = Integer.valueOf(bPartnerId);
 		if (!bpartnerCheck.contains(key))
 		{
 			new Thread()

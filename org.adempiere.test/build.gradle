@@ -1,0 +1,110 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(
+        dir: '../tools/lib/testing', 
+        include: [
+        'SuperCSV-with_src-1.52.jar'
+        ]
+    )
+    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
+    api 'org.mockito:mockito-junit-jupiter:3.6.0'
+    // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-console-standalone
+    api 'org.junit.platform:junit-platform-console-standalone:1.7.0'
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+signing {
+    sign configurations.archives
+}
+
+def entityType = 'D'
+version = "3.9.4-develop-1.0"
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Project Management",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
+                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'adempiere.test'
+            version
+           	from components.java
+           	pom {
+                name = 'Adempiere Test'
+                description = 'Test api dedicated to manage project, and members.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}

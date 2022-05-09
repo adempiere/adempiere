@@ -113,10 +113,10 @@ public class MCombinedAging extends X_T_CombinedAging
 
 		//	Optional
 	//	setC_Invoice_ID (C_Invoice_ID);		// may be zero
-		set_ValueNoCheck ("C_Invoice_ID", new Integer(C_Invoice_ID));
-		set_ValueNoCheck ("C_Payment_ID", new Integer(C_Payment_ID));
+		set_ValueNoCheck("C_Invoice_ID", Integer.valueOf(C_Invoice_ID));
+		set_ValueNoCheck("C_Payment_ID", Integer.valueOf(C_Payment_ID));
 	//	setC_InvoicePaySchedule_ID(C_InvoicePaySchedule_ID);	//	may be zero
-		set_Value ("C_InvoicePaySchedule_ID", new Integer(C_InvoicePaySchedule_ID));
+		set_Value("C_InvoicePaySchedule_ID", Integer.valueOf(C_InvoicePaySchedule_ID));
 		setListSources(C_Invoice_ID != 0 || C_Payment_ID != 0);
 		//
 		setDueDate(DueDate);		//	only sensible if List invoices

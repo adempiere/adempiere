@@ -122,7 +122,7 @@ public class MUserRoles extends X_AD_User_Roles
 	 */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+		set_ValueNoCheck("AD_User_ID", Integer.valueOf(AD_User_ID));
 	}	//	setAD_User_ID
 	
 	/** 
@@ -132,7 +132,7 @@ public class MUserRoles extends X_AD_User_Roles
 	 **/
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+		set_ValueNoCheck("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 	}	//	setAD_Role_ID
 
 	/**

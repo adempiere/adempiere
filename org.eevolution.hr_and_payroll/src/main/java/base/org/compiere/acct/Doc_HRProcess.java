@@ -16,6 +16,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +131,7 @@ public class   Doc_HRProcess extends Doc
 			//	Get Source Amount
 			BigDecimal sumAmount = line.getAmtSource();
 			// round amount according to currency
-			sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			sumAmount = sumAmount.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 			MHRConcept concept = MHRConcept.getById(as.getCtx(), payrollDocLine.getHR_Concept_ID() , getTrxName());
 			//	Get Concept Account
 			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(

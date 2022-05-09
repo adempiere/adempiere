@@ -178,7 +178,7 @@ public class CostEngine {
 
 		if (qtyDelivered.signum() != 0)
 			actualCost = actualCost.divide(qtyDelivered,
-					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
+					accountSchema.getCostingPrecision(), RoundingMode.HALF_DOWN);
 
 		BigDecimal rate = MConversionRate.getRate(
 				costCollector.getC_Currency_ID(), costCollector.getC_Currency_ID(),
@@ -187,7 +187,7 @@ public class CostEngine {
 		if (rate != null) {
 			actualCost = actualCost.multiply(rate);
 			if (actualCost.scale() > accountSchema.getCostingPrecision())
-				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 		}
 
 		return actualCost;
@@ -227,7 +227,7 @@ public class CostEngine {
 
 		BigDecimal unitCost = Env.ZERO;
 		if (production.getProductionQty().signum() != 0 && totalCost.signum() != 0)
-			unitCost = totalCost.divide(production.getProductionQty() , accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+			unitCost = totalCost.divide(production.getProductionQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 
 		return unitCost;
 	}
@@ -607,8 +607,8 @@ public class CostEngine {
 				{
 					costThisLevel =  lastCostDetail.getCostAmt().add(
 							lastCostDetail.getCostAdjustment())
-							.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(),
-									BigDecimal.ROUND_HALF_UP).abs();
+							.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+							.abs();
 				}
 				// return unit cost from last transaction
 				// transaction quantity is zero
@@ -619,9 +619,12 @@ public class CostEngine {
 					costThisLevel =  lastCostDetail.getCostAmt().add(
 									 lastCostDetail.getCostAdjustment()).add(
 									 lastCostDetail.getCumulatedAmt())
-							.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
+							.divide(
+									lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
 									accountSchema.getCostingPrecision(),
-							BigDecimal.ROUND_HALF_UP).abs();
+									RoundingMode.HALF_UP
+							)
+							.abs();
 					
 					return costThisLevel;
 				}	
@@ -632,9 +635,12 @@ public class CostEngine {
 				else if (lastCostDetail.getCumulatedQty().signum() != 0)
 				{
 					costThisLevel = lastCostDetail.getCumulatedAmt()
-							.divide(lastCostDetail.getCumulatedQty(),
+							.divide(
+									lastCostDetail.getCumulatedQty(),
 									accountSchema.getCostingPrecision(),
-							BigDecimal.ROUND_HALF_UP).abs();
+									RoundingMode.HALF_UP
+							)
+							.abs();
 
 					return costThisLevel;
 				}	
@@ -670,7 +676,8 @@ public class CostEngine {
 			if (lastCostDetail.getQty().signum() != 0)
 			{
 				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL())
-						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+						.abs();
 			}
 			// return unit cost from last transaction
 			// transaction quantity is zero
@@ -679,9 +686,12 @@ public class CostEngine {
 			else if (lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()).signum() != 0)
 			{
 				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL()).add(lastCostDetail.getCumulatedAmtLL())
-						.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
-								accountSchema.getCostingPrecision(),
-								BigDecimal.ROUND_HALF_UP).abs();
+						.divide(
+							lastCostDetail.getCumulatedQty().add(lastCostDetail.getQty()),
+							accountSchema.getCostingPrecision(),
+							RoundingMode.HALF_UP
+						)
+						.abs();
 
 				return costLowLevel;
 			}
@@ -692,7 +702,8 @@ public class CostEngine {
 			else if (lastCostDetail.getCumulatedQty().signum() != 0)
 			{
 				costLowLevel = lastCostDetail.getCumulatedAmtLL()
-						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+						.abs();
 				return costLowLevel;
 			}
 

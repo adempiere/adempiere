@@ -18,6 +18,7 @@ package org.compiere.util;
 
 import java.sql.Timestamp;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -116,7 +117,7 @@ public class WebEnv
 			return true;
 		}
 
-		Enumeration en = config.getInitParameterNames();
+		Enumeration<String> en = config.getInitParameterNames();
 		StringBuffer info = new StringBuffer("Servlet Init Parameter: ")
 			.append(config.getServletName());
 		while (en.hasMoreElements())
@@ -149,7 +150,7 @@ public class WebEnv
 		}
 		
 		//  Load Environment Variables (serverApps/src/web/WEB-INF/web.xml)
-		Enumeration en = context.getInitParameterNames();
+		Enumeration<String> en = context.getInitParameterNames();
 		StringBuffer info = new StringBuffer("Servlet Context Init Parameters: ")
 			.append(context.getServletContextName());
 		while (en.hasMoreElements())
@@ -314,7 +315,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = config.getInitParameterNames();
+		Enumeration<String> e = config.getInitParameterNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -337,7 +338,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = ctx.getInitParameterNames();
+		Enumeration<String> e = ctx.getInitParameterNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -371,7 +372,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = session.getAttributeNames();
+		Enumeration<String> e = session.getAttributeNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -406,7 +407,7 @@ public class WebEnv
 		log.finer("- UserPrincipal=" + request.getUserPrincipal());
 		//
 		boolean first = true;
-		Enumeration e = request.getHeaderNames();
+		Enumeration<String> e = request.getHeaderNames();
 		/** Header Names */
 		while (e.hasMoreElements())
 		{
@@ -469,13 +470,13 @@ public class WebEnv
 		log.finer("- Encoding=" + request.getCharacterEncoding());
 		log.finer("- Locale=" + request.getLocale());
 		first = true;
-		e = request.getLocales();
-		while (e.hasMoreElements())
+		Enumeration<Locale> locales = request.getLocales();
+		while (locales.hasMoreElements())
 		{
 			if (first)
 				log.finer("- Locales:");
 			first = false;
-			log.finer("  - " + e.nextElement());
+			log.finer("  - " + locales.nextElement());
 		}
 		log.finer("- Class=" + request.getClass().getName());
 	}	//	dump (Request)
@@ -533,7 +534,7 @@ public class WebEnv
 	{
 		table table = new table();
 		table.setID("DEBUG");
-		Enumeration e;
+		Enumeration<String> e;
 
 		tr space = new tr().addElement(new td().addElement("."));
 		//	Request Info

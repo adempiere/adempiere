@@ -76,7 +76,6 @@ public abstract class POSTicketHandler {
 		if(className == null
 				|| className.trim().length() == 0) {
 			log.fine("Get from GenericTicketHandlerClass");
-			return new POSGenericTicketHandler(pos);
 		}
 		//	Handler
 		POSTicketHandler ticketHandler = null;

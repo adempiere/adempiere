@@ -793,9 +793,8 @@ public class Migrate {
 
 		// accumulate results
 		if (m_detailCounterDrp == null)
-			m_detailCounterDrp = new Integer(0);
-		m_detailCounterDrp = new Integer(m_detailCounterDrp.intValue()
-				+ counter);
+			m_detailCounterDrp = Integer.valueOf(0);
+		m_detailCounterDrp = Integer.valueOf(m_detailCounterDrp.intValue() + counter);
 
 	}
 
@@ -823,9 +822,8 @@ public class Migrate {
 
 		// accumulate results
 		if (m_detailCounterUpd == null)
-			m_detailCounterUpd = new Integer(0);
-		m_detailCounterUpd = new Integer(m_detailCounterUpd.intValue()
-				+ counter);
+			m_detailCounterUpd = Integer.valueOf(0);
+		m_detailCounterUpd = Integer.valueOf(m_detailCounterUpd.intValue() + counter);
 
 	}
 
@@ -853,9 +851,8 @@ public class Migrate {
 
 		// accumulate results
 		if (m_detailCounterAdd == null)
-			m_detailCounterAdd = new Integer(0);
-		m_detailCounterAdd = new Integer(m_detailCounterAdd.intValue()
-				+ counter);
+			m_detailCounterAdd = Integer.valueOf(0);
+		m_detailCounterAdd = Integer.valueOf(m_detailCounterAdd.intValue() + counter);
 
 	}
 
@@ -874,8 +871,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "dropDBObjects", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterDrp = new Integer(0);
-		m_totalDrp = new Integer(0);
+		m_counterDrp = Integer.valueOf(0);
+		m_totalDrp = Integer.valueOf(0);
 
 		if (m_targetMap != null && m_targetMap.size() > 0) {
 
@@ -885,8 +882,8 @@ public class Migrate {
 			for (Iterator<String> it = v.iterator(); it.hasNext();) {
 				String key = it.next();
 				if (m_targetMap.get(key).drop())
-					m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
-				m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
+					m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
+				m_totalDrp = Integer.valueOf(m_totalDrp.intValue() + 1);
 			}
 
 		}
@@ -907,10 +904,10 @@ public class Migrate {
 				new Object[] { m_objectTypes, m_direction,
 						m_source.getDirection() });
 
-		m_counterAdd = new Integer(0);
-		m_counterUpd = new Integer(0);
-		m_totalAdd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		if (m_sourceMap != null && m_sourceMap.size() > 0) {
 
@@ -925,13 +922,13 @@ public class Migrate {
 					DBObject targetObj = m_target.getObjectByName(sourceObj
 							.getName(), m_targetMap);
 					if (targetObj.update(sourceObj))
-						m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
-					m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+						m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
+					m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 				} else {
 					// create sequence
 					if (sourceObj.create(m_target))
-						m_counterAdd = new Integer(m_counterAdd.intValue() + 1);
-					m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+						m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
+					m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 				}
 			}
 
@@ -961,12 +958,12 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "synchronizeTables", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterDrp = new Integer(0);
-		m_counterAdd = new Integer(0);
-		m_counterUpd = new Integer(0);
-		m_totalDrp = new Integer(0);
-		m_totalAdd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterDrp = Integer.valueOf(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalDrp = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		for (Iterator<String> tableIterator = m_objectList.iterator(); tableIterator
 				.hasNext();) {
@@ -980,11 +977,11 @@ public class Migrate {
 			if (targetObj != null && sourceObj == null) {
 				if (targetObj.getCustomizationLevel() == s_parameters.CUSTOMNONE) {
 					if (targetObj.drop()){
-						m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
+						m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
 						s_logger.log(Level.WARNING, "droppingCustomizedTable",
 								new Object[] { m_objectType, targetObj.getName() });
 					}
-					m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
+					m_totalDrp = Integer.valueOf(m_totalDrp.intValue() + 1);
 				} else {
 					s_logger.log(Level.WARNING, "notDroppingCustomizedTable",
 							new Object[] { m_objectType, targetObj.getName() });
@@ -994,15 +991,15 @@ public class Migrate {
 			// tables existing in both target and source should be synchronized
 			if (targetObj != null && sourceObj != null) {
 				if (targetObj.update(sourceObj))
-					m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
-				m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+					m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
+				m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 			}
 
 			// tables existing in source but not in target should be created
 			if (targetObj == null && sourceObj != null) {
 				if (sourceObj.create(m_target))
-					m_counterAdd = new Integer(m_counterAdd.intValue() + 1);
-				m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+					m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
+				m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 			}
 
 		}
@@ -1049,7 +1046,7 @@ public class Migrate {
 				// create object in target database
 				if (obj.create(m_target)) {
 					// increment counter if successful
-					m_counterAdd = new Integer(m_counterAdd.intValue() + 1);
+					m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
 					if (logUntranslatableCustomization) {
 						// in case of migrating between two different databases,
 						// log message about customized objects which will have
@@ -1067,7 +1064,7 @@ public class Migrate {
 				}
 				// increment total counter if this object should have been
 				// installed
-				m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+				m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 			}
 
 		} else {
@@ -1106,8 +1103,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "recreateDBObjects", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterAdd = new Integer(0);
-		m_totalAdd = new Integer(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
 
 		// first add all objects from source
 		if (m_sourceMap != null && m_sourceMap.size() > 0) {
@@ -1164,8 +1161,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "converTriggersToFunctions", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		// If source's triggers can contain inline code, but target's triggers
 		// can not, we have to convert the inline code to a callable function.
@@ -1223,7 +1220,7 @@ public class Migrate {
 									argType);
 
 							HashMap<Integer, DBObjectDefinition> headerMap = new HashMap<Integer, DBObjectDefinition>();
-							headerMap.put(new Integer(seqNum), funcArgument);
+							headerMap.put(Integer.valueOf(seqNum), funcArgument);
 							function.setHeaders(headerMap);
 
 							// define the function body
@@ -1243,14 +1240,13 @@ public class Migrate {
 								funcBody.initializeDefinition(triggerContent
 										.getBody());
 
-								contentMap.put(new Integer(seqNum), funcBody);
+								contentMap.put(Integer.valueOf(seqNum), funcBody);
 							}
 							function.setContents(contentMap);
 
 							// create function in target database
 							if (function.create(m_target))
-								m_counterUpd = new Integer(m_counterUpd
-										.intValue() + 1);
+								m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 
 							// in case of migrating between two different
 							// databases,
@@ -1266,7 +1262,7 @@ public class Migrate {
 												function.getObjectType(),
 												function.getName() });
 
-							m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+							m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 						} // trigger does not call external function
 
 					} // for each trigger
@@ -1289,8 +1285,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "synchronizeDBSequencesDropUnused",
 				new Object[] { m_objectTypes, m_direction });
 
-		m_counterDrp = new Integer(0);
-		m_totalDrp = new Integer(0);
+		m_counterDrp = Integer.valueOf(0);
+		m_totalDrp = Integer.valueOf(0);
 
 		if (m_targetMap != null && m_targetMap.size() > 0) {
 
@@ -1302,9 +1298,8 @@ public class Migrate {
 					// drop sequence only if it is not a customization
 					if (targetObj.getCustomizationLevel() == s_parameters.CUSTOMNONE) {
 						if (targetObj.drop())
-							m_counterDrp = new Integer(
-									m_counterDrp.intValue() + 1);
-						m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
+							m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
+						m_totalDrp = Integer.valueOf(m_totalDrp.intValue() + 1);
 					}
 				}
 			}
@@ -1332,8 +1327,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "purgeSystemRecords", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterPrg = new Integer(0);
-		m_totalPrg = new Integer(0);
+		m_counterPrg = Integer.valueOf(0);
+		m_totalPrg = Integer.valueOf(0);
 
 		// exclude tables already truncated from being purged
 		for (Iterator<String> it = truncatedTables.iterator(); it.hasNext();) {
@@ -1511,11 +1506,11 @@ public class Migrate {
 				Integer sqlResult = m_target.executeUpdate(stmt, sqlCommand, false, false);
 				if (sqlResult != null) {
 					logDropDetail(sqlResult, sqlCommand);
-					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
+					m_counterPrg = Integer.valueOf(m_counterPrg.intValue() + 1);
 				}
 				m_target.releaseStatement(stmt);
 
-				m_totalPrg = new Integer(m_totalPrg.intValue() + 1);
+				m_totalPrg = Integer.valueOf(m_totalPrg.intValue() + 1);
 			}
 		}
 
@@ -1824,8 +1819,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "dropSystemClients", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterDrp = new Integer(0);
-		m_totalDrp = new Integer(0);
+		m_counterDrp = Integer.valueOf(0);
+		m_totalDrp = Integer.valueOf(0);
 
 		Vector<Integer> v = new Vector<Integer>(m_target.getSystemClients()
 				.keySet());
@@ -1836,8 +1831,8 @@ public class Migrate {
 			// and is therefore handled separately (with purgeSystemRecords())
 			if (key != s_parameters.SYSTEMCLIENTID) {
 				if (dropClient(key))
-					m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
-				m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
+					m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
+				m_totalDrp = Integer.valueOf(m_totalDrp.intValue() + 1);
 			}
 		}
 
@@ -1948,8 +1943,8 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "truncateTemporaryTables", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterPrg = new Integer(0);
-		m_totalPrg = new Integer(0);
+		m_counterPrg = Integer.valueOf(0);
+		m_totalPrg = Integer.valueOf(0);
 
 		Vector<String> v = new Vector<String>(m_targetMap.keySet());
 		java.util.Collections.sort(v);
@@ -2030,12 +2025,12 @@ public class Migrate {
 				if (sqlResult != null) {
 					logDropDetail(sqlResult, sql);
 					m_trackingList.add(table.toUpperCase());
-					m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
+					m_counterPrg = Integer.valueOf(m_counterPrg.intValue() + 1);
 				}
 				m_target.releaseStatement(stmt);
 				m_target.releaseSavepoint(sp);
 
-				m_totalPrg = new Integer(m_totalPrg.intValue() + 1);
+				m_totalPrg = Integer.valueOf(m_totalPrg.intValue() + 1);
 			}
 
 		}
@@ -2057,10 +2052,10 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
-		m_counterAdd = new Integer(0);
-		m_totalAdd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
 
 		// target's structure is no longer valid and should now be same as
 		// source,
@@ -2371,11 +2366,10 @@ public class Migrate {
 												.append(": ").append(
 														pkStringIdentifier)
 												.append(")").toString());
-								m_counterUpd = new Integer(m_counterUpd
-										.intValue() + 1);
+								m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 							}
 
-							m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+							m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 						}
 
 					} else {
@@ -2418,11 +2412,10 @@ public class Migrate {
 									.append(tableName).append(": ").append(
 											pkStringIdentifier).append(")")
 									.toString());
-							m_counterAdd = new Integer(
-									m_counterAdd.intValue() + 1);
+							m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
 						}
 
-						m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+						m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 					}
 
 				}
@@ -2472,8 +2465,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		// iterate through all tables
 		for (Iterator<String> tableIterator = m_objectList.iterator(); tableIterator
@@ -2584,8 +2577,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		String vendorName = m_target.getVendor();
 		String catalogName = m_target.getCatalog();
@@ -2622,8 +2615,7 @@ public class Migrate {
 								sqlCommand, true, false);
 						if (sqlResult != null) {
 							logUpdateDetail(sqlResult, null);
-							m_counterUpd = new Integer(
-									m_counterUpd.intValue() + 1);
+							m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 
 							// issue warning message
 							if (sqlResult > 0) {
@@ -2634,7 +2626,7 @@ public class Migrate {
 						}
 						m_target.releaseStatement(stmt);
 
-						m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+						m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 					}
 				}
 			}
@@ -2668,8 +2660,7 @@ public class Migrate {
 									sqlCommand, true, false);
 							if (sqlResult != null) {
 								logUpdateDetail(sqlResult, null);
-								m_counterUpd = new Integer(m_counterUpd
-										.intValue() + 1);
+								m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 
 								// issue warning message
 								if (sqlResult > 0) {
@@ -2681,7 +2672,7 @@ public class Migrate {
 							}
 							m_target.releaseStatement(stmt);
 
-							m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+							m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 						}
 					}
 				}
@@ -2703,8 +2694,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterDrp = new Integer(0);
-		m_totalDrp = new Integer(0);
+		m_counterDrp = Integer.valueOf(0);
+		m_totalDrp = Integer.valueOf(0);
 
 		// iterate through temporary indexes
 		Vector<String> v = new Vector<String>(m_tempIndexes.keySet());
@@ -2713,8 +2704,8 @@ public class Migrate {
 			String key = it.next();
 			DBObject index = m_tempIndexes.get(key);
 			if (index.drop())
-				m_counterDrp = new Integer(m_counterDrp.intValue() + 1);
-			m_totalDrp = new Integer(m_totalDrp.intValue() + 1);
+				m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
+			m_totalDrp = Integer.valueOf(m_totalDrp.intValue() + 1);
 		}
 
 		logResults();
@@ -2751,8 +2742,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterAdd = new Integer(0);
-		m_totalAdd = new Integer(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
 
 		// iterate through all primary keys
 		for (Iterator<String> pkit = m_objectList.iterator(); pkit.hasNext();) {
@@ -2787,7 +2778,7 @@ public class Migrate {
 							m_target, indexName, 0);
 					header.initializeDefinition(tableName, false);
 					HashMap<Integer, DBObjectDefinition> headers = new HashMap<Integer, DBObjectDefinition>();
-					headers.put(new Integer(0), header);
+					headers.put(Integer.valueOf(0), header);
 					index.setHeaders(headers);
 					// create index content information
 					DBObject_Index_Column column = new DBObject_Index_Column(
@@ -2795,14 +2786,14 @@ public class Migrate {
 					column.initializeDefinition(tableName, columnName, "ASC",
 							"LAST");
 					HashMap<Integer, DBObjectDefinition> contents = new HashMap<Integer, DBObjectDefinition>();
-					contents.put(new Integer(0), column);
+					contents.put(Integer.valueOf(0), column);
 					index.setContents(contents);
 					// create index in database
 					if (index.create(m_target)) {
 						m_tempIndexes.put(indexName.toUpperCase(), index);
-						m_counterAdd = new Integer(m_counterAdd.intValue() + 1);
+						m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
 					}
-					m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+					m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 				}
 			}
 		}
@@ -2873,8 +2864,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterAdd = new Integer(0);
-		m_totalAdd = new Integer(0);
+		m_counterAdd = Integer.valueOf(0);
+		m_totalAdd = Integer.valueOf(0);
 
 		// iterate through all foreign keys
 		for (Iterator<String> fkit = m_objectList.iterator(); fkit.hasNext();) {
@@ -2923,7 +2914,7 @@ public class Migrate {
 								m_target, indexName, 0);
 						header.initializeDefinition(tableName, false);
 						HashMap<Integer, DBObjectDefinition> headers = new HashMap<Integer, DBObjectDefinition>();
-						headers.put(new Integer(0), header);
+						headers.put(Integer.valueOf(0), header);
 						index.setHeaders(headers);
 						// create index content information
 						DBObject_Index_Column column = new DBObject_Index_Column(
@@ -2931,15 +2922,14 @@ public class Migrate {
 						column.initializeDefinition(tableName, columnName,
 								"ASC", "LAST");
 						HashMap<Integer, DBObjectDefinition> contents = new HashMap<Integer, DBObjectDefinition>();
-						contents.put(new Integer(0), column);
+						contents.put(Integer.valueOf(0), column);
 						index.setContents(contents);
 						// create index in database
 						if (index.create(m_target)) {
 							m_tempIndexes.put(indexName.toUpperCase(), index);
-							m_counterAdd = new Integer(
-									m_counterAdd.intValue() + 1);
+							m_counterAdd = Integer.valueOf(m_counterAdd.intValue() + 1);
 						}
-						m_totalAdd = new Integer(m_totalAdd.intValue() + 1);
+						m_totalAdd = Integer.valueOf(m_totalAdd.intValue() + 1);
 					}
 				}
 			}
@@ -3182,8 +3172,8 @@ public class Migrate {
 				m_objectTypes, m_direction });
 
 		// reset counters
-		m_counterPrg = new Integer(0);
-		m_totalPrg = new Integer(0);
+		m_counterPrg = Integer.valueOf(0);
+		m_totalPrg = Integer.valueOf(0);
 
 		// remember savepoint for rollback
 		Savepoint sp = m_target.setSavepoint("purge orphans");
@@ -3341,11 +3331,11 @@ public class Migrate {
 					false);
 			if (sqlResult != null && sqlResult > 0 ) {
 				logDropDetail(sqlResult, sqlCommand);
-				m_counterPrg = new Integer(m_counterPrg.intValue() + 1);
+				m_counterPrg = Integer.valueOf(m_counterPrg.intValue() + 1);
 			}
 			m_target.releaseStatement(stmt);
 
-			m_totalPrg = new Integer(m_totalPrg.intValue() + 1);
+			m_totalPrg = Integer.valueOf(m_totalPrg.intValue() + 1);
 		}
 	}
 
@@ -3360,9 +3350,9 @@ public class Migrate {
 		s_logger.log(Level.CONFIG, "synchronizePrimaryKeys", new Object[] {
 				m_objectTypes, m_direction });
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
-		m_counterDrp = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
+		m_counterDrp = Integer.valueOf(0);
 
 		// target now has source's structure, so we need to access source's
 		// metadata
@@ -3891,11 +3881,9 @@ public class Migrate {
 															false);
 											if (sqlResult != null) {
 												logUpdateDetail(sqlResult, null);
-												m_counterUpd = new Integer(
-														m_counterUpd.intValue() + 1);
+												m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 											}
-											m_totalUpd = new Integer(m_totalUpd
-													.intValue() + 1);
+											m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 										}
 
 										m_source.releaseResultSet(sourceRs);
@@ -3980,8 +3968,7 @@ public class Migrate {
 								sqlCommand, false, false);
 						if (sqlResult != null) {
 							logDropDetail(sqlResult, sqlCommand);
-							m_counterDrp = new Integer(
-									m_counterDrp.intValue() + 1);
+							m_counterDrp = Integer.valueOf(m_counterDrp.intValue() + 1);
 						}
 						m_target.releaseStatement(stmt);
 					}
@@ -4016,8 +4003,8 @@ public class Migrate {
 				new Object[] { m_direction });
 
 		// reset counters
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		// iterate through foreign keys
 		if (m_sourceMap != null) {
@@ -4385,10 +4372,10 @@ public class Migrate {
 							sqlCommand, false, false);
 					if (sqlResult != null) {
 						logUpdateDetail(sqlResult, null);
-						m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
+						m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 					}
 					m_target.releaseStatement(stmt);
-					m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+					m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 
 					// release savepoint
 					m_target.releaseSavepoint(sp);
@@ -4418,8 +4405,8 @@ public class Migrate {
 		m_objectType = s_logger.localizeMessage("customization");
 		m_objectTypes = s_logger.localizeMessage("customizations");
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		s_logger.log(Level.CONFIG, "");
 		s_logger.log(Level.CONFIG, "cleanupCustomizations", new Object[] {
@@ -4566,7 +4553,7 @@ public class Migrate {
 						stmtReapplyCustomization, false);
 				if (sqlResult != null) {
 					logUpdateDetail(sqlResult, null);
-					m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
+					m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 				}
 
 				// release prepared statement
@@ -4577,7 +4564,7 @@ public class Migrate {
 			// increment total counter
 			// counts all active change logs marked as customizations
 			// also those for which the target table no longer exists
-			m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+			m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 
 		}
 
@@ -4804,9 +4791,7 @@ public class Migrate {
 											} else {
 												// normally:
 												insertColumnValues
-														.add(new Integer(
-																ad_role_id)
-																.toString());
+													.add(Integer.valueOf(ad_role_id).toString());
 											}
 
 										} else if (columnName
@@ -4977,16 +4962,16 @@ public class Migrate {
 
 		// reset DB objects
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		s_logger.log(Level.CONFIG, "");
 		s_logger.log(Level.CONFIG, "cleanupTreeNodes", m_direction);
 
 		for (ADObject_TreeNode customNode : m_customNodes) {
-			m_totalUpd = new Integer(m_totalUpd.intValue()+1);
+			m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 			if (customNode.adjustNodeLocation(m_target))
-				m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
+				m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 		}
 
 		logResults();
@@ -5012,7 +4997,7 @@ public class Migrate {
 		// reset DB objects
 		resetDBObjects(null);
 
-		m_counterUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
 
 		s_logger.log(Level.CONFIG, "");
 		s_logger.log(Level.CONFIG, "cleanupTerminology", m_direction);
@@ -6491,7 +6476,7 @@ public class Migrate {
 			int records = sqlResult;
 			logUpdateDetail(records, null);
 			if (records > 0)
-				m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
+				m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 		}
 		m_target.releaseStatement(stmt);
 
@@ -6516,8 +6501,8 @@ public class Migrate {
 		m_detailType = "translation";
 		m_detailTypes = "translations";
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		s_logger.log(Level.CONFIG, "");
 		s_logger.log(Level.CONFIG, "cleanupTranslations", m_direction);
@@ -6537,7 +6522,7 @@ public class Migrate {
 		ResultSet rs = m_target.executeQuery(stmt, sqlCommand);
 		while (m_target.getResultSetNext(rs)) {
 			tableNames.add(m_target.getResultSetString(rs, "TableName"));
-			m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+			m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 		}
 		m_target.releaseResultSet(rs);
 		m_target.releaseStatement(stmt);
@@ -6574,7 +6559,7 @@ public class Migrate {
 					false);
 			if (sqlResult != null) {
 				logAddDetail(sqlResult, null);
-				m_counterUpd = new Integer(m_counterUpd.intValue() + 1);
+				m_counterUpd = Integer.valueOf(m_counterUpd.intValue() + 1);
 			}
 			m_target.releaseStatement(stmt);
 		}
@@ -7155,8 +7140,8 @@ public class Migrate {
 		// reset DB objects
 		resetDBObjects(null);
 
-		m_counterUpd = new Integer(0);
-		m_totalUpd = new Integer(0);
+		m_counterUpd = Integer.valueOf(0);
+		m_totalUpd = Integer.valueOf(0);
 
 		s_logger.log(Level.CONFIG, "");
 		s_logger.log(Level.CONFIG, "bumpVersionInfo", m_direction);
@@ -7250,12 +7235,12 @@ public class Migrate {
 			Integer sqlResult = m_target
 					.executeUpdate(stmtUpdateVersion, false);
 			if (sqlResult != null) {
-				m_counterUpd = new Integer(m_counterUpd.intValue()
+				m_counterUpd = Integer.valueOf(m_counterUpd.intValue()
 						+ sqlResult.intValue());
-				m_totalUpd = new Integer(m_totalUpd.intValue()
+				m_totalUpd = Integer.valueOf(m_totalUpd.intValue()
 						+ sqlResult.intValue());
 			} else {
-				m_totalUpd = new Integer(m_totalUpd.intValue() + 1);
+				m_totalUpd = Integer.valueOf(m_totalUpd.intValue() + 1);
 			}
 		}
 

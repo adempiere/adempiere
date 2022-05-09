@@ -17,10 +17,11 @@
 package org.eevolution.test
 
 import org.compiere.model.X_M_DiscountSchema
-import org.compiere.util.{TimeUtil}
-import org.eevolution.dsl._
-import org.eevolution.services._
-import org.scalatest.{FeatureSpec, GivenWhenThen}
+import org.compiere.util.TimeUtil
+import org.eevolution.dsl.*
+import org.eevolution.services.*
+import org.scalatest.featurespec.AnyFeatureSpec
+import org.scalatest.GivenWhenThen
 
 import scala.math.BigDecimal.RoundingMode
 
@@ -28,7 +29,7 @@ import scala.math.BigDecimal.RoundingMode
   * Test to validate Prices logic
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 27/02/16.
   */
-class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
+class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
   with AdempiereTestCase
   with GivenWhenThen
   with ProductService
@@ -37,13 +38,13 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
   with CurrencyService
   with TaxService
   with PriceListSchemaService{
-  feature("Validate Product Price logic") {
+  Feature("Validate Product Price logic") {
 
     info("Creating a new Sales Price List with version with valid date yestarday for the Oak and Azalea Products")
     info("Currently the prices for Oak are  price list 65 , standard price 61.75 and limit price 58.50")
     info("Currently the prices for Azalea are price list 25 , standard price 23.75 and limit price 22.50")
 
-    scenario("Validate functionality for price using standard price list") {
+    Scenario("Validate functionality for price using standard price list") {
       val IsSOTrx = true
       val PriceList = getListPriceByDefault(true)
       val Azalea = getProductByValue("Azalea Bush")
@@ -91,7 +92,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("a second price list with the version is created")
     info("the base price list is defined using first list price")
 
-    scenario("Validate functionality for price using standard price list based on a base price list version") {
+    Scenario("Validate functionality for price using standard price list based on a base price list version") {
           val Yesterday = TimeUtil.addDays(Today , -1)
           val HQ = Organization
           val TreeProductCategory = getProductCategoryByValue("Tree")
@@ -259,7 +260,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("a break value is added to 12 and price list 13.00 usd , price std 11 usd , price limit 8.00 usd")
     info("a break value is added to 24 and price list 11.00 usd , price std 9 usd , price limit 6.00 usd")
 
-    scenario("Validate functionality for price break with a vendor") {
+    Scenario("Validate functionality for price break with a vendor") {
           val YesterDay = TimeUtil.addDays(Today , -1)
           val HQ = Organization
           val TreeProductCategory = getProductCategoryByValue("Tree")
@@ -429,7 +430,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
           Then(s"the new product second break value limit price $secondBreakPriceLimit")
     }
 
-        scenario("Validate functionality for price break without a vendor") {
+        Scenario("Validate functionality for price break without a vendor") {
           val Yesterday = TimeUtil.addDays(Today , -1)
           val HQ = Organization
           val TreeProductCategory = getProductCategoryByValue("Tree")
@@ -598,7 +599,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
           Then(s"the new product second break value limit price $secondBreakPriceLimit")
     }
 
-    scenario("Validate functionality for price break with a vendor based on base price list version") {
+    Scenario("Validate functionality for price break with a vendor based on base price list version") {
       val IsSOTrx = true
       val Yesterday = TimeUtil.addDays(Today , -1)
       val HQ = Organization
@@ -808,7 +809,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
       Then(s"the new product second break value limit price $baseSecondBreakPriceLimit")
     }
 
-    scenario("Validate functionality for price break without a vendor based on base price list version") {
+    Scenario("Validate functionality for price break without a vendor based on base price list version") {
       val IsSOTrx = true
       val Yesterday = TimeUtil.addDays(Today , -1)
       val HQ = Organization
@@ -1010,7 +1011,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("Creating a new Sales Price List with version with valid date Yesterday for the Oak and Azalea Products")
     info("Currently the prices for Oak are  price list 65 , standard price 61.75 with discount 59.90 and limit price 58.50")
     info("Currently the prices for Azalea are price list 25 , standard price 23.75 with discount 23.04 and limit price 22.50")
-    scenario("Validate the functionality of 3% flat discount not based on a partner") {
+    Scenario("Validate the functionality of 3% flat discount not based on a partner") {
       val IsSOTrx = true
       val PriceList = getListPriceByDefault(true)
       val Azalea = getProductByValue("Azalea Bush")
@@ -1077,7 +1078,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("Creating a new Sales Price List with version with valid date Yesterday for the Oak and Azalea Products")
     info("Currently the prices for Oak are  price list 65 , standard price 61.75 with partner discount 58.66 and limit price 58.50")
     info("Currently the prices for Azalea are price list 25 , standard price 23.75 with partner discount 22.56 and limit price 22.50")
-    scenario("Validate the functionality of 5% flat discount based on a partner") {
+    Scenario("Validate the functionality of 5% flat discount based on a partner") {
       val IsSOTrx = true
       val PriceList = getListPriceByDefault(true)
       val Azalea = getProductByValue("Azalea Bush")
@@ -1150,7 +1151,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("Azalea      35 quantity apply  2% discount ")
     info("Holly Bush  60 quantity apply  5% discount ")
     info("Oak        120 quantity apply 10% discount ")
-    scenario("Validate functionality break discount based on a quantity") {
+    Scenario("Validate functionality break discount based on a quantity") {
       val TreeProductCategory = getProductCategoryByValue("Bush")
       val IsSOTrx = true
       val PriceList = getListPriceByDefault(true)
@@ -1166,7 +1167,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
         .withName(flatDiscountName)
         .withDescription(flatDiscountDescription)
         .withDiscountType(X_M_DiscountSchema.DISCOUNTTYPE_Breaks)
-        .asQuantityBased
+        .asQuantityBased()
         .withAccumulationLevel(X_M_DiscountSchema.CUMULATIVELEVEL_Line)
         .build()
       assert(flatDiscountSchema.getName == flatDiscountName)
@@ -1266,7 +1267,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
       HollyBushProductPricing.setM_PriceList_ID(PriceList.get_ID)
       HollyBushProductPricing.setPriceDate(Today)
       HollyBushProductPricing.calculatePrice()
-      HollyBushProductPricing.getDiscount()
+      HollyBushProductPricing.getDiscount
 
       Given(s"that that date is $Today and the price list is standard")
       When("ask standard sales price for Oak")
@@ -1300,7 +1301,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
     info("Azalea      35 quantity apply  2% discount ")
     info("Holly Bush  60 quantity apply  5% discount ")
     info("Oak        120 quantity apply 10% discount ")
-    scenario("Validate functionality break discount based on a partner") {
+    Scenario("Validate functionality break discount based on a partner") {
       val TreeProductCategory = getProductCategoryByValue("Bush")
       val IsSOTrx = true
       val PriceList = getListPriceByDefault(true)
@@ -1317,7 +1318,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
         .withName(flatDiscountName)
         .withDescription(flatDiscountDescription)
         .withDiscountType(X_M_DiscountSchema.DISCOUNTTYPE_Breaks)
-        .asQuantityBased
+        .asQuantityBased()
         .withAccumulationLevel(X_M_DiscountSchema.CUMULATIVELEVEL_Line)
         .build()
       assert(flatDiscountSchema.getName == flatDiscountName)
@@ -1354,7 +1355,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
         .withSequenceNo(10)
         .withProduct(Oak)
         .withBreakValue(100)
-        .asPartnerFlatDiscount
+        .asPartnerFlatDiscount()
         .withBreakDiscount(flatDiscount100Units)
         .build()
       When("the first discount break is created")
@@ -1369,7 +1370,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
         .withSequenceNo(20)
         .withProductCategory(TreeProductCategory)
         .withBreakValue(50)
-        .asPartnerFlatDiscount
+        .asPartnerFlatDiscount()
         .withBreakDiscount(flatDiscount50Units)
         .build()
 
@@ -1384,7 +1385,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
         .withDiscountSchema(flatDiscountSchema)
         .withSequenceNo(30)
         .withBreakValue(30)
-        .asPartnerFlatDiscount
+        .asPartnerFlatDiscount()
         .withBreakDiscount(flatDiscount30Units)
         .build()
 
@@ -1420,7 +1421,7 @@ class ValidatePriceListAndDiscountFunctionality extends FeatureSpec
       HollyBushProductPricing.setM_PriceList_ID(PriceList.get_ID)
       HollyBushProductPricing.setPriceDate(Today)
       HollyBushProductPricing.calculatePrice()
-      HollyBushProductPricing.getDiscount()
+      HollyBushProductPricing.getDiscount
 
       Given(s"that that date is $Today and the price list is standard")
       When("ask standard sales price for Oak")

@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -205,7 +206,7 @@ public class InvoiceGenerate extends InvoiceGenerateAbstract {
 							if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 								quantityEntered = toInvoice
 									.multiply(orderLine.getQtyEntered())
-									.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP);
+									.divide(orderLine.getQtyOrdered(), 12, RoundingMode.HALF_UP);
 							createLine (order, orderLine, toInvoice, quantityEntered);
 						} else {
 							log.fine("Failed: " + order.getInvoiceRule() 

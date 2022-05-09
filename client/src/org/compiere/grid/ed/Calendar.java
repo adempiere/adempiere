@@ -300,7 +300,7 @@ public class Calendar extends CDialog
 		//	Years
 		m_currentYear = m_calendar.get(java.util.Calendar.YEAR);
 		cYear.setEditor(new JSpinner.NumberEditor(cYear, "0000"));
-		cYear.setValue(new Integer(m_currentYear));
+		cYear.setValue(Integer.valueOf(m_currentYear));
 
 		//	Months		-> 0=Jan 12=_
 		String[] months = formatDate.getDateFormatSymbols().getMonths();
@@ -440,7 +440,7 @@ public class Calendar extends CDialog
 		//  --- Set Month & Year
 		m_setting = true;
 		cMonth.setSelectedIndex(m_currentMonth-1);
-		cYear.setValue(new Integer(m_currentYear));
+		cYear.setValue(Integer.valueOf(m_currentYear));
 		m_setting = false;
 
 		//  --- Set Day
@@ -500,7 +500,7 @@ public class Calendar extends CDialog
 		fHour.setSelectedIndex(index);
 		//	Set Minute
 		int m = m_currentMinute;
-		fMinute.setValue(new Integer(m));
+		fMinute.setValue(Integer.valueOf(m));
 		//	Set PM
 		cbPM.setSelected(pm);
 		//	Set TZ
@@ -877,7 +877,7 @@ class MinuteModel extends SpinnerNumberModel
 			minutes -= 60;
 		//
 		int steps = minutes / m_snapSize;
-		return new Integer(steps * m_snapSize);
+		return Integer.valueOf(steps * m_snapSize);
 	}	//	getNextValue
 
 
@@ -897,7 +897,7 @@ class MinuteModel extends SpinnerNumberModel
 			steps++;
 		if (steps * m_snapSize > 59)
 			steps = 0;
-		return new Integer(steps * m_snapSize);
+		return Integer.valueOf(steps * m_snapSize);
 	}	//	getNextValue
 
 }	//	MinuteModel

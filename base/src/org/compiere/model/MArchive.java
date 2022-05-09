@@ -350,7 +350,7 @@ public class MArchive extends X_AD_Archive {
 			return null;
 		//
 		log.fine("ZipSize=" + deflatedData.length);
-		m_deflated = new Integer(deflatedData.length);
+		m_deflated = Integer.valueOf(deflatedData.length);
 		if (deflatedData.length == 0)
 			return null;
 
@@ -373,7 +373,7 @@ public class MArchive extends X_AD_Archive {
 				log.fine("Size=" + inflatedData.length + " - zip=" + entry.getCompressedSize()
 						+ "(" + entry.getSize() + ") "
 						+ (entry.getCompressedSize() * 100 / entry.getSize()) + "%");
-				m_inflated = new Integer(inflatedData.length);
+				m_inflated = Integer.valueOf(inflatedData.length);
 			}
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "", e);
@@ -496,7 +496,7 @@ public class MArchive extends X_AD_Archive {
 	private void saveBinaryDataIntoDB(byte[] inflatedData) {
 		if (inflatedData == null || inflatedData.length == 0)
 			throw new IllegalArgumentException("InflatedData is NULL");
-		m_inflated = new Integer(inflatedData.length);
+		m_inflated = Integer.valueOf(inflatedData.length);
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(out);
 		zip.setMethod(ZipOutputStream.DEFLATED);
@@ -518,7 +518,7 @@ public class MArchive extends X_AD_Archive {
 			zip.close();
 			deflatedData = out.toByteArray();
 			log.fine("Length=" + inflatedData.length);
-			m_deflated = new Integer(deflatedData.length);
+			m_deflated = Integer.valueOf(deflatedData.length);
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "saveLOBData", e);
 			deflatedData = null;

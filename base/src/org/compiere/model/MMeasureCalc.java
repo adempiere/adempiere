@@ -48,7 +48,7 @@ public class MMeasureCalc extends X_PA_MeasureCalc
 	 */
 	public static MMeasureCalc get (Properties ctx, int PA_MeasureCalc_ID)
 	{
-		Integer key = new Integer (PA_MeasureCalc_ID);
+		Integer key = Integer.valueOf(PA_MeasureCalc_ID);
 		MMeasureCalc retValue = (MMeasureCalc)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

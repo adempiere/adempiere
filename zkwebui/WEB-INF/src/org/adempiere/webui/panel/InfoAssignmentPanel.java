@@ -272,20 +272,20 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	        	String sra = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceAssignment_ID");
 				if (sra != null && sra.length() != 0)
 				{
-					fieldID = new Integer(sra).intValue();
+					fieldID = Integer.valueOf(sra).intValue();
 				}
 				//  Find the criteria in the context
 				//  S_Resource_Type_ID
 	        	String srt = Env.getContext(Env.getCtx(), p_WindowNo, "S_ResourceType_ID");
 				if (srt != null && srt.length() > 0)
 				{
-		    			fieldResourceType.setValue(new Integer(srt));
+		    		fieldResourceType.setValue(Integer.valueOf(srt));
 				}
 				//  S_Resource_ID
 	        	String sr = Env.getContext(Env.getCtx(), p_WindowNo, "S_Resource_ID");
 				if (sr != null && sr.length() > 0)
 				{
-		    			fieldResource.setValue(new Integer(sr));
+		    		fieldResource.setValue(Integer.valueOf(sr));
 				}
 			}
         }

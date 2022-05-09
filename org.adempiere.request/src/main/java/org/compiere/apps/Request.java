@@ -102,38 +102,38 @@ public class Request {
     protected void defineGridTab (GridTab gridTab)
     {
         gridTab.dataNew(false);
-        gridTab.setValue("AD_Table_ID", new Integer(tableId));
-        gridTab.setValue("Record_ID", new Integer(recordId));
+        gridTab.setValue("AD_Table_ID", Integer.valueOf(tableId));
+        gridTab.setValue("Record_ID", Integer.valueOf(recordId));
         if (partnerId != 0)
-            gridTab.setValue("C_BPartner_ID", new Integer(partnerId));
+            gridTab.setValue("C_BPartner_ID", Integer.valueOf(partnerId));
         if (tableId == I_C_BPartner.Table_ID)
-            gridTab.setValue("C_BPartner_ID", new Integer(recordId));
+            gridTab.setValue("C_BPartner_ID", Integer.valueOf(recordId));
         else if (tableId == I_AD_User.Table_ID)
-            gridTab.setValue("AD_User_ID", new Integer(recordId));
+            gridTab.setValue("AD_User_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Project.Table_ID)
-            gridTab.setValue("C_Project_ID", new Integer(recordId));
+            gridTab.setValue("C_Project_ID", Integer.valueOf(recordId));
         else if (tableId == I_A_Asset.Table_ID)
-            gridTab.setValue("A_Asset_ID", new Integer(recordId));
+            gridTab.setValue("A_Asset_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Order.Table_ID)
-            gridTab.setValue("C_Order_ID", new Integer(recordId));
+            gridTab.setValue("C_Order_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Invoice.Table_ID)
-            gridTab.setValue("C_Invoice_ID", new Integer(recordId));
+            gridTab.setValue("C_Invoice_ID", Integer.valueOf(recordId));
         else if (tableId == I_M_Product.Table_ID)
-            gridTab.setValue("M_Product_ID", new Integer(recordId));
+            gridTab.setValue("M_Product_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Payment.Table_ID)
-            gridTab.setValue("C_Payment_ID", new Integer(recordId));
+            gridTab.setValue("C_Payment_ID", Integer.valueOf(recordId));
         else if (tableId == I_M_InOut.Table_ID)
-            gridTab.setValue("M_InOut_ID", new Integer(recordId));
+            gridTab.setValue("M_InOut_ID", Integer.valueOf(recordId));
         else if (tableId == I_M_RMA.Table_ID)
-            gridTab.setValue("M_RMA_ID", new Integer(recordId));
+            gridTab.setValue("M_RMA_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Campaign.Table_ID)
-            gridTab.setValue("C_Campaign_ID", new Integer(recordId));
+            gridTab.setValue("C_Campaign_ID", Integer.valueOf(recordId));
         else if (tableId == I_R_Request.Table_ID)
-            gridTab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(recordId));
+            gridTab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, Integer.valueOf(recordId));
         else if (tableId == I_C_OrderLine.Table_ID) {
             MOrderLine oLine = new MOrderLine(Env.getCtx(), recordId, null);
             if (oLine != null) {
-                gridTab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
+                gridTab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, Integer.valueOf(oLine.getC_Order_ID()));
             }
         }
     }

@@ -32,7 +32,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.apps.AEnv;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CMenuItem;

@@ -65,7 +65,7 @@ public class MProductCategory extends X_M_Product_Category
 	public static MProductCategory get (Properties ctx, int M_Product_Category_ID, String trxName)
     {
 
-	    Integer ii = new Integer (M_Product_Category_ID);
+	    Integer ii = Integer.valueOf(M_Product_Category_ID);
 		MProductCategory pc = (MProductCategory)s_cache.get(ii);
 		if (pc == null)
 			pc = new MProductCategory (ctx, M_Product_Category_ID, trxName);
@@ -83,7 +83,7 @@ public class MProductCategory extends X_M_Product_Category
 		if (M_Product_ID == 0 || M_Product_Category_ID == 0)
 			return false;
 		//	Look up
-		Integer product = new Integer (M_Product_ID);
+		Integer product = Integer.valueOf(M_Product_ID);
 		Integer category = (Integer)s_products.get(product);
 		if (category != null)
 			return category.intValue() == M_Product_Category_ID;
@@ -96,7 +96,7 @@ public class MProductCategory extends X_M_Product_Category
 			pstmt.setInt (1, M_Product_ID);
 			ResultSet rs = pstmt.executeQuery ();
 			if (rs.next ())
-				category = new Integer(rs.getInt(1));
+				category = Integer.valueOf(rs.getInt(1));
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;

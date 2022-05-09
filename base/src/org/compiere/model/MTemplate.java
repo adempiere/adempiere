@@ -158,7 +158,8 @@ public class MTemplate extends X_CM_Template
 							subTemplateNames.put (thisName, "0");
 					}
 				}
-				Enumeration thisEnum = subTemplateNames.keys ();
+				
+				Enumeration<String> thisEnum = subTemplateNames.keys();
 				while (thisEnum.hasMoreElements ())
 				{
 					String thisElement = thisEnum.nextElement ().toString ();

@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -484,7 +485,7 @@ public final class Calculator extends CDialog
 		char op = token.charAt(0);
 
 		if (op == '%') {
-			firstNo = firstNo.divide(new BigDecimal(100.0), m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+			firstNo = firstNo.divide(new BigDecimal(100.0), m_format.getMaximumFractionDigits(), RoundingMode.HALF_UP);
 			m_number = firstNo;
 		}
 		
@@ -522,13 +523,13 @@ public final class Calculator extends CDialog
 
 		//	Percent operation
 		if (op2 == '%')
-			secondNo = secondNo.divide(new BigDecimal(100.0), m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+			secondNo = secondNo.divide(new BigDecimal(100.0), m_format.getMaximumFractionDigits(), RoundingMode.HALF_UP);
 
 		switch (op)
 		{
 			case '/':
 				m_number = firstNo
-					.divide(secondNo, m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+					.divide(secondNo, m_format.getMaximumFractionDigits(), RoundingMode.HALF_UP);
 				break;
 			case '*':
 				m_number = firstNo.multiply(secondNo);
@@ -542,7 +543,7 @@ public final class Calculator extends CDialog
 			default:
 				break;
 		}
-		return m_number.setScale(m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+		return m_number.setScale(m_format.getMaximumFractionDigits(), RoundingMode.HALF_UP);
 	}	//	evaluate
 
 

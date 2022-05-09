@@ -353,9 +353,9 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		BigDecimal qtyScrap = getScrap();
 		if (qtyScrap.signum() != 0)
 		{
-			qtyScrap = qtyScrap.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
-			setQtyRequired(getQtyRequired().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
-			setQtyEntered(getQtyEntered().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
+			qtyScrap = qtyScrap.divide(Env.ONEHUNDRED, 8, RoundingMode.UP);
+			setQtyRequired(getQtyRequired().divide(Env.ONE.subtract(qtyScrap), 8, RoundingMode.HALF_UP));
+			setQtyEntered(getQtyEntered().divide(Env.ONE.subtract(qtyScrap), 8, RoundingMode.HALF_UP));
 		}
 	}
 	

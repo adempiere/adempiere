@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -104,7 +105,7 @@ public class CalloutGLJournal extends CalloutEngine
 				DB.close(rs, pstmt);
 			}
 			if (C_Period_ID != 0)
-				mTab.setValue("C_Period_ID", new Integer(C_Period_ID));
+				mTab.setValue("C_Period_ID", Integer.valueOf(C_Period_ID));
 		}
 
 		//  When C_Period_ID is changed, check if in DateAcct range and set to end date if not
@@ -224,10 +225,10 @@ public class CalloutGLJournal extends CalloutEngine
 			AmtSourceCr = Env.ZERO;
 
 		BigDecimal AmtAcctDr = AmtSourceDr.multiply(CurrencyRate);
-		AmtAcctDr = AmtAcctDr.setScale(Precision, BigDecimal.ROUND_HALF_UP);
+		AmtAcctDr = AmtAcctDr.setScale(Precision, RoundingMode.HALF_UP);
 		mTab.setValue("AmtAcctDr", AmtAcctDr);
 		BigDecimal AmtAcctCr = AmtSourceCr.multiply(CurrencyRate);
-		AmtAcctCr = AmtAcctCr.setScale(Precision, BigDecimal.ROUND_HALF_UP);
+		AmtAcctCr = AmtAcctCr.setScale(Precision, RoundingMode.HALF_UP);
 		mTab.setValue("AmtAcctCr", AmtAcctCr);
 
 		return "";

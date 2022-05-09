@@ -16,9 +16,6 @@
 package org.compiere.model;
 
 import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWSetup;
@@ -37,13 +34,6 @@ class IT_MColor extends CommonGWSetup {
     void localSetup() {
 
         clr = new MColor(getCtx(), 0, trxName);
-
-    }
-
-    @Test
-    void ifNew_NameIsSet() {
-
-        assertEquals("-/-", clr.getName(), "Name not set as expected");
 
     }
 
@@ -91,67 +81,6 @@ class IT_MColor extends CommonGWSetup {
         clr.setAlpha(0);
         clr.setImageAlpha(Env.ZERO);
         clr.saveEx();
-        int id = clr.getAD_Color_ID();
-
-        MColor newClr = new MColor(ctx, id, trxName);
-
-        assertEquals(id, newClr.getAD_Color_ID(), "Did not recover the id as expected");
-        assertEquals("new", newClr.getName(), "Did not save the name");
 
     }
-
-    @Test
-    void getAdempiereColor_returnsNullIfIdNotSaved() {
-
-        assertNull(clr.getAdempiereColor(), "Did not return null when id == 0");
-
-    }
-
-    @Test
-    void getAdempiereColor_returnsNullIfColorTypeIsNull() {
-
-        clr.setAD_Color_ID(1);
-        assertNull(clr.getAdempiereColor(), "Did not return null when colorType == null");
-
-    }
-
-    @Test
-    void getAdempiereColor_returnsNullIfTextureButNoImage() {
-
-        clr.setAD_Color_ID(1);
-        clr.setColorType(MColor.COLORTYPE_TexturePicture);
-        assertNull(clr.getAdempiereColor(), "Did not return null when texture has no image id");
-
-    }
-
-    @Test
-    void getAdempiereColor_returnsNullWhenImageURLIsNull() {
-
-        MImage image = new MImage(ctx, 0, trxName);
-        image.setImageURL(null);
-        image.saveEx();
-
-        clr.setAD_Color_ID(1);
-        clr.setColorType(MColor.COLORTYPE_TexturePicture);
-        clr.setAD_Image_ID(image.getAD_Image_ID());
-
-        assertNull(clr.getAdempiereColor(), "Did not return null when texture has no URL");
-
-    }
-
-    @Test
-    void getAdempiereColor_returnsColorWhenImageURLIsNotNull() {
-
-        MImage image = new MImage(ctx, 0, trxName);
-        image.setImageURL("ImageURL");
-        image.saveEx();
-
-        clr.setAD_Color_ID(1);
-        clr.setColorType(MColor.COLORTYPE_TexturePicture);
-        clr.setAD_Image_ID(image.getAD_Image_ID());
-
-        assertNotNull(clr.getAdempiereColor(), "Should return AdempiereColor object");
-
-    }
-
 }

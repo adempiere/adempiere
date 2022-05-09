@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Price List Builder allows create a Price List using a DSL
@@ -26,7 +26,7 @@ import org.eevolution.dsl._
   */
 object PriceListBuilder {
 
-  def apply()(implicit context: Context , transaction: Transaction) = {
+  def apply()(implicit context: Context , transaction: Transaction): Builder[Mandatory, Mandatory, Optional, Mandatory, Mandatory, Optional, Optional, Optional, Optional, Optional] = {
       new Builder[Mandatory, Mandatory, Optional, Mandatory, Mandatory , Optional , Optional , Optional , Optional , Optional]()
   }
 
@@ -58,7 +58,7 @@ object PriceListBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization) =
+    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization): Builder[Once, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         Once,
         WithNameTracking ,
@@ -71,7 +71,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](organization = Some(o))
 
-    def withName[Name <: WithNameTracking : IsMandatory](n: String) =
+    def withName[Name <: WithNameTracking : IsMandatory](n: String): Builder[WithOrganizationTracking, Once, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         Once ,
@@ -84,7 +84,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](name = Some(n))
 
-    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String) =
+    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String): Builder[WithOrganizationTracking, WithNameTracking, Once, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking,
@@ -97,7 +97,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](description = Some(d))
 
-    def withCurrency[Currency <: WithCurrency : IsMandatory](c: dsl.Currency) =
+    def withCurrency[Currency <: WithCurrency : IsMandatory](c: dsl.Currency): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, Once, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -111,7 +111,7 @@ object PriceListBuilder {
         WithIsNetPrice](currency = Some(c))
 
 
-    def withPricePrecision[PricePrecision <: WithPricePrecision: IsMandatory](p:BigDecimal) =
+    def withPricePrecision[PricePrecision <: WithPricePrecision: IsMandatory](p:BigDecimal): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, Once, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -124,7 +124,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](pricePrecision = Some(p))
 
-    def asDefault[IsDefault <: WithIsDefault: IsMandatory]() =
+    def asDefault[IsDefault <: WithIsDefault: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, Once, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -137,7 +137,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](isDefault = Some(true))
 
-    def asSalesPriceList[IsSalesPriceList <: WithIsSalesPriceList: IsMandatory]() =
+    def asSalesPriceList[IsSalesPriceList <: WithIsSalesPriceList: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, Once, WithIsTaxIncluded, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -150,7 +150,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](isSalesPriceList = Some(true))
 
-    def asTaxIncluded[IsTaxIncluded <: WithIsTaxIncluded: IsMandatory]() =
+    def asTaxIncluded[IsTaxIncluded <: WithIsTaxIncluded: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, Once, WithIsForcePriceLimit, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -163,7 +163,7 @@ object PriceListBuilder {
         WithIsForcePriceLimit,
         WithIsNetPrice](isTaxIncluded = Some(true))
 
-    def asForcePriceLimit[IsForcePriceLimit <: WithIsForcePriceLimit: IsMandatory]() =
+    def asForcePriceLimit[IsForcePriceLimit <: WithIsForcePriceLimit: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, Once, WithIsNetPrice] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,
@@ -176,7 +176,7 @@ object PriceListBuilder {
         Once,
         WithIsNetPrice](isForcePriceLimit = Some(true))
 
-    def asNetPrice[IsNetPrice <: WithIsNetPrice: IsMandatory]() =
+    def asNetPrice[IsNetPrice <: WithIsNetPrice: IsMandatory](): Builder[WithOrganizationTracking, WithNameTracking, WithDescriptionTracking, WithCurrency, WithPricePrecision, WithIsDefault, WithIsSalesPriceList, WithIsTaxIncluded, WithIsForcePriceLimit, Once] =
       copy[
         WithOrganizationTracking,
         WithNameTracking ,

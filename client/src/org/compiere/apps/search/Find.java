@@ -598,7 +598,7 @@ public final class Find extends CDialog
 			/**/
 
 			//  TargetFields
-			m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
+			m_targetFields.put(Integer.valueOf(mField.getAD_Column_ID()), mField);
 		}   //  for all target tab fields
 
 		//	Disable simple query fields
@@ -1748,7 +1748,7 @@ public final class Find extends CDialog
 				if (in instanceof Integer)
 					return in;
 				int i = Integer.parseInt(in.toString());
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -1814,7 +1814,7 @@ public final class Find extends CDialog
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

@@ -471,7 +471,7 @@ public class VLocatorDialog extends CDialog
 	{
 		MLocator l = (MLocator) fLocator.getSelectedItem();
 		if (l != null && l.getM_Locator_ID() != 0)
-			return new Integer (l.getM_Locator_ID());
+			return Integer.valueOf(l.getM_Locator_ID());
 		return null;
 	}	//	getValue
 

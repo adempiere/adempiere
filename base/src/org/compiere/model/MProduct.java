@@ -79,7 +79,7 @@ public class MProduct extends X_M_Product
 		{
 			return null;
 		}
-		Integer key = new Integer (M_Product_ID);
+		Integer key = Integer.valueOf(M_Product_ID);
 		MProduct retValue = (MProduct) s_cache.get (key);
 		if (retValue != null)
 		{
@@ -448,7 +448,7 @@ public class MProduct extends X_M_Product
 			int C_UOM_ID = getC_UOM_ID();
 			if (C_UOM_ID == 0)
 				return 0;	//	EA
-			m_precision = new Integer (MUOM.getPrecision(getCtx(), C_UOM_ID));
+			m_precision = Integer.valueOf(MUOM.getPrecision(getCtx(), C_UOM_ID));
 		}
 		return m_precision.intValue();
 	}	//	getUOMPrecision
@@ -1026,7 +1026,7 @@ public class MProduct extends X_M_Product
 		{
 			//  If the product has a product instance associated with it. Use it regardless of the context.
 			//  Product Attributes and Instance Attributes are exclusive
-				M_AttributeSetInstance_ID = new Integer(getM_AttributeSetInstance_ID());
+				M_AttributeSetInstance_ID = Integer.valueOf(getM_AttributeSetInstance_ID());
 		} 
 		else if (getM_AttributeSet_ID() > 0 && M_AttributeSetInstance_ID > 0)
 		{

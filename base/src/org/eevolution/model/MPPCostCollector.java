@@ -19,6 +19,7 @@ package org.eevolution.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -950,7 +951,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			// Check Order Pack
 			if (product_po.getOrder_Pack().signum() > 0 && QtyOrdered.signum() > 0)
 			{
-				QtyOrdered = product_po.getOrder_Pack().multiply(QtyOrdered.divide(product_po.getOrder_Pack(), 0 , BigDecimal.ROUND_UP));
+				QtyOrdered = product_po.getOrder_Pack().multiply(QtyOrdered.divide(product_po.getOrder_Pack(), 0, RoundingMode.UP));
 			}
 			MOrderLine oline = new MOrderLine(order);
 			oline.setM_Product_ID(product.getM_Product_ID());

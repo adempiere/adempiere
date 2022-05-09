@@ -980,7 +980,7 @@ public final class DB
 	 */
 	public static int executeUpdate (String sql, int param, String trxName, int timeOut)
 	{
-		return executeUpdate (sql, new Object[]{new Integer(param)}, false, trxName, timeOut);
+		return executeUpdate (sql, new Object[]{Integer.valueOf(param)}, false, trxName, timeOut);
 	}	//	executeUpdate
 
 	/**
@@ -1009,7 +1009,7 @@ public final class DB
 	 */
 	public static int executeUpdate (String sql, int param, boolean ignoreError, String trxName, int timeOut)
 	{
-		return executeUpdate (sql, new Object[]{new Integer(param)}, ignoreError, trxName, timeOut);
+		return executeUpdate (sql, new Object[]{Integer.valueOf(param)}, ignoreError, trxName, timeOut);
 	}	//	executeUpdate
 
 	/**

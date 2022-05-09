@@ -18,6 +18,7 @@
 package org.compiere.model;
  
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -205,7 +206,7 @@ import org.compiere.util.Msg;
                     payment.getAD_Org_ID()))
             		.orElseThrow(() -> new AdempiereException(errorMassage.toString()));
             //	Set convert amount
-			paymentAmount.updateAndGet(payAmount -> payAmount.multiply(currencyRate).setScale(currencyTo.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
+			paymentAmount.updateAndGet(payAmount -> payAmount.multiply(currencyRate).setScale(currencyTo.getStdPrecision(), RoundingMode.HALF_UP));
         }
         setC_Payment_ID (payment.getC_Payment_ID());
         setC_Currency_ID (bankAccount.getC_Currency_ID());

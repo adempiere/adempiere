@@ -60,7 +60,7 @@ public class MYear extends X_C_Year
 		if (year > 0)
 		return new Query(ctx , MYear.Table_Name , MYear.COLUMNNAME_FiscalYear + "=?" , trxName)
 				.setClient_ID()
-				.setParameters(new Integer(year).toString())
+				.setParameters(Integer.valueOf(year).toString())
 				.first();
 		else
 			return null;

@@ -58,7 +58,7 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse get (Properties ctx, int M_Warehouse_ID, String trxName)
 	{
-		Integer key = new Integer(M_Warehouse_ID);
+		Integer key = Integer.valueOf(M_Warehouse_ID);
 		MWarehouse retValue = (MWarehouse)s_cache.get(key);
 		if (retValue != null)
 			return retValue;

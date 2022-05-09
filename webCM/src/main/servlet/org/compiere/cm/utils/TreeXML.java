@@ -39,7 +39,7 @@ public class TreeXML {
 		// Containers
 		MContainer[] containers = MContainer.getContainers(m_project);
 		for (int i = 0; i < containers.length; i++)
-			m_map.put(new Integer(containers[i].getCM_Container_ID()), containers[i]);
+			m_map.put(Integer.valueOf(containers[i].getCM_Container_ID()), containers[i]);
 
 		MTree thisTree = new MTree (m_project.getCtx(), m_project.getAD_TreeCMC_ID(), true, m_project.get_TrxName());
 		generateTree(m_project, thisTree);
@@ -52,14 +52,14 @@ public class TreeXML {
 	
 	private String appendNode(MTreeNode thisNode) {
 		StringBuffer tempTree = new StringBuffer();
-		Integer ID = new Integer(thisNode.getNode_ID());
+		Integer ID = Integer.valueOf(thisNode.getNode_ID());
 		MContainer container = m_map.get(ID);
 		//	
 		int size = thisNode.getChildCount();
 		for (int i = 0; i < size; i++)
 		{
 			MTreeNode child = (MTreeNode)thisNode.getChildAt(i);
-			ID = new Integer(child.getNode_ID());
+			ID = Integer.valueOf(child.getNode_ID());
 			container = m_map.get(ID);
 			if (container == null)
 			{

@@ -75,7 +75,7 @@ public class MSession extends X_AD_Session
 		int AD_Session_ID = Env.getContextAsInt(ctx, "#AD_Session_ID");
 		MSession session = null;
 		if (AD_Session_ID > 0)
-			session = (MSession)s_sessions.get(new Integer(AD_Session_ID));
+			session = (MSession) s_sessions.get(Integer.valueOf(AD_Session_ID));
 		// Try to load
 		if (session == null && AD_Session_ID > 0)
 		{
@@ -92,7 +92,7 @@ public class MSession extends X_AD_Session
 			session.saveEx();
 			AD_Session_ID = session.getAD_Session_ID();
 			Env.setContext (ctx, "#AD_Session_ID", AD_Session_ID);
-			s_sessions.put (new Integer(AD_Session_ID), session);
+			s_sessions.put(Integer.valueOf(AD_Session_ID), session);
 		}
 		if(session != null && keepAlive) {
 			session.keepAlive();
@@ -113,14 +113,14 @@ public class MSession extends X_AD_Session
 		int AD_Session_ID = Env.getContextAsInt(ctx, "#AD_Session_ID");
 		MSession session = null;
 		if (AD_Session_ID > 0)
-			session = (MSession)s_sessions.get(new Integer(AD_Session_ID));
+			session = (MSession) s_sessions.get(Integer.valueOf(AD_Session_ID));
 		if (session == null)
 		{
 			session = new MSession (ctx, Remote_Addr, Remote_Host, WebSession, null);	//	remote session
 			session.saveEx();
 			AD_Session_ID = session.getAD_Session_ID();
 			Env.setContext(ctx, "#AD_Session_ID", AD_Session_ID);
-			s_sessions.put(new Integer(AD_Session_ID), session);
+			s_sessions.put(Integer.valueOf(AD_Session_ID), session);
 		}	
 		return session;
 	}	//	get

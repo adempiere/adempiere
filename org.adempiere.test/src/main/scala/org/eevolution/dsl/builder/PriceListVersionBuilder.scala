@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Price List Version Builder allows create a Price List Version using a DSL

@@ -102,6 +102,6 @@ public class MTree_NodeU1 extends X_AD_TreeNodeU1 {
      * @param parentId
      */
     public void setParent_ID(int parentId) {
-        set_Value("Parent_ID", new Integer(parentId));
+        set_Value("Parent_ID", Integer.valueOf(parentId));
     }
 }

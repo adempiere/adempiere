@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -189,7 +190,7 @@ public class DistributionCreate extends SvrProcess
 		BigDecimal ratio = dll.getRatio();
 		BigDecimal qty = p_Qty.multiply(ratio);
 		if (qty.compareTo(Env.ZERO) != 0)
-			qty = qty.divide(m_dl.getRatioTotal(), m_product.getUOMPrecision(), BigDecimal.ROUND_HALF_UP);
+			qty = qty.divide(m_dl.getRatioTotal(), m_product.getUOMPrecision(), RoundingMode.HALF_UP);
 		BigDecimal minQty = dll.getMinQty();
 		if (qty.compareTo(minQty) < 0)
 			qty = minQty;

@@ -617,14 +617,14 @@ public class GridField
 			&& (m_vo.ColumnName.equals("AD_Client_ID") || m_vo.ColumnName.equals("AD_Org_ID")))
 		{
 			log.fine("[SystemAccess] " + m_vo.ColumnName + "=0");
-			return new Integer(0);
+			return Integer.valueOf(0);
 		}
 		//	Set Org to System, if Client access
 		else if (X_AD_Table.ACCESSLEVEL_SystemPlusClient.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_AccessLevel))
 			&& m_vo.ColumnName.equals("AD_Org_ID"))
 		{
 			log.fine("[ClientAccess] " + m_vo.ColumnName + "=0");
-			return new Integer(0);
+			return Integer.valueOf(0);
 		}
 
 		/**
@@ -786,17 +786,17 @@ public class GridField
 					int ii = Integer.parseInt(value);
 					if (ii < 0)
 						return null;
-					return new Integer(ii);
+					return Integer.valueOf(ii);
 				}
 				catch (Exception e)
 				{
 					log.warning("Cannot parse: " + value + " - " + e.getMessage());
 				}
-				return new Integer(0);
+				return Integer.valueOf(0);
 			}
 			//	Integer
 			if (m_vo.displayType == DisplayType.Integer)
-				return new Integer(value);
+				return Integer.valueOf(value);
 			
 			//	Number
 			if (DisplayType.isNumeric(m_vo.displayType))
@@ -1582,7 +1582,7 @@ public class GridField
 				|| (DisplayType.isID(dt) && getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(newValue);
-				setValue (new Integer(i), inserting);
+				setValue(Integer.valueOf(i), inserting);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

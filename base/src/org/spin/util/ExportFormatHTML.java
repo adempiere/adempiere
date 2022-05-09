@@ -226,7 +226,7 @@ public class ExportFormatHTML extends AbstractExportFormat {
 
 							td.setStyle( style );
 							
-							Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							Object obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 							if (!item.isDisplayed(printData))
 								obj = null;
 

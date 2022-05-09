@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -115,12 +116,10 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				MImage mimage = MImage.get(Env.getCtx(), logoId);
 				byte[] imageData = mimage.getData();
 				img = Toolkit.getDefaultToolkit().createImage(imageData);
-			} else {
-				img = org.compiere.Adempiere.getImageLogoSmall(true); // 48x15
+				Image logo = Image.getInstance(img, null);
+				logo.scaleToFit(100, 30);
+				document.add(logo);
 			}
-			Image logo = Image.getInstance(img, null);
-			logo.scaleToFit(100, 30);
-			document.add(logo);
 			// Titulo General - general Title
 			Paragraph genTitle = new Paragraph(dataNull(generalTitle[0]).toUpperCase(), titleFont);
 			genTitle.setAlignment(Paragraph.ALIGN_CENTER);
@@ -575,7 +574,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			return "";
 		else{
 			DecimalFormat frm = new DecimalFormat("###,###,###,##0.00");
-			return frm.format(data.setScale(2, BigDecimal.ROUND_HALF_UP));	// Goodwill BF Rounding is necessary
+			return frm.format(data.setScale(2, RoundingMode.HALF_UP));	// Goodwill BF Rounding is necessary
 		}
 	}// formatValue
 
