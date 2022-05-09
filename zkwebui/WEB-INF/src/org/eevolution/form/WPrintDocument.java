@@ -43,19 +43,31 @@ import org.eevolution.service.dsl.ProcessBuilder;
 public class WPrintDocument implements IPrintDocument {
 
     public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
-        boolean retValue = true;
-        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.getDisplayValue())) {
-            do {
-                try {
-                	printDocument(document, printFormatId, windowNo);
-                } catch (Exception e) {
-                	
-                } finally {
-                    retValue = FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), Msg.getMsg(Env.getCtx(), "PrintoutOK?"));
-                }
-
-            } while (!retValue);
+        if(!askPrint) {
+        	loopAndPrint(document, printFormatId, windowNo);
+        } else if(FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.getDisplayValue())) {
+        	loopAndPrint(document, printFormatId, windowNo);
         }
+    }
+    
+    /**
+     * Print each document
+     * @param document
+     * @param printFormatId
+     * @param windowNo
+     */
+    private void loopAndPrint(PO document, int printFormatId, int windowNo) {
+    	boolean retValue = true;
+    	do {
+            try {
+            	printDocument(document, printFormatId, windowNo);
+            } catch (Exception e) {
+            	
+            } finally {
+                retValue = FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), Msg.getMsg(Env.getCtx(), "PrintoutOK?"));
+            }
+
+        } while (!retValue);
     }
 
 	@Override
@@ -68,7 +80,15 @@ public class WPrintDocument implements IPrintDocument {
 			//	Add to String
 			documentLabels.append(document.getDisplayValue());
 		});
-		if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintAllDocuments", documentLabels.toString())) {
+		if(!askPrint) {
+			documentList.stream().forEach(document -> {
+        		try {
+        			printDocument(document, printFormatId, windowNo);
+                } catch (Exception e) {
+                	
+                }
+        	});
+		} else if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintAllDocuments", documentLabels.toString())) {
         	documentList.stream().forEach(document -> {
         		try {
         			printDocument(document, printFormatId, windowNo);
