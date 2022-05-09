@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.apps.AEnv;
-import org.compiere.apps.AWindow;
 import org.compiere.model.I_C_BP_Relation;
 import org.compiere.model.I_C_BPartner_Location;
 import org.compiere.model.MBPartner;
@@ -32,12 +30,8 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MPaymentTerm;
-import org.compiere.model.MQuery;
-import org.compiere.model.MSession;
-import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.model.I_HR_Employee;
 import org.eevolution.model.I_HR_Process;
@@ -46,14 +40,9 @@ import org.eevolution.model.MHRMovement;
 /** Generated Process for (Create Invoice for Business Partner)
  *  @author Susanne Calderon, Westfalia
  *  @author victor.perez@e-evolution.com, www-e-evolution.com
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class HRGenerateInvoiceFromProcess extends HRGenerateInvoiceFromProcessAbstract
-{
-	@Override
-	protected void prepare()
-	{
-		super.prepare();
-	}
+public class HRGenerateInvoiceFromProcess extends HRGenerateInvoiceFromProcessAbstract {
 
 	private 	int count = 0;
 	private HashMap <Integer, MInvoice> invoices  = new HashMap<>();
@@ -92,27 +81,11 @@ public class HRGenerateInvoiceFromProcess extends HRGenerateInvoiceFromProcessAb
 				MInvoice invoice = entry.getValue();
 				invoice.processIt(getDocAction());
 				invoice.saveEx();
+				addLog(invoice.getC_Invoice_ID(), invoice.getDateInvoiced(), invoice.getGrandTotal(), "@C_Invoice_ID@ " + invoice.getDocumentNo() + " @C_BPartner_ID@  @TaxId@ " + invoice.getC_BPartner().getValue() + " @Name@ " + invoice.getC_BPartner().getName());
 			});
 		}
-
-		int sessionId  = Env.getContextAsInt(getCtx(), "AD_Session_ID");
-		MSession session = new MSession(getCtx(), sessionId, null);
-		if (session.getWebSession() == null ||session.getWebSession().length() == 0)
-		{
-			if (invoices.size() > 0) {
-				commitEx();
-				StringBuilder whereClause = new StringBuilder();
-				invoices.entrySet().forEach(entry -> whereClause.append(entry.getKey()).append(","));
-				StringBuilder whereClauseWindow=new StringBuilder("C_Invoice_ID IN (");
-				whereClauseWindow.append(whereClause.substring(0,whereClause.length()-1)).append(")");
-				MTable table = new MTable(getCtx(), MInvoice.Table_ID, get_TrxName());
-				MQuery query = new MQuery();
-				query.addRestriction(whereClauseWindow.toString());
-				query.setRecordCount(count);
-				int windowId = table.getPO_Window_ID();
-				zoom (windowId, query);
-			}
-		}
+		//	Open result after process
+		openResult(MInvoice.Table_Name);
 		return "@OK@";
 	}
 	
@@ -176,7 +149,6 @@ public class HRGenerateInvoiceFromProcess extends HRGenerateInvoiceFromProcessAb
 		 invoice.setSalesRep_ID(getAD_User_ID());
 		 invoice.saveEx();
 		 count = count ++;
-		 addLog(0, invoice.getDateInvoiced(), invoice.getGrandTotal(), "@C_Invoice_ID@ " + invoice.getDocumentNo() + " @C_BPartner_ID@  @TaxId@ " + invoice.getC_BPartner().getValue() + " @Name@ " + invoice.getC_BPartner().getName());
 		 return invoice;
 	 }
 
@@ -223,28 +195,5 @@ public class HRGenerateInvoiceFromProcess extends HRGenerateInvoiceFromProcessAb
 	                .setParameters(partner.getC_BPartner_ID(), true, true)
 	                .first();
 	    }
-	    
-	    protected void zoom (int AD_Window_ID, MQuery zoomQuery)
-		{
-			final AWindow frame = new AWindow();
-			if (!frame.initWindow(AD_Window_ID, zoomQuery))
-				return;
-			AEnv.addToWindowManager(frame);
-			//	VLookup gets info after method finishes
-			new Thread()
-			{
-				public void run()
-				{
-					try
-					{
-						sleep(50);
-					}
-					catch (Exception e)
-					{
-					}
-					AEnv.showCenterScreen(frame);
-				}
-			}.start();
-		}	//	zoom
 
 }
