@@ -23,6 +23,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -115,16 +116,19 @@ implements ClientProcess
 			addLog("@NotFound@ @PP_Order_ID@");
 		} else {
 			if (p_IsPrintPickList) {
-				printDocument(entity, "Manufacturing_Order_BOM_Header ** TEMPLATE **");
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_BOM_Header ** TEMPLATE **", "PP_Order_BOM_Header_v"), false);
 			}
 			if (p_IsPrintPackList) {
-				printDocument(entity, "Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **");
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_BOM_Header_Packing ** TEMPLATE **", "PP_Order_BOM_Header_v"), false);
 			}
 			if (p_IsPrintWorkflow) {
-				printDocument(entity, "Manufacturing_Order_Workflow_Header ** TEMPLATE **");
+				printDocument(entity, getPrintFormatId("Manufacturing_Order_Workflow_Header ** TEMPLATE **", "PP_Order_Workflow_Header_v"), false);
 			}
 		}
 		return "@OK@";
-
 	} // doIt
+	
+	private int getPrintFormatId(String formatName, String tableName) {
+		return MPrintFormat.getPrintFormat_ID(formatName, MTable.getTable_ID(tableName), getAD_Client_ID());
+	}
 } // CompletePrintOrder
