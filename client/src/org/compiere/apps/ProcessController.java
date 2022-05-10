@@ -806,8 +806,12 @@ public abstract class ProcessController extends SmallViewController {
 			return;
 		}
 		List<Integer> keys = new ArrayList<Integer>();
-		for(int key : getProcessInfo().getIDs()) {
-			keys.add(key);
+		int[] keysAsarray = getProcessInfo().getIDs();
+		if(keysAsarray != null
+				&& keysAsarray.length > 0) {
+			for(int key : keysAsarray) {
+				keys.add(key);
+			}
 		}
 		//	
 		String tableName = getProcessInfo().getResultTableName();
