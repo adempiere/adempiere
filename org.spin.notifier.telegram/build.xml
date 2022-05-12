@@ -7,12 +7,16 @@
 	</description>
 	<!-- set global properties for this build -->
 	<import file="../utils_dev/properties.xml" />
+	<property file="build.properties"/>
 	<property name="src" location="src/main/java/base" />
 	<property name="build" location="build" />
 	<property name="base" location="../base/src" />
 	<property name="dist" location="dist" />
 	
 	<path id="lib.class.path">
+		<fileset dir="${adempiere.trunk}/lib">
+		    <include name="*.jar"/>
+		</fileset>
 		<fileset dir="../tools/lib">
 			<include name="*.jar" />
 		</fileset>
@@ -22,6 +26,7 @@
 	</path>
 	<path id="compile.classpath">
 		<pathelement location="${basedir}/build" />
+		<pathelement path="${jar.path}/CCTools.jar"/>
 		<fileset dir="../lib">
 			<include name="*.jar" />
 		</fileset>
