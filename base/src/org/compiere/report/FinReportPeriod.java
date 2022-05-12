@@ -57,9 +57,9 @@ public class FinReportPeriod
 	private String periodType;
 
 
-	public String getPeriodTypeWhere(String alias) {
+	public String getPeriodTypeWhere(String alias, boolean includeAdjustmentPeriod) {
 		String periodTypeWhere = "";
-		if (MPeriod.PERIODTYPE_AdjustmentPeriod.equals(periodType))
+		if (includeAdjustmentPeriod)
 			periodTypeWhere = "IN ('S','A')";
 		else
 			periodTypeWhere = "IN ('S')";

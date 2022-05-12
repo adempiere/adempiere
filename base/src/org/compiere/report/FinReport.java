@@ -1464,7 +1464,7 @@ public class FinReport extends FinReportAbstract {
             StringBuilder whereReportLine
     ) {
         AtomicInteger rows = new AtomicInteger(0);
-        Trx.run(trxName -> {
+         Trx.run(trxName -> {
             StringBuilder insertLineSource = new StringBuilder("INSERT INTO T_Report "
                     + "(AD_PInstance_ID, PA_ReportLine_ID, Record_ID,Fact_Acct_ID,LevelNo ");
             if (isCombination)
@@ -1579,12 +1579,14 @@ public class FinReport extends FinReportAbstract {
         AtomicInteger rows = new AtomicInteger(0);
         Trx.run(trxName -> {
             //	Set Name,Description
-            StringBuilder updateNameAndDesc = new StringBuilder("UPDATE T_Report SET (Name,Description)=(")
-                    .append(reportLine.getSourceValueQuery());
-            if (isCombination)
-                updateNameAndDesc.append(combinationId);
-            else
+            StringBuilder updateNameAndDesc = new StringBuilder("UPDATE T_Report SET (Name,Description)=(");
+            String sourceValueQuery = reportLine.getSourceValueQuery();
+            if (sourceValueQuery.length() == 0 && isCombination) {
+                updateNameAndDesc.append("SELECT Combination , Description FROM C_ValidCombination WHERE C_ValidCombination_ID=").append(combinationId);
+            } else {
+                updateNameAndDesc.append(sourceValueQuery);
                 updateNameAndDesc.append("T_Report.Record_ID");
+            }
             //
             updateNameAndDesc.append(") WHERE Record_ID <> ? AND AD_PInstance_ID = ? ")    //.append(getAD_PInstance_ID())
                     .append(" AND PA_ReportLine_ID = ? ")//.append(reportLine.getPA_ReportLine_ID())
@@ -1641,7 +1643,9 @@ public class FinReport extends FinReportAbstract {
             else
                 insertLineTrx.append("2 ");
             if (isCombination)
-                insertLineTrx.append(",").append(variable).append(" ");
+                    insertLineTrx.append(",").append(combinationId).append(" ");
+            //else
+            //    insertLineTrx.append(",").append(variable).append(" ");
 
             //	Link
             StringBuilder whereLink = new StringBuilder();
@@ -1687,8 +1691,9 @@ public class FinReport extends FinReportAbstract {
 
             //	Ignore calculation columns or if not exist Amount Type
             if (reportColumns[col].isColumnTypeCalculation() || (reportLine.getPAAmountType() == null && reportColumns[col].getPAAmountType() == null)) {
-                if (INSERT.equals(action))
+                if (INSERT.equals(action)) {
                     sqlStatement.append(",NULL");
+                }
                 log.warning("No Amount Type in line: " + reportLine + " or column: " + reportColumns[col]);
                 continue;
             }
@@ -1729,19 +1734,19 @@ public class FinReport extends FinReportAbstract {
                 if (reportLine.isPeriod()) {
                     info.append("Period");
                     whereColumn.append(finReportPeriod.getPeriodWhere());
-                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb", true));
                 } else if (reportLine.isYear()) {
                     info.append("Year");
                     whereColumn.append(finReportPeriod.getYearWhere());
-                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb", true));
                 } else if (reportLine.isTotal()) {
                     info.append("Total");
                     whereColumn.append(finReportPeriod.getTotalWhere());
-                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
                 } else if (reportLine.isNatural()) {
                     info.append("Natural");
                     whereColumn.append(finReportPeriod.getNaturalWhere("fb"));
-                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                    whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
                 } else {
                     log.log(Level.SEVERE, "No valid Line PAPeriodType");
                     whereColumn.append("=0");    // valid sql
@@ -1755,28 +1760,28 @@ public class FinReport extends FinReportAbstract {
                 if (reportColumns[col].isPeriod()) {
                     if (finReportPeriodTo != null) {
                         whereColumn.append("BETWEEN ").append(DB.TO_DATE(finReportPeriod.getStartDate())).append(" AND ").append(DB.TO_DATE(finReportPeriodTo.getEndDate()));
-                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb",true));
                     } else {
                         whereColumn.append(finReportPeriod.getPeriodWhere());
-                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
                     }
                     info.append("Period");
                 } else if (reportColumns[col].isYear()) {
                     if (finReportPeriodTo != null) {
                         whereColumn.append("BETWEEN ").append(DB.TO_DATE(finReportPeriod.getYearStartDate())).append(" AND ").append(DB.TO_DATE(finReportPeriodTo.getEndDate()));
-                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb",true));
                     } else {
                         whereColumn.append(finReportPeriod.getYearWhere());
-                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
                     }
                     info.append("Year");
                 } else if (reportColumns[col].isTotal()) {
                     if (finReportPeriodTo != null) {
                         whereColumn.append("<= ").append(DB.TO_DATE(finReportPeriodTo.getEndDate()));
-                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb",true));
                     } else {
                         whereColumn.append(finReportPeriod.getTotalWhere());
-                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
 
                     }
                     info.append("Total");
@@ -1787,10 +1792,10 @@ public class FinReport extends FinReportAbstract {
                         String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = fb.Account_ID AND AccountType NOT IN ('R', 'E'))";
                         String full = totalWhere + " AND ( " + bs + " OR TRUNC(fb.DateAcct) " + yearWhere + " ) ";
                         whereColumn.append(full);
-                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb",true));
                     } else {
                         whereColumn.append(finReportPeriod.getNaturalWhere("fb"));
-                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb"));
+                        whereColumn.append(" AND ").append(finReportPeriod.getPeriodTypeWhere("fb",true));
                     }
                 } else {
                     log.log(Level.SEVERE, "No valid Column PAPeriodType");
@@ -1831,6 +1836,8 @@ public class FinReport extends FinReportAbstract {
             }
             //	Update SET portion
             if (sqlStatement.length() > 0) {
+                sqlStatement.append(", ");
+            } else if (sqlStatement.length() == 0 && INSERT.equals(action)){
                 sqlStatement.append(", ");
             }
             if (UPDATE.equals(action)) {
