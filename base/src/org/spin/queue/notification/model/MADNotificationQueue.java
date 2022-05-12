@@ -65,6 +65,17 @@ public class MADNotificationQueue extends X_AD_NotificationQueue {
 	}
 	
 	/**
+	 * Get updates of notification
+	 * @return
+	 */
+	public List<MADNotificationUpdates> getUpdates() {
+		return new Query(getCtx(), I_AD_NotificationUpdates.Table_Name, I_AD_NotificationUpdates.COLUMNNAME_AD_NotificationQueue_ID + " = ?", get_TrxName())
+				.setParameters(getAD_NotificationQueue_ID())
+				.setOnlyActiveRecords(true)
+				.list();
+	}
+	
+	/**
 	 * Get Notification from queue
 	 * @param context
 	 * @param queueId

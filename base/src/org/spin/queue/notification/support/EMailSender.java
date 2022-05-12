@@ -61,7 +61,6 @@ public class EMailSender implements INotification {
 	public void sendNotification(MADNotificationQueue notification) {
 		StringBuffer errorMessage = new StringBuffer();
 		notification.getRecipients().forEach(recipient -> {
-			StringBuffer recipientErrorMessage = new StringBuffer();
 			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
 			String eMailFrom = client.getRequestEMail();
 			MUser fromUser = null;
@@ -72,10 +71,10 @@ public class EMailSender implements INotification {
 			EMail email = new EMail(client, eMailFrom, recipient.getAccountName(), notification.getDescription(), notification.getText());
 			if (!email.isValid() && !email.isValid(true)) {
 				log.warning("NOT VALID - " + email);
-				if(recipientErrorMessage.length() > 0) {
-					recipientErrorMessage.append(Env.NL);
+				if(errorMessage.length() > 0) {
+					errorMessage.append(Env.NL);
 				}
-				recipientErrorMessage.append("NOT VALID - " + email);
+				errorMessage.append("NOT VALID - " + email);
 			} else {
 				//	For Custom EMail Server
 				if(fromUser != null && fromUser.getAD_EMailConfig_ID() > 0) {
@@ -104,11 +103,13 @@ public class EMailSender implements INotification {
 		            log.fine("EMail Sent: " + recipient.getAccountName());
 		            recipient.setProcessed(true);
 		        } else {
-		        	if(recipientErrorMessage.length() > 0) {
-						recipientErrorMessage.append(Env.NL);
+		        	if(errorMessage.length() > 0) {
+						errorMessage.append(Env.NL);
 					}
-		        	recipientErrorMessage.append("Error: Sending to: " + recipient.getAccountName());
+		        	errorMessage.append("Error: Sending to: " + recipient.getAccountName());
+		        	recipient.setErrorMsg("Error: Sending to: " + recipient.getAccountName());
 		        }
+				recipient.saveEx();
 				//	Backward compatibility
 				if(recipient.getAD_User_ID() > 0) {
 					X_AD_UserMail userMail = new X_AD_UserMail(notification.getCtx(), 0, notification.get_TrxName());
@@ -124,13 +125,6 @@ public class EMailSender implements INotification {
 					}
 					userMail.saveEx();
 				}
-			}
-			if (recipientErrorMessage.length() > 0) {
-				errorMessage.append(recipientErrorMessage);
-				recipient.setErrorMsg(recipientErrorMessage.toString());
-			}
-			if (recipient.is_Changed()) {
-				recipient.saveEx();
 			}
 		});
 		if(errorMessage.length() > 0) {
