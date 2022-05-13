@@ -5,9 +5,16 @@ package org.adempiere.engine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_CostType;
+import org.compiere.model.MCostType;
+import org.compiere.model.Query;
 import org.compiere.model.X_M_CostType;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
+
 
 /**
  * @author teo_sarca
@@ -22,9 +29,10 @@ public class CostingMethodFactory
 		return s_instance;
 	}
 	
-	private static final Map<String, Class<? extends ICostingMethod>>
+	private Map<String, Class<? extends ICostingMethod>>
 	s_map = new HashMap<String, Class<? extends ICostingMethod>>();
-	static
+	
+	private CostingMethodFactory()
 	{
 		s_map.put(X_M_CostType.COSTINGMETHOD_Fifo, FifoLifoCostingMethod.class);
 		s_map.put(X_M_CostType.COSTINGMETHOD_Lifo, FifoLifoCostingMethod.class);
@@ -33,10 +41,24 @@ public class CostingMethodFactory
 		s_map.put(X_M_CostType.COSTINGMETHOD_LastInvoice, LastInvoiceCostingMethod.class);
 		s_map.put(X_M_CostType.COSTINGMETHOD_LastPOPrice, LastPOPriceCostingMethod.class);
 		s_map.put(X_M_CostType.COSTINGMETHOD_StandardCosting, StandardCostingMethod.class);
-	}
-	
-	private CostingMethodFactory()
-	{
+		new Query(Env.getCtx(), I_M_CostType.Table_Name, "", null)
+		.setOnlyActiveRecords(true)
+		.setClient_ID()
+		.<MCostType>list()
+		.forEach(costType ->{
+			Optional<String> maybeClassName = Optional.ofNullable(costType.getClassname());
+			maybeClassName.ifPresent(className ->{
+				if (!Util.isEmpty(className)) {
+					try {
+						@SuppressWarnings("unchecked")
+						Class<? extends ICostingMethod> clazz = (Class<? extends ICostingMethod>) Class.forName(className);
+						s_map.put(costType.getCostingMethod(), clazz);
+					} catch (ClassNotFoundException e) {
+						throw new AdempiereException("No implementation found for costing method "+costType.getCostingMethod() + " - " + className.toString());
+					}
+				}
+			});
+		});
 	}
 
 	
