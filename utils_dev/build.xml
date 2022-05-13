@@ -47,6 +47,7 @@
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance"/>
 		<ant inheritAll="false" dir="org.spin.store"/>
 		<ant inheritAll="false" dir="org.spin.notifier.telegram"/>
+		<ant inheritAll="false" dir="org.spin.notifier.discord"/>
 	</target>
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -85,6 +86,7 @@
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.store" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.notifier.telegram" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.notifier.discord" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

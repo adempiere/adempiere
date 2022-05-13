@@ -98,6 +98,8 @@ public class DefaultNotifier extends QueueManager {
 	public static final String DefaultNotificationType_Telegram = MADAppSupport.APPLICATIONTYPE_Telegram;
 	/**	WhatsApp	*/
 	public static final String DefaultNotificationType_WhatsApp = MADAppSupport.APPLICATIONTYPE_WhatsApp;
+	/**	Discord	*/
+	public static final String DefaultNotificationType_Discord = MADAppSupport.APPLICATIONTYPE_Discord;
 	/**	User Defined	*/
 	public static final String DefaultNotificationType_UserDefined = "UDP";
 	
