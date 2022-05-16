@@ -249,6 +249,13 @@
 	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration"/>
 	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration/lib"/>
 	  <copy file="../packages/StoreIntegration.jar" tofile="${build.dir}/Adempiere/packages/StoreIntegration/lib/StoreIntegration.jar"/>
+  	  
+  	  <mkdir dir="${build.dir}/Adempiere/packages/TelegramNotifier"/>
+      <mkdir dir="${build.dir}/Adempiere/packages/TelegramNotifier/lib"/>
+  	  <copy file="../packages/TelegramNotifier.jar" tofile="${build.dir}/Adempiere/packages/TelegramNotifier/lib/TelegramNotifier.jar"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier/lib"/>
+  	  <copy file="../packages/DiscordNotifier.jar" tofile="${build.dir}/Adempiere/packages/DiscordNotifier/lib/DiscordNotifier.jar"/>
 	  
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
