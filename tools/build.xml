@@ -430,6 +430,63 @@
 			<zipfileset src="lib/vavr-1.0.0-alpha-4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/discord/annotations-23.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/commons-collections4-4.4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-annotations-2.13.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-core-2.13.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-databind-2.13.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/JDA-5.0.0-alpha.11.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jna-4.4.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jsr305-3.0.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/kotlin-stdlib-1.4.10.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/kotlin-stdlib-common-1.4.10.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/nv-websocket-client-2.14.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/okhttp-4.9.3.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>			
+			<zipfileset src="lib/discord/okio-jvm-2.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-api-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-natives-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/slf4j-api-1.7.36.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/trove4j-3.0.3.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>			
+			<zipfileset src="lib/telegrambots-6.0.1-jar-with-dependencies.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Server Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
