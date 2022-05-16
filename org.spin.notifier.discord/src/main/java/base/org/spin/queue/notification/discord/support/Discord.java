@@ -88,6 +88,7 @@ public class Discord implements INotification {
 			JDA connector = JDABuilder.createDefault(botToken).build();
 			connector.awaitReady();
 			BaseMessage.createBaseMessage(connector, Msg.parseTranslation(Env.getCtx(), testMessage.toString()), channelName).queue();
+			connector.shutdown();
 		} catch (Exception e) {
 			throw new AdempiereException(e);
 		}
@@ -105,6 +106,7 @@ public class Discord implements INotification {
 				JDA connector = JDABuilder.createDefault(botToken).build();
 				connector.awaitReady();
 			    MessageFactory.getInstance().getHandler(recipient.getMessageType()).createAndGetMessage(connector, notification, recipient).queue();
+			    connector.shutdown();
 				recipient.setProcessed(true);
 				recipient.saveEx();
 				log.fine("Telegram sent");	
