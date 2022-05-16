@@ -117,7 +117,7 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	 */
 	public static List<MADAppRegistration> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MADAppRegistration> definitionList;
-		if (resetCache || definitionCacheIds.size() > 0 ) {
+		if (resetCache || definitionCacheIds.size() == 0 ) {
 			definitionList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setOrderBy(COLUMNNAME_Value)
 					.list();
