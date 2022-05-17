@@ -15,21 +15,21 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.eevolution.process;
+package org.compiere.project.process;
 
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (Contacts Selection)
+/** Generated Process for (Generate Order)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class ProcessingUserSelectionAbstract extends SvrProcess {
+public abstract class ProjectGenOrderAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "AD_User Selection";
+	private static final String VALUE_FOR_PROCESS = "C_Project_Generate";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Contacts Selection";
+	private static final String NAME_FOR_PROCESS = "Generate Order";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 54012;
+	private static final int ID_FOR_PROCESS = 164;
 
 	@Override
 	protected void prepare() {

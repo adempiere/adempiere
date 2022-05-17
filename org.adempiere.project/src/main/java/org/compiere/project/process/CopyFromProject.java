@@ -14,29 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.process;
+package org.compiere.project.process;
 
-
-import java.util.List;
+import java.math.BigDecimal;
 import java.util.logging.Level;
 
 import org.compiere.model.MProject;
-import org.compiere.model.MProjectLine;
- 
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+
 /**
- *  Close Project.
+ *  Copy Project Details
  *
  *	@author Jorg Janke
- *	@version $Id: ProjectClose.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
- *
- * @author Teo Sarca, wwww.arhipac.ro
- * 			<li>FR [ 2791635 ] Use saveEx whenever is possible
- * 				https://sourceforge.net/tracker/?func=detail&aid=2791635&group_id=176962&atid=879335
+ *	@version $Id: CopyFromProject.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
-public class ProjectClose extends SvrProcess
+public class CopyFromProject extends SvrProcess
 {
-	/**	Project from Record			*/
-	private int 		m_C_Project_ID = 0;
+	private int		m_C_Project_ID = 0;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -49,41 +44,32 @@ public class ProjectClose extends SvrProcess
 			String name = para[i].getParameterName();
 			if (para[i].getParameter() == null)
 				;
+			else if (name.equals("C_Project_ID"))
+				m_C_Project_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 		}
-		m_C_Project_ID = getRecord_ID();
 	}	//	prepare
 
 	/**
 	 *  Perform process.
-	 *  The process sets "unprocessed" projects to "processed" and vice-versa
-	 *  It works like a flip-flop
-	 *  @return Message (translated text)
+	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
 	protected String doIt() throws Exception
 	{
-		MProject project = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
-		log.info("doIt - " + project);
+		int To_C_Project_ID = getRecord_ID();
+		log.info("doIt - From C_Project_ID=" + m_C_Project_ID + " to " + To_C_Project_ID);
+		if (To_C_Project_ID == 0)
+			throw new IllegalArgumentException("Target C_Project_ID == 0");
+		if (m_C_Project_ID == 0)
+			throw new IllegalArgumentException("Source C_Project_ID == 0");
+		MProject from = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
+		MProject to = new MProject (getCtx(), To_C_Project_ID, get_TrxName());
+		//
+		int no = to.copyDetailsFrom (from);
 
-		List<MProjectLine> projectLines = project.getLines();
-		if (MProject.PROJECTCATEGORY_WorkOrderJob.equals(project.getProjectCategory())
-			|| MProject.PROJECTCATEGORY_AssetProject.equals(project.getProjectCategory()))
-		{
-			/** @todo Check if we should close it */
-		}
-
-		//	Close lines
-		projectLines.stream().forEach( projectLine ->{
-			projectLine.setProcessed(projectLine.isProcessed()?false:true);
-			projectLine.saveEx();
-		});
-
-		project.setProcessed(project.isProcessed()?false:true);
-		project.saveEx();
-
-		return "";
+		return "@Copied@=" + no;
 	}	//	doIt
 
-}	//	ProjectClose
+}	//	CopyFromProject

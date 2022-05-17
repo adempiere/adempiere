@@ -15,10 +15,12 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.compiere.process;
+package org.compiere.project.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Issue to Project)
  *  @author ADempiere (generated) 

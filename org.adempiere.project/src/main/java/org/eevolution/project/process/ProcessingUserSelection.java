@@ -14,7 +14,7 @@
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
 
-package org.eevolution.process;
+package org.eevolution.project.process;
 
 import org.compiere.model.I_C_Project;
 import org.compiere.model.MUser;

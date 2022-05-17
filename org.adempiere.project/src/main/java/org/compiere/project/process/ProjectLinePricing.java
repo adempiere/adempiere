@@ -14,22 +14,28 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.process;
+package org.compiere.project.process;
 
-import java.math.BigDecimal;
+
 import java.util.logging.Level;
 
+import org.compiere.model.MProductPricing;
 import org.compiere.model.MProject;
+import org.compiere.model.MProjectLine;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.Msg;
 
 /**
- *  Copy Project Details
+ *  Price Project Line.
  *
  *	@author Jorg Janke
- *	@version $Id: CopyFromProject.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *	@version $Id: ProjectLinePricing.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class CopyFromProject extends SvrProcess
+public class ProjectLinePricing extends SvrProcess
 {
-	private int		m_C_Project_ID = 0;
+	/**	Project Line from Record			*/
+	private int 		m_C_ProjectLine_ID = 0;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -42,11 +48,10 @@ public class CopyFromProject extends SvrProcess
 			String name = para[i].getParameterName();
 			if (para[i].getParameter() == null)
 				;
-			else if (name.equals("C_Project_ID"))
-				m_C_Project_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 		}
+		m_C_ProjectLine_ID = getRecord_ID();
 	}	//	prepare
 
 	/**
@@ -56,18 +61,31 @@ public class CopyFromProject extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		int To_C_Project_ID = getRecord_ID();
-		log.info("doIt - From C_Project_ID=" + m_C_Project_ID + " to " + To_C_Project_ID);
-		if (To_C_Project_ID == 0)
-			throw new IllegalArgumentException("Target C_Project_ID == 0");
-		if (m_C_Project_ID == 0)
-			throw new IllegalArgumentException("Source C_Project_ID == 0");
-		MProject from = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
-		MProject to = new MProject (getCtx(), To_C_Project_ID, get_TrxName());
+		if (m_C_ProjectLine_ID == 0)
+			throw new IllegalArgumentException("No Project Line");
+		MProjectLine projectLine = new MProjectLine (getCtx(), m_C_ProjectLine_ID, get_TrxName());
+		log.info("doIt - " + projectLine);
+		if (projectLine.getM_Product_ID() == 0)
+			throw new IllegalArgumentException("No Product");
 		//
-		int no = to.copyDetailsFrom (from);
-
-		return "@Copied@=" + no;
+		MProject project = new MProject (getCtx(), projectLine.getC_Project_ID(), get_TrxName());
+		if (project.getM_PriceList_ID() == 0)
+			throw new IllegalArgumentException("No PriceList");
+		//
+		boolean isSOTrx = true;
+		MProductPricing pp = new MProductPricing (projectLine.getM_Product_ID(), 
+			project.getC_BPartner_ID(), projectLine.getPlannedQty(), isSOTrx, null);
+		pp.setM_PriceList_ID(project.getM_PriceList_ID());
+		pp.setPriceDate(project.getDateContract());
+		//
+		projectLine.setPlannedPrice(pp.getPriceStd());
+		projectLine.setPlannedMarginAmt(pp.getPriceStd().subtract(pp.getPriceLimit()));
+		projectLine.saveEx();
+		//
+		String retValue = Msg.getElement(getCtx(), "PriceList") + pp.getPriceList() + " - "
+			+ Msg.getElement(getCtx(), "PriceStd") + pp.getPriceStd() + " - "
+			+ Msg.getElement(getCtx(), "PriceLimit") + pp.getPriceLimit();
+		return retValue;
 	}	//	doIt
 
-}	//	CopyFromProject
+}	//	ProjectLinePricing

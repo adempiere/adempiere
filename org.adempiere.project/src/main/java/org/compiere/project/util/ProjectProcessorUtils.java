@@ -14,7 +14,7 @@
  * Contributor: Carlos Parada cparada@erpya.com                                       *
  * See: www.erpya.com                                                                 *
  *************************************************************************************/
-package org.compiere.util;
+package org.compiere.project.util;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -32,6 +32,7 @@ import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
+import org.compiere.util.DisplayType;
 import org.eevolution.model.MProjectMember;
 import org.eevolution.model.MProjectProcessor;
 import org.eevolution.model.MProjectProcessorLog;

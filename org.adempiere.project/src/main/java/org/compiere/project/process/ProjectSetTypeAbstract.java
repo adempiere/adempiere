@@ -15,24 +15,39 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.compiere.process;
+package org.compiere.project.process;
 
+import org.compiere.process.SvrProcess;
 
-
-/** Generated Process for (Generate Order)
+/** Generated Process for (Set Project Type)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class ProjectGenOrderAbstract extends SvrProcess {
+public abstract class ProjectSetTypeAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "C_Project_Generate";
+	private static final String VALUE_FOR_PROCESS = "C_Project_SetType";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Generate Order";
+	private static final String NAME_FOR_PROCESS = "Set Project Type";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 164;
+	private static final int ID_FOR_PROCESS = 215;
+	/**	Parameter Name for Project Type	*/
+	public static final String C_PROJECTTYPE_ID = "C_ProjectType_ID";
+	/**	Parameter Value for Project Type	*/
+	private int projectTypeId;
 
 	@Override
 	protected void prepare() {
+		projectTypeId = getParameterAsInt(C_PROJECTTYPE_ID);
+	}
+
+	/**	 Getter Parameter Value for Project Type	*/
+	protected int getProjectTypeId() {
+		return projectTypeId;
+	}
+
+	/**	 Setter Parameter Value for Project Type	*/
+	protected void setProjectTypeId(int projectTypeId) {
+		this.projectTypeId = projectTypeId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

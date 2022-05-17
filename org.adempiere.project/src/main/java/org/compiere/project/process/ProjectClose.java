@@ -14,26 +14,31 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.process;
+package org.compiere.project.process;
 
 
+import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.MProductPricing;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
-import org.compiere.util.Msg;
-
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+ 
 /**
- *  Price Project Line.
+ *  Close Project.
  *
  *	@author Jorg Janke
- *	@version $Id: ProjectLinePricing.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *	@version $Id: ProjectClose.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *
+ * @author Teo Sarca, wwww.arhipac.ro
+ * 			<li>FR [ 2791635 ] Use saveEx whenever is possible
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2791635&group_id=176962&atid=879335
  */
-public class ProjectLinePricing extends SvrProcess
+public class ProjectClose extends SvrProcess
 {
-	/**	Project Line from Record			*/
-	private int 		m_C_ProjectLine_ID = 0;
+	/**	Project from Record			*/
+	private int 		m_C_Project_ID = 0;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -49,41 +54,38 @@ public class ProjectLinePricing extends SvrProcess
 			else
 				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
 		}
-		m_C_ProjectLine_ID = getRecord_ID();
+		m_C_Project_ID = getRecord_ID();
 	}	//	prepare
 
 	/**
 	 *  Perform process.
-	 *  @return Message (clear text)
+	 *  The process sets "unprocessed" projects to "processed" and vice-versa
+	 *  It works like a flip-flop
+	 *  @return Message (translated text)
 	 *  @throws Exception if not successful
 	 */
 	protected String doIt() throws Exception
 	{
-		if (m_C_ProjectLine_ID == 0)
-			throw new IllegalArgumentException("No Project Line");
-		MProjectLine projectLine = new MProjectLine (getCtx(), m_C_ProjectLine_ID, get_TrxName());
-		log.info("doIt - " + projectLine);
-		if (projectLine.getM_Product_ID() == 0)
-			throw new IllegalArgumentException("No Product");
-		//
-		MProject project = new MProject (getCtx(), projectLine.getC_Project_ID(), get_TrxName());
-		if (project.getM_PriceList_ID() == 0)
-			throw new IllegalArgumentException("No PriceList");
-		//
-		boolean isSOTrx = true;
-		MProductPricing pp = new MProductPricing (projectLine.getM_Product_ID(), 
-			project.getC_BPartner_ID(), projectLine.getPlannedQty(), isSOTrx, null);
-		pp.setM_PriceList_ID(project.getM_PriceList_ID());
-		pp.setPriceDate(project.getDateContract());
-		//
-		projectLine.setPlannedPrice(pp.getPriceStd());
-		projectLine.setPlannedMarginAmt(pp.getPriceStd().subtract(pp.getPriceLimit()));
-		projectLine.saveEx();
-		//
-		String retValue = Msg.getElement(getCtx(), "PriceList") + pp.getPriceList() + " - "
-			+ Msg.getElement(getCtx(), "PriceStd") + pp.getPriceStd() + " - "
-			+ Msg.getElement(getCtx(), "PriceLimit") + pp.getPriceLimit();
-		return retValue;
+		MProject project = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
+		log.info("doIt - " + project);
+
+		List<MProjectLine> projectLines = project.getLines();
+		if (MProject.PROJECTCATEGORY_WorkOrderJob.equals(project.getProjectCategory())
+			|| MProject.PROJECTCATEGORY_AssetProject.equals(project.getProjectCategory()))
+		{
+			/** @todo Check if we should close it */
+		}
+
+		//	Close lines
+		projectLines.stream().forEach( projectLine ->{
+			projectLine.setProcessed(projectLine.isProcessed()?false:true);
+			projectLine.saveEx();
+		});
+
+		project.setProcessed(project.isProcessed()?false:true);
+		project.saveEx();
+
+		return "";
 	}	//	doIt
 
-}	//	ProjectLinePricing
+}	//	ProjectClose

@@ -15,9 +15,9 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.compiere.process;
+package org.compiere.project.process;
 
-
+import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Generate PO from Project)
  *  @author ADempiere (generated) 

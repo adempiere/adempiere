@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.eevolution.process;
+package org.eevolution.project.process;
 
 import org.compiere.process.SvrProcess;
 
