@@ -31,7 +31,7 @@ public class X_AD_NotificationRecipient extends PO implements I_AD_NotificationR
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210602L;
+	private static final long serialVersionUID = 20220119L;
 
     /** Standard Constructor */
     public X_AD_NotificationRecipient (Properties ctx, int AD_NotificationRecipient_ID, String trxName)
@@ -186,6 +186,36 @@ public class X_AD_NotificationRecipient extends PO implements I_AD_NotificationR
 	public String getErrorMsg () 
 	{
 		return (String)get_Value(COLUMNNAME_ErrorMsg);
+	}
+
+	/** MessageType AD_Reference_ID=54280 */
+	public static final int MESSAGETYPE_AD_Reference_ID=54280;
+	/** Standard = STD */
+	public static final String MESSAGETYPE_Standard = "STD";
+	/** Confirmation = CFM */
+	public static final String MESSAGETYPE_Confirmation = "CFM";
+	/** Survey = SRV */
+	public static final String MESSAGETYPE_Survey = "SRV";
+	/** Promotional = PRM */
+	public static final String MESSAGETYPE_Promotional = "PRM";
+	/** Workflow Approval = WAP */
+	public static final String MESSAGETYPE_WorkflowApproval = "WAP";
+	/** Set Message Type.
+		@param MessageType 
+		Message Type for notification
+	  */
+	public void setMessageType (String MessageType)
+	{
+
+		set_Value (COLUMNNAME_MessageType, MessageType);
+	}
+
+	/** Get Message Type.
+		@return Message Type for notification
+	  */
+	public String getMessageType () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageType);
 	}
 
 	/** Set Processed.

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Discord: Add Data for user" ReleaseNo="3.9.4" SeqNo="9610">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54625" Action="I" Record_ID="50001" Table="AD_UserSocialMedia">
+        <Data AD_Column_ID="93141" Column="UUID">b9ec2ccf-ff17-4c63-b209-d0dd2d0f631a</Data>
+        <Data AD_Column_ID="93140" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="93138" Column="Updated">2022-05-13 10:52:20.614</Data>
+        <Data AD_Column_ID="99035" Column="IsReceiveNotifications">true</Data>
+        <Data AD_Column_ID="93136" Column="IsActive">true</Data>
+        <Data AD_Column_ID="93143" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="93139" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="93137" Column="Created">2022-05-13 10:52:20.614</Data>
+        <Data AD_Column_ID="93147" Column="ApplicationType">SDC</Data>
+        <Data AD_Column_ID="93142" Column="AD_UserSocialMedia_ID">50001</Data>
+        <Data AD_Column_ID="93148" Column="AD_User_ID">50004</Data>
+        <Data AD_Column_ID="93135" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="93134" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="93145" Column="AD_AppSupport_ID" isNewNull="true"/>
+        <Data AD_Column_ID="93144" Column="AccountName">general</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54625" Action="I" Record_ID="50002" Table="AD_UserSocialMedia">
+        <Data AD_Column_ID="93141" Column="UUID">61b0b0b4-634b-4f7e-8282-b72b25347e15</Data>
+        <Data AD_Column_ID="93140" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="93138" Column="Updated">2022-05-13 10:52:57.09</Data>
+        <Data AD_Column_ID="99035" Column="IsReceiveNotifications">true</Data>
+        <Data AD_Column_ID="93136" Column="IsActive">true</Data>
+        <Data AD_Column_ID="93143" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="93139" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="93137" Column="Created">2022-05-13 10:52:57.09</Data>
+        <Data AD_Column_ID="93147" Column="ApplicationType">STG</Data>
+        <Data AD_Column_ID="93142" Column="AD_UserSocialMedia_ID">50002</Data>
+        <Data AD_Column_ID="93148" Column="AD_User_ID">50004</Data>
+        <Data AD_Column_ID="93135" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="93134" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="93145" Column="AD_AppSupport_ID" isNewNull="true"/>
+        <Data AD_Column_ID="93144" Column="AccountName">notificaciones</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

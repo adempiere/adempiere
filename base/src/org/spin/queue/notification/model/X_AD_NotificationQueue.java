@@ -31,7 +31,7 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210602L;
+	private static final long serialVersionUID = 20220119L;
 
     /** Standard Constructor */
     public X_AD_NotificationQueue (Properties ctx, int AD_NotificationQueue_ID, String trxName)
@@ -213,8 +213,60 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Social Media = SMN */
 	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
+	/** Fiscal Printer = FPR */
+	public static final String APPLICATIONTYPE_FiscalPrinter = "FPR";
+	/** Domain Service = DMS */
+	public static final String APPLICATIONTYPE_DomainService = "DMS";
+	/** Hosting Service = HSS */
+	public static final String APPLICATIONTYPE_HostingService = "HSS";
+	/** Database Service = DBS */
+	public static final String APPLICATIONTYPE_DatabaseService = "DBS";
+	/** ADempiere Service = ADS */
+	public static final String APPLICATIONTYPE_ADempiereService = "ADS";
+	/** Record Weight Service = RWS */
+	public static final String APPLICATIONTYPE_RecordWeightService = "RWS";
+	/** Fiscal Printer Service = FPS */
+	public static final String APPLICATIONTYPE_FiscalPrinterService = "FPS";
+	/** Monitor Service = MNS */
+	public static final String APPLICATIONTYPE_MonitorService = "MNS";
+	/** Local Server = SRV */
+	public static final String APPLICATIONTYPE_LocalServer = "SRV";
+	/** Kubernete Cluster = KBC */
+	public static final String APPLICATIONTYPE_KuberneteCluster = "KBC";
+	/** Travel Terminal Service = TIF */
+	public static final String APPLICATIONTYPE_TravelTerminalService = "TIF";
+	/** Docker Image = DKI */
+	public static final String APPLICATIONTYPE_DockerImage = "DKI";
+	/** Currency Rate Provider = CRP */
+	public static final String APPLICATIONTYPE_CurrencyRateProvider = "CRP";
 	/** Cache Server Provider = CSP */
 	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
+	/** EMail = EMA */
+	public static final String APPLICATIONTYPE_EMail = "EMA";
+	/** Notes = NTE */
+	public static final String APPLICATIONTYPE_Notes = "NTE";
+	/** Twitter = STW */
+	public static final String APPLICATIONTYPE_Twitter = "STW";
+	/** Facebook = SFA */
+	public static final String APPLICATIONTYPE_Facebook = "SFA";
+	/** Instagram = SIG */
+	public static final String APPLICATIONTYPE_Instagram = "SIG";
+	/** Skype = SSK */
+	public static final String APPLICATIONTYPE_Skype = "SSK";
+	/** LinkedIn = SIN */
+	public static final String APPLICATIONTYPE_LinkedIn = "SIN";
+	/** SnapChat = SSN */
+	public static final String APPLICATIONTYPE_SnapChat = "SSN";
+	/** Telegram = STG */
+	public static final String APPLICATIONTYPE_Telegram = "STG";
+	/** WhatsApp = SWH */
+	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
+	/** YouTube = SYT */
+	public static final String APPLICATIONTYPE_YouTube = "SYT";
+	/** Weight Scale Reader = WSR */
+	public static final String APPLICATIONTYPE_WeightScaleReader = "WSR";
+	/** Print Queue = PQS */
+	public static final String APPLICATIONTYPE_PrintQueue = "PQS";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue
@@ -258,6 +310,36 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** MessageType AD_Reference_ID=54280 */
+	public static final int MESSAGETYPE_AD_Reference_ID=54280;
+	/** Standard = STD */
+	public static final String MESSAGETYPE_Standard = "STD";
+	/** Confirmation = CFM */
+	public static final String MESSAGETYPE_Confirmation = "CFM";
+	/** Survey = SRV */
+	public static final String MESSAGETYPE_Survey = "SRV";
+	/** Promotional = PRM */
+	public static final String MESSAGETYPE_Promotional = "PRM";
+	/** Workflow Approval = WAP */
+	public static final String MESSAGETYPE_WorkflowApproval = "WAP";
+	/** Set Message Type.
+		@param MessageType 
+		Message Type for notification
+	  */
+	public void setMessageType (String MessageType)
+	{
+
+		set_Value (COLUMNNAME_MessageType, MessageType);
+	}
+
+	/** Get Message Type.
+		@return Message Type for notification
+	  */
+	public String getMessageType () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageType);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -280,6 +362,23 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Response Handler.
+		@param ResponseHandler 
+		Response Handler for a notification
+	  */
+	public void setResponseHandler (String ResponseHandler)
+	{
+		set_Value (COLUMNNAME_ResponseHandler, ResponseHandler);
+	}
+
+	/** Get Response Handler.
+		@return Response Handler for a notification
+	  */
+	public String getResponseHandler () 
+	{
+		return (String)get_Value(COLUMNNAME_ResponseHandler);
 	}
 
 	/** Set Description.
