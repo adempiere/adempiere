@@ -2184,7 +2184,13 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
+			m_processMsg = "@FailedToUpdateReservations@";
+			return false;
+		}
+
+		if (!calculateTaxTotal())
+		{
+			m_processMsg = "@ErrorCalculatingTax@";
 			return false;
 		}
 
@@ -2240,8 +2246,14 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg ="@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
-			return "Failed to update reservations";
+			m_processMsg = "@FailedToUpdateReservations@";
+			return m_processMsg;
+		}
+
+		if (!calculateTaxTotal())
+		{
+			m_processMsg = "@ErrorCalculatingTax@";
+			return m_processMsg;
 		}
 
 		//Calculate Sizes (Weight & Volume)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Discord: Add Discord Notifier Entity Type" ReleaseNo="3.9.4" SeqNo="9590">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50137" Table="AD_EntityType">
+        <Data AD_Column_ID="15604" Column="Version">1.0</Data>
+        <Data AD_Column_ID="84318" Column="UUID">c634c2a5-364f-48f4-88dd-85e5c00fc8d2</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2022-05-12 19:14:53.412</Data>
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15601" Column="Name">Spin Contribution (Discord-Notifier)</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.spin.queue.notification.discord.model</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15603" Column="Help">https://discord.com/</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">ECA41</Data>
+        <Data AD_Column_ID="15602" Column="Description">A Notifier for Discord Social Network</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15597" Column="Created">2022-05-12 19:14:53.412</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50137</Data>
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
