@@ -20,24 +20,24 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.b;
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.h1;
-import org.apache.ecs.xhtml.head;
-import org.apache.ecs.xhtml.html;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.meta;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.title;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.patch.apache.ecs.AlignType;
+import org.adempiere.patch.apache.ecs.Element;
+import org.adempiere.patch.apache.ecs.xhtml.a;
+import org.adempiere.patch.apache.ecs.xhtml.b;
+import org.adempiere.patch.apache.ecs.xhtml.body;
+import org.adempiere.patch.apache.ecs.xhtml.form;
+import org.adempiere.patch.apache.ecs.xhtml.h1;
+import org.adempiere.patch.apache.ecs.xhtml.head;
+import org.adempiere.patch.apache.ecs.xhtml.html;
+import org.adempiere.patch.apache.ecs.xhtml.img;
+import org.adempiere.patch.apache.ecs.xhtml.input;
+import org.adempiere.patch.apache.ecs.xhtml.link;
+import org.adempiere.patch.apache.ecs.xhtml.meta;
+import org.adempiere.patch.apache.ecs.xhtml.script;
+import org.adempiere.patch.apache.ecs.xhtml.table;
+import org.adempiere.patch.apache.ecs.xhtml.td;
+import org.adempiere.patch.apache.ecs.xhtml.title;
+import org.adempiere.patch.apache.ecs.xhtml.tr;
 
 
 /**
