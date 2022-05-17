@@ -117,6 +117,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-net-1.4.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -279,9 +280,41 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/io-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/lablib-checkboxtree-3.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/layout-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/logkit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
+	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
+	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-cache-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-win-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/apiguardian-api-1.1.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-1.10.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-agent-1.10.15.jar"/>
@@ -369,8 +402,23 @@
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-swing.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-testutil.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-xz.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.jms-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.annotation-api-1.3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-1.2-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/vavr-1.0.0-alpha-4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
