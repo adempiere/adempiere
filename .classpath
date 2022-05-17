@@ -76,6 +76,8 @@
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.store/src/main/java"/>
+	<classpathentry kind="src" path="org.spin.notifier.telegram/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.notifier.discord/src/main/java/base"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
