@@ -53,8 +53,7 @@ public class MADNotificationUpdates extends X_AD_NotificationUpdates {
 	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
-		if(newRecord
-				&& success) {
+		if(newRecord && success) {
 			UpdateHandlerUtil.getInstance().runHandler(this);
 		}
 		return super.afterSave(newRecord, success);

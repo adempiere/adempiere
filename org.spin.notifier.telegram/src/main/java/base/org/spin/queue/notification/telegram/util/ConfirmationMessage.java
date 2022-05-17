@@ -61,7 +61,7 @@ public class ConfirmationMessage extends BaseMessage {
 	@Override
 	public SendMessage createAndGetMessage(MADNotificationQueue notification, MADNotificationRecipient recipient) {
 		SendMessage message = createBaseMessage();
-		StringBuffer messageInfo = new StringBuffer();
+		StringBuilder messageInfo = new StringBuilder();
 		if(!Util.isEmpty(notification.getDescription())) {
 			messageInfo.append("*").append(notification.getDescription().trim()).append("*").append("\n");
 		}
@@ -76,7 +76,11 @@ public class ConfirmationMessage extends BaseMessage {
 		//	Actions
 		if(queue.getAD_Table_ID() > 0 && queue.getRecord_ID() > 0) {
 	    	String tableName = MTable.getTableName(queue.getCtx(), queue.getAD_Table_ID());
-	    	String uuid = IDFinder.getUUIDFromId(tableName, queue.getRecord_ID(), notification.getAD_Client_ID(), notification.get_TrxName());
+	    	String uuid = IDFinder.getUUIDFromId(
+					tableName, queue.getRecord_ID(),
+					notification.getAD_Client_ID(),
+					notification.get_TrxName()
+			);
 	    	if(!Util.isEmpty(uuid)) {
 	    		InlineKeyboardButton addColumn = new InlineKeyboardButton();
 				InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();

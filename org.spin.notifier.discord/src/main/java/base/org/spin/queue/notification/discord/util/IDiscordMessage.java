@@ -35,5 +35,9 @@ public interface IDiscordMessage {
 	 * @param recipient
 	 * @return
 	 */
-	public MessageAction createAndGetMessage(JDA connector, MADNotificationQueue notification, MADNotificationRecipient recipient);
+	public MessageAction createAndGetMessage(
+			JDA connector,
+			MADNotificationQueue notification,
+			MADNotificationRecipient recipient
+	);
 }

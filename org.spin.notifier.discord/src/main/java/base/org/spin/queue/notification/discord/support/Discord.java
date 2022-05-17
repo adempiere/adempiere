@@ -67,6 +67,7 @@ public class Discord implements INotification {
 	public void setAppRegistrationId(int registrationId) {
 		this.registrationId = registrationId;
 		MADAppRegistration registration = MADAppRegistration.getById(Env.getCtx(), getAppRegistrationId(), null);
+		assert registration != null;
 		botToken = registration.getParameterValue(BOT_TOKEN);
 		channelName = registration.getParameterValue(CHANNEL_NAME);
 		log.fine("set Registration: " + registrationId);
@@ -81,13 +82,18 @@ public class Discord implements INotification {
 				throw new AdempiereException("chat id not found");
 			}
 			MADAppRegistration registration = MADAppRegistration.getById(Env.getCtx(), getAppRegistrationId(), null);
-			StringBuffer testMessage = new StringBuffer("**").append(registration.getName()).append("**");
+			assert registration != null;
+			StringBuilder testMessage = new StringBuilder("**").append(registration.getName()).append("**");
 			testMessage.append(Env.NL).append("**@Value@**: ").append(MClient.get(Env.getCtx()).getValue())
 			.append(Env.NL).append("**@Name@**: ").append(MClient.get(Env.getCtx()).getName())
 			.append(Env.NL).append("**@Version@**: ").append(Adempiere.getVersion());
 			JDA connector = JDABuilder.createDefault(botToken).build();
 			connector.awaitReady();
-			BaseMessage.createBaseMessage(connector, Msg.parseTranslation(Env.getCtx(), testMessage.toString()), channelName).queue();
+			BaseMessage.createBaseMessage(
+					connector,
+					Msg.parseTranslation(Env.getCtx(), testMessage.toString()),
+					channelName
+			).queue();
 			connector.shutdown();
 		} catch (Exception e) {
 			throw new AdempiereException(e);
@@ -105,19 +111,23 @@ public class Discord implements INotification {
 				}
 				JDA connector = JDABuilder.createDefault(botToken).build();
 				connector.awaitReady();
-			    MessageFactory.getInstance().getHandler(recipient.getMessageType()).createAndGetMessage(connector, notification, recipient).queue();
+			    MessageFactory.getInstance()
+						.getHandler(recipient.getMessageType())
+						.createAndGetMessage(connector, notification, recipient)
+						.queue();
 			    connector.shutdown();
 				recipient.setProcessed(true);
 				recipient.saveEx();
 				log.fine("Telegram sent");	
-			} catch (Exception e) {
-				log.severe(e.getLocalizedMessage());
-				recipient.setErrorMsg(e.getLocalizedMessage());
+			} catch (Exception exception) {
+				log.severe(exception.getLocalizedMessage());
+				recipient.setErrorMsg(exception.getLocalizedMessage());
 				recipient.saveEx();
 				if(errorMessage.length() > 0) {
 					errorMessage.append(Env.NL);
 				}
-	        	errorMessage.append("Error: Sending to: " + recipient.getAccountName() + ": " + e.getLocalizedMessage());
+	        	errorMessage.append("Error: Sending to: ").append(recipient.getAccountName())
+						.append(": ").append(exception.getLocalizedMessage());
 			}
 		});
 		if(errorMessage.length() > 0) {
@@ -129,7 +139,8 @@ public class Discord implements INotification {
 		org.compiere.Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 1000000);
 		Trx.run(transactionName -> {
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance()
+					.getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 					.withContext(Env.getCtx())
 					.withTransactionName(transactionName);
 			//	Telegram

@@ -60,7 +60,7 @@ public class BaseMessage implements ITelegramMessage {
 	@Override
 	public SendMessage createAndGetMessage(MADNotificationQueue notification, MADNotificationRecipient recipient) {
 		SendMessage message = createBaseMessage();
-		StringBuffer messageInfo = new StringBuffer();
+		StringBuilder messageInfo = new StringBuilder();
 		if(!Util.isEmpty(notification.getDescription())) {
 			messageInfo.append("*").append(notification.getDescription().trim()).append("*").append("\n");
 		}

@@ -28,8 +28,8 @@ public interface ITelegramMessage {
 	
 	/**
 	 * Create and get message for recipient
-	 * @param notification
-	 * @param recipient
+	 * @param notification Notification
+	 * @param recipient Recipient
 	 * @return
 	 */
 	public SendMessage createAndGetMessage(MADNotificationQueue notification, MADNotificationRecipient recipient);

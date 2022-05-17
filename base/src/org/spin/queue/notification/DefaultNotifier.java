@@ -35,6 +35,7 @@ import org.spin.model.I_AD_AppRegistration;
 import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAppSupport;
 import org.spin.model.MADUserSocialMedia;
+import org.spin.model.X_AD_UserSocialMedia;
 import org.spin.queue.model.MADQueue;
 import org.spin.queue.model.MADQueueType;
 import org.spin.queue.notification.model.MADNotificationQueue;
@@ -72,7 +73,11 @@ public class DefaultNotifier extends QueueManager {
 	/**	Attachments	*/
 	private List<AttachmentStub> attachments;
 	/**	Cache with notifiers	*/
-	private static CCache<String, MADAppRegistration> notifierCache = new CCache<String, MADAppRegistration>(MADAppRegistration.Table_Name, 30, 0);
+	private static CCache<String, MADAppRegistration> notifierCache = new CCache<String, MADAppRegistration>(
+			MADAppRegistration.Table_Name,
+			30,
+			0
+	);
 	
 	/** Default Notifier = NTF */
 	public static final String QUEUETYPE_DefaultNotifier = MADQueueType.QUEUETYPE_SystemNotification;
@@ -238,10 +243,15 @@ public class DefaultNotifier extends QueueManager {
 	 * @return
 	 */
 	private int getApplicationSupportFromValue(String applicationTypeCode) {
-		List<MADAppSupport> supportedApplications = MADAppSupport.getAll(getContext(), false, getTransactionName());
-		if(supportedApplications != null
-				&& supportedApplications.size() > 0) {
-			Optional<MADAppSupport> maybeApplication = supportedApplications.stream().filter(application -> application.getValue().equals(applicationTypeCode)).findFirst();
+		List<MADAppSupport> supportedApplications = MADAppSupport.getAll(
+				getContext(),
+				false,
+				getTransactionName()
+		);
+		if(supportedApplications != null && supportedApplications.size() > 0) {
+			Optional<MADAppSupport> maybeApplication = supportedApplications.stream()
+					.filter(application -> application.getValue().equals(applicationTypeCode))
+					.findFirst();
 			if(maybeApplication.isPresent()) {
 				return maybeApplication.get().getAD_AppSupport_ID();
 			}
@@ -359,7 +369,7 @@ public class DefaultNotifier extends QueueManager {
 			throw new AdempiereException("@Text@ @IsMandatory@");
 		}
 		if(getApplicationType().equals(DefaultNotificationType_UserDefined)
-				&& !getRecipients().stream().filter(recipient -> recipient.getUserId() > 0).findFirst().isPresent()) {
+				&& getRecipients().stream().noneMatch(recipient -> recipient.getUserId() > 0)) {
 			throw new AdempiereException("@AD_User_ID@ @IsMandatory@");
 		}
 		//	for default
@@ -372,24 +382,41 @@ public class DefaultNotifier extends QueueManager {
 				//	For EMail
 				if(userRecipient.isNotificationEMail()) {
 					int applicationSupportId = getApplicationSupportFromValue(DefaultNotificationType_EMail);
-					addToQueueBasedOnUserDefinition(DefaultNotificationType_EMail, applicationSupportId, queueId, userRecipient.getAD_User_ID(), userRecipient.getEMail(), recipient.getMessageType());
+					addToQueueBasedOnUserDefinition(
+							DefaultNotificationType_EMail,
+							applicationSupportId, queueId,
+							userRecipient.getAD_User_ID(),
+							userRecipient.getEMail(),
+							recipient.getMessageType()
+					);
 				}
 				//	For Note
 				if(userRecipient.isNotificationNote()) {
 					int applicationSupportId = getApplicationSupportFromValue(DefaultNotificationType_Notes);
-					addToQueueBasedOnUserDefinition(DefaultNotificationType_Notes, applicationSupportId, queueId, recipient.getUserId(), recipient.getAccountName(), recipient.getMessageType());
+					addToQueueBasedOnUserDefinition(
+							DefaultNotificationType_Notes,
+							applicationSupportId, queueId,
+							recipient.getUserId(),
+							recipient.getAccountName(),
+							recipient.getMessageType());
 				}
 				//	For Social Media
 				if(userRecipient.isNotificationSocialMedia()) {
 					MADUserSocialMedia.getSocialMedias(getContext(), recipient.getUserId(), getTransactionName())
 						.stream()
-						.filter(socialMedia -> socialMedia.isReceiveNotifications())
+						.filter(X_AD_UserSocialMedia::isReceiveNotifications)
 						.forEach(socialMedia -> {
 							int applicationSupportId = socialMedia.getAD_AppSupport_ID();
 							if(applicationSupportId <= 0) {
 								applicationSupportId = getApplicationSupportFromValue(socialMedia.getApplicationType());
 							}
-							addToQueueBasedOnUserDefinition(socialMedia.getApplicationType(), applicationSupportId, queueId, userRecipient.getAD_User_ID(), socialMedia.getAccountName(), recipient.getMessageType());
+							addToQueueBasedOnUserDefinition(
+									socialMedia.getApplicationType(),
+									applicationSupportId, queueId,
+									userRecipient.getAD_User_ID(),
+									socialMedia.getAccountName(),
+									recipient.getMessageType()
+							);
 					});
 				}
 			});
@@ -403,7 +430,14 @@ public class DefaultNotifier extends QueueManager {
 	 * @param queueId
 	 * @param recipient
 	 */
-	private void addToQueueBasedOnUserDefinition(String applicationType, int applicationSupportId, int queueId, int userId, String accountName, String messageType) {
+	private void addToQueueBasedOnUserDefinition(
+			String applicationType,
+			int applicationSupportId,
+			int queueId,
+			int userId,
+			String accountName,
+			String messageType) {
+
 		MADQueue queue = new MADQueue(getContext(), queueId, getTransactionName());
 		MADNotificationQueue notification = new MADNotificationQueue(queue);
 		notification.setApplicationType(applicationType);
@@ -443,7 +477,7 @@ public class DefaultNotifier extends QueueManager {
 			getAttachments().forEach(attachment -> {
 				MAttachment attachmentReference = notification.createAttachment();
 				attachmentReference.addEntry(attachment.getAttachment());
-				Optional.ofNullable(attachment.getComment()).ifPresent(comment -> attachmentReference.addTextMsg(comment));
+				Optional.ofNullable(attachment.getComment()).ifPresent(attachmentReference::addTextMsg);
 				attachmentReference.saveEx(getTransactionName());
 			});
 		}
@@ -501,7 +535,7 @@ public class DefaultNotifier extends QueueManager {
 			getAttachments().forEach(attachment -> {
 				MAttachment attachmentReference = notification.createAttachment();
 				attachmentReference.addEntry(attachment.getAttachment());
-				Optional.ofNullable(attachment.getComment()).ifPresent(comment -> attachmentReference.addTextMsg(comment));
+				Optional.ofNullable(attachment.getComment()).ifPresent(attachmentReference::addTextMsg);
 				attachmentReference.saveEx(getTransactionName());
 			});
 		}
@@ -510,15 +544,19 @@ public class DefaultNotifier extends QueueManager {
 
 	@Override
 	public void process(int queueId) {
-		MADNotificationQueue.getNotificationsFromQueue(getContext(), queueId, getTransactionName()).forEach(notification -> {
+		MADNotificationQueue.getNotificationsFromQueue(
+				getContext(),
+				queueId,
+				getTransactionName()
+		).forEach(notification -> {
 			try {
 				getNotifier(notification).sendNotification(notification);
 				notification.setProcessed(true);
 				notification.saveEx();
-			} catch (Exception e) {
+			} catch (Exception exception) {
 				notification.setProcessed(false);
 				notification.saveEx();
-				throw new AdempiereException(e);
+				throw new AdempiereException(exception);
 			}
 		});
 	}
@@ -536,15 +574,14 @@ public class DefaultNotifier extends QueueManager {
 			}
 			//	Load support
 			IAppSupport supportedApplication = AppSupportHandler.getInstance().getAppSupport(registeredApplication);
-			//	Exists a Application available for it?
-			if(supportedApplication != null
-					&& INotification.class.isAssignableFrom(supportedApplication.getClass())) {
+			//	Exists an Application available for it?
+			if(supportedApplication != null && INotification.class.isAssignableFrom(supportedApplication.getClass())) {
 				//	Instance of fiscal printer
 				return (INotification) supportedApplication;
 			}
-		} catch (Exception e) {
-			logger.severe(e.getLocalizedMessage());
-			throw new AdempiereException(e);
+		} catch (Exception exception) {
+			logger.severe(exception.getLocalizedMessage());
+			throw new AdempiereException(exception);
 		}
 		//	default
 		return null;
@@ -561,18 +598,28 @@ public class DefaultNotifier extends QueueManager {
 		//	Query for it
 		if(registration == null) {
 			if(queue.getAD_AppRegistration_ID() > 0) {
-				registration = MADAppRegistration.getById(getContext(), queue.getAD_AppRegistration_ID(), getTransactionName());
+				registration = MADAppRegistration.getById(
+						getContext(),
+						queue.getAD_AppRegistration_ID(),
+						getTransactionName()
+				);
 			} else if(queue.getAD_AppSupport_ID() > 0) {
-				registration = new Query(getContext(), I_AD_AppRegistration.Table_Name, I_AD_AppRegistration.COLUMNNAME_AD_AppSupport_ID + " = ?", getTransactionName())
+				registration = new Query(getContext(), I_AD_AppRegistration.Table_Name,
+						I_AD_AppRegistration.COLUMNNAME_AD_AppSupport_ID + " = ?", getTransactionName())
 						.setParameters(queue.getAD_AppSupport_ID())
 						.setOnlyActiveRecords(true)
 						.setOrderBy(I_AD_AppRegistration.COLUMNNAME_AD_Client_ID + " DESC")
 						.first();
 			} else if(!Util.isEmpty(queue.getApplicationType())) {
-				registration = MADAppRegistration.getByApplicationType(getContext(), queue.getApplicationType(), getTransactionName());
+				registration = MADAppRegistration.getByApplicationType(
+						getContext(),
+						queue.getApplicationType(),
+						getTransactionName()
+				);
 			}
 			//	Set to cache
-			Optional.ofNullable(registration).ifPresent(registrationToPush -> notifierCache.put(key, registrationToPush));
+			Optional.ofNullable(registration)
+					.ifPresent(registrationToPush -> notifierCache.put(key, registrationToPush));
 		}
 		//	return
 		return registration;
@@ -582,7 +629,9 @@ public class DefaultNotifier extends QueueManager {
 		org.compiere.Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
 		Trx.run(transactionName -> {
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(QUEUETYPE_DefaultNotifier)
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader
+					.getInstance()
+					.getQueueManager(QUEUETYPE_DefaultNotifier)
 					.withContext(Env.getCtx())
 					.withTransactionName(transactionName);
 			//	EMail

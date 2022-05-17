@@ -352,7 +352,7 @@
 		<delete file="lib/CServer.jar" failonerror="no" />
 
 		<!-- Create AdempiereSLib.jar file 	-->
-		<jar jarfile="lib/AdempiereSLib.jar" index="yes" duplicate="preserve">
+		<jar jarfile="lib/AdempiereSLib.jar" index="yes" duplicate="preserve" zip64Mode="always">
 			<zipfileset src="lib/CSTools.jar">
 				<patternset refid="manifest.exclude"/>
 				<exclude name="**/*.bsh"/>

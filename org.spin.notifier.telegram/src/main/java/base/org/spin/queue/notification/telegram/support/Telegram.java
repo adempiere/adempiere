@@ -86,11 +86,14 @@ public class Telegram implements INotification {
 			MADAppRegistration registration = MADAppRegistration.getById(Env.getCtx(), getAppRegistrationId(), null);
 			SenderBot sender = new SenderBot(botName, botToken);
 			new TelegramBotsApi(SenderSession.class).registerBot(sender);
-			StringBuffer testMessage = new StringBuffer("*").append(registration.getName()).append("*");
+			assert registration != null;
+			StringBuilder testMessage = new StringBuilder("*").append(registration.getName()).append("*");
 			testMessage.append(Env.NL).append("*@Value@*: ").append(MClient.get(Env.getCtx()).getValue())
 			.append(Env.NL).append("*@Name@*: ").append(MClient.get(Env.getCtx()).getName())
 			.append(Env.NL).append("*@Version@*: ").append(Adempiere.getVersion());
-			sender.sendMessage(BaseMessage.createBaseMessage(Msg.parseTranslation(Env.getCtx(), testMessage.toString()), chatId));
+			sender.sendMessage(BaseMessage.createBaseMessage(
+					Msg.parseTranslation(Env.getCtx(), testMessage.toString()), chatId)
+			);
 		} catch (Exception e) {
 			throw new AdempiereException(e);
 		}
@@ -111,18 +114,20 @@ public class Telegram implements INotification {
 				if(Util.isEmpty(notification.getText())) {
 					throw new AdempiereException("@Text@ @IsMandatory@");
 				}
-				sender.sendMessage(MessageFactory.getInstance().getHandler(recipient.getMessageType()).createAndGetMessage(notification, recipient));
+				sender.sendMessage(MessageFactory.getInstance().getHandler(recipient.getMessageType())
+						.createAndGetMessage(notification, recipient));
 				recipient.setProcessed(true);
 				recipient.saveEx();
 				log.fine("Telegram sent");	
-			} catch (Exception e) {
-				log.severe(e.getLocalizedMessage());
-				recipient.setErrorMsg(e.getLocalizedMessage());
+			} catch (Exception exception) {
+				log.severe(exception.getLocalizedMessage());
+				recipient.setErrorMsg(exception.getLocalizedMessage());
 				recipient.saveEx();
 				if(errorMessage.length() > 0) {
 					errorMessage.append(Env.NL);
 				}
-	        	errorMessage.append("Error: Sending to: " + recipient.getAccountName() + ": " + e.getLocalizedMessage());
+	        	errorMessage.append("Error: Sending to: ").append(recipient.getAccountName())
+						.append(": ").append(exception.getLocalizedMessage());
 			}
 		});
 		if(errorMessage.length() > 0) {
@@ -134,7 +139,8 @@ public class Telegram implements INotification {
 		org.compiere.Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 1000000);
 		Trx.run(transactionName -> {
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance()
+					.getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 					.withContext(Env.getCtx())
 					.withTransactionName(transactionName);
 			//	Telegram

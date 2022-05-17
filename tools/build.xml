@@ -325,7 +325,7 @@
 			<zipfileset src="lib/slf4j-api-1.7.36.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/slf4j-simple-1.7.32.jar">
+			<zipfileset src="lib/slf4j-simple-1.7.36.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
@@ -400,7 +400,10 @@
 			<zipfileset src="lib/sardine-5.9-SNAPSHOT.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jna-5.5.0.jar">
+			<zipfileset src="lib/jna-platform-4.4.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/jna-4.4.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/httpmime-4.5.6.jar">
@@ -640,6 +643,9 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/slf4j-api-1.7.36.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/slf4j-simple-1.7.36.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->

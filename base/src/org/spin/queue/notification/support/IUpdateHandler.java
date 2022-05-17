@@ -26,7 +26,7 @@ public interface IUpdateHandler {
 	
 	/**
 	 * Run any handler after notify
-	 * @param queue
+	 * @param update Notification Updates
 	 */
 	public void run(MADNotificationUpdates update);
 }

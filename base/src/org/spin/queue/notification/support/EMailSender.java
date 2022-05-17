@@ -68,13 +68,19 @@ public class EMailSender implements INotification {
 				fromUser = MUser.get(notification.getCtx(), notification.getAD_User_ID());
 			}
 			//	Create instance
-			EMail email = new EMail(client, eMailFrom, recipient.getAccountName(), notification.getDescription(), notification.getText());
+			EMail email = new EMail(
+					client,
+					eMailFrom,
+					recipient.getAccountName(),
+					notification.getDescription(),
+					notification.getText()
+			);
 			if (!email.isValid() && !email.isValid(true)) {
 				log.warning("NOT VALID - " + email);
 				if(errorMessage.length() > 0) {
 					errorMessage.append(Env.NL);
 				}
-				errorMessage.append("NOT VALID - " + email);
+				errorMessage.append("NOT VALID - ").append(email);
 			} else {
 				//	For Custom EMail Server
 				if(fromUser != null && fromUser.getAD_EMailConfig_ID() > 0) {
@@ -106,13 +112,17 @@ public class EMailSender implements INotification {
 		        	if(errorMessage.length() > 0) {
 						errorMessage.append(Env.NL);
 					}
-		        	errorMessage.append("Error: Sending to: " + recipient.getAccountName());
+		        	errorMessage.append("Error: Sending to: ").append(recipient.getAccountName());
 		        	recipient.setErrorMsg("Error: Sending to: " + recipient.getAccountName());
 		        }
 				recipient.saveEx();
 				//	Backward compatibility
 				if(recipient.getAD_User_ID() > 0) {
-					X_AD_UserMail userMail = new X_AD_UserMail(notification.getCtx(), 0, notification.get_TrxName());
+					X_AD_UserMail userMail = new X_AD_UserMail(
+							notification.getCtx(),
+							0,
+							notification.get_TrxName()
+					);
 					userMail.setAD_Org_ID(notification.getAD_Org_ID());
 					userMail.setAD_User_ID(recipient.getAD_User_ID());
 					userMail.setSubject(email.getSubject());

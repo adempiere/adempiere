@@ -47,7 +47,8 @@ public class Deploy implements ISetupDefinition {
 	 * @return
 	 */
 	private void createRegistration(Properties context, String transactionName) {
-		MADAppRegistration registration = new Query(context, MADAppRegistration.Table_Name, "EXISTS(SELECT 1 FROM AD_AppSupport s "
+		MADAppRegistration registration = new Query(context, MADAppRegistration.Table_Name,
+				"EXISTS(SELECT 1 FROM AD_AppSupport s "
 				+ "WHERE s.AD_AppSupport_ID = AD_AppRegistration.AD_AppSupport_ID "
 				+ "AND s.ApplicationType = ?"
 				+ "AND s.IsActive = 'Y'"
@@ -61,7 +62,9 @@ public class Deploy implements ISetupDefinition {
 			return;
 		}
 		//	Get
-		MADAppSupport applicationSupport = new Query(context, MADAppSupport.Table_Name, "Classname = ?", transactionName).setParameters(Discord.class.getName()).first();
+		MADAppSupport applicationSupport = new Query(context, MADAppSupport.Table_Name,
+				"Classname = ?", transactionName).setParameters(Discord.class.getName())
+				.first();
 		//	
 		if(applicationSupport == null) {
 			throw new AdempiereException("@AD_AppSupport_ID@ @NotFound@");

@@ -66,7 +66,9 @@ public class BaseMessage implements IDiscordMessage {
 		if(channelName.matches("[+-]?\\d*(\\.\\d+)?")) {
 			return connector.getTextChannelById(channelName);
 		}
-		Optional<TextChannel> channel = connector.getTextChannelsByName(channelName, true).stream().findFirst();
+		Optional<TextChannel> channel = connector.getTextChannelsByName(channelName, true)
+				.stream()
+				.findFirst();
 		if(channel.isPresent()) {
 			return channel.get();
 		}
@@ -75,8 +77,12 @@ public class BaseMessage implements IDiscordMessage {
 	
 	
 	@Override
-	public MessageAction createAndGetMessage(JDA connector, MADNotificationQueue notification, MADNotificationRecipient recipient) {
-		StringBuffer messageInfo = new StringBuffer();
+	public MessageAction createAndGetMessage(
+			JDA connector,
+			MADNotificationQueue notification,
+			MADNotificationRecipient recipient) {
+
+		StringBuilder messageInfo = new StringBuilder();
 		if(!Util.isEmpty(notification.getDescription())) {
 			messageInfo.append("**").append(notification.getDescription().trim()).append("**").append("\n");
 		}

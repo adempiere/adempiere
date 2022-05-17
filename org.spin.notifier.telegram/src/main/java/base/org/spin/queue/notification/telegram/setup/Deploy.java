@@ -50,7 +50,8 @@ public class Deploy implements ISetupDefinition {
 	 * @return
 	 */
 	private void createRegistration(Properties context, String transactionName) {
-		MADAppRegistration registration = new Query(context, MADAppRegistration.Table_Name, "EXISTS(SELECT 1 FROM AD_AppSupport s "
+		MADAppRegistration registration = new Query(context, MADAppRegistration.Table_Name,
+				"EXISTS(SELECT 1 FROM AD_AppSupport s "
 				+ "WHERE s.AD_AppSupport_ID = AD_AppRegistration.AD_AppSupport_ID "
 				+ "AND s.ApplicationType = ?"
 				+ "AND s.IsActive = 'Y'"
@@ -64,7 +65,10 @@ public class Deploy implements ISetupDefinition {
 			return;
 		}
 		//	Get
-		MADAppSupport applicationSupport = new Query(context, MADAppSupport.Table_Name, "Classname = ?", transactionName).setParameters(Telegram.class.getName()).first();
+		MADAppSupport applicationSupport = new Query(context, MADAppSupport.Table_Name,
+				"Classname = ?", transactionName)
+				.setParameters(Telegram.class.getName())
+				.first();
 		//	
 		if(applicationSupport == null) {
 			throw new AdempiereException("@AD_AppSupport_ID@ @NotFound@");
@@ -97,7 +101,7 @@ public class Deploy implements ISetupDefinition {
 		systemConfig.setEntityType("ECA34");
 		systemConfig.setConfigurationLevel(MSysConfig.CONFIGURATIONLEVEL_Client);
 		systemConfig.setAD_Org_ID(0);
-		systemConfig.setValue("localhost");
+		systemConfig.setValue("https://ui.erpya.spin-suite.com");
 		systemConfig.saveEx();
 		systemConfig.setUUID("(*AutomaticSetup*)");
 		systemConfig.setIsDirectLoad(true);
@@ -116,7 +120,7 @@ public class Deploy implements ISetupDefinition {
 		systemConfig.setEntityType("ECA34");
 		systemConfig.setConfigurationLevel(MSysConfig.CONFIGURATIONLEVEL_Client);
 		systemConfig.setAD_Org_ID(0);
-		systemConfig.setValue("adempiere");
+		systemConfig.setValue("ui.erpya");
 		systemConfig.saveEx();
 		systemConfig.setUUID("(*AutomaticSetup*)");
 		systemConfig.setIsDirectLoad(true);

@@ -54,7 +54,6 @@ public class SenderBot extends TelegramLongPollingBot {
 	/**
 	 * Send message based on SendMessage class
 	 * @param message
-	 * @param chatId
 	 */
 	public void sendMessage(SendMessage message) {
 		try {

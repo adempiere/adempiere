@@ -75,6 +75,7 @@ public class UpdateHandlerUtil {
 
     /**
      * Get Database
+     * @param handler
      * @return
      * @throws Exception
      */
@@ -87,13 +88,12 @@ public class UpdateHandlerUtil {
             return updateHandlerGeneratorMap.get(handler);
         }
         //  Default return
-        IUpdateHandler supportedApplication = updateHandlerGeneratorMap.get(handler);
-        return supportedApplication;
+        return updateHandlerGeneratorMap.get(handler);
     }
     
     /**
      * Get Class from device type, used for handler
-     * @param appSupportId
+     * @param handler Handler
      * @return
      * @return Class<?>
      */
@@ -128,7 +128,7 @@ public class UpdateHandlerUtil {
 
     /**
      * Load class for export
-     * @param handler
+     * @param handler Handler
      * @throws Exception
      */
     private void loadClass(String handler) {
