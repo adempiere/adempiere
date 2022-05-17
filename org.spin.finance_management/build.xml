@@ -73,6 +73,10 @@
 			todir="${env.ADEMPIERE_HOME}/packages/FinanceManagement/lib" />
 		<copy file="${dist}/lib/FinanceManagement.jar"
 			todir="../packages/" />
+		<copy file="../tools/lib/legacy/financial-support-legacy-1.0.0.jar"
+			todir="${env.ADEMPIERE_HOME}/packages/FinanceManagement/lib" />
+		<copy file="../tools/lib/legacy/financial-support-legacy-1.0.0.jar"
+			todir="../packages/" />
 
 	</target>
 
