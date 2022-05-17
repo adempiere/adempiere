@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
+import org.adempiere.patch.apache.ecs.*;
+import org.adempiere.patch.apache.ecs.xhtml.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 

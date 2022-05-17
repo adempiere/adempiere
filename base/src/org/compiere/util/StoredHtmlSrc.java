@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.logging.Logger;
 
-import org.apache.ecs.Printable;
-import org.apache.ecs.MultiPartElement;
+import org.adempiere.patch.apache.ecs.MultiPartElement;
+import org.adempiere.patch.apache.ecs.Printable;
 
 
 /**

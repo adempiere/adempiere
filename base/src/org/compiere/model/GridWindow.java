@@ -30,17 +30,17 @@ import java.util.logging.Level;
 
 import javax.swing.Icon;
 
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.h2;
-import org.apache.ecs.xhtml.h3;
-import org.apache.ecs.xhtml.h4;
-import org.apache.ecs.xhtml.i;
-import org.apache.ecs.xhtml.p;
-import org.apache.ecs.xhtml.strong;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.patch.apache.ecs.xhtml.a;
+import org.adempiere.patch.apache.ecs.xhtml.h2;
+import org.adempiere.patch.apache.ecs.xhtml.h3;
+import org.adempiere.patch.apache.ecs.xhtml.h4;
+import org.adempiere.patch.apache.ecs.xhtml.i;
+import org.adempiere.patch.apache.ecs.xhtml.p;
+import org.adempiere.patch.apache.ecs.xhtml.strong;
+import org.adempiere.patch.apache.ecs.xhtml.table;
+import org.adempiere.patch.apache.ecs.xhtml.td;
+import org.adempiere.patch.apache.ecs.xhtml.th;
+import org.adempiere.patch.apache.ecs.xhtml.tr;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

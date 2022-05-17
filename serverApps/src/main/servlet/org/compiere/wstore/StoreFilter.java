@@ -27,9 +27,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.p;
+import org.adempiere.patch.apache.ecs.AlignType;
+import org.adempiere.patch.apache.ecs.xhtml.body;
+import org.adempiere.patch.apache.ecs.xhtml.p;
 import org.compiere.util.CLogger;
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
