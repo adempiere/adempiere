@@ -45,7 +45,7 @@ import org.spin.investment.model.MFMProduct;
  */
 public class FinancialSetting {
 
-	private FinancialSetting() {
+	public FinancialSetting() {
 		
 	}
 	

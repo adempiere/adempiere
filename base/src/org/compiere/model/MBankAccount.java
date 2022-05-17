@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -178,4 +179,16 @@ public class MBankAccount extends X_C_BankAccount
                 .first();
 	} //	getDefault
 
+	/**
+	 * Set Current Next for Bank Account Document
+	 * @param paymentRule
+	 * @param currentNext
+	 */
+	public void setDocumentCurrentNext(String paymentRule, int currentNext) {
+		Optional<X_C_BankAccountDoc> maybeBankAccountDoc = Optional.ofNullable(MBankAccountDoc.get(getC_BankAccount_ID(), paymentRule));
+		maybeBankAccountDoc.ifPresent(bankAccountDoc ->{
+			bankAccountDoc.setCurrentNext(currentNext);
+			bankAccountDoc.save();
+		});
+	}
 }	//	MBankAccount
