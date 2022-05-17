@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Discord: Add App Support Setup" ReleaseNo="3.9.4" SeqNo="9600">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55685" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value">SDC</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID">ba932fd3-5375-48f0-b72b-73d4ec12d1cd</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="566" Column="Updated">2022-05-12 19:26:03.273</Data>
+        <Data AD_Column_ID="149" Column="Name">Discord</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA41</Data>
+        <Data AD_Column_ID="150" Column="Description">https://discord.com/</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="564" Column="Created">2022-05-12 19:26:03.273</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55685</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="0" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="84391" Column="UUID">5a7e4333-9263-4abe-adac-7ce146075ecf</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="709" Column="Updated">2022-05-12 19:26:04.551</Data>
+        <Data AD_Column_ID="338" Column="Name">Discord</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="339" Column="Description">https://discord.com/</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="707" Column="Created">2022-05-12 19:26:04.551</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55685</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50025" Table="AD_AppSupport">
+        <Data AD_Column_ID="91312" Column="Value">Discord-Custom-Sender</Data>
+        <Data AD_Column_ID="91310" Column="UUID">ba3f65ae-472f-4a1a-a897-e067a27eb568</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2022-05-12 19:28:16.895</Data>
+        <Data AD_Column_ID="91313" Column="Name">Discord Custom Sender</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91314" Column="Description">https://discord.com/</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91306" Column="Created">2022-05-12 19:28:16.895</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.queue.notification.discord.support.Discord</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">SDC</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50025</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50042" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">afc54701-526f-436c-84a4-e29acc106c55</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-05-12 19:28:45.79</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">bot_token</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-05-12 19:28:45.79</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50042</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50025</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50043" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">db55f77d-87e4-4944-a655-317c414f920d</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-05-12 19:29:03.964</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">channel_name</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-05-12 19:29:03.963</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50043</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50025</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54786" Action="I" Record_ID="50057" Table="AD_SetupDefinition">
+        <Data AD_Column_ID="97377" Column="UUID">9f792128-99ea-45ec-b66f-c60511ec6582</Data>
+        <Data AD_Column_ID="97376" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97375" Column="Updated">2022-05-12 19:30:08.071</Data>
+        <Data AD_Column_ID="97374" Column="Name">Discord Notifier Deployment</Data>
+        <Data AD_Column_ID="97373" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97372" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="97371" Column="EntityType">ECA41</Data>
+        <Data AD_Column_ID="97370" Column="Description">Create a Registration for add the values for send message using a bot</Data>
+        <Data AD_Column_ID="97369" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97368" Column="Created">2022-05-12 19:30:08.071</Data>
+        <Data AD_Column_ID="97367" Column="Classname">org.spin.queue.notification.discord.setup.Deploy</Data>
+        <Data AD_Column_ID="97366" Column="AD_SetupDefinition_ID">50057</Data>
+        <Data AD_Column_ID="97365" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97364" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52880" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="AD_Ref_List.Value IN('STW', 'SFA', 'SYT', 'SIG', 'SSK', 'SIN', 'SSN', 'STG', 'SWH')">AD_Ref_List.Value IN('STW', 'SFA', 'SYT', 'SIG', 'SSK', 'SIN', 'SSN', 'STG', 'SWH', 'SDC')</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

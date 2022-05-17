@@ -129,12 +129,6 @@ public class DunningPrint extends DunningPrintAbstract {
 					errors++;
 					continue;
 				}
-				else if (to.getEMail() == null || to.getEMail().length() == 0)
-				{
-					addLog (entry.get_ID(), null, null, "@NotFound@: @EMail@ - " + to.getName());
-					errors++;
-					continue;
-				}
 			}
 			//	query
 			MQuery query = new MQuery("C_Dunning_Header_v");

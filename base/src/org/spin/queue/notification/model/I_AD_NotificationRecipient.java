@@ -153,6 +153,19 @@ public interface I_AD_NotificationRecipient
 	  */
 	public boolean isActive();
 
+    /** Column name MessageType */
+    public static final String COLUMNNAME_MessageType = "MessageType";
+
+	/** Set Message Type.
+	  * Message Type for notification
+	  */
+	public void setMessageType (String MessageType);
+
+	/** Get Message Type.
+	  * Message Type for notification
+	  */
+	public String getMessageType();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
