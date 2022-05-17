@@ -410,7 +410,6 @@
 	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>

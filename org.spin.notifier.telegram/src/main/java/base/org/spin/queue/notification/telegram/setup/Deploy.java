@@ -101,7 +101,7 @@ public class Deploy implements ISetupDefinition {
 		systemConfig.setEntityType("ECA34");
 		systemConfig.setConfigurationLevel(MSysConfig.CONFIGURATIONLEVEL_Client);
 		systemConfig.setAD_Org_ID(0);
-		systemConfig.setValue("https://ui.erpya.spin-suite.com");
+		systemConfig.setValue("https://localhost");
 		systemConfig.saveEx();
 		systemConfig.setUUID("(*AutomaticSetup*)");
 		systemConfig.setIsDirectLoad(true);
@@ -120,7 +120,7 @@ public class Deploy implements ISetupDefinition {
 		systemConfig.setEntityType("ECA34");
 		systemConfig.setConfigurationLevel(MSysConfig.CONFIGURATIONLEVEL_Client);
 		systemConfig.setAD_Org_ID(0);
-		systemConfig.setValue("ui.erpya");
+		systemConfig.setValue("localhost");
 		systemConfig.saveEx();
 		systemConfig.setUUID("(*AutomaticSetup*)");
 		systemConfig.setIsDirectLoad(true);
