@@ -13,10 +13,10 @@
  *****************************************************************************/
 package org.adempiere.webui.report;
 
-import org.adempiere.patch.apache.ecs.ConcreteElement;
-import org.adempiere.patch.apache.ecs.xhtml.a;
-import org.adempiere.patch.apache.ecs.xhtml.div;
-import org.adempiere.patch.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.ConcreteElement;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.div;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
 import org.adempiere.webui.apps.AEnv;
 import org.compiere.print.IHTMLExtension;
 import org.compiere.print.MPrintFormatItem;

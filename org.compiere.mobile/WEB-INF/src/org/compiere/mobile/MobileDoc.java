@@ -20,24 +20,24 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Properties;
 
-import org.adempiere.patch.apache.ecs.AlignType;
-import org.adempiere.patch.apache.ecs.Element;
-import org.adempiere.patch.apache.ecs.xhtml.a;
-import org.adempiere.patch.apache.ecs.xhtml.b;
-import org.adempiere.patch.apache.ecs.xhtml.body;
-import org.adempiere.patch.apache.ecs.xhtml.form;
-import org.adempiere.patch.apache.ecs.xhtml.h1;
-import org.adempiere.patch.apache.ecs.xhtml.head;
-import org.adempiere.patch.apache.ecs.xhtml.html;
-import org.adempiere.patch.apache.ecs.xhtml.img;
-import org.adempiere.patch.apache.ecs.xhtml.input;
-import org.adempiere.patch.apache.ecs.xhtml.link;
-import org.adempiere.patch.apache.ecs.xhtml.meta;
-import org.adempiere.patch.apache.ecs.xhtml.script;
-import org.adempiere.patch.apache.ecs.xhtml.table;
-import org.adempiere.patch.apache.ecs.xhtml.td;
-import org.adempiere.patch.apache.ecs.xhtml.title;
-import org.adempiere.patch.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.AlignType;
+import org.adempiere.legacy.apache.ecs.Element;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.b;
+import org.adempiere.legacy.apache.ecs.xhtml.body;
+import org.adempiere.legacy.apache.ecs.xhtml.form;
+import org.adempiere.legacy.apache.ecs.xhtml.h1;
+import org.adempiere.legacy.apache.ecs.xhtml.head;
+import org.adempiere.legacy.apache.ecs.xhtml.html;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.link;
+import org.adempiere.legacy.apache.ecs.xhtml.meta;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.title;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 
 
 /**

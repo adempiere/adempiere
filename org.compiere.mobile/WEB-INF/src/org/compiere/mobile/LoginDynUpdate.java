@@ -27,9 +27,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.adempiere.patch.apache.ecs.xhtml.body;
-import org.adempiere.patch.apache.ecs.xhtml.p;
-import org.adempiere.patch.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.body;
+import org.adempiere.legacy.apache.ecs.xhtml.p;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
 import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;

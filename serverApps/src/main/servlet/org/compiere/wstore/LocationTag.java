@@ -24,12 +24,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.adempiere.patch.apache.ecs.xhtml.br;
-import org.adempiere.patch.apache.ecs.xhtml.input;
-import org.adempiere.patch.apache.ecs.xhtml.label;
-import org.adempiere.patch.apache.ecs.xhtml.option;
-import org.adempiere.patch.apache.ecs.xhtml.select;
-import org.adempiere.patch.apache.ecs.xhtml.span;
+import org.adempiere.legacy.apache.ecs.xhtml.br;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.label;
+import org.adempiere.legacy.apache.ecs.xhtml.option;
+import org.adempiere.legacy.apache.ecs.xhtml.select;
+import org.adempiere.legacy.apache.ecs.xhtml.span;
 import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
 import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;

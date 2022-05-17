@@ -16,9 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.adempiere.patch.apache.ecs.Element;
-import org.adempiere.patch.apache.ecs.MultiPartElement;
-import org.adempiere.patch.apache.ecs.Printable;
+import org.adempiere.legacy.apache.ecs.Element;
+import org.adempiere.legacy.apache.ecs.MultiPartElement;
+import org.adempiere.legacy.apache.ecs.Printable;
 
 /**
  *  ECS Component Collection.

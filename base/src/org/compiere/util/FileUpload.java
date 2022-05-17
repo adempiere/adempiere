@@ -23,9 +23,9 @@ import java.util.logging.Level;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-import org.adempiere.patch.apache.ecs.xhtml.form;
-import org.adempiere.patch.apache.ecs.xhtml.input;
-import org.adempiere.patch.apache.ecs.xhtml.label;
+import org.adempiere.legacy.apache.ecs.xhtml.form;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.label;
 
 /**
  *	Web File Upload utility.

@@ -23,10 +23,10 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.adempiere.patch.apache.ecs.xhtml.a;
-import org.adempiere.patch.apache.ecs.xhtml.hr;
-import org.adempiere.patch.apache.ecs.xhtml.img;
-import org.adempiere.patch.apache.ecs.xhtml.p;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.xhtml.p;
 import org.compiere.util.CLogger;
 import org.compiere.util.HtmlCode;
 
