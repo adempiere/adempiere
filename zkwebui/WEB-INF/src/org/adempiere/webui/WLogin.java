@@ -22,6 +22,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.model.MUser;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -179,6 +180,17 @@ public class WLogin extends AbstractUIPart
 	public void changeRole(Locale locale, Properties properties) {
 		loginWindow.changeRole(locale, properties);
 	}
+	
+	/**
+	 * External Authentication
+	 * @param locale
+	 * @param properties
+	 * @param user
+	 */
+	public void externalAuthentication(Locale locale, Properties properties, MUser user) {
+		loginWindow.externalAuthentication(locale, properties, user);
+	}
+	
 
 	public String getTypedPassword()
 	{
