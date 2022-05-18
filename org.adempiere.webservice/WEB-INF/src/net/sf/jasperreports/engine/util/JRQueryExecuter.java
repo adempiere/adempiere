@@ -55,8 +55,8 @@ public class JRQueryExecuter
      *
      */
     private JRQuery query = null;
-    private Map parametersMap = new HashMap();
-    private Map parameterValues = null;
+    private Map<String, JRParameter> parametersMap = new HashMap<String, JRParameter>();
+    private Map<String, Object> parameterValues = null;
     private String queryString = "";
     private List parameterNames = new ArrayList();
 
@@ -64,7 +64,7 @@ public class JRQueryExecuter
     /**
      *
      */
-    protected JRQueryExecuter(JRQuery query, Map parameters, Map values)
+    protected JRQueryExecuter(JRQuery query, Map<String, JRParameter> parameters, Map<String, Object> values)
     {
         this.query = query;
         this.parametersMap = parameters;
@@ -79,8 +79,8 @@ public class JRQueryExecuter
      */
     public static PreparedStatement getStatement(
         JRQuery query,
-        Map parameters,
-        Map values,
+        Map<String, JRParameter> parameters,
+        Map<String, Object> values,
         Connection conn
         ) throws JRException
     {

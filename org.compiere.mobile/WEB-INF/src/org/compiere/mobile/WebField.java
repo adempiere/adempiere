@@ -21,8 +21,8 @@ import java.net.URLEncoder;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
+import org.adempiere.legacy.apache.ecs.*;
+import org.adempiere.legacy.apache.ecs.xhtml.*;
 import org.compiere.model.*;
 import org.compiere.util.*;
 

@@ -47,6 +47,7 @@ public class MADNotificationRecipient extends X_AD_NotificationRecipient {
 		super(queue.getCtx(), 0, queue.get_TrxName());
 		setAD_NotificationQueue_ID(queue.getAD_NotificationQueue_ID());
 		setAD_Org_ID(queue.getAD_Org_ID());
+		setMessageType(queue.getMessageType());
 	}
 
 	@Override

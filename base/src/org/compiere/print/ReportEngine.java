@@ -28,6 +28,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -764,7 +765,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		int AD_Table_ID = 0;
 		int AD_ReportView_ID = 0;
-		String TableName = null;
+		String tableName = null;
 		String whereClause = "";
 		int AD_PrintFormat_ID = 0;
 		boolean IsForm = false;
@@ -799,7 +800,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				whereClause = Env.parseContext(ctx, 0, whereClause, false);
 				//
 				AD_Table_ID = rs.getInt(3);
-				TableName = rs.getString(4);			//	required for query
+				tableName = rs.getString(4);			//	required for query
 				AD_PrintFormat_ID = rs.getInt(5);		//	required
 				IsForm = "Y".equals(rs.getString(6));	//	required
 				Client_ID = rs.getInt(7);
@@ -832,7 +833,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				{
 					whereClause = "";
 					AD_Table_ID = rs.getInt(1);
-					TableName = rs.getString(2);			//	required for query
+					tableName = rs.getString(2);			//	required for query
 					AD_PrintFormat_ID = rs.getInt(3);		//	required
 					IsForm = "Y".equals(rs.getString(4));	//	required
 					Client_ID = AD_Client_ID;
@@ -856,21 +857,19 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 		//  Create Query from Parameters
 		MQuery query = null;
-		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
-				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
-		{
-			MTable table = MTable.get(ctx, AD_Table_ID);
+		MTable table = MTable.get(ctx, AD_Table_ID);
+		if (IsForm && pi.getRecord_ID() != 0) {	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 			String columnKey = null;
 			if(table.isSingleKey())
 				columnKey = table.getKeyColumns()[0];
 			else 
-				columnKey = TableName + "_ID";
+				columnKey = tableName + "_ID";
 
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
-		else
-		{
-			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+		if(tableName.startsWith("T_")
+				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
+			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
 		
 		//  Add to static where clause from ReportView
@@ -907,7 +906,9 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		query.setWindowNo(pi.getWindowNo());
+		if (query != null) {
+			query.setWindowNo(pi.getWindowNo());
+		}
 
 		//	FR [ 295 ]
 		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());

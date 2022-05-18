@@ -82,7 +82,7 @@ public class ReportProcessor
 		m_AD_Process_ID	= pi.getAD_Process_ID();
         m_Record_ID = pi.getRecord_ID();        
         //m_isPrint = pi.getIsPrint();
-        m_Param = new HashMap();        
+        m_Param = new HashMap<String, Object>();        
         m_ctx = ctx;
         m_pi = pi;
 	}   //  ReportServer
@@ -261,7 +261,7 @@ public class ReportProcessor
     private int m_AD_Process_ID = 0;
     private int m_Record_ID = 0;
     private boolean m_isPrint = false;
-    private HashMap m_Param = null;
+    private HashMap<String, Object> m_Param = null;
     private Properties m_ctx = null;   
     private JasperPrint m_jasperPrint = null;
     private ProcessInfo m_pi = null;

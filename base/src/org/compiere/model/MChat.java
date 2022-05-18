@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.apache.ecs.xhtml.b;
-import org.apache.ecs.xhtml.hr;
-import org.apache.ecs.xhtml.p;
+import org.adempiere.legacy.apache.ecs.xhtml.b;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.p;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

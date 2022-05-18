@@ -98,11 +98,21 @@ public class MDocBaseType extends X_C_DocBaseType{
 	 * @return
 	 */
 	public static MDocBaseType get(int C_DocBaseType_ID) {
+		return get(C_DocBaseType_ID, null);
+	}
+	
+	/**
+	 * Get Document Base Type by Document Base Type Identifier
+	 * @param C_DocBaseType_ID
+	 * @param trxName
+	 * @return
+	 */
+	public static MDocBaseType get(int C_DocBaseType_ID, String trxName) {
 		MDocBaseType docBaseType = doc_cache.get(C_DocBaseType_ID);
 		
 		if (docBaseType == null) {
 			String whereClause = "C_DocBaseType_ID = ? ";
-			docBaseType = new Query(Env.getCtx(), MDocBaseType.Table_Name, whereClause, null)
+			docBaseType = new Query(Env.getCtx(), MDocBaseType.Table_Name, whereClause, trxName)
 							.setParameters(C_DocBaseType_ID)
 							.first();
 			doc_cache.put(C_DocBaseType_ID, docBaseType);
@@ -116,11 +126,21 @@ public class MDocBaseType extends X_C_DocBaseType{
 	 * @return
 	 */
 	public static MDocBaseType get(String DocBaseType) {
+		return get(DocBaseType, null);
+	}
+	
+	/**
+	 * Get Document Base by Document Base Type Static 
+	 * @param DocBaseType
+	 * @param trxName
+	 * @return
+	 */
+	public static MDocBaseType get(String DocBaseType, String trxName) {
 		MDocBaseType docBaseType = cache.get(DocBaseType);
 		
 		if (docBaseType == null) {
 			String whereClause = "DocBaseType = ? ";
-			docBaseType = new Query(Env.getCtx(), MDocBaseType.Table_Name, whereClause, null)
+			docBaseType = new Query(Env.getCtx(), MDocBaseType.Table_Name, whereClause, trxName)
 							.setParameters(DocBaseType)
 							.setOrderBy("IsDefault DESC")
 							.first();

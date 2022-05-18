@@ -1,0 +1,2251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Telegram: Add default test" ReleaseNo="3.9.4" SeqNo="9580">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53072" Action="I" Record_ID="50027" Table="EXP_Format">
+        <Data AD_Column_ID="54488" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54489" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54499" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="54491" Column="Created">2022-05-11 15:32:02.135</Data>
+        <Data AD_Column_ID="54492" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54497" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54487" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54498" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54490" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54496" Column="Name">Test Order</Data>
+        <Data AD_Column_ID="55059" Column="Processing">false</Data>
+        <Data AD_Column_ID="55328" Column="TestExportModel">N</Data>
+        <Data AD_Column_ID="54501" Column="TestImportModel">N</Data>
+        <Data AD_Column_ID="54493" Column="Updated">2022-05-11 15:32:02.135</Data>
+        <Data AD_Column_ID="54494" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84782" Column="UUID">0352fe0d-a7c1-401d-bb1d-27f365c21d51</Data>
+        <Data AD_Column_ID="54495" Column="Value">TestOrder</Data>
+        <Data AD_Column_ID="54502" Column="Version">3.9.4</Data>
+        <Data AD_Column_ID="54500" Column="WhereClause" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50541" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2165</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:46.439</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50541</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Created field indicates the date that this record was created.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Created</Data>
+        <Data AD_Column_ID="54516" Column="Position">10</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:46.439</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">6cbfbf58-46d4-46b1-a350-7e2c42439257</Data>
+        <Data AD_Column_ID="54511" Column="Value">Created</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50542" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2183</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:47.915</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Accounting Date</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50542</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Account Date</Data>
+        <Data AD_Column_ID="54516" Column="Position">20</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:47.915</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">5fd3f975-f0bb-4baf-b925-39f0249287aa</Data>
+        <Data AD_Column_ID="54511" Column="Value">DateAcct</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50543" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2181</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:48.707</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date of Order</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50543</Data>
+        <Data AD_Column_ID="54514" Column="Help">Indicates the Date an item was ordered.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Date Ordered</Data>
+        <Data AD_Column_ID="54516" Column="Position">30</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:48.707</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">28c0338c-2fe1-48e8-b89c-4953e5a6463f</Data>
+        <Data AD_Column_ID="54511" Column="Value">DateOrdered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50544" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2182</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:50.258</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date Order was promised</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50544</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Date Promised indicates the date, if any, that an Order was promised for.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Date Promised</Data>
+        <Data AD_Column_ID="54516" Column="Position">40</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:50.258</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">40532f84-dfba-493f-9cf7-ea81eb6e6edd</Data>
+        <Data AD_Column_ID="54511" Column="Value">DatePromised</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50545" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3721</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:51.273</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Defines the timing of Delivery</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50545</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Delivery Rule indicates when an order should be delivered. For example should the order be delivered when the entire order is complete, when a line is complete or as the products become available.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Delivery Rule</Data>
+        <Data AD_Column_ID="54516" Column="Position">50</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:51.273</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">010edfee-660c-4f0d-b68e-942072814c31</Data>
+        <Data AD_Column_ID="54511" Column="Value">DeliveryRule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50546" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2196</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:52.107</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">How the order will be delivered</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50546</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Delivery Via indicates how the products should be delivered. For example, will the order be picked up or shipped.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Delivery Via</Data>
+        <Data AD_Column_ID="54516" Column="Position">60</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:52.107</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">78bb363d-5361-4b7f-9880-31a985d68bc1</Data>
+        <Data AD_Column_ID="54511" Column="Value">DeliveryViaRule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50547" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2170</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:52.906</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50547</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="54516" Column="Position">70</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:52.906</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">e2c2a001-82ed-4584-b4a1-4c34f73d8b5c</Data>
+        <Data AD_Column_ID="54511" Column="Value">DocStatus</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50548" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2169</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:53.731</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Document sequence number of the document</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50548</Data>
+        <Data AD_Column_ID="54514" Column="Help">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
+
+If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Document No</Data>
+        <Data AD_Column_ID="54516" Column="Position">80</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:53.731</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">fcd3ea50-922b-4766-953e-63fc275500a5</Data>
+        <Data AD_Column_ID="54511" Column="Value">DocumentNo</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50549" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2195</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:54.535</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Freight Amount </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50549</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Freight Amount indicates the amount charged for Freight in the document currency.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Freight Amount</Data>
+        <Data AD_Column_ID="54516" Column="Position">90</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:54.535</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">38406971-de31-41ee-affc-fa899254ebd5</Data>
+        <Data AD_Column_ID="54511" Column="Value">FreightAmt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50550" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3722</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:55.391</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Method for charging Freight</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50550</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Freight Cost Rule indicates the method used when charging for freight.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Freight Cost Rule</Data>
+        <Data AD_Column_ID="54516" Column="Position">100</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:55.392</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">d7e4c7ec-f60d-444d-9b61-57fd3cd6f5c7</Data>
+        <Data AD_Column_ID="54511" Column="Value">FreightCostRule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50551" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2201</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:56.034</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Total amount of document</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50551</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Grand Total displays the total amount including Tax and Freight in document currency</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Grand Total</Data>
+        <Data AD_Column_ID="54516" Column="Position">110</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:56.034</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">ce9980c7-de00-429d-aa63-238571128d0f</Data>
+        <Data AD_Column_ID="54511" Column="Value">GrandTotal</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50552" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2192</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:56.953</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Frequency and method of invoicing </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50552</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Invoice Rule defines how a Business Partner is invoiced and the frequency of invoicing.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Invoice Rule</Data>
+        <Data AD_Column_ID="54516" Column="Position">120</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:56.953</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">3d6c3672-df32-4347-bb2d-d3ed393ff1fd</Data>
+        <Data AD_Column_ID="54511" Column="Value">InvoiceRule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50553" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2164</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:57.601</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50553</Data>
+        <Data AD_Column_ID="54514" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Active</Data>
+        <Data AD_Column_ID="54516" Column="Position">130</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:57.601</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">50444e04-73c0-41c2-98f6-e73702c83aa3</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsActive</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50554" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2175</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:58.368</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Indicates if this document requires approval</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50554</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Approved checkbox indicates if this document requires approval before it can be processed.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Approved</Data>
+        <Data AD_Column_ID="54516" Column="Position">140</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:58.368</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">30f765df-ada3-4dcf-8822-ab9c469dbcb1</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsApproved</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50555" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2176</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:33:59.303</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Credit  has been approved</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50555</Data>
+        <Data AD_Column_ID="54514" Column="Help">Credit Approved indicates if the credit approval was successful for Orders</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Credit Approved</Data>
+        <Data AD_Column_ID="54516" Column="Position">150</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:33:59.303</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">7595a74b-5ea7-4c9a-b606-a015214d4c43</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsCreditApproved</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50556" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2177</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:00.087</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50556</Data>
+        <Data AD_Column_ID="54514" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Delivered</Data>
+        <Data AD_Column_ID="54516" Column="Position">160</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:00.087</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">b3a705b9-2bcd-48b9-85b2-a30228aef5cd</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50557" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">4298</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:01.249</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Print Discount on Invoice and Order</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50557</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Discount Printed Checkbox indicates if the discount will be printed on the document.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Discount Printed</Data>
+        <Data AD_Column_ID="54516" Column="Position">170</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:01.249</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">39cd6b53-f4de-4ff5-8aa2-e799bff781b6</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsDiscountPrinted</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50558" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">11580</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:02.156</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Drop Shipments are sent from the Vendor directly to the Customer</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50558</Data>
+        <Data AD_Column_ID="54514" Column="Help">Drop Shipments do not cause any Inventory reservations or movements as the Shipment is from the Vendor's inventory. The Shipment of the Vendor to the Customer must be confirmed.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Drop Shipment</Data>
+        <Data AD_Column_ID="54516" Column="Position">180</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:02.156</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">bfe702a1-cb51-41dc-bbdd-24b0d7c3af52</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsDropShip</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50559" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2178</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:03.069</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Is this invoiced?</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50559</Data>
+        <Data AD_Column_ID="54514" Column="Help">If selected, invoices are created</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Invoiced</Data>
+        <Data AD_Column_ID="54516" Column="Position">190</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:03.069</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">1bb09a60-0739-4eef-b1c9-65b591a7d047</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsInvoiced</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50560" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2179</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:03.966</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Indicates if this document / line is printed</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50560</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Printed checkbox indicates if this document or line will included when printing.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Printed</Data>
+        <Data AD_Column_ID="54516" Column="Position">200</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:03.966</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">ad362970-2ec4-4334-bfa1-be548964a05e</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsPrinted</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50561" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">4699</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:04.819</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50561</Data>
+        <Data AD_Column_ID="54514" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Selected</Data>
+        <Data AD_Column_ID="54516" Column="Position">210</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:04.819</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">3c314c13-5135-473d-b1a5-2f921158f2de</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsSelected</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50562" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">8832</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:05.755</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">This is a Self-Service entry or this entry can be changed via Self-Service</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50562</Data>
+        <Data AD_Column_ID="54514" Column="Help">Self-Service allows users to enter data or update their data.  The flag indicates, that this record was entered or created via Self-Service or that the user can change it via the Self-Service functionality.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Self-Service</Data>
+        <Data AD_Column_ID="54516" Column="Position">220</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:05.755</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">6a529608-8b12-41c6-b2c4-798b732bd063</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsSelfService</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50563" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3718</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:06.637</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">This is a Sales Transaction</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50563</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Sales Transaction checkbox indicates if this item is a Sales Transaction.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Sales Transaction</Data>
+        <Data AD_Column_ID="54516" Column="Position">230</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:06.637</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">6d1271b5-5722-40ea-9adb-463cd7359e4b</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsSOTrx</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50564" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">4651</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:08.139</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Tax is included in the price </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50564</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Tax Included checkbox indicates if the prices include tax.  This is also known as the gross price.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Price includes Tax</Data>
+        <Data AD_Column_ID="54516" Column="Position">240</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:08.139</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">5b4d3d09-16f2-41f1-8e53-024fab245ca2</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsTaxIncluded</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50565" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2180</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:09.117</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Transferred to General Ledger (i.e. accounted)</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50565</Data>
+        <Data AD_Column_ID="54514" Column="Help">The transferred checkbox indicates if the transactions associated with this document should be transferred to the General Ledger.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Transferred</Data>
+        <Data AD_Column_ID="54516" Column="Position">250</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:09.118</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">e0d4f0d0-5401-4505-a757-7cdd356d4642</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsTransferred</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50566" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2198</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:09.977</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Priority of a document</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50566</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Priority indicates the importance (high, medium, low) of this document</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Priority</Data>
+        <Data AD_Column_ID="54516" Column="Position">260</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:09.977</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">2084a6c5-b7dc-4129-83c5-32762ab5ef9e</Data>
+        <Data AD_Column_ID="54511" Column="Value">PriorityRule</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50567" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3398</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:10.859</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The document has been processed</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50567</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Processed</Data>
+        <Data AD_Column_ID="54516" Column="Position">270</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:10.859</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">fbc119cd-ec0c-4322-86c6-0879225a7444</Data>
+        <Data AD_Column_ID="54511" Column="Value">Processed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50568" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">8166</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:11.696</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Enable sending Document EMail</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50568</Data>
+        <Data AD_Column_ID="54514" Column="Help">Send emails with document attached (e.g. Invoice, Delivery Note, etc.)</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Send EMail</Data>
+        <Data AD_Column_ID="54516" Column="Position">280</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:11.696</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">244831b8-21d2-47fc-b2a9-0a3cd66e782a</Data>
+        <Data AD_Column_ID="54511" Column="Value">SendEMail</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50569" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2200</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:12.617</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Total of all document lines</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50569</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Total amount displays the total of all lines in document currency</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Total Lines</Data>
+        <Data AD_Column_ID="54516" Column="Position">290</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:12.617</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">494b4f2a-8a47-4924-895e-4e9b0bb24d1e</Data>
+        <Data AD_Column_ID="54511" Column="Value">TotalLines</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50570" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2167</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 15:34:13.523</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50027</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50570</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Updated</Data>
+        <Data AD_Column_ID="54516" Column="Position">300</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 15:34:13.523</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">e80b7b23-dcc5-4be9-b46d-253f4dc1e885</Data>
+        <Data AD_Column_ID="54511" Column="Value">Updated</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53072" Action="I" Record_ID="50028" Table="EXP_Format">
+        <Data AD_Column_ID="54488" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54489" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="54499" Column="AD_Table_ID">260</Data>
+        <Data AD_Column_ID="54491" Column="Created">2022-05-11 16:28:13.589</Data>
+        <Data AD_Column_ID="54492" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54497" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54487" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54498" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54490" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54496" Column="Name">Test Order Line</Data>
+        <Data AD_Column_ID="55059" Column="Processing">false</Data>
+        <Data AD_Column_ID="55328" Column="TestExportModel">N</Data>
+        <Data AD_Column_ID="54501" Column="TestImportModel">N</Data>
+        <Data AD_Column_ID="54493" Column="Updated">2022-05-11 16:28:13.589</Data>
+        <Data AD_Column_ID="54494" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84782" Column="UUID">9e1c5b69-5988-4523-a1a4-1dd14c159a8e</Data>
+        <Data AD_Column_ID="54495" Column="Value">TestOrderLine</Data>
+        <Data AD_Column_ID="54502" Column="Version">3.9.4</Data>
+        <Data AD_Column_ID="54500" Column="WhereClause" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50577" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2209</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:11.979</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50577</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Created field indicates the date that this record was created.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Created</Data>
+        <Data AD_Column_ID="54516" Column="Position">10</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:11.979</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">583e7315-4930-4fe8-907a-1e13942559fa</Data>
+        <Data AD_Column_ID="54511" Column="Value">Created</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50578" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2216</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:12.981</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date of Order</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50578</Data>
+        <Data AD_Column_ID="54514" Column="Help">Indicates the Date an item was ordered.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Date Ordered</Data>
+        <Data AD_Column_ID="54516" Column="Position">20</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:12.981</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">643180a7-5ec4-435b-af5d-a8cda215dd65</Data>
+        <Data AD_Column_ID="54511" Column="Value">DateOrdered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50579" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3049</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:13.75</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Freight Amount </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50579</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Freight Amount indicates the amount charged for Freight in the document currency.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Freight Amount</Data>
+        <Data AD_Column_ID="54516" Column="Position">30</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:13.75</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">0992576c-3f86-4b85-8ea2-e9fe8a06b5b8</Data>
+        <Data AD_Column_ID="54511" Column="Value">FreightAmt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50580" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2208</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:14.594</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50580</Data>
+        <Data AD_Column_ID="54514" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Active</Data>
+        <Data AD_Column_ID="54516" Column="Position">40</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:14.594</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">9d15d28b-b6df-42ff-9af6-add336d2366b</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsActive</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50581" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">9868</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:17.905</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">if true, the line is just description and no transaction</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50581</Data>
+        <Data AD_Column_ID="54514" Column="Help">If a line is Description Only, e.g. Product Inventory is not corrected. No accounting transactions are created and the amount or totals are not included in the document.  This for including descriptional detail lines, e.g. for an Work Order.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Description Only</Data>
+        <Data AD_Column_ID="54516" Column="Position">50</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:17.905</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">76bcd9f5-67dc-4338-8663-63598373ce23</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsDescription</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50582" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2214</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:18.751</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Unique line for this document</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50582</Data>
+        <Data AD_Column_ID="54514" Column="Help">Indicates the unique line for a document.  It will also control the display order of the lines within a document.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Line No</Data>
+        <Data AD_Column_ID="54516" Column="Position">60</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:18.751</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">1acd7c3a-7675-4732-9873-20cf7e2a400e</Data>
+        <Data AD_Column_ID="54511" Column="Value">Line</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50583" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3723</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:19.51</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Line Extended Amount (Quantity * Actual Price) without Freight and Charges</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50583</Data>
+        <Data AD_Column_ID="54514" Column="Help">Indicates the extended line amount based on the quantity and the actual price.  Any additional charges or freight are not included.  The Amount may or may not include tax.  If the price list is inclusive tax, the line amount is the same as the line total.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Line Amount</Data>
+        <Data AD_Column_ID="54516" Column="Position">70</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:19.51</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">9f48aadc-8d10-4934-89ed-e203922555b6</Data>
+        <Data AD_Column_ID="54511" Column="Value">LineNetAmt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50584" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2232</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:20.314</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Actual Price </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50584</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Actual or Unit Price indicates the Price for a product in source currency.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Unit Price</Data>
+        <Data AD_Column_ID="54516" Column="Position">80</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:20.314</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">54de13b1-3f10-4967-9afe-21c17e82d097</Data>
+        <Data AD_Column_ID="54511" Column="Value">PriceActual</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50585" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">12875</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:21.133</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Price Entered - the price based on the selected/base UoM</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50585</Data>
+        <Data AD_Column_ID="54514" Column="Help">The price entered is converted to the actual price based on the UoM conversion</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Price</Data>
+        <Data AD_Column_ID="54516" Column="Position">90</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:21.133</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">b003b41b-af32-4c51-9e90-45c9157be814</Data>
+        <Data AD_Column_ID="54511" Column="Value">PriceEntered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50586" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">4022</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:21.91</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Lowest price for a product</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50586</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Price Limit indicates the lowest price for a product stated in the Price List Currency.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Limit Price</Data>
+        <Data AD_Column_ID="54516" Column="Position">100</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:21.91</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">28469a88-0499-4365-8c85-df55f00e1403</Data>
+        <Data AD_Column_ID="54511" Column="Value">PriceLimit</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50587" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2231</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:22.693</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">List Price</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50587</Data>
+        <Data AD_Column_ID="54514" Column="Help">The List Price is the official List Price in the document currency.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">List Price</Data>
+        <Data AD_Column_ID="54516" Column="Position">110</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:22.693</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">8c38d2c9-df57-41a4-885a-b3492c70d1c8</Data>
+        <Data AD_Column_ID="54511" Column="Value">PriceList</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50588" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">12069</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:23.588</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The document has been processed</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50588</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Processed</Data>
+        <Data AD_Column_ID="54516" Column="Position">120</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:23.588</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">8b6755f6-dac0-40d0-9866-c1ad72ca9a37</Data>
+        <Data AD_Column_ID="54511" Column="Value">Processed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50589" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2226</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:24.48</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Delivered Quantity</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50589</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Delivered Quantity indicates the quantity of a product that has been delivered.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Delivered Quantity</Data>
+        <Data AD_Column_ID="54516" Column="Position">130</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:24.48</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">d019eb8b-3bee-4c1e-a7b9-cc6e3331c5be</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50590" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">12876</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:25.273</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The Quantity Entered is based on the selected UoM</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50590</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Quantity Entered is converted to base product UoM quantity</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Quantity</Data>
+        <Data AD_Column_ID="54516" Column="Position">140</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:25.273</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">ae3dfac1-db74-4f7d-a48a-bb6a6ce8c78d</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyEntered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50591" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2227</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:26.019</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Invoiced Quantity</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50591</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Invoiced Quantity indicates the quantity of a product that have been invoiced.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Quantity Invoiced</Data>
+        <Data AD_Column_ID="54516" Column="Position">150</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:26.019</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">6812af66-cd99-4a95-870e-624e6a1b3542</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyInvoiced</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50592" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">14206</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:26.888</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Quantity of potential sales</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50592</Data>
+        <Data AD_Column_ID="54514" Column="Help">When an order is closed and there is a difference between the ordered quantity and the delivered (invoiced) quantity is the Lost Sales Quantity.  Note that the Lost Sales Quantity is 0 if you void an order, so close the order if you want to track lost opportunities.  [Void = data entry error - Close = the order is finished]</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Lost Sales Qty</Data>
+        <Data AD_Column_ID="54516" Column="Position">160</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:26.888</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">426edaf9-7ad8-4db8-9bea-b774b3bcdbed</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyLostSales</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50593" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2224</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:27.783</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Ordered Quantity</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50593</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Ordered Quantity indicates the quantity of a product that was ordered.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Ordered Quantity</Data>
+        <Data AD_Column_ID="54516" Column="Position">170</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:27.783</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">11281e10-3f1c-4431-b037-9a868cdb67e9</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyOrdered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50594" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2225</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:28.487</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Reserved Quantity</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50594</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Reserved Quantity indicates the quantity of a product that is currently reserved.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Reserved Quantity</Data>
+        <Data AD_Column_ID="54516" Column="Position">180</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:28.487</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">d2ffe9c1-a338-4c96-b587-4734e4b80bbc</Data>
+        <Data AD_Column_ID="54511" Column="Value">QtyReserved</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50595" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">2211</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:30:29.381</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50028</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50595</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Updated</Data>
+        <Data AD_Column_ID="54516" Column="Position">190</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:30:29.382</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">06e861e7-c10f-4211-b24f-092675c405b5</Data>
+        <Data AD_Column_ID="54511" Column="Value">Updated</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53072" Action="I" Record_ID="50029" Table="EXP_Format">
+        <Data AD_Column_ID="54488" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54489" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="54499" Column="AD_Table_ID">313</Data>
+        <Data AD_Column_ID="54491" Column="Created">2022-05-11 16:32:34.108</Data>
+        <Data AD_Column_ID="54492" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54497" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54487" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54498" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54490" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54496" Column="Name">Test Charge</Data>
+        <Data AD_Column_ID="55059" Column="Processing">false</Data>
+        <Data AD_Column_ID="55328" Column="TestExportModel">N</Data>
+        <Data AD_Column_ID="54501" Column="TestImportModel">N</Data>
+        <Data AD_Column_ID="54493" Column="Updated">2022-05-11 16:32:34.108</Data>
+        <Data AD_Column_ID="54494" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84782" Column="UUID">b2356188-aec5-4180-987d-38e33095543f</Data>
+        <Data AD_Column_ID="54495" Column="Value">TestCharge</Data>
+        <Data AD_Column_ID="54502" Column="Version">3.9.4</Data>
+        <Data AD_Column_ID="54500" Column="WhereClause" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50598" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3343</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:07.334</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Charge Amount</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50598</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Charge Amount indicates the amount for an additional charge.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Charge amount</Data>
+        <Data AD_Column_ID="54516" Column="Position">10</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:07.334</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">1fc8de59-118a-48ed-b5d5-32fce4b5539c</Data>
+        <Data AD_Column_ID="54511" Column="Value">ChargeAmt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50599" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3337</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:08.029</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50599</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Created field indicates the date that this record was created.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Created</Data>
+        <Data AD_Column_ID="54516" Column="Position">20</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:08.029</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">a92164a4-5b30-40ca-81fe-4860a5be6ea0</Data>
+        <Data AD_Column_ID="54511" Column="Value">Created</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50600" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3342</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:08.835</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Optional short description of the record</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50600</Data>
+        <Data AD_Column_ID="54514" Column="Help">A description is limited to 255 characters.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Description</Data>
+        <Data AD_Column_ID="54516" Column="Position">30</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:08.835</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">ecbb8e45-2e22-4add-812e-a9a2e1dab6e4</Data>
+        <Data AD_Column_ID="54511" Column="Value">Description</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50601" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3336</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:09.512</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50601</Data>
+        <Data AD_Column_ID="54514" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Active</Data>
+        <Data AD_Column_ID="54516" Column="Position">40</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:09.512</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">258dbc29-c182-4899-8657-f6b45126fae9</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsActive</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50602" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">5001</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:10.381</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50602</Data>
+        <Data AD_Column_ID="54514" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Same Currency</Data>
+        <Data AD_Column_ID="54516" Column="Position">50</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:10.382</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">970e0d33-f890-4b49-b9fc-3c83e3a52929</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsSameCurrency</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50603" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3344</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:11.031</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Use the same tax as the main transaction</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50603</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Same Tax checkbox indicates that this charge should use the same tax as the main transaction.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Same Tax</Data>
+        <Data AD_Column_ID="54516" Column="Position">60</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:11.031</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">cd001cc1-7379-44d2-88bc-b4334cd04f7c</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsSameTax</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50604" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">8548</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:11.678</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Tax is included in the price </Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50604</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Tax Included checkbox indicates if the prices include tax.  This is also known as the gross price.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Price includes Tax</Data>
+        <Data AD_Column_ID="54516" Column="Position">70</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:11.678</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">8e45a8a1-cec7-4a82-9cc8-098f500c8988</Data>
+        <Data AD_Column_ID="54511" Column="Value">IsTaxIncluded</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50605" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3341</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:12.515</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Alphanumeric identifier of the entity</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50605</Data>
+        <Data AD_Column_ID="54514" Column="Help">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Name</Data>
+        <Data AD_Column_ID="54516" Column="Position">80</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:12.515</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">e193db21-87ec-4490-949b-b5dcf852927a</Data>
+        <Data AD_Column_ID="54511" Column="Value">Name</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50606" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">3339</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:13.202</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50606</Data>
+        <Data AD_Column_ID="54514" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">false</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Updated</Data>
+        <Data AD_Column_ID="54516" Column="Position">90</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:13.202</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">40a76741-ca3f-45c9-b04e-6d3875ff7cf2</Data>
+        <Data AD_Column_ID="54511" Column="Value">Updated</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53073" Action="I" Record_ID="50607" Table="EXP_FormatLine">
+        <Data AD_Column_ID="54504" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="54519" Column="AD_Column_ID">84628</Data>
+        <Data AD_Column_ID="54505" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54507" Column="Created">2022-05-11 16:35:14.054</Data>
+        <Data AD_Column_ID="54508" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54523" Column="DateFormat" isNewNull="true"/>
+        <Data AD_Column_ID="54513" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="54520" Column="EXP_EmbeddedFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54515" Column="EXP_Format_ID">50029</Data>
+        <Data AD_Column_ID="54503" Column="EXP_FormatLine_ID">50607</Data>
+        <Data AD_Column_ID="54514" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
+        <Data AD_Column_ID="54506" Column="IsActive">true</Data>
+        <Data AD_Column_ID="83080" Column="IsCreateNonExisting">false</Data>
+        <Data AD_Column_ID="54517" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="54521" Column="IsPartUniqueIndex">true</Data>
+        <Data AD_Column_ID="98901" Column="IsSaveAfterProcess">false</Data>
+        <Data AD_Column_ID="54512" Column="Name">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="54516" Column="Position">100</Data>
+        <Data AD_Column_ID="54518" Column="Type">E</Data>
+        <Data AD_Column_ID="54509" Column="Updated">2022-05-11 16:35:14.054</Data>
+        <Data AD_Column_ID="54510" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84783" Column="UUID">e7135391-6c6b-4abf-b031-d74c939c9eca</Data>
+        <Data AD_Column_ID="54511" Column="Value">UUID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="301" Action="I" Record_ID="50000" Table="C_Dunning">
+        <Data AD_Column_ID="3138" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="3139" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="3137" Column="C_Dunning_ID">50000</Data>
+        <Data AD_Column_ID="3141" Column="Created">2022-05-11 20:09:57.754</Data>
+        <Data AD_Column_ID="3142" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15921" Column="CreateLevelsSequentially">false</Data>
+        <Data AD_Column_ID="3146" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3140" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4217" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="3145" Column="Name">Test Dunning</Data>
+        <Data AD_Column_ID="3147" Column="SendDunningLetter">false</Data>
+        <Data AD_Column_ID="3143" Column="Updated">2022-05-11 20:09:57.754</Data>
+        <Data AD_Column_ID="3144" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84655" Column="UUID">50cab03c-6dc2-44c2-a351-2480bf1a3450</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="331" Action="I" Record_ID="50000" Table="C_DunningLevel">
+        <Data AD_Column_ID="3702" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="3703" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="3709" Column="C_Dunning_ID">50000</Data>
+        <Data AD_Column_ID="3701" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="3716" Column="ChargeFee">false</Data>
+        <Data AD_Column_ID="3714" Column="ChargeInterest">false</Data>
+        <Data AD_Column_ID="15926" Column="C_PaymentTerm_ID">105</Data>
+        <Data AD_Column_ID="3705" Column="Created">2022-05-11 20:15:02.884</Data>
+        <Data AD_Column_ID="3706" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3711" Column="DaysAfterDue">0</Data>
+        <Data AD_Column_ID="3712" Column="DaysBetweenDunning">0</Data>
+        <Data AD_Column_ID="86116" Column="DaysFrom">0</Data>
+        <Data AD_Column_ID="86117" Column="DaysTo">99999999</Data>
+        <Data AD_Column_ID="12660" Column="Description">Please pay now</Data>
+        <Data AD_Column_ID="7036" Column="Dunning_PrintFormat_ID">151</Data>
+        <Data AD_Column_ID="3717" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="3715" Column="InterestPercent">0</Data>
+        <Data AD_Column_ID="58591" Column="InvoiceCollectionType" isNewNull="true"/>
+        <Data AD_Column_ID="3704" Column="IsActive">true</Data>
+        <Data AD_Column_ID="85836" Column="IsIncludePayments">true</Data>
+        <Data AD_Column_ID="86115" Column="IsRange">true</Data>
+        <Data AD_Column_ID="15924" Column="IsSetCreditStop">false</Data>
+        <Data AD_Column_ID="15925" Column="IsSetPaymentTerm">false</Data>
+        <Data AD_Column_ID="15922" Column="IsShowAllDue">false</Data>
+        <Data AD_Column_ID="15923" Column="IsShowNotDue">false</Data>
+        <Data AD_Column_ID="58593" Column="IsStatement">false</Data>
+        <Data AD_Column_ID="12659" Column="Name">Pay now</Data>
+        <Data AD_Column_ID="3713" Column="Note">Dear customer, we have a list of invoices waiting for payments, please see all documents and pay it.</Data>
+        <Data AD_Column_ID="3710" Column="PrintName">Please pay all invoices now</Data>
+        <Data AD_Column_ID="3707" Column="Updated">2022-05-11 20:15:02.884</Data>
+        <Data AD_Column_ID="3708" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84656" Column="UUID">c28eddb8-6e57-4234-863a-c5d71b7732ee</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="332" Action="I" Record_ID="0" Table="C_DunningLevel_Trl">
+        <Data AD_Column_ID="3770" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="3768" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="3771" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3769" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="3773" Column="Created">2022-05-11 20:15:04.149</Data>
+        <Data AD_Column_ID="3774" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3772" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3779" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="3778" Column="Note">Dear customer, we have a list of invoices waiting for payments, please see all documents and pay it.</Data>
+        <Data AD_Column_ID="3777" Column="PrintName">Please pay all invoices now</Data>
+        <Data AD_Column_ID="3775" Column="Updated">2022-05-11 20:15:04.149</Data>
+        <Data AD_Column_ID="3776" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84657" Column="UUID">d85df736-5e3a-4b5a-b239-0fff715e8463</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="526" Action="I" Record_ID="50000" Table="C_DunningRun">
+        <Data AD_Column_ID="7687" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7689" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="58559" Column="C_Dunning_ID">50000</Data>
+        <Data AD_Column_ID="7684" Column="C_DunningLevel_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7682" Column="C_DunningRun_ID">50000</Data>
+        <Data AD_Column_ID="7688" Column="Created">2022-05-11 20:16:28.118</Data>
+        <Data AD_Column_ID="7686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12648" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="7681" Column="DunningDate">2022-05-11 00:00:00.0</Data>
+        <Data AD_Column_ID="7685" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12566" Column="Processed">false</Data>
+        <Data AD_Column_ID="12567" Column="Processing">false</Data>
+        <Data AD_Column_ID="12565" Column="SendIt">N</Data>
+        <Data AD_Column_ID="7690" Column="Updated">2022-05-11 20:16:28.118</Data>
+        <Data AD_Column_ID="7683" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84658" Column="UUID">50f7ec25-9cd5-420e-96fd-d017ccc53ebb</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="291" Action="U" Record_ID="117" Table="C_BPartner">
+        <Data AD_Column_ID="3085" Column="C_Dunning_ID" oldValue="100">50000</Data>
+        <Data AD_Column_ID="84609" Column="UUID" isOldNull="true">b7bafd8e-ae3b-4bbc-9a0d-d47fdbef390f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="527" Action="I" Record_ID="50000" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7691" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12572" Column="AD_User_ID">104</Data>
+        <Data AD_Column_ID="7697" Column="Amt">0</Data>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID">50000</Data>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID">50000</Data>
+        <Data AD_Column_ID="7698" Column="Created">2022-05-11 20:19:51.746</Data>
+        <Data AD_Column_ID="7699" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7693" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed">false</Data>
+        <Data AD_Column_ID="7700" Column="Qty">0</Data>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="7692" Column="Updated">2022-05-11 20:19:51.746</Data>
+        <Data AD_Column_ID="7701" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84659" Column="UUID">f911933d-e15b-40d6-b787-5225ea8007de</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50000" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">161.120</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50000</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50000</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">103</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">161.120</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">102</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:19:52.775</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">679</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">161.120</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">161.120</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:19:52.775</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">1619b393-8b22-4213-86e6-6f2b72496164</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="291" Action="U" Record_ID="118" Table="C_BPartner">
+        <Data AD_Column_ID="3085" Column="C_Dunning_ID" oldValue="100">50000</Data>
+        <Data AD_Column_ID="84609" Column="UUID" isOldNull="true">c3cfeb5f-1b2f-4f4b-a16c-d9cda23f59e1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="527" Action="D" Record_ID="50000" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7692" Column="Updated" isNewNull="true" oldValue="2022-05-11 20:19:51.0"/>
+        <Data AD_Column_ID="7691" Column="AD_Client_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="12572" Column="AD_User_ID" isNewNull="true" oldValue="104"/>
+        <Data AD_Column_ID="7697" Column="Amt" isNewNull="true" oldValue="161.120"/>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID" isNewNull="true" oldValue="117"/>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID" isNewNull="true" oldValue="112"/>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID" isNewNull="true" oldValue="50000"/>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID" isNewNull="true" oldValue="50000"/>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID" isNewNull="true" oldValue="50000"/>
+        <Data AD_Column_ID="7698" Column="Created" isNewNull="true" oldValue="2022-05-11 20:19:51.0"/>
+        <Data AD_Column_ID="7699" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="7693" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="7700" Column="Qty" isNewNull="true" oldValue="1"/>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID" isNewNull="true" oldValue="101"/>
+        <Data AD_Column_ID="7701" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="84659" Column="UUID" isNewNull="true" oldValue="f911933d-e15b-40d6-b787-5225ea8007de"/>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="527" Action="I" Record_ID="50001" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7691" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12572" Column="AD_User_ID">104</Data>
+        <Data AD_Column_ID="7697" Column="Amt">0</Data>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID">50001</Data>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID">50000</Data>
+        <Data AD_Column_ID="7698" Column="Created">2022-05-11 20:21:16.571</Data>
+        <Data AD_Column_ID="7699" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7693" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed">false</Data>
+        <Data AD_Column_ID="7700" Column="Qty">0</Data>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="7692" Column="Updated">2022-05-11 20:21:16.571</Data>
+        <Data AD_Column_ID="7701" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84659" Column="UUID">ee5956f7-facf-4858-9f23-9c538ae16cfd</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50001" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">161.120</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50001</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50001</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">103</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">161.120</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">102</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:21:17.693</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">679</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">161.120</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">161.120</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:21:17.693</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">3ddf9d35-86ca-428f-9dcb-d7d2cb412cd8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="527" Action="I" Record_ID="50002" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7691" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12572" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7697" Column="Amt">0</Data>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID">118</Data>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID">113</Data>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID">50002</Data>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID">50000</Data>
+        <Data AD_Column_ID="7698" Column="Created">2022-05-11 20:21:18.759</Data>
+        <Data AD_Column_ID="7699" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7693" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed">false</Data>
+        <Data AD_Column_ID="7700" Column="Qty">0</Data>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="7692" Column="Updated">2022-05-11 20:21:18.759</Data>
+        <Data AD_Column_ID="7701" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84659" Column="UUID">dfd412f4-0c85-46ef-9601-db48e65ad723</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50002" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">114.43</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50002</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50002</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">109</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID">102</Data>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">142.92</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">108</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:21:19.794</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">471</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">114.43</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">142.92</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:21:19.794</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">2028d605-a92a-4d16-b60e-9f5618e17bd1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50003" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">114.42</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50002</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50003</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">109</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID">103</Data>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">142.91</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">108</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:21:20.613</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">471</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">114.42</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">142.91</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:21:20.613</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">7de0477f-ef77-4662-8ff3-484d4b9776a6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="114" Action="I" Record_ID="50004" Table="AD_User">
+        <Data AD_Column_ID="422" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="80513" Column="AD_EMailConfig_ID" isNewNull="true"/>
+        <Data AD_Column_ID="423" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="8976" Column="AD_OrgTrx_ID" isNewNull="true"/>
+        <Data AD_Column_ID="212" Column="AD_User_ID">50004</Data>
+        <Data AD_Column_ID="8745" Column="Birthday" isNewNull="true"/>
+        <Data AD_Column_ID="62477" Column="BP_Location_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62476" Column="BPName" isNewNull="true"/>
+        <Data AD_Column_ID="5844" Column="C_BPartner_ID">118</Data>
+        <Data AD_Column_ID="8746" Column="C_BPartner_Location_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62130" Column="C_Campaign_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8743" Column="C_Greeting_ID" isNewNull="true"/>
+        <Data AD_Column_ID="14396" Column="C_Job_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62125" Column="C_Location_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8752" Column="Comments" isNewNull="true"/>
+        <Data AD_Column_ID="14619" Column="ConnectionProfile" isNewNull="true"/>
+        <Data AD_Column_ID="623" Column="Created">2022-05-11 20:23:24.613</Data>
+        <Data AD_Column_ID="624" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="214" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="5396" Column="EMail" isNewNull="true"/>
+        <Data AD_Column_ID="7793" Column="EMailUser" isNewNull="true"/>
+        <Data AD_Column_ID="7794" Column="EMailUserPW" isNewNull="true"/>
+        <Data AD_Column_ID="9884" Column="EMailVerify" isNewNull="true"/>
+        <Data AD_Column_ID="13600" Column="EMailVerifyDate" isNewNull="true"/>
+        <Data AD_Column_ID="8748" Column="Fax" isNewNull="true"/>
+        <Data AD_Column_ID="93132" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="622" Column="IsActive">true</Data>
+        <Data AD_Column_ID="14336" Column="IsFullBPAccess">true</Data>
+        <Data AD_Column_ID="93177" Column="IsIncludeOwnChanges">false</Data>
+        <Data AD_Column_ID="56294" Column="IsInPayroll">false</Data>
+        <Data AD_Column_ID="83111" Column="IsInternalUser">false</Data>
+        <Data AD_Column_ID="83110" Column="IsLoginUser">false</Data>
+        <Data AD_Column_ID="86135" Column="IsProjectManager">false</Data>
+        <Data AD_Column_ID="86134" Column="IsProjectMember">false</Data>
+        <Data AD_Column_ID="62124" Column="IsSalesLead">false</Data>
+        <Data AD_Column_ID="83176" Column="IsWebstoreUser">false</Data>
+        <Data AD_Column_ID="8750" Column="LastContact" isNewNull="true"/>
+        <Data AD_Column_ID="8749" Column="LastResult" isNewNull="true"/>
+        <Data AD_Column_ID="12401" Column="LDAPUser" isNewNull="true"/>
+        <Data AD_Column_ID="62126" Column="LeadSource" isNewNull="true"/>
+        <Data AD_Column_ID="62128" Column="LeadSourceDescription" isNewNull="true"/>
+        <Data AD_Column_ID="62127" Column="LeadStatus" isNewNull="true"/>
+        <Data AD_Column_ID="62129" Column="LeadStatusDescription" isNewNull="true"/>
+        <Data AD_Column_ID="93133" Column="Logo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="213" Column="Name">Contact of Joe Block</Data>
+        <Data AD_Column_ID="97208" Column="Name2" isNewNull="true"/>
+        <Data AD_Column_ID="13773" Column="NotificationType">S</Data>
+        <Data AD_Column_ID="417" Column="Password" isNewNull="true"/>
+        <Data AD_Column_ID="8747" Column="Phone" isNewNull="true"/>
+        <Data AD_Column_ID="8744" Column="Phone2" isNewNull="true"/>
+        <Data AD_Column_ID="6314" Column="Processing">false</Data>
+        <Data AD_Column_ID="84199" Column="RecentItemsMaxSaved">50</Data>
+        <Data AD_Column_ID="84200" Column="RecentItemsMaxShown">20</Data>
+        <Data AD_Column_ID="62131" Column="SalesRep_ID" isNewNull="true"/>
+        <Data AD_Column_ID="61756" Column="Salt" isNewNull="true"/>
+        <Data AD_Column_ID="5397" Column="Supervisor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8751" Column="Title" isNewNull="true"/>
+        <Data AD_Column_ID="625" Column="Updated">2022-05-11 20:23:24.613</Data>
+        <Data AD_Column_ID="626" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="52066" Column="UserPIN" isNewNull="true"/>
+        <Data AD_Column_ID="84450" Column="UUID">cfa1f8a0-3ec9-4322-b0db-b64444673de3</Data>
+        <Data AD_Column_ID="15975" Column="Value">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="54625" Action="I" Record_ID="50000" Table="AD_UserSocialMedia">
+        <Data AD_Column_ID="93144" Column="AccountName">&lt;put-here-account-id&gt;</Data>
+        <Data AD_Column_ID="93145" Column="AD_AppSupport_ID">50020</Data>
+        <Data AD_Column_ID="93134" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="93135" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="93148" Column="AD_User_ID">50004</Data>
+        <Data AD_Column_ID="93142" Column="AD_UserSocialMedia_ID">50000</Data>
+        <Data AD_Column_ID="93147" Column="ApplicationType">STG</Data>
+        <Data AD_Column_ID="93137" Column="Created">2022-05-11 20:24:03.632</Data>
+        <Data AD_Column_ID="93139" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="93143" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="93136" Column="IsActive">true</Data>
+        <Data AD_Column_ID="99035" Column="IsReceiveNotifications">false</Data>
+        <Data AD_Column_ID="93138" Column="Updated">2022-05-11 20:24:03.632</Data>
+        <Data AD_Column_ID="93140" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="93141" Column="UUID">48ce3e16-bcb4-4db0-bce9-e89b039c349b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="526" Action="I" Record_ID="50001" Table="C_DunningRun">
+        <Data AD_Column_ID="7687" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7689" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="58559" Column="C_Dunning_ID">50000</Data>
+        <Data AD_Column_ID="7684" Column="C_DunningLevel_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7682" Column="C_DunningRun_ID">50001</Data>
+        <Data AD_Column_ID="7688" Column="Created">2022-05-11 20:27:32.736</Data>
+        <Data AD_Column_ID="7686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12648" Column="Description">A test for Telegram</Data>
+        <Data AD_Column_ID="7681" Column="DunningDate">2022-05-11 00:00:00.0</Data>
+        <Data AD_Column_ID="7685" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12566" Column="Processed">false</Data>
+        <Data AD_Column_ID="12567" Column="Processing">false</Data>
+        <Data AD_Column_ID="12565" Column="SendIt">N</Data>
+        <Data AD_Column_ID="7690" Column="Updated">2022-05-11 20:27:32.736</Data>
+        <Data AD_Column_ID="7683" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84658" Column="UUID">2fb41b40-45d5-4d54-ac6f-3dc4c781826b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="526" Action="U" Record_ID="50001" Table="C_DunningRun">
+        <Data AD_Column_ID="7689" Column="AD_Org_ID" oldValue="50001">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="527" Action="I" Record_ID="50003" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7691" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12572" Column="AD_User_ID">104</Data>
+        <Data AD_Column_ID="7697" Column="Amt">0</Data>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID">50003</Data>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID">50001</Data>
+        <Data AD_Column_ID="7698" Column="Created">2022-05-11 20:27:45.486</Data>
+        <Data AD_Column_ID="7699" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7693" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed">false</Data>
+        <Data AD_Column_ID="7700" Column="Qty">0</Data>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="7692" Column="Updated">2022-05-11 20:27:45.486</Data>
+        <Data AD_Column_ID="7701" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84659" Column="UUID">97e99286-f3c6-4c0c-9bed-f7601b6b2e54</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50004" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">161.120</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50003</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50004</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">103</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">161.120</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">102</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:27:46.218</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">679</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">161.120</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">161.120</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:27:46.218</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">b4210a28-1532-4335-b969-3d36c7d304db</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="527" Action="I" Record_ID="50004" Table="C_DunningRunEntry">
+        <Data AD_Column_ID="7691" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7696" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12572" Column="AD_User_ID">50004</Data>
+        <Data AD_Column_ID="7697" Column="Amt">0</Data>
+        <Data AD_Column_ID="7702" Column="C_BPartner_ID">118</Data>
+        <Data AD_Column_ID="12570" Column="C_BPartner_Location_ID">113</Data>
+        <Data AD_Column_ID="12571" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="58560" Column="C_DunningLevel_ID">50000</Data>
+        <Data AD_Column_ID="7695" Column="C_DunningRunEntry_ID">50004</Data>
+        <Data AD_Column_ID="7694" Column="C_DunningRun_ID">50001</Data>
+        <Data AD_Column_ID="7698" Column="Created">2022-05-11 20:27:47.349</Data>
+        <Data AD_Column_ID="7699" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7693" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12573" Column="Note" isNewNull="true"/>
+        <Data AD_Column_ID="12569" Column="Processed">false</Data>
+        <Data AD_Column_ID="7700" Column="Qty">0</Data>
+        <Data AD_Column_ID="12568" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="7692" Column="Updated">2022-05-11 20:27:47.349</Data>
+        <Data AD_Column_ID="7701" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84659" Column="UUID">742aa1e4-5688-4c68-aebd-f1632b71ff52</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50005" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">114.43</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50004</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50005</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">109</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID">102</Data>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">142.92</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">108</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:27:48.471</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">471</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">114.43</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">142.92</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:27:48.471</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">fa936a40-83a7-44a9-af81-3d254e936235</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="524" Action="I" Record_ID="50006" Table="C_DunningRunLine">
+        <Data AD_Column_ID="7665" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="7661" Column="AD_Org_ID">11</Data>
+        <Data AD_Column_ID="12557" Column="Amt">114.42</Data>
+        <Data AD_Column_ID="12558" Column="C_DunningRunEntry_ID">50004</Data>
+        <Data AD_Column_ID="7667" Column="C_DunningRunLine_ID">50006</Data>
+        <Data AD_Column_ID="7664" Column="C_Invoice_ID">109</Data>
+        <Data AD_Column_ID="53249" Column="C_InvoicePaySchedule_ID">103</Data>
+        <Data AD_Column_ID="12559" Column="ConvertedAmt">142.91</Data>
+        <Data AD_Column_ID="85837" Column="C_Order_ID">108</Data>
+        <Data AD_Column_ID="7657" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7659" Column="Created">2022-05-11 20:27:49.409</Data>
+        <Data AD_Column_ID="7662" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12556" Column="DaysDue">471</Data>
+        <Data AD_Column_ID="12563" Column="FeeAmt">0</Data>
+        <Data AD_Column_ID="12560" Column="InterestAmt">0</Data>
+        <Data AD_Column_ID="7663" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12652" Column="IsInDispute">false</Data>
+        <Data AD_Column_ID="12653" Column="OpenAmt">114.42</Data>
+        <Data AD_Column_ID="12561" Column="Processed">false</Data>
+        <Data AD_Column_ID="12564" Column="TimesDunned">0</Data>
+        <Data AD_Column_ID="12562" Column="TotalAmt">142.91</Data>
+        <Data AD_Column_ID="7660" Column="Updated">2022-05-11 20:27:49.409</Data>
+        <Data AD_Column_ID="7658" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84660" Column="UUID">836456dc-6601-4f06-bf6f-9fe69107b8d3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="526" Action="U" Record_ID="50001" Table="C_DunningRun">
+        <Data AD_Column_ID="12566" Column="Processed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="54625" Action="U" Record_ID="50000" Table="AD_UserSocialMedia">
+        <Data AD_Column_ID="99035" Column="IsReceiveNotifications" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="526" Action="U" Record_ID="50001" Table="C_DunningRun">
+        <Data AD_Column_ID="12566" Column="Processed" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="526" Action="U" Record_ID="50000" Table="C_DunningRun">
+        <Data AD_Column_ID="12566" Column="Processed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

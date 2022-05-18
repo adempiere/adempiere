@@ -276,8 +276,8 @@ public class ADServiceImpl implements ADService {
     	
     }
     
-    private HashMap WindowVOCache =new HashMap();
-    private HashMap WindowCache =new HashMap();
+    private HashMap<String, GridWindowVO> WindowVOCache = new HashMap<String, GridWindowVO>();
+    private HashMap<String, WindowDocument> WindowCache = new HashMap<String, WindowDocument>();
     
     
     private GridWindowVO getWindowVO( int WindowNo, int AD_Window_ID, int AD_Menu_ID)
@@ -343,7 +343,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 
-	private Map WindowStatusMap = new HashMap(); 
+	private Map<Integer, WWindowStatus> WindowStatusMap = new HashMap<Integer, WWindowStatus>(); 
 
 	/*
 	public WindowTabDataDocument getWindowTabData(int WindowNo, int AD_Window_ID, int AD_Menu_ID, int TabNo, int PrevTabNo, int PrevRecNo, boolean getData)	{
@@ -766,7 +766,7 @@ public class ADServiceImpl implements ADService {
         		boolean error = updateFields( ws, dr0 );
 
         		DataField f[] = dr0.getFieldArray();
-        		HashMap fmap = new HashMap();
+        		HashMap<String, Object> fmap = new HashMap<String, Object>();
         		for (int i=0; i<f.length; i++)
         			fmap.put(f[i].getColumn(), f[i].getVal());
         		

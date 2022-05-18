@@ -365,15 +365,17 @@ public class MDocType extends X_C_DocType
 		Optional<MTable> maybeTable= Optional.ofNullable(MTable.get(Env.getCtx(), MDocBaseType.Table_Name)) ;
 		maybeTable.ifPresent(table ->{
 			if (getC_DocBaseType_ID()==0) {
-				Optional<MDocBaseType> maybeDocBaseType = Optional.ofNullable(MDocBaseType.get(getDocBaseType()));
+				Optional<MDocBaseType> maybeDocBaseType = Optional.ofNullable(MDocBaseType.get(getDocBaseType(), get_TrxName()));
 				maybeDocBaseType.ifPresent(docBaseType ->{
 					setC_DocBaseType_ID(docBaseType.get_ID());
 				});
 				
 			}
-			MDocBaseType docBaseType =MDocBaseType.get(getC_DocBaseType_ID());
-			if (!docBaseType.getDocBaseType().equals(getDocBaseType()))
-				valid.set(false);
+			Optional.ofNullable(MDocBaseType.get(getC_DocBaseType_ID(), get_TrxName())).ifPresent(documentBaseType -> {
+				if (!documentBaseType.getDocBaseType().equals(getDocBaseType())) {
+					valid.set(false);
+				}
+			});
 		});
 		return valid.get();
 	}

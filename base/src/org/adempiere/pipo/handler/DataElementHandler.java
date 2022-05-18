@@ -201,8 +201,8 @@ public class DataElementHandler extends AbstractElementHandler {
 				genericPO.setIsDirectLoad(true);
 				// Set defaults.
 				//TODO: get defaults from configuration
-				HashMap defaults = new HashMap();
-				HashMap thisDefault = (HashMap)defaults.get(d_tablename);
+				HashMap<Object, Object> defaults = new HashMap<Object, Object>();
+				HashMap<?, ?> thisDefault = (HashMap<?, ?>) defaults.get(d_tablename);
 				if (thisDefault != null) {
 					Iterator iter = thisDefault.values().iterator();
 					ArrayList thisValue = null;

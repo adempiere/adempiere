@@ -963,6 +963,10 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setReportAsFile(File reportAsFile) {
 		this.reportAsFile = reportAsFile;
+		if(reportAsFile != null
+				&& reportAsFile.getName().lastIndexOf(".pdf") > 0) {
+			pdfReportFile = reportAsFile;
+		}
 	}
 	
 	/**

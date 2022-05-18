@@ -51,10 +51,28 @@ public class ReportViewDataSource extends compiereDataSource
 	private PrintData		m_printData = null;
 	private int				m_index	= 0;
 	
-    public ReportViewDataSource(Properties ctx, ProcessInfo pi, HashMap params)
+	/**
+	 * @deprecated Please use {@link ReportViewDataSource#ReportViewDataSource(Properties, ProcessInfo)}
+	 * @param ctx
+	 * @param pi
+	 * @param params
+	 */
+	@Deprecated
+    public ReportViewDataSource(Properties ctx, ProcessInfo pi, HashMap<Object, Object> params)
     {
         ReportEngine re = ReportEngine.get(ctx, pi);
         m_printData = re.getPrintData();        
+    }
+    
+	/**
+	 * 
+	 * @param ctx
+	 * @param pi
+	 */
+    public ReportViewDataSource(Properties ctx, ProcessInfo pi)
+    {
+        ReportEngine re = ReportEngine.get(ctx, pi);
+        m_printData = re.getPrintData();
     }
     
 
