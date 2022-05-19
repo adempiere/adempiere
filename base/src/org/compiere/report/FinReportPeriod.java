@@ -18,6 +18,7 @@ package org.compiere.report;
 
 import java.sql.Timestamp;
 
+import org.compiere.model.MPeriod;
 import org.compiere.util.DB;
 
 /**
@@ -30,39 +31,52 @@ public class FinReportPeriod
 {
 	/**
 	 *	Constructor
-	 * 	@param C_Period_ID period
-	 * 	@param Name name
-	 * 	@param StartDate period start date
-	 * 	@param EndDate period end date
-	 * 	@param YearStartDate year start date
+	 * 	@param periodId period
+	 * 	@param name name
+	 * 	@param startDate period start date
+	 * 	@param endDate period end date
+	 * 	@param yearStartDate year start date
+	 *  @param periodType Period Type
 	*/
-	public FinReportPeriod (int C_Period_ID, String Name, Timestamp StartDate, Timestamp EndDate,
-		Timestamp YearStartDate)
+	public FinReportPeriod (int periodId, String name, Timestamp startDate, Timestamp endDate, Timestamp yearStartDate, String periodType)
 	{
-		m_C_Period_ID = C_Period_ID;
-		m_Name = Name;
-		m_StartDate = StartDate;
-		m_EndDate = EndDate;
-		m_YearStartDate = YearStartDate;
+		this.periodId = periodId;
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.yearStartDate = yearStartDate;
+		this.periodType = periodType;
 	}	//
 
-	private int 		m_C_Period_ID;
-	private String 		m_Name;
-	private Timestamp 	m_StartDate;
-	private Timestamp 	m_EndDate;
-	private Timestamp 	m_YearStartDate;
+	private int periodId;
+	private String name;
+	private Timestamp startDate;
+	private Timestamp endDate;
+	private Timestamp yearStartDate;
+
+	private String periodType;
 
 
-	/**
+	public String getPeriodTypeWhere(String alias, boolean includeAdjustmentPeriod) {
+		String periodTypeWhere = "";
+		if (includeAdjustmentPeriod)
+			periodTypeWhere = "IN ('S','A')";
+		else
+			periodTypeWhere = "IN ('S')";
+
+		return " EXISTS (SELECT 1 FROM C_Period WHERE C_Period.C_Period_ID = "+alias+".C_Period_ID AND C_Period.PeriodType " +periodTypeWhere+") ";
+	}
+
+	/*
 	 * 	Get Period Info
 	 * 	@return BETWEEN start AND end
 	 */
 	public String getPeriodWhere ()
 	{
 		StringBuffer sql = new StringBuffer ("BETWEEN ");
-		sql.append(DB.TO_DATE(m_StartDate))
+		sql.append(DB.TO_DATE(startDate))
 			.append(" AND ")
-			.append(DB.TO_DATE(m_EndDate));
+			.append(DB.TO_DATE(endDate));
 		return sql.toString();
 	}	//	getPeriodWhere
 
@@ -73,9 +87,9 @@ public class FinReportPeriod
 	public String getYearWhere ()
 	{
 		StringBuffer sql = new StringBuffer ("BETWEEN ");
-		sql.append(DB.TO_DATE(m_YearStartDate))
+		sql.append(DB.TO_DATE(yearStartDate))
 			  .append(" AND ")
-			  .append(DB.TO_DATE(m_EndDate));
+			  .append(DB.TO_DATE(endDate));
 		return sql.toString();
 	}	//	getPeriodWhere
 
@@ -86,7 +100,7 @@ public class FinReportPeriod
 	public String getTotalWhere ()
 	{
 		StringBuffer sql = new StringBuffer ("<= ");
-		sql.append(DB.TO_DATE(m_EndDate));
+		sql.append(DB.TO_DATE(endDate));
 		return sql.toString();
 	}	//	getPeriodWhere
 
@@ -99,9 +113,9 @@ public class FinReportPeriod
 	{
 		if (date == null)
 			return false;
-		if (date.before(m_StartDate))
+		if (date.before(startDate))
 			return false;
-		if (date.after(m_EndDate))
+		if (date.after(endDate))
 			return false;
 		return true;
 	}	//	inPeriod
@@ -112,7 +126,7 @@ public class FinReportPeriod
 	 */
 	public String getName()
 	{
-		return m_Name;
+		return name;
 	}
 	/**
 	 * 	Get C_Period_ID
@@ -120,7 +134,7 @@ public class FinReportPeriod
 	 */
 	public int getC_Period_ID()
 	{
-		return m_C_Period_ID;
+		return periodId;
 	}
 	/**
 	 * 	Get End Date
@@ -128,7 +142,7 @@ public class FinReportPeriod
 	 */
 	public Timestamp getEndDate()
 	{
-		return m_EndDate;
+		return endDate;
 	}
 	/**
 	 * 	Get Start Date
@@ -136,7 +150,7 @@ public class FinReportPeriod
 	 */
 	public Timestamp getStartDate()
 	{
-		return m_StartDate;
+		return startDate;
 	}
 	/**
 	 * 	Get Year Start Date
@@ -144,7 +158,7 @@ public class FinReportPeriod
 	 */
 	public Timestamp getYearStartDate()
 	{
-		return m_YearStartDate;
+		return yearStartDate;
 	}
 
 	/**
