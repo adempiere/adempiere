@@ -14,7 +14,7 @@
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
 
-package org.compiere.apps;
+package org.compiere.request.apps;
 
 import org.compiere.model.GridTab;
 import org.compiere.model.I_AD_User;
