@@ -17,13 +17,9 @@
 package org.compiere.project.process;
 
 
-import java.util.logging.Level;
-
 import org.compiere.model.MProductPricing;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Msg;
 
 /**
@@ -32,45 +28,29 @@ import org.compiere.util.Msg;
  *	@author Jorg Janke
  *	@version $Id: ProjectLinePricing.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class ProjectLinePricing extends SvrProcess
-{
-	/**	Project Line from Record			*/
-	private int 		m_C_ProjectLine_ID = 0;
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-		m_C_ProjectLine_ID = getRecord_ID();
-	}	//	prepare
+public class ProjectLinePricing extends ProjectLinePricingAbstract {
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if (getRecord_ID() == 0)
+			throw new IllegalArgumentException("@C_ProjectLine_ID@ @IsMandatory@");
+	}
 
 	/**
 	 *  Perform process.
 	 *  @return Message (clear text)
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
-		if (m_C_ProjectLine_ID == 0)
-			throw new IllegalArgumentException("No Project Line");
-		MProjectLine projectLine = new MProjectLine (getCtx(), m_C_ProjectLine_ID, get_TrxName());
+	protected String doIt() throws Exception {
+		
+		MProjectLine projectLine = new MProjectLine (getCtx(), getRecord_ID(), get_TrxName());
 		log.info("doIt - " + projectLine);
 		if (projectLine.getM_Product_ID() == 0)
-			throw new IllegalArgumentException("No Product");
+			throw new IllegalArgumentException("@M_Product_ID@ @NotFound@");
 		//
 		MProject project = new MProject (getCtx(), projectLine.getC_Project_ID(), get_TrxName());
 		if (project.getM_PriceList_ID() == 0)
-			throw new IllegalArgumentException("No PriceList");
+			throw new IllegalArgumentException("@M_PriceList_ID@ @NotFound@");
 		//
 		boolean isSOTrx = true;
 		MProductPricing pp = new MProductPricing (projectLine.getM_Product_ID(), 

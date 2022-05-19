@@ -18,12 +18,10 @@ package org.compiere.project.process;
 
 
 import java.util.List;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
  
 /**
  *  Close Project.
@@ -35,27 +33,15 @@ import org.compiere.process.SvrProcess;
  * 			<li>FR [ 2791635 ] Use saveEx whenever is possible
  * 				https://sourceforge.net/tracker/?func=detail&aid=2791635&group_id=176962&atid=879335
  */
-public class ProjectClose extends SvrProcess
-{
-	/**	Project from Record			*/
-	private int 		m_C_Project_ID = 0;
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
+public class ProjectClose extends ProjectCloseAbstract {
+	
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(getRecord_ID() == 0) {
+			throw new AdempiereException("@C_Project_ID@ @IsMandatory@");
 		}
-		m_C_Project_ID = getRecord_ID();
-	}	//	prepare
+	}
 
 	/**
 	 *  Perform process.
@@ -64,9 +50,8 @@ public class ProjectClose extends SvrProcess
 	 *  @return Message (translated text)
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
-		MProject project = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
+	protected String doIt() throws Exception {
+		MProject project = new MProject (getCtx(), getRecord_ID(), get_TrxName());
 		log.info("doIt - " + project);
 
 		List<MProjectLine> projectLines = project.getLines();
