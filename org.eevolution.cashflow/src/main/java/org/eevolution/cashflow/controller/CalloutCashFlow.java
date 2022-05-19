@@ -1,4 +1,4 @@
-package org.eevolution.model;
+package org.eevolution.cashflow.controller;
 
 import java.sql.Timestamp;
 import java.util.Properties;
@@ -8,14 +8,14 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DB;
+import org.eevolution.model.I_C_CashFlow;
 
 /**
  * 
  * @author teo.sarca@gmail.com
  *
  */
-public class CalloutCashFlow extends CalloutEngine
-{
+public class CalloutCashFlow extends CalloutEngine {
 	public String DueDate (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		I_C_CashFlow model = GridTabWrapper.create(mTab, I_C_CashFlow.class);

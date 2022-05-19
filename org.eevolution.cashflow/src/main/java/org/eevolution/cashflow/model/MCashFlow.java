@@ -16,10 +16,12 @@
  * @author victor.perez@e-evolution.com, www.e-evolution.com                  *
  * http://adempiere.atlassian.net/browse/ADEMPIERE-199 Cashflow Management    *
  *****************************************************************************/
-package org.eevolution.model;
+package org.eevolution.cashflow.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.eevolution.model.X_C_CashFlow;
 
 /**
  * Class Model for Cashflow Management
