@@ -28,24 +28,20 @@ import java.util.Optional;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
-import org.adempiere.webui.component.Button;
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.GridFactory;
-import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.ListItem;
-import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.NumberBox;
-import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.Window;
+import org.adempiere.webui.component.*;
 import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MRegion;
 import org.compiere.util.CLogger;
+import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+//import org.eevolution.LEC.model.MLECCanton;
+//import org.eevolution.LEC.model.MLECParish;
+//import org.eevolution.LEC.model.X_LEC_Canton;
+//import org.eevolution.LEC.model.X_LEC_Parish;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -102,11 +98,15 @@ public class WLocationDialog extends Window implements EventListener
 	private Label lblPostalAdd;
 	private Label lblCountry;
 
+
 	private Label lblLatitude;
 
 	private Label lblLongitude;
 
 	private Label lblAltitude;
+
+	//private Label lblCanton;
+	//private Label lblParish;
 
 	private Textbox txtAddress1;
 	private Textbox txtAddress2;
@@ -115,7 +115,6 @@ public class WLocationDialog extends Window implements EventListener
 	private WAutoCompleterCity txtCity;
 	private Textbox txtPostal;
 	private Textbox txtPostalAdd;
-
 	private Listbox lstRegion;
 	private Listbox lstCountry;
 
@@ -125,6 +124,11 @@ public class WLocationDialog extends Window implements EventListener
 
 	private NumberBox fieldAltitude;
 
+	//private Listbox lstCanton;
+	//private Listbox lstParish;
+	private Button btnUrl;
+
+
 	private Button btnOk;
 	private Button btnCancel;
 	private Grid mainPanel;
@@ -133,6 +137,10 @@ public class WLocationDialog extends Window implements EventListener
 	private MLocation   m_location;
 	private int         m_origCountry_ID;
 	private int         s_oldCountry_ID = 0;
+
+	private int 		s_oldRegion_ID = 0;
+	private int 		s_oldCanton_ID = 0;
+
 
 	private int m_WindowNo = 0;
 
@@ -144,6 +152,10 @@ public class WLocationDialog extends Window implements EventListener
 	private boolean isAddress4Mandatory = false;
 	private boolean isPostalMandatory = false;
 	private boolean isPostalAddMandatory = false;
+	private boolean isCantonMandatory = false;
+	private boolean isParishMandatory = false;
+	private boolean inRegionAction;
+	private boolean inCantonAction;
 
 	private boolean inCountryAction;
 	private boolean inOKAction;
@@ -197,6 +209,10 @@ public class WLocationDialog extends Window implements EventListener
 				lblRegion.setValue(Msg.getMsg(Env.getCtx(), "Region"));
 		}
 
+
+		//lstCanton.addEventListener(Events.ON_SELECT, this);
+		//lstParish.addEventListener(Events.ON_SELECT, this);
+
 		setRegion();
 		initLocation();
 		//               
@@ -237,6 +253,11 @@ public class WLocationDialog extends Window implements EventListener
 
 		lblAltitude = new Label(Msg.getMsg(Env.getCtx(), "Altitude"));
 		lblAltitude.setStyle(LABEL_STYLE);
+
+		/*lblCanton		= new Label(Msg.getMsg(Env.getCtx(), X_LEC_Canton.COLUMNNAME_LEC_Canton_ID));
+		lblCanton.setStyle(LABEL_STYLE);
+		lblParish		= new Label(Msg.getMsg(Env.getCtx(), X_LEC_Parish.COLUMNNAME_LEC_Parish_ID));
+		lblParish.setStyle(LABEL_STYLE);*/
 
 		txtAddress1 = new Textbox();
 		txtAddress1.setCols(20);
@@ -279,6 +300,16 @@ public class WLocationDialog extends Window implements EventListener
 		fieldAltitude = new NumberBox(true);
 		fieldAltitude.setValue(0);
 
+
+		/*lstCanton	= new Listbox();
+		lstCanton.setMold("select");
+		lstCanton.setWidth("204px");
+		lstCanton.setRows(0);
+
+		lstParish	= new Listbox();
+		lstParish.setMold("select");
+		lstParish.setWidth("204px");
+		lstParish.setRows(0);*/
 
 		btnOk = new Button();
 		btnOk.setImage("/images/Ok16.png");
@@ -332,6 +363,14 @@ public class WLocationDialog extends Window implements EventListener
 		Row pnlRegion    = new Row();
 		pnlRegion.appendChild(lblRegion.rightAlign());
 		pnlRegion.appendChild(lstRegion);
+
+		/*Row pnlCanton    = new Row();
+		pnlCanton.appendChild(lblCanton.rightAlign());
+		pnlCanton.appendChild(lstCanton);
+
+		Row pnlParish  = new Row();
+		pnlParish.appendChild(lblParish.rightAlign());
+		pnlParish.appendChild(lstParish);*/
 
 		Row pnlCountry  = new Row();
 		pnlCountry.appendChild(lblCountry.rightAlign());
@@ -427,6 +466,60 @@ public class WLocationDialog extends Window implements EventListener
 		
 		txtCity.fillList();
 		
+		if (m_location.getC_Region_ID() != s_oldRegion_ID)
+		{
+			/*lstCanton.getChildren().clear();
+			lstCanton.appendItem("", null);
+			for (MLECCanton canton : MLECCanton.getCanton(Env.getCtx(), m_location.getC_Region_ID(), null))
+			{
+				lstCanton.appendItem(canton.getName(), canton);
+			}*/
+			s_oldRegion_ID = m_location.getC_Region_ID();
+		}
+
+		if (m_location.getLEC_Canton_ID() != s_oldCanton_ID)
+		{
+			/*lstParish.getChildren().clear();
+			lstParish.appendItem("", null);
+			for (MLECParish parish : MLECParish.getParishes(Env.getCtx(), m_location.getLEC_Canton_ID(), null))
+			{
+				lstParish.appendItem(parish.getName(), parish);
+			}*/
+			s_oldCanton_ID = m_location.getLEC_Canton_ID();
+		}
+
+
+		MRegion region = new MRegion(Env.getCtx(), m_location.getC_Region_ID(), null);
+
+		if (region.get_ID() > 0 && region.getC_Country_ID() == m_location.getC_Country_ID()) {
+			setRegion();
+		}
+		else {
+			lstRegion.setSelectedItem(null);
+			m_location.setC_Region_ID(0);
+		}
+
+		/*MLECCanton canton = new MLECCanton(Env.getCtx(), m_location.getLEC_Canton_ID(), null);
+
+		if (canton.get_ID() > 0 && canton.getC_Region_ID() == m_location.getC_Region_ID()) {
+			setCanton();
+		}
+		else {
+			lstCanton.setSelectedItem(null);
+			m_location.setLEC_Canton_ID(0);
+		}
+
+		MLECParish parish = new MLECParish(Env.getCtx(), m_location.getLEC_Parish_ID(), null);
+
+		if (parish.getLEC_Parish_ID() > 0 && parish.getLEC_Canton_ID() == m_location.getLEC_Canton_ID()) {
+			setParish();
+		}
+		else {
+			lstParish.setSelectedItem(null);
+			m_location.setLEC_Parish_ID(0);
+		}*/
+
+
 		//      sequence of City Postal Region - @P@ @C@ - @C@, @R@ @P@
 		String ds = country.getCaptureSequence();
 		if (ds == null || ds.length() == 0)
@@ -442,6 +535,8 @@ public class WLocationDialog extends Window implements EventListener
 		isAddress4Mandatory = false;
 		isPostalMandatory = false;
 		isPostalAddMandatory = false;
+		isCantonMandatory = false;
+		isParishMandatory = false;
 		StringTokenizer st = new StringTokenizer(ds, "@", false);
 		while (st.hasMoreTokens())
 		{
@@ -453,7 +548,15 @@ public class WLocationDialog extends Window implements EventListener
 				// if (m_location.getCountry().isPostcodeLookup()) {
 					// addLine(line++, lOnline, fOnline);
 				// }
-			} else if (s.startsWith("A1")) {
+
+			}/*else if (s.startsWith("CA")) {
+				addComponents((Row)lstCanton.getParent());
+				isCantonMandatory = s.endsWith("!");
+			} else if (s.startsWith("PA")) {
+				addComponents((Row)lstParish.getParent());
+				isParishMandatory = s.endsWith("!");
+
+			}*/ else if (s.startsWith("A1")) {
 				addComponents((Row)txtAddress1.getParent());
 				isAddress1Mandatory = s.endsWith("!");
 			} else if (s.startsWith("A2")) {
@@ -510,6 +613,8 @@ public class WLocationDialog extends Window implements EventListener
 				setRegion();                
 			}
 			setCountry();
+			setCanton();
+			setParish();
 		}
 	}
 	private void setCountry()
@@ -546,6 +651,54 @@ public class WLocationDialog extends Window implements EventListener
 			lstRegion.setSelectedItem(null);
 		}        
 	}
+
+	private void setCanton()
+	{
+		/*MLECCanton canton = new MLECCanton(Env.getCtx(), m_location.getLEC_Canton_ID(), null);
+
+		if (canton.get_ID() > 0)
+		{
+			List<?> listState = lstCanton.getChildren();
+			Iterator<?> iter = listState.iterator();
+			while (iter.hasNext())
+			{
+				ListItem listitem = (ListItem)iter.next();
+				if (canton.equals(listitem.getValue()))
+				{
+					lstCanton.setSelectedItem(listitem);
+				}
+			}
+		}
+		else
+		{
+			lstCanton.setSelectedItem(null);
+		}*/
+	}
+
+	private void setParish()
+	{
+		/*MLECParish parish = new MLECParish(Env.getCtx(), m_location.getLEC_Parish_ID(), null);
+
+		if (parish.getLEC_Parish_ID() > 0)
+		{
+			List<?> listState = lstParish.getChildren();
+			Iterator<?> iter = listState.iterator();
+			while (iter.hasNext())
+			{
+				ListItem listitem = (ListItem)iter.next();
+				if (parish.equals(listitem.getValue()))
+				{
+					lstParish.setSelectedItem(listitem);
+				}
+			}
+		}
+		else
+		{
+			lstParish.setSelectedItem(null);
+		}*/
+	}
+
+
 	/**
 	 *  Get result
 	 *  @return true, if changed
@@ -649,13 +802,46 @@ public class WLocationDialog extends Window implements EventListener
 		{
 			if (inCountryAction || inOKAction)
 				return;
+			inRegionAction = true;
 			MRegion r = (MRegion)lstRegion.getSelectedItem().getValue();
 			m_location.setRegion(r);
 			m_location.setC_City_ID(0);
 			m_location.setCity(null);
 			//  refresh
 			initLocation();
+			inRegionAction= false;
 		}
+		//	Canton Changed
+		/*else if (lstCanton.equals(event.getTarget()))
+		{
+			if (inCountryAction || inRegionAction)
+				return;
+
+			if (lstCanton.getSelectedItem() != null)
+			{
+				inCantonAction = true;
+				MLECCanton canton = (MLECCanton)lstCanton.getSelectedItem().getValue();
+				if (canton != null)
+					m_location.setLEC_Canton_ID(canton.get_ID());
+				//	refresh
+				initLocation();
+				inCantonAction = false;
+			}
+		}
+		//	Parish Changed
+		else if (lstParish.equals(event.getTarget()))
+		{
+			if (inCountryAction || inRegionAction || inCantonAction)
+				return;
+			if (lstParish.getSelectedItem() != null)
+			{
+				MLECParish parish = (MLECParish)lstParish.getSelectedItem().getValue();
+				if (parish != null)
+					m_location.setLEC_Parish_ID(parish.getLEC_Parish_ID());
+				//	refresh
+				initLocation();
+			}
+		}*/
 	}
 
 	
@@ -687,6 +873,13 @@ public class WLocationDialog extends Window implements EventListener
 			fields = fields + " " + "@PostalAdd@, ";
 		}
 		
+		/*if (isCantonMandatory && lstCanton.getSelectedItem() == null) {
+			fields = fields + " " + "@CA_Canton_ID@, ";
+		}
+		if (isParishMandatory && lstParish.getSelectedItem() == null) {
+			fields = fields + " " + "@CA_Parish_ID@, ";
+		}*/
+
 		if (fields.trim().length() > 0)
 			return fields.substring(0, fields.length() -2);
 
@@ -727,6 +920,20 @@ public class WLocationDialog extends Window implements EventListener
 		{
 			m_location.setC_Region_ID(0);
 		}
+
+		/*if (lstCanton.getSelectedItem() != null)
+		{
+			MLECCanton canton = (MLECCanton)lstCanton.getSelectedItem().getValue();
+			if (canton != null)
+				m_location.setLEC_Canton_ID(canton.get_ID());
+		}
+		if (lstParish.getSelectedItem() != null)
+		{
+			MLECParish parish = (MLECParish)lstParish.getSelectedItem().getValue();
+			if (parish != null)
+				m_location.setLEC_Parish_ID(parish.getLEC_Parish_ID());
+		}*/
+
 		//  Save chnages
 		if(m_location.save())
 		{
@@ -748,4 +955,42 @@ public class WLocationDialog extends Window implements EventListener
 		super.dispose();
 	}
 
+	/**
+	 * 	Get edited Value (MLocation)
+	 *	@return location
+	 */
+	private String getCurrentLocation() {
+		m_location.setAddress1(txtAddress1.getText());
+		m_location.setAddress2(txtAddress2.getText());
+		m_location.setAddress3(txtAddress3.getText());
+		m_location.setAddress4(txtAddress4.getText());
+		m_location.setCity(txtCity.getText());
+		m_location.setPostal(txtPostal.getText());
+		m_location.setPostal_Add(txtPostalAdd.getText());
+		//  Country/Region
+		MCountry c = (MCountry)lstCountry.getSelectedItem().getValue();
+		m_location.setCountry(c);
+		if (m_location.getCountry().isHasRegion())
+		{
+			MRegion r = (MRegion)lstRegion.getSelectedItem().getValue();
+			m_location.setRegion(r);
+		}
+		else
+			m_location.setC_Region_ID(0);
+
+		/*if (lstCanton.getSelectedItem() != null)
+		{
+			MLECCanton canton = (MLECCanton)lstCanton.getSelectedItem().getValue();
+			if (canton != null)
+				m_location.setLEC_Canton_ID(canton.get_ID());
+		}
+		if (lstParish.getSelectedItem() != null)
+		{
+			MLECParish parish = (MLECParish)lstParish.getSelectedItem().getValue();
+			if (parish != null)
+				m_location.setLEC_Parish_ID(parish.getLEC_Parish_ID());
+		}*/
+
+		return m_location.toString().replace(" ", "%");
+	}
 }

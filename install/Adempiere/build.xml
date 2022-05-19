@@ -781,7 +781,7 @@ $CATALINA_HOME/bin/shutdown.sh
 	</target>
 
 	<!-- ==================================================== -->
-	<!-- Setup Tomcat              -->
+	<!-- Setup Jetty              -->
 	<!-- ==================================================== -->
 	<target name="setupJetty" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, jettyHome, setupLib, setupEAR " if="isAppsJetty" description="Setup jetty Server">
 

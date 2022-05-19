@@ -1,9 +1,8 @@
 /******************************************************************************
- * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +11,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.8.0
  */
 public interface I_C_Location 
 {
@@ -114,17 +114,17 @@ public interface I_C_Location
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Altitude */
-    public static final String COLUMNNAME_Altitude = "Altitude";
+	/** Column name Altitude */
+	public static final String COLUMNNAME_Altitude = "Altitude";
 
 	/** Set Altitude.
-	  * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
-	  */
+	 * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	 */
 	public void setAltitude (BigDecimal Altitude);
 
 	/** Get Altitude.
-	  * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
-	  */
+	 * Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	 */
 	public BigDecimal getAltitude();
 
     /** Column name C_City_ID */
@@ -227,31 +227,51 @@ public interface I_C_Location
 	  */
 	public boolean isActive();
 
-    /** Column name Latitude */
-    public static final String COLUMNNAME_Latitude = "Latitude";
+	/** Column name Latitude */
+	public static final String COLUMNNAME_Latitude = "Latitude";
 
 	/** Set Latitude.
-	  * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
-	  */
+	 * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	 */
 	public void setLatitude (BigDecimal Latitude);
 
 	/** Get Latitude.
-	  * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
-	  */
+	 * Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	 */
 	public BigDecimal getLatitude();
 
-    /** Column name Longitude */
-    public static final String COLUMNNAME_Longitude = "Longitude";
+	/** Column name Longitude */
+	public static final String COLUMNNAME_Longitude = "Longitude";
 
 	/** Set Longitude.
-	  * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
-	  */
+	 * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	 */
 	public void setLongitude (BigDecimal Longitude);
 
 	/** Get Longitude.
-	  * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
-	  */
+	 * Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	 */
 	public BigDecimal getLongitude();
+
+
+
+	/** Column name LEC_Canton_ID */
+    public static final String COLUMNNAME_LEC_Canton_ID = "LEC_Canton_ID";
+
+	/** Set LEC_Canton ID	  */
+	public void setLEC_Canton_ID (int LEC_Canton_ID);
+
+	/** Get LEC_Canton ID	  */
+	public int getLEC_Canton_ID();
+
+    /** Column name LEC_Parish_ID */
+    public static final String COLUMNNAME_LEC_Parish_ID = "LEC_Parish_ID";
+
+	/** Set LEC_Parish ID	  */
+	public void setLEC_Parish_ID (int LEC_Parish_ID);
+
+	/** Get LEC_Parish ID	  */
+	public int getLEC_Parish_ID();
 
     /** Column name Postal */
     public static final String COLUMNNAME_Postal = "Postal";
@@ -307,17 +327,4 @@ public interface I_C_Location
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

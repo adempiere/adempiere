@@ -1,9 +1,8 @@
 /******************************************************************************
- * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +11,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -20,19 +20,20 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.8.0 - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220425L;
+	private static final long serialVersionUID = 20150412L;
 
     /** Standard Constructor */
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
@@ -142,22 +143,22 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	}
 
 	/** Set Altitude.
-		@param Altitude 
-		Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
-	  */
+	 @param Altitude
+	 Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	 */
 	public void setAltitude (BigDecimal Altitude)
 	{
 		set_Value (COLUMNNAME_Altitude, Altitude);
 	}
 
 	/** Get Altitude.
-		@return Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
-	  */
-	public BigDecimal getAltitude () 
+	 @return Altitude  is a distance measurement, usually in the vertical or "up" direction, between a reference datum and a point or object
+	 */
+	public BigDecimal getAltitude ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Altitude);
 		if (bd == null)
-			 return Env.ZERO;
+			return Env.ZERO;
 		return bd;
 	}
 
@@ -294,43 +295,83 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	}
 
 	/** Set Latitude.
-		@param Latitude 
-		Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
-	  */
+	 @param Latitude
+	 Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	 */
 	public void setLatitude (BigDecimal Latitude)
 	{
 		set_Value (COLUMNNAME_Latitude, Latitude);
 	}
 
 	/** Get Latitude.
-		@return Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
-	  */
-	public BigDecimal getLatitude () 
+	 @return Latitude is a geographic coordinate that specifies the north–south position of a point on the Earth's surface.
+	 */
+	public BigDecimal getLatitude ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Latitude);
 		if (bd == null)
-			 return Env.ZERO;
+			return Env.ZERO;
 		return bd;
 	}
 
 	/** Set Longitude.
-		@param Longitude 
-		Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
-	  */
+	 @param Longitude
+	 Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	 */
 	public void setLongitude (BigDecimal Longitude)
 	{
 		set_Value (COLUMNNAME_Longitude, Longitude);
 	}
 
 	/** Get Longitude.
-		@return Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
-	  */
-	public BigDecimal getLongitude () 
+	 @return Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body
+	 */
+	public BigDecimal getLongitude ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Longitude);
 		if (bd == null)
-			 return Env.ZERO;
+			return Env.ZERO;
 		return bd;
+	}
+
+	/** Set LEC_Canton ID.
+		@param LEC_Canton_ID LEC_Canton ID	  */
+	public void setLEC_Canton_ID (int LEC_Canton_ID)
+	{
+		if (LEC_Canton_ID < 1) 
+			set_Value (COLUMNNAME_LEC_Canton_ID, null);
+		else 
+			set_Value (COLUMNNAME_LEC_Canton_ID, Integer.valueOf(LEC_Canton_ID));
+	}
+
+	/** Get LEC_Canton ID.
+		@return LEC_Canton ID	  */
+	public int getLEC_Canton_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LEC_Canton_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set LEC_Parish ID.
+		@param LEC_Parish_ID LEC_Parish ID	  */
+	public void setLEC_Parish_ID (int LEC_Parish_ID)
+	{
+		if (LEC_Parish_ID < 1) 
+			set_Value (COLUMNNAME_LEC_Parish_ID, null);
+		else 
+			set_Value (COLUMNNAME_LEC_Parish_ID, Integer.valueOf(LEC_Parish_ID));
+	}
+
+	/** Get LEC_Parish ID.
+		@return LEC_Parish ID	  */
+	public int getLEC_Parish_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LEC_Parish_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set ZIP.
@@ -382,22 +423,5 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	public String getRegionName () 
 	{
 		return (String)get_Value(COLUMNNAME_RegionName);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

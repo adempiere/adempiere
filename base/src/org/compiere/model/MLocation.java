@@ -49,14 +49,14 @@ public class MLocation extends X_C_Location implements Comparator
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8332515185354248079L;
+	private static final long serialVersionUID = -1326655776792201217L;
 
 	// http://jira.idempiere.com/browse/IDEMPIERE-147
 	public static String LOCATION_MAPS_URL_PREFIX     = MSysConfig.getValue("LOCATION_MAPS_URL_PREFIX");
 	public static String LOCATION_MAPS_ROUTE_PREFIX   = MSysConfig.getValue("LOCATION_MAPS_ROUTE_PREFIX");
 	public static String LOCATION_MAPS_SOURCE_ADDRESS      = MSysConfig.getValue("LOCATION_MAPS_SOURCE_ADDRESS");
 	public static String LOCATION_MAPS_DESTINATION_ADDRESS = MSysConfig.getValue("LOCATION_MAPS_DESTINATION_ADDRESS");
-	
+
 	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context
@@ -70,7 +70,7 @@ public class MLocation extends X_C_Location implements Comparator
 		if (C_Location_ID == 0)
 			return new MLocation(ctx, C_Location_ID, trxName);
 		//
-		Integer key = Integer.valueOf(C_Location_ID);
+		Integer key = new Integer (C_Location_ID);
 		MLocation retValue = null;
 		if (trxName == null)
 			retValue = (MLocation) s_cache.get (key);
@@ -136,7 +136,7 @@ public class MLocation extends X_C_Location implements Comparator
 		super (ctx, C_Location_ID, trxName);
 		if (C_Location_ID == 0)
 		{
-			MCountry defaultCountry = MCountry.getDefault(getCtx()); 
+			MCountry defaultCountry = MCountry.getDefault(getCtx());
 			setCountry(defaultCountry);
 			MRegion defaultRegion = MRegion.getDefault(getCtx());
 			if (defaultRegion != null 
@@ -651,12 +651,12 @@ public class MLocation extends X_C_Location implements Comparator
 	{
 		//	Value/Name change in Account
 		if (!newRecord
-			&& ("Y".equals(Env.getContext(getCtx(), "$Element_LF")) 
+			&& ("Y".equals(Env.getContext(getCtx(), "$Element_LF"))
 				|| "Y".equals(Env.getContext(getCtx(), "$Element_LT")))
 			&& (is_ValueChanged("Postal") || is_ValueChanged("City"))
 			)
-			MAccount.updateValueDescription(getCtx(), 
-				"(C_LocFrom_ID=" + getC_Location_ID() 
+			MAccount.updateValueDescription(getCtx(),
+				"(C_LocFrom_ID=" + getC_Location_ID()
 				+ " OR C_LocTo_ID=" + getC_Location_ID() + ")", get_TrxName());
 		return success;
 	}	//	afterSave
