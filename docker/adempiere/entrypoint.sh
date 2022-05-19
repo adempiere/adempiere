@@ -11,6 +11,7 @@ echo "Building..."
 if [ ! -f Adempiere.properties ] 
 then 
     sed -i "s|ADEMPIERE_KEYSTORE=C*|ADEMPIERE_KEYSTORE=\/data\/app\/Adempiere\/keystore\/myKeystore|g" AdempiereEnv.properties
+    sed -i "s|ADEMPIERE_DB_TYPE=PostgreSQL|ADEMPIERE_DB_TYPE=$ADEMPIERE_DB_TYPE|g" AdempiereEnv.properties
     sed -i "s|ADEMPIERE_DB_SERVER=localhost|ADEMPIERE_DB_SERVER=$ADEMPIERE_DB_HOST|g" AdempiereEnv.properties
     sed -i "s|ADEMPIERE_DB_PORT=5432|ADEMPIERE_DB_PORT=$ADEMPIERE_DB_PORT|g" AdempiereEnv.properties
     sed -i "s|ADEMPIERE_DB_NAME=adempiere|ADEMPIERE_DB_NAME=$ADEMPIERE_DB_NAME|g" AdempiereEnv.properties
