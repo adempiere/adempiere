@@ -37,12 +37,12 @@ public class BOMMessenger extends HTMLMessenger {
 	
 	protected JTree bomTree;
 	protected BOMTreeCellRenderer bomTreeCellRenderer;
-	protected HashMap cache;
+	protected HashMap<DefaultMutableTreeNode, String> cache;
 	
 	public BOMMessenger(JTree bomTree) {
 		
 		this.bomTree = bomTree;
-		this.cache = new HashMap();
+		this.cache = new HashMap<DefaultMutableTreeNode, String>();
 	}
 	
 	public String getToolTipText(MouseEvent evt){

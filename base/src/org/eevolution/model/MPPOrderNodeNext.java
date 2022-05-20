@@ -132,7 +132,7 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	 */
 	public void setFromSplitAnd (boolean fromSplitAnd)
 	{
-		m_fromSplitAnd = new Boolean(fromSplitAnd);
+		m_fromSplitAnd = Boolean.valueOf(fromSplitAnd);
 	}	//	setFromSplitAnd
 
 	/**
@@ -157,7 +157,7 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	 */
 	private void setToJoinAnd (boolean toJoinAnd)
 	{
-		m_toJoinAnd = new Boolean(toJoinAnd);
+		m_toJoinAnd = Boolean.valueOf(toJoinAnd);
 	}	//	setToJoinAnd
 
 	public void setPP_Order_Next_ID()

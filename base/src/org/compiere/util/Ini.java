@@ -22,12 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -36,16 +31,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jnlp.BasicService;
-import javax.jnlp.FileContents;
-import javax.jnlp.PersistenceService;
-import javax.jnlp.ServiceManager;
-import javax.jnlp.UnavailableServiceException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.adempiere.plaf.AdempiereLookAndFeel;
-import org.adempiere.plaf.AdempiereThemeInnova;
+import org.adempiere.exceptions.AdempiereException;
+//import org.adempiere.plaf.AdempiereLookAndFeel;
+//import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
 
 /**
@@ -101,10 +92,10 @@ public final class Ini implements Serializable
 	/** Look & Feel			*/
 	public static final String	P_UI_LOOK =			"UILookFeel";
 
-    private static final String	DEFAULT_UI_LOOK =	AdempiereLookAndFeel.NAME;
+    private static final String	DEFAULT_UI_LOOK =	"Adempiere";
 	/** UI Theme			*/
         
-	private static final String	DEFAULT_UI_THEME =	AdempiereThemeInnova.NAME;        
+	private static final String	DEFAULT_UI_THEME =	"Adempiere Theme";        
 	/** UI Theme			*/
 	public static final String	P_UI_THEME =		"UITheme";
 	
@@ -247,35 +238,28 @@ public final class Ini implements Serializable
 			ModelValidationEngine.get().beforeSaveProperties();
 		}
 
-		if (isWebStartClient())
+		String fileName = getFileName (tryUserHome);
+		FileOutputStream fos = null;
+		try
 		{
-			saveWebStartProperties();
+			File f = new File(fileName);
+			f.getAbsoluteFile().getParentFile().mkdirs(); // Create all dirs if not exist - teo_sarca FR [ 2406123 ]
+			fos = new FileOutputStream(f);
+			s_prop.store(fos, "Adempiere");
+			fos.flush();
+			fos.close();
 		}
-		else
+		catch (Exception e)
 		{
-			String fileName = getFileName (tryUserHome);
-			FileOutputStream fos = null;
-			try
-			{
-				File f = new File(fileName);
-				f.getAbsoluteFile().getParentFile().mkdirs(); // Create all dirs if not exist - teo_sarca FR [ 2406123 ]
-				fos = new FileOutputStream(f);
-				s_prop.store(fos, "Adempiere");
-				fos.flush();
-				fos.close();
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + e.toString());
-				return;
-			}
-			catch (Throwable t)
-			{
-				log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + t.toString());
-				return;
-			}
-			log.finer(fileName);
+			log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + e.toString());
+			return;
 		}
+		catch (Throwable t)
+		{
+			log.log(Level.SEVERE, "Cannot save Properties to " + fileName + " - " + t.toString());
+			return;
+		}
+		log.finer(fileName);
 	}	//	save
 
 	/**
@@ -286,133 +270,9 @@ public final class Ini implements Serializable
 	{
 		if (reload || s_prop.size() == 0)
 		{
-			if (isWebStartClient())
-			{
-				loadWebStartProperties();
-			}
-			else
-			{
-				loadProperties(getFileName(s_client));
-			}
+			loadProperties(getFileName(s_client));
 		}
 	}	//	loadProperties
-
-	private static boolean loadWebStartProperties() {
-		boolean loadOK = true;
-		boolean firstTime = false;
-		s_prop = new Properties();
-		
-		PersistenceService ps; 
-
-	    try { 
-	        ps = (PersistenceService)ServiceManager.lookup("javax.jnlp.PersistenceService"); 
-	    } catch (UnavailableServiceException e) {	    	
-	        ps = null; 
-	        log.log(Level.SEVERE, e.toString());
-	        return false;
-	    } 
-
-	    FileContents fc = null;
-	    try {
-			fc = ps.get(getCodeBase());
-		} catch (MalformedURLException e) {
-			log.log(Level.SEVERE, e.toString());
-			return false;
-		} catch (FileNotFoundException e) {
-			try {
-				ps.create(getCodeBase(), 16 * 1024);
-				ps.setTag(getCodeBase(), PersistenceService.DIRTY);
-				fc = ps.get(getCodeBase());
-			} catch (Exception e1) {
-				
-			}
-		} catch (IOException e) {
-			log.log(Level.SEVERE, e.toString());
-			return false;
-		}
-	    
-		try
-		{
-			InputStream is = fc.getInputStream(); 
-			s_prop.load(is);
-			is.close();
-		}
-		catch (Throwable t)
-		{
-			log.log(Level.SEVERE, t.toString());
-			loadOK = false;
-		}
-		if (!loadOK || s_prop.getProperty(P_TODAY, "").equals(""))
-		{
-			firstTime = true;
-			if (isShowLicenseDialog())
-				if (!IniDialog.accept())
-					System.exit(-1);
-
-            checkProperties();
-		}
-
-		//  Save if not exist or could not be read
-		if (!loadOK || firstTime)
-			saveWebStartProperties();
-		s_loaded = true;
-		s_propertyFileName = getCodeBase().toString();
-		
-		return firstTime;
-		
-	}
-
-	private static void saveWebStartProperties() {
-		PersistenceService ps; 
-
-	    try { 
-	        ps = (PersistenceService)ServiceManager.lookup("javax.jnlp.PersistenceService"); 
-	    } catch (UnavailableServiceException e) { 
-	        ps = null; 
-	        log.log(Level.SEVERE, e.toString());
-	        return;
-	    } 
-	    
-	    try
-		{
-	    	OutputStream os = ps.get(getCodeBase()).getOutputStream(true);
-			s_prop.store(os, "Adempiere");
-			os.flush();
-			os.close();
-		}
-		catch (Throwable t)
-		{
-			log.log(Level.SEVERE, "Cannot save Properties to " + getCodeBase() + " - " + t.toString());
-			return;
-		}
-		
-	}
-
-	/**
-	 * 	Get JNLP CodeBase
-	 *	@return code base or null
-	 */
-	public static URL getCodeBase()
-	{
-		try
-		{
-			BasicService bs = (BasicService)ServiceManager.lookup("javax.jnlp.BasicService"); 
-			URL url = bs.getCodeBase();
-	        return url;
-		} 
-		catch(UnavailableServiceException ue) 
-		{
-			return null; 
-		} 
-	}	//	getCodeBase
-	
-	/**
-	 * @return True if client is started using web start
-	 */
-	public static boolean isWebStartClient()
-	{
-		return getCodeBase() != null;
-	}
 	
 	/**
 	 *  Load INI parameters from filename.
@@ -451,11 +311,11 @@ public final class Ini implements Serializable
 		{
 			log.config(filename);
 			firstTime = true;
-			if (isShowLicenseDialog())
-				if (!IniDialog.accept())
-					System.exit(-1);
-
-            checkProperties();
+			checkProperties();
+//			throw new AdempiereException("Default config not found");
+//			if (isShowLicenseDialog())
+//				if (!IniDialog.accept())
+//					System.exit(-1);
 		}
 
 		//  Save if not exist or could not be read
@@ -670,7 +530,7 @@ public final class Ini implements Serializable
 	public static String getAsString()
 	{
 		StringBuffer buf = new StringBuffer ("Ini[");
-		Enumeration e = s_prop.keys();
+		Enumeration<Object> e = s_prop.keys();
 		while (e.hasMoreElements())
 		{
 			String key = (String)e.nextElement();

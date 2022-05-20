@@ -191,7 +191,7 @@ public class HelpAbout extends JDialog implements ActionListener {
         
         // close button
         m_buttonClose = new JButton(s_logger.localizeMessage("guiButtonClose"));
-        m_buttonClose.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonCloseMnemonic")));
+        m_buttonClose.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonCloseMnemonic")));
         m_buttonClose.setIcon(new ImageIcon(getImage("Cancel16.png")));
         m_buttonClose.addActionListener(this);
         pane.add(m_buttonClose, getCloseConstraints());

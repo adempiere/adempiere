@@ -16,8 +16,8 @@
 
 package org.eevolution.services
 
-import org.compiere.model._
-import org.eevolution.dsl._
+import org.compiere.model.*
+import org.eevolution.dsl.*
 
 /**
  * Currency Service

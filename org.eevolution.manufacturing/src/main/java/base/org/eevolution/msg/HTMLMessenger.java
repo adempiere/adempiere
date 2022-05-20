@@ -17,6 +17,7 @@
 package org.eevolution.msg;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 
@@ -193,8 +194,8 @@ public class HTMLMessenger {
     	
     	Object[] obj = new Object[] {
     			p.getName()+" ("+p.getValue()+")",
-    			"1 x "+srcLength.setScale(2, BigDecimal.ROUND_HALF_DOWN)+" &#8594; "+pieces+" x "+tgtLength.setScale(2, BigDecimal.ROUND_HALF_DOWN),
-    			Msg.translate(Env.getCtx(), "Scrap")+": 1 x "+scrapLength.setScale(2, BigDecimal.ROUND_HALF_DOWN),
+    			"1 x "+srcLength.setScale(2, RoundingMode.HALF_DOWN)+" &#8594; "+pieces+" x "+tgtLength.setScale(2, RoundingMode.HALF_DOWN),
+    			Msg.translate(Env.getCtx(), "Scrap")+": 1 x "+scrapLength.setScale(2, RoundingMode.HALF_DOWN),
     	};
     	
 		return MessageFormat.format(LENGTHTRANSFORM_INFO_PATTERN, obj);	    	
@@ -229,7 +230,7 @@ public class HTMLMessenger {
         	asi = new MAttributeSetInstance(Env.getCtx(), lines[i].getM_AttributeSetInstance_ID(), MAttributeSetInstance.Table_Name);
         	
         	Object[] obj = new Object[] {
-        			new Integer(lines[i].getPo()),
+        			Integer.valueOf(lines[i].getPo()),
                 	lines[i].getQtyBOM(),
                 	p.getName(),
                 	getAttributeSetInstanceInfo(asi, true)
@@ -249,7 +250,7 @@ public class HTMLMessenger {
     	MAttributeSetInstance asi = new MAttributeSetInstance(Env.getCtx(), mpbl.getM_AttributeSetInstance_ID(), MAttributeSetInstance.Table_Name);
     	
     	Object[] obj = new Object[] {
-    			new Integer(mpbl.getPo()),
+    			Integer.valueOf(mpbl.getPo()),
             	mpbl.getComponentType(),
             	mpbl.getValidFrom() == null ? "" : df.format(mpbl.getValidFrom()),
                 mpbl.getValidTo() == null ? "" : df.format(mpbl.getValidTo()),
@@ -317,7 +318,7 @@ public class HTMLMessenger {
 				if(MAttribute.ATTRIBUTEVALUETYPE_Number.equals(a.getAttributeValueType())) {
 					
 					BigDecimal number = ai.getValueNumber();
-					value = number.setScale(2, BigDecimal.ROUND_HALF_UP).toString();
+					value = number.setScale(2, RoundingMode.HALF_UP).toString();
 				}
 				else {
 					
@@ -403,7 +404,7 @@ public class HTMLMessenger {
 			sb.append(MessageFormat.format(STORAGE_SUM_LINE_INFO_PATTERN, obj));
 		}
 
-		double available = sumQtyOnHand.subtract(sumQtyReserved).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		double available = sumQtyOnHand.subtract(sumQtyReserved).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		if(count == 0 || (available <= 0.00d)) {
 			
 			sb.append(MessageFormat.format(STORAGE_NOINVENTORY_INFO_PATTERN, obj));

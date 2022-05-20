@@ -363,13 +363,15 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 			
 			//  C_BPartner_ID
 			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
-			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				fBPartner_ID.setValue(new Integer(id));
+			if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+				fBPartner_ID.setValue(Integer.valueOf(id));
+			}
 			
 			//  C_Order_ID
 			id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Order_ID", true);
-			if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				fOrder_ID.setValue(new Integer(id));
+			if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+				fOrder_ID.setValue(Integer.valueOf(id));
+			}
 
 			//  IsSOTrx - Window context
 			id = Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx", true);
@@ -387,9 +389,8 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 			{
 				//  C_Invoice_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_Invoice_ID", true);
-				if (id != null && id.length() != 0  && (new Integer(id).intValue() > 0))
-				{
-					fieldID = new Integer(id).intValue();
+				if (id != null && id.length() != 0  && (Integer.valueOf(id).intValue() > 0)) {
+					fieldID = Integer.valueOf(id).intValue();
 					
 		        	// Have to set isPaid and isSOTrx to match or the query will return no results
 					String trxName = Trx.createTrxName();

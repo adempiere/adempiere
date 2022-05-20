@@ -243,7 +243,7 @@ public class MTab extends X_AD_Tab
 	 *	@return MProcess
 	 */
 	public static MTab get (Properties ctx, int tabId) {
-		Integer key = new Integer (tabId);
+		Integer key = Integer.valueOf(tabId);
 		MTab retValue = (MTab) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

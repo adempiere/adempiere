@@ -77,7 +77,7 @@ public class MCostType extends X_M_CostType
 	public static MCostType get (Properties ctx, int M_CostType_ID, String trxName)
 	{
 		//  Check Cache
-		Integer key = new Integer(M_CostType_ID);
+		Integer key = Integer.valueOf(M_CostType_ID);
 		MCostType retValue = (MCostType)s_cache.get(key);
 		if (retValue != null)
 			return retValue;

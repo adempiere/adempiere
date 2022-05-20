@@ -87,7 +87,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 		if (m_mAccount == null)
 			return -1;
 
-		return new Integer (m_mAccount.C_ValidCombination_ID);
+		return Integer.valueOf(m_mAccount.C_ValidCombination_ID);
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 		//	We have a Value
 		if (C_ValidCombination_ID > 0)
 		{
-			Integer newValue = new Integer(C_ValidCombination_ID);
+			Integer newValue = Integer.valueOf(C_ValidCombination_ID);
 			Object oldValue = m_value;
 			m_value = newValue;
 			ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);

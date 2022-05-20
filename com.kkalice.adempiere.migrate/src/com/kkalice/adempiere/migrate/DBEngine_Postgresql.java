@@ -999,7 +999,7 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 					size = "0";
 				if (scale==null || scale.length()==0)
 					scale="0";
-				String translatedType = dbEngine.translateDataType(sourceVendorName, getVendorNames().get(0), type, new Integer(size).intValue(), new Integer(scale).intValue());
+				String translatedType = dbEngine.translateDataType(sourceVendorName, getVendorNames().get(0), type, Integer.valueOf(size).intValue(), Integer.valueOf(scale).intValue());
 				matcher.appendReplacement(buffer, new StringBuffer(item).append("::").append(translatedType).toString());
 			}
 			matcher.appendTail(buffer);

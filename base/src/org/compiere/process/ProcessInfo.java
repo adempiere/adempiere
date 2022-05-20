@@ -624,7 +624,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setAD_Client_ID (int clientId)
 	{
-		this.clientId = new Integer (clientId);
+		this.clientId = Integer.valueOf(clientId);
 	}
 	/**
 	 * Method getAD_Client_ID
@@ -641,7 +641,7 @@ public class ProcessInfo implements Serializable
 	 * @param userId int
 	 */
 	public void setAD_User_ID(int userId) {
-		this.userId = new Integer(userId);
+		this.userId = Integer.valueOf(userId);
 	}
 
 	/**
@@ -963,6 +963,10 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setReportAsFile(File reportAsFile) {
 		this.reportAsFile = reportAsFile;
+		if(reportAsFile != null
+				&& reportAsFile.getName().lastIndexOf(".pdf") > 0) {
+			pdfReportFile = reportAsFile;
+		}
 	}
 	
 	/**
@@ -1015,7 +1019,7 @@ public class ProcessInfo implements Serializable
 	//metas: c.ghita@metas.ro
 	public void setAD_Org_ID (int orgId)
 	{
-		this.orgId = new Integer (orgId);
+		this.orgId = Integer.valueOf(orgId);
 	}
 // metas: end
 

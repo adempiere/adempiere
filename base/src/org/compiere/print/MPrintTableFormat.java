@@ -549,7 +549,7 @@ public class MPrintTableFormat extends X_AD_PrintTableFormat
 	 */
 	static public MPrintTableFormat get (Properties ctx, int AD_PrintTableFormat_ID, Font standard_font)
 	{
-		Integer ii = new Integer (AD_PrintTableFormat_ID);
+		Integer ii = Integer.valueOf(AD_PrintTableFormat_ID);
 		MPrintTableFormat tf = (MPrintTableFormat)s_cache.get(ii);
 		if (tf == null)
 		{

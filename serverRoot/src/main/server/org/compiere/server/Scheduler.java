@@ -144,11 +144,11 @@ public class Scheduler extends AdempiereServer
 		//
 		int no = schedulerConfiguration.deleteLog();
 		summary.append(" Logs deleted=").append(no);
-		//
-		MSchedulerLog schedulerLog = new MSchedulerLog(schedulerConfiguration, summary.toString());
-		schedulerLog.setReference("#" + String.valueOf(p_runCount)
-			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		schedulerLog.saveEx();
+		Trx.run(trxName -> {
+			MSchedulerLog schedulerLog = new MSchedulerLog(schedulerConfiguration, summary.toString(), trxName);
+			schedulerLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+			schedulerLog.saveEx();
+		});
 	}	//	doWork
 
 	/**

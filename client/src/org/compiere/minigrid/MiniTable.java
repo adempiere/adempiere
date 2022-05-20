@@ -564,7 +564,7 @@ public class MiniTable extends CTable implements IMiniTable
 		if ((modelColumn == 0 && this.getValueAt(row,column) instanceof Boolean) || isRowChecked(row))
 		{
 			//  is the column RW?
-			if (m_readWriteColumn.contains(new Integer(modelColumn)))
+			if (m_readWriteColumn.contains(Integer.valueOf(modelColumn)))
 				return true;
 		}		
 		return false;
@@ -578,8 +578,7 @@ public class MiniTable extends CTable implements IMiniTable
 	public void setColumnReadOnly (int column, boolean readOnly)
 	{
 		//  Column is ReadWrite
-		if (m_readWriteColumn.contains(new Integer(column)))
-		{
+		if (m_readWriteColumn.contains(Integer.valueOf(column))) {
 			//  Remove from list
 			if (readOnly)
 			{
@@ -596,7 +595,7 @@ public class MiniTable extends CTable implements IMiniTable
 		}
 		//  current column is R/O - ReadWrite - add to list
 		else if (!readOnly)
-			m_readWriteColumn.add(new Integer(column));
+			m_readWriteColumn.add(Integer.valueOf(column));
 	}   //  setColumnReadOnly
 
 	
@@ -763,7 +762,7 @@ public class MiniTable extends CTable implements IMiniTable
 				tc.setCellEditor(new ROCellEditor());
 				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 			}
-			m_minWidth.add(new Integer(10));
+			m_minWidth.add(Integer.valueOf(10));
 			tc.setMaxWidth(20);
 			tc.setPreferredWidth(20);
 			tc.setResizable(false);
@@ -792,7 +791,7 @@ public class MiniTable extends CTable implements IMiniTable
 					cr.addChangeListener(vhr);  //  Connect the check control with the header
 				}
 			}
-			m_minWidth.add(new Integer(30));
+			m_minWidth.add(Integer.valueOf(30));
 			
 		}
 		//  Date
@@ -810,7 +809,7 @@ public class MiniTable extends CTable implements IMiniTable
 			else 
 				tc.setCellEditor(new MiniCellEditor(c));
 			
-			m_minWidth.add(new Integer(30));
+			m_minWidth.add(Integer.valueOf(30));
 			if (DisplayType.DateTime == displayType)
 				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
 			else 
@@ -823,12 +822,12 @@ public class MiniTable extends CTable implements IMiniTable
 			if (readOnly)
 			{
 				tc.setCellEditor(new ROCellEditor());
-				m_minWidth.add(new Integer(70));
+				m_minWidth.add(Integer.valueOf(70));
 			}
 			else
 			{
 				tc.setCellEditor(new MiniCellEditor(c));
-				m_minWidth.add(new Integer(80));
+				m_minWidth.add(Integer.valueOf(80));
 			}
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -840,12 +839,12 @@ public class MiniTable extends CTable implements IMiniTable
 			if (readOnly)
 			{
 				tc.setCellEditor(new ROCellEditor());
-				m_minWidth.add(new Integer(70));
+				m_minWidth.add(Integer.valueOf(70));
 			}
 			else
 			{
 				tc.setCellEditor(new MiniCellEditor(c));
-				m_minWidth.add(new Integer(80));
+				m_minWidth.add(Integer.valueOf(80));
 			}
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -858,7 +857,7 @@ public class MiniTable extends CTable implements IMiniTable
 				tc.setCellEditor(new ROCellEditor());
 			else
 				tc.setCellEditor(new MiniCellEditor(c));
-			m_minWidth.add(new Integer(30));
+			m_minWidth.add(Integer.valueOf(30));
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
 		}
@@ -870,7 +869,7 @@ public class MiniTable extends CTable implements IMiniTable
 				tc.setCellEditor(new ROCellEditor());
 			else
 				tc.setCellEditor(new MiniCellEditor(String.class));
-			m_minWidth.add(new Integer(30));
+			m_minWidth.add(Integer.valueOf(30));
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
 		}
@@ -922,7 +921,7 @@ public class MiniTable extends CTable implements IMiniTable
 					if (c == IDColumn.class)
 						data = new IDColumn(rs.getInt(colIndex));
 					else if (c == Boolean.class)
-						data = new Boolean("Y".equals(rs.getString(colIndex)));
+						data = Boolean.valueOf("Y".equals(rs.getString(colIndex)));
 					else if (c == Timestamp.class)
 						data = rs.getTimestamp(colIndex);
 					else if (c == BigDecimal.class)
@@ -1056,7 +1055,7 @@ public class MiniTable extends CTable implements IMiniTable
 	public Integer getSelectedRowKey()
 	{
 		int selectedRow = getSelectedRow();
-		return new Integer(getRowKey(selectedRow));
+		return Integer.valueOf(getRowKey(selectedRow));
 	}   //  getSelectedRowKey
 
 	/**

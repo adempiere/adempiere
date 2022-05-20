@@ -88,11 +88,11 @@ public class RequestProcessor extends AdempiereServer
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
-		//
-		MRequestProcessorLog pLog = new MRequestProcessorLog(m_model, m_summary.toString());
-		pLog.setReference("#" + String.valueOf(p_runCount) 
-			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.saveEx();
+		Trx.run(trxName -> {
+			MRequestProcessorLog requestProcessorLog = new MRequestProcessorLog(m_model, m_summary.toString(), trxName);
+			requestProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+			requestProcessorLog.saveEx();
+		});
 
 	}	//	doWork
 

@@ -16,6 +16,7 @@
 package org.adempiere.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -501,7 +502,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract {
 		}
 		else
 		{
-			createNoOfOrder = qty.divide(mrp.getQtyBatchSize(), 0, BigDecimal.ROUND_CEILING).intValue();
+			createNoOfOrder = qty.divide(mrp.getQtyBatchSize(), 0, RoundingMode.CEILING).intValue();
 			QtyPlan = mrp.getQtyBatchSize();
 		}
 

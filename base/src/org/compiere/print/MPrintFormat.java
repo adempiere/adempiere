@@ -135,7 +135,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		{
 			//	Sort Order and Column must be > 0
 			if (m_items[i].getSortNo() != 0 && m_items[i].getAD_Column_ID() != 0)
-				map.put(new Integer(m_items[i].getSortNo()), new Integer(m_items[i].getAD_Column_ID()));
+				map.put(Integer.valueOf(m_items[i].getSortNo()), Integer.valueOf(m_items[i].getAD_Column_ID()));
 		}
 		//	Get SortNo and Sort them
 		Integer[] keys = new Integer[map.keySet().size()];
@@ -162,7 +162,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		for (int i = 0; i < m_items.length; i++)
 		{
 			if (m_items[i].getAD_Column_ID() != 0 && m_items[i].isPrinted())
-				list.add(new Integer(m_items[i].getAD_Column_ID()));
+				list.add(Integer.valueOf(m_items[i].getAD_Column_ID()));
 		}
 		//	Convert
 		int[] retValue = new int[list.size()];
@@ -412,7 +412,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 */
 	static public MPrintFormat createFromTable (Properties ctx, int AD_Table_ID)
 	{
-		return createFromTable(ctx, AD_Table_ID, 0);
+		return createFromTable(ctx, AD_Table_ID, 0 , null);
 	}	//	createFromTable
 
 	/**
@@ -420,15 +420,14 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 *  @param ctx context
 	 * 	@param AD_Table_ID table
 	 *  @param AD_PrintFormat_ID 0 or existing PrintFormat
+	 *  @param trxName transaction Name
 	 * 	@return print format
 	 */
-	static public MPrintFormat createFromTable (Properties ctx, 
-		int AD_Table_ID, int AD_PrintFormat_ID)
-	{
+	static public MPrintFormat createFromTable (Properties ctx, int AD_Table_ID, int AD_PrintFormat_ID, String trxName) {
 		MClient company = MClient.get(ctx);
 		s_log.info ("AD_Table_ID=" + AD_Table_ID + " - AD_Client_ID=" + company.get_ID());
 
-		MPrintFormat pf = new MPrintFormat(ctx, AD_PrintFormat_ID, null);
+		MPrintFormat pf = new MPrintFormat(ctx, AD_PrintFormat_ID, trxName);
 		pf.setAD_Table_ID (AD_Table_ID);
 
 		//	Get Info
@@ -449,7 +448,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, AD_Table_ID);
 			pstmt.setInt(2, company.get_ID());
 			rs = pstmt.executeQuery();
@@ -828,7 +827,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 */
 	static public MPrintFormat get (Properties ctx, int AD_PrintFormat_ID, boolean readFromDisk)
 	{
-		Integer key = new Integer(AD_PrintFormat_ID);
+		Integer key = Integer.valueOf(AD_PrintFormat_ID);
 		MPrintFormat pf = null;
 		if (!readFromDisk)
 			pf = (MPrintFormat)s_formats.get(key);
@@ -895,7 +894,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 */
 	static public void deleteFromCache (int AD_PrintFormat_ID)
 	{
-		Integer key = new Integer(AD_PrintFormat_ID);
+		Integer key = Integer.valueOf(AD_PrintFormat_ID);
 		s_formats.put(key, null);
 	}	//	deleteFromCache
 	

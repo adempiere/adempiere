@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -243,7 +244,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public void setHeaderInfo (MOrder order)
 	{
 		m_parent = order;
-		m_precision = new Integer(order.getPrecision());
+		m_precision = Integer.valueOf(order.getPrecision());
 		m_M_PriceList_ID = order.getM_PriceList_ID();
 		m_IsSOTrx = order.isSOTrx();
 	}	//	setHeaderInfo
@@ -315,7 +316,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			setPriceEntered(getPriceActual());
 		else
 			setPriceEntered(getPriceActual().multiply(getQtyOrdered()
-				.divide(getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP)));	//	recision
+				.divide(getQtyEntered(), 12, RoundingMode.HALF_UP)));	//	recision
 		
 		//	Calculate Discount
 		setDiscount(m_productPrice.getDiscount());
@@ -423,7 +424,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		}
 		
 		if (lineNetAmount.scale() > getPrecision())
-			lineNetAmount = lineNetAmount.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+			lineNetAmount = lineNetAmount.setScale(getPrecision(), RoundingMode.HALF_UP);
 		super.setLineNetAmt (lineNetAmount);
 	}	//	setLineNetAmt
 	
@@ -468,7 +469,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			MCurrency cur = MCurrency.get(getCtx(), getC_Currency_ID());
 			if (cur.get_ID() != 0)
 			{
-				m_precision = new Integer (cur.getStdPrecision());
+				m_precision = Integer.valueOf(cur.getStdPrecision());
 				return m_precision.intValue();
 			}
 		}
@@ -477,7 +478,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			+ "FROM C_Currency c INNER JOIN C_Order x ON (x.C_Currency_ID=c.C_Currency_ID) "
 			+ "WHERE x.C_Order_ID=?";
 		int i = DB.getSQLValue(get_TrxName(), sql, getC_Order_ID());
-		m_precision = new Integer(i);
+		m_precision = Integer.valueOf(i);
 		return m_precision.intValue();
 	}	//	getPrecision
 	
@@ -548,7 +549,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
 		if (M_AttributeSetInstance_ID == 0)		//	 0 is valid ID
-			set_Value("M_AttributeSetInstance_ID", new Integer(0));
+			set_Value("M_AttributeSetInstance_ID", Integer.valueOf(0));
 		else
 			super.setM_AttributeSetInstance_ID (M_AttributeSetInstance_ID);
 	}	//	setM_AttributeSetInstance_ID
@@ -678,7 +679,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			return;
 		BigDecimal discount = list.subtract(getPriceActual())
 			.multiply(new BigDecimal(100))
-			.divide(list, getPrecision(), BigDecimal.ROUND_HALF_UP);
+			.divide(list, getPrecision(), RoundingMode.HALF_UP);
 		setDiscount(discount);
 	}	//	setDiscount
 
@@ -719,7 +720,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		if (QtyEntered != null && getC_UOM_ID() != 0)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
-			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyEntered = QtyEntered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyEntered (QtyEntered);
 	}	//	setQtyEntered
@@ -734,7 +735,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		if (QtyOrdered != null && product != null)
 		{
 			int precision = product.getUOMPrecision();
-			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyOrdered = QtyOrdered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered

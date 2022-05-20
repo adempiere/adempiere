@@ -23,8 +23,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.ecs.xhtml.option;
-import org.apache.ecs.xhtml.select;
+import org.adempiere.legacy.apache.ecs.xhtml.option;
+import org.adempiere.legacy.apache.ecs.xhtml.select;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -97,7 +97,7 @@ public class ProductCategoryListTag extends TagSupport
 	 */
 	private option[] getCategories (int AD_Client_ID)
 	{
-		option[] options = (option[])s_categories.get(new Integer(AD_Client_ID));
+		option[] options = (option[])s_categories.get(Integer.valueOf(AD_Client_ID));
 		if (options != null)
 			return options;
 		
@@ -123,7 +123,7 @@ public class ProductCategoryListTag extends TagSupport
 			}
 		}
 		//
-		s_categories.put(new Integer(AD_Client_ID), options);
+		s_categories.put(Integer.valueOf(AD_Client_ID), options);
 		return options;
 	}	//	getCountries
 

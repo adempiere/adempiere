@@ -31,18 +31,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.tree.TreeNode;
 
-import org.apache.ecs.Element;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.base;
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.head;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.Element;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.base;
+import org.adempiere.legacy.apache.ecs.xhtml.body;
+import org.adempiere.legacy.apache.ecs.xhtml.head;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.link;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 import org.compiere.model.MForm;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
@@ -420,7 +421,7 @@ public class WMenu extends HttpServlet
 		MTree tree = new MTree (wsc.ctx, AD_Tree_ID, false, null);	// Language set in WLogin
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
-		Enumeration en = root.preorderEnumeration();
+		Enumeration<TreeNode> en = root.preorderEnumeration();
 		/*while (en.hasMoreElements())
 		{
 			MTreeNode nd = (MTreeNode)en.nextElement();

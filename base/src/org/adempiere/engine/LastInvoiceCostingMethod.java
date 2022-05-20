@@ -4,6 +4,7 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.compiere.model.MAcctSchema;
@@ -54,7 +55,7 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 		BigDecimal price = costDetail.getAmt();
 
 		if (costDetail.getQty().signum() != 0)
-			price = costDetail.getAmt().divide(costDetail.getQty(), precision, BigDecimal.ROUND_HALF_UP);
+			price = costDetail.getAmt().divide(costDetail.getQty(), precision, RoundingMode.HALF_UP);
 		if (costDetail.getC_OrderLine_ID() != 0) {
 			if (!isReturnTrx) {
 				if (costDetail.getQty().signum() != 0)
@@ -97,12 +98,25 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+			return getNewCurrentCostPrice(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0) {
 			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 	/**
@@ -154,12 +168,25 @@ public class LastInvoiceCostingMethod extends AbstractCostingMethod implements I
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+		return getNewCurrentCostPriceLowerLevel(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0) {
 			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+
+		return BigDecimal.ZERO;
 	}
 
 

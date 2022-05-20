@@ -48,7 +48,7 @@ public class MRfQLine extends X_C_RfQLine
 	 */
 	public static MRfQLine get (Properties ctx, int C_RfQLine_ID, String trxName)
 	{
-		Integer key = new Integer (C_RfQLine_ID);
+		Integer key = Integer.valueOf(C_RfQLine_ID);
 		MRfQLine retValue = (MRfQLine) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -86,7 +86,7 @@ public class MRfQLine extends X_C_RfQLine
 	{
 		super(ctx, rs, trxName);
 		if (get_ID() > 0)
-			s_cache.put(new Integer(get_ID()), this);
+			s_cache.put(Integer.valueOf(get_ID()), this);
 	}	//	MRfQLine
 
 	/**

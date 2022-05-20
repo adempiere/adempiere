@@ -71,7 +71,7 @@ public class TranslationTable
 			return s_activeLanguages.intValue();
 		int no = DB.getSQLValue(null, 
 			"SELECT COUNT(*) FROM AD_Language WHERE IsActive='Y' AND IsSystemLanguage='Y'");
-		s_activeLanguages = new Integer(no);
+		s_activeLanguages = Integer.valueOf(no);
 		return s_activeLanguages.intValue();
 	}	//	getActiveLanguages
 	

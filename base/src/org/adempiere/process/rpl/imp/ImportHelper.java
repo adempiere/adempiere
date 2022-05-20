@@ -29,6 +29,7 @@
 package org.adempiere.process.rpl.imp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -133,9 +134,9 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "XMLVersionAttributeMandatory"));
 		}
 		///Getting Attributes.
-		int replicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
+		int replicationMode = Integer.valueOf(rootElement.getAttribute("ReplicationMode"));
 		String replicationType = rootElement.getAttribute("ReplicationType"); // Why we read it from the XML??? This is wrong!
-		int replicationEvent = new Integer(rootElement.getAttribute("ReplicationEvent"));
+		int replicationEvent = Integer.valueOf(rootElement.getAttribute("ReplicationEvent"));
 		
 		MClient client = null;
 		client = getAD_ClientByValue(ctx, AD_Client_Value, trxName);
@@ -371,7 +372,7 @@ public class ImportHelper {
 					refRecord_ID = getID(ctx, referencedExpFormat, referencedNode, line.getValue(), replicationType, po.get_TrxName());
 				}
 				log.info("refRecord_ID = " + refRecord_ID);
-				value = new Integer(refRecord_ID);
+				value = Integer.valueOf(refRecord_ID);
 			}
 			else
 			{
@@ -494,7 +495,7 @@ public class ImportHelper {
 						//
 						if (!Util.isEmpty(value.toString())) {
 							int intValue = Integer.parseInt(value.toString());
-							value = new Integer( intValue );
+							value = Integer.valueOf(intValue);
 						} else {
 							value = null;
 						}
@@ -658,7 +659,7 @@ public class ImportHelper {
 				}
 				log.info("record_ID = " + record_ID);
 
-				cols[col] = new Integer(record_ID);
+				cols[col] = Integer.valueOf(record_ID);
 			}
 			else
 			{
@@ -682,7 +683,7 @@ public class ImportHelper {
 				Object value =  cols[col];
 				if (!Util.isEmpty(value.toString())) {
 					//double doubleValue = Double.parseDouble(value.toString());
-					value = new Integer(value.toString());
+					value = Integer.valueOf(value.toString());
 					if (DisplayType.ID == column.getAD_Reference_ID()) {
 						replication_id = (Integer) value;
 					}
@@ -695,7 +696,7 @@ public class ImportHelper {
 			else if( DisplayType.isNumeric(column.getAD_Reference_ID()))
 			{
 				valuecol="Round("+valuecol+",2)";
-				params[col] = new BigDecimal((String)cols[col]).setScale(2, BigDecimal.ROUND_HALF_UP);
+				params[col] = new BigDecimal((String) cols[col]).setScale(2, RoundingMode.HALF_UP);
 			}
 			else
 			{	

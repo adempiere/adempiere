@@ -325,7 +325,7 @@ public class VAllocation extends Allocation
 
 		MLookup lookupCharge = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		chargePick = new VLookup("C_Charge_ID", false, false, true, lookupCharge);
-		chargePick.setValue(new Integer(chargeId));
+		chargePick.setValue(Integer.valueOf(chargeId));
 		chargePick.addVetoableChangeListener(this);
 		
 		// Organization filter selection

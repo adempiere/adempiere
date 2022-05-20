@@ -17,6 +17,7 @@
 package org.eevolution.model.reasoner;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeInstance;
@@ -195,7 +196,7 @@ public class StorageReasoner {
 			sumQtyReserved = sumQtyReserved.add(storage.getQtyReserved());
 		}
 
-		double available = sumQtyOnHand.subtract(sumQtyReserved).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		double available = sumQtyOnHand.subtract(sumQtyReserved).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		if(count == 0 || (available <= 0.00d)) {
 			
 			return false;

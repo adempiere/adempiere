@@ -1858,7 +1858,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (queryColumn.endsWith("_ID")) {
 				query = new MQuery(currentTab.getTableName());
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-						new Integer(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
+						Integer.valueOf(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
 						infoName, infoDisplay);
 			}
 			else
@@ -1893,7 +1893,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				if (link.endsWith("_ID"))
 					query.addRestriction(link, MQuery.EQUAL,
-						new Integer(Env.getContextAsInt(ctx, curWindowNo, link)));
+						Integer.valueOf(Env.getContextAsInt(ctx, curWindowNo, link)));
 				else
 					query.addRestriction(link, MQuery.EQUAL,
 						Env.getContext(ctx, curWindowNo, link));

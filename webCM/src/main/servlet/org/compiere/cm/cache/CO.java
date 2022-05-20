@@ -99,7 +99,7 @@ public class CO {
 	 * 	get key enumeration
 	 *	@return key enumeration
 	 */
-	public Enumeration getKeys() {
+	public Enumeration<?> getKeys() {
 		return cache.keys();
 	}
 
@@ -107,7 +107,7 @@ public class CO {
 		Vector vecKeys = new Vector(); 
 		//Gets keys from hashtable 
 
-		Enumeration myEnum = cacheUsage.elements();
+		Enumeration<?> myEnum = cacheUsage.elements();
 
 		while (myEnum.hasMoreElements()) 
 		{ 
@@ -123,7 +123,7 @@ public class CO {
 		{
 			String value = vecKeys.get(i).toString();
 			String key = "";
-			Enumeration keys = cacheUsage.keys();
+			Enumeration<?> keys = cacheUsage.keys();
 			while (keys.hasMoreElements() && key.equals("")) {
 				String thisKey = keys.nextElement().toString();
 				String tempValue = cacheUsage.get(thisKey).toString(); 
@@ -173,11 +173,10 @@ public class CO {
      */
     public String show() {
     		StringBuffer tStrHTML = new StringBuffer();
-		Enumeration thisEnum = null;
 		tStrHTML.append("      <size>" + this.getSize() + "</size>\n");
-		thisEnum = this.getKeys();
+		Enumeration<?> thisEnum = this.getKeys();
 		while (thisEnum.hasMoreElements()) { 
-			tStrHTML.append("      <item>" + thisEnum.nextElement() + "</item>\n"); 
+			tStrHTML.append("      <item>" + thisEnum.nextElement().toString() + "</item>\n"); 
 		} 
 		return tStrHTML.toString();
     }

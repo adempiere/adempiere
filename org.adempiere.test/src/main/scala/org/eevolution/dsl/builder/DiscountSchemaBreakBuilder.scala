@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Discount Schema Break Builder allows create a Discount Schema Break using a DSL
@@ -26,7 +26,7 @@ import org.eevolution.dsl._
   */
 object DiscountSchemaBreakBuilder {
 
-  def apply()(implicit context: Context , transaction: Transaction) = {
+  def apply()(implicit context: Context , transaction: Transaction): Builder[Mandatory, Mandatory, Optional, Optional, Mandatory, Optional, Optional] = {
       new Builder[Mandatory, Mandatory, Optional , Optional , Mandatory, Optional, Optional]()
   }
 
@@ -51,7 +51,7 @@ object DiscountSchemaBreakBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withDiscountSchema[DiscountSchema <: WithDiscountSchemaTracking : IsMandatory](ds: dsl.DiscountSchema) =
+    def withDiscountSchema[DiscountSchema <: WithDiscountSchemaTracking : IsMandatory](ds: dsl.DiscountSchema): Builder[Once, WithSequenceNo, WithProductTracking, WithProductCategoryTracking, WithBreakValueTracking, WithIsPartnerFlatDiscountTracking, WithBreakDiscountTracking] =
     copy[
       Once,
       WithSequenceNo,
@@ -62,7 +62,7 @@ object DiscountSchemaBreakBuilder {
       WithBreakDiscountTracking
       ](discountSchema = Some(ds))
 
-    def withSequenceNo[SequenceNo <: WithSequenceNo : IsMandatory](sn: Integer) =
+    def withSequenceNo[SequenceNo <: WithSequenceNo : IsMandatory](sn: Integer): Builder[Once, WithSequenceNo, WithProductTracking, WithProductCategoryTracking, WithBreakValueTracking, WithIsPartnerFlatDiscountTracking, WithBreakDiscountTracking] =
       copy[
         Once,
         WithSequenceNo,
@@ -73,7 +73,7 @@ object DiscountSchemaBreakBuilder {
         WithBreakDiscountTracking
         ](sequenceNo = Some(sn))
 
-    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product) =
+    def withProduct[Product <: WithProductTracking : IsMandatory] (p: dsl.Product): Builder[WithDiscountSchemaTracking, WithSequenceNo, Once, WithProductCategoryTracking, WithBreakValueTracking, WithIsPartnerFlatDiscountTracking, WithBreakDiscountTracking] =
       copy[
         WithDiscountSchemaTracking,
         WithSequenceNo,
@@ -84,7 +84,7 @@ object DiscountSchemaBreakBuilder {
         WithBreakDiscountTracking
         ](product = Some(p))
 
-    def withProductCategory[ProductCategory<: WithProductCategoryTracking : IsMandatory] (pc: dsl.ProductCategory) =
+    def withProductCategory[ProductCategory<: WithProductCategoryTracking : IsMandatory] (pc: dsl.ProductCategory): Builder[WithDiscountSchemaTracking, WithSequenceNo, WithProductTracking, Once, WithBreakValueTracking, WithIsPartnerFlatDiscountTracking, WithBreakDiscountTracking] =
       copy[
         WithDiscountSchemaTracking,
         WithSequenceNo,
@@ -96,7 +96,7 @@ object DiscountSchemaBreakBuilder {
         ](productCategory = Some(pc))
 
 
-    def withBreakValue[BreakValue <: WithBreakValueTracking : IsMandatory] (bv: BigDecimal) =
+    def withBreakValue[BreakValue <: WithBreakValueTracking : IsMandatory] (bv: BigDecimal): Builder[WithDiscountSchemaTracking, WithSequenceNo, WithProductTracking, WithProductCategoryTracking, Once, WithIsPartnerFlatDiscountTracking, WithBreakDiscountTracking] =
       copy[
         WithDiscountSchemaTracking,
         WithSequenceNo,
@@ -107,7 +107,7 @@ object DiscountSchemaBreakBuilder {
         WithBreakDiscountTracking
         ](breakValue = Some(bv))
 
-    def asPartnerFlatDiscount[IsPartnerFlatDiscount <: WithIsPartnerFlatDiscountTracking : IsMandatory]() =
+    def asPartnerFlatDiscount[IsPartnerFlatDiscount <: WithIsPartnerFlatDiscountTracking : IsMandatory](): Builder[WithDiscountSchemaTracking, WithSequenceNo, WithProductTracking, WithProductCategoryTracking, WithBreakValueTracking, Once, WithBreakDiscountTracking] =
       copy[
         WithDiscountSchemaTracking,
         WithSequenceNo,
@@ -118,7 +118,7 @@ object DiscountSchemaBreakBuilder {
         WithBreakDiscountTracking
         ](isPartnerFlatDiscount = Some(true))
 
-    def withBreakDiscount[BreakDiscount <: WithBreakDiscountTracking : IsMandatory](bd: BigDecimal) =
+    def withBreakDiscount[BreakDiscount <: WithBreakDiscountTracking : IsMandatory](bd: BigDecimal): Builder[WithDiscountSchemaTracking, WithSequenceNo, WithProductTracking, WithProductCategoryTracking, WithBreakValueTracking, WithIsPartnerFlatDiscountTracking, Once] =
       copy[
         WithDiscountSchemaTracking,
         WithSequenceNo,

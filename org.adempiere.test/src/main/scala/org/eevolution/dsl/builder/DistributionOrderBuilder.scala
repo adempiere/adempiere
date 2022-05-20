@@ -20,7 +20,7 @@ package org.eevolution.dsl.builder
 import org.compiere.model.{MDocType, X_C_DocType}
 import org.compiere.process.DocAction
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Distribution Order Builder allows create a sales order using a DSL
@@ -56,22 +56,22 @@ object DistributionOrderBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization) =
+    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization): Builder[Once, WithPartnerTracking, WithWarehouseTracking, WithBaseDocumentTypeTracking, WithDropShipTracking, WithLinesTracking] =
       copy[Once, WithPartnerTracking, WithWarehouseTracking , WithBaseDocumentTypeTracking , WithDropShipTracking, WithLinesTracking](organization = Some(o))
 
-    def withPartner[Partner <: WithPartnerTracking : IsMandatory](p: dsl.Partner) =
+    def withPartner[Partner <: WithPartnerTracking : IsMandatory](p: dsl.Partner): Builder[WithOrganizationTracking, Once, WithWarehouseTracking, WithBaseDocumentTypeTracking, WithDropShipTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, Once, WithWarehouseTracking , WithBaseDocumentTypeTracking , WithDropShipTracking, WithLinesTracking](partner = Some(p))
 
-    def withWarehouse[Warehouse <: WithWarehouseTracking : IsMandatory](w : dsl.Warehouse) =
+    def withWarehouse[Warehouse <: WithWarehouseTracking : IsMandatory](w : dsl.Warehouse): Builder[WithOrganizationTracking, WithPartnerTracking, Once, WithBaseDocumentTypeTracking, WithDropShipTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking , Once , WithBaseDocumentTypeTracking, WithDropShipTracking, WithLinesTracking] (warehouse = Some(w))
 
-    def withBaseDocumentType[BaseDocumentType <: WithBaseDocumentTypeTracking : IsMandatory](bdt: String) =
+    def withBaseDocumentType[BaseDocumentType <: WithBaseDocumentTypeTracking : IsMandatory](bdt: String): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, Once, WithDropShipTracking, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, Once, WithDropShipTracking , WithLinesTracking](baseDocumentType = Some(bdt))
 
-    def withDropShip[DropShipDocument <: WithDropShipTracking : IsMandatory](ds: Boolean) =
+    def withDropShip[DropShipDocument <: WithDropShipTracking : IsMandatory](ds: Boolean): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithBaseDocumentTypeTracking, Once, WithLinesTracking] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithBaseDocumentTypeTracking, Once , WithLinesTracking](dropShip = Some(ds))
 
-    def AddLine[DistributionOrderLine <: WithLinesTracking : IsOnce ](product: Product , quantity: Quantity) =
+    def AddLine[DistributionOrderLine <: WithLinesTracking : IsOnce ](product: Product , quantity: Quantity): Builder[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithBaseDocumentTypeTracking, WithDropShipTracking, Once] =
       copy[WithOrganizationTracking, WithPartnerTracking, WithWarehouseTracking, WithBaseDocumentTypeTracking,WithDropShipTracking, Once] (orderLines = orderLines + (product -> Some(quantity)))
 
 

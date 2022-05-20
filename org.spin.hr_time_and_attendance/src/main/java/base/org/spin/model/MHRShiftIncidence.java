@@ -28,7 +28,6 @@ import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.jfree.data.time.Millisecond;
 
 /**
  * 	Class added for handle shift incidence
@@ -91,7 +90,7 @@ public class MHRShiftIncidence extends X_HR_ShiftIncidence {
 	}
 	
 	/**
-	 * Get Duration in {@link Millisecond}, it can be used after evaluate time
+	 * Get Duration in Millisecond, it can be used after evaluate time
 	 * A example for entrance
 	 * <li>[(8:00)------------(8:30)----------------------------(9:30)-------------------------(12:00)]
 	 * <li>[(From)--------(Beginning Time)-----------------(Attendance Time)----------------------(To)]

@@ -210,11 +210,11 @@ public class DBObject_Table_Column extends DBObjectDefinition {
 			getElementID();
 			
 			// default is not customized
-			m_customizationLevel = new Integer(s_parameters.CUSTOMNONE);
+			m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMNONE);
 			
 			// first check whether the column name starts with a custom prefix
 			if (m_parent.isCustomPrefix(m_name)) {
-				m_customizationLevel = new Integer(s_parameters.CUSTOMPREFIXED);
+				m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMPREFIXED);
 			} else {
 				// otherwise check if it is marked as customization in the application dictionary
 				if (m_parent.isObjectExists("AD_COLUMN", m_parent.getTables()) && m_parent.isObjectExists("AD_TABLE", m_parent.getTables())) {
@@ -224,7 +224,7 @@ public class DBObject_Table_Column extends DBObjectDefinition {
 					if (m_parent.getResultSetNext(rs)) {
 						String s = m_parent.getResultSetString(rs, "ENTITY_TYPE");
 						if(m_parent.isCustomEntityType(s))
-							m_customizationLevel = new Integer(s_parameters.CUSTOMMARKED);
+							m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMMARKED);
 					}
 					m_parent.releaseResultSet(rs);
 					m_parent.releaseStatement(stmt);
@@ -376,7 +376,7 @@ public class DBObject_Table_Column extends DBObjectDefinition {
 		if (m_elementID==null) {
 
 			// default is 0
-			m_elementID = new Integer(0);
+			m_elementID = Integer.valueOf(0);
 
 			// load element_ID from application dictionary
 			if (m_parent.isObjectExists("AD_COLUMN", m_parent.getTables()) && m_parent.isObjectExists("AD_TABLE", m_parent.getTables())) {
@@ -384,7 +384,7 @@ public class DBObject_Table_Column extends DBObjectDefinition {
 				Statement stmt = m_parent.setStatement();
 				ResultSet rs = m_parent.executeQuery(stmt, sql);
 				if (m_parent.getResultSetNext(rs)) {
-					m_elementID = new Integer (m_parent.getResultSetInt(rs, "COLUMN_ELEMENT"));
+					m_elementID = Integer.valueOf(m_parent.getResultSetInt(rs, "COLUMN_ELEMENT"));
 				}
 				m_parent.releaseResultSet(rs);
 				m_parent.releaseStatement(stmt);

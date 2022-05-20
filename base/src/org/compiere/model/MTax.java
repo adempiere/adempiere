@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
@@ -96,7 +97,7 @@ public class MTax extends X_C_Tax
 	 */
 	public static MTax get (Properties ctx, int C_Tax_ID)
 	{
-		Integer key = new Integer (C_Tax_ID);
+		Integer key = Integer.valueOf(C_Tax_ID);
 		MTax retValue = (MTax) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -261,7 +262,7 @@ public class MTax extends X_C_Tax
 		if (isZeroTax())
 			return Env.ZERO;
 		
-		BigDecimal multiplier = getRate().divide(ONEHUNDRED, 12, BigDecimal.ROUND_HALF_UP);		
+		BigDecimal multiplier = getRate().divide(ONEHUNDRED, 12, RoundingMode.HALF_UP);		
 
 		BigDecimal tax = null;		
 		if (!taxIncluded)	//	$100 * 6 / 100 == $6 == $100 * 0.06
@@ -271,10 +272,10 @@ public class MTax extends X_C_Tax
 		else			//	$106 - ($106 / (100+6)/100) == $6 == $106 - ($106/1.06)
 		{
 			multiplier = multiplier.add(Env.ONE);
-			BigDecimal base = amount.divide(multiplier, 12, BigDecimal.ROUND_HALF_UP); 
+			BigDecimal base = amount.divide(multiplier, 12, RoundingMode.HALF_UP); 
 			tax = amount.subtract(base);
 		}
-		BigDecimal finalTax = tax.setScale(scale, BigDecimal.ROUND_HALF_UP);
+		BigDecimal finalTax = tax.setScale(scale, RoundingMode.HALF_UP);
 		log.fine("calculateTax " + amount 
 			+ " (incl=" + taxIncluded + ",mult=" + multiplier + ",scale=" + scale 
 			+ ") = " + finalTax + " [" + tax + "]");

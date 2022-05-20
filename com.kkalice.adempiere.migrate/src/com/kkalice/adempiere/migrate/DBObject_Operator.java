@@ -233,7 +233,7 @@ public class DBObject_Operator implements DBObjectInterface {
 
 				DBObject_Operator_Definition obj = new DBObject_Operator_Definition (parent, operatorName, counter);
 				obj.initializeDefinition(functionName, commutator, negator, restrictor, joiner, hashable, mergeable);
-				contentMap.put(new Integer(counter), obj);
+				contentMap.put(Integer.valueOf(counter), obj);
 
 				counter++;
 			}
@@ -259,7 +259,7 @@ public class DBObject_Operator implements DBObjectInterface {
 
 			DBObject_Operator_Signature obj = new DBObject_Operator_Signature (parent, operatorName, counter);
 			obj.initializeDefinition(leftArg, rightArg, returnType);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 
 			counter++;
 		}

@@ -124,7 +124,7 @@ public class DBObject_ForeignKey implements DBObjectInterface {
 			String onDelete = parent.getResultSetString(rs, "ON_DELETE");
 			DBObject_ForeignKey_Table obj = new DBObject_ForeignKey_Table(parent, fkName, counter);
 			obj.initializeDefinition(tableName, fTableName, isDeferrable, isDeferred, matchType, onUpdate, onDelete);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 			counter ++;
 		}
 		parent.releaseResultSet(rs);
@@ -146,7 +146,7 @@ public class DBObject_ForeignKey implements DBObjectInterface {
 			String fColumnName = parent.getResultSetString(rs, "FCOLUMN_NAME");
 			DBObject_ForeignKey_Column obj = new DBObject_ForeignKey_Column(parent, fkName, fkSeq);
 			obj.initializeDefinition(tableName, columnName, fTableName, fColumnName);
-			contentMap.put(new Integer(fkSeq), obj);
+			contentMap.put(Integer.valueOf(fkSeq), obj);
 		}
 		parent.releaseResultSet(rs);
 	}

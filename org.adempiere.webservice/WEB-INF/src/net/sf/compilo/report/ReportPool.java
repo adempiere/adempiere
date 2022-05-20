@@ -38,7 +38,7 @@ import org.compiere.util.CLogger;
  */
 public class ReportPool
 {
-    private static HashMap   pool   = new HashMap();
+    private static HashMap<Integer, ReportInfo> pool = new HashMap<Integer, ReportInfo>();
 
     private static final int MAXNUM = 15;
     private static int 	size = 0;
@@ -47,7 +47,7 @@ public class ReportPool
     
     public ReportInfo getReport (int AD_Process_ID )
     {
-/*        ReportInfo reportinfo = (ReportInfo) pool.get(new Integer(AD_Process_ID));
+/*        ReportInfo reportinfo = (ReportInfo) pool.get(Integer.valueOf(AD_Process_ID));
         if (reportinfo == null)
         {
             reportinfo = loadReport(AD_Process_ID);
@@ -76,7 +76,7 @@ public class ReportPool
     {
         if(refresh)
         {
-            pool.put(new Integer(AD_Process_ID), reportinfo);            
+            pool.put(Integer.valueOf(AD_Process_ID), reportinfo);            
         }
         else
         {
@@ -93,7 +93,7 @@ public class ReportPool
             	size--;
             }
             
-            pool.put(new Integer(AD_Process_ID), reportinfo);
+            pool.put(Integer.valueOf(AD_Process_ID), reportinfo);
             size++;            
         }
         log.info("Load " + reportinfo + " into Report Pool" + " Size=" + size);

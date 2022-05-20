@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -1810,7 +1811,7 @@ public class MOrder extends X_C_Order implements DocAction
 			if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0) {
 				ioLine.setQtyEntered(MovementQty
 						.multiply(oLine.getQtyEntered())
-						.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
+						.divide(oLine.getQtyOrdered(), 6, RoundingMode.HALF_UP));
 			}
 			ioLine.saveEx(get_TrxName());
 		}
@@ -1880,7 +1881,7 @@ public class MOrder extends X_C_Order implements DocAction
 				if (oLine.getQtyOrdered().compareTo(oLine.getQtyEntered()) == 0) {
 					iLine.setQtyEntered(iLine.getQtyInvoiced());
 				} else {
-					iLine.setQtyEntered(iLine.getQtyInvoiced().multiply(oLine.getQtyEntered()).divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+					iLine.setQtyEntered(iLine.getQtyInvoiced().multiply(oLine.getQtyEntered()).divide(oLine.getQtyOrdered(), 12, RoundingMode.HALF_UP));
 				}
 				iLine.saveEx(get_TrxName());
 			}
@@ -2032,7 +2033,7 @@ public class MOrder extends X_C_Order implements DocAction
 		MOrderTax[] taxes = getTaxes(true);
 		for (MOrderTax tax : taxes )
 		{
-			if(tax.calculateTaxFromLines()) {
+			if(!tax.calculateTaxFromLines()) {
 				return false;
 			}
 			//	Save
@@ -2183,7 +2184,13 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
+			m_processMsg = "@FailedToUpdateReservations@";
+			return false;
+		}
+
+		if (!calculateTaxTotal())
+		{
+			m_processMsg = "@ErrorCalculatingTax@";
 			return false;
 		}
 
@@ -2239,8 +2246,14 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg ="@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
-			return "Failed to update reservations";
+			m_processMsg = "@FailedToUpdateReservations@";
+			return m_processMsg;
+		}
+
+		if (!calculateTaxTotal())
+		{
+			m_processMsg = "@ErrorCalculatingTax@";
+			return m_processMsg;
 		}
 
 		//Calculate Sizes (Weight & Volume)

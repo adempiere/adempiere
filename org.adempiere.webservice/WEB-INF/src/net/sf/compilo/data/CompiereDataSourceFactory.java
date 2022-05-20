@@ -41,10 +41,11 @@ import org.compiere.process.ProcessInfo;
 public class CompiereDataSourceFactory
 {
 
-    public static compiereDataSource createDataSource(Properties ctx, ReportInfo ri, ProcessInfo pi, HashMap params)
+    public static compiereDataSource createDataSource(Properties ctx, ReportInfo ri, ProcessInfo pi, HashMap<String, Object> params)
 	{
-	    if(ri.getReportViewID() > 0)
-	        return new ReportViewDataSource(ctx, pi, params);
+	    if (ri.getReportViewID() > 0) {
+	        return new ReportViewDataSource(ctx, pi);
+	    }
 	    
 	  return new DBDataSource(ctx, ri, params);
 	}

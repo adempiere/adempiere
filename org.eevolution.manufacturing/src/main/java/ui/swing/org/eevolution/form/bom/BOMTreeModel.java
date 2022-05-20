@@ -18,6 +18,7 @@ package org.eevolution.form.bom;
 import java.util.HashMap;
 
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
@@ -27,7 +28,7 @@ public interface BOMTreeModel {
 
 	public JTree getTree();
 	
-	public HashMap getNodeMapping();
+	public HashMap<DefaultMutableTreeNode, String> getNodeMapping();
 
 	public BOMMessenger getBOMMessenger();
 }

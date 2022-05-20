@@ -88,8 +88,8 @@ public class Doc_Requisition extends Doc
 			BigDecimal Qty = line.getQty();
 			docLine.setQty (Qty, false);
 			BigDecimal PriceActual = line.getPriceActual();
-			BigDecimal LineNetAmt = line.getLineNetAmt();
-			docLine.setAmount (LineNetAmt);	 // DR
+			BigDecimal lineTotalAmt = line.getLineTotalAmt();
+			docLine.setAmount (lineTotalAmt);	 // DR
 			list.add (docLine);
 		}
 		// Return Array

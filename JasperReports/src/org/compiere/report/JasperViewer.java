@@ -104,7 +104,7 @@ public class JasperViewer extends javax.swing.JFrame {
 	public static void main(String args[]) {
         try {
         	JasperReport myjasperReport = (JasperReport) JasperCompileManager.compileReport(args[0] );
-        	JasperPrint myjasperPrint = JasperFillManager.fillReport( myjasperReport, new HashMap(), getConnection());
+        	JasperPrint myjasperPrint = JasperFillManager.fillReport(myjasperReport, new HashMap<String, Object>(), getConnection());
             JasperViewer.viewReport(myjasperPrint);
            } 
         catch (Exception e) {

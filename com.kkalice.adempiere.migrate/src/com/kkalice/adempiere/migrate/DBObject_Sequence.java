@@ -130,7 +130,7 @@ public class DBObject_Sequence implements DBObjectInterface {
 			String lastValue = parent.getResultSetString(rs, "LAST_VALUE");
 			DBObject_Sequence_Counter obj = new DBObject_Sequence_Counter(parent, name, counter);
 			obj.initializeDefinition(minValue, maxValue, increment, isCycled, cacheSize, lastValue);
-			contentMap.put(new Integer(counter), obj);
+			contentMap.put(Integer.valueOf(counter), obj);
 
 			counter++;
 		}

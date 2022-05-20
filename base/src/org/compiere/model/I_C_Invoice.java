@@ -546,8 +546,6 @@ public interface I_C_Invoice
 	/** Get Financial Account	  */
 	public int getFM_Account_ID();
 
-	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException;
-
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";
 

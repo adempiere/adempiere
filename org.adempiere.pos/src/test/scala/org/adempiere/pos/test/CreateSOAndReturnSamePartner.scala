@@ -16,28 +16,29 @@
 
 package org.adempiere.pos.test
 
-import org.compiere.model._
+import org.compiere.model.*
 import org.compiere.process.DocAction
 import org.eevolution.dsl.builder.PaymentBuilder
 import org.eevolution.dsl.{Order, Payment}
 import org.eevolution.service.dsl.ProcessBuilder
-import org.eevolution.services.{ProductService, PaymentService, SystemConfigService}
-import org.eevolution.test._
+import org.eevolution.services.{PaymentService, ProductService, SystemConfigService}
+import org.eevolution.test.*
+import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.{FeatureSpec, GivenWhenThen}
 
-import scala.collection.JavaConversions._
+import scala.jdk.CollectionConverters.*
 
 /**
   * Test to validate process of  Sales in POS
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 05/01/16.
   */
-class CreateSOAndReturnSamePartner extends FeatureSpec
+class CreateSOAndReturnSamePartner extends AnyFeatureSpec
 with AdempiereTestCase
 with GivenWhenThen
 with ProductService
 with PaymentService
 with SystemConfigService{
-  feature("Create a sales ticket using final consumer") {
+  Feature("Create a sales ticket using final consumer") {
     info("The customer Joe Block buy one Oak Trees and two Azalea Bush")
     info("The customer not ask for an invoice so that the delivery is made using final consumer")
     info("The customer paid using your credit card 50 % of sales ticket and other 50% in cash")
@@ -50,7 +51,7 @@ with SystemConfigService{
     val TotalSales = { (OakPrice * 1)+(AzaleaPrice * 2) }
 
     //Functions for this scenario
-    scenario("Creating the sales order") {
+    Scenario("Creating the sales order") {
       val HQ = { Organization }
       val JoeBlock = { MBPartner.get(Context , "JoeBlock") }
       val Azalea = { getProductByValue("Azalea Bush") }
@@ -69,7 +70,7 @@ with SystemConfigService{
       When("Sales order is created ")
       Then("the organization " + Organization.getName + " is used")
       assert( order.getAD_Org_ID == HQ.getAD_Org_ID)
-      assert( order.getDocumentNo.length > 0)
+      assert( order.getDocumentNo.nonEmpty)
       And("the document no was generate with " + order.getDocumentNo)
       And("the order is created with partner " + JoeBlock.getName)
       assert ( order.getC_BPartner == JoeBlock)

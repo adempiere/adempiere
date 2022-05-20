@@ -224,7 +224,7 @@ public class HRPayPrint
 			ResultSet rs = pstmt.executeQuery();
 			//
 			if (rs.next())
-				documentNo = new Integer(rs.getInt(1));
+				documentNo = Integer.valueOf(rs.getInt(1));
 			else
 			{
 				log.log(Level.SEVERE, "VPayPrint.loadPaymentRuleInfo - No active BankAccountDoc for C_BankAccount_ID="

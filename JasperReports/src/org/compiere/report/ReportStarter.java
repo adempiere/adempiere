@@ -70,6 +70,8 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.spin.util.PrinterUtil;
+
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
@@ -511,34 +513,34 @@ public class ReportStarter implements ProcessCall, ClientProcess
             }
 
             if (Record_ID > 0) {
-            	params.put("RECORD_ID", new Integer(Record_ID));
-            	Optional.ofNullable(params.get("Record_ID")).orElse(params.put("Record_ID", new Integer(Record_ID)));
+            	params.put("RECORD_ID", Integer.valueOf(Record_ID));
+            	Optional.ofNullable(params.get("Record_ID")).orElse(params.put("Record_ID", Integer.valueOf(Record_ID)));
             }
             MProcess process = MProcess.get(ctx, pi.getAD_Process_ID());
         	// contribution from Ricardo (ralexsander)
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
-            params.put("AD_PINSTANCE_ID", new Integer(AD_PInstance_ID));
-            Optional.ofNullable(params.get("AD_PInstance_ID")).orElse(params.put("AD_PInstance_ID", new Integer(AD_PInstance_ID)));
+            params.put("AD_PINSTANCE_ID", Integer.valueOf(AD_PInstance_ID));
+            Optional.ofNullable(params.get("AD_PInstance_ID")).orElse(params.put("AD_PInstance_ID", Integer.valueOf(AD_PInstance_ID)));
             
             // FR [3123850] - Add continiuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
         	//	Client
-            params.put("AD_CLIENT_ID", new Integer(Env.getAD_Client_ID(Env.getCtx())));
+            params.put("AD_CLIENT_ID", Integer.valueOf(Env.getAD_Client_ID(Env.getCtx())));
             if(!Optional.ofNullable(process.getParameter("AD_Client_ID")).isPresent()) {
-            	params.put("AD_Client_ID", new Integer(Env.getAD_Client_ID(Env.getCtx())));
+            	params.put("AD_Client_ID", Integer.valueOf(Env.getAD_Client_ID(Env.getCtx())));
             }
         	//	Role
-        	params.put("AD_ROLE_ID", new Integer(Env.getAD_Role_ID(Env.getCtx())));
+        	params.put("AD_ROLE_ID", Integer.valueOf(Env.getAD_Role_ID(Env.getCtx())));
         	if(!Optional.ofNullable(process.getParameter("AD_Role_ID")).isPresent()) {
-        		params.put("AD_Role_ID", new Integer(Env.getAD_Role_ID(Env.getCtx())));
+        		params.put("AD_Role_ID", Integer.valueOf(Env.getAD_Role_ID(Env.getCtx())));
         	}
         	//	User
-        	params.put("AD_USER_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
+        	params.put("AD_USER_ID", Integer.valueOf(Env.getAD_User_ID(Env.getCtx())));
         	if(!Optional.ofNullable(process.getParameter("AD_User_ID")).isPresent()) {
-        		params.put("AD_User_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
+        		params.put("AD_User_ID", Integer.valueOf(Env.getAD_User_ID(Env.getCtx())));
         	}
         	//	Organization
         	if(!Optional.ofNullable(process.getParameter("AD_Org_ID")).isPresent()) {
-        		params.put("AD_Org_ID", new Integer(Env.getAD_Org_ID(Env.getCtx())));
+        		params.put("AD_Org_ID", Integer.valueOf(Env.getAD_Org_ID(Env.getCtx())));
         	}
 
         	Language currLang = Env.getLanguage(Env.getCtx());
@@ -616,7 +618,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     		JasperPrintManager.printReport(jasperPrint, false);
                     	} else {	//	Old compatibility
                         	// Get printer job
-                        	PrinterJob printerJob = org.compiere.print.CPrinter.getPrinterJob(printerName);
+                        	PrinterJob printerJob = PrinterUtil.getPrinterJob(printerName);
                         	// Set print request attributes
                         	
                     		//	Paper Attributes:

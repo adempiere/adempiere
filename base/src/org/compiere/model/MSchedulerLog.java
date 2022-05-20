@@ -62,10 +62,11 @@ public class MSchedulerLog extends X_AD_SchedulerLog
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 *	@param summary summary
+	 *  @param trxName transaction name
 	 */
-	public MSchedulerLog (MScheduler parent, String summary)
+	public MSchedulerLog (MScheduler parent, String summary, String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setAD_Scheduler_ID(parent.getAD_Scheduler_ID());
 		setSummary(summary);

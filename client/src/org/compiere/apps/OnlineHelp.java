@@ -271,7 +271,7 @@ class Worker extends Thread
 			InputStream is = conn.getInputStream();
 			HTMLEditorKit kit = new HTMLEditorKit();
 			HTMLDocument doc = (HTMLDocument)kit.createDefaultDocument();
-			doc.putProperty("IgnoreCharsetDirective", new Boolean(true));
+			doc.putProperty("IgnoreCharsetDirective", Boolean.TRUE);
 			kit.read (new InputStreamReader(is), doc, 0);
 
 			//  Get The Links to the Help Pages
@@ -287,7 +287,7 @@ class Worker extends Thread
 				//  key keys
 				if (target == null || href == null)
 				{
-					Enumeration en = as.getAttributeNames();
+					Enumeration<?> en = as.getAttributeNames();
 					while (en.hasMoreElements())
 					{
 						Object o = en.nextElement();

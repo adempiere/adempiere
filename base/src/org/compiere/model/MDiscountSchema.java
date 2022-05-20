@@ -17,14 +17,14 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
+import java.math.MathContext;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
@@ -50,7 +50,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 	 */
 	public static MDiscountSchema get (Properties ctx, int M_DiscountSchema_ID)
 	{
-		Integer key = new Integer (M_DiscountSchema_ID);
+		Integer key = Integer.valueOf(M_DiscountSchema_ID);
 		MDiscountSchema retValue = (MDiscountSchema) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -98,51 +98,55 @@ public class MDiscountSchema extends X_M_DiscountSchema
 	}	//	MDiscountSchema
 
 	/**	Breaks							*/
-	private MDiscountSchemaBreak[]	m_breaks  = null;
+	private List<MDiscountSchemaBreak>	breaks  = null;
 	/**	Lines							*/
-	private MDiscountSchemaLine[]	m_lines  = null;
+	private List<MDiscountSchemaLine>	lines  = null;
+	
+	/**
+	 * Get Break as List
+	 * @param reload
+	 * @return
+	 */
+	public List<MDiscountSchemaBreak> getBreaksAsList(boolean reload) {
+		if (breaks != null && !reload) {
+			return breaks;
+		}
+		//	Get from Query
+		breaks = new Query(getCtx(), I_M_DiscountSchemaBreak.Table_Name, I_M_DiscountSchemaBreak.COLUMNNAME_M_DiscountSchema_ID + " = ?", get_TrxName())
+				.setParameters(getM_DiscountSchema_ID())
+				.setOrderBy(I_M_DiscountSchemaBreak.COLUMNNAME_SeqNo)
+				.list();
+		return breaks;
+	}
+	
+	/**
+	 * Get Lines as List
+	 * @param reload
+	 * @return
+	 */
+	public List<MDiscountSchemaLine> getLinesAsList(boolean reload) {
+		if (lines != null && !reload) {
+			return lines;
+		}
+		//	Get from Query
+		lines = new Query(getCtx(), I_M_DiscountSchemaLine.Table_Name, I_M_DiscountSchemaLine.COLUMNNAME_M_DiscountSchema_ID + " = ?", get_TrxName())
+				.setParameters(getM_DiscountSchema_ID())
+				.setOrderBy(I_M_DiscountSchemaLine.COLUMNNAME_SeqNo)
+				.list();
+		return lines;
+	}
 	
 	/**
 	 * 	Get Breaks
 	 *	@param reload reload
 	 *	@return breaks
 	 */
-	public MDiscountSchemaBreak[] getBreaks(boolean reload)
-	{
-		if (m_breaks != null && !reload)
-			return m_breaks;
-		
-		String sql = "SELECT * FROM M_DiscountSchemaBreak WHERE M_DiscountSchema_ID=? ORDER BY SeqNo";
-		ArrayList<MDiscountSchemaBreak> list = new ArrayList<MDiscountSchemaBreak>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_DiscountSchema_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MDiscountSchemaBreak(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		m_breaks = new MDiscountSchemaBreak[list.size ()];
-		list.toArray (m_breaks);
-		return m_breaks;
+	public MDiscountSchemaBreak[] getBreaks(boolean reload) {
+		getBreaksAsList(reload);
+		MDiscountSchemaBreak [] breaksAsArray = new MDiscountSchemaBreak[breaks.size ()];
+		breaks.toArray(breaksAsArray);
+		set_TrxName(breaksAsArray, get_TrxName());
+		return breaksAsArray;
 	}	//	getBreaks
 	
 	/**
@@ -150,44 +154,12 @@ public class MDiscountSchema extends X_M_DiscountSchema
 	 *	@param reload reload
 	 *	@return lines
 	 */
-	public MDiscountSchemaLine[] getLines(boolean reload)
-	{
-		if (m_lines != null && !reload) {
-			set_TrxName(m_lines, get_TrxName());
-			return m_lines;
-		}
-		
-		String sql = "SELECT * FROM M_DiscountSchemaLine WHERE M_DiscountSchema_ID=? ORDER BY SeqNo";
-		ArrayList<MDiscountSchemaLine> list = new ArrayList<MDiscountSchemaLine>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_DiscountSchema_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add(new MDiscountSchemaLine(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		m_lines = new MDiscountSchemaLine[list.size ()];
-		list.toArray (m_lines);
-		return m_lines;
+	public MDiscountSchemaLine[] getLines(boolean reload) {
+		getLinesAsList(reload);
+		MDiscountSchemaLine[] linesAsArray = new MDiscountSchemaLine[lines.size ()];
+		lines.toArray (linesAsArray);
+		set_TrxName(linesAsArray, get_TrxName());
+		return linesAsArray;
 	}	//	getBreaks
 
 	/**
@@ -220,7 +192,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 		//
 		BigDecimal onehundred = new BigDecimal(100);
 		BigDecimal multiplier = (onehundred).subtract(discount);
-		multiplier = multiplier.divide(onehundred, 6, BigDecimal.ROUND_HALF_UP);
+		multiplier = multiplier.divide(onehundred, MathContext.DECIMAL128);
 		BigDecimal newPrice = Price.multiply(multiplier);
 		log.fine("=>" + newPrice);
 		return newPrice;
@@ -228,15 +200,15 @@ public class MDiscountSchema extends X_M_DiscountSchema
 
 	/**
 	 * 	Calculate Discount Percentage
-	 *	@param Qty quantity
+	 *	@param quantity quantity
 	 *	@param Price price
-	 *	@param M_Product_ID product
-	 *	@param M_Product_Category_ID category
+	 *	@param productId product
+	 *	@param productCategoryId category
 	 *	@param BPartnerFlatDiscount flat discount
 	 *	@return discount or zero
 	 */
-	public BigDecimal calculateDiscount (BigDecimal Qty, BigDecimal Price,  
-		int M_Product_ID, int M_Product_Category_ID,
+	public BigDecimal calculateDiscount (BigDecimal quantity, BigDecimal Price,  
+		int productId, int productCategoryId,
 		BigDecimal BPartnerFlatDiscount)
 	{
 		if (BPartnerFlatDiscount == null)
@@ -258,48 +230,46 @@ public class MDiscountSchema extends X_M_DiscountSchema
 		}
 		
 		//	Price Breaks
-		getBreaks(true);
-		boolean found = false;
-		BigDecimal Amt = Price.multiply(Qty);
+		getBreaksAsList(true);
+		BigDecimal amount = Price.multiply(quantity);
 		if (isQuantityBased())
-			log.finer("Qty=" + Qty + ",M_Product_ID=" + M_Product_ID + ",M_Product_Category_ID=" + M_Product_Category_ID);
+			log.finer("Qty=" + quantity + ",M_Product_ID=" + productId + ",M_Product_Category_ID=" + productCategoryId);
 		else
-			log.finer("Amt=" + Amt + ",M_Product_ID=" + M_Product_ID + ",M_Product_Category_ID=" + M_Product_Category_ID);
-		for (int i = 0; i < m_breaks.length; i++)
-		{
-			MDiscountSchemaBreak br = m_breaks[i];
-			if (!br.isActive())
-				continue;
-			
-			if (isQuantityBased())
-			{
-				if (!br.applies(Qty, M_Product_ID, M_Product_Category_ID))
-				{
-					log.finer("No: " + br);
-					continue;
-				}
-				log.finer("Yes: " + br);
-			}
-			else
-			{
-				if (!br.applies(Amt, M_Product_ID, M_Product_Category_ID))
-				{
-					log.finer("No: " + br);
-					continue;
-				}
-				log.finer("Yes: " + br);
-			}
-			
+			log.finer("Amt=" + amount + ",M_Product_ID=" + productId + ",M_Product_Category_ID=" + productCategoryId);
+		//	First for product
+		Optional<MDiscountSchemaBreak> maybeDiscount = breaks.stream()
+			.filter(breakLine -> breakLine.isActive() && breakLine.getM_Product_ID() > 0)
+			.filter(breakLine -> breakLine.applies((isQuantityBased()? quantity: amount), productId, productCategoryId))
+			.sorted(Comparator.comparing(MDiscountSchemaBreak::getSeqNo))
+			.findFirst();
+		//	for Category
+		if(!maybeDiscount.isPresent()) {
+			maybeDiscount = breaks.stream()
+					.filter(breakLine -> breakLine.isActive() && breakLine.getM_Product_Category_ID() > 0)
+					.filter(breakLine -> breakLine.applies((isQuantityBased()? quantity: amount), productId, productCategoryId))
+					.sorted(Comparator.comparing(MDiscountSchemaBreak::getSeqNo))
+					.findFirst();
+		}
+		//	For any
+		if(!maybeDiscount.isPresent()) {
+			maybeDiscount = breaks.stream()
+					.filter(breakLine -> breakLine.isActive() && breakLine.getM_Product_Category_ID() == 0 && breakLine.getM_Product_ID() == 0)
+					.filter(breakLine -> breakLine.applies((isQuantityBased()? quantity: amount), productId, productCategoryId))
+					.sorted(Comparator.comparing(MDiscountSchemaBreak::getSeqNo))
+					.findFirst();
+		}
+		//	If exist any match
+		if(maybeDiscount.isPresent()) {
 			//	Line applies
 			BigDecimal discount = null;
-			if (br.isBPartnerFlatDiscount())
+			if (maybeDiscount.get().isBPartnerFlatDiscount()) {
 				discount = BPartnerFlatDiscount;
-			else
-				discount = br.getBreakDiscount();
+			} else {
+				discount = maybeDiscount.get().getBreakDiscount();
+			}
 			log.fine("Discount=>" + discount);
 			return discount;
-		}	//	for all breaks
-		
+		}
 		return Env.ZERO;
 	}	//	calculateDiscount
 	
@@ -336,7 +306,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 					count++;
 			}
 		}
-		m_lines = null;
+		lines = null;
 		
 		//	Breaks
 		MDiscountSchemaBreak[] breaks = getBreaks(true);
@@ -350,7 +320,7 @@ public class MDiscountSchema extends X_M_DiscountSchema
 					count++;
 			}
 		}
-		m_breaks = null;
+		breaks = null;
 		return count;
 	}	//	reSeq
 	

@@ -644,7 +644,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 							p_table.setColumnReadOnly(0, false);
 						}        
 						else if (c == Boolean.class)
-							data = new Boolean("Y".equals(rs.getString(colIndex)));
+							data = Boolean.valueOf("Y".equals(rs.getString(colIndex)));
 						else if (c == Timestamp.class)
 							data = rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)
@@ -652,7 +652,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 						else if (c == Double.class)
 							data = new Double(rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(rs.getInt(colIndex));
+							data = Integer.valueOf(rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)
 						{
 							String display = rs.getString(colIndex);

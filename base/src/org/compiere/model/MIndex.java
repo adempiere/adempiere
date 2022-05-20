@@ -180,7 +180,7 @@ public class MIndex extends X_K_Index
 	{
 		if (thisText!=null) {
 			Hashtable keyHash = indexString(thisText);
-	        for (Enumeration e=keyHash.keys(); e.hasMoreElements();) {
+	        for (Enumeration<?> e = keyHash.keys(); e.hasMoreElements();) {
 	            String name = (String)e.nextElement();
 	            String value = (String)keyHash.get(name);
 	            MIndex thisIndex = new MIndex(ctx, 0, trxName);

@@ -18,7 +18,7 @@
 package org.eevolution.dsl.builder
 
 import org.eevolution.dsl
-import org.eevolution.dsl._
+import org.eevolution.dsl.*
 
 /**
   * Product Builder allows create a Product using a DSL
@@ -27,7 +27,7 @@ import org.eevolution.dsl._
   */
 object ProductBuilder {
 
-  def apply()(implicit context: Context , transaction: Transaction) = {
+  def apply()(implicit context: Context , transaction: Transaction): Builder[Mandatory, Mandatory, Mandatory, Optional, Mandatory, Mandatory, Mandatory, Optional, Mandatory, Optional] = {
       new Builder[Mandatory, Mandatory, Mandatory, Optional, Mandatory , Mandatory , Mandatory , Optional , Mandatory , Optional]()
   }
 
@@ -58,7 +58,7 @@ object ProductBuilder {
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization) =
+    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o : dsl.Organization): Builder[Once, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         Once,
         WithValueTracking,
@@ -71,7 +71,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](organization = Some(o))
 
-    def withValue[Value <: WithValueTracking : IsMandatory](v: String) =
+    def withValue[Value <: WithValueTracking : IsMandatory](v: String): Builder[WithOrganizationTracking, Once, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         Once,
@@ -84,7 +84,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](value = Some(v))
 
-    def withName[Name <: WithNameTracking : IsMandatory](n : String) =
+    def withName[Name <: WithNameTracking : IsMandatory](n : String): Builder[WithOrganizationTracking, WithValueTracking, Once, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -97,7 +97,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking] (name = Some(n))
 
-    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String) =
+    def withDescription[Description <: WithDescriptionTracking : IsMandatory](d: String): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, Once, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -110,7 +110,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](description = Some(d))
 
-    def withProductCategory[ProductCategory <: WithProductCategoryTracking : IsMandatory](pc: dsl.ProductCategory) =
+    def withProductCategory[ProductCategory <: WithProductCategoryTracking : IsMandatory](pc: dsl.ProductCategory): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, Once, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -123,7 +123,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](productCategory = Some(pc))
 
-    def withTaxCategory[TaxCategory <: WithTaxCategoryTracking : IsMandatory](tc: dsl.TaxCategory) =
+    def withTaxCategory[TaxCategory <: WithTaxCategoryTracking : IsMandatory](tc: dsl.TaxCategory): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, Once, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -136,7 +136,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](taxCategory = Some(tc))
 
-    def withUOM[UOM <: WithUOMTracking : IsMandatory](u: dsl.UOM) =
+    def withUOM[UOM <: WithUOMTracking : IsMandatory](u: dsl.UOM): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, Once, WithProductTypeTracking, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -149,7 +149,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](uom = Some(u))
 
-    def withProductType[ProductType <: WithProductTypeTracking : IsMandatory](pt : String) =
+    def withProductType[ProductType <: WithProductTypeTracking : IsMandatory](pt : String): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, Once, WithIsSoldTracking, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -162,7 +162,7 @@ object ProductBuilder {
         WithIsSoldTracking ,
         WithIsPurchasedTracking](productType = Some(pt))
 
-    def asSold[IsSold <: WithIsSoldTracking : IsMandatory]() =
+    def asSold[IsSold <: WithIsSoldTracking : IsMandatory](): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, Once, WithIsPurchasedTracking] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,
@@ -175,7 +175,7 @@ object ProductBuilder {
         Once ,
         WithIsPurchasedTracking](isSold = Some(true))
 
-    def asPurchased[IsPurchased <: WithIsPurchasedTracking : IsMandatory]() =
+    def asPurchased[IsPurchased <: WithIsPurchasedTracking : IsMandatory](): Builder[WithOrganizationTracking, WithValueTracking, WithNameTracking, WithDescriptionTracking, WithProductCategoryTracking, WithTaxCategoryTracking, WithUOMTracking, WithProductTypeTracking, WithIsSoldTracking, Once] =
       copy[
         WithOrganizationTracking,
         WithValueTracking,

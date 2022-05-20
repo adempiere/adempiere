@@ -45,7 +45,7 @@ public class MWFBlock extends X_AD_WF_Block
 	 */
 	public static MWFBlock get (Properties ctx, int AD_WF_Block_ID)
 	{
-		Integer key = new Integer (AD_WF_Block_ID);
+		Integer key = Integer.valueOf(AD_WF_Block_ID);
 		MWFBlock retValue = (MWFBlock) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

@@ -127,7 +127,7 @@ public class OSTask extends Thread
 					if (checkInterrupted())
 						return;
 					int i = m_child.exitValue();
-					exitValue = new Integer(i);
+					exitValue = Integer.valueOf(i);
 				}
 				catch (Exception ie)
 				{

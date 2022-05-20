@@ -132,7 +132,7 @@ public class CalloutRequest extends CalloutEngine
 		MRequestType rt = MRequestType.get(ctx, R_RequestType_ID);
 		int R_Status_ID = rt.getDefaultR_Status_ID();
 		if (R_Status_ID != 0)
-			mTab.setValue("R_Status_ID", new Integer(R_Status_ID));
+			mTab.setValue("R_Status_ID", Integer.valueOf(R_Status_ID));
 		
 		return "";
 	}	//	type

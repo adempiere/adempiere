@@ -123,27 +123,27 @@ public class ReplicationProcessor extends AdempiereServer {
 				log.fine("ReplicationProcessor caught an exception !!!" );
 				e.printStackTrace();
 				log.severe(e.getMessage());
-				MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, e.getMessage() );
-				pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-				pLog.saveEx();
-				try 
+				MIMPProcessorLog processorLog = new MIMPProcessorLog(mImportProcessor, e.getMessage() , trxName);
+				processorLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+				processorLog.saveEx();
+				try
 				{
 				    importProcessor.stop();
-				} 
-				catch (Exception e1) 
+				}
+				catch (Exception e1)
 				{
 				    e1.printStackTrace();
-				    MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() );					
+				    MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() , trxName);
 				    pLog2.saveEx();
-				} 
+				}
 		    }
 			//
 			int no = mImportProcessor.deleteLog();
 			m_summary.append("Logs Records deleted=").append(no).append("; ");
 			//
-			MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, m_summary.toString());
-			pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			pLog.saveEx();
+			MIMPProcessorLog processorLog = new MIMPProcessorLog(mImportProcessor, m_summary.toString(), trxName);
+			processorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+			processorLog.saveEx();
 		}
 	}
 

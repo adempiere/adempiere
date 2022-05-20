@@ -2,6 +2,8 @@ package org.compiere.util;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import static java.math.BigDecimal.valueOf;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,10 +76,10 @@ između
     StringBuilder rezultat = new StringBuilder();
 
     // zaokruži na dvije decimale
-    broj = broj.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+    broj = broj.setScale(2, RoundingMode.HALF_EVEN);
 
     // kune (dio bez decimala)
-    BigDecimal kune = broj.setScale(0, BigDecimal.ROUND_DOWN);
+    BigDecimal kune = broj.setScale(0, RoundingMode.DOWN);
     rezultat.append(slovima(kune, "kuna", false, false));
 
     rezultat.append(RAZMAK + "i" + RAZMAK);

@@ -125,7 +125,7 @@ public class ArchiveViewer extends Archive
 	//
 	private CPanel viewPanel = new CPanel(new BorderLayout(5,5));
 	private JSplitPane viewPanelSplit = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-	private PDFViewerBean pdfViewer = new ITextDocument().getViewer();
+	private PDFViewerBean pdfViewer = new PDFViewerBean();
 	private CPanel viewEnterPanel = new CPanel(new GridBagLayout());
 	private CButton bBack = new CButton(Env.getImageIcon("wfBack24.gif"));
 	private CButton bNext = new CButton(Env.getImageIcon("wfNext24.gif"));

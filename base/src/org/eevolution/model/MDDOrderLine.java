@@ -17,6 +17,7 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -284,7 +285,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
 		if (M_AttributeSetInstance_ID == 0)		//	 0 is valid ID
-			set_Value("M_AttributeSetInstance_ID", new Integer(0));
+			set_Value("M_AttributeSetInstance_ID", Integer.valueOf(0));
 		else
 			super.setM_AttributeSetInstance_ID (M_AttributeSetInstance_ID);
 	}	//	setM_AttributeSetInstance_ID
@@ -424,7 +425,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 		if (QtyEntered != null && getC_UOM_ID() != 0)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
-			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyEntered = QtyEntered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyEntered (QtyEntered);
 	}	//	setQtyEntered
@@ -439,7 +440,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 		if (QtyOrdered != null && product != null)
 		{
 			int precision = product.getUOMPrecision();
-			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyOrdered = QtyOrdered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered

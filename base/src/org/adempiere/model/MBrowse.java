@@ -310,7 +310,7 @@ public class MBrowse extends X_AD_Browse {
 	 *	@return MBrowse or null
 	 */
 	public static MBrowse get (Properties ctx, int AD_Browse_ID) {
-		Integer key = new Integer (AD_Browse_ID);
+		Integer key = Integer.valueOf(AD_Browse_ID);
 		MBrowse retValue = (MBrowse) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

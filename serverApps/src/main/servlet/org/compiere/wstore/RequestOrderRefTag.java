@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.ecs.xhtml.option;
-import org.apache.ecs.xhtml.select;
+import org.adempiere.legacy.apache.ecs.xhtml.option;
+import org.adempiere.legacy.apache.ecs.xhtml.select;
 import org.apache.taglibs.standard.tag.el.core.ExpressionUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

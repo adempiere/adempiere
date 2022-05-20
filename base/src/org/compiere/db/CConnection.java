@@ -33,7 +33,6 @@ import javax.swing.JOptionPane;
 
 import org.adempiere.as.ASFactory;
 import org.adempiere.util.EmbeddedServerProxy;
-import org.compiere.Adempiere;
 import org.compiere.interfaces.Server;
 import org.compiere.interfaces.Status;
 import org.compiere.util.CLogMgt;
@@ -118,10 +117,10 @@ public class CConnection implements Serializable, Cloneable
 				attributes = SecureEngine.decrypt(System.getProperty(Ini.P_CONNECTION));
 			}
 			
-			if (attributes == null || attributes.length () == 0)
-			{
-				//hengsin, zero setup for webstart client
-				CConnection cc = null;
+//			if (attributes == null || attributes.length () == 0)
+//			{
+//				//hengsin, zero setup for webstart client
+//				CConnection cc = null;
 				/*
 				if (apps_host != null && Adempiere.isWebStartClient() && !CConnection.isServerEmbedded())
 				{
@@ -135,25 +134,32 @@ public class CConnection implements Serializable, Cloneable
 						Ini.saveProperties(Ini.isClient());
 					}
 				}*/
-				if (s_cc == null)
-				{
-					if (cc == null) cc = new CConnection(apps_host);
-					CConnectionDialog ccd = new CConnectionDialog (cc);
-					s_cc = ccd.getConnection ();
-					if (!s_cc.isDatabaseOK() && !ccd.isCancel()) {
-						s_cc.testDatabase(true);
-					}
-					//  set also in ALogin and Ctrl
-					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
-					Ini.saveProperties (Ini.isClient ());
-				}
-			}
-			else
-			{
+//				if (s_cc == null)
+//				{
+//					if (cc == null) cc = new CConnection(apps_host);
+//					CConnectionDialog ccd = new CConnectionDialog (cc);
+//					s_cc = ccd.getConnection ();
+//					if (!s_cc.isDatabaseOK() && !ccd.isCancel()) {
+//						s_cc.testDatabase(true);
+//					}
+//					//  set also in ALogin and Ctrl
+//					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+//					Ini.saveProperties (Ini.isClient ());
+//				}
+//			}
+//			else
+			if(attributes != null && attributes.length() > 0) {
 				s_cc = new CConnection (null);
 				s_cc.setAttributes (attributes);
+				log.fine(s_cc.toString());
+				Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+				Ini.saveProperties (Ini.isClient ());
+			} else {
+				s_cc = new CConnection(apps_host);
+				//  set also in ALogin and Ctrl
+				Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+				Ini.saveProperties (Ini.isClient ());
 			}
-			log.fine(s_cc.toString());
 		}
 
 		return s_cc;
@@ -1780,34 +1786,4 @@ public class CConnection implements Serializable, Cloneable
 		//global jndi lookup
 		return ctx.lookup(jndiName);
 	}
-
-	/**************************************************************************
-	 *  Testing
-	 *  @param args ignored
-	 */
-	public static void main (String[] args)
-	{
-		boolean server = true;
-		if (args.length == 0)
-			System.out.println("CConnection <server|client>");
-		else
-			server = "server".equals(args[0]);
-		System.out.println("CConnection - " + (server ? "server" : "client"));
-		//
-		if (server) {
-			Adempiere.startup(false);
-		} else {
-			Adempiere.startup(true);
-		}
-		//
-		System.out.println ("Connection = ");
-		//	CConnection[name=localhost{dev-dev1-adempiere},AppsHost=localhost,AppsPort=1099,type=Oracle,DBhost=dev,DBport=1521,DBname=dev1,BQ=false,FW=false,FWhost=,FWport=1630,UID=adempiere,PWD=adempiere]
-//		System.out.println (Ini.getProperty (Ini.P_CONNECTION));
-
-		CConnection cc = CConnection.get ();
-//		System.out.println (">> " + cc.toStringLong ());
-		Connection con = cc.getConnection (false,
-						 Connection.TRANSACTION_READ_COMMITTED);
-		new CConnectionDialog(cc);
-	}	//	main
 }	//  CConnection

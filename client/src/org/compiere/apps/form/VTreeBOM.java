@@ -545,9 +545,9 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 
 		
 		Vector<Object> line = new Vector<Object>(17);
-		line.add( new Boolean(false));  //  0 Select
-		line.add( new Boolean(M_Product.isActive()));   //  1 IsActive
-		line.add( new Integer(0)); // 2 Line
+		line.add(Boolean.FALSE);  //  0 Select
+		line.add(Boolean.valueOf(M_Product.isActive()));   //  1 IsActive
+		line.add(Integer.valueOf(0)); // 2 Line
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getValue().concat("_").concat(M_Product.getName()));
 		line.add(pp); //  3 M_Product_ID
 		MUOM u = new MUOM(M_Product.getCtx(), M_Product.getC_UOM_ID(), M_Product.get_TrxName());
@@ -640,9 +640,9 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 
 		
 		Vector<Object> line = new Vector<Object>(17);
-		line.add( new Boolean(false));  //  0 Select
-		line.add( new Boolean(M_Product.isActive()));   //  1 IsActive
-		line.add( new Integer(0)); // 2 Line
+		line.add(Boolean.FALSE);  //  0 Select
+		line.add(Boolean.valueOf(M_Product.isActive()));   //  1 IsActive
+		line.add(Integer.valueOf(0)); // 2 Line
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getValue().concat("_").concat(M_Product.getName()));
 		line.add(pp); //  3 M_Product_ID
 		MUOM u = new MUOM(M_Product.getCtx(), M_Product.getC_UOM_ID(), M_Product.get_TrxName());
@@ -699,9 +699,9 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		MProduct M_Product = MProduct.get(getCtx(), bomline.getM_ProductBOM_ID());
 
 		Vector<Object> line = new Vector<Object>(17);
-		line.add( new Boolean(false));  //  0 Select
-		line.add( new Boolean(bomline.isActive()));   //  1 IsActive
-		line.add( new Integer(bomline.getLine())); // 2 Line
+		line.add(Boolean.FALSE);  //  0 Select
+		line.add(Boolean.valueOf(bomline.isActive()));   //  1 IsActive
+		line.add(Integer.valueOf(bomline.getLine())); // 2 Line
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getValue().concat("_").concat(M_Product.getName()));
 		line.add(pp); //  3 M_Product_ID
 		MUOM u = new MUOM(M_Product.getCtx(), M_Product.getC_UOM_ID(), M_Product.get_TrxName());
@@ -728,9 +728,9 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		MProduct M_Product = MProduct.get(getCtx(), bom.getM_Product_ID());
 
 		Vector<Object> line = new Vector<Object>(17);
-		line.add( new Boolean(false));  //  0 Select
-		line.add( new Boolean(M_Product.isActive()));   //  1 IsActive
-		line.add( new Integer(bom.getLine())); // 2 Line
+		line.add(Boolean.FALSE);  //  0 Select
+		line.add(Boolean.valueOf(M_Product.isActive()));   //  1 IsActive
+		line.add(Integer.valueOf(bom.getLine())); // 2 Line
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getValue().concat("_").concat(M_Product.getName()));
 		line.add(pp); //  3 M_Product_ID
 		MUOM u = new MUOM(M_Product.getCtx(), M_Product.getC_UOM_ID(), M_Product.get_TrxName());

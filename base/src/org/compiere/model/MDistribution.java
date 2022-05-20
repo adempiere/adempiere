@@ -426,7 +426,7 @@ public class MDistribution extends X_GL_Distribution
 	 * @return array of distributions
 	 */
 	public static List<MDistribution> getDistributions(Properties ctx, int acctSchemaId) {
-		Integer key = new Integer(acctSchemaId);
+		Integer key = Integer.valueOf(acctSchemaId);
 		List<MDistribution> retValue = distributionCache.get(key);
 		if (retValue != null)
 			return retValue;

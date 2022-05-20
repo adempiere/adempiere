@@ -76,7 +76,7 @@ public class MProcess extends X_AD_Process
 	 */
 	public static MProcess get (Properties ctx, int AD_Process_ID)
 	{
-		Integer key = new Integer (AD_Process_ID);
+		Integer key = Integer.valueOf(AD_Process_ID);
 		MProcess retValue = (MProcess) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

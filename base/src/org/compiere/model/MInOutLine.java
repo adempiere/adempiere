@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -109,7 +110,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		{
 			return null;
 		}
-		Integer key = new Integer (M_InOutLine_ID);
+		Integer key = Integer.valueOf(M_InOutLine_ID);
 		MInOutLine retValue = (MInOutLine) s_cache.get (key);
 		if (retValue != null)
 		{
@@ -318,7 +319,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		if (M_Locator_ID < 0)
 			throw new IllegalArgumentException ("M_Locator_ID is mandatory.");
 		//	set to 0 explicitly to reset
-		set_Value (COLUMNNAME_M_Locator_ID, new Integer(M_Locator_ID));
+		set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
 	}	//	setM_Locator_ID
 
 	/**
@@ -370,7 +371,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		if (QtyEntered != null && getC_UOM_ID() != 0)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
-			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyEntered = QtyEntered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyEntered (QtyEntered);
 	}	//	setQtyEntered
@@ -385,7 +386,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 		if (MovementQty != null && product != null)
 		{
 			int precision = product.getUOMPrecision();
-			MovementQty = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			MovementQty = MovementQty.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setMovementQty(MovementQty);
 	}	//	setMovementQty

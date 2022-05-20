@@ -119,7 +119,7 @@ public class DBObject_Index implements DBObjectInterface {
 			boolean isUnique = dbEngine.isTrue(parent.getResultSetString(rs, "IS_UNIQUE"));
 			DBObject_Index_Table obj = new DBObject_Index_Table(parent, indexName, counter);
 			obj.initializeDefinition(tableName, isUnique);
-			headerMap.put(new Integer(counter), obj);
+			headerMap.put(Integer.valueOf(counter), obj);
 			counter ++;
 		}
 		parent.releaseResultSet(rs);
@@ -161,8 +161,7 @@ public class DBObject_Index implements DBObjectInterface {
 
 				DBObject_Index_Column obj = new DBObject_Index_Column(parent, indexName, indexSeq);
 				obj.initializeDefinition(tableName, columnName, sortOrder, sortNulls);
-				contentMap.put(new Integer(indexSeq), obj);
-
+				contentMap.put(Integer.valueOf(indexSeq), obj);
 			}
 			parent.releaseResultSet(rs);
 		}

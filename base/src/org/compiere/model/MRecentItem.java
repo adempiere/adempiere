@@ -78,7 +78,7 @@ public class MRecentItem extends X_AD_RecentItem
 	 *	@return recent item
 	 */
 	public static MRecentItem get (Properties ctx, int AD_RecentItem_ID) {
-		Integer ii = new Integer (AD_RecentItem_ID);
+		Integer ii = Integer.valueOf(AD_RecentItem_ID);
 		MRecentItem recentItem = (MRecentItem)cache.get(ii);
 		if (recentItem == null) {
 			recentItem = new MRecentItem (ctx, AD_RecentItem_ID, null);
@@ -327,7 +327,7 @@ public class MRecentItem extends X_AD_RecentItem
 	
 	@Override
 	public boolean delete(boolean force) {
-		Integer ii = new Integer (getAD_RecentItem_ID());
+		Integer ii = Integer.valueOf(getAD_RecentItem_ID());
 		cache.remove(ii);
 		return super.delete(force);
 	}

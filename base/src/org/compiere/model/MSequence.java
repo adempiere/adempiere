@@ -1433,7 +1433,7 @@ public class MSequence extends X_AD_Sequence
 				try
 				{
 					int no = DB.getNextID(0, "Test", null);
-					s_list.add(new Integer(no));
+					s_list.add(Integer.valueOf(no));
 				//	System.out.println("#" + m_i + ": " + no);
 				}
 				catch (Exception e)

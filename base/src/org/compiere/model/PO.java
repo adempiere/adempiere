@@ -281,7 +281,7 @@ public abstract class PO
 	private HashMap<String,String>	m_custom = null;
 
 	/** Zero Integer				*/
-	protected static final Integer I_ZERO = new Integer(0);
+	protected static final Integer I_ZERO = Integer.valueOf(0);
 	/** Accounting Columns			*/
 	private ArrayList <String>	s_acctColumns = null;
 
@@ -696,7 +696,7 @@ public abstract class PO
 		{
 			int result = ((Integer)nValue).intValue();
 			result -= ((Integer)oValue).intValue();
-			return new Integer(result);
+			return Integer.valueOf(result);
 		}
 		//
 		log.warning("Invalid type - New=" + nValue);
@@ -817,11 +817,11 @@ public abstract class PO
 			//  Integer can be set as BigDecimal
 			else if (value.getClass() == BigDecimal.class
 				&& p_info.getColumnClass(index) == Integer.class)
-				m_newValues[index] = new Integer (((BigDecimal)value).intValue());
+				m_newValues[index] = Integer.valueOf(((BigDecimal)value).intValue());
 			//	Set Boolean
 			else if (p_info.getColumnClass(index) == Boolean.class
 				&& ("Y".equals(value) || "N".equals(value)) )
-				m_newValues[index] = new Boolean("Y".equals(value));
+				m_newValues[index] = Boolean.valueOf("Y".equals(value));
 			// added by vpj-cd
 			// To solve BUG [ 1618423 ] Set Project Type button in Project window throws warning
 			// generated because C_Project.C_Project_Type_ID is defined as button in dictionary
@@ -833,7 +833,7 @@ public abstract class PO
 					&& p_info.getColumnClass(index) == Integer.class)
 				try
 				{
-					m_newValues[index] = new Integer((String)value);
+					m_newValues[index] = Integer.valueOf((String)value);
 				}
 				catch (NumberFormatException e)
 				{
@@ -943,11 +943,11 @@ public abstract class PO
 			//  Integer can be set as BigDecimal
 			else if (value.getClass() == BigDecimal.class
 				&& p_info.getColumnClass(index) == Integer.class)
-				m_newValues[index] = new Integer (((BigDecimal)value).intValue());
+				m_newValues[index] = Integer.valueOf(((BigDecimal) value).intValue());
 			//	Set Boolean
 			else if (p_info.getColumnClass(index) == Boolean.class
 				&& ("Y".equals(value) || "N".equals(value)) )
-				m_newValues[index] = new Boolean("Y".equals(value));
+				m_newValues[index] = Boolean.valueOf("Y".equals(value));
 			else if (p_info.getColumnClass(index) == Integer.class
 				&& value.getClass() == String.class)
 			{
@@ -1401,7 +1401,7 @@ public abstract class PO
 		{
 			setKeyInfo();
 			//m_KeyColumns = new String[] {p_info.getTableName() + "_ID"};
-			m_IDs = new Object[] {new Integer(ID)};
+			m_IDs = new Object[] {Integer.valueOf(ID)};
 			load(trxName);
 		}
 		else	//	new
@@ -1509,11 +1509,11 @@ public abstract class PO
 			try
 			{
 				if (clazz == Integer.class)
-					m_oldValues[index] = decrypt(index, new Integer(rs.getInt(columnName)));
+					m_oldValues[index] = decrypt(index, Integer.valueOf(rs.getInt(columnName)));
 				else if (clazz == BigDecimal.class)
 					m_oldValues[index] = decrypt(index, rs.getBigDecimal(columnName));
 				else if (clazz == Boolean.class)
-					m_oldValues[index] = new Boolean ("Y".equals(decrypt(index, rs.getString(columnName))));
+					m_oldValues[index] = Boolean.valueOf("Y".equals(decrypt(index, rs.getString(columnName))));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = decrypt(index, rs.getTimestamp(columnName));
 				else if (DisplayType.isLOB(dt) || (DisplayType.isText(dt) && p_info.getFieldLength(index) > 4000))
@@ -1573,11 +1573,11 @@ public abstract class PO
 			try
 			{
 				if (clazz == Integer.class)
-					m_oldValues[index] = new Integer(value);
+					m_oldValues[index] = Integer.valueOf(value);
 				else if (clazz == BigDecimal.class)
 					m_oldValues[index] = new BigDecimal(value);
 				else if (clazz == Boolean.class)
-					m_oldValues[index] = new Boolean ("Y".equals(value));
+					m_oldValues[index] = Boolean.valueOf("Y".equals(value));
 				else if (clazz == Timestamp.class)
 					m_oldValues[index] = Timestamp.valueOf(value);
 				else if (DisplayType.isLOB(dt))
@@ -1725,23 +1725,23 @@ public abstract class PO
 			String colName = p_info.getColumnName(i);
 			//  Set Standard Values
 			if (colName.endsWith("tedBy"))
-				m_newValues[i] = new Integer (Env.getContextAsInt(p_ctx, "#AD_User_ID"));
+				m_newValues[i] = Integer.valueOf(Env.getContextAsInt(p_ctx, "#AD_User_ID"));
 			else if (colName.equals("Created") || colName.equals("Updated"))
 				m_newValues[i] = new Timestamp (System.currentTimeMillis());
 			else if (colName.equals(p_info.getTableName() + "_ID"))    //  KeyColumn
 				m_newValues[i] = I_ZERO;
 			else if (colName.equals("IsActive"))
-				m_newValues[i] = new Boolean(true);
+				m_newValues[i] = Boolean.TRUE;
 			else if (colName.equals("AD_Client_ID"))
-				m_newValues[i] = new Integer(Env.getAD_Client_ID(p_ctx));
+				m_newValues[i] = Integer.valueOf(Env.getAD_Client_ID(p_ctx));
 			else if (colName.equals("AD_Org_ID"))
-				m_newValues[i] = new Integer(Env.getAD_Org_ID(p_ctx));
+				m_newValues[i] = Integer.valueOf(Env.getAD_Org_ID(p_ctx));
 			else if (colName.equals("Processed"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else if (colName.equals("Processing"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else if (colName.equals("Posted"))
-				m_newValues[i] = new Boolean(false);
+				m_newValues[i] = Boolean.FALSE;
 			else
 				m_newValues[i] = getDefaultValue(get_ColumnName(i));
 		}
@@ -1884,7 +1884,7 @@ public abstract class PO
 	 */
 	final protected void setAD_Client_ID (int AD_Client_ID)
 	{
-		set_ValueNoCheck ("AD_Client_ID", new Integer(AD_Client_ID));
+		set_ValueNoCheck("AD_Client_ID", Integer.valueOf(AD_Client_ID));
 	}	//	setAD_Client_ID
 
 	/**
@@ -1905,7 +1905,7 @@ public abstract class PO
 	 */
 	final public void setAD_Org_ID (int AD_Org_ID)
 	{
-		set_ValueNoCheck ("AD_Org_ID", new Integer(AD_Org_ID));
+		set_ValueNoCheck("AD_Org_ID", Integer.valueOf(AD_Org_ID));
 	}	//	setAD_Org_ID
 
 	/**
@@ -1948,7 +1948,7 @@ public abstract class PO
 	 */
 	public final void setIsActive (boolean active)
 	{
-		set_Value("IsActive", new Boolean(active));
+		set_Value("IsActive", Boolean.valueOf(active));
 	}	//	setActive
 
 	/**
@@ -2011,7 +2011,7 @@ public abstract class PO
 	 */
 	final protected void setUpdatedBy (int AD_User_ID)
 	{
-		set_ValueNoCheck ("UpdatedBy", new Integer(AD_User_ID));
+		set_ValueNoCheck("UpdatedBy", Integer.valueOf(AD_User_ID));
 	}	//	setAD_User_ID
 
 	/**
@@ -2550,7 +2550,7 @@ public abstract class PO
 				if (!changes && !updatedBy)
 				{
 					int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
-					set_ValueNoCheck("UpdatedBy", new Integer(AD_User_ID));
+					set_ValueNoCheck("UpdatedBy", Integer.valueOf(AD_User_ID));
 					sql.append("UpdatedBy=").append(AD_User_ID);
 					changes = true;
 					updatedBy = true;
@@ -2670,7 +2670,7 @@ public abstract class PO
 			if (!updatedBy)	//	UpdatedBy not explicitly set
 			{
 				int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
-				set_ValueNoCheck("UpdatedBy", new Integer(AD_User_ID));
+				set_ValueNoCheck("UpdatedBy", Integer.valueOf(AD_User_ID));
 				sql.append(",UpdatedBy=").append(AD_User_ID);
 			}
 			sql.append(" WHERE ").append(where);
@@ -2733,7 +2733,7 @@ public abstract class PO
 				log.severe("No NextID (" + no + ")");
 				return saveFinish (true, false);
 			}
-			m_IDs[0] = new Integer(no);
+			m_IDs[0] = Integer.valueOf(no);
 			set_ValueNoCheck(m_KeyColumns[0], m_IDs[0]);
 		}
 		if (m_trxName == null)
@@ -3989,7 +3989,7 @@ public abstract class PO
 			pstmt = DB.prepareStatement(sql.toString(), trxName);
 			rs = pstmt.executeQuery();
 			while (rs.next())
-				list.add(new Integer(rs.getInt(1)));
+				list.add(Integer.valueOf(rs.getInt(1)));
 		}
 		catch (SQLException e)
 		{

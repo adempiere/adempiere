@@ -40,7 +40,7 @@ import javax.swing.event.ChangeListener;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.db.CConnectionEditor;
 import org.compiere.grid.ed.VComboBox;

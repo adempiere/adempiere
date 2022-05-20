@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import org.adempiere.pdf.viewer.PDFViewerBean;
+//import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.compiere.model.MSysConfig;
 
 import com.itextpdf.awt.DefaultFontMapper;
@@ -116,9 +116,9 @@ public class Document {
         return null;
     }
     
-    public static PDFViewerBean getViewer() {
-    	return new PDFViewerBean();
-    }
+//    public static PDFViewerBean getViewer() {
+//    	return new PDFViewerBean();
+//    }
     
     public static boolean isValid(Pageable layout) {
     	return true;

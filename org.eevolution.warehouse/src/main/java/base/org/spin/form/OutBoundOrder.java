@@ -17,6 +17,7 @@
 package org.spin.form;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -326,7 +327,7 @@ public class OutBoundOrder {
 			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       		//  0-Selection
+				line.add(Boolean.FALSE);       		//  0-Selection
 				line.add(rs.getString(column++));       	//  1-Warehouse
 				KeyNamePair pp = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
 				line.add(pp);				       			//  2-DocumentNo
@@ -664,12 +665,15 @@ public class OutBoundOrder {
 				//	Valid Quantity On Hand
 				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
 					//FR [ 1 ]
-					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
+					BigDecimal diff = ((BigDecimal) (isStocked ? Env.ONE : Env.ZERO))
+						.multiply(
+							qtyOnHand.subtract(qty).setScale(precision, RoundingMode.HALF_UP)
+						);
 					//	Set Quantity
 					if(diff.doubleValue() < 0) {
 						qty = qty
 							.subtract(diff.abs())
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					}
 					//	Valid Zero
 					if(qty.doubleValue() <= 0)
@@ -677,7 +681,7 @@ public class OutBoundOrder {
 				}
 				//	Fill Row
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));       			//  0-Selection
+				line.add(Boolean.FALSE);       			//  0-Selection
 				line.add(warehouse);       					//  1-Warehouse
 				line.add(documentNo);				       		//  2-DocumentNo
 				line.add(product);				      		//  3-Product
@@ -826,9 +830,9 @@ public class OutBoundOrder {
 					BigDecimal qtyAvailable = qtyOrdered
 							.subtract(qtyDelivered)
 							.subtract(qtyOrderLine)
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, RoundingMode.HALF_UP);
 					//	
-					if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+					if(qty.setScale(precision, RoundingMode.HALF_UP).doubleValue() 
 							> qtyAvailable.doubleValue()) {
 						if(errorMessage.length() > 0) {
 							errorMessage.append(Env.NL);

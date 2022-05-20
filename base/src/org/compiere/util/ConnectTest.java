@@ -21,6 +21,7 @@ import java.net.UnknownHostException;
 import java.util.Hashtable;
 
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
 import org.compiere.interfaces.Status;
@@ -113,7 +114,7 @@ public class ConnectTest
 			System.out.println("  Namespace=" + context.getNameInNamespace());
 			System.out.println("  Environment=" + context.getEnvironment());
 			System.out.println("  Context '/':");
-			NamingEnumeration ne = context.list("/");
+			NamingEnumeration<NameClassPair> ne = context.list("/");
 			while (ne.hasMore())
 				System.out.println("  - " + ne.nextElement());
 			//

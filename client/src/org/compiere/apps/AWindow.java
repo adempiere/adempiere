@@ -209,7 +209,7 @@ public class AWindow extends CFrame
 	 */
 	public void dispose()
 	{
-		if (Env.hideWindow(this))
+		if (AEnv.hideWindow(this))
 			return;
 		log.info(toString());
 		if (m_APanel != null)

@@ -44,7 +44,7 @@ public class MPOS extends X_C_POS
 	 */
 	public static MPOS get (Properties ctx, int C_POS_ID)
 	{
-		Integer key = new Integer (C_POS_ID);
+		Integer key = Integer.valueOf(C_POS_ID);
 		MPOS retValue = (MPOS) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
