@@ -99,7 +99,7 @@ public interface I_C_ContactActivity
 	/** Get Sales Opportunity	  */
 	public int getC_Opportunity_ID();
 
-	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
+	public org.compiere.crm.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";

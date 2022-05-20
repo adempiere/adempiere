@@ -711,7 +711,12 @@ public class MTable extends X_AD_Table
 				setNameOldValue((String) this.get_ValueOld(MTable.COLUMNNAME_TableName));
 			}
 		}
-
+		if(is_ValueChanged(COLUMNNAME_EntityType) && !newRecord) {
+			getColumnsAsList().forEach(column -> {
+				column.setEntityType(getEntityType());
+				column.saveEx();
+			});
+		}
 		return true;
 	}	//	beforeSave
 	

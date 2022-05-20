@@ -15,10 +15,12 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 
-package org.compiere.model;
+package org.compiere.crm.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.model.I_C_Order;
 
 public class MOpportunity extends X_C_Opportunity {
 

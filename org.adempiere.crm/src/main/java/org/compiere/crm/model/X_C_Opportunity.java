@@ -15,12 +15,17 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.compiere.model;
+package org.compiere.crm.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -269,9 +274,9 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_SalesStage getC_SalesStage() throws RuntimeException
+	public org.compiere.crm.model.I_C_SalesStage getC_SalesStage() throws RuntimeException
     {
-		return (org.compiere.model.I_C_SalesStage)MTable.get(getCtx(), org.compiere.model.I_C_SalesStage.Table_Name)
+		return (org.compiere.crm.model.I_C_SalesStage)MTable.get(getCtx(), org.compiere.crm.model.I_C_SalesStage.Table_Name)
 			.getPO(getC_SalesStage_ID(), get_TrxName());	}
 
 	/** Set Sales Stage.

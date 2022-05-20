@@ -126,9 +126,9 @@ public class X_C_ContactActivity extends PO implements I_C_ContactActivity, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException
+	public org.compiere.crm.model.I_C_Opportunity getC_Opportunity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Opportunity)MTable.get(getCtx(), org.compiere.model.I_C_Opportunity.Table_Name)
+		return (org.compiere.crm.model.I_C_Opportunity)MTable.get(getCtx(), org.compiere.crm.model.I_C_Opportunity.Table_Name)
 			.getPO(getC_Opportunity_ID(), get_TrxName());	}
 
 	/** Set Sales Opportunity.
