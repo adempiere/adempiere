@@ -17,7 +17,7 @@ package org.compiere.crm.model.validator;
  *****************************************************************************/
 
 
-import org.compiere.crm.model.MCOpportunity;
+import org.compiere.crm.model.MOpportunity;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -104,7 +104,7 @@ public class CustomerRelationshipManagement implements ModelValidator
 		int opId = order.get_ValueAsInt("C_Opportunity_ID");
 		if ( opId > 0 )
 		{
-			MCOpportunity op = new MCOpportunity(order.getCtx(), opId, order.get_TrxName());
+			MOpportunity op = new MOpportunity(order.getCtx(), opId, order.get_TrxName());
 			if (op != null && op.getC_Order_ID() == order.getC_Order_ID())
 				op.setOpportunityAmt(order.getGrandTotal());
 			op.saveEx();

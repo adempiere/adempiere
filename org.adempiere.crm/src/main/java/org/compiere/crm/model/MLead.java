@@ -23,18 +23,18 @@ import org.compiere.model.X_AD_User;
 /**
  * Lead
  */
-public class MCLead extends X_AD_User {
+public class MLead extends X_AD_User {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1994076450942030706L;
 
-	public MCLead(Properties ctx, int AD_User_ID, String trxName) {
+	public MLead(Properties ctx, int AD_User_ID, String trxName) {
         super(ctx, AD_User_ID, trxName);
     }
 
-    public MCLead(Properties ctx, ResultSet rs, String trxName) {
+    public MLead(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
 }
