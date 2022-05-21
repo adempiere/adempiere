@@ -19,18 +19,18 @@ package org.compiere.crm.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class MSalesStage extends X_C_SalesStage {
+public class MCSalesStage extends X_C_SalesStage {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6433923167899854859L;
 
-	public MSalesStage(Properties ctx, int C_SalesStage_ID, String trxName) {
+	public MCSalesStage(Properties ctx, int C_SalesStage_ID, String trxName) {
         super(ctx, C_SalesStage_ID, trxName);
     }
 
-    public MSalesStage(Properties ctx, ResultSet rs, String trxName) {
+    public MCSalesStage(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
 }

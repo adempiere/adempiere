@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.adempiere.exceptions.FillMandatoryException;
-import org.compiere.crm.model.MOpportunity;
+import org.compiere.crm.model.MCOpportunity;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MLocation;
@@ -115,7 +115,7 @@ public class ConvertLead extends ConvertLeadAbstract {
 		
 		if (isCreateOpportunity() )
 		{
-			MOpportunity op = new MOpportunity(getCtx(), 0, get_TrxName());
+			MCOpportunity op = new MCOpportunity(getCtx(), 0, get_TrxName());
 			op.setAD_User_ID(lead.getAD_User_ID());
 			op.setC_BPartner_ID(bp.getC_BPartner_ID());
 			op.setExpectedCloseDate(getExpectedCloseDate() != null ? getExpectedCloseDate() : new Timestamp(System.currentTimeMillis()));

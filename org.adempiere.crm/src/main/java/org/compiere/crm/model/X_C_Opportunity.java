@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.crm.model;
@@ -21,24 +22,20 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Opportunity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220521L;
 
     /** Standard Constructor */
     public X_C_Opportunity (Properties ctx, int C_Opportunity_ID, String trxName)
@@ -198,6 +195,40 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Close Date.
+		@param CloseDate 
+		Close Date
+	  */
+	public void setCloseDate (Timestamp CloseDate)
+	{
+		set_Value (COLUMNNAME_CloseDate, CloseDate);
+	}
+
+	/** Get Close Date.
+		@return Close Date
+	  */
+	public Timestamp getCloseDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_CloseDate);
+	}
+
+	/** Set Comments.
+		@param Comments 
+		Comments or additional information
+	  */
+	public void setComments (String Comments)
+	{
+		set_Value (COLUMNNAME_Comments, Comments);
+	}
+
+	/** Get Comments.
+		@return Comments or additional information
+	  */
+	public String getComments () 
+	{
+		return (String)get_Value(COLUMNNAME_Comments);
+	}
+
 	/** Set Sales Opportunity.
 		@param C_Opportunity_ID Sales Opportunity	  */
 	public void setC_Opportunity_ID (int C_Opportunity_ID)
@@ -246,6 +277,26 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Cost.
+		@param Cost 
+		Cost information
+	  */
+	public void setCost (BigDecimal Cost)
+	{
+		set_Value (COLUMNNAME_Cost, Cost);
+	}
+
+	/** Get Cost.
+		@return Cost information
+	  */
+	public BigDecimal getCost () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -274,11 +325,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.crm.model.I_C_SalesStage getC_SalesStage() throws RuntimeException
-    {
-		return (org.compiere.crm.model.I_C_SalesStage)MTable.get(getCtx(), org.compiere.crm.model.I_C_SalesStage.Table_Name)
-			.getPO(getC_SalesStage_ID(), get_TrxName());	}
-
 	/** Set Sales Stage.
 		@param C_SalesStage_ID 
 		Stages of the sales process
@@ -300,60 +346,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Close Date.
-		@param CloseDate 
-		Close Date
-	  */
-	public void setCloseDate (Timestamp CloseDate)
-	{
-		set_Value (COLUMNNAME_CloseDate, CloseDate);
-	}
-
-	/** Get Close Date.
-		@return Close Date
-	  */
-	public Timestamp getCloseDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_CloseDate);
-	}
-
-	/** Set Comments.
-		@param Comments 
-		Comments or additional information
-	  */
-	public void setComments (String Comments)
-	{
-		set_Value (COLUMNNAME_Comments, Comments);
-	}
-
-	/** Get Comments.
-		@return Comments or additional information
-	  */
-	public String getComments () 
-	{
-		return (String)get_Value(COLUMNNAME_Comments);
-	}
-
-	/** Set Cost.
-		@param Cost 
-		Cost information
-	  */
-	public void setCost (BigDecimal Cost)
-	{
-		set_Value (COLUMNNAME_Cost, Cost);
-	}
-
-	/** Get Cost.
-		@return Cost information
-	  */
-	public BigDecimal getCost () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Description.

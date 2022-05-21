@@ -22,18 +22,18 @@ import java.util.Properties;
 
 import org.compiere.model.I_C_Order;
 
-public class MOpportunity extends X_C_Opportunity {
+public class MCOpportunity extends X_C_Opportunity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9052544341602655427L;
 
-	public MOpportunity(Properties ctx, int C_Opportunity_ID, String trxName) {
+	public MCOpportunity(Properties ctx, int C_Opportunity_ID, String trxName) {
 		super(ctx, C_Opportunity_ID, trxName);
 	}
 
-	public MOpportunity(Properties ctx, ResultSet rs, String trxName) {
+	public MCOpportunity(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 	
