@@ -107,6 +107,9 @@ import org.spin.util.PrinterUtil;
  * 	@author Raul Capecce
  * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
  * 	    @see https://github.com/adempiere/adempiere/issues/1305
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com
+ * 	    <li>FR [ 3884 ] Shipment Detail report does not finish generating</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/3884
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -868,6 +871,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
 		if(tableName.startsWith("T_")
+				|| (query == null && Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent())
 				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
