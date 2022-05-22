@@ -20,15 +20,15 @@ package org.adempiere.process;
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (SHW_YearEndClosing)
+/** Generated Process for (YearEndClosing)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.3
  */
 public abstract class YearEndClosingAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "SHW_YearEndClosing";
+	private static final String VALUE_FOR_PROCESS = "YearEndClosing";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "SHW_YearEndClosing";
+	private static final String NAME_FOR_PROCESS = "YearEndClosing";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 54614;
 	/**	Parameter Name for Account Element	*/
