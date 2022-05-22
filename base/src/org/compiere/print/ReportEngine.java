@@ -875,10 +875,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
-		
-		//  Add to static where clause from ReportView
-		if (whereClause.length() != 0)
-			query.addRestriction(whereClause);
 
 		//	Get Print Format
 		MPrintFormat format = null;
@@ -912,6 +908,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		
 		if (query != null) {
 			query.setWindowNo(pi.getWindowNo());
+			//  Add to static where clause from ReportView
+			query.addRestriction(whereClause);
 		}
 
 		//	FR [ 295 ]
