@@ -14,39 +14,30 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.process;
-
-import java.math.BigDecimal;
-import java.util.logging.Level;
+package org.compiere.project.process;
 
 import org.compiere.model.MProject;
+import org.compiere.model.MProjectType;
 
 /**
- *  Copy Project Details
+ *  Set Project Type
  *
  *	@author Jorg Janke
- *	@version $Id: CopyFromProject.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *	@version $Id: ProjectSetType.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class CopyFromProject extends SvrProcess
+public class ProjectSetType extends ProjectSetTypeAbstract
 {
-	private int		m_C_Project_ID = 0;
+	/**	Project directly from Project	*/
+	//private int				m_C_Project_ID = 0;
+	/** Project Type Parameter			*/
+	//private int				m_C_ProjectType_ID = 0;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("C_Project_ID"))
-				m_C_Project_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -56,18 +47,23 @@ public class CopyFromProject extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		int To_C_Project_ID = getRecord_ID();
-		log.info("doIt - From C_Project_ID=" + m_C_Project_ID + " to " + To_C_Project_ID);
-		if (To_C_Project_ID == 0)
-			throw new IllegalArgumentException("Target C_Project_ID == 0");
-		if (m_C_Project_ID == 0)
-			throw new IllegalArgumentException("Source C_Project_ID == 0");
-		MProject from = new MProject (getCtx(), m_C_Project_ID, get_TrxName());
-		MProject to = new MProject (getCtx(), To_C_Project_ID, get_TrxName());
+		//m_C_Project_ID = getRecord_ID();
+		log.info("doIt - C_Project_ID=" + getRecord_ID() + ", C_ProjectType_ID=" + getProjectTypeId());
 		//
-		int no = to.copyDetailsFrom (from);
+		MProject project = new MProject (getCtx(), getRecord_ID(), get_TrxName());
+		if (project.getC_Project_ID() == 0 || project.getC_Project_ID() != getRecord_ID())
+			throw new IllegalArgumentException("Project not found C_Project_ID=" + getRecord_ID());
+		if (project.getC_ProjectType_ID_Int() > 0)
+			throw new IllegalArgumentException("Project already has Type (Cannot overwrite) " + project.getC_ProjectType_ID());
+		//
+		MProjectType type = new MProjectType (getCtx(), getProjectTypeId(), get_TrxName());
+		if (type.getC_ProjectType_ID() == 0 || type.getC_ProjectType_ID() != getProjectTypeId())
+			throw new IllegalArgumentException("Project Type not found C_ProjectType_ID=" + getProjectTypeId());
 
-		return "@Copied@=" + no;
+		//	Set & Copy if Service
+		project.setProjectType(type);
+		project.saveEx();
+		return "@OK@";
 	}	//	doIt
 
-}	//	CopyFromProject
+}	//	ProjectSetType

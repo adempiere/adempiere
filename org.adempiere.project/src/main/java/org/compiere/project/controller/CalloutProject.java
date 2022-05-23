@@ -14,7 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.model;
+package org.compiere.project.controller;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -22,6 +22,13 @@ import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.model.GridTabWrapper;
+import org.compiere.model.CalloutEngine;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.I_C_ProjectPhase;
+import org.compiere.model.I_C_ProjectTask;
+import org.compiere.model.MProjectTypePhase;
+import org.compiere.model.MProjectTypeTask;
 import org.compiere.util.Env;
 
 
