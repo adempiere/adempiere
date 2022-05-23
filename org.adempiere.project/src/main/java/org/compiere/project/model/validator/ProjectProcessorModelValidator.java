@@ -27,7 +27,7 @@ import org.compiere.model.MProjectTask;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.project.util.ProjectProcessorUtils;
+import org.compiere.project.service.ProjectProcessorService;
 import org.compiere.util.Util;
 import org.eevolution.model.MProjectProcessorLog;
 
@@ -104,7 +104,7 @@ public class ProjectProcessorModelValidator implements ModelValidator{
 						entity.save();
 					}
 				}
-				ProjectProcessorUtils.runProjectProcessor(entity, null, "", eventChangeLog);
+				ProjectProcessorService.runProjectProcessor(entity, null, "", eventChangeLog);
 				
 			}
 		}
@@ -140,7 +140,7 @@ public class ProjectProcessorModelValidator implements ModelValidator{
 	private boolean columnsValids(PO entity) {
 		List<String> columnsChanged = columnsChanged(entity);
 		for (String columnName : columnsChanged) {
-			if (ProjectProcessorUtils.isListenColumn(columnName))
+			if (ProjectProcessorService.isListenColumn(columnName))
 				return true;
 		}
 		

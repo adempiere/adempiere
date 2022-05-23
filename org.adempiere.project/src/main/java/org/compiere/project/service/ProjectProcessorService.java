@@ -14,7 +14,7 @@
  * Contributor: Carlos Parada cparada@erpya.com                                       *
  * See: www.erpya.com                                                                 *
  *************************************************************************************/
-package org.compiere.project.util;
+package org.compiere.project.service;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -43,7 +43,7 @@ import org.eevolution.model.MProjectProcessorLog;
  *  	<a href="https://github.com/adempiere/adempiere/issues/2202">
  *		@see FR [ 2202 ] Add Support to Project Processor</a>
  */
-public class ProjectProcessorUtils {
+public class ProjectProcessorService {
 
 	/** PO Info*/
 	private static POInfo p_info = null;
@@ -119,7 +119,7 @@ public class ProjectProcessorUtils {
 	 * @param entity
 	 * @return
 	 */
-	public static String get_DisplayValue(String columnName, PO entity) {
+	public static String getDisplayValue(String columnName, PO entity) {
 		
 		if (entity==null) 
 			return "--";
@@ -348,7 +348,7 @@ public class ProjectProcessorUtils {
 				change.setAD_Table_ID(entity.get_Table_ID());
 				change.setRecord_ID(entity.get_ID());
 				change.setAD_Column_ID(MColumn.getColumn_ID(entity.get_TableName(), columnName));
-				change.setNewValue((get_DisplayValue(columnName,entity)));
+				change.setNewValue((getDisplayValue(columnName,entity)));
 				
 				if (!change.save()) {
 					throw new AdempiereException("@SaveError@ @C_ProjectProcessorQueued_ID@");
