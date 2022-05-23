@@ -14,7 +14,7 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.engine.freight;
+package org.eevolution.freight.engine;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

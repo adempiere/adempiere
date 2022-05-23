@@ -14,25 +14,18 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.compiere.model;
+package org.eevolution.freight.service;
 
-import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 
+import org.compiere.model.MFreight;
+
 /**
- * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
+ * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
-public class MFreight extends X_M_Freight{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1661865591226382132L;
-
-	public MFreight(Properties ctx, int M_Freight_ID, String trxName) {
-        super(ctx, M_Freight_ID, trxName);
-    }
-
-    public MFreight(Properties ctx, ResultSet rs, String trxName) {
-        super(ctx, rs, trxName);
-    }
+public interface FreightServiceInterface {
+    public List<MFreight> getFreight(Properties ctx, int shipperId, int freightCategoryId, int currencyId, String trxName);
+    public List<MFreight> getFreightValid(Properties ctx, int shipperId, int freightCategoryId, int currencyId, Timestamp date, String trxName);
 }
