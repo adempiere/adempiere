@@ -237,18 +237,20 @@ public class TopicListener implements MessageListener {
 
 		conn.start();
 		log.finest("Waiting for JMS messages...");
-		if (replicationProcessor !=null)
-		{
-			Trx.run(trxName -> {
-				MIMPProcessorLog processorLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!" , trxName);
-				StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
-						.append(", subscriptionName = ").append( subscriptionName )
-						;
-				processorLog.setReference( logReference.toString() );
-				processorLog.saveEx();
-				log.finest("Result Save Ok");
-			});
+		if (replicationProcessor !=null) {
+			Trx.run(this::addProcessorLog);
 		}
+	}
+
+	private void addProcessorLog(String trxName){
+		MIMPProcessorLog processorLog = new MIMPProcessorLog(
+				replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!" , trxName
+		);
+		StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
+				.append(", subscriptionName = ").append( subscriptionName );
+		processorLog.setReference( logReference.toString() );
+		processorLog.saveEx();
+		log.finest("Result Save Ok");
 	}
 	
 	/**

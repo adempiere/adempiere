@@ -102,13 +102,23 @@ public class AlertProcessor extends AdempiereServer
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
-		Trx.run(trxName -> {
-			MAlertProcessorLog alertProcessorLog = new MAlertProcessorLog(m_model, m_summary.toString(), trxName);
-			alertProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			alertProcessorLog.setTextMsg(m_errors.toString());
-			alertProcessorLog.saveEx();
-		});
+		if (m_model.get_TrxName() == null) {
+			Trx.run(this::addAlertProcessorLog);
+		} else {
+			addAlertProcessorLog(m_model.get_TrxName());
+		}
 	}	//	doWork
+
+	/**
+	 * Add Alert Processor Log
+	 * @param trxName
+	 */
+	private void addAlertProcessorLog(String trxName) {
+		MAlertProcessorLog alertProcessorLog = new MAlertProcessorLog(m_model, m_summary.toString(), trxName);
+		alertProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+		alertProcessorLog.setTextMsg(m_errors.toString());
+		alertProcessorLog.saveEx();
+	}
 
 	/**
 	 * 	Process Alert
