@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename base package of Investment and Loan Management" ReleaseNo="3.9.4" SeqNo="9450">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="U" Record_ID="50040" Table="AD_EntityType">
+        <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.spin.model">org.spin.investment.model</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54059" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GenerateInvoiceFromLoan">org.spin.investment.process.GenerateInvoiceFromLoan</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54058" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GeneratePaySelectionFromLoan">org.spin.investment.process.GeneratePaySelectionFromLoan</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54072" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.ImportAgreement">org.spin.investment.process.ImportAgreement</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54073" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.ImportLoan">org.spin.investment.process.ImportLoan</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54075" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.ProcessFunctionalSetting">org.spin.investment.process.ProcessFunctionalSetting</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54786" Action="U" Record_ID="50000" Table="AD_SetupDefinition">
+        <Data AD_Column_ID="97367" Column="Classname" oldValue="org.spin.setup.SpinContributionTestSetup">org.spin.investment.setup.InvestmentAndLoan</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="N" SeqNo="80" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.investment.model.validator.LoanManagement' WHERE ModelValidationClass = 'org.spin.model.LoanManagementModelValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.model.LoanManagementModelValidator' WHERE ModelValidationClass = 'org.spin.investment.model.validator.LoanManagement';</RollbackStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="90" StepType="SQL">
+      <SQLStatement>UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.CreateBatchFromInvoice' WHERE Classname = 'org.spin.util.CreateBatchFromInvoice';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.FrenchLoanAmortization' WHERE Classname = 'org.spin.util.FrenchLoanAmortization';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.FrenchLoanMethodSimulator' WHERE Classname = 'org.spin.util.FrenchLoanMethodSimulator';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.LoanDunningProcess' WHERE Classname = 'org.spin.util.LoanDunningProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.LoanInterestProcess' WHERE Classname = 'org.spin.util.LoanInterestProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.LoanProvisionProcess' WHERE Classname = 'org.spin.util.LoanProvisionProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.investment.loan.util.LoanSuspendProcess' WHERE Classname = 'org.spin.util.LoanSuspendProcess';</SQLStatement>
+      <RollbackStatement>UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.CreateBatchFromInvoice' WHERE Classname = 'org.spin.investment.loan.util.CreateBatchFromInvoice';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.FrenchLoanAmortization' WHERE Classname = 'org.spin.investment.loan.util.FrenchLoanAmortization';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.FrenchLoanMethodSimulator' WHERE Classname = 'org.spin.investment.loan.util.FrenchLoanMethodSimulator';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.LoanDunningProcess' WHERE Classname = 'org.spin.investment.loan.util.LoanDunningProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.LoanInterestProcess' WHERE Classname = 'org.spin.investment.loan.util.LoanInterestProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.LoanProvisionProcess' WHERE Classname = 'org.spin.investment.loan.util.LoanProvisionProcess';
+UPDATE FM_FunctionalSetting SET Classname = 'org.spin.util.LoanSuspendProcess' WHERE Classname = 'org.spin.investment.loan.util.LoanSuspendProcess';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

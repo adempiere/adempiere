@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -401,8 +402,7 @@ public class CalloutPayment extends CalloutEngine
 				return "NoCurrencyConversion";
 			}
 			//
-			InvoiceOpenAmt = InvoiceOpenAmt.multiply (CurrencyRate).setScale (
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			InvoiceOpenAmt = InvoiceOpenAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 			log.fine ("Rate=" + CurrencyRate + ", InvoiceOpenAmt="
 				+ InvoiceOpenAmt);
 		}
@@ -410,17 +410,13 @@ public class CalloutPayment extends CalloutEngine
 		if (colName.equals ("C_Currency_ID")
 			|| colName.equals ("C_ConversionType_ID"))
 		{
-			PayAmt = PayAmt.multiply (CurrencyRate).setScale (
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			PayAmt = PayAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 			mTab.setValue ("PayAmt", PayAmt);
-			DiscountAmt = DiscountAmt.multiply (CurrencyRate).setScale (
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			DiscountAmt = DiscountAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 			mTab.setValue ("DiscountAmt", DiscountAmt);
-			WriteOffAmt = WriteOffAmt.multiply (CurrencyRate).setScale (
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			WriteOffAmt = WriteOffAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 			mTab.setValue ("WriteOffAmt", WriteOffAmt);
-			OverUnderAmt = OverUnderAmt.multiply (CurrencyRate).setScale (
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			OverUnderAmt = OverUnderAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 			mTab.setValue ("OverUnderAmt", OverUnderAmt);
 		}
 		// No Invoice - Set Discount, Witeoff, Under/Over to 0

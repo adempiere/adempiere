@@ -391,7 +391,9 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 				if (FDialog.ask(windowNo, form, "VPayPrintSuccess?"))
 				{
 					//	int lastDocumentNo = 
-					MPaySelectionCheck.confirmPrint (paySelectionChecks, paymentBatch);
+					int lastDocumentNo = MPaySelectionCheck.confirmPrint (paySelectionChecks, paymentBatch);
+					if (lastDocumentNo != 0)
+						setBankAccountNextSequence(paymentRule, ++lastDocumentNo);
 					//	document No not updated
 				}
 			} else {
@@ -470,13 +472,7 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 		//	Update BankAccountDoc
 		int lastDocumentNo = MPaySelectionCheck.confirmPrint (paySelectionChecks, paymentBatch);
 		if (lastDocumentNo != 0)
-		{
-			StringBuffer sb = new StringBuffer();
-			sb.append("UPDATE C_BankAccountDoc SET CurrentNext=").append(++lastDocumentNo)
-				.append(" WHERE C_BankAccount_ID=").append(bankAccountId)
-				.append(" AND PaymentRule='").append(paymentRule).append("'");
-			DB.executeUpdate(sb.toString(), null);
-		}
+			setBankAccountNextSequence(paymentRule, ++lastDocumentNo);
 
 		SimplePDFViewer remitViewer = null; 
 		if (FDialog.ask(windowNo, form, "VPayPrintPrintRemittance"))

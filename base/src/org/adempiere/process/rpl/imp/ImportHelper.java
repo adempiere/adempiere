@@ -29,6 +29,7 @@
 package org.adempiere.process.rpl.imp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -695,7 +696,7 @@ public class ImportHelper {
 			else if( DisplayType.isNumeric(column.getAD_Reference_ID()))
 			{
 				valuecol="Round("+valuecol+",2)";
-				params[col] = new BigDecimal((String)cols[col]).setScale(2, BigDecimal.ROUND_HALF_UP);
+				params[col] = new BigDecimal((String) cols[col]).setScale(2, RoundingMode.HALF_UP);
 			}
 			else
 			{	

@@ -17,6 +17,7 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -835,7 +836,7 @@ public class Doc_Invoice extends Doc
 		Arrays.stream(landedCostAllocations)
 				.filter(landedCostAllocation -> landedCostAllocation.getBase().signum() != 0) // only cost allocation with base > 0
 				.forEach(landedCostAllocation -> {
-			BigDecimal percent = landedCostAllocation.getBase().divide(totalBase, BigDecimal.ROUND_HALF_UP);
+			BigDecimal percent = landedCostAllocation.getBase().divide(totalBase, RoundingMode.HALF_UP);
 			String desc = invoiceLine.getDescription();
 			if (desc == null)
 				desc = percent + "%";

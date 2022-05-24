@@ -24,6 +24,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.swing.tree.TreeNode;
+
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MHierarchy;
 import org.compiere.model.MTree;
@@ -228,7 +230,7 @@ public class MReportTree {
 		//
 		StringBuffer result = null;
 		if (node != null && node.isSummary()) {
-			Enumeration en = node.preorderEnumeration();
+			Enumeration<TreeNode> en = node.preorderEnumeration();
 			StringBuffer sb = new StringBuffer ();
 			while (en.hasMoreElements()) {
 				MTreeNode treeNode = (MTreeNode) en.nextElement();
@@ -269,7 +271,7 @@ public class MReportTree {
 		//
 		if (node != null && node.isSummary())
 		{
-			Enumeration enumeration = node.preorderEnumeration();
+			Enumeration<TreeNode> enumeration = node.preorderEnumeration();
 			while (enumeration.hasMoreElements())
 			{
 				MTreeNode treeNode = (MTreeNode) enumeration.nextElement();

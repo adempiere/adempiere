@@ -24,9 +24,9 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.br;
-import org.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.br;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
 import org.compiere.model.MStore;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;

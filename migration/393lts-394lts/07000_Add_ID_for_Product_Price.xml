@@ -360,7 +360,9 @@ CREATE SEQUENCE M_ProductPrice_Seq START WITH 1000000;
 UPDATE M_ProductPrice SET M_ProductPrice_ID = nextval('M_ProductPrice_Seq');
 DROP SEQUENCE M_ProductPrice_Seq;
 ALTER TABLE M_ProductPrice DROP CONSTRAINT M_ProductPrice_PKey;
-ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);</SQLStatement>
+ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);
+CREATE UNIQUE INDEX M_ProductPrice_PKey ON M_ProductPrice(M_PriceList_Version_ID, M_Product_ID);
+      </SQLStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="185" StepType="SQL">
       <SQLStatement>-- Product Price

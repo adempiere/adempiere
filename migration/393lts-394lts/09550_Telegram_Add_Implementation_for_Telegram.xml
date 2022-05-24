@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA34" Name="Telegram: Add Implementation for Telegram" ReleaseNo="3.9.4" SeqNo="9550">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50020" Table="AD_AppSupport">
+        <Data AD_Column_ID="91312" Column="Value">Telegram-Custom-Sender</Data>
+        <Data AD_Column_ID="91310" Column="UUID">9b84bb5f-fdd2-4b2d-b586-49b37021fb9c</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2021-12-02 18:28:02.995</Data>
+        <Data AD_Column_ID="91313" Column="Name">Telegram Custom Sender</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91314" Column="Description">https://www.telegram.org/</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91306" Column="Created">2021-12-02 18:28:02.995</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.queue.notification.telegram.support.Telegram</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">STG</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50020</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50022" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">9d93655c-2395-4148-8fa8-8884a83bca09</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2021-12-02 18:28:11.702</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">bot_name</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91382" Column="Created">2021-12-02 18:28:11.702</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50022</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50020</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50023" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">c38f59aa-a479-4394-ba22-b121a4f8508e</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2021-12-02 18:28:18.181</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">bot_token</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91382" Column="Created">2021-12-02 18:28:18.181</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50023</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50020</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

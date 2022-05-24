@@ -32,22 +32,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.button;
-import org.apache.ecs.xhtml.div;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.hr;
-import org.apache.ecs.xhtml.i;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.span;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.thead;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.AlignType;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.button;
+import org.adempiere.legacy.apache.ecs.xhtml.div;
+import org.adempiere.legacy.apache.ecs.xhtml.form;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.i;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.span;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.th;
+import org.adempiere.legacy.apache.ecs.xhtml.thead;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridWindowVO;
@@ -672,7 +672,7 @@ public class WWindow extends HttpServlet
 			log.log(Level.SEVERE, "Set CharacterEndocung=" + WebEnv.ENCODING, e);
 		}
 		//  loop through parameters
-		Enumeration en = request.getParameterNames();
+		Enumeration<String> en = request.getParameterNames();
 		while (en.hasMoreElements())
 		{
 			String key = (String)en.nextElement();

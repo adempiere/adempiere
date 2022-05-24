@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -174,7 +175,7 @@ public class MCostDetail extends X_M_CostDetail
 				.add(costDetail.getCostAdjustment())
 				.add(costDetail.getCostAmtLL())
 				.add(costDetail.getCostAdjustmentLL())
-				.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				.setScale(acctSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 	}
 	
 	public static List<MCostDetail> getByCollectorCost(MPPCostCollector costCollector)

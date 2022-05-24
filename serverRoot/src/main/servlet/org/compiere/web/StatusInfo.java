@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -92,7 +93,7 @@ public class StatusInfo extends HttpServlet
 		try
 		{
 			out.println("<h2>-- /</h2>");
-			NamingEnumeration ne = context.list("/");
+			NamingEnumeration<NameClassPair> ne = context.list("/");
 			while (ne.hasMore())
 				out.println("<br>   " + ne.nextElement());
 

@@ -592,11 +592,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.spin.model.I_FM_Amortization getFM_Amortization() throws RuntimeException
-    {
-		return (org.spin.model.I_FM_Amortization)MTable.get(getCtx(), org.spin.model.I_FM_Amortization.Table_Name)
-			.getPO(getFM_Amortization_ID(), get_TrxName());	}
-
 	/** Set Loan Amortization.
 		@param FM_Amortization_ID Loan Amortization	  */
 	public void setFM_Amortization_ID (int FM_Amortization_ID)

@@ -28,6 +28,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -106,6 +107,9 @@ import org.spin.util.PrinterUtil;
  * 	@author Raul Capecce
  * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
  * 	    @see https://github.com/adempiere/adempiere/issues/1305
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com
+ * 	    <li>FR [ 3884 ] Shipment Detail report does not finish generating</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/3884
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -764,7 +768,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		int AD_Table_ID = 0;
 		int AD_ReportView_ID = 0;
-		String TableName = null;
+		String tableName = null;
 		String whereClause = "";
 		int AD_PrintFormat_ID = 0;
 		boolean IsForm = false;
@@ -799,7 +803,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				whereClause = Env.parseContext(ctx, 0, whereClause, false);
 				//
 				AD_Table_ID = rs.getInt(3);
-				TableName = rs.getString(4);			//	required for query
+				tableName = rs.getString(4);			//	required for query
 				AD_PrintFormat_ID = rs.getInt(5);		//	required
 				IsForm = "Y".equals(rs.getString(6));	//	required
 				Client_ID = rs.getInt(7);
@@ -832,7 +836,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				{
 					whereClause = "";
 					AD_Table_ID = rs.getInt(1);
-					TableName = rs.getString(2);			//	required for query
+					tableName = rs.getString(2);			//	required for query
 					AD_PrintFormat_ID = rs.getInt(3);		//	required
 					IsForm = "Y".equals(rs.getString(4));	//	required
 					Client_ID = AD_Client_ID;
@@ -856,26 +860,21 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 		//  Create Query from Parameters
 		MQuery query = null;
-		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
-				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
-		{
-			MTable table = MTable.get(ctx, AD_Table_ID);
+		MTable table = MTable.get(ctx, AD_Table_ID);
+		if (IsForm && pi.getRecord_ID() != 0) {	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 			String columnKey = null;
 			if(table.isSingleKey())
 				columnKey = table.getKeyColumns()[0];
 			else 
-				columnKey = TableName + "_ID";
+				columnKey = tableName + "_ID";
 
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
-		else
-		{
-			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+		if(tableName.startsWith("T_")
+				|| Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent()
+				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
+			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
-		
-		//  Add to static where clause from ReportView
-		if (whereClause.length() != 0)
-			query.addRestriction(whereClause);
 
 		//	Get Print Format
 		MPrintFormat format = null;
@@ -907,7 +906,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		query.setWindowNo(pi.getWindowNo());
+		if (query != null) {
+			query.setWindowNo(pi.getWindowNo());
+			//  Add to static where clause from ReportView
+			query.addRestriction(whereClause);
+		}
 
 		//	FR [ 295 ]
 		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());

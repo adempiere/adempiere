@@ -30,8 +30,7 @@ import org.eevolution.form.tree.MapTreeCellRenderer;
  */
 public class BOMTreeCellRenderer extends MapTreeCellRenderer {
 
-	public BOMTreeCellRenderer(HashMap map) {
-		
+	public BOMTreeCellRenderer(HashMap<?, ?> map) {
 		super(map);
 	}
 

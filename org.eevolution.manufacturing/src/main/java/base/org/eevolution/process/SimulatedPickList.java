@@ -16,38 +16,20 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.sql.RowSet;
-
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.AEnv;
 import org.compiere.model.MProduct;
-import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
-import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Product;
-import org.compiere.model.X_M_Warehouse;
-import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.model.X_PP_Order_BOMLine;
 import org.eevolution.model.X_PP_Product_BOM;
-import org.eevolution.model.X_PP_Product_BOMLine;
 import org.eevolution.model.X_T_BOMLine;
 
 /**
@@ -56,46 +38,11 @@ import org.eevolution.model.X_T_BOMLine;
  * @author victor.perez@e-evolution.com, www.e-evoluton.com
  * 
  */
-public class SimulatedPickList extends SvrProcess {
-	private static final Properties ctx = Env.getCtx();
-	private int p_M_Product_ID = 0;
-	private int p_M_Warehouse_ID = 0;
-	private Timestamp p_DateTrx;
-	private BigDecimal p_QtyRequiered = Env.ONE;
-	private String p_BackflushGroup = null;
-	private int p_LevelNo = 1;
-	private int LevelNo = 1;
+public class SimulatedPickList extends SimulatedPickListAbstract {
 	private int SeqNo = 0;
 	private String levels = new String("....................");
-	private int AD_PInstance_ID = 0;
-
-	/**
-	 * Prepare - e.g., get Parameters.
-	 */
-	protected void prepare() {
-
-		for (ProcessInfoParameter para : getParameter()) {
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals(X_M_Product.COLUMNNAME_M_Product_ID)) {
-				p_M_Product_ID = para.getParameterAsInt();
-			} else if (name.equals(X_M_Warehouse.COLUMNNAME_M_Warehouse_ID)) {
-				p_M_Warehouse_ID = para.getParameterAsInt();
-			} else if (name.equals("DateTrx")) {
-				p_DateTrx = (Timestamp) para.getParameter();
-			} else if (name.equals(X_PP_Order_BOMLine.COLUMNNAME_QtyRequired)) {
-				p_QtyRequiered = (BigDecimal) para.getParameter();
-			} else if (name
-					.equals(X_PP_Product_BOMLine.COLUMNNAME_BackflushGroup)) {
-				p_BackflushGroup = (String) para.getParameter();
-			} else if (name.equals(X_T_BOMLine.COLUMNNAME_LevelNo)) {
-				p_LevelNo = para.getParameterAsInt();
-			} else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-	} // prepare
-
+	private int levelNo = 1;
+	
 	/**
 	 * Perform process.
 	 * 
@@ -104,8 +51,7 @@ public class SimulatedPickList extends SvrProcess {
 	 *             if not successful
 	 */
 	protected String doIt() throws Exception {
-		AD_PInstance_ID = getAD_PInstance_ID();
-		final MProduct product = MProduct.get(getCtx(), p_M_Product_ID);
+		final MProduct product = MProduct.get(getCtx(), getProductId());
 		if (!product.isVerified())
 			throw new AdempiereException(
 					"Product BOM Configuration not verified. Please verify the product first - "
@@ -113,139 +59,50 @@ public class SimulatedPickList extends SvrProcess {
 
 		try {
 			loadBOM();
-			print();
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "PrintBOM", e.toString());
 			throw new Exception(e.getLocalizedMessage());
-		} finally {
-			String sql = "DELETE FROM T_BomLine WHERE AD_PInstance_ID = "
-					+ AD_PInstance_ID;
-			DB.executeUpdateEx(sql, get_TrxName());
 		}
 
 		return "@OK@";
 	} // doIt
-
-	private static final String X_RV_PP_Product_BOMLine_Storage_TableName = "RV_PP_Product_BOMLine_Storage";
-
-	/**
-	 * Print result generate for this report
-	 */
-	void print() throws Exception {
-		Language language = Language.getLoginLanguage(); // Base Language
-		MPrintFormat pf = null;
-		int pfid = 0;
-
-		// get print format for client, else copy system to client
-		RowSet pfrs = MPrintFormat.getAccessiblePrintFormats(
-				MTable.getTable_ID(X_RV_PP_Product_BOMLine_Storage_TableName),
-				-1, null);
-		pfrs.next();
-		pfid = pfrs.getInt("AD_PrintFormat_ID");
-
-		if (pfrs.getInt("AD_Client_ID") != 0)
-			pf = MPrintFormat.get(getCtx(), pfid, false);
-		else
-			pf = MPrintFormat.copyToClient(getCtx(), pfid, getAD_Client_ID());
-		pfrs.close();
-
-		if (pf == null)
-			raiseError("Error: ", "No Print Format");
-
-		pf.setLanguage(language);
-		pf.setTranslationLanguage(language);
-		// query
-		MQuery query = new MQuery(X_RV_PP_Product_BOMLine_Storage_TableName);
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID,
-				MQuery.EQUAL, AD_PInstance_ID,
-				getParamenterName(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID),
-				getParamenterInfo(X_T_BOMLine.COLUMNNAME_AD_PInstance_ID));
-
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID,
-				MQuery.EQUAL, p_M_Warehouse_ID,
-				getParamenterName(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID),
-				getParamenterInfo(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID));
-
-		query.addRestriction(X_T_BOMLine.COLUMNNAME_M_Warehouse_ID,
-				MQuery.EQUAL, p_M_Warehouse_ID, getParamenterName("DateTrx"),
-				getParamenterInfo("DateTrx"));
-
-		PrintInfo info = new PrintInfo(
-				X_RV_PP_Product_BOMLine_Storage_TableName,
-				MTable.getTable_ID(X_RV_PP_Product_BOMLine_Storage_TableName),
-				getRecord_ID());
-		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
-
-		ReportCtl.preview(re);
-		// wait for report window to be closed as t_bomline
-		// records are deleted when process ends
-		while (re.showView()
-				&& re.isDisplayable()) {
-			AEnv.sleep(1);
-		}
-	}
-
-	public String getParamenterInfo(String name) {
-		final String sql = "SELECT ip.Info FROM AD_PInstance_Para ip"
-				+ " WHERE ip.AD_PInstance_ID=? AND ip.ParameterName=?";
-		return DB.getSQLValueString(get_TrxName(), sql, getProcessInfo()
-				.getAD_PInstance_ID(), name);
-	}
-
-	public String getParamenterName(String columnName) {
-		boolean trl = !Env.isBaseLanguage(ctx, "AD_Process_Para");
-		String sql = null;
-		if (trl) {
-			sql = "SELECT pp.Name FROM AD_Process_Para pp "
-					+ "WHERE pp.IsActive='Y' "
-					+ " AND pp.AD_Process_ID=? AND pp.ColumnName=?";
-		} else {
-			sql = "SELECT ppt.Name "
-					+ "FROM AD_Process_Para pp , AD_Process_Para_Trl ppt "
-					+ "WHERE pp.IsActive='Y'"
-					+ " AND pp.AD_Process_Para_ID=ppt.AD_Process_Para_ID"
-					+ " AND pp.AD_Process_ID=? AND pp.ColumnName=?";
-		}
-		return DB.getSQLValueString(get_TrxName(), sql, getProcessInfo()
-				.getAD_Process_ID(), columnName);
-	}
 
 	/**
 	 * Action: Fill Tree with all nodes
 	 */
 	private void loadBOM() throws Exception {
 		int count = 0;
-		if (p_M_Product_ID == 0)
+		if (getProductId() == 0)
 			raiseError("Error: ", "Product ID not found");
 
-		MProduct product = new MProduct(getCtx(), p_M_Product_ID, get_TrxName());
-		X_T_BOMLine tboml = new X_T_BOMLine(ctx, 0, null);
+		MProduct product = new MProduct(getCtx(), getProductId(), get_TrxName());
+		X_T_BOMLine tboml = new X_T_BOMLine(getCtx(), 0, get_TrxName());
 		tboml.setAD_Org_ID(product.getAD_Org_ID());
 		tboml.setPP_Product_BOM_ID(0);
 		tboml.setPP_Product_BOMLine_ID(0);
-		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setM_Product_ID(p_M_Product_ID);
-		tboml.setSel_Product_ID(p_M_Product_ID);
-		tboml.setDateTrx(p_DateTrx);
+		tboml.setSel_Product_ID(getProductId());
+		tboml.setM_Product_ID(getProductId());
+		tboml.setSel_Product_ID(getProductId());
+		tboml.setDateTrx(getDateTrx());
 		tboml.setImplosion(false);
 		tboml.setLevelNo(0);
 		tboml.setLevels("0");
 		tboml.setQtyBOM(Env.ONE);
-		tboml.setQtyRequired(p_QtyRequiered);
-		tboml.setM_Warehouse_ID(p_M_Warehouse_ID);
+		tboml.setQtyRequired(getQtyRequired());
+		tboml.setM_Warehouse_ID(getWarehouseId());
 		tboml.setSeqNo(0);
-		tboml.setAD_PInstance_ID(AD_PInstance_ID);
+		tboml.setAD_PInstance_ID(getAD_PInstance_ID());
 		tboml.saveEx();
 
 		final String whereClause = MPPProductBOM.COLUMNNAME_M_Product_ID + "=?";
 		List<MPPProductBOM> boms = new Query(getCtx(),
 				X_PP_Product_BOM.Table_Name, whereClause, get_TrxName())
 				.setClient_ID().setOnlyActiveRecords(true)
-				.setParameters(p_M_Product_ID).list();
+				.setParameters(getProductId()).list();
 
 		for (MPPProductBOM bom : boms) {
-			if (bom.isValidFromTo(p_DateTrx)) {
-				parentExplotion(bom.get_ID(), p_QtyRequiered);
+			if (bom.isValidFromTo(getDateTrx())) {
+				parentExplotion(bom.get_ID(), getQtyRequired());
 				++count;
 			}
 		}
@@ -268,11 +125,11 @@ public class SimulatedPickList extends SvrProcess {
 		final StringBuilder whereClause = new StringBuilder(
 				MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID).append("=?");
 
-		if (p_BackflushGroup != null) {
+		if (getBackflushGroup() != null) {
 			whereClause.append(" AND ")
 					.append(MPPProductBOMLine.COLUMNNAME_BackflushGroup)
 					.append("LIKE ?");
-			parameters.add(p_BackflushGroup);
+			parameters.add(getBackflushGroup());
 		}
 
 		List<MPPProductBOMLine> bomLines = new Query(getCtx(),
@@ -282,24 +139,24 @@ public class SimulatedPickList extends SvrProcess {
 				.setOrderBy(MPPProductBOMLine.COLUMNNAME_Line).list();
 
 		for (MPPProductBOMLine line : bomLines) {
-			if (line.isValidFromTo(p_DateTrx)) {
+			if (line.isValidFromTo(getDateTrx())) {
 				SeqNo += 1;
 				MProduct product = new MProduct(getCtx(),
 						line.getM_Product_ID(), get_TrxName());
-				X_T_BOMLine tboml = new X_T_BOMLine(ctx, 0, null);
+				X_T_BOMLine tboml = new X_T_BOMLine(getCtx(), 0, get_TrxName());
 				tboml.setAD_Org_ID(product.getAD_Org_ID());
 				tboml.setPP_Product_BOM_ID(PP_Product_BOM_ID);
 				tboml.setPP_Product_BOMLine_ID(line.get_ID());
 				tboml.setM_Product_ID(line.getM_Product_ID());
-				tboml.setLevelNo(LevelNo);
-				tboml.setDateTrx(p_DateTrx);
-				tboml.setLevels(levels.substring(0, LevelNo) + LevelNo);
+				tboml.setLevelNo(levelNo);
+				tboml.setDateTrx(getDateTrx());
+				tboml.setLevels(levels.substring(0, levelNo) + levelNo);
 				tboml.setSeqNo(SeqNo);
-				tboml.setAD_PInstance_ID(AD_PInstance_ID);
-				tboml.setSel_Product_ID(p_M_Product_ID);
+				tboml.setAD_PInstance_ID(getAD_PInstance_ID());
+				tboml.setSel_Product_ID(getProductId());
 				tboml.setQtyBOM(line.getQty(true));
 				tboml.setQtyRequired(qtyRequiered.multiply(line.getQty(true)));
-				tboml.setM_Warehouse_ID(p_M_Warehouse_ID);
+				tboml.setM_Warehouse_ID(getWarehouseId());
 				tboml.setImplosion(false);
 				tboml.saveEx();
 				component(line.getM_Product_ID(), tboml.getQtyBOM());
@@ -316,7 +173,7 @@ public class SimulatedPickList extends SvrProcess {
 	public void component(int M_Product_ID, BigDecimal qtyRequiered)
 			throws Exception {
 
-		if (LevelNo == p_LevelNo)
+		if (levelNo == getSimulateLevelNo())
 			return;
 
 		String value = DB.getSQLValueString(get_TrxName(),
@@ -333,12 +190,12 @@ public class SimulatedPickList extends SvrProcess {
 
 		boolean level = false;
 		for (MPPProductBOM bom : boms) {
-			if (bom.isValidFromTo(p_DateTrx)) {
+			if (bom.isValidFromTo(getDateTrx())) {
 				if (!level)
-					LevelNo += 1;
+					levelNo += 1;
 				level = true;
 				parentExplotion(bom.get_ID(), qtyRequiered);
-				LevelNo -= 1;
+				levelNo -= 1;
 			}
 		}
 	}

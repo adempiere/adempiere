@@ -115,7 +115,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (qtyBatchSize.signum() == 0)
 			QtyBatchs = Env.ONE;
 		else
-			QtyBatchs = order.getQtyOrdered().divide(qtyBatchSize , 0, BigDecimal.ROUND_UP); 
+			QtyBatchs = order.getQtyOrdered().divide(qtyBatchSize , 0, RoundingMode.UP); 
 		order.setQtyBatchs(QtyBatchs);
 	}
 	
@@ -186,7 +186,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				else
 				{
 					BigDecimal qtydelivered = qtyToDeliver;
-					qtydelivered.setScale(4, BigDecimal.ROUND_HALF_UP);
+					qtydelivered.setScale(4, RoundingMode.HALF_UP);
 					qtydelivered = Env.ZERO;
 				}
 		
@@ -740,7 +740,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		//Create the Activity Control
 		autoReportActivities();
 
-		//setProcessed(true);
+		setProcessed(true);
 		setDocAction(DOCACTION_Close);
 
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -998,7 +998,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (QtyEntered != null && getC_UOM_ID() != 0)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
-			QtyEntered = QtyEntered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyEntered = QtyEntered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyEntered (QtyEntered);
 	}	//	setQtyEntered
@@ -1012,7 +1012,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (QtyOrdered != null)
 		{
 			int precision = getM_Product().getUOMPrecision();
-			QtyOrdered = QtyOrdered.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			QtyOrdered = QtyOrdered.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered

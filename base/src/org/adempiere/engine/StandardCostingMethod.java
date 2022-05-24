@@ -218,12 +218,25 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+		return getNewCurrentCostPrice(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0) {
 			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+
+		return BigDecimal.ZERO;
 	}
 
 	/**
@@ -268,6 +281,17 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 		return accumulatedAmountLowerLevel;
 	}
 
+	/**
+	 * Average Invoice Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 * @deprecated
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
+		return getNewCurrentCostPriceLowerLevel(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
 
 	/**
 	 * Average Invoice Get the New Current Cost Price low level
@@ -276,11 +300,12 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
 	 */
-	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0) {
 			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 	/**

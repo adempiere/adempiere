@@ -526,11 +526,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return bd;
 	}
 
-	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException
-    {
-		return (org.spin.model.I_FM_Account)MTable.get(getCtx(), org.spin.model.I_FM_Account.Table_Name)
-			.getPO(getFM_Account_ID(), get_TrxName());	}
-
 	/** Set Financial Account.
 		@param FM_Account_ID Financial Account	  */
 	public void setFM_Account_ID (int FM_Account_ID)

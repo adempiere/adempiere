@@ -32,10 +32,10 @@ import org.compiere.model.MProjectTask;
 import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.project.service.ProjectProcessorService;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.ProjectProcessorUtils;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
@@ -632,7 +632,7 @@ public class ProjectProcessor extends AdempiereServer
 		for (int i=0; i < m_columns.size(); i++) {
 			String column = m_columns.get(i);
 			
-			if (ProjectProcessorUtils.isExcludeColumn(column))
+			if (ProjectProcessorService.isExcludeColumn(column))
 				continue;
 			
 			String value = m_Values.get(i);
@@ -662,17 +662,17 @@ public class ProjectProcessor extends AdempiereServer
 		StringBuffer sb = new StringBuffer();
 		String result = "";
 		if (m_PO!=null) {
-			for (String column : ProjectProcessorUtils.RESPONSIBLE_COLUMNS) {
+			for (String column : ProjectProcessorService.RESPONSIBLE_COLUMNS) {
 				if (m_PO.get_ColumnIndex(column) >= 0)
 					sb.append(getItemPO(column,null));
 			}
 			
-			for (String column : ProjectProcessorUtils.INFO_COLUMNS) {
+			for (String column : ProjectProcessorService.INFO_COLUMNS) {
 				if (m_PO.get_ColumnIndex(column) >= 0)
 					sb.append(getItemPO(column,null));
 			}
 			
-			for (String column : ProjectProcessorUtils.TIME_COLUMNS) {
+			for (String column : ProjectProcessorService.TIME_COLUMNS) {
 				if (m_PO.get_ColumnIndex(column) >= 0)
 					sb.append(getItemPO(column,null));
 			}
@@ -697,7 +697,7 @@ public class ProjectProcessor extends AdempiereServer
 		if (value !=null)
 			result.append(value);
 		else 
-			result.append(ProjectProcessorUtils.get_DisplayValue(column,m_PO));
+			result.append(ProjectProcessorService.getDisplayValue(column,m_PO));
 		
 		result.append("</li>\n");
 

@@ -17,6 +17,7 @@
 package org.compiere.sqlj;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -257,7 +258,7 @@ public class Currency
 			int index = costing ? 2 : 1;
 			int prec = rs.getInt(index);
 			if (result.scale() > prec)
-				result = result.setScale(prec, BigDecimal.ROUND_HALF_UP);
+				result = result.setScale(prec, RoundingMode.HALF_UP);
 		}
 		rs.close();
 		pstmt.close();

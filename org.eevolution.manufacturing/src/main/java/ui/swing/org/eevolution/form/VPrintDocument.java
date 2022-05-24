@@ -45,26 +45,39 @@ import org.eevolution.service.dsl.ProcessBuilder;
 public class VPrintDocument implements IPrintDocument {
     @Override
     public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
-        JFrame window = Env.getWindow(windowNo);
-        if (ADialog.ask(windowNo, window, "PrintDocument", document.getDisplayValue())) {
-            window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-            int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
-            do {
-                try {
-                	printDocument(document, printFormatId, windowNo);
-                } catch (Exception e) {
+    	JFrame window = Env.getWindow(windowNo);
+    	if(!askPrint) {
+    		loopAndPrint(document, printFormatId, windowNo, window);
+    	} else if(ADialog.ask(windowNo, window, "PrintDocument", document.getDisplayValue())) {
+			loopAndPrint(document, printFormatId, windowNo, window);
+		}
+    }
+    
+    /**
+     * Print each document
+     * @param document
+     * @param printFormatId
+     * @param windowNo
+     * @param current window
+     */
+    private void loopAndPrint(PO document, int printFormatId, int windowNo, JFrame window) {
+    	window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+        int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
+        do {
+            try {
+            	printDocument(document, printFormatId, windowNo);
+            } catch (Exception e) {
 
-                } finally {
-                    ADialogDialog d = new ADialogDialog(window,
-                            Env.getHeader(Env.getCtx(), windowNo),
-                            Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
-                            JOptionPane.QUESTION_MESSAGE);
-                    retValue = d.getReturnCode();
-                }
+            } finally {
+                ADialogDialog d = new ADialogDialog(window,
+                        Env.getHeader(Env.getCtx(), windowNo),
+                        Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
+                        JOptionPane.QUESTION_MESSAGE);
+                retValue = d.getReturnCode();
             }
-            while (retValue == ADialogDialog.A_CANCEL);
-            window.setCursor(Cursor.getDefaultCursor());
         }
+        while (retValue == ADialogDialog.A_CANCEL);
+        window.setCursor(Cursor.getDefaultCursor());
     }
 
 	@Override
@@ -78,7 +91,13 @@ public class VPrintDocument implements IPrintDocument {
 			//	Add to String
 			documentLabels.append(document.getDisplayValue());
 		});
-        if (ADialog.ask(windowNo, window, "PrintAllDocuments", documentLabels.toString())) {
+		if(!askPrint) {
+			window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            documentList.stream().forEach(document -> {
+            	printDocument(document, printFormatId, windowNo);
+            });
+            window.setCursor(Cursor.getDefaultCursor());
+		} else if(ADialog.ask(windowNo, window, "PrintAllDocuments", documentLabels.toString())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             documentList.stream().forEach(document -> {
             	printDocument(document, printFormatId, windowNo);

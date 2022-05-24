@@ -187,6 +187,19 @@ public interface I_AD_NotificationQueue
 	  */
 	public boolean isActive();
 
+    /** Column name MessageType */
+    public static final String COLUMNNAME_MessageType = "MessageType";
+
+	/** Set Message Type.
+	  * Message Type for notification
+	  */
+	public void setMessageType (String MessageType);
+
+	/** Get Message Type.
+	  * Message Type for notification
+	  */
+	public String getMessageType();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -199,6 +212,19 @@ public interface I_AD_NotificationQueue
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ResponseHandler */
+    public static final String COLUMNNAME_ResponseHandler = "ResponseHandler";
+
+	/** Set Response Handler.
+	  * Response Handler for a notification
+	  */
+	public void setResponseHandler (String ResponseHandler);
+
+	/** Get Response Handler.
+	  * Response Handler for a notification
+	  */
+	public String getResponseHandler();
 
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";

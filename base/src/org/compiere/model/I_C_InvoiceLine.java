@@ -346,8 +346,6 @@ public interface I_C_InvoiceLine
 	/** Get Loan Amortization	  */
 	public int getFM_Amortization_ID();
 
-	public org.spin.model.I_FM_Amortization getFM_Amortization() throws RuntimeException;
-
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";
 

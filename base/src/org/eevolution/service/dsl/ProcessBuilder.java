@@ -73,6 +73,7 @@ public class ProcessBuilder {
     private Boolean isExecuteUsingSystemRole =  false;
     /**	Multi-Selection Parameters	*/
     private LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection = null;
+	private String aliasTableSelection;
 
     /**
      * Private constructor is called when an instance is created
@@ -176,6 +177,7 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        processInfo.setAliasForTableSelection(aliasTableSelection);
         if(clientId != null) {
         	processInfo.setAD_Client_ID(clientId);
         }
@@ -368,10 +370,21 @@ public class ProcessBuilder {
      * @param selectedRecordsIds
      * @return
      */
-    public ProcessBuilder withSelectedRecordsIds(int tableSelectionId , List<Integer> selectedRecordsIds)
-    {
+    public ProcessBuilder withSelectedRecordsIds(int tableSelectionId, List<Integer> selectedRecordsIds) {
+        return withSelectedRecordsIds(tableSelectionId, null, selectedRecordsIds);
+    }
+    
+    /**
+     * Define mutiples select record ids to be processed
+     * @param tableSelectionId
+     * @param aliasTableSelection
+     * @param selectedRecordsIds
+     * @return
+     */
+    public ProcessBuilder withSelectedRecordsIds(int tableSelectionId, String aliasTableSelection, List<Integer> selectedRecordsIds) {
         this.selectedRecordsIds = selectedRecordsIds;
         this.tableSelectionId = tableSelectionId;
+        this.aliasTableSelection = aliasTableSelection;
         return this;
     }
 

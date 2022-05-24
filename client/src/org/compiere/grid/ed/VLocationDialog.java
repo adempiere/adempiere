@@ -23,8 +23,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -75,7 +77,7 @@ public class VLocationDialog extends CDialog
 	implements ActionListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6952838437136830975L;
 
@@ -106,7 +108,7 @@ public class VLocationDialog extends CDialog
 		m_location = location;
 		if (m_location == null)
 			m_location = new MLocation (Env.getCtx(), 0, null);
-		//	Overwrite title	
+		//	Overwrite title
 		if (m_location.getC_Location_ID() == 0)
 			setTitle(Msg.getMsg(Env.getCtx(), "LocationNew"));
 		else
@@ -164,6 +166,14 @@ public class VLocationDialog extends CDialog
 	private CLabel		lRegion     = new CLabel(Msg.getMsg(Env.getCtx(), "Region"));
 	private CLabel		lPostal     = new CLabel(Msg.getMsg(Env.getCtx(), "Postal"));
 	private CLabel		lPostalAdd  = new CLabel(Msg.getMsg(Env.getCtx(), "PostalAdd"));
+
+
+	private CLabel lLatitude = new CLabel(Msg.getMsg(Env.getCtx(), "Latitude"));
+
+	private CLabel lLongitude = new CLabel(Msg.getMsg(Env.getCtx(), "Longitude"));
+
+	private CLabel lAltitude = new CLabel(Msg.getMsg(Env.getCtx(), "Altitude"));
+
 	private CLabel		lOnline		= new CLabel("");
 	private CTextField	fAddress1 = new CTextField(20);		//	length=60
 	private CTextField	fAddress2 = new CTextField(20);		//	length=60
@@ -175,6 +185,13 @@ public class VLocationDialog extends CDialog
 	private CComboBoxEditable	fRegion;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
 	private CTextField	fPostalAdd = new CTextField(5);		//	length=10
+
+	private VNumber fieldLatitude = new VNumber();
+
+	private VNumber fieldLongitude = new VNumber();
+
+	private VNumber fieldAltitude = new VNumber();
+
 	private CButton 	fOnline = new CButton();
 	private CButton		bUrl = new CButton();
 
@@ -328,7 +345,11 @@ public class VLocationDialog extends CDialog
 				isRegionMandatory = s.endsWith("!");
 			}
 		}
-		
+
+		addLine(line++, lLatitude, fieldLatitude);
+		addLine(line++, lLongitude, fieldLongitude);
+		addLine(line++, lAltitude, fieldAltitude);
+
 		//	Fill it
 		if (m_location.getC_Location_ID() != 0)
 		{
@@ -339,6 +360,9 @@ public class VLocationDialog extends CDialog
 			fCity.setText(m_location.getCity());
 			fPostal.setText(m_location.getPostal());
 			fPostalAdd.setText(m_location.getPostal_Add());
+			fieldLatitude.setValue(m_location.getLatitude());
+			fieldLongitude.setValue(m_location.getLongitude());
+			fieldAltitude.setValue(m_location.getAltitude());
 			if (m_location.getCountry().isHasRegion())
 			{
 				if (   m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
@@ -522,6 +546,16 @@ public class VLocationDialog extends CDialog
 		m_location.setC_City_ID(fCityAutoCompleter.getC_City_ID());
 		m_location.setPostal(fPostal.getText());
 		m_location.setPostal_Add(fPostalAdd.getText());
+
+		Optional.ofNullable(fieldLatitude.getValue())
+				.ifPresent(latitude -> m_location.setLatitude((BigDecimal) latitude));
+
+		Optional.ofNullable(fieldLongitude.getValue())
+				.ifPresent(longitude -> m_location.setLongitude((BigDecimal) longitude));
+
+		Optional.ofNullable(fieldAltitude.getValue())
+				.ifPresent(altitude -> m_location.setAltitude((BigDecimal) altitude));
+
 		//  Country/Region
 		MCountry c = (MCountry)fCountry.getSelectedItem();
 		m_location.setCountry(c);

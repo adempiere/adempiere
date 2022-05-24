@@ -18,6 +18,7 @@ package org.eevolution.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -1347,8 +1348,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 				if(rate != null) {
 					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
-					
+							.setScale(precision, RoundingMode.HALF_UP);	
 				}
 			}
 			movement.setAmount(amount);
@@ -1852,8 +1852,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 				if(rate != null) {
 					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
-							.setScale(precision, BigDecimal.ROUND_HALF_UP);
-					
+							.setScale(precision, RoundingMode.HALF_UP);
 				}
 			}
 			if(amount == null) {

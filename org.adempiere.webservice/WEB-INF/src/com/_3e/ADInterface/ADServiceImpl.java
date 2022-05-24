@@ -11,6 +11,7 @@ import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
 
+import javax.swing.tree.TreeNode;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -275,8 +276,8 @@ public class ADServiceImpl implements ADService {
     	
     }
     
-    private HashMap WindowVOCache =new HashMap();
-    private HashMap WindowCache =new HashMap();
+    private HashMap<String, GridWindowVO> WindowVOCache = new HashMap<String, GridWindowVO>();
+    private HashMap<String, WindowDocument> WindowCache = new HashMap<String, WindowDocument>();
     
     
     private GridWindowVO getWindowVO( int WindowNo, int AD_Window_ID, int AD_Menu_ID)
@@ -342,7 +343,7 @@ public class ADServiceImpl implements ADService {
 	}
 	
 
-	private Map WindowStatusMap = new HashMap(); 
+	private Map<Integer, WWindowStatus> WindowStatusMap = new HashMap<Integer, WWindowStatus>(); 
 
 	/*
 	public WindowTabDataDocument getWindowTabData(int WindowNo, int AD_Window_ID, int AD_Menu_ID, int TabNo, int PrevTabNo, int PrevRecNo, boolean getData)	{
@@ -765,7 +766,7 @@ public class ADServiceImpl implements ADService {
         		boolean error = updateFields( ws, dr0 );
 
         		DataField f[] = dr0.getFieldArray();
-        		HashMap fmap = new HashMap();
+        		HashMap<String, Object> fmap = new HashMap<String, Object>();
         		for (int i=0; i<f.length; i++)
         			fmap.put(f[i].getColumn(), f[i].getVal());
         		
@@ -846,7 +847,7 @@ public class ADServiceImpl implements ADService {
 	{
 	
 		boolean error = false;
-		Enumeration en = null; //request.getParameterNames();
+		Enumeration<TreeNode> en = null;
 		DataField[] df = dr.getFieldArray();
 		DataField f;
 		for (int i=0; i<df.length; i++)
@@ -1292,8 +1293,7 @@ public class ADServiceImpl implements ADService {
 		MTree tree = new MTree (m_cs.getM_ctx(), AD_Tree_ID, false, null);	// Language set in WLogin
 		//	Trim tree
 		MTreeNode root = tree.getRoot();
-		Enumeration en = root.preorderEnumeration();
-		
+		Enumeration<TreeNode> en = root.preorderEnumeration();
 		
 		ADMenuItemList itl = null;// menu.addNewItems();
 		ADMenuItem it = menu;//, it_last = null;

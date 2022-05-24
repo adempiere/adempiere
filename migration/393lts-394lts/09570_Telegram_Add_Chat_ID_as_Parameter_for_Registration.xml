@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA34" Name="Telegram: Add Chat ID as Parameter for Registration" ReleaseNo="3.9.4" SeqNo="9570">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50024" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">9deb6f5f-7236-4b23-9a1d-67b62b42eca5</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2021-12-03 12:10:30.956</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">chat_id</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91382" Column="Created">2021-12-03 12:10:30.956</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50024</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50020</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

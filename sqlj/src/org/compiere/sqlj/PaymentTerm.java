@@ -17,6 +17,7 @@
 package org.compiere.sqlj;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -309,7 +310,7 @@ public class PaymentTerm
 			//	Divide
 			if (discount.signum() != 0)
 			{
-				discount = discount.divide(Adempiere.HUNDRED, 6, BigDecimal.ROUND_HALF_UP);
+				discount = discount.divide(Adempiere.HUNDRED, 6, RoundingMode.HALF_UP);
 				discount = Currency.round(discount, p_C_Currency_ID, "N");
 			}
 		}	

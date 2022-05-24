@@ -29,7 +29,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 public abstract class CachableTreeCellRenderer extends DefaultTreeCellRenderer {
 
 	private boolean virtual;
-	private HashMap cache;
+	private HashMap<Object, Object> cache;
 	private CachableTreeCellRenderer complement;
 	
 	protected abstract void init(Object value);
@@ -44,7 +44,7 @@ public abstract class CachableTreeCellRenderer extends DefaultTreeCellRenderer {
 		super();
 
 		this.virtual = virtual;
-		cache = new HashMap();
+		cache = new HashMap<Object, Object>();
 	}
     
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {

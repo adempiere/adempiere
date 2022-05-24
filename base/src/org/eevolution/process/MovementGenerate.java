@@ -16,6 +16,7 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -388,7 +389,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(qty
 						.multiply(orderLine.getQtyEntered())
-						.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+						.divide(orderLine.getQtyOrdered(), 12, RoundingMode.HALF_UP));
 			line.setLine(lineNo + orderLine.getLine());
 			if (!line.save())
 				throw new IllegalStateException("Could not create Shipment Line");
@@ -448,7 +449,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 				line.setMovementQty(line.getMovementQty().add(deliver));
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(line.getMovementQty().multiply(orderLine.getQtyEntered())
-					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+					.divide(orderLine.getQtyOrdered(), 12, RoundingMode.HALF_UP));
 			line.setLine(lineNo + orderLine.getLine());
 			if (linePerASI)
 				line.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());

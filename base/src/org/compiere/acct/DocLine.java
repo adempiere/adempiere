@@ -454,7 +454,7 @@ public class DocLine
 	 * 	Get Period
 	 * 	@return C_Period_ID
 	 */
-	protected int getC_Period_ID()
+	public int getC_Period_ID()
 	{
 		if (m_C_Period_ID == -1)
 		{
@@ -940,7 +940,7 @@ public class DocLine
 	 * 	Set C_BPartner_ID
 	 *	@param C_BPartner_ID id
 	 */
-	protected void setC_BPartner_ID (int C_BPartner_ID)
+	public void setC_BPartner_ID (int C_BPartner_ID)
 	{
 		m_C_BPartner_ID = C_BPartner_ID;
 	}	//	setC_BPartner_ID
@@ -1271,4 +1271,28 @@ public class DocLine
 	{
 		return p_po.get_TableName();
 	}
+	
+	/**
+     * Set source entity or document
+     * @param entity
+     */
+    public void setSourceEntity(PO entity) {
+    	p_po = entity;
+    }
+    
+    /**
+     * Get source entity or document
+     * @return
+     */
+    public PO getSourceEntity() {
+    	return p_po;
+    }
+    
+    /**
+     * Get Parent Account doc
+     * @return
+     */
+    public Doc getParentDocument() {
+    	return m_doc;
+    }
 }	//	DocumentLine

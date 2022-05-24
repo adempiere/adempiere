@@ -37,6 +37,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -454,7 +455,7 @@ public final class VNumber extends JComponent
 				return Integer.valueOf(bd.intValue());
 			if (bd.signum() == 0)
 				return bd;
-			return bd.setScale(m_format.getMaximumFractionDigits(), BigDecimal.ROUND_HALF_UP);
+			return bd.setScale(m_format.getMaximumFractionDigits(), RoundingMode.HALF_UP);
 		}
 		catch (Exception e)
 		{

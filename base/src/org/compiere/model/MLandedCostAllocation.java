@@ -22,6 +22,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -161,7 +162,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	{
 		BigDecimal bd = new BigDecimal(Amt);
 		if (bd.scale() > precision)
-			bd = bd.setScale(precision, BigDecimal.ROUND_HALF_UP);
+			bd = bd.setScale(precision, RoundingMode.HALF_UP);
 		super.setAmt(bd);
 	}	//	setAmt
 
@@ -204,7 +205,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 				, getC_ConversionType_ID()
 				, getAD_Client_ID()
 				, getAD_Org_ID())
-				.divide( getQty(),invoiceLine.getParent().getM_PriceList().getPricePrecision() , BigDecimal.ROUND_HALF_UP);
+				.divide( getQty(),invoiceLine.getParent().getM_PriceList().getPricePrecision() , RoundingMode.HALF_UP);
 		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
 			return amount.negate();
 
@@ -256,7 +257,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 
 	public BigDecimal getPriceActualCurrency() {
 		MInvoiceLine invoiceLine = getInvoiceLine();
-		BigDecimal amount = getAmt().divide(getQty() ,invoiceLine.getParent().getM_PriceList().getPricePrecision() , BigDecimal.ROUND_HALF_UP);
+		BigDecimal amount = getAmt().divide(getQty() ,invoiceLine.getParent().getM_PriceList().getPricePrecision(), RoundingMode.HALF_UP);
 		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
 			amount = amount.negate();
 		return  amount;
