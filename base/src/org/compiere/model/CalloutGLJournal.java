@@ -91,10 +91,10 @@ public class CalloutGLJournal extends CalloutEngine
 			Option<MPeriod> maybePeriod = Option.of(MPeriod.get(ctx, periodId));
 			Option<Timestamp> maybeDateAcct = Option.of(dateAcct);
 			maybePeriod.peek(period -> {
-				String PeriodType = period.getPeriodType();
+				String periodType = period.getPeriodType();
 				Timestamp startDate = period.getStartDate();
 				Timestamp endDate = period.getEndDate();
-				if (PeriodType.equals(PERIODTYPE_StandardCalendarPeriod) || PeriodType.equals(PERIODTYPE_AdjustmentPeriod)) { //  Standard Period
+				if (periodType.equals(PERIODTYPE_StandardCalendarPeriod) || periodType.equals(PERIODTYPE_AdjustmentPeriod)) { //  Standard Period
 					maybeDateAcct.peek(finalDateAcct -> {
 						if (finalDateAcct.before(startDate) || finalDateAcct.after(endDate)) {
 							gridTab.setValue("DateAcct", endDate);
