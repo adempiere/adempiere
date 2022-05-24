@@ -376,15 +376,15 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMessage = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	process
 	
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMessage = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -414,123 +414,126 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	public String prepareIt()
 	{
 		log.info(toString());
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-
-		//	Get Period
-		MPeriod period = MPeriod.get (getCtx(), getDateAcct(), getAD_Org_ID());
-		if (period == null)
-		{
-			log.warning("No Period for " + getDateAcct());
-			m_processMsg = "@PeriodNotFound@";
-			return DocAction.STATUS_Invalid;
-		}
-		//	Standard Period
-		if (period.getC_Period_ID() != getC_Period_ID()
-			&& period.isStandardPeriod())
-		{
-			m_processMsg = "@PeriodNotValid@";
-			return DocAction.STATUS_Invalid;
-		}
-		boolean open = period.isOpen(dt.getDocBaseType(), getDateAcct());
-		if (!open)
-		{
-			log.warning(period.getName()
-				+ ": Not open for " + dt.getDocBaseType() + " (" + getDateAcct() + ")");
-			m_processMsg = "@PeriodClosed@";
-			return DocAction.STATUS_Invalid;
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		MPeriod currentPeriod = MPeriod.get(getCtx() , getC_Period_ID());
+		assert currentPeriod != null;
+		if (MPeriod.PERIODTYPE_AdjustmentPeriod.equals(currentPeriod.getPeriodType())) {
+			boolean open = currentPeriod.isOpen(docType.getDocBaseType(), getDateAcct());
+			if (!open)
+			{
+				log.warning(currentPeriod.getName()
+						+ ": Not open for " + docType.getDocBaseType() + " (" + getDateAcct() + ")");
+				processMessage = "@PeriodClosed@";
+				return DocAction.STATUS_Invalid;
+			}
+		} else {
+			//	Get Period
+			MPeriod period = MPeriod.get(getCtx(), getDateAcct(), getAD_Org_ID(), get_TrxName());
+			if (period == null) {
+				log.warning("No Period for " + getDateAcct());
+				processMessage = "@PeriodNotFound@";
+				return DocAction.STATUS_Invalid;
+			}
+			//	Standard Period
+			if (period.getC_Period_ID() != getC_Period_ID() && period.isStandardPeriod())
+			{
+				processMessage = "@PeriodNotValid@";
+				return DocAction.STATUS_Invalid;
+			}
+			boolean open = MPeriod.isOpen(getCtx() , getDateAcct() , docType.getDocBaseType() , getAD_Org_ID(), get_TrxName());
+			if (!open) {
+				log.warning(period.getName()
+						+ ": Not open for " + docType.getDocBaseType() + " (" + getDateAcct() + ")");
+				processMessage = "@PeriodClosed@";
+				return DocAction.STATUS_Invalid;
+			}
 		}
 
 		//	Lines
-		MJournalLine[] lines = getLines(true);
+ 		MJournalLine[] lines = getLines(true);
 		if (lines.length == 0)
 		{
-			m_processMsg = "@NoLines@";
+			processMessage = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
 		
 		//	Add up Amounts
-		BigDecimal AmtSourceDr = Env.ZERO;
-		BigDecimal AmtSourceCr = Env.ZERO;
-		for (int i = 0; i < lines.length; i++)
-		{
-			MJournalLine line = lines[i];
+		BigDecimal amountSourceDr = Env.ZERO;
+		BigDecimal amountSourceCr = Env.ZERO;
+		for (MJournalLine line : lines) {
 			if (!isActive())
 				continue;
-			
+
 			// bcahya, BF [2789319] No check of Actual, Budget, Statistical attribute
-			if (line.getAccountElementValue() == null)
-			{
-				m_processMsg = "@C_ValidCombination_ID@ @NotFound@";
+			if (line.getAccountElementValue() == null) {
+				processMessage = "@C_ValidCombination_ID@ @NotFound@";
 				return DocAction.STATUS_Invalid;
 			}
 
-			if (!line.getAccountElementValue().isActive())
-			{
-				m_processMsg = "@InActiveAccount@ - @Line@=" + line.getLine()
-				+ " - " + line.getAccountElementValue();
+			if (!line.getAccountElementValue().isActive()) {
+				processMessage = "@InActiveAccount@ - @Line@=" + line.getLine()
+						+ " - " + line.getAccountElementValue();
 				return DocAction.STATUS_Invalid;
 			}
-			
+
 			// Michael Judd (mjudd) BUG: [ 2678088 ] Allow posting to system accounts for non-actual postings
-			if (line.isDocControlled() && 
-					( getPostingType().equals(POSTINGTYPE_Actual)) ||
-					  getPostingType().equals(POSTINGTYPE_Commitment) ||
-					  getPostingType().equals(POSTINGTYPE_Reservation)
-					 )
-			{
-				m_processMsg = "@DocControlledError@ - @Line@=" + line.getLine()
-					+ " - " + line.getAccountElementValue();
-				return DocAction.STATUS_Invalid;
+			if (currentPeriod.isStandardPeriod()) {
+				if (line.isDocControlled() &&
+						(getPostingType().equals(POSTINGTYPE_Actual)) ||
+						getPostingType().equals(POSTINGTYPE_Commitment) ||
+						getPostingType().equals(POSTINGTYPE_Reservation)
+				) {
+					processMessage = "@DocControlledError@ - @Line@=" + line.getLine()
+							+ " - " + line.getAccountElementValue();
+					return DocAction.STATUS_Invalid;
+				}
 			}
 			//
-			
+
 			// bcahya, BF [2789319] No check of Actual, Budget, Statistical attribute
-			if (getPostingType().equals(POSTINGTYPE_Actual) && !line.getAccountElementValue().isPostActual())
-			{
-				m_processMsg = "@PostingTypeActualError@ - @Line@=" + line.getLine()
-				+ " - " + line.getAccountElementValue();
+			if (getPostingType().equals(POSTINGTYPE_Actual) && !line.getAccountElementValue().isPostActual()) {
+				processMessage = "@PostingTypeActualError@ - @Line@=" + line.getLine()
+						+ " - " + line.getAccountElementValue();
 				return DocAction.STATUS_Invalid;
 			}
-			
-			if (getPostingType().equals(POSTINGTYPE_Budget) && !line.getAccountElementValue().isPostBudget())
-			{
-				m_processMsg = "@PostingTypeBudgetError@ - @Line@=" + line.getLine()
-				+ " - " + line.getAccountElementValue();
+
+			if (getPostingType().equals(POSTINGTYPE_Budget) && !line.getAccountElementValue().isPostBudget()) {
+				processMessage = "@PostingTypeBudgetError@ - @Line@=" + line.getLine()
+						+ " - " + line.getAccountElementValue();
 				return DocAction.STATUS_Invalid;
 			}
-			
-			if (getPostingType().equals(POSTINGTYPE_Statistical) && !line.getAccountElementValue().isPostStatistical())
-			{
-				m_processMsg = "@PostingTypeStatisticalError@ - @Line@=" + line.getLine()
-				+ " - " + line.getAccountElementValue();
+
+			if (getPostingType().equals(POSTINGTYPE_Statistical) && !line.getAccountElementValue().isPostStatistical()) {
+				processMessage = "@PostingTypeStatisticalError@ - @Line@=" + line.getLine()
+						+ " - " + line.getAccountElementValue();
 				return DocAction.STATUS_Invalid;
 			}
 			// end BF [2789319] No check of Actual, Budget, Statistical attribute
-			
-			AmtSourceDr = AmtSourceDr.add(line.getAmtSourceDr());
-			AmtSourceCr = AmtSourceCr.add(line.getAmtSourceCr());
+
+			amountSourceDr = amountSourceDr.add(line.getAmtSourceDr());
+			amountSourceCr = amountSourceCr.add(line.getAmtSourceCr());
 		}
-		setTotalDr(AmtSourceDr);
-		setTotalCr(AmtSourceCr);
+		setTotalDr(amountSourceDr);
+		setTotalCr(amountSourceCr);
 
 		//	Control Amount
 		if (Env.ZERO.compareTo(getControlAmt()) != 0
 			&& getControlAmt().compareTo(getTotalDr()) != 0)
 		{
-			m_processMsg = "@ControlAmtError@";
+			processMessage = "@ControlAmtError@";
 			return DocAction.STATUS_Invalid;
 		}
 		
 		//	Unbalanced Jornal & Not Suspense
-		if (AmtSourceDr.compareTo(AmtSourceCr) != 0)
+		if (amountSourceDr.compareTo(amountSourceCr) != 0)
 		{
 			MAcctSchemaGL gl = MAcctSchemaGL.get(getCtx(), getC_AcctSchema_ID());
 			if (gl == null || !gl.isUseSuspenseBalancing())
 			{
-				m_processMsg = "@UnbalancedJornal@";
+				processMessage = "@UnbalancedJornal@";
 				return DocAction.STATUS_Invalid;
 			}
 		}
@@ -538,11 +541,11 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		if (!DOCACTION_Complete.equals(getDocAction())) 
 			setDocAction(DOCACTION_Complete);
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
-		m_justPrepared = true;
+		justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 	
@@ -575,15 +578,15 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	public String completeIt()
 	{
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
 		//	Implicit Approval
@@ -594,7 +597,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{
-			m_processMsg = valid;
+			processMessage = valid;
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -633,8 +636,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	{
 		log.info(toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMessage != null)
 			return false;
 
 		boolean ok_to_void = false;
@@ -649,8 +652,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		}
 		
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMessage != null)
 			return false;
 		
 		return ok_to_void;
@@ -665,8 +668,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	{
 		log.info(toString());
 		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMessage != null)
 			return false;
 		
 		boolean ok_to_close = false;
@@ -680,8 +683,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		}
 		
 		// After Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMessage != null)
 			return false;			
 
 		return ok_to_close;
@@ -697,7 +700,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
 		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
-		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID() , get_TrxName());
 
 		log.info(toString());
 		//	Journal
@@ -751,19 +754,19 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	public boolean reverseCorrectIt()
 	{
 		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 
 		MJournal reversal = reverseIt(false);
 		if (reversal == null)
 			return false;
 
-		m_processMsg = reversal.getDocumentInfo();
+		processMessage = reversal.getDocumentInfo();
 
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 		
 		return true;
@@ -777,8 +780,8 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	public boolean reverseAccrualIt()
 	{
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 
 
@@ -786,11 +789,11 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 		if (reversal == null)
 			return false;
 
-		m_processMsg = reversal.getDocumentInfo();
+		processMessage = reversal.getDocumentInfo();
 
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 
 		return true;
@@ -904,20 +907,20 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	{
 		log.info(toString());
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMessage != null)
 			return false;	
 		
 		// teo_sarca - FR [ 1776045 ] Add ReActivate action to GL Journal
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocType_ID(), getAD_Org_ID() , get_TrxName());
 		MFactAcct.deleteEx(MJournal.Table_ID, get_ID(), get_TrxName());
 		setPosted(false);
 		setProcessed(false);
 		setDocAction(DOCACTION_Complete);
 		
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMessage != null)
 			return false;
 		
 		return true;
@@ -1006,7 +1009,7 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 	 */
 	public String getProcessMsg()
 	{
-		return m_processMsg;
+		return processMessage;
 	}	//	getProcessMsg
 	
 	/**
