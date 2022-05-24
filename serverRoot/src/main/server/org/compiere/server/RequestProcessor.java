@@ -88,15 +88,23 @@ public class RequestProcessor extends AdempiereServer
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
-		Trx.run(trxName -> {
-			MRequestProcessorLog requestProcessorLog = new MRequestProcessorLog(m_model, m_summary.toString(), trxName);
-			requestProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			requestProcessorLog.saveEx();
-		});
-
+		if (m_model.get_TrxName() == null) {
+			addRequestProcessorLog(m_model.get_TrxName());
+		} else {
+			Trx.run(this::addRequestProcessorLog);
+		}
 	}	//	doWork
 
-	
+	/**
+	 * Add Request Processor Log
+	 * @param trxName
+	 */
+	private void addRequestProcessorLog(String trxName) {
+		MRequestProcessorLog requestProcessorLog = new MRequestProcessorLog(m_model, m_summary.toString(), trxName);
+		requestProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+		requestProcessorLog.saveEx();
+	}
+
 	/**************************************************************************
 	 *  Process requests.
 	 *  Scheduled - are they due?

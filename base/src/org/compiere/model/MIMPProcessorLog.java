@@ -47,7 +47,7 @@ public class MIMPProcessorLog
 	/**
 	 * 
 	 * @param ctx
-	 * @param EXP_ReplicationProcessorLog_ID
+	 * @param IMP_ProcessorLog_ID
 	 * @param trxName
 	 */
 	public MIMPProcessorLog(Properties ctx,	int IMP_ProcessorLog_ID, String trxName) {
