@@ -395,8 +395,8 @@
       </PO>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="800" StepType="SQL">
-      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement.CustomerRelationshipManagement' WHERE ModelValidationClass = 'org.compiere.model.SalesMgmtValidator';</SQLStatement>
-      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.model.SalesMgmtValidator' WHERE ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement.CustomerRelationshipManagement';</RollbackStatement>
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement' WHERE ModelValidationClass = 'org.compiere.model.SalesMgmtValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.model.SalesMgmtValidator' WHERE ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement';</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
