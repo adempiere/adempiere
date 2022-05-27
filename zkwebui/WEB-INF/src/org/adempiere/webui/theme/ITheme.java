@@ -42,6 +42,7 @@ public interface ITheme {
 	public static final String LOGIN_BUTTON_CLASS = "login-btn";
 	public static final String LOGIN_LABEL_CLASS = "login-label";
 	public static final String LOGIN_FIELD_CLASS = "login-field";
+	public static final String LOGIN_ERROR_CLASS = "login-error";
 
 	//optional top, bottom, left, right content for the login page
 	public static final String LOGIN_NORTH_PANEL_CLASS = "login-north-panel";

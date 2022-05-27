@@ -15,46 +15,48 @@
  * or via info@adempiere.net                                                  *
  * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
-package org.spin.model;
+package org.adempiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_AppSupport
+/** Generated Interface for AD_User_Authentication
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_AD_AppSupport 
+public interface I_AD_User_Authentication 
 {
 
-    /** TableName=AD_AppSupport */
-    public static final String Table_Name = "AD_AppSupport";
+    /** TableName=AD_User_Authentication */
+    public static final String Table_Name = "AD_User_Authentication";
 
-    /** AD_Table_ID=54542 */
+    /** AD_Table_ID=54897 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 7 - System - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
 
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
+    /** Column name AD_AppRegistration_ID */
+    public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
 
-	/** Set App Support.
-	  * App Support for External Connection
+	/** Set Application Registration.
+	  * External Application Registration
 	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
+	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
 
-	/** Get App Support.
-	  * App Support for External Connection
+	/** Get Application Registration.
+	  * External Application Registration
 	  */
-	public int getAD_AppSupport_ID();
+	public int getAD_AppRegistration_ID();
+
+	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -77,31 +79,38 @@ public interface I_AD_AppSupport
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name ApplicationType */
-    public static final String COLUMNNAME_ApplicationType = "ApplicationType";
+    /** Column name AD_User_Authentication_ID */
+    public static final String COLUMNNAME_AD_User_Authentication_ID = "AD_User_Authentication_ID";
 
-	/** Set Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
+	/** Set User Authentication	  */
+	public void setAD_User_Authentication_ID (int AD_User_Authentication_ID);
+
+	/** Get User Authentication	  */
+	public int getAD_User_Authentication_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public void setApplicationType (String ApplicationType);
+	public void setAD_User_ID (int AD_User_ID);
 
-	/** Get Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
 	  */
-	public String getApplicationType();
+	public int getAD_User_ID();
 
-    /** Column name Classname */
-    public static final String COLUMNNAME_Classname = "Classname";
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
-	/** Set Classname.
-	  * Java Classname
-	  */
-	public void setClassname (String Classname);
+    /** Column name AccessToken */
+    public static final String COLUMNNAME_AccessToken = "AccessToken";
 
-	/** Get Classname.
-	  * Java Classname
-	  */
-	public String getClassname();
+	/** Set Access Token	  */
+	public void setAccessToken (String AccessToken);
+
+	/** Get Access Token	  */
+	public String getAccessToken();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,32 +128,6 @@ public interface I_AD_AppSupport
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -158,31 +141,14 @@ public interface I_AD_AppSupport
 	  */
 	public boolean isActive();
 
-    /** Column name IsDefault */
-    public static final String COLUMNNAME_IsDefault = "IsDefault";
+    /** Column name RefreshToken */
+    public static final String COLUMNNAME_RefreshToken = "RefreshToken";
 
-	/** Set Default.
-	  * Default value
-	  */
-	public void setIsDefault (boolean IsDefault);
+	/** Set Refresh Token	  */
+	public void setRefreshToken (String RefreshToken);
 
-	/** Get Default.
-	  * Default value
-	  */
-	public boolean isDefault();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
+	/** Get Refresh Token	  */
+	public String getRefreshToken();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
@@ -212,17 +178,4 @@ public interface I_AD_AppSupport
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
 }

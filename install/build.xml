@@ -256,6 +256,11 @@
   	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier"/>
   	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier/lib"/>
   	  <copy file="../packages/DiscordNotifier.jar" tofile="${build.dir}/Adempiere/packages/DiscordNotifier/lib/DiscordNotifier.jar"/>
+  	  
+  	  <!-- Open ID Connect Authentication-->
+  	  <mkdir dir="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication/lib"/>
+  	  <copy file="../packages/OpenIDConnectAuthentication.jar" tofile="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication/lib/OpenIDConnectAuthentication.jar"/>
 	  
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
