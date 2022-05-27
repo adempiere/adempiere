@@ -14,35 +14,32 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpya.com                                *
  *****************************************************************************/
-package org.spin.authentication.support.provider;
+package org.spin.authentication.service;
 
+import java.util.Map;
 
-import org.spin.authentication.support.OpenIDConnect;
-
-import com.nimbusds.oauth2.sdk.ResponseType;
+import org.compiere.model.MUser;
+import org.spin.util.support.IAppSupport;
 
 /**
+ * interface for Authenticated With Open ID Connect
  * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
- * Authentication with Google
  */
-public class GoogleAuthentication extends OpenIDConnect{
-	/**Default Scope*/
-	private final static String[] defaultScope = new String[]{ "openid", "email", "profile"};
+public interface IOpenIDConnect extends IAppSupport {
+
+	/**Get Service URL*/
+	public String getServiceURL();
 	
-	/**Github Authorization End Point*/
-	private final static String authorizationEndPoint = "https://accounts.google.com/o/oauth2/v2/auth";
-	/**Github UserInfo End Point*/
-	private final static String userInfoEndPoint = "https://openidconnect.googleapis.com/v1/userinfo";
-	/**Github UserInfo End Point*/
-	private final static String tokenEndPoint = "https://oauth2.googleapis.com/token";
+	/**Get User Info*/
+	public Map<String, String > getUserInfo();
 	
-	public GoogleAuthentication() {
-		super();
-		setResponseType(new ResponseType(ResponseType.Value.CODE));
-		setAuthorizationEndPoint(authorizationEndPoint);
-		setUserInfoEndpoint(userInfoEndPoint);
-		setTokenEndpoint(tokenEndPoint);
-		setScope(defaultScope);
-	}
+	/**Get User*/
+	public MUser getUser();
+	
+	/**Validate Authentication*/
+	public void validateAuthentication(String codeParameter, MUser user);
+	
+	/**Clear Cache Values*/
+	public void clearValues();
 	
 }

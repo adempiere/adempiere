@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpya.com                                *
  *****************************************************************************/
-package org.spin.model;
+package org.adempiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
@@ -25,7 +25,7 @@ import org.compiere.util.Env;
  * User Authentication Model Class
  * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MADUserAuthentication extends X_AD_User_Authentication{
+public class MUserAuthentication extends X_AD_User_Authentication{
 
 	/**
 	 * 
@@ -36,8 +36,8 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * Create User Authentication
 	 * @return
 	 */
-	public static MADUserAuthentication createUserAuthentication() {
-		return new MADUserAuthentication(Env.getCtx(), 0, null);
+	public static MUserAuthentication createUserAuthentication() {
+		return new MUserAuthentication(Env.getCtx(), 0, null);
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param rs
 	 * @param trxName
 	 */
-	public MADUserAuthentication(Properties ctx, ResultSet rs, String trxName) {
+	public MUserAuthentication(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 
@@ -57,7 +57,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param AD_User_Authentication_ID
 	 * @param trxName
 	 */
-	public MADUserAuthentication(Properties ctx, int AD_User_Authentication_ID, String trxName) {
+	public MUserAuthentication(Properties ctx, int AD_User_Authentication_ID, String trxName) {
 		super(ctx, AD_User_Authentication_ID, trxName);
 	}
 	
@@ -66,7 +66,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param userId
 	 * @return
 	 */
-	public MADUserAuthentication withUserId(int userId) {
+	public MUserAuthentication withUserId(int userId) {
 		setAD_User_ID(userId);
 		return this;
 	}
@@ -76,7 +76,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param appRegistrationId
 	 * @return
 	 */
-	public MADUserAuthentication withAppRegistrationId(int appRegistrationId) {
+	public MUserAuthentication withAppRegistrationId(int appRegistrationId) {
 		setAD_AppRegistration_ID(appRegistrationId);
 		return this;
 	}
@@ -86,7 +86,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param accessToken
 	 * @return
 	 */
-	public MADUserAuthentication withAccessToken(String accessToken) {
+	public MUserAuthentication withAccessToken(String accessToken) {
 		setAccessToken(accessToken);
 		return this;
 	}
@@ -96,7 +96,7 @@ public class MADUserAuthentication extends X_AD_User_Authentication{
 	 * @param refreshToken
 	 * @return
 	 */
-	public MADUserAuthentication withRefreshToken(String refreshToken) {
+	public MUserAuthentication withRefreshToken(String refreshToken) {
 		setRefreshToken(refreshToken);
 		return this;
 	}

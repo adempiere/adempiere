@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpya.com                                *
  *****************************************************************************/
-package org.spin.util.support.authentication;
+package org.spin.authentication.service;
 
 import java.util.Arrays;
 import java.util.Base64;

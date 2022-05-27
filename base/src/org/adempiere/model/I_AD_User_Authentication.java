@@ -15,7 +15,7 @@
  * or via info@adempiere.net                                                  *
  * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
-package org.spin.model;
+package org.adempiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

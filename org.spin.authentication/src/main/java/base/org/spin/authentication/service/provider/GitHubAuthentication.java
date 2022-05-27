@@ -14,14 +14,14 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpya.com                                *
  *****************************************************************************/
-package org.spin.authentication.support.provider;
+package org.spin.authentication.service.provider;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.spin.authentication.support.OpenIDConnect;
-import org.spin.util.support.authentication.OpenIDUtil;
+import org.spin.authentication.service.OpenIDConnect;
+import org.spin.authentication.service.OpenIDUtil;
 
 import com.nimbusds.oauth2.sdk.ParseException;
 import com.nimbusds.oauth2.sdk.ResponseType;

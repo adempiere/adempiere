@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Carlos Parada www.erpya.com                                *
  *****************************************************************************/
-package org.spin.authentication.support;
+package org.spin.authentication.service;
 
 
 import java.io.IOException;
@@ -26,13 +26,11 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import org.adempiere.model.MUserAuthentication;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.spin.model.MADAppRegistration;
-import org.spin.model.MADUserAuthentication;
-import org.spin.util.support.authentication.IOpenIDConnect;
-import org.spin.util.support.authentication.OpenIDUtil;
 
 import com.nimbusds.oauth2.sdk.AuthorizationCode;
 import com.nimbusds.oauth2.sdk.AuthorizationCodeGrant;
@@ -206,7 +204,7 @@ public abstract class OpenIDConnect implements IOpenIDConnect {
 		maybeUser = Optional.ofNullable(maybeUser.orElse(getUser()));
 		
 		maybeUser.ifPresent(userLogin -> {
-			MADUserAuthentication.createUserAuthentication()
+			MUserAuthentication.createUserAuthentication()
 								.withUserId(userLogin.get_ID())
 								.withAppRegistrationId(getAppRegistrationId())
 								.withAccessToken(accessToken)

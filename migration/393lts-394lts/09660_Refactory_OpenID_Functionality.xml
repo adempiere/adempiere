@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Refactory Open ID Functionality" ReleaseNo="3.9.4" SeqNo="9660">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54897" Table="AD_Table">
+        <Data AD_Column_ID="6488" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99954" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99946" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99947" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99945" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99955" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99956" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99949" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99951" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99948" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99957" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99953" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99950" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99952" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="62027" Table="AD_Element">
+        <Data AD_Column_ID="6484" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="62028" Table="AD_Element">
+        <Data AD_Column_ID="6484" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="62029" Table="AD_Element">
+        <Data AD_Column_ID="6484" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="55145" Table="AD_Tab">
+        <Data AD_Column_ID="7713" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102137" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102139" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102142" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102136" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102135" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102134" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102140" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102138" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="0">80</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102141" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="0">90</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102138" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102141" Table="AD_Field">
+        <Data AD_Column_ID="7714" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102138" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">0</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102141" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">0</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="55686" Table="AD_Ref_List">
+        <Data AD_Column_ID="7712" Column="EntityType" oldValue="ECA02">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50026" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GitHubAuthentication">org.spin.authentication.service.provider.GitHubAuthentication</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50027" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GoogleAuthentication">org.spin.authentication.service.provider.GoogleAuthentication</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

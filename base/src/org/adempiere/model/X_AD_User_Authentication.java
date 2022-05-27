@@ -16,7 +16,7 @@
  * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.model;
+package org.adempiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
