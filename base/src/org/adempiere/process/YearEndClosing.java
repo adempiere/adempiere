@@ -65,7 +65,7 @@ public class YearEndClosing extends YearEndClosingAbstract
 	protected String doIt () throws Exception
 	{
 		MAcctSchema acctSchema = new MAcctSchema(getCtx(), getAcctSchemaId(), get_TrxName());
-		closingAccountId = CreateAccount(getElementValueId());
+		closingAccountId = createAccount(getElementValueId());
 		if (closingAccountId == 0)
 			return "";
 		MJournalBatch journalBatch = new MJournalBatch(getCtx(), 0, get_TrxName());	
@@ -99,12 +99,12 @@ public class YearEndClosing extends YearEndClosingAbstract
 			balance = SearchBalance(el.getC_ElementValue_ID());
 			if (balance.equals(Env.ZERO))
 				continue;
-			CreateJournal(el.getC_ElementValue_ID(), journalBatch, acctSchema, balance);
+			createJournal(el.getC_ElementValue_ID(), journalBatch, acctSchema, balance);
 		}
 		return "@Created@: " + journalBatch.getDocumentNo();		
 	}	//	doIt
 	
-	private int CreateAccount(int elementValueId)
+	private int createAccount(int elementValueId)
 	{   
 		
 		
@@ -121,11 +121,11 @@ public class YearEndClosing extends YearEndClosingAbstract
 		
 	}
 	
-	private Boolean CreateJournal(int elementValueID, MJournalBatch journalBatch, 
+	private Boolean createJournal(int elementValueID, MJournalBatch journalBatch, 
 			MAcctSchema acctSchema, BigDecimal balance)
 	{
 		MJournal journal = new MJournal(journalBatch);
-		int accountId = CreateAccount(elementValueID);
+		int accountId = createAccount(elementValueID);
 		MElementValue elementValue = new MElementValue(getCtx(), elementValueID, get_TrxName() );
 		
 		journal.setC_Currency_ID(acctSchema.getC_Currency_ID());
@@ -135,12 +135,12 @@ public class YearEndClosing extends YearEndClosingAbstract
 		journal.setDocumentNo(DB.getDocumentNo(getAD_Client_ID(), MJournal.Table_Name, get_TrxName()));
 		journal.setGL_Category_ID(getCategoryId());
 		journal.save();
-		if (!CreateLines(accountId, journal, elementValueID, balance))
+		if (!createLines(accountId, journal, elementValueID, balance))
 			return false;				
 		return true;
 	}
 	
-	private Boolean CreateLines(int accountID, MJournal journal, 
+	private Boolean createLines(int accountID, MJournal journal, 
 			int elementValueId, BigDecimal balance)
 	{
 		MElementValue el = new MElementValue(getCtx(), elementValueId, get_TrxName());
