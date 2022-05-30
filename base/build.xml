@@ -119,6 +119,7 @@
   <target name="dist" depends="integration-tests">
     <!-- put everything from ${build.dir} into the ${jar.name}.jar file -->
     <jar jarfile="${dist.dir}/${jar.name}.jar" basedir="${build.dir}"/>
+  	<copy file="../tools/lib/legacy/crm-support-legacy-1.0.2.jar" todir="../packages/" />
   </target>
 
 <target name="GenerateModel" depends="dist"> 

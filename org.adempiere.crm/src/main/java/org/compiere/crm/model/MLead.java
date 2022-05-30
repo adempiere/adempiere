@@ -13,18 +13,28 @@
  * Email: victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
-
-package org.compiere.model;
+package org.compiere.crm.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-public class MSalesStage extends X_C_SalesStage {
-    public MSalesStage(Properties ctx, int C_SalesStage_ID, String trxName) {
-        super(ctx, C_SalesStage_ID, trxName);
+import org.compiere.model.X_AD_User;
+
+/**
+ * Lead
+ */
+public class MLead extends X_AD_User {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1994076450942030706L;
+
+	public MLead(Properties ctx, int AD_User_ID, String trxName) {
+        super(ctx, AD_User_ID, trxName);
     }
 
-    public MSalesStage(Properties ctx, ResultSet rs, String trxName) {
+    public MLead(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
 }

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change Entity Type for CRM" ReleaseNo="3.9.4" SeqNo="9660">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62132" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62133" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62143" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62142" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62144" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62150" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62145" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62149" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62134" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62181" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62151" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85498" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62135" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62136" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62166" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62137" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62141" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62146" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62138" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62148" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62167" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62147" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62139" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62140" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="84682" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62182" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53337" Table="AD_Table">
+        <Data AD_Column_ID="6488" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62152" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62153" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62155" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62156" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62154" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62157" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62158" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62164" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62165" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62161" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62162" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62159" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62160" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="84730" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62163" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53338" Table="AD_Table">
+        <Data AD_Column_ID="6488" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53276" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="6485" Column="EntityType" oldValue="D">CRM</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ConvertLead">org.compiere.crm.process.ConvertLead</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53582" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53583" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53584" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53585" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53586" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53587" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53588" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54007" Table="AD_Process">
+        <Data AD_Column_ID="6485" Column="EntityType" oldValue="EE09">CRM</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CreateProjectFromOpportunity">org.eevolution.crm.process.CreateProjectFromOpportunity</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55988" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55989" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55990" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55991" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55992" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55993" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55994" Table="AD_Process_Para">
+        <Data AD_Column_ID="7728" Column="EntityType" oldValue="EE09">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62455" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62456" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62468" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62457" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62466" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62469" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62471" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62458" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62459" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62460" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62465" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62461" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62470" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62467" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62464" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62462" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="62463" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="84641" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="53354" Table="AD_Table">
+        <Data AD_Column_ID="6488" Column="EntityType" oldValue="D">CRM</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="N" SeqNo="800" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement' WHERE ModelValidationClass = 'org.compiere.model.SalesMgmtValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.model.SalesMgmtValidator' WHERE ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

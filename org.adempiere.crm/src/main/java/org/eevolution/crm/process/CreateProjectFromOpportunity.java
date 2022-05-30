@@ -14,9 +14,9 @@
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
 
-package org.eevolution.process;
+package org.eevolution.crm.process;
 
-import org.compiere.model.MOpportunity;
+import org.compiere.crm.model.MOpportunity;
 import org.compiere.model.MProject;
 import org.compiere.util.Msg;
 
@@ -35,8 +35,6 @@ public class CreateProjectFromOpportunity extends CreateProjectFromOpportunityAb
     @Override
     protected String doIt() throws Exception {
         MOpportunity opportunity = new MOpportunity(getCtx(), getRecord_ID(), get_TrxName());
-        if (opportunity == null)
-            return "";
         if (opportunity.getC_Project_ID() > 0)
             return "";
 
