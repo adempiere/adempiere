@@ -25,7 +25,10 @@ package org.adempiere.webui.panel;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -58,6 +61,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.spin.authentication.service.OpenIDUtil;
 import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
 import org.zkoss.zhtml.Div;
@@ -78,6 +82,7 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Toolbarbutton;
 
 /**
  *
@@ -104,6 +109,7 @@ public class LoginPanel extends Window implements EventListener
     private Label lblUserId;
     private Label lblPassword;
     private Label lblLanguage;
+    private Label lblOpenIDErrorMessage;
     private Textbox txtUserId;
     private Textbox txtPassword;
     private Combobox lstLanguage;
@@ -123,6 +129,10 @@ public class LoginPanel extends Window implements EventListener
         Clients.response(auf);
 
         BrowserToken.load(this.getUuid());
+        //Load Preferences From User in Context
+        int userId = Env.getAD_User_ID(ctx);
+        if (userId  > 0 )
+        	loadLanguageUserPreferences(userId);
     }
 
     private void init()
@@ -187,6 +197,48 @@ public class LoginPanel extends Window implements EventListener
     	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
     	tr.appendChild(td);
     	td.appendChild(lstLanguage);
+    	
+    	Optional<Hashtable<Integer, Map<String, String>>> maybeoAuthServices = Optional.ofNullable(OpenIDUtil.getAuthenticationServices());
+        maybeoAuthServices.ifPresent(authenticacionServices-> {
+        	if (authenticacionServices.size() > 0) {
+        		authenticacionServices.entrySet().forEach(authenticationService -> {
+	        		Tr row = new Tr();
+	        		row.setId("rowOpenId_" + authenticationService.getKey());
+	                table.appendChild(row);
+	                Td cell = new Td();
+	            	row.appendChild(cell);
+	            	cell.setSclass(ITheme.LOGIN_LABEL_CLASS);
+	            	
+	        		Toolbarbutton tb = new Toolbarbutton(authenticationService.getValue().get(OpenIDUtil.DISPLAYNAME));
+	        		
+		        	tb.setHref(authenticationService.getValue().get(OpenIDUtil.ENDPOINT_Authorization_URI));
+		        	
+		        	cell = new Td();
+		        	cell.setSclass(ITheme.LOGIN_FIELD_CLASS);
+		        	row.appendChild(cell);
+		        	cell.appendChild(tb);
+	        	});
+        	}
+        });
+        
+        Optional<String> maybeOpenIDErrorMessage = Optional.ofNullable(OpenIDUtil.getErrorMessage(ctx));
+        maybeOpenIDErrorMessage.ifPresent(errorMessage -> {
+        	if (!errorMessage.isEmpty()) {
+        		lblOpenIDErrorMessage.setValue(errorMessage);
+        		lblOpenIDErrorMessage.setClass(ITheme.LOGIN_ERROR_CLASS);
+        		Tr row = new Tr();
+        		row.setId("rowOpenIdError");
+                table.appendChild(row);
+                Td cell = new Td();
+            	row.appendChild(cell);
+
+            	cell = new Td();
+	        	cell.setSclass(ITheme.LOGIN_ERROR_CLASS);
+	        	row.appendChild(cell);
+	        	cell.appendChild(lblOpenIDErrorMessage);
+        	}
+        });
+        
 
     	if (MSystem.isZKRememberUserAllowed()) {
         	tr = new Tr();
@@ -279,6 +331,10 @@ public class LoginPanel extends Window implements EventListener
         lblLanguage = new Label();
         lblLanguage.setId("lblLanguage");
         lblLanguage.setValue("Language");
+        
+        lblOpenIDErrorMessage = new Label();
+        lblOpenIDErrorMessage.setId("lblOpenIDErrorMessage");
+        lblOpenIDErrorMessage.setValue("");
 
         txtUserId = new Textbox();
         txtUserId.setId("txtUserId");
@@ -366,23 +422,31 @@ public class LoginPanel extends Window implements EventListener
 		if(userId != null && userId.length() > 0)
 		{
 			int AD_User_ID = DB.getSQLValue(null, "SELECT AD_User_ID FROM AD_User WHERE Name = ?", userId);
-			if(AD_User_ID > 0)
-			{
-				// Elaine 2009/02/06 Load preference from AD_Preference
-				SessionManager.loadUserPreference(AD_User_ID);
-				UserPreference userPreference = SessionManager.getUserPreference();
-				String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
-				for(int i = 0; i < lstLanguage.getItemCount(); i++)
-		        {
-		        	Comboitem li = lstLanguage.getItemAtIndex(i);
-		        	if(li.getLabel().equals(initDefault))
-		        	{
-		        		lstLanguage.setSelectedIndex(i);
-		        		languageChanged(li.getLabel()); // Elaine 2009/04/17 language changed
-		        		break;
-		        	}
-		        }
-			}
+			loadLanguageUserPreferences(AD_User_ID);
+		}
+	}
+	
+	/**
+	 * Load Language User Preferences
+	 * @param userId
+	 */
+	private void loadLanguageUserPreferences(int userId) {
+		if(userId > 0)
+		{
+			// Elaine 2009/02/06 Load preference from AD_Preference
+			SessionManager.loadUserPreference(userId);
+			UserPreference userPreference = SessionManager.getUserPreference();
+			String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
+			for(int i = 0; i < lstLanguage.getItemCount(); i++)
+	        {
+	        	Comboitem li = lstLanguage.getItemAtIndex(i);
+	        	if(li.getLabel().equals(initDefault))
+	        	{
+	        		lstLanguage.setSelectedIndex(i);
+	        		languageChanged(li.getLabel()); // Elaine 2009/04/17 language changed
+	        		break;
+	        	}
+	        }
 		}
 	}
 

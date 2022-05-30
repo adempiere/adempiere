@@ -48,6 +48,9 @@ import org.compiere.util.Util;
  * 		@see FR [ 766 ] Improve Commission Calculation</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/1080">
  * 		@see FR [ 1080 ] Commission: percentage definition not only as multiplier, but also as percentage</a>
+ *  @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, http://www.erpya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/3771">
+ * 		@see FR [ 3489 ] Support for biweekly and six-monthly frequency types in Commissions.</a>
  **/
 public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocOptions {
 
@@ -336,22 +339,15 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
             if (commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
 					&& commission.isTotallyPaid()){
             	// Last payment must be within commission period 
-                pstmt.setTimestamp(4, getStartDate());
-                pstmt.setTimestamp(5, getEndDate());
+                pstmt.setTimestamp(4, getEndDate());
+                pstmt.setTimestamp(5, getStartDate());
+                pstmt.setTimestamp(6, getEndDate());
             }
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				String columnName = getColumnName("C_InvoiceLine_ID", commissionType);
 				if(!Util.isEmpty(columnName)) {
 					invoiceLineId = rs.getInt("C_InvoiceLine_ID");
-				}
-				if(commission.getDocBasisType().equals(MCommission.DOCBASISTYPE_Receipt)
-						&& commission.isTotallyPaid()) {
-					if (!invoiceCompletelyPaid(invoiceLineId)) {
-						// Commission applies only in case the invoice has been paid in whole.
-						// If the Invoice Line belongs to an Invoice which has not been (completely) paid, skip commission calculation.
-						continue;
-					}
 				}
 				//	For all
 				int currencyId = 0;
@@ -401,8 +397,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 				
 				//	CommissionAmount, C_Currency_ID, Amt, Qty,
-				MCommissionDetail commissionDetail = new MCommissionDetail (commissionAmt,
-						currencyId, amount, quantity);
+				MCommissionDetail commissionDetail = new MCommissionDetail (commissionAmt, currencyId, amount, quantity);
 				//	Set Max Percentage			
 				//	C_OrderLine_ID, C_InvoiceLine_ID,
 				commissionDetail.setLineIDs(orderLineId, invoiceLineId);
@@ -444,56 +439,6 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		}
 		return;
 	}	//	createDetail
-
-	
-	/**
-	 * 	Check if invoice has been completely paid
-	 *	@param C_IvoiceLine_ID Invoice line 
-	 */
-	private boolean invoiceCompletelyPaid(int C_IvoiceLine_ID) {
-		BigDecimal payedSum = Env.ZERO;
-		BigDecimal grandTotal  = Env.ZERO;
-		StringBuffer sql = new StringBuffer();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;		
-		
-		sql.append("SELECT coalesce(al1.payedSum,0) as payedSum, i.grandTotal, i.documentno "
-				+ " FROM C_Invoice i "
-				+ " INNER JOIN C_InvoiceLine il on (i.C_Invoice_ID=il.C_Invoice_ID) "
-				+ " LEFT JOIN (  SELECT al2.C_Invoice_ID, sum(al2.amount) as payedSum "
-				+ "              FROM C_AllocationLine al2 "
-				+ "              INNER JOIN C_AllocationHdr ah on (al2.C_AllocationHdr_id=ah.C_AllocationHdr_ID) "
-				+ " 			 INNER JOIN c_Payment p on al2.c_Payment_ID = p.c_Payment_ID  "
-				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.DocStatus IN ('CO','CL') AND p.DateTrx <=?"
-				+ "              GROUP BY al2.C_Invoice_ID "
-				+ "            ) al1 on (i.C_Invoice_ID = al1.C_Invoice_ID) "
-				+ " WHERE il.C_InvoiceLine_ID=" + C_IvoiceLine_ID 
-				+ " AND i.DocStatus IN ('CL','CO')"
-				+ " AND i.AD_Client_ID = ? "
-				+ " AND i.IsSOTrx='Y'");
-		
-		try {
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			pstmt.setTimestamp(1, getEndDate());
-			pstmt.setInt(2, getAD_Client_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				payedSum = rs.getBigDecimal(1);
-				grandTotal  = rs.getBigDecimal(2);
-			}
-		}
-		catch (Exception e) {
-			throw new AdempiereException("System Error: " + e.getLocalizedMessage(), e);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		if (grandTotal.compareTo(payedSum)==1)
-			return false;
-		else
-			return true;
-	}  // invoiceCompletelyPaid
-
 	
 	/**
 	 * 	Find quantity of items returned for this Invoice Line
@@ -621,7 +566,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 		params.add(getEndDate());
         if (commission.isTotallyPaid()) {
         	// Last payment must be within commission period 
-        	params.add(getStartDate());
+        	params.add(getEndDate());
+        	params.add(getEndDate());
         	params.add(getEndDate());
         }
 		//	Get
@@ -652,18 +598,18 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			if (MCommission.DOCBASISTYPE_Receipt.equals(commission.getDocBasisType()))
 			{		
 				String sqlAppend = "";
-				if (commission.isTotallyPaid()) 
+				if (commission.isTotallyPaid()) {
 		        	// Last payment must be within commission period 
-					sqlAppend = " AND (p.DateTrx <= ? or  p.DateTrx <= ?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
-				else 
+					sqlAppend = " AND (p.DateTrx <= ? OR p.DateTrx <= ?) AND InvoiceopenToDate(h.C_Invoice_ID, null, ?) = 0 AND maxPayDate(h.c_Invoice_ID) BETWEEN ? AND ? ";
+				} else {
 					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
-				
+				}
 				if (commission.isListDetails())
 				{
 					//	the view must be change
 					sql.append("SELECT h.C_Currency_ID,"
-						+ " (linenetamtrealinvoiceline(l.c_Invoiceline_ID) * (al.Amount/h.GrandTotal)) AS Amt,"
-						+ " (l.QtyInvoiced*al.Amount/h.GrandTotal) AS Qty,"
+						+ " (linenetamtrealinvoiceline(l.c_Invoiceline_ID) * (Currencyconvert(al.Amount + al.DisCountAmt + al.WriteOffAmt, p.C_Currency_ID, h.C_Currency_ID, p.DateTrx, h.C_ConversionType_ID, al.AD_Client_ID, al.AD_Org_ID)/h.GrandTotal)) AS Amt,"
+						+ " (l.QtyInvoiced*Currencyconvert(al.Amount + al.DisCountAmt + al.WriteOffAmt, p.C_Currency_ID, h.C_Currency_ID, p.DateTrx, h.C_ConversionType_ID, al.AD_Client_ID, al.AD_Org_ID)/h.GrandTotal) AS Qty,"
 						+ " NULL, l.C_InvoiceLine_ID, l.C_OrderLine_ID, (p.DocumentNo || '_' || h.DocumentNo) AS Reference,"
 						+ " COALESCE(prd.Value,l.Description) AS Info, h.DateInvoiced AS DateDoc "
 						+ "FROM C_Payment p"
@@ -680,8 +626,8 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				else
 				{
 					sql.append("SELECT h.C_Currency_ID, "
-							+ "SUM(linenetamtrealinvoiceline(l.c_Invoiceline_ID) *(al.Amount/h.GrandTotal)) AS Amt,"
-							+ " SUM(l.QtyInvoiced*al.Amount/h.GrandTotal) AS Qty,"
+							+ "SUM(linenetamtrealinvoiceline(l.c_Invoiceline_ID) *(Currencyconvert(al.Amount + al.DisCountAmt + al.WriteOffAmt, p.C_Currency_ID, h.C_Currency_ID, p.DateTrx, h.C_ConversionType_ID, al.AD_Client_ID, al.AD_Org_ID)/h.GrandTotal)) AS Amt,"
+							+ " SUM(l.QtyInvoiced*Currencyconvert(al.Amount + al.DisCountAmt + al.WriteOffAmt, p.C_Currency_ID, h.C_Currency_ID, p.DateTrx, h.C_ConversionType_ID, al.AD_Client_ID, al.AD_Org_ID)/h.GrandTotal) AS Qty,"
 							+ " NULL, NULL AS C_InvoiceLine_ID, NULL AS C_OrderLine_ID, NULL AS Reference, NULL AS Info, MAX(h.DateInvoiced) AS DateDoc "
 							+ "FROM C_Payment p"
 							+ " INNER JOIN C_AllocationLine al ON (p.C_Payment_ID=al.C_Payment_ID)"
@@ -695,16 +641,26 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				}
 				//	Days Due: obtain days due either from payment term or from invoice date
 				if (commissionLine.getDaysFrom() != 0) {
-					if(commission.isDaysDueFromPaymentTerm())
-						sqlWhere.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
-					else
-						sqlWhere.append(" AND daysbetween(p.DateTrx, h.DateInvoiced) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					String transactionDate = "p.DateTrx";
+					if(commission.isTotallyPaid()) {
+						transactionDate = "maxPayDate(h.c_Invoice_ID)";
+					}
+					if(commission.isDaysDueFromPaymentTerm()) {
+						sqlWhere.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, " + transactionDate + ") >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					} else {
+						sqlWhere.append(" AND daysbetween(" + transactionDate + ", h.DateInvoiced) >= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysFrom));
+					}
 				}
 				if (commissionLine.getDaysTo() != 0) {
-					if(commission.isDaysDueFromPaymentTerm())
-						sqlWhere.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, p.DateTrx) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
-					else
-						sqlWhere.append(" AND daysbetween(p.DateTrx, h.DateInvoiced) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					String transactionDate = "p.DateTrx";
+					if(commission.isTotallyPaid()) {
+						transactionDate = "maxPayDate(h.c_Invoice_ID)";
+					}
+					if(commission.isDaysDueFromPaymentTerm()) {
+						sqlWhere.append(" AND paymenttermduedays(h.C_PaymentTerm_ID, h.DateInvoiced, " + transactionDate + ") <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					} else {
+						sqlWhere.append(" AND daysbetween(" + transactionDate + ", h.DateInvoiced) <= ").append(commissionLine.get_ValueAsInt(MCommissionLine.COLUMNNAME_DaysTo));
+					}
 				}
 			}
 			else if (MCommission.DOCBASISTYPE_Order.equals(commission.getDocBasisType())
@@ -1598,9 +1554,25 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.YEAR, 1);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
-			
+			cal.add(Calendar.DAY_OF_YEAR, -1);
+		}
+		//	Six-monthly
+		else if (MCommission.FREQUENCYTYPE_Six_Monthly.equals(frequencyType)) {
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+			int month = cal.get(Calendar.MONTH);
+			// first six-monthly
+			if (month <= Calendar.JUNE) {
+				cal.set(Calendar.MONTH, Calendar.JANUARY);
+				setStartDate(new Timestamp (cal.getTimeInMillis()));
+			}
+			// second six-monthly
+			else {
+				cal.set(Calendar.MONTH, Calendar.JULY);
+				setStartDate(new Timestamp (cal.getTimeInMillis()));
+			}
+			//
+			cal.add(Calendar.MONTH, 6);
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
 		//	Quarterly
 		else if (MCommission.FREQUENCYTYPE_Quarterly.equals(frequencyType)) {
@@ -1617,16 +1589,34 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 3);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
 		//	Weekly
 		else if (MCommission.FREQUENCYTYPE_Weekly.equals(frequencyType)) {
 			cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
-			cal.add(Calendar.DAY_OF_YEAR, 7); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, 7);
+		}
+		//	Biweekly
+		else if (MCommission.FREQUENCYTYPE_Biweekly.equals(frequencyType)) {
+			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+			// first biweekly
+			if (dayOfMonth <= 15) {
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				setStartDate(new Timestamp(cal.getTimeInMillis()));
+				//
+				cal.set(Calendar.DAY_OF_MONTH, 15);
+			}
+			// second biweekly
+			else {
+				cal.set(Calendar.DAY_OF_MONTH, 16);
+				setStartDate(new Timestamp(cal.getTimeInMillis()));
+				//
+				cal.set(Calendar.DAY_OF_MONTH, 1);
+				cal.add(Calendar.MONTH, 1);
+				cal.add(Calendar.DAY_OF_YEAR, -1);
+			}
 		}
 		//	Monthly
 		else {
@@ -1634,9 +1624,11 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			setStartDate(new Timestamp (cal.getTimeInMillis()));
 			//
 			cal.add(Calendar.MONTH, 1);
-			cal.add(Calendar.DAY_OF_YEAR, -1); 
-			setEndDate(new Timestamp (cal.getTimeInMillis()));
+			cal.add(Calendar.DAY_OF_YEAR, -1);
 		}
+		
+		setEndDate(new Timestamp(cal.getTimeInMillis()));
+		
 		log.fine("setStartEndDate = " + getStartDate() + " - " + getEndDate());
 	}	//	setStartEndDate
 	

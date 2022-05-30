@@ -114,11 +114,21 @@ public class AcctProcessor extends AdempiereServer {
         
         int no = getModel().deleteLog();
         summary.append("Logs deleted=").append(no);
-        Trx.run(trxName -> {
-            MAcctProcessorLog acctProcessorLog = new MAcctProcessorLog(getModel(), summary.toString(), trxName);
-            acctProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-            acctProcessorLog.saveEx();
-        });
+        if (getModel().get_TrxName() == null) {
+            Trx.run(this::addAcctProcessorLog);
+        } else {
+            addAcctProcessorLog(getModel().get_TrxName());
+        }
+    }
+
+    /**
+     * Add Acct Processor Log
+     * @param trxName
+     */
+    private void addAcctProcessorLog(String trxName) {
+        MAcctProcessorLog acctProcessorLog = new MAcctProcessorLog(getModel(), summary.toString(), trxName);
+        acctProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+        acctProcessorLog.saveEx();
     }
 
     protected void doWork() {

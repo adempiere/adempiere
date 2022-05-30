@@ -40,6 +40,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MUser;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -111,6 +112,32 @@ public class RolePanel extends Window implements EventListener, Deferrable
         //Load the User preferences
         String sessionId = Env.getContext(Env.getCtx(), SERVLET_SESSION_ID);
         SessionManager.setUserAuthentication(sessionId, password);
+        SessionManager.loadUserPreference(login.getAuthenticatedUserId());
+        initComponents();
+        init();
+        this.setId("rolePanel");
+
+        AuFocus auf = new AuFocus(lstRole);
+        Clients.response(auf);
+    }
+	
+	/**
+	 * Constructor
+	 * @param ctx
+	 * @param loginWindow
+	 * @param user
+	 */
+	public RolePanel(Properties ctx, LoginWindow loginWindow, MUser user)
+    {
+        this.wndLogin = loginWindow;
+        m_ctx = ctx;
+        login = new Login(ctx);
+        rolesKNPairs = login.getRoles(user);
+        if(rolesKNPairs == null)
+            throw new ApplicationException("Login is invalid, User: " + user.getValue());
+        //Load the User preferences
+        String sessionId = Env.getContext(Env.getCtx(), SERVLET_SESSION_ID);
+        SessionManager.setUserAuthentication(sessionId, sessionId);
         SessionManager.loadUserPreference(login.getAuthenticatedUserId());
         initComponents();
         init();

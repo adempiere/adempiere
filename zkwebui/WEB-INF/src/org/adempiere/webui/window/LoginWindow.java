@@ -99,6 +99,17 @@ public class LoginWindow extends FWindow implements EventListener
         this.getChildren().clear();
         this.appendChild(pnlRole);
     }
+    
+    /**
+     * Login with MUser
+     * @param user
+     */
+    public void loginOk(MUser user)
+    {
+        pnlRole = new RolePanel(ctx, this, user);
+        this.getChildren().clear();
+        this.appendChild(pnlRole);
+    }
 
     public void resetPassword()
     {
@@ -186,6 +197,13 @@ public class LoginWindow extends FWindow implements EventListener
 		pnlRole.changeRole(ctx);
 	}
 
+	public void externalAuthentication(Locale locale, Properties ctx, MUser user) {
+		getDesktop().getSession().setAttribute(Attributes.PREFERRED_LOCALE, locale);
+		Locales.setThreadLocal(locale);
+		new Login(ctx);
+		loginOk(user);
+		getDesktop().getSession().setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+	}
 	public String getTypedPassword()
     {
         if (pnlLogin != null)
