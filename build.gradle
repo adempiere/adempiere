@@ -43,7 +43,7 @@ dependencies {
     implementation files('jetty.jar')
     implementation files('tomcat.jar')
 
-    implementation files('zkwebui/WEB-INF/lib/mvel.jar')
+    implementation group: 'org.mvel', name: 'mvel', version: '2.0beta1'
     implementation files('zkwebui/WEB-INF/lib/asm.jar')
     implementation files('zkwebui/WEB-INF/lib/bsh.jar')
     implementation files('zkwebui/WEB-INF/lib/zml.jar')
