@@ -79,6 +79,7 @@
 	<classpathentry kind="src" path="org.compiere.mobile/WEB-INF/src"/>
 	<classpathentry kind="src" path="org.spin.notifier.telegram/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.notifier.discord/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.authentication/src/main/java/base"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -439,5 +440,10 @@
 	<classpathentry kind="lib" path="tools/lib/discord/opus-java-natives-1.1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/discord/trove4j-3.0.3.jar"/>
 	<classpathentry kind="lib" path="tools/lib/telegrambots-6.0.1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/accessors-smart-2.4.8.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/content-type-2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/json-smart-2.4.8.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/nimbus-jose-jwt-9.22.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/oauth2-oidc-sdk-9.35.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -32,7 +32,7 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220512L;
+	private static final long serialVersionUID = 20220518L;
 
     /** Standard Constructor */
     public X_AD_AppSupport (Properties ctx, int AD_AppSupport_ID, String trxName)
@@ -133,6 +133,8 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	public static final String APPLICATIONTYPE_YouTube = "SYT";
 	/** Discord = SDC */
 	public static final String APPLICATIONTYPE_Discord = "SDC";
+	/** Open ID Connect Authentication = OIA */
+	public static final String APPLICATIONTYPE_OpenIDConnectAuthentication = "OIA";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue

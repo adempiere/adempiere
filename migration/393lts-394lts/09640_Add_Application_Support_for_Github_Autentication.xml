@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Add Application Support for Github Autentication" ReleaseNo="3.9.4" SeqNo="9640">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50026" Table="AD_AppSupport">
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50026</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">OIA</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2022-05-16 19:25:35.581</Data>
+        <Data AD_Column_ID="91306" Column="Created">2022-05-16 19:25:35.581</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.authentication.support.provider.GitHubAuthentication</Data>
+        <Data AD_Column_ID="91315" Column="Help">https://docs.github.com/en/developers/apps/building-github-apps/identifying-and-authorizing-users-for-github-apps</Data>
+        <Data AD_Column_ID="91313" Column="Name">Github Authentication</Data>
+        <Data AD_Column_ID="91312" Column="Value">Github Authentication</Data>
+        <Data AD_Column_ID="91314" Column="Description">https://github.com/</Data>
+        <Data AD_Column_ID="91310" Column="UUID">c5717407-73fc-4b9e-ad8e-26217d5fc6ba</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50044" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">REDIRECT_URL</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50026</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">http://localhost/webui</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50044</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-05-16 21:30:08.74</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-05-16 21:30:08.74</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91386" Column="UUID">5675553f-df21-4a51-92de-0cbca2bf72ca</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50045" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_ID</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50026</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client Identifier&gt;</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50045</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-05-16 21:31:25.595</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-05-16 21:31:25.595</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91386" Column="UUID">48a2d32d-a64a-4d7d-a0d5-61c986302a2c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50046" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_SECRET</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50026</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client Secret&gt;</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50046</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-05-16 21:31:58.268</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-05-16 21:31:58.268</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91386" Column="UUID">8aa7736e-5a4b-418f-be84-506fb64746a5</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

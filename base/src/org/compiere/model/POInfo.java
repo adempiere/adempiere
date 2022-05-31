@@ -16,6 +16,14 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import io.vavr.collection.List;
+import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.ResultSetIterable;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -27,12 +35,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *  Persistent Object Info.
@@ -158,112 +160,92 @@ public class POInfo implements Serializable
 	 */
 	private void loadInfo (boolean baseLanguage, String trxName)
 	{
-		
 		ArrayList<POInfoColumn> list = new ArrayList<POInfoColumn>(15);
-		StringBuffer sql = new StringBuffer();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			
-			//	FR [ 390 ] Get Native Columns
-			//  #2428 - use explicit column names in queries 
-			sql.append("SELECT ")
-				.append(getPOInfoColumnList());
-			sql.append(" FROM AD_Table t"
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ")
+				.append(getPOInfoColumnList(baseLanguage));
+		sql.append(" FROM AD_Table t"
 				+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
-				+ " INNER JOIN AD_Element");
-			if (!baseLanguage)
-				sql.append("_Trl");
-			sql.append(" e "
-				+ " ON (c.AD_Element_ID=e.AD_Element_ID) "
-				+ "WHERE t." + (tableId <= 0 ? "TableName=?" : "AD_Table_ID=?")
-				+ " AND c.IsActive='Y'");
-			if (!baseLanguage)
-				sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
-			//
-			pstmt = DB.prepareStatement(sql.toString(), trxName);
-			if (tableId <= 0)
-				pstmt.setString(1, tableName);
-			else
-				pstmt.setInt(1, tableId);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				//  For ResultSet order, see getPOInfoColumnList()
-				//	Get Table
-				if (tableName == null)
-					tableName = rs.getString(1);
-				if (tableId <= 0)
-					tableId = rs.getInt("AD_Table_ID");
-				//	Get Standard Columns
-				do {
-					String ColumnName = rs.getString(2);
-					int AD_Reference_ID = rs.getInt(3);
-					boolean IsMandatory = "Y".equals(rs.getString(4));
-					boolean IsUpdateable = "Y".equals(rs.getString(5));
-					String DefaultLogic = rs.getString(6);
-					String Name = rs.getString(7);
-					String Description = rs.getString(8);
-					int AD_Column_ID = rs.getInt(9);
-					boolean IsKey = "Y".equals(rs.getString(10));
-					// metas: begin
-					if (IsKey)
-					{
-						if (hasKeyColumn)
+				+ " INNER JOIN AD_Element e ON (c.AD_Element_ID=e.AD_Element_ID) ");
+		if (!baseLanguage) {
+			sql.append("LEFT JOIN AD_Element_Trl etrl ON (e.AD_Element_ID = etrl.AD_Element_ID)");
+		}
+		sql.append(" WHERE t.").append(tableId <= 0 ? "TableName = ?" : "AD_Table_ID = ?")
+				.append(" AND c.IsActive=?");
+		if (!baseLanguage) {
+			sql.append(" AND etrl.AD_Language = ?");
+		}
+		List<Object> paramenters = List.of(tableId <= 0 ? tableName : tableId, "Y" );
+		DB.runResultSetFunction.apply(
+				trxName,
+				sql.toString() ,
+				baseLanguage ? paramenters : paramenters.append(Env.getAD_Language(m_ctx)),
+				resultSet -> {
+					//	Get Standard Columns
+					List<POInfoColumn> infoColumns = new ResultSetIterable<>(resultSet, row -> {
+						//  For ResultSet order, see getPOInfoColumnList()
+						//	Get Table
+						if (tableName == null)
+							tableName = resultSet.getString(1);
+						if (tableId <= 0)
+							tableId = resultSet.getInt("AD_Table_ID");
+
+						String ColumnName = row.getString(2);
+						int AD_Reference_ID = row.getInt(3);
+						boolean IsMandatory = "Y".equals(row.getString(4));
+						boolean IsUpdateable = "Y".equals(row.getString(5));
+						String DefaultLogic = row.getString(6);
+						String Name = row.getString(7);
+						String Description = row.getString(8);
+						int AD_Column_ID = row.getInt(9);
+						boolean IsKey = "Y".equals(row.getString(10));
+						// metas: begin
+						if (IsKey)
 						{
-							// it already has a key column, which means that this table has multi-primary key
-							// so we don't have a single key column
-							keyColumnName = null;
+							if (hasKeyColumn)
+							{
+								// it already has a key column, which means that this table has multi-primary key
+								// so we don't have a single key column
+								keyColumnName = null;
+							}
+							else
+							{
+								keyColumnName = ColumnName;
+							}
 						}
-						else
-						{
-							keyColumnName = ColumnName;
-						}
-					}
-					// metas: end
-					if (IsKey)
-						hasKeyColumn = true;
-					boolean IsParent = "Y".equals(rs.getString(11));
-					int AD_Reference_Value_ID = rs.getInt(12);
-					String ValidationCode = rs.getString(13);
-					int FieldLength = rs.getInt(14);
-					String ValueMin = rs.getString(15);
-					String ValueMax = rs.getString(16);
-					boolean IsTranslated = "Y".equals(rs.getString(17));
-					//
-					accessLevel = rs.getString(18);
-					String ColumnSQL = rs.getString(19);
-					boolean IsEncrypted = "Y".equals(rs.getString(20));
-					boolean IsAllowLogging = "Y".equals(rs.getString(21));
-					isChangeLog="Y".equals(rs.getString(22));
-					//	Load additional attributes
-					loadAdditionalAttributes(rs);
-					//	
-					POInfoColumn col = new POInfoColumn (
-						AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
-						IsMandatory, IsUpdateable,
-						DefaultLogic, Name, Description,
-						IsKey, IsParent,
-						AD_Reference_Value_ID, ValidationCode,
-						FieldLength, ValueMin, ValueMax,
-						IsTranslated, IsEncrypted,
-						IsAllowLogging,
-						isAllowCopy,
-						trxName);
-					list.add(col);
-				} while(rs.next());
-			}
-		}
-		catch (SQLException e)
-		{
-			CLogger.get().log(Level.SEVERE, sql.toString(), e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+						// metas: end
+						if (IsKey)
+							hasKeyColumn = true;
+
+						boolean IsParent = "Y".equals(row.getString(11));
+						int AD_Reference_Value_ID = row.getInt(12);
+						String ValidationCode = row.getString(13);
+						int FieldLength = row.getInt(14);
+						String ValueMin = row.getString(15);
+						String ValueMax = row.getString(16);
+						boolean IsTranslated = "Y".equals(row.getString(17));
+						accessLevel = row.getString(18);
+						String ColumnSQL = row.getString(19);
+						boolean IsEncrypted = "Y".equals(row.getString(20));
+						boolean IsAllowLogging = "Y".equals(row.getString(21));
+						isChangeLog="Y".equals(row.getString(22));
+						//	Load additional attributes
+						loadAdditionalAttributes(row);
+						return new POInfoColumn (
+								AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
+								IsMandatory, IsUpdateable,
+								DefaultLogic, Name, Description,
+								IsKey, IsParent,
+								AD_Reference_Value_ID, ValidationCode,
+								FieldLength, ValueMin, ValueMax,
+								IsTranslated, IsEncrypted,
+								IsAllowLogging,
+								isAllowCopy,
+								trxName);
+					}).toList();
+					list.addAll(infoColumns.asJava());
+				});
 		//  convert to array
 		columns = new POInfoColumn[list.size()];
 		list.toArray(columns);
@@ -291,8 +273,8 @@ public class POInfo implements Serializable
 	 * 	<li>c.IsMandatory
 	 * 	<li>c.IsUpdateable
 	 * 	<li>c.DefaultValue
-	 * 	<li>e.Name
-	 * 	<li>e.Description
+	 * 	<li>e.Name when baseLanguage else etrl.Name or eName
+	 * 	<li>e.Description when baseLanguage else etrl.Description or e.Description
 	 * 	<li>c.AD_Column_ID
 	 * 	<li>c.IsKey
 	 * 	<li>c.IsParent
@@ -311,22 +293,27 @@ public class POInfo implements Serializable
 	 * </ol>
 	 * <p>Any additional columns will follow this list in undefined order.  See {@link #loadAdditionalAttributes(ResultSet)}
 	 * for examples on how to access these columns.
+	 * @param baseLanguage baseLanguage
 	 * @return
 	 */
-	private StringBuffer getPOInfoColumnList() {
+	private StringBuffer getPOInfoColumnList(boolean baseLanguage) {
 
 		if (columnListCache != null && columnListCache.length() > 0)
 			return columnListCache;
 		
-		String columnList = "t.TableName, "
+		StringBuilder columnList = new StringBuilder("t.TableName, "
 				+ "c.ColumnName, "
 				+ "c.AD_Reference_ID,"
 				+ "c.IsMandatory, "
 				+ "c.IsUpdateable, "
-				+ "c.DefaultValue,"
-				+ "e.Name, "
-				+ "e.Description, "
-				+ "c.AD_Column_ID, "
+				+ "c.DefaultValue, ");
+
+		if (baseLanguage)
+			columnList.append("e.Name, e.Description, ");
+		 else
+			columnList.append("COALESCE(etrl.Name, e.Name) AS Name, COALESCE(etrl.Description, e.Description) AS Description, ");
+
+		columnList.append("c.AD_Column_ID, "
 				+ "c.IsKey, "
 				+ "c.IsParent, "
 				+ "c.AD_Reference_Value_ID, "
@@ -340,11 +327,11 @@ public class POInfo implements Serializable
 				+ "c.IsEncrypted, "
 				+ "c.IsAllowLogging, "
 				+ "t.IsChangeLog, "
-				+ "t.AD_Table_ID";
+				+ "t.AD_Table_ID");
 
-		String columnListLC = columnList.toLowerCase();
-		StringBuffer extraColumns = new StringBuffer();
-		
+		String columnListLC = columnList.toString().toLowerCase();
+		StringBuilder extraColumns = new StringBuilder();
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Connection conn = null;
@@ -416,7 +403,6 @@ public class POInfo implements Serializable
 		}
 
 		columnListCache = new StringBuffer().append(columnList).append(extraColumns);
-		
 		return columnListCache;
 	}
 	
