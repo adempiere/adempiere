@@ -27,6 +27,7 @@ import org.compiere.model.MUser;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
@@ -79,6 +80,8 @@ public class DefaultNotifier extends QueueManager {
 			0
 	);
 	
+	/**	Logger						*/
+	protected CLogger	log = CLogger.getCLogger(getClass());
 	/** Default Notifier = NTF */
 	public static final String QUEUETYPE_DefaultNotifier = MADQueueType.QUEUETYPE_SystemNotification;
 	/**	Email Service	*/
@@ -360,17 +363,17 @@ public class DefaultNotifier extends QueueManager {
 	@Override
 	public void add(int queueId) {
 		if(Util.isEmpty(getApplicationType())) {
-			throw new AdempiereException("@ApplicationType@ @IsMandatory@");
+			log.warning("Application Type Not found");
 		}
 		if(getRecipients().size() == 0) {
-			throw new AdempiereException("@AD_NotificationRecipient_ID@ @IsMandatory@");
+			log.warning("Notification Recipient Not found");
 		}
 		if(Util.isEmpty(text) && Util.isEmpty(getDescription())) {
-			throw new AdempiereException("@Text@ @IsMandatory@");
+			log.warning("Text Not found");
 		}
 		if(getApplicationType().equals(DefaultNotificationType_UserDefined)
 				&& getRecipients().stream().noneMatch(recipient -> recipient.getUserId() > 0)) {
-			throw new AdempiereException("@AD_User_ID@ @IsMandatory@");
+			log.warning("User Id Not found");
 		}
 		//	for default
 		if(!getApplicationType().equals(DefaultNotificationType_UserDefined)) {
