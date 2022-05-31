@@ -16,28 +16,31 @@
 
 package org.eevolution.process;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.logging.Level;
+
 import org.compiere.model.I_C_BPartner;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MClient;
-import org.compiere.model.MInterestArea;
 import org.compiere.model.MMailText;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
+import org.compiere.model.MUser;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.eevolution.model.X_HR_Process;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *  Send mail to employee
@@ -66,8 +69,6 @@ public class PayrollViaEMail extends SvrProcess
 	private int 			m_errors = 0;
 	/**	To Subscribers 			*/
 	private int payrollProcessId = -1;
-	/** Interest Area			*/
-	private MInterestArea m_ia = null;
 	/** To Customer Type		*/
 	private int bPartnerGroupId = -1;
 	/** To Purchaser of Product	*/
@@ -169,17 +170,10 @@ public class PayrollViaEMail extends SvrProcess
 
         for (Integer employeeId : employeeIds)
         {
-            Boolean ok = sendIndividualMail (employeeId, null);
-            if (ok == null)
-            {
-                //nothing to do
-            }
-            else if (ok.booleanValue())
-            {
+            boolean ok = sendIndividualMail (employeeId, null);
+            if (ok) {
                 m_counter++;
-            }
-            else
-            {
+            } else {
                 m_errors++;
             }
         }
@@ -191,7 +185,7 @@ public class PayrollViaEMail extends SvrProcess
 	 *	@param unSubscribe unsubscribe message
 	 *	@return true if mail has been sent
 	 */
-	private Boolean sendIndividualMail (int bPartnerId,String unSubscribe)
+	private boolean sendIndividualMail (int bPartnerId,String unSubscribe)
 	{
 		try
 		{
@@ -216,45 +210,29 @@ public class PayrollViaEMail extends SvrProcess
                 addLog(0 ,null , null , employee.getName() +  " @Email@ @NotFound@" );
                 return false;
             }
-
-			MClient client = MClient.get(getCtx());
-			String eMailFrom = client.getRequestEMail();
-			String emailFrom = location.get_ValueAsString("EMail");
-
-			String userMailFrom = client.getRequestUser();
-			String password = client.getRequestUserPW();
-			//	FR [ 402 ]
-			//	Add support to new send mail
-			EMail email = new EMail(client, eMailFrom, emailFrom, mailText.getMailHeader(), message);
-
-			if (mailText.isHtml())
-				email.setMessageHTML(mailText.getMailHeader(), message);
-			else
-			{
-				email.setSubject (mailText.getMailHeader());
-				email.setMessageText (message);
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(getCtx())
+					.withTransactionName(get_TrxName());
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withUserId(getAD_User_ID())
+				.addAttachment(CreatePDF(bPartnerId))
+				.withText(message)
+				.withDescription(mailText.getMailHeader());
+			//	Validate contact
+			Optional<MUser> maybeContact = Arrays.asList(MUser.getOfBPartner(getCtx(), bPartnerId, null)).stream().filter(user -> user.getC_BPartner_Location_ID() == location.getC_BPartner_Location_ID()).findFirst();
+			if(maybeContact.isPresent()) {
+				notifier.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.addRecipient(maybeContact.get().getAD_User_ID());
+			} else {
+				notifier.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+				.addRecipient(location.getEMail());
 			}
-			email.addAttachment(CreatePDF(bPartnerId));
-			if (!email.isValid() && !email.isValid(true))
-			{
-				log.warning("NOT VALID - " + email);
-				employee.setIsActive(false);
-				employee.save();
-				return Boolean.FALSE;
-			}
-			
-			email.createAuthenticator(userMailFrom, password);
-			
-			boolean OK = EMail.SENT_OK.equals(email.send());
-			if (OK) {
-                addLog(0 ,null , null , employee.getName() +  " @Email@ @OK@" );
-                log.fine(employee.getURL());
-
-            }
-			else
-				log.warning("FAILURE - " + employee.getURL());
-			addLog(0, null, null, (OK ? "@OK@" : "@ERROR@") + " - " + emailFrom);
-			return OK;
+			//	Add to queue
+			notifier.addToQueue();
+			return true;
 		}catch(Exception e)
 		{
 			return Boolean.FALSE;

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename base package of Store Integration" ReleaseNo="3.9.4" SeqNo="9430">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54448" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.ExportCatalog">org.spin.store.process.ExportCatalog</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="882" Action="U" Record_ID="50104" Table="AD_EntityType">
+        <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.spin.model">org.spin.store.model</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.model.validator.VueStoreFront';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

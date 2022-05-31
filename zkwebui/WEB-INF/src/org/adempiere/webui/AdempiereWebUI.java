@@ -38,6 +38,7 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.spin.authentication.service.OpenIDUtil;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;
@@ -66,6 +67,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *
@@ -115,6 +117,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 		SessionManager.setApplication(httpSession.getId(), this);
 		int userId = Env.getAD_User_ID(Env.getCtx());
+		
+		if (externalAuthentication())
+			userId = Env.getAD_User_ID(Env.getCtx());
+		
 		if (userId > 0 && !SessionManager.existsExecutionCarryOver(httpSession.getId())) {
 			onChangeRole(userId);
 			return;
@@ -147,7 +153,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		SessionManager.removeUserAuthentication(getId());
 		Properties newContext =  (Properties) Env.getCtx().clone();
 		Language language = Env.getLanguage(Env.getCtx());
-		loginDesktop.changeRole(language.getLocale(),newContext);
+		if (userId > 0)
+			loginDesktop.externalAuthentication(language.getLocale(), Env.getCtx(), MUser.get(Env.getCtx(), userId));
+		else
+			loginDesktop.changeRole(language.getLocale(),newContext);
 	}
 
     /* (non-Javadoc)
@@ -439,5 +448,28 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		}
 
 		desktop = null;*/
+	}
+	
+	/**
+	 * External Authentication
+	 * @return
+	 */
+	private boolean externalAuthentication() {
+		
+		AtomicReference<Boolean> authenticated = new AtomicReference<>(false);
+		Optional<String> maybeCode = Optional.ofNullable(Executions.getCurrent().getParameter("code"));
+		Optional<String> maybeStatus = Optional.ofNullable(Executions.getCurrent().getParameter("state"));
+		maybeCode.ifPresent(code -> {
+			maybeStatus.ifPresent(state ->{
+				Optional<MUser> maybeUser = Optional.ofNullable(OpenIDUtil.getUserAuthenticated(code, state));
+				maybeUser.ifPresent(user -> {
+					Env.setContext(Env.getCtx(), Env.AD_USER_ID, user.get_ID());
+					authenticated.set(true);
+		        	OpenIDUtil.setErrorMessage(Env.getCtx(), "");
+				});
+				Executions.sendRedirect("index.zul");
+			});
+		});
+		return authenticated.get();
 	}
 }
