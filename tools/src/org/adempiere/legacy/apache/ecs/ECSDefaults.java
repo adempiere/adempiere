@@ -34,7 +34,7 @@ public class ECSDefaults
 	static {
 		try
 		{   
-			resource = ResourceBundle.getBundle("org.apache.ecs.ecs");
+			resource = ResourceBundle.getBundle("org.adempiere.legacy.apache.ecs");
 		}
 		catch(Exception e)
 		{
