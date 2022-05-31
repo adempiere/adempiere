@@ -17,22 +17,17 @@
 package org.adempiere.process;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
-import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionType;
-import org.compiere.model.MDocType;
 import org.compiere.model.MElementValue;
-import org.compiere.model.MGLCategory;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
+import org.compiere.model.MPeriod;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -94,12 +89,14 @@ public class YearEndClosing extends YearEndClosingAbstract
 		.setParameters(elementId)
 		.setOrderBy("value")
 		.list();		
-		for (MElementValue el : accounts) 
+		for (MElementValue elementValue : accounts) 
 		{			
-			balance = SearchBalance(el.getC_ElementValue_ID());
+
+			log.info (elementValue.getValue());		
+			balance = searchBalance(elementValue.getC_ElementValue_ID());
 			if (balance.equals(Env.ZERO))
 				continue;
-			createJournal(el.getC_ElementValue_ID(), journalBatch, acctSchema, balance);
+			createJournal(elementValue, journalBatch, acctSchema, balance);
 		}
 		return "@Created@: " + journalBatch.getDocumentNo();		
 	}	//	doIt
@@ -121,13 +118,12 @@ public class YearEndClosing extends YearEndClosingAbstract
 		
 	}
 	
-	private Boolean createJournal(int elementValueID, MJournalBatch journalBatch, 
+	private Boolean createJournal(MElementValue elementValue, MJournalBatch journalBatch, 
 			MAcctSchema acctSchema, BigDecimal balance)
 	{
 		MJournal journal = new MJournal(journalBatch);
-		int accountId = createAccount(elementValueID);
-		MElementValue elementValue = new MElementValue(getCtx(), elementValueID, get_TrxName() );
-		
+		int accountId = createAccount(elementValue.getC_ElementValue_ID());
+		log.info (elementValue.getValue());		
 		journal.setC_Currency_ID(acctSchema.getC_Currency_ID());
 		journal.setC_AcctSchema_ID(acctSchema.get_ID());
 		journal.setC_ConversionType_ID(MConversionType.getDefault(getAD_Client_ID()));
@@ -135,49 +131,50 @@ public class YearEndClosing extends YearEndClosingAbstract
 		journal.setDocumentNo(DB.getDocumentNo(getAD_Client_ID(), MJournal.Table_Name, get_TrxName()));
 		journal.setGL_Category_ID(getCategoryId());
 		journal.save();
-		if (!createLines(accountId, journal, elementValueID, balance))
+		if (!createLines(accountId, journal, elementValue, balance))
 			return false;				
 		return true;
 	}
 	
 	private Boolean createLines(int accountID, MJournal journal, 
-			int elementValueId, BigDecimal balance)
+			MElementValue elementValue, BigDecimal balance)
 	{
-		MElementValue el = new MElementValue(getCtx(), elementValueId, get_TrxName());
-		String accounttype = el.getAccountType();
-		MJournalLine dr = new MJournalLine(journal);
-		MJournalLine cr = new MJournalLine(journal);
+		String accounttype = elementValue.getAccountType();
+		MJournalLine debit = new MJournalLine(journal);
+		MJournalLine credit = new MJournalLine(journal);
 		if (balance.signum() == 0)
 			return true;
-		if (accounttype.equals('R'))
+		if (accounttype.equals(MElementValue.ACCOUNTTYPE_Revenue))
 		{
-			dr.setC_ValidCombination_ID(closingAccountId);
-			dr.setAmtSourceDr(balance.negate());
-			dr.save();
-			cr.setC_ValidCombination_ID(accountID);
-			cr.setAmtSourceCr(balance.negate());
-			cr.save();
+			debit.setC_ValidCombination_ID(closingAccountId);
+			debit.setAmtSourceDr(balance.negate());
+			debit.save();
+			credit.setC_ValidCombination_ID(accountID);
+			credit.setAmtSourceCr(balance.negate());
+			credit.save();
 		}
 		else
 		{
-			dr.setC_ValidCombination_ID(closingAccountId);
-			dr.setAmtSourceDr(balance);
-			dr.save();
-			cr.setC_ValidCombination_ID(accountID);
-			cr.setAmtSourceCr(balance);
-			cr.save();
+			debit.setC_ValidCombination_ID(closingAccountId);
+			debit.setAmtSourceDr(balance);
+			debit.save();
+			credit.setC_ValidCombination_ID(accountID);
+			credit.setAmtSourceCr(balance);
+			credit.save();
 		}
 		return true;
 	}
 	
-	private BigDecimal SearchBalance(int elementValueId)
+	private BigDecimal searchBalance(int elementValueId)
 	{
+	    ArrayList<Object> params = new ArrayList<Object>();	    
+	    params.add(MPeriod.getFirstInYear(getCtx(), getDateAcct(), 0).getStartDate()); 
+	    params.add(getDateAcct()); 
+	    params.add(elementValueId);
 		String sql = " SELECT COALESCE(sum(amtacctDr - amtacctCr), 0) FROM fact_acct f" +
-			" WHERE dateacct BETWEEN Firstof( " + DB.TO_DATE(getDateAcct()) +
-			", 'YY' ) AND " + DB.TO_DATE(getDateAcct()) + 
-			" AND f.ad_client_ID = " + Env.getAD_Client_ID(getCtx()) + 
-			" AND f.account_ID = " + elementValueId;
-		BigDecimal saldo = DB.getSQLValueBD(get_TrxName(), sql);
+			" WHERE (dateacct BETWEEN ? AND ? )" +
+			" AND f.account_ID = ? ";
+		BigDecimal saldo = DB.getSQLValueBDEx(get_TrxName(), sql, params);
 		return saldo;
 	}
 	
