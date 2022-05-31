@@ -38,7 +38,7 @@ public class ECSDefaults
 		}
 		catch(Exception e)
 		{
-			System.err.println("Cannot find org.adempiere.legacy.apache.ecs.properties.");
+			System.err.println("Cannot find org.adempiere.legacy.apache.ecs.ecs.properties.");
 		}
 	}
 
