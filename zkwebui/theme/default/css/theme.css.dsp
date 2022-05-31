@@ -71,6 +71,12 @@ html,body {
 	width: 20%;
 }
 
+.login-error {
+	font-weight: bold;
+	color: red;
+	text-align: left;
+	width: 20%;
+}
 .login-field {
 	text-align: left;
 	width: 40%;

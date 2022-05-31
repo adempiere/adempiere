@@ -34,11 +34,11 @@ public class ECSDefaults
 	static {
 		try
 		{   
-			resource = ResourceBundle.getBundle("org.apache.ecs.ecs");
+			resource = ResourceBundle.getBundle("org.adempiere.legacy.apache.ecs.ecs");
 		}
 		catch(Exception e)
 		{
-			System.err.println("Cannot find org.apache.ecs.ecs.properties.");
+			System.err.println("Cannot find org.adempiere.legacy.apache.ecs.ecs.properties.");
 		}
 	}
 

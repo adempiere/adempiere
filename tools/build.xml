@@ -478,6 +478,22 @@
 			<zipfileset src="lib/telegrambots-6.0.1-jar-with-dependencies.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!--Open ID Connect Libraries -->
+			<zipfileset src="lib/openid/accessors-smart-2.4.8.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/content-type-2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/json-smart-2.4.8.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/nimbus-jose-jwt-9.22.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/oauth2-oidc-sdk-9.35.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Server Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />

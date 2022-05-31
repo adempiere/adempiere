@@ -277,15 +277,15 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	 */
 	public boolean processIt (String processAction)
 	{
-		m_processMsg = null;
+		processMessage = null;
 		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	process
 	
 	/**	Process Message 			*/
-	private String		m_processMsg = null;
+	private String processMessage = null;
 	/**	Just Prepared Flag			*/
-	private boolean		m_justPrepared = false;
+	private boolean justPrepared = false;
 
 	/**
 	 * 	Unlock Document.
@@ -315,15 +315,22 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	public String prepareIt()
 	{
 		log.info(toString());
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-
-		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
-			m_processMsg = "@PeriodClosed@";
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		MPeriod currentPeriod = MPeriod.get(getCtx() , getC_Period_ID());
+		assert currentPeriod != null;
+		if (MPeriod.PERIODTYPE_AdjustmentPeriod.equals(currentPeriod.getPeriodType())) {
+			boolean open = currentPeriod.isOpen(docType.getDocBaseType() , getDateAcct());
+			if (!open)
+			{
+				log.warning(currentPeriod.getName() + ": Not open for " + docType.getDocBaseType() + " (" + getDateAcct() + ")");
+				processMessage = "@PeriodClosed@";
+				return DocAction.STATUS_Invalid;
+			}
+		} else if (!MPeriod.isOpen(getCtx(), getDateAcct(), docType.getDocBaseType(), getAD_Org_ID() , get_TrxName())) {  //	Std Period open?
+			processMessage = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
 		
@@ -331,82 +338,70 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		MJournal[] journals = getJournals(false);
 		if (journals.length == 0)
 		{
-			m_processMsg = "@NoLines@";
+			processMessage = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
 		
-		BigDecimal TotalDr = Env.ZERO;
-		BigDecimal TotalCr = Env.ZERO;		
-		for (int i = 0; i < journals.length; i++)
-		{
-			MJournal journal = journals[i];
+		BigDecimal totalDr = Env.ZERO;
+		BigDecimal totalCr = Env.ZERO;
+		for (MJournal journal : journals) {
 			if (!journal.isActive())
 				continue;
 			//	Prepare if not closed
 			if (DOCSTATUS_Closed.equals(journal.getDocStatus())
-				|| DOCSTATUS_Voided.equals(journal.getDocStatus())
-				|| DOCSTATUS_Reversed.equals(journal.getDocStatus())
-				|| DOCSTATUS_Completed.equals(journal.getDocStatus()))
+					|| DOCSTATUS_Voided.equals(journal.getDocStatus())
+					|| DOCSTATUS_Reversed.equals(journal.getDocStatus())
+					|| DOCSTATUS_Completed.equals(journal.getDocStatus()))
 				;
-			else
-			{
+			else {
 				String status = journal.prepareIt();
-				if (!DocAction.STATUS_InProgress.equals(status))
-				{
+				if (!DocAction.STATUS_InProgress.equals(status)) {
 					journal.setDocStatus(status);
 					journal.saveEx();
-					m_processMsg = journal.getProcessMsg();
+					processMessage = journal.getProcessMsg();
 					return status;
 				}
 				journal.setDocStatus(DOCSTATUS_InProgress);
 				journal.saveEx();
 			}
 			//
-			TotalDr = TotalDr.add(journal.getTotalDr());
-			TotalCr = TotalCr.add(journal.getTotalCr());
+			totalDr = totalDr.add(journal.getTotalDr());
+			totalCr = totalCr.add(journal.getTotalCr());
 		}
-		setTotalDr(TotalDr);
-		setTotalCr(TotalCr);
+		setTotalDr(totalDr);
+		setTotalCr(totalCr);
 		
 		//	Control Amount
 		if (Env.ZERO.compareTo(getControlAmt()) != 0
 			&& getControlAmt().compareTo(getTotalDr()) != 0)
 		{
-			m_processMsg = "@ControlAmtError@";
+			processMessage = "@ControlAmtError@";
 			return DocAction.STATUS_Invalid;
 		}
 		
 //		 Bug 1353695 Currency Rate and COnbversion Type should get copied from journal to lines
-		for (int i = 0; i < journals.length; i++) 
-		{
-			MJournal journal = journals[i];
-			MJournalLine[] lines = journal.getLines(true);
-			if (journal.getCurrencyRate() != null && journal.getCurrencyRate().compareTo(Env.ZERO) != 0)
-			{
-				for (int j = 0; j < lines.length; j++) 
-				{
-					MJournalLine line = lines[j];
-					line.setCurrencyRate(journal.getCurrencyRate());
-					line.saveEx();
+		for (MJournal journal : journals) {
+			MJournalLine[] journalLines = journal.getLines(true);
+			if (journal.getCurrencyRate() != null && journal.getCurrencyRate().compareTo(Env.ZERO) != 0) {
+				for (MJournalLine journalLine : journalLines) {
+					journalLine.setCurrencyRate(journal.getCurrencyRate());
+					journalLine.saveEx();
 				}
 			}
-			if (journal.getC_ConversionType_ID() > 0)
-			{
-				for (int j = 0; j < lines.length; j++) 
-				{
-					MJournalLine line = lines[j];
-					line.setC_ConversionType_ID(journal.getC_ConversionType_ID());
-					line.saveEx();
+			if (journal.getC_ConversionType_ID() > 0) {
+				for (MJournalLine journalLine : journalLines) {
+					journalLine.setC_ConversionType_ID(journal.getC_ConversionType_ID());
+					journalLine.saveEx();
 				}
 			}
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
 		//	Add up Amounts
-		m_justPrepared = true;
+		justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 	
@@ -440,15 +435,15 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		log.info("completeIt - " + toString());
 		//	Re-Check
-		if (!m_justPrepared)
+		if (!justPrepared)
 		{
 			String status = prepareIt();
 			if (!DocAction.STATUS_InProgress.equals(status))
 				return status;
 		}
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (processMessage != null)
 			return DocAction.STATUS_Invalid;
 		
 		//	Implicit Approval
@@ -481,7 +476,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				journal.saveEx();
 				if (!DocAction.STATUS_Completed.equals(journal.getDocStatus()))
 				{
-					m_processMsg = journal.getProcessMsg();
+					processMessage = journal.getProcessMsg();
 					return journal.getDocStatus();
 				}
 			}
@@ -495,7 +490,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (valid != null)
 		{
-			m_processMsg = valid;
+			processMessage = valid;
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -531,12 +526,12 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		log.info("voidIt - " + toString());
 		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMessage != null)
 			return false;
 		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMessage != null)
 			return false;
 		
 		return false;
@@ -550,8 +545,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		log.info("closeIt - " + toString());
 		// Before Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMessage != null)
 			return false;
 		
 		MJournal[] journals = getJournals(true);
@@ -570,7 +565,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				|| DOCSTATUS_InProgress.equals(journal.getDocStatus())
 				|| DOCSTATUS_Invalid.equals(journal.getDocStatus()))
 			{
-				m_processMsg = "Journal not Completed: " + journal.getSummary();
+				processMessage = "Journal not Completed: " + journal.getSummary();
 				return false;
 			}
 			
@@ -583,15 +578,15 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			{
 				if (!journal.closeIt())
 				{
-					m_processMsg = "Cannot close: " + journal.getSummary();
+					processMessage = "Cannot close: " + journal.getSummary();
 					return false;
 				}
 				journal.saveEx();
 			}
 		}
 		// After Close
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMessage != null)
 			return false;
 		
 		return true;
@@ -606,8 +601,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		log.info("reverseCorrectIt - " + toString());
 		// Before reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 		
 		boolean isOk = reverseBatch(false);
@@ -616,8 +611,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		}
 		
 		// After reverseCorrect
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMessage != null)
 			return false;
 		//	
 		return true;
@@ -638,7 +633,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				;
 			else
 			{
-				m_processMsg = "All Journals need to be Completed: " + journal.getSummary();
+				processMessage = "All Journals need to be Completed: " + journal.getSummary();
 				return false;
 			}
 		}
@@ -676,12 +671,12 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 			if(isAccrual) {
 				if (journal.reverseAccrualIt(reverse.getGL_JournalBatch_ID()) == null)
 				{
-					m_processMsg = "Could not reverse " + journal;
+					processMessage = "Could not reverse " + journal;
 					return false;
 				}
 			} else {
 				if (journal.reverseCorrectIt(reverse.getGL_JournalBatch_ID()) == null) {
-					m_processMsg = "Could not reverse " + journal;
+					processMessage = "Could not reverse " + journal;
 					return false;
 				}
 			}
@@ -724,8 +719,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	{
 		log.info("reverseAccrualIt - " + toString());
 		// Before reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 		
 		boolean isOk = reverseBatch(true);
@@ -734,8 +729,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		}
 		
 		// After reverseAccrual
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMessage != null)
 			return false;
 				
 		return true;
@@ -750,8 +745,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		log.info("reActivateIt - " + toString());
 		
 		// Before reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMessage != null)
 			return false;	
 		
 		for (MJournal journal : getJournals(true))
@@ -772,8 +767,8 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		setDocAction(DOCACTION_Complete);
 
 		// After reActivate
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-		if (m_processMsg != null)
+		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMessage != null)
 			return false;
 				
 		return true;
@@ -862,7 +857,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 	 */
 	public String getProcessMsg()
 	{
-		return m_processMsg;
+		return processMessage;
 	}	//	getProcessMsg
 	
 	/**
