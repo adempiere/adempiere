@@ -67,29 +67,28 @@ public class YearEndClosing extends YearEndClosingAbstract
 		
 			
 		BigDecimal balance = Env.ZERO;
-		String documentno = Msg.translate(Env.getCtx(), "Closing")+ "_"  + getDateAcct().toString();
-		String description =  Msg.translate(Env.getCtx(), "Closing") + " "  + getDateAcct().toString();
+		String documentNo = Msg.translate(Env.getCtx(), "Closing")+ "_"  + getDateAcct().toString();
 		journalBatch.setAD_Org_ID(getOrgId());
 		journalBatch.setDateAcct(getDateAcct());
 		journalBatch.setDateDoc(getDateAcct());
-		journalBatch.setDescription(documentno);
+		journalBatch.setDescription(documentNo);
 		journalBatch.setC_DocType_ID(getDocTypeId());
-		journalBatch.setDocumentNo(description);
+		journalBatch.setDocumentNo(documentNo);
 		journalBatch.setGL_Category_ID(getCategoryId());
 		journalBatch.setControlAmt(Env.ZERO);
 		journalBatch.setC_Currency_ID(acctSchema.getC_Currency_ID());
 		journalBatch.save();
 		
-		String whereclause = "accounttype IN ('E', 'R')  AND ISSUMMARY = 'N' AND c_Element_ID=?";
+		String whereClause = "accounttype IN ('E', 'R')  AND ISSUMMARY = 'N' AND c_Element_ID=?";
 		int elementId = DB.getSQLValueEx(get_TrxName(), 
 				"SELECT C_Element_ID FROM C_AcctSchema_Element WHERE elementtype = 'AC' AND C_AcctSchema_ID=?", getAcctSchemaId());
-		List<MElementValue> accounts = new Query(getCtx(), MElementValue.Table_Name, 
-				whereclause, get_TrxName())
+		List<MElementValue> elementValues = new Query(getCtx(), MElementValue.Table_Name, 
+				whereClause, get_TrxName())
 		.setClient_ID()
 		.setParameters(elementId)
 		.setOrderBy("value")
 		.list();		
-		for (MElementValue elementValue : accounts) 
+		for (MElementValue elementValue : elementValues) 
 		{			
 
 			log.info (elementValue.getValue());		
@@ -140,27 +139,27 @@ public class YearEndClosing extends YearEndClosingAbstract
 			MElementValue elementValue, BigDecimal balance)
 	{
 		String accountType = elementValue.getAccountType();
-		MJournalLine debit = new MJournalLine(journal);
-		MJournalLine credit = new MJournalLine(journal);
+		MJournalLine journalLine_debit = new MJournalLine(journal);
+		MJournalLine journalLine_credit = new MJournalLine(journal);
 		if (balance.signum() == 0)
 			return true;
 		if (accountType.equals(MElementValue.ACCOUNTTYPE_Revenue))
 		{
-			debit.setC_ValidCombination_ID(closingAccountId);
-			debit.setAmtSourceDr(balance.negate());
-			debit.save();
-			credit.setC_ValidCombination_ID(accountID);
-			credit.setAmtSourceCr(balance.negate());
-			credit.save();
+			journalLine_debit.setC_ValidCombination_ID(closingAccountId);
+			journalLine_debit.setAmtSourceDr(balance.negate());
+			journalLine_debit.save();
+			journalLine_credit.setC_ValidCombination_ID(accountID);
+			journalLine_credit.setAmtSourceCr(balance.negate());
+			journalLine_credit.save();
 		}
 		else
 		{
-			debit.setC_ValidCombination_ID(closingAccountId);
-			debit.setAmtSourceDr(balance);
-			debit.save();
-			credit.setC_ValidCombination_ID(accountID);
-			credit.setAmtSourceCr(balance);
-			credit.save();
+			journalLine_debit.setC_ValidCombination_ID(closingAccountId);
+			journalLine_debit.setAmtSourceDr(balance);
+			journalLine_debit.save();
+			journalLine_credit.setC_ValidCombination_ID(accountID);
+			journalLine_credit.setAmtSourceCr(balance);
+			journalLine_credit.save();
 		}
 		return true;
 	}
@@ -174,8 +173,8 @@ public class YearEndClosing extends YearEndClosingAbstract
 		String sql = " SELECT COALESCE(sum(amtacctDr - amtacctCr), 0) FROM fact_acct f" +
 			" WHERE (dateacct BETWEEN ? AND ? )" +
 			" AND f.account_ID = ? ";
-		BigDecimal saldo = DB.getSQLValueBDEx(get_TrxName(), sql, params);
-		return saldo;
+		BigDecimal balance = DB.getSQLValueBDEx(get_TrxName(), sql, params);
+		return balance;
 	}
 	
 
