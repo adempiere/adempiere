@@ -80,7 +80,7 @@ public class YearEndClosing extends YearEndClosingAbstract
 		journalBatch.setC_Currency_ID(acctSchema.getC_Currency_ID());
 		journalBatch.save();
 		
-		String whereclause = "accounttype in ('E', 'R')  and ISSUMMARY = 'N' AND c_Element_ID=?";
+		String whereclause = "accounttype IN ('E', 'R')  AND ISSUMMARY = 'N' AND c_Element_ID=?";
 		int elementId = DB.getSQLValueEx(get_TrxName(), 
 				"SELECT C_Element_ID FROM C_AcctSchema_Element WHERE elementtype = 'AC' AND C_AcctSchema_ID=?", getAcctSchemaId());
 		List<MElementValue> accounts = new Query(getCtx(), MElementValue.Table_Name, 
@@ -105,16 +105,16 @@ public class YearEndClosing extends YearEndClosingAbstract
 	{   
 		
 		
-		MAccount acc = MAccount.get(getCtx(), getAD_Client_ID(),
+		MAccount account = MAccount.get(getCtx(), getAD_Client_ID(),
 		getOrgId(), getAcctSchemaId(), 
 		elementValueId, 0,
 		0, 0, 0, 
 		0, 0, 0, 
 		0, 0, 0,
 		0, 0, 0,0,0,0, get_TrxName());
-		if (acc == null)
+		if (account == null)
 			return 0;
-		return acc.get_ID();
+		return account.get_ID();
 		
 	}
 	
@@ -139,12 +139,12 @@ public class YearEndClosing extends YearEndClosingAbstract
 	private Boolean createLines(int accountID, MJournal journal, 
 			MElementValue elementValue, BigDecimal balance)
 	{
-		String accounttype = elementValue.getAccountType();
+		String accountType = elementValue.getAccountType();
 		MJournalLine debit = new MJournalLine(journal);
 		MJournalLine credit = new MJournalLine(journal);
 		if (balance.signum() == 0)
 			return true;
-		if (accounttype.equals(MElementValue.ACCOUNTTYPE_Revenue))
+		if (accountType.equals(MElementValue.ACCOUNTTYPE_Revenue))
 		{
 			debit.setC_ValidCombination_ID(closingAccountId);
 			debit.setAmtSourceDr(balance.negate());
