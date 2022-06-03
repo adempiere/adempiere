@@ -1483,4 +1483,35 @@ public final class EMail implements Serializable
 		email.send();
 	}   //  main
 
+	public static String validateMailDelivery(Properties ctx, String requestEMail, int eMailConfigId, String name) {
+		if (requestEMail == null || requestEMail.length() == 0)
+			return "No Request EMail for " + name;
+		//
+		EMail email = new EMail(MClient.get(ctx), eMailConfigId, requestEMail, requestEMail,
+				"Adempiere EMail Test",
+				"Adempiere EMail Test", false);
+		try
+		{
+			String msg = email.send();
+			if (EMail.SENT_OK.equals (msg))
+			{
+				log.info("Sent Test EMail to " + requestEMail);
+				return "OK";
+			}
+			else
+			{
+				MEMailConfig meMailConfig = new MEMailConfig(ctx, eMailConfigId, null);
+				log.warning("Could NOT send Test EMail from "
+						+ meMailConfig.getSMTPHost() + ": " + requestEMail
+						+ " to " + requestEMail + ": " + msg);
+				return msg;
+			}
+		}
+		catch (Exception ex)
+		{
+			log.severe(name + " - " + ex.getLocalizedMessage());
+			return ex.getLocalizedMessage();
+		}
+	}
+
 }	//	EMail
