@@ -14,12 +14,10 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.compiere.process;
+package org.compiere.request.process;
 
 import org.compiere.model.MRequest;
 import org.compiere.util.AdempiereUserError;
-
-import java.util.logging.Level;
 
 
 /**
@@ -28,28 +26,7 @@ import java.util.logging.Level;
  *  @author Jorg Janke
  *  @version $Id: RequestReOpen.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class RequestReOpen extends SvrProcess
-{
-	/** Request					*/
-	private int	p_R_Request_ID = 0;
-	
-	/**
-	 * 	Prepare
-	 */
-	protected void prepare ()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("R_Request_ID"))
-				p_R_Request_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-	}	//	prepare
+public class RequestReOpen extends RequestReOpenAbstract {
 
 	/**
 	 * 	Process It
@@ -58,10 +35,10 @@ public class RequestReOpen extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		MRequest request = new MRequest(getCtx(), p_R_Request_ID, get_TrxName());
+		MRequest request = new MRequest(getCtx(), getRequestId(), get_TrxName());
 		log.info(request.toString());
 		if (request.get_ID() == 0)
-			throw new AdempiereUserError("@NotFound@ @R_Request_ID@ " + p_R_Request_ID);
+			throw new AdempiereUserError("@NotFound@ @R_Request_ID@ " + getRequestId());
 		
 		request.setR_Status_ID();	//	set default status
 		request.setProcessed(false);

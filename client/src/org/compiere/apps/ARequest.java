@@ -25,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JPopupMenu;
 
 import org.compiere.model.MQuery;
+import org.compiere.request.apps.Request;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
