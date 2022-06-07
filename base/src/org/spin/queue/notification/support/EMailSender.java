@@ -16,7 +16,11 @@
  *****************************************************************************/
 package org.spin.queue.notification.support;
 
-import org.compiere.model.*;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MClient;
+import org.compiere.model.MEMailConfig;
+import org.compiere.model.MUser;
+import org.compiere.model.X_AD_UserMail;
 import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
