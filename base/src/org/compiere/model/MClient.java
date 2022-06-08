@@ -486,7 +486,7 @@ public class MClient extends X_AD_Client
 	 */
 	public String testEMail()
 	{
-		return EMail.validateMailDelivery(getCtx(), getRequestEMail(), getAD_EMailConfig_ID(), getName());
+		return EMail.validateMailDelivery(getCtx(), getRequestEMail(), getRequestUserPW(), getAD_EMailConfig_ID(), getName());
 	}	//	testEMail
 	
 	/**
