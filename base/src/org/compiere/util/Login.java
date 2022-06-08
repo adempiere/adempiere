@@ -40,6 +40,7 @@ import org.compiere.model.I_AD_User_Roles;
 import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MColumn;
 import org.compiere.model.MCountry;
 import org.compiere.model.MPreference;
@@ -916,10 +917,10 @@ public class Login
 		Env.setContext(m_ctx, "#ShowAdvanced", Ini.getProperty(Ini.P_SHOW_ADVANCED));
 
 		AtomicReference<String> retValue = new AtomicReference<>("");
-		int AD_Client_ID = Env.getContextAsInt(m_ctx, "#AD_Client_ID");
-		int AD_Org_ID =  org.getKey();
-		int AD_User_ID =  Env.getContextAsInt(m_ctx, "#AD_User_ID");
-		int AD_Role_ID =  Env.getContextAsInt(m_ctx, "#AD_Role_ID");
+		int clientId = Env.getContextAsInt(m_ctx, "#AD_Client_ID");
+		int organizationId =  org.getKey();
+		int userId =  Env.getContextAsInt(m_ctx, "#AD_User_ID");
+		int roleId =  Env.getContextAsInt(m_ctx, "#AD_Role_ID");
 
 		//	Other Settings
 		Env.setContext(m_ctx, "#YYYY", "Y");
@@ -930,7 +931,7 @@ public class Login
 			+ "FROM C_AcctSchema a, AD_ClientInfo c "
 			+ "WHERE a.C_AcctSchema_ID=c.C_AcctSchema1_ID "
 			+ "AND c.AD_Client_ID=?";
-			List<Object> parameters = List.of(AD_Client_ID);
+			List<Object> parameters = List.of(clientId);
 			Try<Void> tryAcctSchema =  DB.runResultSetFunction.apply(null , sql , parameters, resultSet -> {
 			List<Tuple3<Integer , Integer , String >> acctSchemas = new ResultSetIterable<>(resultSet ,  row -> {
 				return Tuple.of(
@@ -941,7 +942,7 @@ public class Login
 			}).toList();
 			if (acctSchemas.isEmpty()) {
 				//  No Warning for System
-				if (AD_Role_ID != 0)
+				if (roleId != 0)
 					retValue.set("NoValidAcctInfo");
 			} else {
 				//	Accounting Info
@@ -951,17 +952,17 @@ public class Login
 					Env.setContext(m_ctx, "$C_Currency_ID", acctSchema._2);
 					Env.setContext(m_ctx, "$HasAlias",acctSchema._3);
 					//Define AcctSchema , Currency, HasAlias for Multi AcctSchema
-					MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
+					MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), clientId);
 					if(clientAcctSchemes != null && clientAcctSchemes.length > 1) {
 						acctSchemaId = List.of(clientAcctSchemes)
-								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(AD_Org_ID))
+								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(organizationId))
 								.map(accountSchema -> {
 									//C_AcctSchema_ID = as.getC_AcctSchema_ID();
 									Env.setContext(m_ctx, "$C_AcctSchema_ID", accountSchema.getC_AcctSchema_ID());
 									Env.setContext(m_ctx, "$C_Currency_ID", accountSchema.getC_Currency_ID());
 									Env.setContext(m_ctx, "$HasAlias", accountSchema.isHasAlias());
 									return accountSchema.getC_AcctSchema_ID();
-								}).get();
+								}).getOrElse(MClientInfo.get(Env.getCtx(), clientId).getC_AcctSchema1_ID());
 					}
 					//	Accounting Elements
 					List<MAcctSchemaElement> acctSchemaElements = List.ofAll(new Query(m_ctx , MAcctSchemaElement.Table_Name , " C_AcctSchema_ID = ?" , null)
