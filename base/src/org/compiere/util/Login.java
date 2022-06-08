@@ -957,7 +957,6 @@ public class Login
 						acctSchemaId = List.of(clientAcctSchemes)
 								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(organizationId))
 								.map(accountSchema -> {
-									//C_AcctSchema_ID = as.getC_AcctSchema_ID();
 									Env.setContext(m_ctx, "$C_AcctSchema_ID", accountSchema.getC_AcctSchema_ID());
 									Env.setContext(m_ctx, "$C_Currency_ID", accountSchema.getC_Currency_ID());
 									Env.setContext(m_ctx, "$HasAlias", accountSchema.isHasAlias());
