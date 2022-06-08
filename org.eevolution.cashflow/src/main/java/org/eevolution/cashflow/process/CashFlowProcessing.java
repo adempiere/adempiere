@@ -13,30 +13,16 @@
  * Copyright (C) 2003-2012 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
-package org.eevolution.process;
+package org.eevolution.cashflow.process;
 
-import java.util.logging.Level;
-
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
-import org.eevolution.model.MCashFlow;
+import org.eevolution.cashflow.model.MCashFlow;
 
 /**
  * 
  * 
  * @author victor.perez@e-evolution.com , www.e-evolution.com
  */
-public class CashFlowProcessing extends SvrProcess {
-
-	protected void prepare() {
-		for (ProcessInfoParameter para : getParameter()) {
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-	} // prepare
+public class CashFlowProcessing extends CashFlowProcessingAbstract {
 
 	/**
 	 * Perform process.

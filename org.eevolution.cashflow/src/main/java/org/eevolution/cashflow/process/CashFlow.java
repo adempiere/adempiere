@@ -16,7 +16,7 @@
  * @author victor.perez@e-evolution.com, www.e-evolution.com                  *
  * http://adempiere.atlassian.net/browse/ADEMPIERE-199 Cashflow Management    *
  *****************************************************************************/
-package org.eevolution.process;
+package org.eevolution.cashflow.process;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -34,12 +34,10 @@ import org.compiere.model.I_C_Invoice;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.MAging;
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Util;
+import org.eevolution.cashflow.model.MCashFlow;
 import org.eevolution.model.I_C_CashFlow;
-import org.eevolution.model.MCashFlow;
 
 /**
  * Cashflow Report
@@ -48,50 +46,19 @@ import org.eevolution.model.MCashFlow;
  * @author victor.perez@e-evolution.com
  * @author teo.sarca@gmail.com
  */
-public class CashFlow extends SvrProcess {
-	protected Timestamp p_DueDate = null;
-	protected int p_C_Currency_ID = -1;
-	protected int p_C_BP_Group_ID = -1;
-	protected int p_C_BPartner_ID = -1;
-	protected boolean p_IsIncludeOrders = false;
-	protected boolean p_IsIncludeCashFlows = false;
-	protected boolean p_IsIncludeInvoices = true;
-	protected boolean   p_IsIncludeBankBalance = true;
-	protected boolean   p_IsIncludeCreditline = true;
+public class CashFlow extends CashFlowAbstract {
 
 	protected void prepare() {
-		for (ProcessInfoParameter para : getParameter()) {
-			log.config("prepare - " + para);
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals("DueDate"))
-				p_DueDate = (Timestamp) para.getParameter();
-			else if (name.equals("C_Currency_ID"))
-				p_C_Currency_ID = ((BigDecimal) para.getParameter()).intValue();
-			else if (name.equals("C_BP_Group_ID"))
-				p_C_BP_Group_ID = ((BigDecimal) para.getParameter()).intValue();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = ((BigDecimal) para.getParameter()).intValue();
-			else if (name.equals("IsIncludeOrders"))
-				p_IsIncludeOrders = "Y".equals(para.getParameter());
-			else if (name.equals("IsIncludeCashflows"))
-				p_IsIncludeCashFlows = "Y".equals(para.getParameter());
-			else if (name.equals("IsIncludeInvoices"))
-				p_IsIncludeInvoices = "Y".equals(para.getParameter());
-			else if (name.equals("IsIncludeBankBalances"))
-				p_IsIncludeBankBalance = "Y".equals(para.getParameter());
-			else
-				log.config("prepare - Unknown Parameter: " + name);
+		super.prepare();
+		if (getDueDate() == null) {
+			setDueDate(new Timestamp(System.currentTimeMillis()));
 		}
-		if (p_DueDate == null)
-			p_DueDate = new Timestamp(System.currentTimeMillis());
 	} // prepare
 
 	protected String doIt() throws Exception {
-		log.info("DueDate=" + p_DueDate + ", C_Currency_ID=" + p_C_Currency_ID
-				+ ", C_BP_Group_ID=" + p_C_BP_Group_ID + ", C_BPartner_ID="
-				+ p_C_BPartner_ID);
+		log.info("DueDate=" + getDueDate() + ", C_Currency_ID=" + getCurrencyId()
+				+ ", C_BP_Group_ID=" + getBPGroupId() + ", C_BPartner_ID="
+				+ getBPartnerId());
 		//
 		final ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer();
@@ -133,7 +100,7 @@ public class CashFlow extends SvrProcess {
 		final StringBuffer sql = new StringBuffer();
 		//
 		// Include Invoices
-		if (p_IsIncludeInvoices) {
+		if (isIncludeInvoices()) {
 			if (sql.length() > 0)
 				sql.append(" UNION ");
 			sql.append("SELECT -1 AS C_BankAccount_ID, bp.C_BP_Group_ID, oi.C_BPartner_ID,"
@@ -162,14 +129,14 @@ public class CashFlow extends SvrProcess {
 					+ " INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID)"
 					+ " WHERE 1=1");
 			addWhereClause(sql, params);
-			if (p_DueDate != null) {
+			if (getDueDate() != null) {
 				sql.append(" AND oi.DueDate <= ?");
-				params.add(p_DueDate);
+				params.add(getDueDate());
 			}
 		}
 		//
 		// Include Orders
-		if (p_IsIncludeOrders) {
+		if (isIncludeOrders()) {
 			if (sql.length() > 0)
 				sql.append(" UNION ");
 			sql.append("SELECT -1 AS C_BankAccount_ID, bp.C_BP_Group_ID, oi.C_BPartner_ID,"
@@ -196,14 +163,14 @@ public class CashFlow extends SvrProcess {
 					+ " INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
 					+ " WHERE oi.IsActive='Y' AND oi.IsInvoiced='N' AND DocStatus IN('CO','CL') ");
 			addWhereClause(sql, params);
-			if (p_DueDate != null) {
+			if (getDueDate() != null) {
 				sql.append(" AND paymentTermDueDate(oi.c_paymentterm_id, oi.dateordered) <= ?");
-				params.add(p_DueDate);
+				params.add(getDueDate());
 			}
 		}
 		//
 		// Include CashFlow manual records
-		if (p_IsIncludeCashFlows) {
+		if (isIncludeCashFlows()) {
 			// CashFlow records
 			if (sql.length() > 0)
 				sql.append(" UNION ");
@@ -233,12 +200,12 @@ public class CashFlow extends SvrProcess {
 					+ " INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
 					+ " WHERE oi.IsActive='Y' AND oi.Processed = 'Y'");
 			addWhereClause(sql, params);
-			if (p_DueDate != null) {
+			if (getDueDate() != null) {
 				sql.append(" AND oi.DueDate <= ?");
-				params.add(p_DueDate);
+				params.add(getDueDate());
 			}
 		}
-		if (p_IsIncludeBankBalance)
+		if (isIncludeBankBalances())
 		{
 			int C_BPartner_ID = new Query(getCtx(), I_C_BPartner.Table_Name , "AD_OrgBP_ID IS NOT NULL" , get_TrxName()).setClient_ID().firstId();
 			int C_BP_Group_ID = DB.getSQLValue(get_TrxName(), "SELECT C_BP_Group_ID FROM C_BPartner bp WHERE bp.C_BPartner_ID=?", C_BPartner_ID);
@@ -397,17 +364,17 @@ public class CashFlow extends SvrProcess {
 
 	private String getSqlCurrency(String tableName, String alias,
 			List<Object> params) {
-		if (p_C_Currency_ID <= 0) {
+		if (getCurrencyId() <= 0) {
 			return alias + ".C_Currency_ID";
 		} else {
-			params.add(p_C_Currency_ID);
+			params.add(getCurrencyId());
 			return "?";
 		}
 	}
 
 	private String getSqlCurrencyConvert(String tableName, String tableAlias,
 			String columnName, List<Object> params) {
-		if (p_C_Currency_ID <= 0) {
+		if (getCurrencyId() <= 0) {
 			return tableAlias + "." + columnName;
 		} else {
 			final String dateColumnName;
@@ -424,7 +391,7 @@ public class CashFlow extends SvrProcess {
 						+ tableName);
 			}
 			return "currencyconvert(" + tableAlias + "." + columnName + ","
-					+ tableAlias + ".C_Currency_ID," + p_C_Currency_ID + ","
+					+ tableAlias + ".C_Currency_ID," + getCurrencyId() + ","
 					+ tableAlias + "." + dateColumnName + "," + tableAlias
 					+ ".C_ConversionType_ID," + tableAlias + ".AD_Client_ID,"
 					+ tableAlias + ".AD_Org_ID" + ")";
@@ -436,12 +403,12 @@ public class CashFlow extends SvrProcess {
 		sql.append(" AND oi.AD_Client_ID=?");
 		params.add(getAD_Client_ID());
 		//
-		if (p_C_BPartner_ID > 0) {
+		if (getBPartnerId() > 0) {
 			sql.append(" AND oi.C_BPartner_ID=?");
-			params.add(p_C_BPartner_ID);
-		} else if (p_C_BP_Group_ID > 0) {
+			params.add(getBPartnerId());
+		} else if (getBPGroupId() > 0) {
 			sql.append(" AND bp.C_BP_Group_ID=?");
-			params.add(p_C_BP_Group_ID);
+			params.add(getBPGroupId());
 		}
 	}
 
