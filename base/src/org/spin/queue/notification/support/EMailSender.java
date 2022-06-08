@@ -24,6 +24,8 @@ import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
 import org.compiere.model.MUser;
 import org.compiere.model.X_AD_UserMail;
+import org.compiere.model.MOrg;
+import org.compiere.model.MOrgInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
@@ -63,18 +65,31 @@ public class EMailSender implements INotification {
 		notification.getRecipients().forEach(recipient -> {
 			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
 			String eMailFrom = client.getRequestEMail();
+			String eMailPsw = client.getRequestUserPW();
+			int eMailConfigId = client.getAD_EMailConfig_ID();
+
+			if (notification.getAD_Org_ID() > 0) {
+				MOrg mOrg = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
+				MOrgInfo mOrgInfo = mOrg.getInfo();
+				if (mOrgInfo.getEMail() != null && mOrgInfo.getAD_EMailConfig_ID() > 0 && mOrgInfo.getRequestUserPW() != null) {
+					eMailFrom = mOrgInfo.getEMail();
+					eMailPsw = mOrgInfo.getRequestUserPW();
+					eMailConfigId = mOrgInfo.getAD_EMailConfig_ID();
+				}
+			}
+
 			MUser fromUser = null;
 			if(notification.getAD_User_ID() > 0) {
 				fromUser = MUser.get(notification.getCtx(), notification.getAD_User_ID());
 			}
 			//	Create instance
-			EMail email = new EMail(
-					client,
+			EMail email = new EMail(client,
+					eMailConfigId,
 					eMailFrom,
 					recipient.getAccountName(),
 					notification.getDescription(),
-					notification.getText()
-			);
+					notification.getText(),
+					false);
 			if (!email.isValid() && !email.isValid(true)) {
 				log.warning("NOT VALID - " + email);
 				if(errorMessage.length() > 0) {
@@ -89,8 +104,9 @@ public class EMailSender implements INotification {
 							|| emailConfig.getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth))
 						email.createAuthenticator (fromUser.getEMailUser(), fromUser.getEMailUserPW());
 				} else {
-					if (client.isSmtpAuthorization()) {
-						email.createAuthenticator (client.getRequestUser(), client.getRequestUserPW());
+					MEMailConfig eMailConfig = MEMailConfig.get(client.getCtx(), eMailConfigId);
+					if (eMailConfig.isSmtpAuthorization()) {
+						email.createAuthenticator (eMailFrom, eMailPsw);
 					}
 				}
 				//	Subject
