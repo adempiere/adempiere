@@ -14,14 +14,28 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.model;
+package org.eevolution.freight.engine;
+import java.util.HashMap;
 
 /**
- * Model Validator to Calculate Freight
- * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 21/08/16.
- * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
- * Freight support for package
+ * 
+ * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 20/08/16.
  */
-public class FreightModelValidator extends org.eevolution.freight.model.validator.Freight {
-	//	Backward Compatibility
+public class FreightEngineFactory
+{
+	private static final HashMap<Integer, FreightEngine> engines = new HashMap<Integer, FreightEngine>();
+	
+	public static FreightEngine getFreightEngine(int clientId) {
+		FreightEngine engine = engines.get(clientId);
+		// Fallback to global engine
+		if (engine == null && clientId > 0) {
+			engine = engines.get(0);
+		}
+		// Create Default Engine
+		if (engine == null) {
+			engine = new FreightEngine();
+			engines.put(clientId, engine);
+		}
+		return engine;
+	}
 }

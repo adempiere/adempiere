@@ -16,7 +16,7 @@
  * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
 
-package org.eevolution.engine.freight;
+package org.eevolution.freight.engine;
 
 import java.math.BigDecimal;
 

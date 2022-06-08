@@ -14,18 +14,38 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.service;
+package org.eevolution.freight.service;
 
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.model.MFreight;
+import org.compiere.model.Query;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
-public interface FreightServiceInterface {
-    public List<MFreight> getFreight(Properties ctx, int shipperId, int freightCategoryId, int currencyId, String trxName);
-    public List<MFreight> getFreightValid(Properties ctx, int shipperId, int freightCategoryId, int currencyId, Timestamp date, String trxName);
+public class FreightService implements FreightServiceInterface {
+
+    public List<MFreight> getFreight(Properties ctx, int shipperId, int freightCategoryId, int currencyId, String trxName) {
+        StringBuilder where = new StringBuilder();
+        where.append(MFreight.COLUMNNAME_M_Shipper_ID).append("=? AND ")
+                .append(MFreight.COLUMNNAME_M_FreightCategory_ID).append("=? AND ")
+                .append(MFreight.COLUMNNAME_C_Currency_ID).append("=?");
+        return new Query(ctx, MFreight.Table_Name, where.toString(), trxName)
+                .setClient_ID()
+                .setOnlyActiveRecords(true)
+                .setParameters(shipperId, freightCategoryId, currencyId)
+                .list();
+    }
+
+    public List<MFreight> getFreightValid(Properties ctx, int shipperId, int freightCategoryId, int currencyId, Timestamp date, String trxName) {
+        List<MFreight> freightValid = getFreight(ctx, shipperId, freightCategoryId, currencyId, trxName)
+                .stream()
+                .filter(freight -> freight != null && (freight.getValidFrom() == null || freight.getValidFrom().before(date)))
+                .collect(Collectors.toList());
+        return freightValid;
+    }
 }

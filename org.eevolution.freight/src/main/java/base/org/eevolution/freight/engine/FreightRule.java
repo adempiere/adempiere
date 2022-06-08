@@ -14,15 +14,15 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.engine.freight;
+package org.eevolution.freight.engine;
 
 import org.compiere.model.MFreight;
 import org.compiere.model.MFreightCategory;
 import org.compiere.model.MLocation;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.service.FreightService;
-import org.eevolution.service.FreightServiceInterface;
+import org.eevolution.freight.service.FreightService;
+import org.eevolution.freight.service.FreightServiceInterface;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

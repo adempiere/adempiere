@@ -14,28 +14,27 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.engine.freight;
-import java.util.HashMap;
+package org.compiere.model;
+
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.X_M_Freight;
 
 /**
- * 
- * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 20/08/16.
+ * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
-public class FreightEngineFactory
-{
-	private static final HashMap<Integer, FreightEngine> engines = new HashMap<Integer, FreightEngine>();
-	
-	public static FreightEngine getFreightEngine(int clientId) {
-		FreightEngine engine = engines.get(clientId);
-		// Fallback to global engine
-		if (engine == null && clientId > 0) {
-			engine = engines.get(0);
-		}
-		// Create Default Engine
-		if (engine == null) {
-			engine = new FreightEngine();
-			engines.put(clientId, engine);
-		}
-		return engine;
-	}
+public class MFreight extends X_M_Freight {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1661865591226382132L;
+
+	public MFreight(Properties ctx, int M_Freight_ID, String trxName) {
+        super(ctx, M_Freight_ID, trxName);
+    }
+
+    public MFreight(Properties ctx, ResultSet rs, String trxName) {
+        super(ctx, rs, trxName);
+    }
 }

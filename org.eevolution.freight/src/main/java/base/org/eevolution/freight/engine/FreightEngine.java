@@ -14,7 +14,7 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.engine.freight;
+package org.eevolution.freight.engine;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_M_Shipper;
@@ -33,7 +33,7 @@ public class FreightEngine {
 
 
     /** Package for Freight Rule classes */
-    static final String packageName = "org.eevolution.engine.freight";
+    static final String packageName = "org.eevolution.freight.engine";
     private static FreightEngine instanceFreightEngine;
     /** Freight Rule (negative cache) */
     private static TreeSet<String> freightRuleNoImplement = new TreeSet<>();
