@@ -225,6 +225,19 @@ public class Tax {
 			{
 				return getExemptTax (ctx, orgId);
 			}
+			else if ("N".equals(isTaxExempt)) {
+
+				MOrg org = new MOrg(ctx, orgId, trxName);
+				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
+				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+
+				if (linkPartner != null && linkPartner.get_ID() > 0) {
+					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, orgId);
+					}
+				}
+			}
 		}
 		catch (SQLException e)
 		{
@@ -375,32 +388,39 @@ public class Tax {
 			}
 			DB.close(rs, pstmt);
 			//
-			if (found && "Y".equals(IsTaxExempt))
-			{
+			if (found && "Y".equals(IsTaxExempt)) {
 				log.fine("getProduct - Business Partner is Tax exempt");
 				return getExemptTax(ctx, AD_Org_ID);
-			}
-			else if (found)
-			{
-				if (!IsSOTrx)
-				{
-					int temp = billFromC_Location_ID;
-					billFromC_Location_ID = billToC_Location_ID;
-					billToC_Location_ID = temp;
-					temp = shipFromC_Location_ID;
-					shipFromC_Location_ID = shipToC_Location_ID;
-					shipToC_Location_ID = temp;
-				}
-				log.fine("getProduct - C_TaxCategory_ID=" + C_TaxCategory_ID
-					+ ", billFromC_Location_ID=" + billFromC_Location_ID
-					+ ", billToC_Location_ID=" + billToC_Location_ID
-					+ ", shipFromC_Location_ID=" + shipFromC_Location_ID
-					+ ", shipToC_Location_ID=" + shipToC_Location_ID);
-				return get(ctx, C_TaxCategory_ID, IsSOTrx,
-					shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-					billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
-			}
+			} else if (found && "N".equals(IsTaxExempt)) {
 
+				MOrg org = new MOrg(ctx, AD_Org_ID, trxName);
+				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
+				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+
+				if (linkPartner != null && linkPartner.get_ID() > 0) {
+					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, AD_Org_ID);
+					}
+				} else {
+					if (!IsSOTrx) {
+						int temp = billFromC_Location_ID;
+						billFromC_Location_ID = billToC_Location_ID;
+						billToC_Location_ID = temp;
+						temp = shipFromC_Location_ID;
+						shipFromC_Location_ID = shipToC_Location_ID;
+						shipToC_Location_ID = temp;
+					}
+					log.fine("getProduct - C_TaxCategory_ID=" + C_TaxCategory_ID
+							+ ", billFromC_Location_ID=" + billFromC_Location_ID
+							+ ", billToC_Location_ID=" + billToC_Location_ID
+							+ ", shipFromC_Location_ID=" + shipFromC_Location_ID
+							+ ", shipToC_Location_ID=" + shipToC_Location_ID);
+					return get(ctx, C_TaxCategory_ID, IsSOTrx,
+							shipDate, shipFromC_Location_ID, shipToC_Location_ID,
+							billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
+				}
+			}
 			// ----------------------------------------------------------------
 
 			//	Detail for error isolation
