@@ -349,7 +349,7 @@
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
         <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
-        <Data AD_Column_ID="229" Column="Name">Configure Centralized ID Management Process</Data>
+        <Data AD_Column_ID="229" Column="Name">Configure Centralized ID Management</Data>
         <Data AD_Column_ID="84344" Column="UUID">f77b8257-cd1f-4109-b9a2-750ff3d3d2a8</Data>
         <Data AD_Column_ID="601" Column="Updated">2022-06-09 22:18:35.366</Data>
         <Data AD_Column_ID="602" Column="UpdatedBy">0</Data>
@@ -366,7 +366,7 @@
         <Data AD_Column_ID="248" Column="Description">Configure the credentials for the Centralized ID Management service.</Data>
         <Data AD_Column_ID="636" Column="IsActive">true</Data>
         <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="247" Column="Name">Configure Centralized ID Management Process</Data>
+        <Data AD_Column_ID="247" Column="Name">Configure Centralized ID Management</Data>
         <Data AD_Column_ID="84345" Column="UUID">c556409b-0d73-4014-bf84-56bfda79f4bb</Data>
         <Data AD_Column_ID="639" Column="Updated">2022-06-09 22:18:37.199</Data>
         <Data AD_Column_ID="640" Column="UpdatedBy">0</Data>
@@ -394,7 +394,7 @@
         <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54817">54817</Data>
         <Data AD_Column_ID="248" Column="Description" oldValue="Configure the credentials for the Centralized ID Management service.">Configurar las credenciales para el servicio Gestión de ID Centralizado</Data>
         <Data AD_Column_ID="249" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="247" Column="Name" oldValue="Configure Centralized ID Management Process">Configurar la Gestión Centralizada de Identificaciones</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Configure Centralized ID Management">Configurar la Gestión Centralizada de Identificaciones</Data>
       </PO>
     </Step>
     <Step SeqNo="170" StepType="AD">
