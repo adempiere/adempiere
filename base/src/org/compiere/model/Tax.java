@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import io.vavr.Tuple;
+import io.vavr.Tuple7;
+import io.vavr.collection.List;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.exceptions.TaxCriteriaNotFoundException;
 import org.adempiere.exceptions.TaxForChangeNotFoundException;
@@ -24,12 +27,15 @@ import org.adempiere.exceptions.TaxNotFoundException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.ResultSetIterable;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *	Tax Handling
@@ -170,14 +176,14 @@ public class Tax {
 		int orgId, int warehouseId,
 		int billPartnerLocationId, int shipPartnerLocationId,
 		boolean IsSOTrx, String trxName) {
-		int taxCategoryId = 0;
-		int shipFromLocationId = 0;
-		int shipToLocationId = 0;
-		int billFromLocationId = 0;
-		int billToLocationId = 0;
-		String isTaxExempt = null;
-		String isSOTaxExempt = null;
-		String isPOTaxExempt = null;
+		AtomicInteger taxCategoryId = new AtomicInteger();
+		AtomicInteger shipFromLocationId = new AtomicInteger();
+		AtomicInteger shipToLocationId = new AtomicInteger();
+		AtomicInteger billFromLocationId = new AtomicInteger();
+		AtomicInteger billToLocationId = new AtomicInteger();
+		AtomicReference<String> isTaxExempt = new AtomicReference<>();
+		AtomicReference<String> isSOTaxExempt = new AtomicReference<>();
+		AtomicReference<String> isPOTaxExempt = new AtomicReference<>();
 
 		//	Get all at once
 		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt,"
@@ -191,73 +197,66 @@ public class Tax {
 			 + " AND sl.C_BPartner_Location_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, warehouseId);
-			pstmt.setInt (2, chargeId);
-			pstmt.setInt (3, orgId);
-			pstmt.setInt (4, billPartnerLocationId);
-			pstmt.setInt (5, shipPartnerLocationId);
-			rs = pstmt.executeQuery ();
-			boolean found = false;
-			if (rs.next ())
-			{
-				taxCategoryId = rs.getInt (1);
-				billFromLocationId = rs.getInt (2);
-				billToLocationId = rs.getInt (3);
-				isSOTaxExempt = rs.getString (4);
-				isPOTaxExempt = rs.getString (5);
-				isTaxExempt = IsSOTrx ? isSOTaxExempt : isPOTaxExempt;
-				shipFromLocationId = rs.getInt (6);
-				shipToLocationId = rs.getInt (7);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			//
-			if (!found)
-			{
+
+		List params = List.of(warehouseId, chargeId, orgId, billPartnerLocationId, shipPartnerLocationId);
+		DB.runResultSetFunction.apply(trxName, sql, params, resultSet -> {
+			List<Tuple7<Integer, Integer, Integer, String, String, Integer, Integer>> taxes = new ResultSetIterable<>(resultSet, row -> Tuple.of(
+					row.getInt(1) ,
+					row.getInt(2) ,
+					row.getInt(3) ,
+					row.getString(4),
+					row.getString(5),
+					row.getInt(6) ,
+					row.getInt(7)
+			)).toList();
+
+			if (taxes.isEmpty()) {
 				throw new TaxForChangeNotFoundException(chargeId, orgId, warehouseId,
 						billPartnerLocationId, shipPartnerLocationId,
 						null);
 			}
-			else if ("Y".equals (isTaxExempt))
-			{
-				return getExemptTax (ctx, orgId);
-			}
-			else if ("N".equals(isTaxExempt)) {
 
-				MOrg org = new MOrg(ctx, orgId, trxName);
-				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
-				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+			taxes.forEach(row -> {
+				taxCategoryId.set(row._1);
+				billFromLocationId.set(row._2);
+				billToLocationId.set(row._3);
+				isSOTaxExempt.set(row._4);
+				isPOTaxExempt.set(row._5);
+				isTaxExempt.set(IsSOTrx ? isSOTaxExempt.get() : isPOTaxExempt.get());
+				shipFromLocationId.set(row._6);
+				shipToLocationId.set(row._7);
+			});
 
-				if (linkPartner != null && linkPartner.get_ID() > 0) {
-					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
-						log.fine("getProduct - Business Partner is Tax exempt");
-						return getExemptTax(ctx, orgId);
-					}
+		});
+
+		if ("Y".equals (isTaxExempt.get()))
+		{
+			return getExemptTax (ctx, orgId);
+		}
+		else if ("N".equals(isTaxExempt.get())) {
+
+			MOrg org = new MOrg(ctx, orgId, trxName);
+			int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
+			MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+
+			if (linkPartner.get_ID() > 0) {
+				if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+					log.fine("getProduct - Business Partner is Tax exempt");
+					return getExemptTax(ctx, orgId);
 				}
 			}
 		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+
 
 		//	Reverese for PO
 		if (!IsSOTrx)
 		{
-			int temp = billFromLocationId;
-			billFromLocationId = billToLocationId;
-			billToLocationId = temp;
-			temp = shipFromLocationId;
-			shipFromLocationId = shipToLocationId;
-			shipToLocationId = temp;
+			int temp = billFromLocationId.get();
+			billFromLocationId.set(billToLocationId.get());
+			billToLocationId.set(temp);
+			temp = shipFromLocationId.get();
+			shipFromLocationId.set(shipToLocationId.get());
+			shipToLocationId.set(temp);
 		}
 		//
 		log.fine("getCharge - C_TaxCategory_ID=" + taxCategoryId
@@ -265,9 +264,9 @@ public class Tax {
 		  + ", billToC_Location_ID=" + billToLocationId
 		  + ", shipFromC_Location_ID=" + shipFromLocationId
 		  + ", shipToC_Location_ID=" + shipToLocationId);
-		return get (ctx, taxCategoryId, IsSOTrx,
-		  shipDate, shipFromLocationId, shipToLocationId,
-		  billDate, billFromLocationId, billToLocationId, trxName);
+		return get (ctx, taxCategoryId.get(), IsSOTrx,
+		  shipDate, shipFromLocationId.get(), shipToLocationId.get(),
+		  billDate, billFromLocationId.get(), billToLocationId.get(), trxName);
 	}	//	getCharge
 
 	/**
