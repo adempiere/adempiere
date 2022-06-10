@@ -31,6 +31,10 @@ import org.compiere.util.DB;
  *  Contributor: Carlos Ruiz - globalqss - [ 1800371 ] System Configurator Enhancements
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1885496 ] Performance NEEDS
+ * 
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com
+ * 		<li>FR [ 3910 ] Create a process for Configure Centralized ID Management</li>
+ * 		@see https://github.com/adempiere/adempiere/issues/3910
  */
 public class MSysConfig extends X_AD_SysConfig
 {
@@ -55,6 +59,27 @@ public class MSysConfig extends X_AD_SysConfig
 	}	//	MSysConfig
 
 	/**
+	 * Get instance System Configurator with name
+	 * @param context
+	 * @param name
+	 * @param transactionName
+	 * @return
+	 */
+	public static MSysConfig get(Properties context, String name, String transactionName) {
+		MSysConfig sysConfig = new Query(
+				context,
+				MSysConfig.Table_Name,
+				MSysConfig.COLUMNNAME_Name + "=?",
+				transactionName
+			)
+			.setClient_ID()
+			.setParameters(name)
+			.first();
+		
+		return sysConfig;
+	}
+
+	/**
 	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
@@ -68,8 +93,6 @@ public class MSysConfig extends X_AD_SysConfig
 	private static CLogger	s_log	= CLogger.getCLogger (MSysConfig.class);
 	/** Cache			*/
 	private static CCache<String, String> s_cache = new CCache<String, String>(Table_Name, 40, 0);
-	/** resetCache			*/
-	private static boolean resetCache = false;
 	
 	/** Reset Cache
 	 * 
