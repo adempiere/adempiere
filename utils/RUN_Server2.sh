@@ -35,6 +35,7 @@ if [ $ADEMPIERE_APPS_TYPE = "wildfly" ]; then
                   nohup $WILDFLY_HOME/bin/standalone.sh --admin-only -Djboss.server.base.dir=$WILDFLY_BASE -Djboss.http.port=$ADEMPIERE_WEB_PORT \
                         -Djboss.https.port=$ADEMPIERE_SSL_PORT -Djboss.bind.address=0.0.0.0 >./nohup.out 2>./nohup.err &
                   sleep 7
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=elytron/key-store=log-server-ks:add(path=${ADEMPIERE_HOME}/keystore/myKeystore, type=JKS, credential-reference={clear-text=${ADEMPIERE_KEYSTOREPASS})"
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm:add"
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=undertow/configuration=filter/gzip=gzipFilter/:add"
@@ -79,9 +80,9 @@ if [ $ADEMPIERE_APPS_TYPE = "jetty" ]; then
           echo "ADempiere Server $ADEMPIERE_APPS_TYPE starting ..."
           echo "Jetty Home directory : ${JETTY_HOME}"
           echo "Jetty Base directory : ${JETTY_BASE}"
-          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE --create-start-d --add-modules=server,ext,deploy,jndi,jsp,threadpool,http,gzip \
-                jetty.http.port=$ADEMPIERE_WEB_PORT jetty.server.stopAtShutdown=true $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err
-          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE stop.port=7777 stop.key=$ADEMPIERE_KEYSTOREPASS $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err &
+          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE --create-start-d --add-modules=server,ext,deploy,jndi,jsp,threadpool,http,ssl,https,gzip \
+                 jetty.http.port=$ADEMPIERE_WEB_PORT jetty.ssl.port=$ADEMPIERE_SSL_PORT jetty.sslContext.keyStorePath=$ADEMPIERE_HOME/keystore/myKeystore jetty.sslContext.keyStorePassword=$ADEMPIERE_KEYSTOREPASS jetty.server.stopAtShutdown=true $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err
+          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE stop.port=7777 stop.key=??? $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err &
           echo $! > $JETTY_BASE/jetty.pid
         fi
     fi
