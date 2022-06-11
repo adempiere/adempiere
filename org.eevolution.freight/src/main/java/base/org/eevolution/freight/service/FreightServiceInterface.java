@@ -14,14 +14,18 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.model;
+package org.eevolution.freight.service;
+
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
+
+import org.compiere.model.MFreight;
 
 /**
- * Model Validator to Calculate Freight
- * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 21/08/16.
- * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
- * Freight support for package
+ * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
-public class FreightModelValidator extends org.eevolution.freight.model.validator.Freight {
-	//	Backward Compatibility
+public interface FreightServiceInterface {
+    public List<MFreight> getFreight(Properties ctx, int shipperId, int freightCategoryId, int currencyId, String trxName);
+    public List<MFreight> getFreightValid(Properties ctx, int shipperId, int freightCategoryId, int currencyId, Timestamp date, String trxName);
 }

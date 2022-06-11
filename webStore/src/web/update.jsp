@@ -61,7 +61,7 @@
             <form action="updateServlet" method="post" enctype="application/x-www-form-urlencoded" name="UpdateEMail" target="_top" onSubmit="return validateEMail()">
                 <fieldset>
                     <legend><cws:message txt="Change EMail"/></legend>
-                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam.#AD_Client_ID}" default="0"/>'/>
+                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam['#AD_Client_ID']}" default="0"/>'/>
                     <input name="Source" type="hidden" value=""/>
                     <input name="Info" type="hidden" value=""/>
                     <input name="Mode" type="hidden" value="email"/>
@@ -99,7 +99,7 @@
             <form action="updateServlet" method="post" enctype="application/x-www-form-urlencoded" name="UpdatePassword" target="_top" onSubmit="return validatePassword()">
                 <fieldset>
                     <legend><cws:message txt="Change Password"/></legend>
-                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam.#AD_Client_ID}" default="0"/>'/>
+                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam['#AD_Client_ID']}" default="0"/>'/>
                     <input name="Source" type="hidden" value=""/>
                     <input name="Info" type="hidden" value=""/>
                     <input name="Mode" type="hidden" value="password"/>
@@ -136,7 +136,7 @@
                 <fieldset>
                     <legend><cws:message txt="Change Contact Information"/></legend>
 
-                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam.#AD_Client_ID}" default="0"/>'/>
+                    <input name="AD_Client_ID" type="hidden" value='<c:out value="${initParam['#AD_Client_ID']}" default="0"/>'/>
                     <input name="Source" type="hidden" value=""/>
                     <input name="Info" type="hidden" value=""/>
                     <input name="Mode" type="hidden" value="address"/>

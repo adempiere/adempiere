@@ -14,14 +14,27 @@
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
-package org.eevolution.model;
+package org.compiere.model;
+
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.X_M_Freight;
 
 /**
- * Model Validator to Calculate Freight
- * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 21/08/16.
- * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
- * Freight support for package
+ * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
-public class FreightModelValidator extends org.eevolution.freight.model.validator.Freight {
-	//	Backward Compatibility
+public class MFreight extends X_M_Freight {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1661865591226382132L;
+
+	public MFreight(Properties ctx, int M_Freight_ID, String trxName) {
+        super(ctx, M_Freight_ID, trxName);
+    }
+
+    public MFreight(Properties ctx, ResultSet rs, String trxName) {
+        super(ctx, rs, trxName);
+    }
 }
