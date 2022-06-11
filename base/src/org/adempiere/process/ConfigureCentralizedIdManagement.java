@@ -29,14 +29,15 @@ import org.compiere.util.Trx;
  * 		<li>FR [ 3910 ] Create a process for Configure Centralized ID Management</li>
  * 		@see https://github.com/adempiere/adempiere/issues/3910
  */
-public class ConfigureCentralizedIDManagement extends ConfigureCentralizedIDManagementAbstract
+public class ConfigureCentralizedIdManagement extends ConfigureCentralizedIdManagementAbstract
 {
+	// System Confurator
 	private String DICTIONARY_ID_WEBSITE = "DICTIONARY_ID_WEBSITE";
 	private String DICTIONARY_ID_USER = "DICTIONARY_ID_USER";
 	private String DICTIONARY_ID_PASSWORD = "DICTIONARY_ID_PASSWORD";
 	private String DICTIONARY_ID_COMMENTS = "DICTIONARY_ID_COMMENTS";
 	private String DICTIONARY_ID_USE_CENTRALIZED_ID = "DICTIONARY_ID_USE_CENTRALIZED_ID";
-	
+
 	@Override
 	protected void prepare()
 	{
@@ -51,31 +52,31 @@ public class ConfigureCentralizedIDManagement extends ConfigureCentralizedIDMana
 			MSysConfig webSite = MSysConfig.get(getCtx(), DICTIONARY_ID_WEBSITE, transactionName);
 			webSite.setValue(getDictionaryWebsite());
 			webSite.saveEx();
-			if (webSite.is_ValueChanged("Value")) {
-				addLog("Changed Website " + webSite.get_ValueOld("Value") + " to " + getDictionaryWebsite());
+			if (webSite.is_ValueChanged(MSysConfig.COLUMNNAME_Value)) {
+				addLog("Changed Website " + webSite.get_ValueOld(MSysConfig.COLUMNNAME_Value) + " to " + getDictionaryWebsite());
 			}
 
 			// set user
 			MSysConfig user = MSysConfig.get(getCtx(), DICTIONARY_ID_USER, transactionName);
 			user.setValue(getDictionaryUser());
-			if (user.is_ValueChanged("Value")) {
-				addLog("Changed uuser " + user.get_ValueOld("Value") + " to " + getDictionaryUser());
+			if (user.is_ValueChanged(MSysConfig.COLUMNNAME_Value)) {
+				addLog("Changed uuser " + user.get_ValueOld(MSysConfig.COLUMNNAME_Value) + " to " + getDictionaryUser());
 			}
 			user.saveEx();
 			
 			// set password
 			MSysConfig password = MSysConfig.get(getCtx(), DICTIONARY_ID_PASSWORD, transactionName);
 			password.setValue(getDictionaryPassword());
-			if (password.is_ValueChanged("Value")) {
-				addLog("Changed password " + password.get_ValueOld("Value") + " to " + getDictionaryPassword());
+			if (password.is_ValueChanged(MSysConfig.COLUMNNAME_Value)) {
+				addLog("Changed password " + password.get_ValueOld(MSysConfig.COLUMNNAME_Value) + " to " + getDictionaryPassword());
 			}
 			password.saveEx();
 			
 			// migration script comments
 			MSysConfig comments = MSysConfig.get(getCtx(), DICTIONARY_ID_COMMENTS, transactionName);
 			comments.setValue(getDictionaryComments());
-			if (comments.is_ValueChanged("Value")) {
-				addLog("Changed comments " + comments.get_ValueOld("Value") + " to " + getDictionaryComments());
+			if (comments.is_ValueChanged(MSysConfig.COLUMNNAME_Value)) {
+				addLog("Changed comments " + comments.get_ValueOld(MSysConfig.COLUMNNAME_Value) + " to " + getDictionaryComments());
 			}
 			comments.saveEx();
 			
@@ -83,8 +84,8 @@ public class ConfigureCentralizedIDManagement extends ConfigureCentralizedIDMana
 			MSysConfig useCentralized = MSysConfig.get(getCtx(), DICTIONARY_ID_USE_CENTRALIZED_ID, transactionName);
 			String isUseCentralized = isDictionaryUseCentralizedID() ? "Y" : "N";
 			useCentralized.setValue(isUseCentralized);
-			if (useCentralized.is_ValueChanged("Value")) {
-				addLog("Changed use centralized " + useCentralized.get_ValueOld("Value") + " to " + isUseCentralized);
+			if (useCentralized.is_ValueChanged(MSysConfig.COLUMNNAME_Value)) {
+				addLog("Changed use centralized " + useCentralized.get_ValueOld(MSysConfig.COLUMNNAME_Value) + " to " + isUseCentralized);
 			}
 			useCentralized.saveEx();
 		});

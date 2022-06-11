@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Update System Configurator Dictionary Centralized ID" ReleaseNo="3.9.4" SeqNo="9720">
+  <Migration EntityType="D" Name="Update System Configurator Dictionary Centralized ID" ReleaseNo="3.9.4" SeqNo="9720">
     <Comments>See https://github.com/adempiere/adempiere/issues/3910</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="50009" Action="U" Record_ID="50002" Table="AD_SysConfig">

@@ -13,7 +13,7 @@
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.ConfigureCentralizedIDManagement</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.ConfigureCentralizedIdManagement</Data>
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2805" Column="Created">2022-06-09 22:12:07.112</Data>
         <Data AD_Column_ID="2806" Column="CreatedBy">0</Data>
@@ -35,7 +35,7 @@
         <Data AD_Column_ID="84383" Column="UUID">82e5c5c1-5cdb-477c-bc28-ac657de7b341</Data>
         <Data AD_Column_ID="2807" Column="Updated">2022-06-09 22:12:07.112</Data>
         <Data AD_Column_ID="2808" Column="UpdatedBy">0</Data>
-        <Data AD_Column_ID="4023" Column="Value">ConfigureCentralizedIDManagement</Data>
+        <Data AD_Column_ID="4023" Column="Value">ConfigureCentralizedIdManagement</Data>
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
       </PO>
     </Step>
@@ -51,7 +51,7 @@
         <Data AD_Column_ID="2854" Column="Help">Para realizar cambios a nivel de diccionario de aplicación, y contribuir dichos cambios es necesario que habilite los "Registro de script de migración" y el "Mantenimiento del Diccionario", ubicado en Herramientas &gt; Preferencia.</Data>
         <Data AD_Column_ID="2847" Column="IsActive">true</Data>
         <Data AD_Column_ID="2855" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="2852" Column="Name">Configurar la Gestión Centralizada de Identificaciones</Data>
+        <Data AD_Column_ID="2852" Column="Name">Configurar la Gestión Centralizada de Identificadores</Data>
         <Data AD_Column_ID="84387" Column="UUID">9f26559b-20bc-434f-b305-db40451b4c8b</Data>
         <Data AD_Column_ID="2850" Column="Updated">2022-06-09 22:12:09.733</Data>
         <Data AD_Column_ID="2851" Column="UpdatedBy">0</Data>
@@ -317,7 +317,7 @@
         <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58737</Data>
         <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:17.624</Data>
         <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="2841" Column="Description">Bandera para indicar si utilizamos el enfoque de identificación centralizada o no</Data>
+        <Data AD_Column_ID="2841" Column="Description">Bandera para indicar si usa el enfoque de identificador centralizado o no</Data>
         <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_USE_CENTRALIZED_ID</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
@@ -363,10 +363,10 @@
         <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="637" Column="Created">2022-06-09 22:18:37.199</Data>
         <Data AD_Column_ID="638" Column="CreatedBy">0</Data>
-        <Data AD_Column_ID="248" Column="Description">Configure the credentials for the Centralized ID Management service.</Data>
+        <Data AD_Column_ID="248" Column="Description">Configurar las credenciales para el servicio Gestión de ID Centralizado.</Data>
         <Data AD_Column_ID="636" Column="IsActive">true</Data>
-        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="247" Column="Name">Configure Centralized ID Management</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="247" Column="Name">Configurar la Gestión Centralizada de Identificadores</Data>
         <Data AD_Column_ID="84345" Column="UUID">c556409b-0d73-4014-bf84-56bfda79f4bb</Data>
         <Data AD_Column_ID="639" Column="Updated">2022-06-09 22:18:37.199</Data>
         <Data AD_Column_ID="640" Column="UpdatedBy">0</Data>
@@ -381,7 +381,7 @@
         <Data AD_Column_ID="6152" Column="CreatedBy">0</Data>
         <Data AD_Column_ID="6150" Column="IsActive">true</Data>
         <Data AD_Column_ID="6161" Column="Node_ID">54817</Data>
-        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">153</Data>
         <Data AD_Column_ID="6157" Column="SeqNo">31</Data>
         <Data AD_Column_ID="84442" Column="UUID">20d07a9d-6586-4a8b-9b8f-c8cb5489a132</Data>
         <Data AD_Column_ID="6153" Column="Updated">2022-06-09 22:18:37.351</Data>
@@ -389,50 +389,41 @@
       </PO>
     </Step>
     <Step SeqNo="160" StepType="AD">
-      <PO AD_Table_ID="120" Action="U" Record_ID="0" Table="AD_Menu_Trl">
-        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54817">54817</Data>
-        <Data AD_Column_ID="248" Column="Description" oldValue="Configure the credentials for the Centralized ID Management service.">Configurar las credenciales para el servicio Gestión de ID Centralizado</Data>
-        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="247" Column="Name" oldValue="Configure Centralized ID Management">Configurar la Gestión Centralizada de Identificaciones</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="170" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53221">53221</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
       </PO>
     </Step>
-    <Step SeqNo="180" StepType="AD">
+    <Step SeqNo="170" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53222">53222</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="32">33</Data>
       </PO>
     </Step>
-    <Step SeqNo="190" StepType="AD">
+    <Step SeqNo="180" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53089">53089</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="33">34</Data>
       </PO>
     </Step>
-    <Step SeqNo="200" StepType="AD">
+    <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54442">54442</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="34">35</Data>
       </PO>
     </Step>
-    <Step SeqNo="210" StepType="AD">
+    <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53090">53090</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="35">36</Data>
       </PO>
     </Step>
-    <Step SeqNo="220" StepType="AD">
+    <Step SeqNo="210" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="50001">50001</Data>

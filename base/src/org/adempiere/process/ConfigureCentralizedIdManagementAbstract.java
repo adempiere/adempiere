@@ -24,9 +24,9 @@ import org.compiere.process.SvrProcess;
  *  @author ADempiere (generated) 
  *  @version Release 3.9.3
  */
-public abstract class ConfigureCentralizedIDManagementAbstract extends SvrProcess {
+public abstract class ConfigureCentralizedIdManagementAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "ConfigureCentralizedIDManagement";
+	private static final String VALUE_FOR_PROCESS = "ConfigureCentralizedIdManagement";
 	/** Process Name 	*/
 	private static final String NAME_FOR_PROCESS = "Configure Centralized ID Management";
 	/** Process Id 	*/
