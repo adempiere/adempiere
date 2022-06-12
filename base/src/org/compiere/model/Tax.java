@@ -389,7 +389,6 @@ public class Tax {
 			});
 		});
 
-
 		//
 		if (found.get() && "Y".equals(isTaxExempt.get())) {
 			log.fine("getProduct - Business Partner is Tax exempt");
