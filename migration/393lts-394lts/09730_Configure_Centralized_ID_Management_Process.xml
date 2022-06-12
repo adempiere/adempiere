@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Configure Centralized ID Management Process" ReleaseNo="3.9.4" SeqNo="9730">
+    <Comments>Add process to Configure Centralized ID Management. See https://github.com/adempiere/adempiere/issues/3910</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54621" Table="AD_Process">
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.ConfigureCentralizedIdManagement</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="2805" Column="Created">2022-06-09 22:12:07.112</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2810" Column="Description">Configure the credentials for the Centralized ID Management service.</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="2811" Column="Help">To make changes at the application dictionary level, and to contribute these changes, you need to enable the "Log Migration Script" and "Dictionary Maintenance", located in Tools &gt; Preferences.</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name">Configure Centralized ID Management</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="84383" Column="UUID">82e5c5c1-5cdb-477c-bc28-ac657de7b341</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2022-06-09 22:12:07.112</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="4023" Column="Value">ConfigureCentralizedIdManagement</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2848" Column="Created">2022-06-09 22:12:09.733</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2853" Column="Description">Configurar las credenciales para el servicio Gestión de ID Centralizado</Data>
+        <Data AD_Column_ID="2854" Column="Help">Para realizar cambios a nivel de diccionario de aplicación, y contribuir dichos cambios es necesario que habilite los "Registro de script de migración" y el "Mantenimiento del Diccionario", ubicado en Herramientas &gt; Preferencia.</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2852" Column="Name">Configurar la Gestión Centralizada de Identificadores</Data>
+        <Data AD_Column_ID="84387" Column="UUID">9f26559b-20bc-434f-b305-db40451b4c8b</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2022-06-09 22:12:09.733</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58733" Table="AD_Process_Para">
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58733</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DictionaryWebsite</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-06-09 22:12:10.294</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT Value FROM AD_SysConfig WHERE AD_SysConfig_ID = 50000</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Website where the system sequences are found (MSequence)</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2824" Column="Help">System Configurator = DICTIONARY_ID_WEBSITE</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Dictionary Website</Data>
+        <Data AD_Column_ID="84385" Column="UUID">0a3eb76c-faa4-467f-b471-68025c1beacc</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-06-09 22:12:10.294</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58733</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:11.654</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2841" Column="Description">Sitio web donde se encuentran las secuencias del sistema (MSequence)</Data>
+        <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_WEBSITE</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Sitio Web del Diccionario</Data>
+        <Data AD_Column_ID="84386" Column="UUID">be3d7755-98f0-4c7d-b4a5-61edb5b6283a</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-06-09 22:12:11.654</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58734" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58734</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DictionaryUser</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-06-09 22:12:11.9</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT Value FROM AD_SysConfig WHERE AD_SysConfig_ID = 50001</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">User (developer) to get the system sequences (MSequence)</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2824" Column="Help">System Configurator = DICTIONARY_ID_USER</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Dictionary User</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="84385" Column="UUID">0b947974-bc89-4be9-886a-f9b9b2303c5d</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-06-09 22:12:11.901</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58734</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:13.066</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2841" Column="Description">Usuario (desarrollador) para obtener las secuencias del sistema (MSequence)</Data>
+        <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_USER</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Usuario del Diccionario</Data>
+        <Data AD_Column_ID="84386" Column="UUID">a1ee59fb-a96b-48be-bc12-0345c7d56cbd</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-06-09 22:12:13.066</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58735" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58735</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DictionaryPassword</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-06-09 22:12:13.331</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT Value FROM AD_SysConfig WHERE AD_SysConfig_ID = 50002</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Password to get the system sequences (MSequence)</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2824" Column="Help">System Configurator = DICTIONARY_ID_PASSWORD</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Dictionary Password</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="84385" Column="UUID">50a212c2-cd8f-4309-9a0d-43b19e5fc0b4</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-06-09 22:12:13.331</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58735</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:14.604</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2841" Column="Description">Contraseña para obtener las secuencias del sistema (MSequence)</Data>
+        <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_PASSWORD</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Contraseña del Diccionario</Data>
+        <Data AD_Column_ID="84386" Column="UUID">c23fb56f-8bea-4e1a-80b0-7d99c0088c1a</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-06-09 22:12:14.604</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58736" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58736</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">14</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DictionaryComments</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-06-09 22:12:14.913</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">@SQL=SELECT Value FROM AD_SysConfig WHERE AD_SysConfig_ID = 50003</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Comment to reserve the system sequences (MSequence)</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2824" Column="Help">System Configurator = DICTIONARY_ID_COMMENTS</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Dictionary Comments</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="84385" Column="UUID">b634a7ae-59f5-4163-bba9-da34995da45c</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-06-09 22:12:14.913</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58736</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:16.118</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2841" Column="Description">Comentario para reservar las secuencias del sistema (MSequence)</Data>
+        <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_COMMENTS</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Comentarios del Diccionario</Data>
+        <Data AD_Column_ID="84386" Column="UUID">6733490a-4a65-44d6-9ab6-e1a1376b344a</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-06-09 22:12:16.118</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58737" Table="AD_Process_Para">
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58737</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">IsDictionaryUseCentralizedID</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-06-09 22:12:16.462</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue">Y</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Flag to indicate if we use centralized ID approach or not</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="2824" Column="Help">System Configurator = DICTIONARY_ID_USE_CENTRALIZED_ID</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Is Dictionary Use Centralized ID</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="84385" Column="UUID">feb053a0-8a7a-430d-bc21-a71574e3d336</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-06-09 22:12:16.462</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58737</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-06-09 22:12:17.624</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2841" Column="Description">Bandera para indicar si usa el enfoque de identificador centralizado o no</Data>
+        <Data AD_Column_ID="3743" Column="Help">Configurador del Sistema = DICTIONARY_ID_USE_CENTRALIZED_ID</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Usa Identificador Centralizado de Diccionario</Data>
+        <Data AD_Column_ID="84386" Column="UUID">5f5e7642-dabb-4f94-92b9-6312704a5e4a</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-06-09 22:12:17.624</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54817" Table="AD_Menu">
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54817</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">54621</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="232" Column="Action">P</Data>
+        <Data AD_Column_ID="599" Column="Created">2022-06-09 22:18:35.366</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="230" Column="Description">Configure the credentials for the Centralized ID Management service.</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Configure Centralized ID Management</Data>
+        <Data AD_Column_ID="84344" Column="UUID">f77b8257-cd1f-4109-b9a2-750ff3d3d2a8</Data>
+        <Data AD_Column_ID="601" Column="Updated">2022-06-09 22:18:35.366</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54817</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2022-06-09 22:18:37.199</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="248" Column="Description">Configurar las credenciales para el servicio Gestión de ID Centralizado.</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="247" Column="Name">Configurar la Gestión Centralizada de Identificadores</Data>
+        <Data AD_Column_ID="84345" Column="UUID">c556409b-0d73-4014-bf84-56bfda79f4bb</Data>
+        <Data AD_Column_ID="639" Column="Updated">2022-06-09 22:18:37.199</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2022-06-09 22:18:37.351</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54817</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">153</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">31</Data>
+        <Data AD_Column_ID="84442" Column="UUID">20d07a9d-6586-4a8b-9b8f-c8cb5489a132</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2022-06-09 22:18:37.351</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53221">53221</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53222">53222</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="32">33</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53089">53089</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="33">34</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54442">54442</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="34">35</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53090">53090</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="35">36</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="36">37</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
