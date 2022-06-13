@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add File Size to Attachment Reference" ReleaseNo="3.9.3" SeqNo="5820">
+  <Migration EntityType="D" Name="Add File Size to Attachment Reference" ReleaseNo="3.9.4" SeqNo="5820">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="96334" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">Size of the File in bytes</Data>

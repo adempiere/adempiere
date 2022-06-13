@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Parameter Sales Region for Open Item To Date" ReleaseNo="3.9.3" SeqNo="6500">
+  <Migration EntityType="D" Name="Add Parameter Sales Region for Open Item To Date" ReleaseNo="3.9.4" SeqNo="6500">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="95680" Table="AD_Column">
         <Data AD_Column_ID="84306" Column="UUID">8813f68a-9363-4f0e-9426-c2260cb74e2e</Data>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Employee Birthdate" ReleaseNo="3.9.1" SeqNo="5770">
+  <Migration EntityType="D" Name="Employee Birthdate" ReleaseNo="3.9.4" SeqNo="5770">
     <Comments>Conversion Type for POS</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="91124" Table="AD_Column">

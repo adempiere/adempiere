@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Support to Run one time for Schedule" ReleaseNo="3.9.4" SeqNo="7310">
+  <Migration EntityType="D" Name="Add Support to Run one time for Schedule" ReleaseNo="3.9.4" SeqNo="7380">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="9438" Table="AD_Field">
         <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="true">false</Data>
