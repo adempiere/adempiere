@@ -214,11 +214,11 @@ public class Scheduler extends AdempiereServer
 			}
 		} else {
 			// notify recipients on success
-			Integer[] userIDs = schedulerConfiguration.getRecipientAD_User_IDs();
+			Integer[] userIds = schedulerConfiguration.getRecipientByUserIds();
 			StringBuffer errorsSending = new StringBuffer();
-			if (userIDs.length > 0)  {
+			if (userIds.length > 0)  {
 				ProcessInfoUtil.setLogFromDB(info);
-				Arrays.asList(userIDs).forEach(userId -> {
+				Arrays.asList(userIds).forEach(userId -> {
 					AtomicReference<File> report = new AtomicReference<File>();
 					if (isReport) {
 						//	Report
