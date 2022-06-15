@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="09470_3830_Close_Order_Does_Not_Update_Taxes" ReleaseNo="" SeqNo="9470">
+  <Migration EntityType="D" Name="09470_3830_Close_Order_Does_Not_Update_Taxes" ReleaseNo="3.9.4" SeqNo="9470">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53732" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>

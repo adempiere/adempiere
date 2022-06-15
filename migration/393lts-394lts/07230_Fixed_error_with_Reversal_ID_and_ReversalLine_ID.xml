@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Migrations>
-  <Migration EntityType="ECA02" Name="Fixed error with Reversal ID and ReversalLine ID" ReleaseNo="3.9.4" SeqNo="7230">
-    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
-      <SQLStatement>UPDATE AD_Column SET IsAllowCopy = 'N' WHERE ColumnName IN('Reversal_ID', 'ReversalLine_ID', 'Processed', 'ProcessedOn', 'Processing', 'Posted', 'DocStatus', 'DocAction');
-UPDATE AD_Field SET IsAllowCopy = 'N' WHERE EXISTS(SELECT 1 FROM AD_Column WHERE AD_Column_ID = AD_Field.AD_Column_ID AND ColumnName IN('Reversal_ID', 'ReversalLine_ID', 'Processed', 'ProcessedOn', 'Processing', 'Posted', 'DocStatus', 'DocAction'));</SQLStatement>
-    </Step>
-  </Migration>
-</Migrations>

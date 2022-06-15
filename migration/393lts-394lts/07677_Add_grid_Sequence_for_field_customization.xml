@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add grid Sequence for field customization" ReleaseNo="3.9.4" SeqNo="7677">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="92659" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">N</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true" oldValue="319"/>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="17">20</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">IsDisplayedGrid</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="106" Action="I" Record_ID="55055" Table="AD_Tab">
+        <Data AD_Column_ID="163" Column="Help">The Field Tab defines the Fields displayed within a tab.  Changes made to the Field Tab become visible after restart due to caching. If the Sequence is negative, the record are ordered descending. Note that the name, description and help is automatically synchronized if centrally maintained.</Data>
+        <Data AD_Column_ID="2741" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="160" Column="AD_Tab_ID">55055</Data>
+        <Data AD_Column_ID="166" Column="IsSingleRow">false</Data>
+        <Data AD_Column_ID="161" Column="Name">Field Grid Sequence</Data>
+        <Data AD_Column_ID="1183" Column="HasTree">false</Data>
+        <Data AD_Column_ID="2044" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="13995" Column="IsAdvancedTab">false</Data>
+        <Data AD_Column_ID="574" Column="Created">2021-04-15 12:32:30.986</Data>
+        <Data AD_Column_ID="576" Column="Updated">2021-04-15 12:32:30.986</Data>
+        <Data AD_Column_ID="7028" Column="AD_ColumnSortYesNo_ID">92659</Data>
+        <Data AD_Column_ID="573" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2742" Column="OrderByClause">SeqNo</Data>
+        <Data AD_Column_ID="162" Column="Description">Field definitions in fields in table windows</Data>
+        <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
+        <Data AD_Column_ID="7027" Column="IsSortTab">true</Data>
+        <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="2042" Column="IsInfoTab">false</Data>
+        <Data AD_Column_ID="6487" Column="ImportFields" isNewNull="true"/>
+        <Data AD_Column_ID="13449" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13450" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13994" Column="IsInsertRecord">true</Data>
+        <Data AD_Column_ID="164" Column="AD_Window_ID">229</Data>
+        <Data AD_Column_ID="165" Column="SeqNo">90</Data>
+        <Data AD_Column_ID="8547" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="575" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="577" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7713" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3374" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="251" Column="AD_Table_ID">464</Data>
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6313" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7029" Column="AD_ColumnSortOrder_ID">92667</Data>
+        <Data AD_Column_ID="6654" Column="TabLevel">2</Data>
+        <Data AD_Column_ID="57842" Column="Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84423" Column="UUID">60541daf-5239-487f-93de-09b153e88625</Data>
+        <Data AD_Column_ID="88914" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4207" Column="Processing">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="123" Action="I" Record_ID="55055" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="267" Column="Description">Field definitions in fields in table windows</Data>
+        <Data AD_Column_ID="654" Column="Updated">2021-04-15 12:32:32.966</Data>
+        <Data AD_Column_ID="651" Column="IsActive">true</Data>
+        <Data AD_Column_ID="652" Column="Created">2021-04-15 12:32:32.966</Data>
+        <Data AD_Column_ID="266" Column="Name">Field Grid Sequence</Data>
+        <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="268" Column="Help">The Field Tab defines the Fields displayed within a tab.  Changes made to the Field Tab become visible after restart due to caching. If the Sequence is negative, the record are ordered descending. Note that the name, description and help is automatically synchronized if centrally maintained.</Data>
+        <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID">55055</Data>
+        <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="265" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84424" Column="UUID">b0ffd58f-0a15-42bc-a100-7a38e779a075</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="123" Action="U" Record_ID="55055" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="267" Column="Description" oldValue="Field definitions in fields in table windows">Secuencia de Campos en modo Tabla</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Field Grid Sequence">Secuencia en Tabla</Data>
+        <Data AD_Column_ID="268" Column="Help" oldValue="The Field Tab defines the Fields displayed within a tab.  Changes made to the Field Tab become visible after restart due to caching. If the Sequence is negative, the record are ordered descending. Note that the name, description and help is automatically synchronized if centrally maintained.">Define la secuencia de las columnas cuando la información se muestra como tabla y no como mono-registro</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="55055">55055</Data>
+        <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="55055" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="90">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="395" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54756" Table="AD_Tab">
+        <Data AD_Column_ID="165" Column="SeqNo" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
+      <SQLStatement>UPDATE AD_FieldCustom SET SeqNoGrid = (SELECT CASE WHEN COALESCE(SeqNoGrid, 0) = 0 THEN SeqNo ELSE SeqNoGrid END FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID) WHERE IsDisplayedGrid IS NULL;
+UPDATE AD_FieldCustom SET IsDisplayedGrid = 'Y' WHERE IsDisplayedGrid IS NULL AND IsDisplayed = 'Y' AND EXISTS(SELECT 1 FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID AND IsDisplayedGrid = 'Y');
+UPDATE AD_FieldCustom SET IsDisplayedGrid = 'N' WHERE IsDisplayedGrid IS NULL;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Function Daily Salary by HR Procress" ReleaseNo="3.9.4" SeqNo="7680">
+  <Migration EntityType="D" Name="Add Function Daily Salary by HR Process" ReleaseNo="3.9.4" SeqNo="7680">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE FUNCTION dailySalaryToDateByHRProcess(p_C_BPartner_ID numeric, p_HR_Process_ID numeric, DateTo timestamp with time zone)
   RETURNS numeric AS
