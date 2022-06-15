@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.spin.queue.notification.support;
 
-import java.util.Arrays;
-
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
@@ -29,9 +26,14 @@ import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.spin.queue.notification.model.MADNotificationQueue;
 
+import java.util.Arrays;
+
 /**
  * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
- * Implementation of email sender for backward compatibility  
+ * Implementation of email sender for backward compatibility
+ * @author Raul Capecce, raul.capecce@openupsolutions.com, Openup Solutions
+ * 			<a href="https://github.com/adempiere/adempiere/issues/3899">
+ * 			@see FR [ 3899 ] [Bug Report] A Request with a closed status does not stop sending email notifications</a>
  */
 public class EMailSender implements INotification {
 
@@ -61,6 +63,7 @@ public class EMailSender implements INotification {
 	public void sendNotification(MADNotificationQueue notification) {
 		StringBuffer errorMessage = new StringBuffer();
 		notification.getRecipients().forEach(recipient -> {
+			StringBuffer recipientErrorMessage = new StringBuffer();
 			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
 			String eMailFrom = client.getRequestEMail();
 			MUser fromUser = null;
@@ -77,10 +80,11 @@ public class EMailSender implements INotification {
 			);
 			if (!email.isValid() && !email.isValid(true)) {
 				log.warning("NOT VALID - " + email);
-				if(errorMessage.length() > 0) {
-					errorMessage.append(Env.NL);
+				if(recipientErrorMessage.length() > 0) {
+					recipientErrorMessage.append(Env.NL);
 				}
-				errorMessage.append("NOT VALID - ").append(email);
+				recipientErrorMessage.append("NOT VALID - " + email);
+				recipient.setIsActive(false);
 			} else {
 				//	For Custom EMail Server
 				if(fromUser != null && fromUser.getAD_EMailConfig_ID() > 0) {
@@ -109,20 +113,15 @@ public class EMailSender implements INotification {
 		            log.fine("EMail Sent: " + recipient.getAccountName());
 		            recipient.setProcessed(true);
 		        } else {
-		        	if(errorMessage.length() > 0) {
-						errorMessage.append(Env.NL);
+					recipient.setIsActive(false);
+					if(recipientErrorMessage.length() > 0) {
+						recipientErrorMessage.append(Env.NL);
 					}
-		        	errorMessage.append("Error: Sending to: ").append(recipient.getAccountName());
-		        	recipient.setErrorMsg("Error: Sending to: " + recipient.getAccountName());
+		        	recipientErrorMessage.append("Error: Sending to: " + recipient.getAccountName());
 		        }
-				recipient.saveEx();
 				//	Backward compatibility
 				if(recipient.getAD_User_ID() > 0) {
-					X_AD_UserMail userMail = new X_AD_UserMail(
-							notification.getCtx(),
-							0,
-							notification.get_TrxName()
-					);
+					X_AD_UserMail userMail = new X_AD_UserMail(notification.getCtx(), 0, notification.get_TrxName());
 					userMail.setAD_Org_ID(notification.getAD_Org_ID());
 					userMail.setAD_User_ID(recipient.getAD_User_ID());
 					userMail.setSubject(email.getSubject());
@@ -136,10 +135,15 @@ public class EMailSender implements INotification {
 					userMail.saveEx();
 				}
 			}
+			if (recipientErrorMessage.length() > 0) {
+				errorMessage.append(recipientErrorMessage);
+				recipient.setErrorMsg(recipientErrorMessage.toString());
+			}
+			if (recipient.is_Changed()) {
+				recipient.saveEx();
+			}
 		});
-		if(errorMessage.length() > 0) {
-			throw new AdempiereException(errorMessage.toString());
-		}
+
 	}
 
 }
