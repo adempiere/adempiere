@@ -56,7 +56,7 @@ import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.I_DD_Order;
+import org.compiere.util.RefactoryUtil;
 import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
@@ -1249,7 +1249,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Distribution Order
 		 */
-		else if (tableId == I_DD_Order.Table_ID)
+		else if (tableId == RefactoryUtil.DD_Order_Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)

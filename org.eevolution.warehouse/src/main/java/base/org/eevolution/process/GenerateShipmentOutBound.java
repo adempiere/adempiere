@@ -48,9 +48,10 @@ import org.compiere.model.MStorage;
 import org.compiere.model.PO;
 import org.compiere.model.X_C_Order;
 import org.compiere.process.ProcessInfo;
-import org.eevolution.model.I_DD_Order;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
+import org.eevolution.fleet.model.I_DD_Order;
+import org.eevolution.fleet.model.MDDOrder;
+import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.fleet.process.MovementGenerate;
 import org.eevolution.model.MPPCostCollector;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderBOMLine;
@@ -134,11 +135,11 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         }
         // Generate Delivery Movement
         if (outboundLine.getDD_OrderLine_ID() > 0) {
-            MDDOrderLine distributionOrderLine = (MDDOrderLine) outboundLine.getDD_OrderLine();
+            MDDOrderLine distributionOrderLine = new MDDOrderLine(outboundLine.getCtx(), outboundLine.getDD_OrderLine_ID(), outboundLine.get_TrxName());
             distributionOrderLine.setDescription(outboundLine.getDescription());
 
             if (distributionOrders.get(distributionOrderLine.getDD_Order_ID()) == null)
-                distributionOrders.put(distributionOrderLine.getDD_Order_ID(), distributionOrderLine.getDD_Order());
+                distributionOrders.put(distributionOrderLine.getDD_Order_ID(), distributionOrderLine.getParent());
 
             distributionOrderLine.setConfirmedQty(getDistributionOrderQtyToDelivery(outboundLine, distributionOrderLine));
             distributionOrderLine.saveEx();

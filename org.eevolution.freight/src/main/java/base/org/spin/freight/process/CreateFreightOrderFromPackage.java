@@ -28,9 +28,9 @@ import org.compiere.model.MFreight;
 import org.compiere.model.MFreightCategory;
 import org.compiere.model.MPackage;
 import org.compiere.util.Env;
-import org.eevolution.model.I_DD_Freight;
-import org.eevolution.model.MDDFreight;
-import org.eevolution.model.MDDFreightLine;
+import org.eevolution.fleet.model.I_DD_Freight;
+import org.eevolution.fleet.model.MDDFreight;
+import org.eevolution.fleet.model.MDDFreightLine;
 
 /** 
  * 	Generated Process for (Create Freight Order From Package)

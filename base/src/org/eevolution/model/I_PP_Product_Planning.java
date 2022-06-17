@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_Planning
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_PP_Product_Planning 
 {
@@ -106,8 +107,6 @@ public interface I_PP_Product_Planning
 	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
 	  */
 	public int getDD_NetworkDistribution_ID();
-
-	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -317,6 +316,21 @@ public interface I_PP_Product_Planning
 	  */
 	public BigDecimal getOrder_Qty();
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner.
+	  * Company Agent for Planning
+	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner.
+	  * Company Agent for Planning
+	  */
+	public int getPlanner_ID();
+
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
+
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -345,20 +359,18 @@ public interface I_PP_Product_Planning
 	  */
 	public int getPP_Product_Planning_ID();
 
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+    /** Column name SafetyStock */
+    public static final String COLUMNNAME_SafetyStock = "SafetyStock";
 
-	/** Set Planner.
-	  * Company Agent for Planning
+	/** Set Safety Stock Qty.
+	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
 	  */
-	public void setPlanner_ID (int Planner_ID);
+	public void setSafetyStock (BigDecimal SafetyStock);
 
-	/** Get Planner.
-	  * Company Agent for Planning
+	/** Get Safety Stock Qty.
+	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
 	  */
-	public int getPlanner_ID();
-
-	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
+	public BigDecimal getSafetyStock();
 
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
@@ -374,19 +386,6 @@ public interface I_PP_Product_Planning
 	public int getS_Resource_ID();
 
 	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
-
-    /** Column name SafetyStock */
-    public static final String COLUMNNAME_SafetyStock = "SafetyStock";
-
-	/** Set Safety Stock Qty.
-	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock);
-
-	/** Get Safety Stock Qty.
-	  * Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock();
 
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";
@@ -414,19 +413,6 @@ public interface I_PP_Product_Planning
 	  */
 	public BigDecimal getTransferTime();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -442,6 +428,19 @@ public interface I_PP_Product_Planning
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WorkingTime */
     public static final String COLUMNNAME_WorkingTime = "WorkingTime";

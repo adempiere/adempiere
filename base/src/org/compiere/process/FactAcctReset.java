@@ -53,9 +53,9 @@ import org.compiere.model.X_A_Depreciation_Entry;
 import org.compiere.model.X_M_Production;
 import org.compiere.model.X_M_ProductionBatch;
 import org.compiere.util.DB;
+import org.compiere.util.RefactoryUtil;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
-import org.eevolution.model.X_DD_Order;
 import org.eevolution.model.X_HR_Process;
 import org.eevolution.model.X_PP_Cost_Collector;
 import org.eevolution.model.X_PP_Order;
@@ -339,7 +339,7 @@ public class FactAcctReset extends FactAcctResetAbstract {
                     + "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "')";
-        else if (tableId == X_DD_Order.Table_ID)
+        else if (tableId == RefactoryUtil.DD_Order_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder + "'";
         else if (tableId == X_HR_Process.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll + "'";

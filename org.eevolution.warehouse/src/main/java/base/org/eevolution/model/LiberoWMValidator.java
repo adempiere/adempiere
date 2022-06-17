@@ -21,6 +21,7 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.eevolution.fleet.model.MDDOrderLine;
 
 import java.math.BigDecimal;
 

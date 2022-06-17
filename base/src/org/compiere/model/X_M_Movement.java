@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -26,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_Movement extends PO implements I_M_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220616L;
 
     /** Standard Constructor */
     public X_M_Movement (Properties ctx, int M_Movement_ID, String trxName)
@@ -346,6 +347,26 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -374,26 +395,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Create lines from.
 		@param CreateFrom 
 		Process which will generate a new document lines based on an existing document
@@ -411,10 +412,22 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_CreateFrom);
 	}
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException
-    {
-		return (org.eevolution.model.I_DD_Order)MTable.get(getCtx(), org.eevolution.model.I_DD_Order.Table_Name)
-			.getPO(getDD_Order_ID(), get_TrxName());	}
+	/** Set Date received.
+		@param DateReceived 
+		Date a product was received
+	  */
+	public void setDateReceived (Timestamp DateReceived)
+	{
+		set_Value (COLUMNNAME_DateReceived, DateReceived);
+	}
+
+	/** Get Date received.
+		@return Date a product was received
+	  */
+	public Timestamp getDateReceived () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
+	}
 
 	/** Set Distribution Order.
 		@param DD_Order_ID Distribution Order	  */
@@ -434,23 +447,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Date received.
-		@param DateReceived 
-		Date a product was received
-	  */
-	public void setDateReceived (Timestamp DateReceived)
-	{
-		set_Value (COLUMNNAME_DateReceived, DateReceived);
-	}
-
-	/** Get Date received.
-		@return Date a product was received
-	  */
-	public Timestamp getDateReceived () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateReceived);
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -764,6 +760,23 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
 	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
     {
 		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
@@ -815,23 +828,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Order Reference.
@@ -1026,23 +1022,6 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -1153,5 +1132,22 @@ public class X_M_Movement extends PO implements I_M_Movement, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

@@ -31,6 +31,9 @@
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
         <include name="*.jar"/>
     </fileset>
+  	<fileset dir="${adempiere.trunk}/org.eevolution.fleet/dist/lib">
+  	  <include name="*.jar"/>
+  	</fileset>
   </path>
 
   <target name="init" depends="clean">

@@ -43,6 +43,8 @@ import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.fleet.model.MDDOrder;
+import org.eevolution.fleet.model.MDDOrderLine;
 
 
 /**

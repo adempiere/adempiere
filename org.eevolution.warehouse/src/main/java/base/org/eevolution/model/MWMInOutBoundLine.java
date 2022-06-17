@@ -46,6 +46,7 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.eevolution.fleet.model.MDDOrderLine;
 
 /**
  * Class Model for Inbound & Outbound Operation Line
@@ -273,12 +274,12 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 			});
 			return quantityToDeliver.get();
 		} else if(getDD_OrderLine_ID() != 0) {
-			Optional<I_DD_OrderLine> maybeOrderLine = Optional.ofNullable(getDD_OrderLine());
 			AtomicReference<BigDecimal> quantityToDeliver = new AtomicReference<>(BigDecimal.ZERO);
-			maybeOrderLine.ifPresent( orderLine -> {
+			if(getDD_OrderLine_ID() > 0) {
+				MDDOrderLine orderLine = new MDDOrderLine(getCtx(), getDD_OrderLine_ID(), get_TrxName());
 				BigDecimal convertedQuantity = MUOMConversion.convertProductFrom(getCtx(), orderLine.getM_Product_ID(), orderLine.getC_UOM_ID(), orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
 				quantityToDeliver.set(convertedQuantity);
-			});
+			}
 			return quantityToDeliver.get();
 		}
 		//	Return
