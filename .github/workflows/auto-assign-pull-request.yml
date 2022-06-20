@@ -1,0 +1,16 @@
+# This pull request sets the assignee to the user who creates the pull request
+name: Pull Request Assignment
+
+on:
+    pull_request:
+        types: [opened]
+
+jobs:
+    auto-assign:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 'Auto-assign pullrequest'
+              uses: pozil/auto-assign-issue@v1
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  assignees: ${{github.actor}} 
