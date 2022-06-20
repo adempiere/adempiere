@@ -676,11 +676,6 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	public org.eevolution.model.I_WM_InOutBound getWM_InOutBound() throws RuntimeException
-    {
-		return (org.eevolution.model.I_WM_InOutBound)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBound.Table_Name)
-			.getPO(getWM_InOutBound_ID(), get_TrxName());	}
-
 	/** Set In & Out Bound Order.
 		@param WM_InOutBound_ID In & Out Bound Order	  */
 	public void setWM_InOutBound_ID (int WM_InOutBound_ID)

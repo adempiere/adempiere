@@ -413,6 +413,4 @@ public interface I_DD_Freight
 
 	/** Get In & Out Bound Order	  */
 	public int getWM_InOutBound_ID();
-
-	public org.eevolution.model.I_WM_InOutBound getWM_InOutBound() throws RuntimeException;
 }

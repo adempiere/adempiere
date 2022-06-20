@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE03" Name="Rename package for WMS processes" ReleaseNo="3.9.4" SeqNo="9780">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53186" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.GenerateInOutBound">org.eevolution.wms.process.GenerateInOutBound</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53185" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.GenerateShipmentOutBound">org.eevolution.wms.process.GenerateShipmentOutBound</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53350" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingInvoiceSelection">org.eevolution.wms.process.ProcessingInvoiceSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53885" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingOrderSelection">org.eevolution.wms.process.ProcessingOrderSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53184" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ReleaseInOutBound">org.eevolution.wms.process.ReleaseInOutBound</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54277" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GenerateInvoiceInOutBound">org.spin.wms.process.GenerateInvoiceInOutBound</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53079" Table="AD_Form">
+        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.spin.form.VOutBoundOrder">org.spin.wms.form.VOutBoundOrder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53029" Table="AD_Form">
+        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.eevolution.form.VExpressReceiptScanBarUI">org.eevolution.wms.service.VExpressReceiptScanBarUI</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="100" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.wms.model.validator.WarehouseManagement' WHERE ModelValidationClass = 'org.eevolution.model.LiberoWMValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.model.LiberoWMValidator' WHERE ModelValidationClass = 'org.eevolution.wms.model.validator.WarehouseManagement';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

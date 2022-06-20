@@ -22,7 +22,7 @@ import org.compiere.model.MClientInfo;
 import org.eevolution.fleet.model.I_DD_Freight;
 import org.eevolution.fleet.model.MDDFreight;
 import org.eevolution.fleet.model.MDDFreightLine;
-import org.eevolution.model.MWMInOutBound;
+import org.eevolution.wms.model.MWMInOutBound;
 
 /** 
  * 	Generate Freight Order from Outbound

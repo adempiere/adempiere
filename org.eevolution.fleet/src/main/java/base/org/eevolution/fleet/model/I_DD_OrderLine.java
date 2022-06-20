@@ -700,6 +700,4 @@ public interface I_DD_OrderLine
 
 	/** Get Inbound & Outbound Order Line	  */
 	public int getWM_InOutBoundLine_ID();
-
-	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }

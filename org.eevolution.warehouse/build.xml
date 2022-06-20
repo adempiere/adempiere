@@ -70,6 +70,8 @@
     <!-- Transfer liberoWM.jar -->
     <copy file="${dist}/lib/WarehouseManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/WarehouseManagement/lib"/>
     <copy file="${dist}/lib/WarehouseManagement.jar" todir="${adempiere.trunk}/packages/"/>
+  	<copy file="../tools/lib/legacy/wms-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/WarehouseManagement/lib" />
+  	<copy file="../tools/lib/legacy/wms-support-legacy-1.0.0.jar" todir="../packages/" />
 
   </target>
 
