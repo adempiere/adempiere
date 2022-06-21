@@ -23,6 +23,7 @@ jobs:
             #      #repo-token: ${{ secrets.GITHUB_TOKEN }}
             #      assignees: ${{github.actor}} 
             - name: 'Sets label 09 Pending Peer Review'
+              if: ${{ always() }}
               uses: actions-ecosystem/action-add-labels@v1
               with:
                 labels: 09 Pending Peer Review
