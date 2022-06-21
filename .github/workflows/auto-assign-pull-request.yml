@@ -13,7 +13,7 @@ jobs:
             - name: 'Auto-assign pullrequest'
               uses: pozil/auto-assign-issue@v1.7.1
               with:
-                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  #repo-token: ${{ secrets.GITHUB_TOKEN }}
                   assignees: ${{github.actor}} 
             - name: 'Sets label 09 Pending Peer Review'
               uses: actions-ecosystem/action-add-labels@v1
