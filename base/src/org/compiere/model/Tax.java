@@ -28,6 +28,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.ResultSetIterable;
+import org.compiere.util.Env;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -229,24 +230,26 @@ public class Tax {
 
 		});
 
-		if ("Y".equals (isTaxExempt.get()))
-		{
-			return getExemptTax (ctx, orgId);
-		}
-		else if ("N".equals(isTaxExempt.get())) {
+		if ("Y".equals(isTaxExempt.get())) {
+			return getExemptTax(ctx, orgId);
+		} else if ("N".equals(isTaxExempt.get())) {
 
-			MOrg org = new MOrg(ctx, orgId, trxName);
-			int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
-			MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+			Boolean useTaxExemptOrg = MSysConfig.getBooleanValue("VALIDATE_EXEMPT_TAXES_BASED_ON_ORGANIZATION",
+					false, Env.getAD_Client_ID(ctx));
 
-			if (linkPartner.get_ID() > 0) {
-				if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
-					log.fine("getProduct - Business Partner is Tax exempt");
-					return getExemptTax(ctx, orgId);
+			if (useTaxExemptOrg) {
+				MOrg org = new MOrg(ctx, orgId, trxName);
+				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
+				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+
+				if (linkPartner.get_ID() > 0) {
+					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, orgId);
+					}
 				}
 			}
 		}
-
 
 		//	Reverese for PO
 		if (!IsSOTrx)
@@ -395,33 +398,39 @@ public class Tax {
 			return getExemptTax(ctx, AD_Org_ID);
 		} else if (found.get() && "N".equals(isTaxExempt.get())) {
 
-			MOrg org = new MOrg(ctx, AD_Org_ID, trxName);
-			int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
-			MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+			Boolean useTaxExemptOrg = MSysConfig.getBooleanValue("VALIDATE_EXEMPT_TAXES_BASED_ON_ORGANIZATION",
+					false, Env.getAD_Client_ID(ctx));
 
-			if (linkPartner.get_ID() > 0) {
-				if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
-					log.fine("getProduct - Business Partner is Tax exempt");
-					return getExemptTax(ctx, AD_Org_ID);
+			if (useTaxExemptOrg) {
+				MOrg org = new MOrg(ctx, AD_Org_ID, trxName);
+				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
+				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
+
+				if (linkPartner.get_ID() > 0) {
+					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, AD_Org_ID);
+					}
 				}
-			} else {
-				if (!IsSOTrx) {
-					int temp = billFromLocationId.get();
-					billFromLocationId.set(billToLocationId.get());
-					billToLocationId.set(temp);
-					temp = shipFromLocationId.get();
-					shipFromLocationId.set(shipToLocationId.get());
-					shipToLocationId.set(temp);
-				}
-				log.fine("getProduct - C_TaxCategory_ID=" + taxCategoryId.get()
-						+ ", billFromC_Location_ID=" + billFromLocationId.get()
-						+ ", billToC_Location_ID=" + billToLocationId.get()
-						+ ", shipFromC_Location_ID=" + shipFromLocationId.get()
-						+ ", shipToC_Location_ID=" + shipToLocationId.get());
-				return get(ctx, taxCategoryId.get(), IsSOTrx,
-						shipDate, shipFromLocationId.get(), shipToLocationId.get(),
-						billDate, billFromLocationId.get(), billToLocationId.get(), trxName);
 			}
+
+			if (!IsSOTrx) {
+				int temp = billFromLocationId.get();
+				billFromLocationId.set(billToLocationId.get());
+				billToLocationId.set(temp);
+				temp = shipFromLocationId.get();
+				shipFromLocationId.set(shipToLocationId.get());
+				shipToLocationId.set(temp);
+			}
+			log.fine("getProduct - C_TaxCategory_ID=" + taxCategoryId.get()
+					+ ", billFromC_Location_ID=" + billFromLocationId.get()
+					+ ", billToC_Location_ID=" + billToLocationId.get()
+					+ ", shipFromC_Location_ID=" + shipFromLocationId.get()
+					+ ", shipToC_Location_ID=" + shipToLocationId.get());
+			return get(ctx, taxCategoryId.get(), IsSOTrx,
+					shipDate, shipFromLocationId.get(), shipToLocationId.get(),
+					billDate, billFromLocationId.get(), billToLocationId.get(), trxName);
+
 		}
 
 		// ----------------------------------------------------------------
