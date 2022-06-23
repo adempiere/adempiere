@@ -1494,19 +1494,19 @@ public final class EMail implements Serializable
 
 		try
 		{
-			String msg = email.send();
-			if (EMail.SENT_OK.equals (msg))
+			String returnMessage = email.send();
+			if (EMail.SENT_OK.equals (returnMessage))
 			{
 				log.info("Sent Test EMail to " + requestEMail);
 				return "OK";
 			}
 			else
 			{
-				MEMailConfig meMailConfig = new MEMailConfig(ctx, eMailConfigId, null);
+				MEMailConfig mailConfig = new MEMailConfig(ctx, eMailConfigId, null);
 				log.warning("Could NOT send Test EMail from "
-						+ meMailConfig.getSMTPHost() + ": " + requestEMail
-						+ " to " + requestEMail + ": " + msg);
-				return msg;
+						+ mailConfig.getSMTPHost() + ": " + requestEMail
+						+ " to " + requestEMail + ": " + returnMessage);
+				return returnMessage;
 			}
 		}
 		catch (Exception ex)

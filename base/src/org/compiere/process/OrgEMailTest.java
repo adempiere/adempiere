@@ -37,8 +37,10 @@ public class OrgEMailTest extends OrgEMailTestAbstract
 	protected String doIt() throws Exception
 	{
 		MOrgInfo orgInfo = MOrgInfo.get(getCtx(), getOrgId(), get_TrxName());
-		log.info(orgInfo.toString());
-
-		return EMail.validateMailDelivery(getCtx(), orgInfo.getEMail(), orgInfo.getRequestUserPW(), orgInfo.getAD_EMailConfig_ID(), getName());
+		if (orgInfo != null) {
+			log.info(orgInfo.toString());
+			return EMail.validateMailDelivery(getCtx(), orgInfo.getEMail(), orgInfo.getRequestUserPW(), orgInfo.getAD_EMailConfig_ID(), getName());
+		}
+		return "@AD_OrgInfo_ID@ @not.found@";
 	}
 }

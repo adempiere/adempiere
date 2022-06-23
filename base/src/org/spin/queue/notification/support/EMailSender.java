@@ -64,17 +64,17 @@ public class EMailSender implements INotification {
 		StringBuffer errorMessage = new StringBuffer();
 		notification.getRecipients().forEach(recipient -> {
 			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
-			String eMailFrom = client.getRequestEMail();
-			String eMailPsw = client.getRequestUserPW();
+			String requestEMail = client.getRequestEMail();
+			String requestEmailPassword = client.getRequestUserPW();
 			int eMailConfigId = client.getAD_EMailConfig_ID();
 
 			if (notification.getAD_Org_ID() > 0) {
-				MOrg mOrg = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
-				MOrgInfo mOrgInfo = mOrg.getInfo();
-				if (mOrgInfo.getEMail() != null && mOrgInfo.getAD_EMailConfig_ID() > 0 && mOrgInfo.getRequestUserPW() != null) {
-					eMailFrom = mOrgInfo.getEMail();
-					eMailPsw = mOrgInfo.getRequestUserPW();
-					eMailConfigId = mOrgInfo.getAD_EMailConfig_ID();
+				MOrg organization = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
+				MOrgInfo organizationInformation = organization.getInfo();
+				if (organizationInformation.getEMail() != null && organizationInformation.getAD_EMailConfig_ID() > 0 && organizationInformation.getRequestUserPW() != null) {
+					requestEMail = organizationInformation.getEMail();
+					requestEmailPassword = organizationInformation.getRequestUserPW();
+					eMailConfigId = organizationInformation.getAD_EMailConfig_ID();
 				}
 			}
 
@@ -85,7 +85,7 @@ public class EMailSender implements INotification {
 			//	Create instance
 			EMail email = new EMail(client,
 					eMailConfigId,
-					eMailFrom,
+					requestEMail,
 					recipient.getAccountName(),
 					notification.getDescription(),
 					notification.getText(),
@@ -106,7 +106,7 @@ public class EMailSender implements INotification {
 				} else {
 					MEMailConfig eMailConfig = MEMailConfig.get(client.getCtx(), eMailConfigId);
 					if (eMailConfig.isSmtpAuthorization()) {
-						email.createAuthenticator (eMailFrom, eMailPsw);
+						email.createAuthenticator (requestEMail, requestEmailPassword);
 					}
 				}
 				//	Subject
