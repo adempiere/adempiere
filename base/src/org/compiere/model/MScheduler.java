@@ -203,32 +203,23 @@ public class MScheduler extends X_AD_Scheduler
 	}	//	getRecipients
 
 	/**
-	 * 	Get Recipient AD_User_IDs
+	 * 	Get Recipient User Ids
 	 *	@return array of user IDs
 	 */
-	public Integer[] getRecipientAD_User_IDs()
+	public Integer[] getRecipientByUserIds()
 	{
 		TreeSet<Integer> list = new TreeSet<Integer>();
-		MSchedulerRecipient[] recipients = getRecipients(false);
-		for (int i = 0; i < recipients.length; i++)
-		{
-			MSchedulerRecipient recipient = recipients[i];
-			if (!recipient.isActive())
+		for (MSchedulerRecipient schedulerRecipient : getRecipients(true)) {
+			if (!schedulerRecipient.isActive())
 				continue;
-			if (recipient.getAD_User_ID() != 0)
-			{
-				list.add(recipient.getAD_User_ID());
+			if (schedulerRecipient.getAD_User_ID() != 0) {
+				list.add(schedulerRecipient.getAD_User_ID());
 			}
-			if (recipient.getAD_Role_ID() != 0)
-			{
-				MUserRoles[] urs = MUserRoles.getOfRole(getCtx(), recipient.getAD_Role_ID());
-				for (int j = 0; j < urs.length; j++)
-				{
-					MUserRoles ur = urs[j];
-					if (!ur.isActive())
+			if (schedulerRecipient.getAD_Role_ID() != 0) {
+				for (MUserRoles userRoles : MUserRoles.getOfRole(getCtx(), schedulerRecipient.getAD_Role_ID())) {
+					if (!userRoles.isActive())
 						continue;
-					if (!list.contains(ur.getAD_User_ID()))
-						list.add(ur.getAD_User_ID());
+					list.add(userRoles.getAD_User_ID());
 				}
 			}
 		}
