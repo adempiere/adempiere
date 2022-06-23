@@ -37,6 +37,9 @@ import org.compiere.util.Msg;
  *  
  *  Contributors:
  *    Carlos Ruiz - globalqss - FR [3135351] - Enable Scheduler for buttons
+ *  @author Raul Capecce, raul.capecce@openupsolutions.com, OpenupSolutions https://openupsolutions.com
+ *			<a href="https://github.com/adempiere/adempiere/issues/3924">
+ * 			@see FR [ 3924 ] Notification created of each process can't be deactivate</a>
  */
 public class MScheduler extends X_AD_Scheduler
 	implements AdempiereProcessor, AdempiereProcessor2
@@ -223,11 +226,7 @@ public class MScheduler extends X_AD_Scheduler
 				}
 			}
 		}
-		//	Add Updater
-		if (list.size() == 0)
-		{
-			list.add(getCreatedBy());
-		}
+
 		//
 		return list.toArray(new Integer[list.size()]);
 	}	//	getRecipientAD_User_IDs
