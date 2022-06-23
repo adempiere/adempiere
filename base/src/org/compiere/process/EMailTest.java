@@ -18,7 +18,8 @@ package org.compiere.process;
 
 import java.io.File;
 
-import org.compiere.model.*;
+import org.compiere.model.MClient;
+import org.compiere.model.MStore;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 
@@ -53,17 +54,7 @@ public class EMailTest extends SvrProcess
 		log.info(client.toString());
 
 		//	 Test Client Mail
-		int tableId = getTable_ID();
-		String clientTest = "";
-		if (tableId == I_AD_Client.Table_ID) {
-			clientTest = client.testEMail();
-		} else if (tableId == I_AD_OrgInfo.Table_ID) {
-			System.out.println("getRecord_ID() = " + getRecord_ID());
-
-//			MOrgInfo = new Query(getCtx(), I_AD_OrgInfo.Table_Name, I_AD_OrgInfo.COLUMNNAME_AD_Org_ID)
-//			MOrgInfo mOrgInfo = new MOrgInfo(getCtx(), getRecord_ID(), get_TrxName());
-//			String ret = EMail.validateMailDelivery(getCtx(), getRequestEMail(), getAD_EMailConfig_ID(), getName());
-		}
+		String clientTest = client.testEMail();
 		addLog(0, null, null, client.getName() + ": " + clientTest);
 		
 		//	Test Client DocumentDir
