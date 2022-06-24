@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple3;
-import io.vavr.Tuple7;
 import io.vavr.collection.List;
 import org.adempiere.exceptions.TaxCriteriaNotFoundException;
 import org.adempiere.exceptions.TaxForChangeNotFoundException;
@@ -29,9 +28,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.ResultSetIterable;
 import org.compiere.util.Env;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -185,49 +181,64 @@ public class Tax {
 		AtomicReference<String> isTaxExempt = new AtomicReference<>();
 		AtomicReference<String> isSOTaxExempt = new AtomicReference<>();
 		AtomicReference<String> isPOTaxExempt = new AtomicReference<>();
+		AtomicInteger linkBPartner_ID = new AtomicInteger();
+		AtomicReference<String> linkBP_TaxExempt = new AtomicReference<>();
+		AtomicReference<String> linkBP_POTaxExempt = new AtomicReference<>();
 
 		//	Get all at once
-		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt,"
-			 + " w.C_Location_ID, sl.C_Location_ID "
-			 + "FROM C_Charge c, AD_OrgInfo o,"
-			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
-			 + " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
-			 + "WHERE c.C_Charge_ID=?"
-			 + " AND o.AD_Org_ID=?"
-			 + " AND il.C_BPartner_Location_ID=?"
-			 + " AND sl.C_BPartner_Location_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID AS BillFromLocation_ID, il.C_Location_ID AS BillToLocation_ID, b.IsTaxExempt, "
+				+ "b.IsPOTaxExempt, w.C_Location_ID AS ShipFromLocation_ID, sl.C_Location_ID AS ShipToLocation_ID, linkBP.C_BPartner_ID, "
+				+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsTaxExempt ELSE NULL END AS linkBP_TaxExempt, "
+				+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsPOTaxExempt ELSE NULL END AS linkBP_POTaxEXempt "
+				+ "FROM C_Charge c, AD_OrgInfo o, "
+				+ "C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+				+ "LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
+				+ "LEFT JOIN C_BPartner linkBP ON (linkBP.AD_OrgBP_ID=?) "
+				+ "WHERE c.C_Charge_ID=? "
+				+ "AND o.AD_Org_ID=? "
+				+ "AND il.C_BPartner_Location_ID=? "
+				+ "AND sl.C_BPartner_Location_ID=?";
 
-		List params = List.of(warehouseId, chargeId, orgId, billPartnerLocationId, shipPartnerLocationId);
+		List params = List.of(warehouseId, orgId, chargeId, orgId, billPartnerLocationId, shipPartnerLocationId);
+		AtomicBoolean found = new AtomicBoolean(false);
+		TaxDefinition taxDefinition = new TaxDefinition();
+
 		DB.runResultSetFunction.apply(trxName, sql, params, resultSet -> {
-			List<Tuple7<Integer, Integer, Integer, String, String, Integer, Integer>> taxes = new ResultSetIterable<>(resultSet, row -> Tuple.of(
-					row.getInt(1) ,
-					row.getInt(2) ,
-					row.getInt(3) ,
-					row.getString(4),
-					row.getString(5),
-					row.getInt(6) ,
-					row.getInt(7)
-			)).toList();
+			List<TaxDefinition> taxes = new ResultSetIterable<>(resultSet, row -> {
+				taxDefinition.taxCategoryId = resultSet.getInt("C_TaxCategory_ID");
+				taxDefinition.billFromLocationId = resultSet.getInt("BillFromLocation_ID");
+				taxDefinition.billToLocationId = resultSet.getInt("BillToLocation_ID");
+				taxDefinition.isSOTaxExempt = resultSet.getString("IsTaxExempt");
+				taxDefinition.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
+				taxDefinition.isTaxExempt = IsSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				taxDefinition.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
+				taxDefinition.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
+				taxDefinition.linkBPartner_ID = resultSet.getInt("C_BPartner_ID");
+				taxDefinition.linkBP_TaxExempt = resultSet.getString("linkBP_TaxExempt");
+				taxDefinition.linkBP_POTaxExempt = resultSet.getString("linkBP_POTaxExempt");
+				return taxDefinition;
+			}).toList();
 
-			if (taxes.isEmpty()) {
+			taxes.forEach(row -> {
+				taxCategoryId.set(row.taxCategoryId);
+				billFromLocationId.set(row.billFromLocationId);
+				billToLocationId.set(row.billToLocationId);
+				isSOTaxExempt.set(row.isSOTaxExempt);
+				isPOTaxExempt.set(row.isPOTaxExempt);
+				isTaxExempt.set(row.isTaxExempt);
+				shipFromLocationId.set(row.shipFromLocationId);
+				shipToLocationId.set(row.shipToLocationId);
+				linkBPartner_ID.set(row.linkBPartner_ID);
+				linkBP_TaxExempt.set(row.linkBP_TaxExempt);
+				linkBP_POTaxExempt.set(row.linkBP_POTaxExempt);
+				found.set(true);
+			});
+
+			if (!found.get()) {
 				throw new TaxForChangeNotFoundException(chargeId, orgId, warehouseId,
 						billPartnerLocationId, shipPartnerLocationId,
 						null);
 			}
-
-			taxes.forEach(row -> {
-				taxCategoryId.set(row._1);
-				billFromLocationId.set(row._2);
-				billToLocationId.set(row._3);
-				isSOTaxExempt.set(row._4);
-				isPOTaxExempt.set(row._5);
-				isTaxExempt.set(IsSOTrx ? isSOTaxExempt.get() : isPOTaxExempt.get());
-				shipFromLocationId.set(row._6);
-				shipToLocationId.set(row._7);
-			});
-
 		});
 
 		if ("Y".equals(isTaxExempt.get())) {
@@ -238,12 +249,9 @@ public class Tax {
 					false, Env.getAD_Client_ID(ctx));
 
 			if (useTaxExemptOrg) {
-				MOrg org = new MOrg(ctx, orgId, trxName);
-				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
-				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
-
-				if (linkPartner.get_ID() > 0) {
-					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+				if (linkBPartner_ID.get() > 0) {
+					if (IsSOTrx && linkBP_TaxExempt.get().equalsIgnoreCase("Y")
+							|| !IsSOTrx && linkBP_POTaxExempt.get().equalsIgnoreCase("Y")) {
 						log.fine("getProduct - Business Partner is Tax exempt");
 						return getExemptTax(ctx, orgId);
 					}
@@ -352,42 +360,57 @@ public class Tax {
 		AtomicReference<String> isTaxExempt = new AtomicReference<>();
 		AtomicReference<String> isSOTaxExempt = new AtomicReference<>();
 		AtomicReference<String> isPOTaxExempt = new AtomicReference<>();
+		AtomicInteger linkBPartner_ID = new AtomicInteger();
+		AtomicReference<String> linkBP_TaxExempt = new AtomicReference<>();
+		AtomicReference<String> linkBP_POTaxExempt = new AtomicReference<>();
 
-		String sql = null;
+		String sql;
 
-		List params = List.of(M_Warehouse_ID, M_Product_ID, AD_Org_ID, billC_BPartner_Location_ID, shipC_BPartner_Location_ID);
+		List params = List.of(M_Warehouse_ID, AD_Org_ID, M_Product_ID, AD_Org_ID, billC_BPartner_Location_ID, shipC_BPartner_Location_ID);
 		//	Get all at once
-		sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt, "
-			+ " w.C_Location_ID, sl.C_Location_ID "
-			+ "FROM M_Product p, AD_OrgInfo o,"
-			+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
-			+ " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
-			+ "WHERE p.M_Product_ID=?"
-			+ " AND o.AD_Org_ID=?"
-			+ " AND il.C_BPartner_Location_ID=?"
-			+ " AND sl.C_BPartner_Location_ID=?";
+		sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID AS BillFromLocation_ID, il.C_Location_ID AS BillToLocation_ID, b.IsTaxExempt, b.IsPOTaxExempt, "
+			+ "w.C_Location_ID AS ShipFromLocation_ID, sl.C_Location_ID AS ShipToLocation_ID, linkBP.C_BPartner_ID, "
+			+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsTaxExempt ELSE NULL END AS linkBP_TaxExempt, "
+			+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsPOTaxExempt ELSE NULL END AS linkBP_POTaxEXempt "
+			+ "FROM M_Product p, AD_OrgInfo o, "
+			+ "C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+			+ "LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
+			+ "LEFT JOIN C_BPartner linkBP ON (linkBP.AD_OrgBP_ID=?) "
+			+ "WHERE p.M_Product_ID=? "
+			+ "AND o.AD_Org_ID=? "
+			+ "AND il.C_BPartner_Location_ID=? "
+			+ "AND sl.C_BPartner_Location_ID=?";
 
 		AtomicBoolean found = new AtomicBoolean(false);
+		TaxDefinition taxDefinition = new TaxDefinition();
 		DB.runResultSetFunction.apply(trxName, sql, params, resultSet -> {
-			List<Tuple7<Integer, Integer, Integer, String, String, Integer, Integer>> taxes = new ResultSetIterable<>(resultSet, row -> Tuple.of(
-					row.getInt(1),
-					row.getInt(2),
-					row.getInt(3),
-					row.getString(4),
-					row.getString(5),
-					row.getInt(6),
-					row.getInt(7)
-			)).toList();
+			List<TaxDefinition> taxes = new ResultSetIterable<>(resultSet, row -> {
+				taxDefinition.taxCategoryId = resultSet.getInt("C_TaxCategory_ID");
+				taxDefinition.billFromLocationId = resultSet.getInt("BillFromLocation_ID");
+				taxDefinition.billToLocationId = resultSet.getInt("BillToLocation_ID");
+				taxDefinition.isSOTaxExempt = resultSet.getString("IsTaxExempt");
+				taxDefinition.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
+				taxDefinition.isTaxExempt = IsSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				taxDefinition.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
+				taxDefinition.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
+				taxDefinition.linkBPartner_ID = resultSet.getInt("C_BPartner_ID");
+				taxDefinition.linkBP_TaxExempt = resultSet.getString("linkBP_TaxExempt");
+				taxDefinition.linkBP_POTaxExempt = resultSet.getString("linkBP_POTaxExempt");
+				return taxDefinition;
+			}).toList();
 
 			taxes.forEach(row -> {
-				taxCategoryId.set(row._1);
-				billFromLocationId.set(row._2);
-				billToLocationId.set(row._3);
-				isSOTaxExempt.set(row._4);
-				isPOTaxExempt.set(row._5);
-				isTaxExempt.set(IsSOTrx ? isSOTaxExempt.get() : isPOTaxExempt.get());
-				shipFromLocationId.set(row._6);
-				shipToLocationId.set(row._7);
+				taxCategoryId.set(row.taxCategoryId);
+				billFromLocationId.set(row.billFromLocationId);
+				billToLocationId.set(row.billToLocationId);
+				isSOTaxExempt.set(row.isSOTaxExempt);
+				isPOTaxExempt.set(row.isPOTaxExempt);
+				isTaxExempt.set(row.isTaxExempt);
+				shipFromLocationId.set(row.shipFromLocationId);
+				shipToLocationId.set(row.shipToLocationId);
+				linkBPartner_ID.set(row.linkBPartner_ID);
+				linkBP_TaxExempt.set(row.linkBP_TaxExempt);
+				linkBP_POTaxExempt.set(row.linkBP_POTaxExempt);
 				found.set(true);
 			});
 		});
@@ -402,12 +425,9 @@ public class Tax {
 					false, Env.getAD_Client_ID(ctx));
 
 			if (useTaxExemptOrg) {
-				MOrg org = new MOrg(ctx, AD_Org_ID, trxName);
-				int bpLink_ID = org.getLinkedC_BPartner_ID(trxName);
-				MBPartner linkPartner = new MBPartner(ctx, bpLink_ID, trxName);
-
-				if (linkPartner.get_ID() > 0) {
-					if (IsSOTrx && linkPartner.isTaxExempt() || !IsSOTrx && linkPartner.isPOTaxExempt()) {
+				if (linkBPartner_ID.get() > 0) {
+					if (IsSOTrx && linkBP_TaxExempt.get().equalsIgnoreCase("Y")
+							|| !IsSOTrx && linkBP_POTaxExempt.get().equalsIgnoreCase("Y")) {
 						log.fine("getProduct - Business Partner is Tax exempt");
 						return getExemptTax(ctx, AD_Org_ID);
 					}
@@ -690,5 +710,19 @@ public class Tax {
 				shipDate, shipFromC_Location_ID, shipToC_Location_ID,
 				billDate, billFromC_Location_ID, billToC_Location_ID);
 	}	//	get
+
+	private static class TaxDefinition {
+		private int taxCategoryId = 0;
+		private int billFromLocationId = 0;
+		private int billToLocationId = 0;
+		private String isSOTaxExempt = null;
+		private String isPOTaxExempt = null;
+		private String isTaxExempt = null;
+		private int shipFromLocationId = 0;
+		private int shipToLocationId = 0;
+		private int linkBPartner_ID = 0;
+		private String linkBP_TaxExempt = null;
+		private String linkBP_POTaxExempt = null;
+	}
 	
 }	//	Tax
