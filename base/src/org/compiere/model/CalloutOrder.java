@@ -136,7 +136,7 @@ public class CalloutOrder extends CalloutEngine
 					mTab.setValue ("InvoiceRule", X_C_Order.INVOICERULE_AfterDelivery);
 				
 				//	Payment Rule - POS Order
-				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS))
+				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS) || DocSubTypeSO.equals(MOrder.DocSubTypeSO_InvoiceOrder))
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_OnCredit);
@@ -403,7 +403,7 @@ public class CalloutOrder extends CalloutEngine
 					mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_Immediate);
 					mTab.setValue("DeliveryRule", X_C_Order.DELIVERYRULE_AfterReceipt);
 				}
-				else if (OrderType.equals(MOrder.DocSubTypeSO_POS))	//  for POS
+				else if (OrderType.equals(MOrder.DocSubTypeSO_POS) || OrderType.equals(MOrder.DocSubTypeSO_InvoiceOrder))	//  for POS
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 				{
