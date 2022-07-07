@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.Util;
 import org.spin.queue.model.MADQueue;
@@ -97,6 +98,7 @@ public abstract class QueueManager {
 	/**
 	 * @param tableId the tableId to set
 	 */
+	@Deprecated
 	public final QueueManager withTableId(int tableId) {
 		this.tableId = tableId;
 		return this;
@@ -112,6 +114,7 @@ public abstract class QueueManager {
 	/**
 	 * @param recordId the recordId to set
 	 */
+	@Deprecated
 	public final QueueManager withRecordId(int recordId) {
 		this.recordId = recordId;
 		return this;
@@ -136,7 +139,7 @@ public abstract class QueueManager {
 	/**
 	 * @param organizationId the tableId to set
 	 */
-	public final QueueManager withOrganizationId(int organizationId) {
+	private final QueueManager withOrganizationId(int organizationId) {
 		this.organizationId = organizationId;
 		return this;
 	}
@@ -179,7 +182,15 @@ public abstract class QueueManager {
 		}
 		return this;
 	}
-	
+
+	public QueueManager withEntity(int tableId, int recordId) {
+		if (getContext() == null || getTransactionName() == null) {
+			throw new AdempiereException("@not.found@");
+		}
+		MTable tableEntity = MTable.get(getContext(), tableId);
+
+		return withEntity(tableEntity.getPO(recordId, getTransactionName()));
+	}
 	/**
 	 * Clear Object
 	 */
