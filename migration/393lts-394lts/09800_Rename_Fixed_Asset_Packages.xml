@@ -6280,5 +6280,25 @@
       <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.FA.model.validator.FixedAsset' WHERE ModelValidationClass = 'org.compiere.FA.model.ModelValidator';</SQLStatement>
       <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.FA.model.ModelValidator' WHERE ModelValidationClass = 'org.compiere.FA.model.validator.FixedAsset';</RollbackStatement>
     </Step>
+    <Step SeqNo="12370" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50031" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetAddition">org.compiere.FA.acct.Doc_AssetAddition</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12380" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50032" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_DepreciationEntry">org.compiere.FA.acct.Doc_DepreciationEntry</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12390" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50033" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetDisposed">org.compiere.FA.acct.Doc_AssetDisposed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="12400" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50034" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetSplit">org.compiere.FA.acct.Doc_AssetSplit</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
