@@ -252,7 +252,8 @@ public class MTable extends X_AD_Table
 		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd
 		if (!MEntityType.ENTITYTYPE_Dictionary.equals(entityType)
 				&& !entityType.equals("CRM")
-				&& !entityType.equals("FA"))
+				&& !entityType.equals("FA")
+				&& !entityType.equals("PR"))
 		{
 			MEntityType entityTypeModel = MEntityType.get(Env.getCtx(), entityType);
 			String entityTypeModelpackage = entityTypeModel.getModelPackage();
