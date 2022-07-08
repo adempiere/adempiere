@@ -25,6 +25,7 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/Base.jar"/>
+  	<pathelement path="../org.adempiere.asset/FixedAssetManagement.jar"/>
     <pathelement path="../lib/customization.jar"/>
     <pathelement path="../lib/patches.jar"/>
     <pathelement path="../lib/jcommon-1.0.16.jar"/>

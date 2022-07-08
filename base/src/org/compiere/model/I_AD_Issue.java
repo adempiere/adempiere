@@ -133,8 +133,6 @@ public interface I_AD_Issue
 	  */
 	public int getA_Asset_ID();
 
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 

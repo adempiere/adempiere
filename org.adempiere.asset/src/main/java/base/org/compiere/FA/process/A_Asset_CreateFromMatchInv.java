@@ -2,11 +2,11 @@ package org.compiere.FA.process;
 
 import java.util.logging.Level;
 
-import org.compiere.model.MAssetAddition;
 import org.compiere.model.MMatchInv;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.FA.exceptions.AssetException;
+import org.compiere.FA.model.MAssetAddition;
 
 
 

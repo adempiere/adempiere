@@ -33,8 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.MAsset;
-import org.compiere.model.MAssetDelivery;
+import org.compiere.FA.model.MAsset;
+import org.compiere.FA.model.MAssetDelivery;
 import org.compiere.model.MProductDownload;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;

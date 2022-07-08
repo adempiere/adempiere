@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.MRegistration;
+import org.compiere.FA.model.MRegistration;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -140,7 +140,6 @@ public class RegistrationServlet extends HttpServlet
 		if (startDate == null)
 			startDate = new Timestamp(System.currentTimeMillis());
 		boolean allowPublish = WebUtil.getParameterAsBoolean (request, "IsAllowPublish", "Y");
-		boolean registered = WebUtil.getParameterAsBoolean (request, "IsRegistered", "Y");
 		int Record_ID = WebUtil.getParameterAsInt(request, "Record_ID");
 		
 		//	Find User

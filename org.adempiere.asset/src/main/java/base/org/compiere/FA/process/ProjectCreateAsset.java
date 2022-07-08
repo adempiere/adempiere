@@ -22,8 +22,8 @@ import java.util.logging.Level;
 
 import org.compiere.model.MProductCategory;
 import org.compiere.model.MProject;
+import org.compiere.FA.model.MAssetAddition;
 import org.compiere.model.MProduct;
-import org.compiere.model.MAssetAddition;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
