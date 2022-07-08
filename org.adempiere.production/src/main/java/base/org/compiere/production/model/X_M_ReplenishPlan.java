@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,26 +12,28 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.compiere.model;
+package org.compiere.production.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ReplenishPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220708L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlan (Properties ctx, int M_ReplenishPlan_ID, String trxName)
@@ -97,28 +99,6 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocType_PO(), get_TrxName());	}
-
-	/** Set Purchase Order Doc Type.
-		@param C_DocType_PO Purchase Order Doc Type	  */
-	public void setC_DocType_PO (int C_DocType_PO)
-	{
-		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
-	}
-
-	/** Get Purchase Order Doc Type.
-		@return Purchase Order Doc Type	  */
-	public int getC_DocType_PO () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -136,6 +116,28 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	public int getC_DocType_PlannedOrder () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PlannedOrder);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_PO(), get_TrxName());	}
+
+	/** Set Purchase Order Doc Type.
+		@param C_DocType_PO Purchase Order Doc Type	  */
+	public void setC_DocType_PO (int C_DocType_PO)
+	{
+		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
+	}
+
+	/** Get Purchase Order Doc Type.
+		@return Purchase Order Doc Type	  */
+	public int getC_DocType_PO () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

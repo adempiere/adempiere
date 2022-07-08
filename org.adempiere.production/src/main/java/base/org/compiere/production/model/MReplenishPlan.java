@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.compiere.model;
+package org.compiere.production.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;

@@ -15,7 +15,7 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  * Contributor(s): Chris Farley - northernbrewer                              *
  *****************************************************************************/
-package org.compiere.process;
+package org.compiere.production.process;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -39,6 +39,9 @@ import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_T_Replenish;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
@@ -209,6 +212,7 @@ public class ReplenishReportProduction extends SvrProcess
 	 * 	Fill Table
 	 * 	@param wh warehouse
 	 */
+	@SuppressWarnings("deprecation")
 	private void fillTable (MWarehouse wh) throws Exception
 	{
 		String sql = "INSERT INTO T_Replenish "
