@@ -83,6 +83,10 @@ import org.spin.util.ASPUtil;
  * 		@see https://github.com/adempiere/adempiere/issues/349
  * 		<a href="https://github.com/adempiere/adempiere/issues/566">
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ *  @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/3945">
+ * 		@see BR [ 3945 ] The cities corresponding to a Country/Region are not listed correctly</a>
+ * 
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -1552,14 +1556,17 @@ public class GridField
 		else
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
-			if (!isParentTabField())
-			{
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName,
-					m_value==null ? null : m_value.toString());
+			
+			// empty id value to zero by default
+			Object value = m_value;
+			if (value == null && DisplayType.isID(m_vo.displayType)) {
+				value = Integer.valueOf(0);
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName,
-				m_value==null ? null : m_value.toString());
-		}		
+			if (!isParentTabField()) {
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, columnName, value == null ? null : value.toString());
+			}
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, columnName, value == null ? null : value.toString());
+		}
 	}
 
 	/**
