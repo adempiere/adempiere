@@ -49,8 +49,8 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.fleet.model.I_DD_Order;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.I_DD_Order;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 

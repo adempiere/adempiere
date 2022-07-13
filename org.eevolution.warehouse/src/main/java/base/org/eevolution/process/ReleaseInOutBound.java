@@ -67,15 +67,15 @@ import org.compiere.wf.MWorkflow;
 import org.eevolution.engine.warehouse.WMRuleEngine;
 import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
 import org.eevolution.exceptions.NoPlantForWarehouseException;
-import org.eevolution.fleet.model.MDDOrder;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductPlanning;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
-import org.eevolution.fleet.model.X_DD_Order;
+import org.eevolution.distribution.model.X_DD_Order;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com

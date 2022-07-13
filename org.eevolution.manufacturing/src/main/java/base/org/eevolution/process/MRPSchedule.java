@@ -23,8 +23,8 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequisition;
 import org.compiere.model.PO;
-import org.eevolution.fleet.model.MDDOrder;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 

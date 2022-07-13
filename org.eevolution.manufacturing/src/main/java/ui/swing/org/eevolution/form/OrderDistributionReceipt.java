@@ -39,9 +39,9 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.fleet.model.MDDOrder;
-import org.eevolution.fleet.model.MDDOrderLine;
-import org.eevolution.fleet.util.FleetUtil;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
+import org.eevolution.distribution.util.FleetUtil;
 
 /**
  *	Create Movement for Material Receipt from Distribution Order

@@ -46,7 +46,7 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrderLine;
 
 /**
  * Class Model for Inbound & Outbound Operation Line

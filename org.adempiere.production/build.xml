@@ -24,7 +24,7 @@
     <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
-  	<fileset dir="../org.eevolution.fleet/dist/lib">
+  	<fileset dir="../org.eevolution.distribution/dist/lib">
   	  <include name="*.jar"/>
   	</fileset>
     <pathelement path="../tools/lib/c3p0-0.9.1.2.jar"/>

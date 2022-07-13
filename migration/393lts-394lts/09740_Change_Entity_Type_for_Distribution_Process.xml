@@ -98,7 +98,7 @@
     </Step>
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50023" Table="C_DocBaseType">
-        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_DDOrder">org.eevolution.fleet.acct.Doc_DDOrder</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_DDOrder">org.eevolution.distribution.acct.Doc_DDOrder</Data>
       </PO>
     </Step>
   </Migration>

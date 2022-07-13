@@ -30,8 +30,8 @@ import org.compiere.model.X_C_BP_Group;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.fleet.model.MDDOrder;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 

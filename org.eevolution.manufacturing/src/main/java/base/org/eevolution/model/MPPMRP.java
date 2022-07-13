@@ -52,8 +52,8 @@ import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.exceptions.NoPlantForWarehouseException;
-import org.eevolution.fleet.model.MDDOrder;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 
 
 /**

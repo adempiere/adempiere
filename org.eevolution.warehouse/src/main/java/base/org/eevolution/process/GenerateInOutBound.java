@@ -39,7 +39,7 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.DB;
-import org.eevolution.fleet.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.I_PP_Order_BOMLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MWMInOutBound;
