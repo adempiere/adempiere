@@ -19,6 +19,7 @@ package org.spin.queue.notification.support;
 import java.util.Arrays;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.lang.StringUtils;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
@@ -63,93 +64,103 @@ public class EMailSender implements INotification {
 	public void sendNotification(MADNotificationQueue notification) {
 		StringBuffer errorMessage = new StringBuffer();
 		notification.getRecipients().forEach(recipient -> {
-			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
-			String requestEMail = client.getRequestEMail();
-			String requestEmailPassword = client.getRequestUserPW();
-			int eMailConfigId = client.getAD_EMailConfig_ID();
 
-			if (notification.getAD_Org_ID() > 0) {
-				MOrg organization = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
-				MOrgInfo organizationInformation = organization.getInfo();
-				if (organizationInformation.getEMail() != null && organizationInformation.getAD_EMailConfig_ID() > 0 && organizationInformation.getRequestUserPW() != null) {
-					requestEMail = organizationInformation.getEMail();
-					requestEmailPassword = organizationInformation.getRequestUserPW();
-					eMailConfigId = organizationInformation.getAD_EMailConfig_ID();
+			int eMailConfigurationId = 0;
+			String eMailUser = null;
+			String eMailPassword = null;
+
+			MUser notificationUser = new MUser(notification.getCtx(), notification.getCreatedBy(), notification.get_TrxName());
+			MClient client = MClient.get(notification.getCtx(), notification.getAD_Client_ID());
+			eMailConfigurationId = notificationUser.getAD_EMailConfig_ID();
+			eMailUser = notificationUser.getEMailUser();
+			eMailPassword = notificationUser.getEMailUserPW();
+
+			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+				if (notification.getAD_Org_ID() > 0) {
+					MOrg organization = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
+					MOrgInfo organizationInformation = organization.getInfo();
+					if (organizationInformation != null && organizationInformation.get_ID() > 0) {
+						eMailConfigurationId = organizationInformation.getAD_EMailConfig_ID();
+						eMailUser = organizationInformation.getEMail();
+						eMailPassword = organizationInformation.getRequestUserPW();
+					}
 				}
 			}
 
-			MUser fromUser = null;
-			if(notification.getAD_User_ID() > 0) {
-				fromUser = MUser.get(notification.getCtx(), notification.getAD_User_ID());
+			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+				eMailUser = client.getRequestEMail();
+				eMailPassword = client.getRequestUserPW();
+				eMailConfigurationId = client.getAD_EMailConfig_ID();
 			}
-			//	Create instance
-			EMail email = new EMail(client,
-					eMailConfigId,
-					requestEMail,
-					recipient.getAccountName(),
-					notification.getDescription(),
-					notification.getText(),
-					false);
-			if (!email.isValid() && !email.isValid(true)) {
-				log.warning("NOT VALID - " + email);
-				if(errorMessage.length() > 0) {
+
+			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+				log.warning("@AD_EMailConfig_ID@ @NotFound@");
+				if (errorMessage.length() > 0) {
 					errorMessage.append(Env.NL);
 				}
-				errorMessage.append("NOT VALID - ").append(email);
+				errorMessage.append("@AD_EMailConfig_ID@ @NotFound@");
 			} else {
-				//	For Custom EMail Server
-				if(fromUser != null && fromUser.getAD_EMailConfig_ID() > 0) {
-					MEMailConfig emailConfig = MEMailConfig.get(notification.getCtx(), fromUser.getAD_EMailConfig_ID());
-					if(emailConfig.isSmtpAuthorization()
-							|| emailConfig.getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth))
-						email.createAuthenticator (fromUser.getEMailUser(), fromUser.getEMailUserPW());
-				} else {
-					MEMailConfig eMailConfig = MEMailConfig.get(client.getCtx(), eMailConfigId);
-					if (eMailConfig.isSmtpAuthorization()) {
-						email.createAuthenticator (requestEMail, requestEmailPassword);
-					}
-				}
-				//	Subject
-				email.setSubject(notification.getDescription());
-				email.setMessageHTML(notification.getText());
-				//	Attachment
-				MAttachment attachment = notification.getAttachment();
-				if(attachment != null
-						&& attachment.getAD_Attachment_ID() > 0) {
-					Arrays.asList(attachment.getEntries()).forEach(entry -> {
-						email.addAttachment(entry.getFile());
-					});
-				}
-				boolean isSent = EMail.SENT_OK.equals(email.send());
-				if (isSent) {
-		            log.fine("EMail Sent: " + recipient.getAccountName());
-		            recipient.setProcessed(true);
-		        } else {
-		        	if(errorMessage.length() > 0) {
+				//	Create instance
+				EMail email = new EMail(client,
+						eMailConfigurationId,
+						eMailUser,
+						recipient.getAccountName(),
+						notification.getDescription(),
+						notification.getText(),
+						false);
+				if (!email.isValid() && !email.isValid(true)) {
+					log.warning("NOT VALID - " + email);
+					if (errorMessage.length() > 0) {
 						errorMessage.append(Env.NL);
 					}
-		        	errorMessage.append("Error: Sending to: ").append(recipient.getAccountName());
-		        	recipient.setErrorMsg("Error: Sending to: " + recipient.getAccountName());
-		        }
-				recipient.saveEx();
-				//	Backward compatibility
-				if(recipient.getAD_User_ID() > 0) {
-					X_AD_UserMail userMail = new X_AD_UserMail(
-							notification.getCtx(),
-							0,
-							notification.get_TrxName()
-					);
-					userMail.setAD_Org_ID(notification.getAD_Org_ID());
-					userMail.setAD_User_ID(recipient.getAD_User_ID());
-					userMail.setSubject(email.getSubject());
-					userMail.setMailText(email.getMessageCRLF());
-					if (email.isSentOK()) {
-						userMail.setMessageID(email.getMessageID());
-					} else {
-						userMail.setMessageID(email.getSentMsg());
-						userMail.setIsDelivered(X_AD_UserMail.ISDELIVERED_No);
+					errorMessage.append("NOT VALID - ").append(email);
+				} else {
+					MEMailConfig eMailConfig = MEMailConfig.get(notification.getCtx(), eMailConfigurationId);
+					if (eMailConfig.isSmtpAuthorization()) {
+						email.createAuthenticator(eMailUser, eMailPassword);
 					}
-					userMail.saveEx();
+					//	Subject
+					email.setSubject(notification.getDescription());
+					email.setMessageHTML(notification.getText());
+					//	Attachment
+					MAttachment attachment = notification.getAttachment();
+					if (attachment != null
+							&& attachment.getAD_Attachment_ID() > 0) {
+						Arrays.asList(attachment.getEntries()).forEach(entry -> {
+							email.addAttachment(entry.getFile());
+						});
+					}
+					boolean isSent = EMail.SENT_OK.equals(email.send());
+					if (isSent) {
+						log.fine("EMail Sent: " + recipient.getAccountName());
+						recipient.setProcessed(true);
+					} else {
+						if (errorMessage.length() > 0) {
+							errorMessage.append(Env.NL);
+						}
+						errorMessage.append("Error: Sending to: ").append(recipient.getAccountName());
+						recipient.setErrorMsg("Error: Sending to: " + recipient.getAccountName());
+					}
+					recipient.saveEx();
+					//	Backward compatibility
+					if (recipient.getAD_User_ID() > 0) {
+						X_AD_UserMail userMail = new X_AD_UserMail(
+								notification.getCtx(),
+								0,
+								notification.get_TrxName()
+						);
+						userMail.setAD_Org_ID(notification.getAD_Org_ID());
+						userMail.setAD_User_ID(recipient.getAD_User_ID());
+						userMail.setSubject(email.getSubject());
+						userMail.setMailText(email.getMessageCRLF());
+						if (email.isSentOK()) {
+							userMail.setMessageID(email.getMessageID());
+						} else {
+							userMail.setMessageID(email.getSentMsg());
+							userMail.setIsDelivered(X_AD_UserMail.ISDELIVERED_No);
+						}
+						userMail.saveEx();
+					}
 				}
 			}
 		});
