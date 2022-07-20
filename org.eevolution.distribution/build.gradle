@@ -40,7 +40,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.1"
+version = "3.9.4-develop-1.0"
 
 jar {
     manifest {
@@ -63,12 +63,12 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'fleet'
+            artifactId 'distribution'
             version
            	from components.java
            	pom {
                 name = 'Fleet'
-                description = 'Fleet Management calculatioon of ADempiere.'
+                description = 'Distribution Management calculatioon of ADempiere.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
