@@ -1110,11 +1110,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
-    {
-		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
-			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
-
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
 	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
