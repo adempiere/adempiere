@@ -45,8 +45,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ReplenishInterface;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 
 /**
  *	Replenishment Report

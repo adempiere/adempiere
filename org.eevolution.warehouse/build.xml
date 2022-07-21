@@ -31,6 +31,9 @@
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
         <include name="*.jar"/>
     </fileset>
+  	<fileset dir="${adempiere.trunk}/org.eevolution.distribution/dist/lib">
+  	  <include name="*.jar"/>
+  	</fileset>
   </path>
 
   <target name="init" depends="clean">
@@ -86,7 +89,7 @@
         <jar jarfile="${dist}/lib/WarehouseManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
         <!-- Create target Liberozk deployment -->
-        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberoWM/lib"/>
+        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/WarehouseManagement/lib"/>
 
         <!-- Transfer liberozkWM.jar -->
         <copy file="${dist}/lib/WarehouseManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/WarehouseManagement/lib"/>

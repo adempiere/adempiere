@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.spin.investment.model;
 
@@ -189,8 +190,6 @@ public interface I_FM_Transaction
 	/** Get Order Freight	  */
 	public int getDD_Freight_ID();
 
-	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException;
-
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -213,8 +212,6 @@ public interface I_FM_Transaction
 	/** Get Financial Account	  */
 	public int getFM_Account_ID();
 
-	public org.spin.investment.model.I_FM_Account getFM_Account() throws RuntimeException;
-
     /** Column name FM_Amortization_ID */
     public static final String COLUMNNAME_FM_Amortization_ID = "FM_Amortization_ID";
 
@@ -224,8 +221,6 @@ public interface I_FM_Transaction
 	/** Get Loan Amortization	  */
 	public int getFM_Amortization_ID();
 
-	public org.spin.investment.model.I_FM_Amortization getFM_Amortization() throws RuntimeException;
-
     /** Column name FM_Batch_ID */
     public static final String COLUMNNAME_FM_Batch_ID = "FM_Batch_ID";
 
@@ -234,8 +229,6 @@ public interface I_FM_Transaction
 
 	/** Get Financial Transaction Batch	  */
 	public int getFM_Batch_ID();
-
-	public org.spin.investment.model.I_FM_Batch getFM_Batch() throws RuntimeException;
 
     /** Column name FM_Transaction_ID */
     public static final String COLUMNNAME_FM_Transaction_ID = "FM_Transaction_ID";
@@ -254,8 +247,6 @@ public interface I_FM_Transaction
 
 	/** Get Financial Transaction Type	  */
 	public int getFM_TransactionType_ID();
-
-	public org.spin.investment.model.I_FM_TransactionType getFM_TransactionType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -135,7 +135,7 @@ public class   Doc_HRProcess extends Doc
 			MHRConcept concept = MHRConcept.getById(as.getCtx(), payrollDocLine.getHR_Concept_ID() , getTrxName());
 			//	Get Concept Account
 			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
-					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),
+					Optional.ofNullable(as.getC_AcctSchema_ID()),
 					Optional.ofNullable(process.getHR_Payroll_ID()),
 					Optional.ofNullable(payrollDocLine.getC_BP_Group_ID()));
 

@@ -65,6 +65,8 @@
     <!-- Transfer liberoWM.jar -->
     <copy file="${dist}/lib/RequestManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/RequestManagement/lib"/>
     <copy file="${dist}/lib/RequestManagement.jar" todir="../packages/"/>
+  	<copy file="../tools/lib/legacy/request-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/RequestManagement/lib" />
+  	<copy file="../tools/lib/legacy/request-support-legacy-1.0.0.jar" todir="../packages/" />
 
   </target>
 

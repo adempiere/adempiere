@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change Process package class for Distribution" ReleaseNo="3.9.4" SeqNo="9760">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53735" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.GenerateMovement">org.eevolution.distribution.process.GenerateMovement</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54470" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ValidateOrderedAndReservedQuantity">org.eevolution.distribution.process.ValidateOrderedAndReservedQuantity</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53958" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingVehicleSelection">org.eevolution.distribution.process.ProcessingVehicleSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53999" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingTransportUnitSelection">org.eevolution.distribution.process.ProcessingTransportUnitSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53960" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingRequirementSelection">org.eevolution.distribution.process.ProcessingRequirementSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53957" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingDriverSelection">org.eevolution.distribution.process.ProcessingDriverSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53046" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.MovementGenerate">org.eevolution.distribution.process.MovementGenerate</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53736" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.GenerateMovementMaterial">org.eevolution.distribution.process.GenerateMovementMaterial</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

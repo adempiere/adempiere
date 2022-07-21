@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Multi Currency support to Payment Selection" ReleaseNo="3.9.4" SeqNo="7170">
+  <Migration EntityType="D" Name="Add Multi-currency support to Payment Selection" ReleaseNo="3.9.4" SeqNo="7170">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="70856" Table="AD_View_Column">
         <Data AD_Column_ID="84462" Column="UUID">d31c6d45-2844-4885-9604-cf8c878868e6</Data>

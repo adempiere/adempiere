@@ -34,6 +34,9 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.model.MWarehouse;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.distribution.model.I_DD_Order;
+import org.eevolution.distribution.model.I_DD_OrderLine;
+import org.eevolution.distribution.model.MDDOrderLine;
 
 /**
  *	Distribution Order Callout

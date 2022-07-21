@@ -39,7 +39,7 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.DB;
-import org.eevolution.model.I_DD_OrderLine;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.I_PP_Order_BOMLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MWMInOutBound;
@@ -162,7 +162,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
                 outBoundOrderLine.setM_AttributeSetInstance_ID(orderLine.getM_AttributeSetInstance_ID());
             }
             if (MPPMRP.ORDERTYPE_DistributionOrder.equals(demand.getOrderType())) {
-                I_DD_OrderLine orderLine = demand.getDD_OrderLine();
+            	MDDOrderLine orderLine = new MDDOrderLine(demand.getCtx(), demand.getDD_OrderLine_ID(), demand.get_TrxName());
                 outBoundOrderLine.setDD_Order_ID(demand.getDD_Order_ID());
                 outBoundOrderLine.setDD_OrderLine_ID(demand.getDD_OrderLine_ID());
                 outBoundOrderLine.setC_UOM_ID(orderLine.getC_UOM_ID());

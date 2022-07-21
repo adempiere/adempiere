@@ -1,0 +1,34 @@
+# This pull request sets the assignee to the user who creates the pull request
+# It also sets the label "09 Pending Peer Review"
+name: Pull Request Assignment
+
+on:
+    pull_request_target:
+        types: [opened]
+permissions:
+    contents: read
+    pull-requests: write
+
+
+jobs:
+    auto-assign:
+        runs-on: ubuntu-latest
+        steps:
+# Disable temporarily this action, because of following error:
+#  Assigning issue 3923 to users ["marcalwestf"]
+#/home/runner/work/_actions/pozil/auto-assign-issue/v1/node_modules/@octokit/request/dist-node/index.js:86
+#      const error = new requestError.RequestError(toErrorMessage(data), status, {
+#                    ^
+#RequestError [HttpError]: Resource not accessible by integration
+#    at /home/runner/work/_actions/pozil/auto-assign-issue/v1/node_modules/@octokit/request/dist-node/index.js:86:21
+            #- name: 'Auto-assign pullrequest'
+            #  uses: pozil/auto-assign-issue@v1.7.1
+            #  with:
+            #      #repo-token: ${{ secrets.GITHUB_TOKEN }}
+            #      assignees: ${{github.actor}} 
+            - name: 'Sets label 09 Pending Peer Review'
+              if: ${{ always() }}
+              uses: actions-ecosystem/action-add-labels@v1
+              with:
+                repo-token: ${{ secrets.GITHUB_TOKEN }}
+                labels: 09 Pending Peer Review

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add GardenWorld Discount Example" ReleaseNo="3.9.4" SeqNo="9475">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="475" Action="I" Record_ID="50000" Table="M_DiscountSchema">
+        <Data AD_Column_ID="6591" Column="ValidFrom">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="84922" Column="UUID">6ed0c184-76c7-4ffa-a9b5-13eac43fa601</Data>
+        <Data AD_Column_ID="6588" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6587" Column="Updated">2022-05-10 15:03:30.76</Data>
+        <Data AD_Column_ID="6593" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="6597" Column="Processing">false</Data>
+        <Data AD_Column_ID="6589" Column="Name">Combined Discount</Data>
+        <Data AD_Column_ID="6581" Column="M_DiscountSchema_ID">50000</Data>
+        <Data AD_Column_ID="6595" Column="IsQuantityBased">true</Data>
+        <Data AD_Column_ID="12737" Column="IsBPartnerFlatDiscount">false</Data>
+        <Data AD_Column_ID="6584" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6594" Column="FlatDiscount">0</Data>
+        <Data AD_Column_ID="6592" Column="DiscountType">B</Data>
+        <Data AD_Column_ID="6590" Column="Description">Combined Discount schema</Data>
+        <Data AD_Column_ID="6596" Column="CumulativeLevel">L</Data>
+        <Data AD_Column_ID="6586" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6585" Column="Created">2022-05-10 15:03:30.76</Data>
+        <Data AD_Column_ID="6583" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="6582" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="476" Action="I" Record_ID="50000" Table="M_DiscountSchemaBreak">
+        <Data AD_Column_ID="84923" Column="UUID">0345546a-165f-47f4-81b3-485565b58d30</Data>
+        <Data AD_Column_ID="6605" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6604" Column="Updated">2022-05-10 15:05:06.593</Data>
+        <Data AD_Column_ID="6607" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="6611" Column="M_Product_ID">133</Data>
+        <Data AD_Column_ID="6610" Column="M_Product_Category_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6606" Column="M_DiscountSchema_ID">50000</Data>
+        <Data AD_Column_ID="6598" Column="M_DiscountSchemaBreak_ID">50000</Data>
+        <Data AD_Column_ID="12399" Column="IsBPartnerFlatDiscount">false</Data>
+        <Data AD_Column_ID="6601" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6603" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6602" Column="Created">2022-05-10 15:05:06.593</Data>
+        <Data AD_Column_ID="6608" Column="BreakValue">0</Data>
+        <Data AD_Column_ID="6609" Column="BreakDiscount">7.000000000000</Data>
+        <Data AD_Column_ID="6600" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="6599" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="476" Action="I" Record_ID="50001" Table="M_DiscountSchemaBreak">
+        <Data AD_Column_ID="84923" Column="UUID">9d0292e1-bc55-414a-8249-0897e5a5627a</Data>
+        <Data AD_Column_ID="6605" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6604" Column="Updated">2022-05-10 15:06:12.159</Data>
+        <Data AD_Column_ID="6607" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="6611" Column="M_Product_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6610" Column="M_Product_Category_ID">109</Data>
+        <Data AD_Column_ID="6606" Column="M_DiscountSchema_ID">50000</Data>
+        <Data AD_Column_ID="6598" Column="M_DiscountSchemaBreak_ID">50001</Data>
+        <Data AD_Column_ID="12399" Column="IsBPartnerFlatDiscount">false</Data>
+        <Data AD_Column_ID="6601" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6603" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6602" Column="Created">2022-05-10 15:06:12.159</Data>
+        <Data AD_Column_ID="6608" Column="BreakValue">0</Data>
+        <Data AD_Column_ID="6609" Column="BreakDiscount">5.000000000000</Data>
+        <Data AD_Column_ID="6600" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="6599" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="476" Action="I" Record_ID="50002" Table="M_DiscountSchemaBreak">
+        <Data AD_Column_ID="84923" Column="UUID">0e7173f8-75ad-4ffc-a285-099a34712f41</Data>
+        <Data AD_Column_ID="6605" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6604" Column="Updated">2022-05-10 15:07:16.68</Data>
+        <Data AD_Column_ID="6607" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="6611" Column="M_Product_ID">137</Data>
+        <Data AD_Column_ID="6610" Column="M_Product_Category_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6606" Column="M_DiscountSchema_ID">50000</Data>
+        <Data AD_Column_ID="6598" Column="M_DiscountSchemaBreak_ID">50002</Data>
+        <Data AD_Column_ID="12399" Column="IsBPartnerFlatDiscount">false</Data>
+        <Data AD_Column_ID="6601" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6603" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6602" Column="Created">2022-05-10 15:07:16.679</Data>
+        <Data AD_Column_ID="6608" Column="BreakValue">0</Data>
+        <Data AD_Column_ID="6609" Column="BreakDiscount">10.000000000000</Data>
+        <Data AD_Column_ID="6600" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="6599" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="291" Action="U" Record_ID="117" Table="C_BPartner">
+        <Data AD_Column_ID="84609" Column="UUID" isOldNull="true">8e3c4233-f26a-459c-81aa-6af7f8ec6528</Data>
+        <Data AD_Column_ID="6579" Column="M_DiscountSchema_ID" isOldNull="true">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="259" Action="I" Record_ID="50055" Table="C_Order">
+        <Data AD_Column_ID="59038" Column="ProcessedOn">0</Data>
+        <Data AD_Column_ID="3398" Column="Processed">false</Data>
+        <Data AD_Column_ID="4650" Column="Posted">false</Data>
+        <Data AD_Column_ID="2170" Column="DocStatus">DR</Data>
+        <Data AD_Column_ID="2171" Column="DocAction">CO</Data>
+        <Data AD_Column_ID="92893" Column="BOMDrop">N</Data>
+        <Data AD_Column_ID="97251" Column="FM_Agreement_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97186" Column="W_Basket_ID" isNewNull="true"/>
+        <Data AD_Column_ID="96704" Column="M_Freight_ID" isNewNull="true"/>
+        <Data AD_Column_ID="96703" Column="FreightRate">0</Data>
+        <Data AD_Column_ID="95434" Column="C_SalesRegion_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94997" Column="M_RMAType_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84683" Column="UUID">d4bd6536-0416-4fa9-9470-fe33e0ac3125</Data>
+        <Data AD_Column_ID="2453" Column="Processing">false</Data>
+        <Data AD_Column_ID="58601" Column="User4_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58600" Column="User3_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56376" Column="M_FreightCategory_ID" isNewNull="true"/>
+        <Data AD_Column_ID="55314" Column="DropShip_BPartner_ID" isNewNull="true"/>
+        <Data AD_Column_ID="55315" Column="DropShip_Location_ID" isNewNull="true"/>
+        <Data AD_Column_ID="10297" Column="C_ConversionType_ID">114</Data>
+        <Data AD_Column_ID="3400" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="2454" Column="C_Campaign_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3046" Column="C_Charge_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2186" Column="SalesRep_ID">101</Data>
+        <Data AD_Column_ID="2173" Column="C_DocTypeTarget_ID">135</Data>
+        <Data AD_Column_ID="55322" Column="Link_Order_ID" isNewNull="true"/>
+        <Data AD_Column_ID="55316" Column="DropShip_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9568" Column="User2_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9331" Column="AD_OrgTrx_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8766" Column="Bill_Location_ID">112</Data>
+        <Data AD_Column_ID="8763" Column="Bill_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9569" Column="User1_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3402" Column="C_Project_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3403" Column="C_Activity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8764" Column="Bill_BPartner_ID">117</Data>
+        <Data AD_Column_ID="2197" Column="M_Shipper_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2762" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="2183" Column="DateAcct">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2204" Column="M_PriceList_ID">101</Data>
+        <Data AD_Column_ID="2191" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="2168" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2187" Column="C_PaymentTerm_ID">105</Data>
+        <Data AD_Column_ID="2202" Column="M_Warehouse_ID">50002</Data>
+        <Data AD_Column_ID="2763" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="10924" Column="Pay_Location_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5349" Column="C_CashLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2162" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="5348" Column="C_Payment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2172" Column="C_DocType_ID">0</Data>
+        <Data AD_Column_ID="2161" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="2166" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2163" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="10925" Column="Pay_BPartner_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2195" Column="FreightAmt">0</Data>
+        <Data AD_Column_ID="52065" Column="AmountRefunded">0.0</Data>
+        <Data AD_Column_ID="57127" Column="PromotionCode" isNewNull="true"/>
+        <Data AD_Column_ID="15900" Column="Weight">0</Data>
+        <Data AD_Column_ID="15899" Column="Volume">0</Data>
+        <Data AD_Column_ID="3718" Column="IsSOTrx">true</Data>
+        <Data AD_Column_ID="3719" Column="DatePrinted" isNewNull="true"/>
+        <Data AD_Column_ID="2181" Column="DateOrdered">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2180" Column="IsTransferred">false</Data>
+        <Data AD_Column_ID="2179" Column="IsPrinted">false</Data>
+        <Data AD_Column_ID="2178" Column="IsInvoiced">false</Data>
+        <Data AD_Column_ID="97252" Column="FM_Account_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58409" Column="C_OrderSource_ID" isNewNull="true"/>
+        <Data AD_Column_ID="52070" Column="C_POS_ID" isNewNull="true"/>
+        <Data AD_Column_ID="52063" Column="OrderType" isNewNull="true"/>
+        <Data AD_Column_ID="8765" Column="CopyFrom">N</Data>
+        <Data AD_Column_ID="8166" Column="SendEMail">false</Data>
+        <Data AD_Column_ID="3721" Column="DeliveryRule">A</Data>
+        <Data AD_Column_ID="3722" Column="FreightCostRule">I</Data>
+        <Data AD_Column_ID="3045" Column="POReference">Order Reference 1234</Data>
+        <Data AD_Column_ID="3047" Column="ChargeAmt">0</Data>
+        <Data AD_Column_ID="2196" Column="DeliveryViaRule">P</Data>
+        <Data AD_Column_ID="4298" Column="IsDiscountPrinted">true</Data>
+        <Data AD_Column_ID="4019" Column="PaymentRule">B</Data>
+        <Data AD_Column_ID="2198" Column="PriorityRule">5</Data>
+        <Data AD_Column_ID="11580" Column="IsDropShip">false</Data>
+        <Data AD_Column_ID="4651" Column="IsTaxIncluded">false</Data>
+        <Data AD_Column_ID="2182" Column="DatePromised">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2177" Column="IsDelivered">false</Data>
+        <Data AD_Column_ID="2176" Column="IsCreditApproved">false</Data>
+        <Data AD_Column_ID="10926" Column="Ref_Order_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62180" Column="C_Opportunity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="52064" Column="AmountTendered">0.0</Data>
+        <Data AD_Column_ID="2167" Column="Updated">2022-05-10 15:08:47.825</Data>
+        <Data AD_Column_ID="2192" Column="InvoiceRule">D</Data>
+        <Data AD_Column_ID="2201" Column="GrandTotal">0</Data>
+        <Data AD_Column_ID="2200" Column="TotalLines">0</Data>
+        <Data AD_Column_ID="2165" Column="Created">2022-05-10 15:08:47.825</Data>
+        <Data AD_Column_ID="2164" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2174" Column="Description">Order Description from Business Partner Definition</Data>
+        <Data AD_Column_ID="2175" Column="IsApproved">false</Data>
+        <Data AD_Column_ID="8832" Column="IsSelfService">false</Data>
+        <Data AD_Column_ID="2169" Column="DocumentNo">800</Data>
+        <Data AD_Column_ID="4699" Column="IsSelected">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="259" Action="U" Record_ID="50055" Table="C_Order">
+        <Data AD_Column_ID="4019" Column="PaymentRule" oldValue="B">P</Data>
+        <Data AD_Column_ID="2192" Column="InvoiceRule" oldValue="D">I</Data>
+        <Data AD_Column_ID="2169" Column="DocumentNo" oldValue="800">&lt;500&gt;</Data>
+        <Data AD_Column_ID="2187" Column="C_PaymentTerm_ID" oldValue="105">106</Data>
+        <Data AD_Column_ID="2173" Column="C_DocTypeTarget_ID" oldValue="135">132</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="260" Action="I" Record_ID="50063" Table="C_OrderLine">
+        <Data AD_Column_ID="84684" Column="UUID">22aa2e65-71c2-479d-9501-2ef51f2e022e</Data>
+        <Data AD_Column_ID="58603" Column="User4_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58602" Column="User3_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15850" Column="User2_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15849" Column="User1_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2212" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2211" Column="Updated">2022-05-10 15:24:06.564</Data>
+        <Data AD_Column_ID="6775" Column="S_ResourceAssignment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15459" Column="RRStartDate" isNewNull="true"/>
+        <Data AD_Column_ID="15460" Column="RRAmt">0</Data>
+        <Data AD_Column_ID="7812" Column="Ref_OrderLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="95761" Column="Ref_InvoiceLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94969" Column="Ref_InOutLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2225" Column="QtyReserved">0</Data>
+        <Data AD_Column_ID="2224" Column="QtyOrdered">1</Data>
+        <Data AD_Column_ID="14206" Column="QtyLostSales">0</Data>
+        <Data AD_Column_ID="2227" Column="QtyInvoiced">0</Data>
+        <Data AD_Column_ID="12876" Column="QtyEntered">1</Data>
+        <Data AD_Column_ID="2226" Column="QtyDelivered">0</Data>
+        <Data AD_Column_ID="12069" Column="Processed">false</Data>
+        <Data AD_Column_ID="2231" Column="PriceList">35</Data>
+        <Data AD_Column_ID="4022" Column="PriceLimit">30</Data>
+        <Data AD_Column_ID="12875" Column="PriceEntered">31.35</Data>
+        <Data AD_Column_ID="14200" Column="PriceCost">0</Data>
+        <Data AD_Column_ID="2232" Column="PriceActual">31.35</Data>
+        <Data AD_Column_ID="56532" Column="PP_Cost_Collector_ID" isNewNull="true"/>
+        <Data AD_Column_ID="67789" Column="PickedQty">0</Data>
+        <Data AD_Column_ID="2223" Column="M_Warehouse_ID">50002</Data>
+        <Data AD_Column_ID="2229" Column="M_Shipper_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94998" Column="M_RMAType_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94260" Column="M_RequisitionLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57128" Column="M_Promotion_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2221" Column="M_Product_ID">50007</Data>
+        <Data AD_Column_ID="81230" Column="M_FreightCategory_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8767" Column="M_AttributeSetInstance_ID">0</Data>
+        <Data AD_Column_ID="55323" Column="Link_OrderLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3723" Column="LineNetAmt">31.35</Data>
+        <Data AD_Column_ID="2214" Column="Line">10</Data>
+        <Data AD_Column_ID="9868" Column="IsDescription">false</Data>
+        <Data AD_Column_ID="64175" Column="IsConsumesForecast">false</Data>
+        <Data AD_Column_ID="2208" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3049" Column="FreightAmt">0</Data>
+        <Data AD_Column_ID="4031" Column="Discount">10.43</Data>
+        <Data AD_Column_ID="2220" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2217" Column="DatePromised">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2216" Column="DateOrdered">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2219" Column="DateInvoiced" isNewNull="true"/>
+        <Data AD_Column_ID="2218" Column="DateDelivered" isNewNull="true"/>
+        <Data AD_Column_ID="2222" Column="C_UOM_ID">100</Data>
+        <Data AD_Column_ID="2235" Column="C_Tax_ID">104</Data>
+        <Data AD_Column_ID="69035" Column="CreateShipment">N</Data>
+        <Data AD_Column_ID="68954" Column="CreateFrom">N</Data>
+        <Data AD_Column_ID="2210" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2209" Column="Created">2022-05-10 15:24:06.563</Data>
+        <Data AD_Column_ID="15458" Column="C_ProjectTask_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15457" Column="C_ProjectPhase_ID" isNewNull="true"/>
+        <Data AD_Column_ID="14092" Column="C_Project_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2205" Column="C_OrderLine_ID">50063</Data>
+        <Data AD_Column_ID="2213" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="2230" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="3050" Column="C_Charge_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15847" Column="C_Campaign_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3404" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="2764" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="15848" Column="C_Activity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15861" Column="AD_OrgTrx_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2207" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="2206" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="314" Action="I" Record_ID="50055" Table="C_OrderTax">
+        <Data AD_Column_ID="84686" Column="UUID">fc8faf38-f30e-4dca-a37c-afce7eedbf1c</Data>
+        <Data AD_Column_ID="3354" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3353" Column="Updated">2022-05-10 15:24:11.07</Data>
+        <Data AD_Column_ID="3766" Column="TaxBaseAmt">31.35</Data>
+        <Data AD_Column_ID="3767" Column="TaxAmt">0</Data>
+        <Data AD_Column_ID="12061" Column="Processed">false</Data>
+        <Data AD_Column_ID="13041" Column="IsTaxIncluded">false</Data>
+        <Data AD_Column_ID="3350" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3356" Column="C_Tax_ID">104</Data>
+        <Data AD_Column_ID="3352" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3351" Column="Created">2022-05-10 15:24:11.07</Data>
+        <Data AD_Column_ID="3355" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="3349" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="3348" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="260" Action="U" Record_ID="50063" Table="C_OrderLine">
+        <Data AD_Column_ID="2224" Column="QtyOrdered" oldValue="1">3</Data>
+        <Data AD_Column_ID="12876" Column="QtyEntered" oldValue="1">3</Data>
+        <Data AD_Column_ID="3723" Column="LineNetAmt" oldValue="31.35">94.05</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="314" Action="I" Record_ID="50055" Table="C_OrderTax">
+        <Data AD_Column_ID="84686" Column="UUID">df5c992b-6082-493b-9e54-b7c82eb995f4</Data>
+        <Data AD_Column_ID="3354" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3353" Column="Updated">2022-05-10 15:37:42.171</Data>
+        <Data AD_Column_ID="3766" Column="TaxBaseAmt">94.05</Data>
+        <Data AD_Column_ID="3767" Column="TaxAmt">0</Data>
+        <Data AD_Column_ID="12061" Column="Processed">false</Data>
+        <Data AD_Column_ID="13041" Column="IsTaxIncluded">false</Data>
+        <Data AD_Column_ID="3350" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3356" Column="C_Tax_ID">104</Data>
+        <Data AD_Column_ID="3352" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3351" Column="Created">2022-05-10 15:37:42.171</Data>
+        <Data AD_Column_ID="3355" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="3349" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="3348" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="260" Action="I" Record_ID="50064" Table="C_OrderLine">
+        <Data AD_Column_ID="84684" Column="UUID">ebd09f7a-982a-4412-9b41-8edb26c8ac25</Data>
+        <Data AD_Column_ID="58603" Column="User4_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58602" Column="User3_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15850" Column="User2_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15849" Column="User1_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2212" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2211" Column="Updated">2022-05-10 15:39:59.131</Data>
+        <Data AD_Column_ID="6775" Column="S_ResourceAssignment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15459" Column="RRStartDate" isNewNull="true"/>
+        <Data AD_Column_ID="15460" Column="RRAmt">0</Data>
+        <Data AD_Column_ID="7812" Column="Ref_OrderLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="95761" Column="Ref_InvoiceLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94969" Column="Ref_InOutLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2225" Column="QtyReserved">0</Data>
+        <Data AD_Column_ID="2224" Column="QtyOrdered">1</Data>
+        <Data AD_Column_ID="14206" Column="QtyLostSales">0</Data>
+        <Data AD_Column_ID="2227" Column="QtyInvoiced">0</Data>
+        <Data AD_Column_ID="12876" Column="QtyEntered">1</Data>
+        <Data AD_Column_ID="2226" Column="QtyDelivered">0</Data>
+        <Data AD_Column_ID="12069" Column="Processed">false</Data>
+        <Data AD_Column_ID="2231" Column="PriceList">3</Data>
+        <Data AD_Column_ID="4022" Column="PriceLimit">2.7</Data>
+        <Data AD_Column_ID="12875" Column="PriceEntered">2.70</Data>
+        <Data AD_Column_ID="14200" Column="PriceCost">0</Data>
+        <Data AD_Column_ID="2232" Column="PriceActual">2.70</Data>
+        <Data AD_Column_ID="56532" Column="PP_Cost_Collector_ID" isNewNull="true"/>
+        <Data AD_Column_ID="67789" Column="PickedQty">0</Data>
+        <Data AD_Column_ID="2223" Column="M_Warehouse_ID">50002</Data>
+        <Data AD_Column_ID="2229" Column="M_Shipper_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94998" Column="M_RMAType_ID" isNewNull="true"/>
+        <Data AD_Column_ID="94260" Column="M_RequisitionLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57128" Column="M_Promotion_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2221" Column="M_Product_ID">137</Data>
+        <Data AD_Column_ID="81230" Column="M_FreightCategory_ID" isNewNull="true"/>
+        <Data AD_Column_ID="8767" Column="M_AttributeSetInstance_ID">0</Data>
+        <Data AD_Column_ID="55323" Column="Link_OrderLine_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3723" Column="LineNetAmt">2.70</Data>
+        <Data AD_Column_ID="2214" Column="Line">20</Data>
+        <Data AD_Column_ID="9868" Column="IsDescription">false</Data>
+        <Data AD_Column_ID="64175" Column="IsConsumesForecast">false</Data>
+        <Data AD_Column_ID="2208" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3049" Column="FreightAmt">0</Data>
+        <Data AD_Column_ID="4031" Column="Discount">10.00</Data>
+        <Data AD_Column_ID="2220" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2217" Column="DatePromised">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2216" Column="DateOrdered">2022-05-10 00:00:00.0</Data>
+        <Data AD_Column_ID="2219" Column="DateInvoiced" isNewNull="true"/>
+        <Data AD_Column_ID="2218" Column="DateDelivered" isNewNull="true"/>
+        <Data AD_Column_ID="2222" Column="C_UOM_ID">100</Data>
+        <Data AD_Column_ID="2235" Column="C_Tax_ID">104</Data>
+        <Data AD_Column_ID="69035" Column="CreateShipment">N</Data>
+        <Data AD_Column_ID="68954" Column="CreateFrom">N</Data>
+        <Data AD_Column_ID="2210" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2209" Column="Created">2022-05-10 15:39:59.131</Data>
+        <Data AD_Column_ID="15458" Column="C_ProjectTask_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15457" Column="C_ProjectPhase_ID" isNewNull="true"/>
+        <Data AD_Column_ID="14092" Column="C_Project_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2205" Column="C_OrderLine_ID">50064</Data>
+        <Data AD_Column_ID="2213" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="2230" Column="C_Currency_ID">100</Data>
+        <Data AD_Column_ID="3050" Column="C_Charge_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15847" Column="C_Campaign_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3404" Column="C_BPartner_Location_ID">112</Data>
+        <Data AD_Column_ID="2764" Column="C_BPartner_ID">117</Data>
+        <Data AD_Column_ID="15848" Column="C_Activity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15861" Column="AD_OrgTrx_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2207" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="2206" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="314" Action="I" Record_ID="50055" Table="C_OrderTax">
+        <Data AD_Column_ID="84686" Column="UUID">5b9e97d4-b8d9-44b0-a8ad-05f59ffa2a6b</Data>
+        <Data AD_Column_ID="3354" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3353" Column="Updated">2022-05-10 15:40:00.357</Data>
+        <Data AD_Column_ID="3766" Column="TaxBaseAmt">96.75</Data>
+        <Data AD_Column_ID="3767" Column="TaxAmt">0</Data>
+        <Data AD_Column_ID="12061" Column="Processed">false</Data>
+        <Data AD_Column_ID="13041" Column="IsTaxIncluded">false</Data>
+        <Data AD_Column_ID="3350" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3356" Column="C_Tax_ID">104</Data>
+        <Data AD_Column_ID="3352" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3351" Column="Created">2022-05-10 15:40:00.357</Data>
+        <Data AD_Column_ID="3355" Column="C_Order_ID">50055</Data>
+        <Data AD_Column_ID="3349" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="3348" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
