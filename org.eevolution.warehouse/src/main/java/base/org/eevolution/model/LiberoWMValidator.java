@@ -23,5 +23,5 @@ import org.eevolution.wms.model.validator.WarehouseManagement;
  * @author Victor Perez
  */
 public class LiberoWMValidator extends WarehouseManagement {
-	
+	 
 } // LiberoWarehouseValidator
