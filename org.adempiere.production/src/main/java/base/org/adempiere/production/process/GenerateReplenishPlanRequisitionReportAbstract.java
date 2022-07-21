@@ -15,40 +15,38 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.adempiere.process;
+package org.adempiere.production.process;
 
-import org.compiere.model.MTable;
-import org.compiere.print.MPrintFormat;
-import org.compiere.util.DB;
-import org.compiere.util.Ini;
-import org.compiere.util.Trx;
+import org.compiere.process.SvrProcess;
 
-/**
- * @author Sachin Bhimani
- * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- * 		<a href="https://github.com/adempiere/adempiere/issues/789">
- * 		@see FR [ 789 ] The Calculate Replenish Plan process not support SQL99</a>
+/** Generated Process for (Replenish Plan Requisition Report)
+ *  @author ADempiere (generated) 
+ *  @version Release 3.9.0
  */
-public class GenerateReplenishPlanRequisitionReport extends GenerateReplenishPlanRequisitionReportAbstract {
+public abstract class GenerateReplenishPlanRequisitionReportAbstract extends SvrProcess {
+	/** Process Value 	*/
+	private static final String VALUE_FOR_PROCESS = "ReplenishPlan_Requisition_Report";
+	/** Process Name 	*/
+	private static final String NAME_FOR_PROCESS = "Replenish Plan Requisition Report";
+	/** Process Id 	*/
+	private static final int ID_FOR_PROCESS = 53821;
 
 	@Override
-	protected String doIt() {
-		int Table_ID = MTable.getTable_ID("RV_M_ReplenishPlan_Requisition");
-		String sql = "UPDATE AD_ReportView "
-				+ "SET WhereClause='M_ReplenishPlan_ID=" + getRecord_ID() + "' "
-				+ "WHERE ad_table_ID = ? ";
-		DB.executeUpdate(sql, Table_ID, get_TrxName());
-		Trx.get(get_TrxName(), false).commit();
-
-		MPrintFormat pf = MPrintFormat.get(getCtx(), 0, Table_ID);
-		pf.setTranslation();
-		pf = MPrintFormat.get(getCtx(), pf.getAD_PrintFormat_ID(), true);
-
-		if (Ini.isClient())
-			getProcessInfo().setTransientObject(pf);
-		else
-			getProcessInfo().setSerializableObject(pf);
-		return null;
+	protected void prepare() {
 	}
 
+	/**	 Getter Parameter Value for Process ID	*/
+	public static final int getProcessId() {
+		return ID_FOR_PROCESS;
+	}
+
+	/**	 Getter Parameter Value for Process Value	*/
+	public static final String getProcessValue() {
+		return VALUE_FOR_PROCESS;
+	}
+
+	/**	 Getter Parameter Value for Process Name	*/
+	public static final String getProcessName() {
+		return NAME_FOR_PROCESS;
+	}
 }

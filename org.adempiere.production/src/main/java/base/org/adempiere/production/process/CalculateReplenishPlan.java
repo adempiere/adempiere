@@ -13,7 +13,7 @@
  * Copyright (C) 2016 ADempiere Foundation All Rights Reserved.               *
  *****************************************************************************/
 
-package org.adempiere.process;
+package org.adempiere.production.process;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -47,13 +47,13 @@ import org.compiere.model.MProductPO;
 import org.compiere.model.MProductPricing;
 import org.compiere.model.MProduction;
 import org.compiere.model.MReplenish;
-import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Replenish;
-import org.compiere.model.X_M_ReplenishPlanLine;
+import org.compiere.production.model.MReplenishPlan;
+import org.compiere.production.model.X_M_ReplenishPlanLine;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;

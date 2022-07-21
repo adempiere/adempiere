@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.adempiere.process;
+package org.adempiere.production.process;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.compiere.model.MReplenishPlan;
+import org.compiere.production.model.MReplenishPlan;
 import org.compiere.model.MTable;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.print.MPrintFormat;
