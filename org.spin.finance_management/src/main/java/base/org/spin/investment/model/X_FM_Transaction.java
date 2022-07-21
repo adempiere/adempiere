@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.spin.investment.model;
@@ -34,7 +35,7 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220507L;
+	private static final long serialVersionUID = 20220616L;
 
     /** Standard Constructor */
     public X_FM_Transaction (Properties ctx, int FM_Transaction_ID, String trxName)
@@ -258,11 +259,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
 	}
 
-	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException
-    {
-		return (org.eevolution.model.I_DD_Freight)MTable.get(getCtx(), org.eevolution.model.I_DD_Freight.Table_Name)
-			.getPO(getDD_Freight_ID(), get_TrxName());	}
-
 	/** Set Order Freight.
 		@param DD_Freight_ID Order Freight	  */
 	public void setDD_Freight_ID (int DD_Freight_ID)
@@ -300,11 +296,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.spin.investment.model.I_FM_Account getFM_Account() throws RuntimeException
-    {
-		return (org.spin.investment.model.I_FM_Account)MTable.get(getCtx(), org.spin.investment.model.I_FM_Account.Table_Name)
-			.getPO(getFM_Account_ID(), get_TrxName());	}
-
 	/** Set Financial Account.
 		@param FM_Account_ID Financial Account	  */
 	public void setFM_Account_ID (int FM_Account_ID)
@@ -333,11 +324,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getFM_Account_ID()));
     }
 
-	public org.spin.investment.model.I_FM_Amortization getFM_Amortization() throws RuntimeException
-    {
-		return (org.spin.investment.model.I_FM_Amortization)MTable.get(getCtx(), org.spin.investment.model.I_FM_Amortization.Table_Name)
-			.getPO(getFM_Amortization_ID(), get_TrxName());	}
-
 	/** Set Loan Amortization.
 		@param FM_Amortization_ID Loan Amortization	  */
 	public void setFM_Amortization_ID (int FM_Amortization_ID)
@@ -357,11 +343,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
-
-	public org.spin.investment.model.I_FM_Batch getFM_Batch() throws RuntimeException
-    {
-		return (org.spin.investment.model.I_FM_Batch)MTable.get(getCtx(), org.spin.investment.model.I_FM_Batch.Table_Name)
-			.getPO(getFM_Batch_ID(), get_TrxName());	}
 
 	/** Set Financial Transaction Batch.
 		@param FM_Batch_ID Financial Transaction Batch	  */
@@ -402,11 +383,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
-
-	public org.spin.investment.model.I_FM_TransactionType getFM_TransactionType() throws RuntimeException
-    {
-		return (org.spin.investment.model.I_FM_TransactionType)MTable.get(getCtx(), org.spin.investment.model.I_FM_TransactionType.Table_Name)
-			.getPO(getFM_TransactionType_ID(), get_TrxName());	}
 
 	/** Set Financial Transaction Type.
 		@param FM_TransactionType_ID Financial Transaction Type	  */

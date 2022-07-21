@@ -70,7 +70,7 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.I_DD_Order;
+import org.eevolution.distribution.model.I_DD_Order;
 import org.eevolution.model.MWMInOutBound;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;

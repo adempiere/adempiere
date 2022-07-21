@@ -34,7 +34,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.I_DD_NetworkDistribution;
+import org.eevolution.distribution.model.I_DD_NetworkDistribution;
 import org.eevolution.model.I_PP_Product_BOM;
 import org.eevolution.model.MPPProductPlanning;
 import org.eevolution.model.X_I_ProductPlanning;

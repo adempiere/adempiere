@@ -800,6 +800,12 @@ public class MTable extends X_AD_Table
 			// Ignore errors
 			syncDatabase(null);
 		}
+		if(!newRecord && is_ValueChanged(COLUMNNAME_EntityType)) {
+			getColumnsAsList(true).forEach(column -> {
+				column.setEntityType(getEntityType());
+				column.saveEx();
+			});
+		}
 		return success;
 	}	//	afterSave
 	

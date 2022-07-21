@@ -30,8 +30,8 @@ import org.compiere.model.X_C_BP_Group;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 
@@ -127,7 +127,7 @@ public class MRPApproval extends MRPApprovalAbstract {
             order.deleteEx(true);
         }
         if (MPPMRP.ORDERTYPE_DistributionOrder.equals(mrp.getOrderType()) && document != null && document.get_ID() > 0) {
-            MDDOrder order = (MDDOrder) mrp.getDD_Order();
+            MDDOrder order = new MDDOrder(mrp.getCtx(), mrp.getDD_Order_ID(), mrp.get_TrxName());
             order.deleteEx(true);
         }
 
@@ -299,12 +299,11 @@ public class MRPApproval extends MRPApprovalAbstract {
     }
 
     private void executeDistributionOrderApproval(MPPMRP mrp) {
-        MDDOrder order = (MDDOrder) mrp.getDD_Order();
+    	MDDOrder order = new MDDOrder(mrp.getCtx(), mrp.getDD_Order_ID(), mrp.get_TrxName());
         if (mrp.is_Changed()) {
             validateChanges(mrp, MPPMRP.COLUMNNAME_Priority, order, MDDOrder.COLUMNNAME_PriorityRule);
             order.saveEx();
-
-            MDDOrderLine orderLine = (MDDOrderLine) mrp.getDD_OrderLine();
+            MDDOrderLine orderLine = new MDDOrderLine(mrp.getCtx(), mrp.getDD_OrderLine_ID(), mrp.get_TrxName());
             orderLine.setQty(getSelectionAsBigDecimal(mrp.getPP_MRP_ID(), "MRP_" + MPPMRP.COLUMNNAME_Qty));
             Timestamp datePromised = getSelectionAsTimestamp(mrp.getPP_MRP_ID(), MDDOrder.COLUMNNAME_DatePromised);
             if (datePromised != null)

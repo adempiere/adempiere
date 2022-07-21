@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.eevolution.model;
 
@@ -23,7 +24,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_PP_MRP 
 {
@@ -78,6 +79,21 @@ public interface I_PP_MRP
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -93,20 +109,20 @@ public interface I_PP_MRP
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Set Order.
-	  * Order
+	/** Set Project.
+	  * Financial Project
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setC_Project_ID (int C_Project_ID);
 
-	/** Get Order.
-	  * Order
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getC_Order_ID();
+	public int getC_Project_ID();
 
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -138,21 +154,6 @@ public interface I_PP_MRP
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -168,28 +169,6 @@ public interface I_PP_MRP
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name DD_OrderLine_ID */
-    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
-
-	/** Set Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
-
-	/** Get Distribution Order Line	  */
-	public int getDD_OrderLine_ID();
-
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
-
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
-
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
-
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
@@ -282,6 +261,24 @@ public interface I_PP_MRP
 	  */
 	public Timestamp getDateStartSchedule();
 
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -334,21 +331,6 @@ public interface I_PP_MRP
 	  */
 	public boolean isAvailable();
 
-    /** Column name M_ForecastLine_ID */
-    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
-
-	/** Set Forecast Line.
-	  * Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
-
-	/** Get Forecast Line.
-	  * Forecast Line
-	  */
-	public int getM_ForecastLine_ID();
-
-	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
-
     /** Column name M_Forecast_ID */
     public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
 
@@ -363,6 +345,21 @@ public interface I_PP_MRP
 	public int getM_Forecast_ID();
 
 	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException;
+
+    /** Column name M_ForecastLine_ID */
+    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
+
+	/** Set Forecast Line.
+	  * Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
+
+	/** Get Forecast Line.
+	  * Forecast Line
+	  */
+	public int getM_ForecastLine_ID();
+
+	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -379,21 +376,6 @@ public interface I_PP_MRP
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_RequisitionLine_ID */
-    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
-
-	/** Set Requisition Line.
-	  * Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
-
-	/** Get Requisition Line.
-	  * Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID();
-
-	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
-
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
 
@@ -408,6 +390,21 @@ public interface I_PP_MRP
 	public int getM_Requisition_ID();
 
 	public org.compiere.model.I_M_Requisition getM_Requisition() throws RuntimeException;
+
+    /** Column name M_RequisitionLine_ID */
+    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
+
+	/** Set Requisition Line.
+	  * Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
+
+	/** Get Requisition Line.
+	  * Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID();
+
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -450,6 +447,21 @@ public interface I_PP_MRP
 	  */
 	public String getOrderType();
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner.
+	  * Company Agent for Planning
+	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner.
+	  * Company Agent for Planning
+	  */
+	public int getPlanner_ID();
+
+	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
+
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
 
@@ -488,21 +500,6 @@ public interface I_PP_MRP
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
-
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
-
-	/** Set Planner.
-	  * Company Agent for Planning
-	  */
-	public void setPlanner_ID (int Planner_ID);
-
-	/** Get Planner.
-	  * Company Agent for Planning
-	  */
-	public int getPlanner_ID();
-
-	public org.compiere.model.I_AD_User getPlanner() throws RuntimeException;
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
@@ -558,19 +555,6 @@ public interface I_PP_MRP
 	  */
 	public String getTypeMRP();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -586,6 +570,19 @@ public interface I_PP_MRP
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

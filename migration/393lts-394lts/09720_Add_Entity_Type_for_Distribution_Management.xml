@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Entity Type for Distribution Management" ReleaseNo="3.9.4" SeqNo="9720">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50139" Table="AD_EntityType">
+        <Data AD_Column_ID="15604" Column="Version">1.00</Data>
+        <Data AD_Column_ID="84318" Column="UUID">21939735-7ce4-4cc7-a413-02b124f02b2e</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2022-06-16 09:53:56.959</Data>
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15601" Column="Name">e-Evolution ADempiere Distribution Management</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.eevolution.distribution.model</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15603" Column="Help">Project Sponsored Development www.e-evolution.com</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">EE12</Data>
+        <Data AD_Column_ID="15602" Column="Description">ADempiere Distribution Management covers all the processes for the management of the supply chain, control and management of distribution centers</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15597" Column="Created">2022-06-16 09:53:56.959</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50139</Data>
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

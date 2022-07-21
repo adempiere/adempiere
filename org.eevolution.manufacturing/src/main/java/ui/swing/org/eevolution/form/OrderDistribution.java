@@ -40,7 +40,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrder;
 
 /**
  *	Generate Invoice (manual) controller class
