@@ -42,8 +42,8 @@ import org.eevolution.freight.engine.FreightEngineFactory;
 import org.eevolution.freight.engine.FreightInfo;
 import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.distribution.model.MDDOrderLine;
-import org.eevolution.model.MWMInOutBound;
-import org.eevolution.model.MWMInOutBoundLine;
+import org.eevolution.wms.model.MWMInOutBound;
+import org.eevolution.wms.model.MWMInOutBoundLine;
 
 /**
  * Model Validator to Calculate Freight
