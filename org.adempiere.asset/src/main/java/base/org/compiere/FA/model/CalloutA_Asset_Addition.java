@@ -7,11 +7,7 @@ import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_A_Asset_Addition;
-import org.compiere.model.MAssetAddition;
-import org.compiere.model.MConversionRateUtil;
 import org.compiere.model.MProject;
-import org.compiere.model.SetGetUtil;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 
