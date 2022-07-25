@@ -18,8 +18,6 @@ package org.spin.queue.notification.support;
 
 import java.util.Arrays;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.apache.commons.lang.StringUtils;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
@@ -79,7 +77,7 @@ public class EMailSender implements INotification {
 			eMailUser = notificationUser.getEMailUser();
 			eMailPassword = notificationUser.getEMailUserPW();
 
-			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+			if (eMailConfigurationId <= 0 || eMailUser == null || eMailUser.isEmpty() || eMailPassword == null || eMailPassword.isEmpty()) {
 				if (notification.getAD_Org_ID() > 0) {
 					MOrg organization = MOrg.get(notification.getCtx(), notification.getAD_Org_ID());
 					MOrgInfo organizationInformation = organization.getInfo();
@@ -91,13 +89,13 @@ public class EMailSender implements INotification {
 				}
 			}
 
-			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+			if (eMailConfigurationId <= 0 || eMailUser == null || eMailUser.isEmpty() || eMailPassword == null || eMailPassword.isEmpty()) {
 				eMailUser = client.getRequestEMail();
 				eMailPassword = client.getRequestUserPW();
 				eMailConfigurationId = client.getAD_EMailConfig_ID();
 			}
 
-			if (eMailConfigurationId <= 0 || StringUtils.isEmpty(eMailUser) || StringUtils.isEmpty(eMailPassword)) {
+			if (eMailConfigurationId <= 0 || eMailUser == null || eMailUser.isEmpty() || eMailPassword == null || eMailPassword.isEmpty()) {
 				log.warning("@AD_EMailConfig_ID@ @NotFound@");
 				if (errorMessage.length() > 0) {
 					errorMessage.append(Env.NL);
