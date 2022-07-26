@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" path="org.eevolution.distribution/src/main/java/base"/>
 	<classpathentry kind="src" output="base/test/build" path="base/test/src">
 		<attributes>
 			<attribute name="test" value="true"/>
@@ -68,7 +69,6 @@
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.freight/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
-	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/base"/>
