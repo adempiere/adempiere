@@ -222,8 +222,7 @@ public class AssetDelivery extends AssetDeliveryAbstract {
 			.addRecipient(user.getAD_User_ID())
 			.withText(message)
 			.withDescription(mailTemplate.getMailHeader())
-			.withTableId(MAsset.Table_ID)
-			.withRecordId(asset.getA_Asset_ID());
+			.withEntity(asset);
 		//	Add to queue
 		notifier.addToQueue();
 		//
@@ -267,8 +266,7 @@ public class AssetDelivery extends AssetDeliveryAbstract {
 			.addRecipient(user.getAD_User_ID())
 			.withText(message)
 			.withDescription(mailTemplate.getMailHeader())
-			.withTableId(MAsset.Table_ID)
-			.withRecordId(asset.getA_Asset_ID());
+			.withEntity(asset);
 		if (isAttachAsset()) {
 			MProductDownload[] pdls = asset.getProductDownloads();
 			if (pdls != null) {

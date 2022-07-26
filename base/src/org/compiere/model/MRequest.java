@@ -1163,8 +1163,8 @@ public class MRequest extends X_R_Request
 				.withText(message)
 				.addAttachment(pdf)
 				.withDescription(subject)
-				.withTableId(MRequest.Table_ID)
-				.withRecordId(getR_Request_ID());
+				.withEntity(this)
+			;
 			//	Add recipients
 			recipients.forEach(recipientId -> notifier.addRecipient(recipientId));
 			//	Add to queue
