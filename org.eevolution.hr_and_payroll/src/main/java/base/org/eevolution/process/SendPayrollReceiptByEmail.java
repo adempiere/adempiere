@@ -140,8 +140,7 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
 				.withText(message)
 				.withUserId(Env.getAD_User_ID(getCtx()))
 				.withDescription(mailText.getMailHeader())
-				.withTableId(MPayment.Table_ID)
-				.withRecordId(paymentId);
+				.withEntity(MPayment.Table_ID, paymentId);
             //	EMail
             String eMail = null;
             //	Get from bank account definition

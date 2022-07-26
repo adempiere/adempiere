@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.Util;
 import org.spin.queue.model.MADQueue;
@@ -97,7 +98,7 @@ public abstract class QueueManager {
 	/**
 	 * @param tableId the tableId to set
 	 */
-	public final QueueManager withTableId(int tableId) {
+	private final QueueManager withTableId(int tableId) {
 		this.tableId = tableId;
 		return this;
 	}
@@ -112,7 +113,7 @@ public abstract class QueueManager {
 	/**
 	 * @param recordId the recordId to set
 	 */
-	public final QueueManager withRecordId(int recordId) {
+	private final QueueManager withRecordId(int recordId) {
 		this.recordId = recordId;
 		return this;
 	}
@@ -137,7 +138,9 @@ public abstract class QueueManager {
 	 * @param organizationId the tableId to set
 	 */
 	public final QueueManager withOrganizationId(int organizationId) {
-		this.organizationId = organizationId;
+		if (getRecordId() <= 0) {
+			this.organizationId = organizationId;
+		}
 		return this;
 	}
 	
@@ -170,16 +173,24 @@ public abstract class QueueManager {
 		this.entity = entity;
 		if(entity != null) {
 			withContext(entity.getCtx())
-				.withOrganizationId(entity.getAD_Org_ID())
 				.withTransactionName(entity.get_TrxName())
 				.withTableId(entity.get_Table_ID())
-				.withRecordId(entity.get_ID());
+				.withRecordId(entity.get_ID())
+				.withOrganizationId(entity.getAD_Org_ID());
 		} else {
 			logger.config("Entity is null");
 		}
 		return this;
 	}
-	
+
+	public QueueManager withEntity(int tableId, int recordId) {
+		if (getContext() == null || getTransactionName() == null) {
+			throw new AdempiereException("@NotFound@");
+		}
+		MTable tableEntity = MTable.get(getContext(), tableId);
+
+		return withEntity(tableEntity.getPO(recordId, getTransactionName()));
+	}
 	/**
 	 * Clear Object
 	 */

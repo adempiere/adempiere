@@ -216,8 +216,7 @@ public class ProjectProcessor extends AdempiereServer
 			notifier.addRecipient(queued.getAD_User_ID());
 			if(m_PO != null) {
 				notifier
-					.withTableId(m_PO.get_Table_ID())
-					.withRecordId(m_PO.get_ID());
+					.withEntity(m_PO);
 			}
 			//	Add to queue
 			notifier.addToQueue();
