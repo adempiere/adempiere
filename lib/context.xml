@@ -34,7 +34,7 @@
                   type="javax.sql.DataSource" />
 
     <ResourceLink name="java/AdempiereSRDS"
-                  global="java/AdempiereDS"
+                  global="java/AdempiereSRDS"
                   auth="Container"
                   type="javax.sql.DataSource" />
 
