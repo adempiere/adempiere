@@ -686,6 +686,11 @@ public final class Fact
 			FactLine factLineSource = (FactLine)m_lines.get(i);
 			List<MDistribution> distributions = MDistribution.get (factLineSource.getAccount(),
 				m_postingType, m_doc.getC_DocType_ID(),factLineSource.getDateAcct());
+
+			if (distributions == null || distributions.size() == 0){
+				distributions = MDistribution.getDistributions(factLineSource.getCtx(), factLineSource.getC_AcctSchema_ID());
+			}
+
 			//	No Distribution for this line
 			//AZ Goodwill
 			//The above "get" only work in GL Journal because it's using ValidCombination Account

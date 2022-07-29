@@ -92,7 +92,7 @@ public class MDistribution extends X_GL_Distribution
 			int orgTrxId, int salesRegionId, int locToId,
 			int locFromId, int user1Id, int user2Id, int user3Id, int user4Id,
 			Timestamp accountDate) {
-		List<MDistribution> distributions = getDistributions(ctx, acctSchemaId);
+		List<MDistribution> distributions = get(ctx, accountId);
 		if (distributions == null || distributions.size() == 0)
 			return null;
 
