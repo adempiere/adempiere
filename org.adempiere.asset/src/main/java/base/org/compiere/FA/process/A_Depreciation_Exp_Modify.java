@@ -5,8 +5,8 @@ package org.compiere.FA.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
-import org.compiere.model.MDepreciationEntry;
-import org.compiere.model.MDepreciationExp;
+import org.compiere.FA.model.MDepreciationEntry;
+import org.compiere.FA.model.MDepreciationExp;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 

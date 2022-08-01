@@ -36,6 +36,14 @@ public class RefactoryUtil {
 	public static final int		DD_OrderLine_Table_ID = 53038;
 	public static final String	DD_Order_Table_Name = "DD_Order";
 	public static final String	DD_OrderLine_Table_Name = "DD_OrderLine";
+	public static final int		A_Asset_Addition_Table_ID = 53137;
+	public static final String	A_Asset_Addition_Table_Name = "A_Asset_Addition";
+	public static final int		A_Depreciation_Entry_Table_ID = 53121;
+	public static final String	A_Depreciation_Entry_Table_Name = "A_Depreciation_Entry";
+	public static final int		A_Asset_Disposed_Table_ID = 53127;
+	public static final String	A_Asset_Disposed_Table_Name = "A_Asset_Disposed";
+	public static final int		A_Asset_Table_ID = 539;
+	public static final String	A_Asset_Table_Name = "A_Asset";
 	
 	/**
 	 * Get a instance of Distribution Order

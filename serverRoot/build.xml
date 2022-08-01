@@ -40,7 +40,6 @@
   <path id="base.path">
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <!--pathelement location="../tools/lib/j2ee.jar" /-->
 	<pathelement location="../tools/lib/jnlp.jar" />
     <pathelement location="../tools/lib/ejb-api-3.0.jar" />
     <pathelement location="../tools/lib/javax.servlet-api-4.0.1.jar"/>

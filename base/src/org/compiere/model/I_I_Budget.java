@@ -90,8 +90,6 @@ public interface I_I_Budget
 	  */
 	public int getA_Asset_ID();
 
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name AccountValue */
     public static final String COLUMNNAME_AccountValue = "AccountValue";
 
