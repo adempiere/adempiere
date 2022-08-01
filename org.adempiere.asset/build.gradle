@@ -25,7 +25,7 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
 	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    api 'io.github.adempiere:base:3.9.4-develop-2.0'
     api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
     api 'io.github.adempiere:project:3.9.4-develop-1.0'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
@@ -50,7 +50,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = "3.9.4-develop-1.4"
 
 jar {
     manifest {

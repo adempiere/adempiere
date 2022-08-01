@@ -23,7 +23,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.model.MAdvertisement;
-import org.compiere.model.X_A_Asset;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommissionRun;
 import org.compiere.model.MDocType;
@@ -33,7 +32,6 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MNote;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
-import org.compiere.model.MRegistration;
 import org.compiere.model.MRequest;
 import org.compiere.model.MRequestType;
 import org.compiere.model.MRfQ;
@@ -652,51 +650,6 @@ public class WebInfo
 	}	//	getPayments
 
 	/**
-	 * 	Get Active Assets if not Credit Stop and EMail is verified
-	 *	@return payments of BP
-	 */
-	public ArrayList<X_A_Asset> getAssets()
-	{
-		m_infoMessage = null;
-		ArrayList<X_A_Asset> list = new ArrayList<X_A_Asset>();
-		if (m_wu != null)
-		{
-			if (m_wu.isCreditStopHold())
-				return list;
-			if (!m_wu.isEMailVerified())
-				return list;
-		}
-		if (m_wu != null && 
-			!m_wu.hasBPAccess(X_AD_UserBPAccess.BPACCESSTYPE_AssetsDownload, null))
-		{
-			log.info("No Access");
-			return list;
-		}
-		String sql = "SELECT * FROM A_Asset WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY Name";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, getC_BPartner_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new X_A_Asset(m_ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		log.fine("#" + list.size());
-		return list;
-	}	//	getAssets
-
-	/**
 	 * 	Get Interest Areas
 	 *	@return interest areas of BPC
 	 */
@@ -1084,78 +1037,6 @@ public class WebInfo
 		log.fine("S_TimeExpense_ID=" + m_id + " - " + retValue);
 		return retValue;
 	}	//	getExpense
-
-
-	/**
-	 * 	Get Registrations
-	 *	@return registrations
-	 */
-	public ArrayList<MRegistration> getRegistrations()
-	{
-		m_infoMessage = null;
-		ArrayList<MRegistration> list = new ArrayList<MRegistration>();
-		String sql = "SELECT * FROM A_Registration "
-			+ "WHERE C_BPartner_ID=? "
-			+ "ORDER BY Created DESC";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, getC_BPartner_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MRegistration (m_ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		log.fine("#" + list.size());
-		return list;
-	}	//	getRegistrations
-
-	/**
-	 * 	Get Registration.
-	 * 	Needs to have ID set first
-	 *	@return invoice of BP with ID
-	 */
-	public MRegistration getRegistration()
-	{
-		m_infoMessage = null;
-		MRegistration retValue = null;
-		String sql = "SELECT * FROM A_Registration WHERE C_BPartner_ID=? AND A_Registration_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, getC_BPartner_ID());
-			pstmt.setInt(2, m_id);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = new MRegistration (m_ctx, rs, null);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "A_Registration_ID=" + m_id, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//	new registration
-		if (retValue == null)
-			retValue = new MRegistration (m_ctx, 0, null);
-		log.fine("A_Registration_ID=" + m_id + " - " + retValue);
-		return retValue;
-	}	//	getRegistration
 
 	
 	/**
