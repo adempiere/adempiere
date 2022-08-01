@@ -53,7 +53,6 @@ import org.compiere.util.DB;
 import org.compiere.util.RefactoryUtil;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
-import org.eevolution.model.X_HR_Process;
 import org.eevolution.model.X_PP_Cost_Collector;
 import org.eevolution.model.X_PP_Order;
 
@@ -338,7 +337,7 @@ public class FactAcctReset extends FactAcctResetAbstract {
             docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "')";
         else if (tableId == RefactoryUtil.DD_Order_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder + "'";
-        else if (tableId == X_HR_Process.Table_ID)
+        else if (tableId == RefactoryUtil.HR_Process_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll + "'";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "'";

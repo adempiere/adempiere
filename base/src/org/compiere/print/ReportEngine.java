@@ -60,7 +60,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.RefactoryUtil;
-import org.eevolution.model.X_HR_PaySelectionCheck;
 import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
 import org.spin.util.ExportFormatCSV;
 import org.spin.util.ExportFormatHTML;
@@ -967,7 +966,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, RefactoryUtil.DD_Order_Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID , MMovement.Table_ID};
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, RefactoryUtil.DD_Order_Table_ID , RefactoryUtil.HR_PaySelectionCheck_Table_ID ,  RefactoryUtil.HR_PaySelectionCheck_Table_ID , MMovement.Table_ID};
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.

@@ -44,6 +44,93 @@ public class RefactoryUtil {
 	public static final String	A_Asset_Disposed_Table_Name = "A_Asset_Disposed";
 	public static final int		A_Asset_Table_ID = 539;
 	public static final String	A_Asset_Table_Name = "A_Asset";
+	public static final int		HR_Process_Table_ID = 53092;
+	public static final String	HR_Process_Table_Name = "HR_Process";
+	public static final int		HR_Payroll_Table_ID = 53093;
+	public static final String	HR_Payroll_Table_Name = "HR_Payroll";
+	public static final int		HR_Movement_Table_ID = 53102;
+	public static final String	HR_Movement_Table_Name = "HR_Movement";
+	public static final int		HR_Concept_Table_ID = 53090;
+	public static final String	HR_Concept_Table_Name = "HR_Concept";
+	public static final int		HR_PaySelectionCheck_Table_ID = 53250;
+	public static final String	HR_PaySelectionCheck_Table_Name = "HR_PaySelectionCheck";
+	public static final int		HR_Employee_Table_ID = 53086;
+	public static final String	HR_Employee_Table_Name = "HR_Employee";
+	
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int HR_Concept_ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String HR_Concept_ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String HR_Concept_ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String HR_Concept_ACCOUNTSIGN_Credit = "C";
+	/** ColumnType AD_Reference_ID=53243 */
+	public static final int HR_Concept_COLUMNTYPE_AD_Reference_ID=53243;
+	/** Amount = A */
+	public static final String HR_Concept_COLUMNTYPE_Amount = "A";
+	/** Date = D */
+	public static final String HR_Concept_COLUMNTYPE_Date = "D";
+	/** Quantity = Q */
+	public static final String HR_Concept_COLUMNTYPE_Quantity = "Q";
+	/** Text = T */
+	public static final String HR_Concept_COLUMNTYPE_Text = "T";
+	
+	/**
+	 * Get Payroll Movement from Id
+	 * @param context
+	 * @param payrollMovementId
+	 * @param transactionName
+	 * @return
+	 */
+	public static PO getPayrollMovement(Properties context, int payrollMovementId, String transactionName) {
+		return MTable.get(context, HR_Movement_Table_Name).getPO(payrollMovementId, transactionName);
+	}
+	
+	/**
+	 * Get Payroll Process from Id
+	 * @param context
+	 * @param payrollProcessId
+	 * @param transactionName
+	 * @return
+	 */
+	public static PO getPayrollProcess(Properties context, int payrollProcessId, String transactionName) {
+		return MTable.get(context, HR_Process_Table_Name).getPO(payrollProcessId, transactionName);
+	}
+	
+	/**
+	 * Get Payroll definition from Id
+	 * @param context
+	 * @param payrollDefinitionId
+	 * @param transactionName
+	 * @return
+	 */
+	public static PO getPayrollDefinition(Properties context, int payrollDefinitionId, String transactionName) {
+		return MTable.get(context, HR_Payroll_Table_Name).getPO(payrollDefinitionId, transactionName);
+	}
+	
+	
+	/**
+	 * Get Payroll concept from Id
+	 * @param context
+	 * @param payrollConceptId
+	 * @param transactionName
+	 * @return
+	 */
+	public static PO getPayrollConcept(Properties context, int payrollConceptId, String transactionName) {
+		return MTable.get(context, HR_Concept_Table_Name).getPO(payrollConceptId, transactionName);
+	}
+	
+	/**
+	 * Get employee from Id
+	 * @param context
+	 * @param payrollEmployeeId
+	 * @param transactionName
+	 * @return
+	 */
+	public static PO getPayrollEmployee(Properties context, int payrollEmployeeId, String transactionName) {
+		return MTable.get(context, HR_Concept_Table_Name).getPO(payrollEmployeeId, transactionName);
+	}
 	
 	/**
 	 * Get a instance of Distribution Order

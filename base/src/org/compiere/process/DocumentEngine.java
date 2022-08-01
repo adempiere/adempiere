@@ -57,7 +57,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.RefactoryUtil;
-import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
 
@@ -1268,7 +1267,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (tableId == I_HR_Process.Table_ID)
+		else if (tableId == RefactoryUtil.HR_Process_Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)

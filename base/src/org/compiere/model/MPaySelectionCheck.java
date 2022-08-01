@@ -397,7 +397,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						if (paySelectionLine.getC_Charge_ID() != 0) {
 							payment.setC_Charge_ID(paySelectionLine.getC_Charge_ID());
 							if (paySelectionLine.getHR_Movement_ID() > 0) {
-								payment.setC_Project_ID(paySelectionLine.getHRMovement().getC_Project_ID());
+								payment.setC_Project_ID(paySelectionLine.getHRMovement().get_ValueAsInt("C_Project_ID"));
 							}
 						}
 						//	For Conversion Type
