@@ -174,9 +174,9 @@ public abstract class QueueManager {
 		if(entity != null) {
 			withContext(entity.getCtx())
 				.withTransactionName(entity.get_TrxName())
+				.withOrganizationId(entity.getAD_Org_ID())
 				.withTableId(entity.get_Table_ID())
-				.withRecordId(entity.get_ID())
-				.withOrganizationId(entity.getAD_Org_ID());
+				.withRecordId(entity.get_ID());
 		} else {
 			logger.config("Entity is null");
 		}
