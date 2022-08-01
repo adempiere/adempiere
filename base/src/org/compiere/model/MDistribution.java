@@ -76,7 +76,7 @@ public class MDistribution extends X_GL_Distribution
 	 *	@param campaignId campaign
 	 *	@param activityId activity
 	 *	@param orgTrxId trx org
-	 *	@param salesRegionId
+	 *	@param salesRegionId sales Region Id
 	 *	@param locToId location to
 	 *	@param locFromId location from
 	 *	@param user1Id user 1
@@ -92,7 +92,7 @@ public class MDistribution extends X_GL_Distribution
 			int orgTrxId, int salesRegionId, int locToId,
 			int locFromId, int user1Id, int user2Id, int user3Id, int user4Id,
 			Timestamp accountDate) {
-		List<MDistribution> distributions = get(ctx, accountId);
+		List<MDistribution> distributions = getDistributions(ctx,acctSchemaId);
 		if (distributions == null || distributions.size() == 0)
 			return null;
 
@@ -146,30 +146,6 @@ public class MDistribution extends X_GL_Distribution
 			distributionList.add (distribution);
 		}	//	 for all distributions with acct
 		return distributionList;
-	}	//	get
-	
-	/**
-	 * 	Get Distributions for Account
-	 *	@param ctx context
-	 *	@param accountId Account Id
-	 *	@return array of distributions
-	 */
-	public static List<MDistribution> get (Properties ctx, int accountId)
-	{
-		Integer key = accountId;
-		List<MDistribution> distributions = distributionCache.get(key);
-		if (distributions != null)
-			return distributions;
-		final String whereClause = "Account_ID=?";
-
-		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause,null)
-		.setClient_ID()
-		.setOnlyActiveRecords(true)
-		.setParameters(accountId)
-		.list();
-		if (list != null && list.size() > 0)
-			distributionCache.put(key, list);
-		return list;
 	}	//	get
 	
 	/**	Static Logger	*/
@@ -354,14 +330,12 @@ public class MDistribution extends X_GL_Distribution
 		for (MDistribution distribution : distributions) {
 			if (!distribution.isActive() || !distribution.isValid())
 				continue;
-						
 			if (distribution.getPostingType() != null
 					&& !distribution.getPostingType().equals(postingType))
 				continue;
 			if (distribution.getC_DocType_ID() != 0
 					&& distribution.getC_DocType_ID() != docTypeId)
 				continue;
-			
 			if (!distribution.isAnyOrg()
 					&& distribution.getOrg_ID() != orgId)
 				continue;
@@ -406,12 +380,13 @@ public class MDistribution extends X_GL_Distribution
 				continue;
 			if (!distribution.isAnyUser4()
 					&& distribution.getUser4_ID() != user4Id)
-
+				continue;
 			if (!distribution.isAnyUser3()
-						&& distribution.getUser3_ID() != user3Id)
-					continue;
+					&& distribution.getUser3_ID() != user3Id)
+				continue;
 			if (!distribution.isAnyUser4()
 					&& distribution.getUser4_ID() != user4Id)
+				continue;
 
 			list.add(distribution);
 		} // for all distributions with acct
