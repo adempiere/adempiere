@@ -14,14 +14,13 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.process;
+package org.spin.pr.process;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
 import org.compiere.util.Ini;
-import org.spin.hr.process.PayrollProcessReport;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.pr.model.MHRProcessReport;
 import org.spin.pr.model.X_RV_HR_ProcessDetail;
@@ -60,14 +59,15 @@ public class WPayrollProcessReport extends PayrollProcessReport {
 		//	Export
 		boolean isExported = payrollReport.exportToFile(exportFile, detail);
 		//	
+		String result = "Ok";
 		if (isExported && exportFile != null) {
 			
 			Filedownload.save(new FileInputStream(exportFile), "plain/text", reportExport.getCompleteFileName());
 			//	Show Path
-			return "@Exported@ : " + exportFile.getPath();
+			result = "@Exported@ : " + exportFile.getPath();
 		}
 		//	Default
-		return "Ok";
+		return result;
 	}
 
 }

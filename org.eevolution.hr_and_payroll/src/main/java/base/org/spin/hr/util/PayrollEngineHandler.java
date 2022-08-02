@@ -51,7 +51,7 @@ public class PayrollEngineHandler {
     /**
      * Instance hash map
      */
-    private PayrollEngineHandler() {
+    public PayrollEngineHandler() {
     	ruleEngineMap = new HashMap<Integer, RuleInterface>();
     }
 

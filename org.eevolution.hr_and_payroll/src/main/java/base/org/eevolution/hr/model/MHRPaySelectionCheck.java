@@ -45,7 +45,7 @@ import org.compiere.util.Env;
  * 	@author 	victor.perez@e-evolution.com, www.e-evolution.com
  * 	@author 	oscar.gomez@e-evolution.com, www.e-evolution.com
  */
-public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
+public class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 {
 	
 

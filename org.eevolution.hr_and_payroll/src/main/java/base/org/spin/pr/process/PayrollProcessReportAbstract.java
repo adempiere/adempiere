@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.spin.hr.process;
+package org.spin.pr.process;
 
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;

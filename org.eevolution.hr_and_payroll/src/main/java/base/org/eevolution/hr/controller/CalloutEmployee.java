@@ -14,7 +14,7 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.eevolution.hr.model;
+package org.eevolution.hr.controller;
 
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
@@ -23,6 +23,8 @@ import org.compiere.model.GridTab;
 import org.compiere.model.MBPartner;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.hr.model.I_HR_EmployeeDependent;
+import org.eevolution.hr.model.I_HR_EmployeeInsurance;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

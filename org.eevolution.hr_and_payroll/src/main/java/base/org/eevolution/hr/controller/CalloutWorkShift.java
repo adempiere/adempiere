@@ -14,7 +14,7 @@
  * Contributor(s):                                                            *
  *****************************************************************************/
 
-package org.eevolution.hr.model;
+package org.eevolution.hr.controller;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -26,6 +26,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
+import org.eevolution.hr.model.I_HR_WorkShift;
 /**
  *
  * @Bug    @author         @CahngeID               @Description

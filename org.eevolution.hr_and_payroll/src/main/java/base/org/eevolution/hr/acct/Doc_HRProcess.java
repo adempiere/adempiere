@@ -13,7 +13,7 @@
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
-package org.compiere.hr.acct;
+package org.eevolution.hr.acct;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

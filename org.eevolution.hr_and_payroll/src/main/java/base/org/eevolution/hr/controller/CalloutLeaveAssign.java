@@ -13,12 +13,14 @@
  * Copyright(C) Walking Tree Consultancy Services Pvt Ltd,All Rights Reserved *
  * Contributor(s):                                                            *
  *****************************************************************************/
-package org.eevolution.hr.model;
+package org.eevolution.hr.controller;
 
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.eevolution.hr.model.I_HR_LeaveAssign;
+import org.eevolution.hr.model.MHRLeaveType;
 
 import java.util.Properties;
 

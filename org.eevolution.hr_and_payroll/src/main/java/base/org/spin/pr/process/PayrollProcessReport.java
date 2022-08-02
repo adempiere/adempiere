@@ -14,7 +14,7 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.hr.process;
+package org.spin.pr.process;
 
 import java.io.File;
 import java.math.BigDecimal;

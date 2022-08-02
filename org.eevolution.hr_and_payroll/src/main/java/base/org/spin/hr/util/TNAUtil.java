@@ -35,7 +35,6 @@ import org.eevolution.hr.model.MHRLeave;
 import org.eevolution.hr.model.MHRLeaveType;
 import org.eevolution.hr.model.MHRWorkShift;
 import org.eevolution.hr.model.I_HR_Leave;
-import org.spin.tar.model.I_HR_Incidence;
 
 /**
  * 	Class added for helper method of incidence
@@ -100,17 +99,17 @@ public class TNAUtil {
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		//check concept
-		whereClause.append(I_HR_Incidence.COLUMNNAME_HR_Concept_ID + "=?");
+		whereClause.append("HR_Concept_ID=?");
 		params.add(conceptId);
 		//check partner
-		whereClause.append(" AND " + I_HR_Incidence.COLUMNNAME_C_BPartner_ID  + "=?");
+		whereClause.append(" AND C_BPartner_ID =?");
 		params.add(partnerId);
 		//Adding dates 
-		whereClause.append(" AND ").append(I_HR_Incidence.COLUMNNAME_DateDoc).append(" BETWEEN ? AND ?");
+		whereClause.append(" AND ").append("DateDoc BETWEEN ? AND ?");
 		params.add(from);
 		params.add(to);
 		//	Document Status
-		whereClause.append(" AND ").append(I_HR_Incidence.COLUMNNAME_DocStatus).append(" IN('CO', 'CL')");
+		whereClause.append(" AND ").append("DocStatus IN('CO', 'CL')");
 		//check process and payroll
 		if(workShiftId > 0) {
 			whereClause.append(" AND EXISTS (SELECT 1 FROM HR_AttendanceBatch b"
@@ -120,7 +119,7 @@ public class TNAUtil {
 			params.add(workShiftId);
 		}
 		//
-		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(Qty), SUM(Amt), 0) FROM ").append(I_HR_Incidence.Table_Name)
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(Qty), SUM(Amt), 0) FROM HR_Incidence")
 					.append(" WHERE ").append(whereClause);
 		BigDecimal value = DB.getSQLValueBDEx(trxName, sql.toString(), params);
 		return value.doubleValue();

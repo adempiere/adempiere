@@ -11,7 +11,7 @@
  * All parts are Copyright (C) 1999-2005 ComPiere, Inc.  All Rights Reserved.
  * Contributor(s): ______________________________________.
  *****************************************************************************/
-package org.eevolution.hr.model;
+package org.eevolution.hr.controller;
 
 import java.util.Properties;
 
@@ -19,6 +19,7 @@ import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DB;
+import org.eevolution.hr.model.MHRConcept;
 
 /**
  *	Payroll Callouts.

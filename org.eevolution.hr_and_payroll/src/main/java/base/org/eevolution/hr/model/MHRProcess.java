@@ -127,12 +127,18 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	private HRProcessActionMsg actionScope = null;
 	
 	/**	Script to import	*/
-	private static StringBuffer s_scriptImport = new StringBuffer(	 " import org.eevolution.model.*;" 
+	private static StringBuffer s_scriptImport = new StringBuffer(
+			" import org.eevolution.model.*;" 
+			+ Env.NL + "import org.eevolution.hr.model.*;"
+			+ Env.NL + "import org.eevolution.hr.util.*;"
 			+ Env.NL + "import org.compiere.model.*;"
 			+ Env.NL + "import org.adempiere.model.*;"
 			+ Env.NL + "import org.compiere.util.*;"
 			+ Env.NL + "import org.spin.model.*;"
+			+ Env.NL + "import org.spin.hr.model.*;"
+			+ Env.NL + "import org.spin.tar.model.*;"
 			+ Env.NL + "import org.spin.util.*;"
+			+ Env.NL + "import org.spin.hr.util.*;"
 			+ Env.NL + "import java.util.*;" 
 			+ Env.NL + "import java.math.*;"
 			+ Env.NL + "import java.sql.*;");
