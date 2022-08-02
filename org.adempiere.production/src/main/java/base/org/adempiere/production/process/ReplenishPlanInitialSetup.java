@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.adempiere.process;
+package org.adempiere.production.process;
 
 /** Generated Process for (Replenish Plan Initial Setup)
  *  @author ADempiere (generated) 

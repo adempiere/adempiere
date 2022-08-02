@@ -15,21 +15,21 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.adempiere.process;
+package org.adempiere.production.process;
 
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (Replenish Plan Requisition Report)
+/** Generated Process for (Replenish Plan Production Report)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
  */
-public abstract class GenerateReplenishPlanRequisitionReportAbstract extends SvrProcess {
+public abstract class GenerateReplenishPlanProductionReportAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "ReplenishPlan_Requisition_Report";
+	private static final String VALUE_FOR_PROCESS = "ReplenishPlan_Production_Report";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Replenish Plan Requisition Report";
+	private static final String NAME_FOR_PROCESS = "Replenish Plan Production Report";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 53821;
+	private static final int ID_FOR_PROCESS = 53820;
 
 	@Override
 	protected void prepare() {
