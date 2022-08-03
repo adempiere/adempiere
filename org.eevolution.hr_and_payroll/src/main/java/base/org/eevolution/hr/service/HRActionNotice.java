@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.api.I_HR_Process;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MLookup;
@@ -39,7 +40,6 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.hr.model.I_HR_Process;
 import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRDepartment;
 import org.eevolution.hr.model.MHREmployee;

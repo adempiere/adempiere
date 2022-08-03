@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.api.I_HR_PaySelectionCheck;
+import org.adempiere.core.api.I_HR_PaySelectionLine;
 import org.compiere.model.I_C_Payment;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MCurrency;

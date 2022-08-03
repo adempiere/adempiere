@@ -20,6 +20,8 @@ package org.eevolution.hr.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_Education;
 import org.compiere.model.*;
 
 /** Generated Model for HR_Education

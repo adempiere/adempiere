@@ -20,13 +20,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.api.I_HR_WorkShift;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
-import org.eevolution.hr.model.I_HR_WorkShift;
 /**
  *
  * @Bug    @author         @CahngeID               @Description

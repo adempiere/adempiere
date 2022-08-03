@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.api.I_I_HR_AttendanceRecord;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
@@ -30,7 +31,6 @@ import org.eevolution.hr.model.MHREmployee;
 import org.eevolution.hr.model.MHRShiftGroup;
 import org.eevolution.hr.model.MHRWorkGroup;
 import org.eevolution.hr.model.MHRWorkShift;
-import org.spin.tar.model.I_I_HR_AttendanceRecord;
 import org.spin.tar.model.MHRAttendanceBatch;
 import org.spin.tar.model.MHRAttendanceRecord;
 import org.spin.tar.model.X_I_HR_AttendanceRecord;

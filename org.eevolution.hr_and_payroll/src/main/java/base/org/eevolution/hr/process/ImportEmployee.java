@@ -19,6 +19,7 @@
  */
 package org.eevolution.hr.process;
 
+import org.adempiere.core.api.I_I_HR_Employee;
 import org.compiere.model.MActivity;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCampaign;
@@ -48,7 +49,6 @@ import org.eevolution.hr.model.MHRSalaryStructure;
 import org.eevolution.hr.model.MHRShiftGroup;
 import org.eevolution.hr.model.MHRSkillType;
 import org.eevolution.hr.model.MHRWorkGroup;
-import org.eevolution.hr.model.I_I_HR_Employee;
 import org.eevolution.hr.model.X_I_HR_Employee;
 
 import java.io.ByteArrayOutputStream;

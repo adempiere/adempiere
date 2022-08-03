@@ -20,6 +20,8 @@ package org.spin.pr.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_ProcessReportLine;
 import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportLine

@@ -27,6 +27,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.api.I_HR_Concept;
+import org.adempiere.core.api.I_HR_Movement;
+import org.adempiere.core.api.I_HR_Payroll;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.RefactoryUtil;
@@ -406,21 +409,21 @@ public class CalloutPaySelection extends CalloutEngine
 		if (HR_Movement_ID == 0)
 			return "";
 		//	Get amount from movement
-		PO movement = RefactoryUtil.getPayrollMovement(ctx, HR_Movement_ID, null);
-		PO concept =  RefactoryUtil.getPayrollConcept(ctx, movement.get_ValueAsInt("HR_Concept_ID"), null);
-		if(!concept.get_ValueAsString("ColumnType").equals(RefactoryUtil.HR_Concept_COLUMNTYPE_Amount)) {
+		I_HR_Movement movement = RefactoryUtil.getPayrollMovement(ctx, HR_Movement_ID, null);
+		I_HR_Concept concept =  RefactoryUtil.getPayrollConcept(ctx, movement.getHR_Concept_ID(), null);
+		if(!concept.getColumnType().equals(RefactoryUtil.HR_Concept_COLUMNTYPE_Amount)) {
 			return "@HR_Concept_ID@ <> @Amount@";
 		}
 		//	Valid payroll
-		PO payroll = RefactoryUtil.getPayrollDefinition(ctx, movement.get_ValueAsInt("HR_Payroll_ID"), null);
-		if(payroll.get_ValueAsInt("C_Charge_ID") == 0) {
+		I_HR_Payroll payroll = RefactoryUtil.getPayrollDefinition(ctx, movement.getHR_Payroll_ID(), null);
+		if(payroll.getC_Charge_ID() == 0) {
 			return "@C_Charge_ID@ @NotFound@";
 		}
 		//	Get Amount
-		mTab.setValue("PayAmt", movement.get_Value("Amount"));
-		mTab.setValue("C_Charge_ID", payroll.get_ValueAsInt("C_Charge_ID"));
+		mTab.setValue("PayAmt", movement.getAmount());
+		mTab.setValue("C_Charge_ID", payroll.getC_Charge_ID());
 		//	Set BP from Document
-		mTab.setValue("C_BPartner_ID", movement.get_ValueAsInt("C_BPartner_ID"));
+		mTab.setValue("C_BPartner_ID", movement.getC_BPartner_ID());
 		return "";
 	}
 	

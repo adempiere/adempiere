@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.api.I_HR_Leave;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -34,7 +35,6 @@ import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRLeave;
 import org.eevolution.hr.model.MHRLeaveType;
 import org.eevolution.hr.model.MHRWorkShift;
-import org.eevolution.hr.model.I_HR_Leave;
 
 /**
  * 	Class added for helper method of incidence

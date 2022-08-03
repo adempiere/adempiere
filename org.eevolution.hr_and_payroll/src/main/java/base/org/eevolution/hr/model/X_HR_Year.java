@@ -21,6 +21,8 @@ package org.eevolution.hr.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_Year;
 import org.compiere.model.*;
 
 /** Generated Model for HR_Year

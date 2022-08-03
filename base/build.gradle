@@ -103,7 +103,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-2.5"
+version = "3.9.4-develop-2.6"
 
 jar {
     manifest {

@@ -3,12 +3,12 @@
  */
 package org.eevolution.hr.controller;
 
+import org.adempiere.core.api.I_HR_JobOpening;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.Msg;
-import org.eevolution.hr.model.I_HR_JobOpening;
 
 import java.sql.Timestamp;
 import java.util.Properties;

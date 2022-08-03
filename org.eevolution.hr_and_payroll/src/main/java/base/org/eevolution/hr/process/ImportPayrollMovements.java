@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.api.I_I_HR_Movement;
 import org.compiere.model.MBPartner;
 import org.compiere.model.Query;
 import org.compiere.util.Msg;
@@ -28,7 +29,6 @@ import org.compiere.util.Trx;
 import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.hr.model.I_I_HR_Movement;
 import org.eevolution.hr.model.X_I_HR_Movement;
 /**
  * Import Payroll Movements

@@ -22,15 +22,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.api.I_HR_LeaveAssign;
+import org.adempiere.core.api.I_HR_LeaveReason;
+import org.adempiere.core.api.I_HR_LeaveType;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.eevolution.hr.model.I_HR_LeaveAssign;
-import org.eevolution.hr.model.I_HR_LeaveReason;
-import org.eevolution.hr.model.I_HR_LeaveType;
 import org.eevolution.hr.model.MHRLeave;
 import org.eevolution.hr.model.MHRLeaveAssign;
 import org.eevolution.hr.model.MHRLeaveReason;

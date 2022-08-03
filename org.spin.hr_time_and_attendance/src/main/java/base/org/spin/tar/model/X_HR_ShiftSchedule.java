@@ -20,6 +20,8 @@ package org.spin.tar.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_ShiftSchedule;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.api.I_HR_Employee;
+import org.adempiere.core.api.I_HR_Process;
 import org.compiere.model.I_C_BP_Relation;
 import org.compiere.model.I_C_BPartner_Location;
 import org.compiere.model.MBPartner;
@@ -35,8 +37,6 @@ import org.compiere.process.DocAction;
 import org.compiere.util.Msg;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.hr.model.I_HR_Employee;
-import org.eevolution.hr.model.I_HR_Process;
 import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHREmployee;
 

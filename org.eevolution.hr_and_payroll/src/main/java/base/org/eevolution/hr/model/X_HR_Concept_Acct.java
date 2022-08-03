@@ -20,6 +20,8 @@ package org.eevolution.hr.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_Concept_Acct;
 import org.compiere.model.*;
 
 /** Generated Model for HR_Concept_Acct

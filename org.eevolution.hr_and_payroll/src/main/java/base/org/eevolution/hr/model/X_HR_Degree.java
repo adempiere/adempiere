@@ -20,6 +20,8 @@ package org.eevolution.hr.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_Degree;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

@@ -22,6 +22,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.api.I_HR_Concept;
+import org.adempiere.core.api.I_HR_Employee;
+import org.adempiere.core.api.I_HR_Movement;
+import org.adempiere.core.api.I_HR_Payroll;
+import org.adempiere.core.api.I_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -83,8 +88,8 @@ public class RefactoryUtil {
 	 * @param transactionName
 	 * @return
 	 */
-	public static PO getPayrollMovement(Properties context, int payrollMovementId, String transactionName) {
-		return MTable.get(context, HR_Movement_Table_Name).getPO(payrollMovementId, transactionName);
+	public static I_HR_Movement getPayrollMovement(Properties context, int payrollMovementId, String transactionName) {
+		return (I_HR_Movement) MTable.get(context, HR_Movement_Table_Name).getPO(payrollMovementId, transactionName);
 	}
 	
 	/**
@@ -94,8 +99,8 @@ public class RefactoryUtil {
 	 * @param transactionName
 	 * @return
 	 */
-	public static PO getPayrollProcess(Properties context, int payrollProcessId, String transactionName) {
-		return MTable.get(context, HR_Process_Table_Name).getPO(payrollProcessId, transactionName);
+	public static I_HR_Process getPayrollProcess(Properties context, int payrollProcessId, String transactionName) {
+		return (I_HR_Process) MTable.get(context, HR_Process_Table_Name).getPO(payrollProcessId, transactionName);
 	}
 	
 	/**
@@ -105,8 +110,8 @@ public class RefactoryUtil {
 	 * @param transactionName
 	 * @return
 	 */
-	public static PO getPayrollDefinition(Properties context, int payrollDefinitionId, String transactionName) {
-		return MTable.get(context, HR_Payroll_Table_Name).getPO(payrollDefinitionId, transactionName);
+	public static I_HR_Payroll getPayrollDefinition(Properties context, int payrollDefinitionId, String transactionName) {
+		return (I_HR_Payroll) MTable.get(context, HR_Payroll_Table_Name).getPO(payrollDefinitionId, transactionName);
 	}
 	
 	
@@ -117,8 +122,8 @@ public class RefactoryUtil {
 	 * @param transactionName
 	 * @return
 	 */
-	public static PO getPayrollConcept(Properties context, int payrollConceptId, String transactionName) {
-		return MTable.get(context, HR_Concept_Table_Name).getPO(payrollConceptId, transactionName);
+	public static I_HR_Concept getPayrollConcept(Properties context, int payrollConceptId, String transactionName) {
+		return (I_HR_Concept) MTable.get(context, HR_Concept_Table_Name).getPO(payrollConceptId, transactionName);
 	}
 	
 	/**
@@ -128,8 +133,8 @@ public class RefactoryUtil {
 	 * @param transactionName
 	 * @return
 	 */
-	public static PO getPayrollEmployee(Properties context, int payrollEmployeeId, String transactionName) {
-		return MTable.get(context, HR_Concept_Table_Name).getPO(payrollEmployeeId, transactionName);
+	public static I_HR_Employee getPayrollEmployee(Properties context, int payrollEmployeeId, String transactionName) {
+		return (I_HR_Employee) MTable.get(context, HR_Concept_Table_Name).getPO(payrollEmployeeId, transactionName);
 	}
 	
 	/**

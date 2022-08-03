@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.hr.process;
 
+import org.adempiere.core.api.I_I_HR_Attribute;
 import org.compiere.model.MActivity;
 import org.compiere.model.MCampaign;
 import org.compiere.model.MOrg;
@@ -25,8 +26,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.hr.model.*;
-import org.eevolution.hr.model.I_I_HR_Attribute;
-import org.eevolution.hr.model.X_I_HR_Attribute;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

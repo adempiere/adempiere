@@ -21,6 +21,8 @@ package org.spin.tar.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.api.I_HR_AttendanceBatch;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

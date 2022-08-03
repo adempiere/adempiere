@@ -26,6 +26,9 @@ import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.api.I_HR_Employee;
+import org.adempiere.core.api.I_HR_Movement;
+import org.adempiere.core.api.I_HR_Payroll;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -107,7 +110,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	/**	Order					*/
 	private MOrder order = null;
 	/**	HR Movement				*/
-	private PO movement = null;
+	private I_HR_Movement movement = null;
 	/**	Parent					*/
 	private MPaySelection parent = null;
 	
@@ -201,8 +204,8 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * @param sourceAmount
 	 * @param convertedAmount
 	 */
-	public void setHRMovement(PO movement, BigDecimal sourceAmount, BigDecimal convertedAmount) {
-		Optional.ofNullable(RefactoryUtil.getPayrollProcess(getCtx(), movement.get_ValueAsInt("HR_Process_ID"), COLUMNNAME_AD_Client_ID)).ifPresent(payrollProcess -> setHRMovement(movement, payrollProcess.get_ValueAsInt("C_ConversionType_ID"), sourceAmount, convertedAmount));
+	public void setHRMovement(I_HR_Movement movement, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		Optional.ofNullable(RefactoryUtil.getPayrollProcess(getCtx(), movement.getHR_Process_ID(), COLUMNNAME_AD_Client_ID)).ifPresent(payrollProcess -> setHRMovement(movement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount));
 	}
 	
 	/**
@@ -212,25 +215,25 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * @param sourceAmount
 	 * @param convertedAmount
 	 */
-	public void setHRMovement(PO movement, int conversionTypeId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
-		setHR_Movement_ID(movement.get_ValueAsInt("HR_Movement_ID"));
-		setC_BPartner_ID(movement.get_ValueAsInt("C_BPartner_ID"));
+	public void setHRMovement(I_HR_Movement movement, int conversionTypeId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		setHR_Movement_ID(movement.getHR_Movement_ID());
+		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
-		PO employee = RefactoryUtil.getPayrollEmployee(getCtx(), movement.get_ValueAsInt("HR_Employee_ID"), get_TrxName());
+		I_HR_Employee employee = RefactoryUtil.getPayrollEmployee(getCtx(), movement.getHR_Employee_ID(), get_TrxName());
 		if(employee != null 
-				&& employee.get_ValueAsString(MBPartner.COLUMNNAME_PaymentRule) != null) {
-			setPaymentRule(employee.get_ValueAsString(MBPartner.COLUMNNAME_PaymentRule));
+				&& employee.getPaymentRule() != null) {
+			setPaymentRule(employee.getPaymentRule());
 		}
 		//	From Payroll
 		if(getPaymentRule() == null) {
-			PO payroll = RefactoryUtil.getPayrollDefinition(getCtx(), movement.get_ValueAsInt("HR_Payroll_ID"), get_TableName());
-			if(payroll.get_ValueAsString(MBPartner.COLUMNNAME_PaymentRule) != null) {
-				setPaymentRule(payroll.get_ValueAsString(MBPartner.COLUMNNAME_PaymentRule));
+			I_HR_Payroll payroll = RefactoryUtil.getPayrollDefinition(getCtx(), movement.getHR_Payroll_ID(), get_TableName());
+			if(payroll.getPaymentRule() != null) {
+				setPaymentRule(payroll.getPaymentRule());
 			}
 		}
 		//	From BPartner
 		if(getPaymentRule() == null) {
-			MBPartner partner = MBPartner.get(getCtx(), movement.get_ValueAsInt("C_BPartner_ID"));
+			MBPartner partner = MBPartner.get(getCtx(), movement.getC_BPartner_ID());
 			if(partner.getPaymentRulePO() != null) {
 				setPaymentRule(partner.getPaymentRulePO());
 			}
@@ -333,7 +336,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * FR [ 297 ]
 	 * @return
 	 */
-	public PO getHRMovement() {
+	public I_HR_Movement getHRMovement() {
 		if (movement == null) {
 			movement = RefactoryUtil.getPayrollMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
 		}
@@ -399,16 +402,16 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				setC_BPartner_ID(getInvoice().getC_BPartner_ID());
 			} else if(getHR_Movement_ID() != 0
 					&& getC_Charge_ID() == 0) {
-				PO movement = RefactoryUtil.getPayrollMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
-				PO payroll = RefactoryUtil.getPayrollDefinition(getCtx(), movement.get_ValueAsInt("HR_Payroll_ID"), get_TrxName());
+				I_HR_Movement movement = RefactoryUtil.getPayrollMovement(getCtx(), getHR_Movement_ID(), get_TrxName());
+				I_HR_Payroll payroll = RefactoryUtil.getPayrollDefinition(getCtx(), movement.getHR_Payroll_ID(), get_TrxName());
 				//	MHRPayroll payroll = MHRPayroll.get(getCtx(), movement.getHR_Payroll_ID());
-				if(payroll.get_ValueAsInt("HR_Payroll_ID") == 0)
+				if(payroll.getHR_Payroll_ID() == 0)
 					throw new AdempiereException("@HR_Payroll_ID@ @NotFound@");
-				if(payroll.get_ValueAsInt("C_Charge_ID") == 0)
+				if(payroll.getC_Charge_ID() == 0)
 					throw new AdempiereException("@C_Charge_ID@ @NotFound@");
 				//	Set charge
-				setC_Charge_ID(payroll.get_ValueAsInt("C_Charge_ID"));
-				setC_BPartner_ID(movement.get_ValueAsInt("C_BPartner_ID"));
+				setC_Charge_ID(payroll.getC_Charge_ID());
+				setC_BPartner_ID(movement.getC_BPartner_ID());
 			}
 		} else if(is_ValueChanged("C_Charge_ID") 
 				&& getC_Charge_ID() != 0){
@@ -455,7 +458,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 			} else if(getC_Order_ID() != 0) {
 				partnerId = getC_Order().getC_BPartner_ID();
 			} else if(getHR_Movement_ID() != 0) {
-				partnerId = getHRMovement().get_ValueAsInt("C_BPartner_ID");
+				partnerId = getHRMovement().getC_BPartner_ID();
 			}
 			//	Validate BP
 			if(partnerId != getC_BPartner_ID()) {
@@ -466,7 +469,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		} else if(getC_Order_ID() != 0) {
 			setC_BPartner_ID(getOrder().getC_BPartner_ID());
 		} else if(getHR_Movement_ID() != 0) {
-			setC_BPartner_ID(getHRMovement().get_ValueAsInt("C_BPartner_ID"));
+			setC_BPartner_ID(getHRMovement().getC_BPartner_ID());
 		}
 	}
 	

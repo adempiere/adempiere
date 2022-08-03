@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.eevolution.hr.controller;
 
+import org.adempiere.core.api.I_HR_EmployeeDependent;
+import org.adempiere.core.api.I_HR_EmployeeInsurance;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
@@ -23,8 +25,6 @@ import org.compiere.model.GridTab;
 import org.compiere.model.MBPartner;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.hr.model.I_HR_EmployeeDependent;
-import org.eevolution.hr.model.I_HR_EmployeeInsurance;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
