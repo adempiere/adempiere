@@ -97,6 +97,8 @@
     <!-- Transfer HumanResourceAndPayrollZk.jar -->
     <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkHR/lib"/>
     <copy file="${dist}/lib/HumanResourceAndPayrollZk.jar" todir="${adempiere.trunk}/zkpackages"/>
+  	<copy file="../tools/lib/legacy/hr-support-legacy-1.0.1.jar" todir="${env.ADEMPIERE_HOME}/packages/liberozkHR/lib" />
+  	<copy file="../tools/lib/legacy/hr-support-legacy-1.0.1.jar" todir="../packages/" />
       
     <delete dir="${build}"/>
   </target>

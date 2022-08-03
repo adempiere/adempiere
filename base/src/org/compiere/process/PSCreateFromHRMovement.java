@@ -22,11 +22,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.api.I_HR_Movement;
+import org.adempiere.core.api.I_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
-import org.eevolution.model.X_HR_Movement;
-import org.eevolution.model.X_HR_Process;
+import org.compiere.model.PO;
+import org.compiere.util.RefactoryUtil;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payroll Movement)
@@ -39,7 +41,7 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 	/**	Sequence			*/
 	private AtomicInteger sequence = new AtomicInteger(10);
 	/**	Process Cache	*/
-	private Map<Integer, X_HR_Process> payrollProcessMap = new HashMap<>();
+	private Map<Integer, I_HR_Process> payrollProcessMap = new HashMap<>();
 	@Override
 	protected void prepare() {
 		super.prepare();
@@ -62,10 +64,10 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 			BigDecimal convertedAmount = getSelectionAsBigDecimal(key, "HRM_ConvertedAmount");
 			MPaySelectionLine line = new MPaySelectionLine(paySelection, sequence.getAndAdd(10), paymentRule);
 			//	Add Order
-			X_HR_Movement payrollMovement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
-			Optional<X_HR_Process> mybePayrollProcess = Optional.ofNullable(payrollProcessMap.get(payrollMovement.getHR_Process_ID()));
-			X_HR_Process payrollProcess = mybePayrollProcess.orElseGet(() -> {
-				X_HR_Process processFromMovement = (X_HR_Process) payrollMovement.getHR_Process();
+			I_HR_Movement payrollMovement = RefactoryUtil.getPayrollMovement(getCtx(), movementId, get_TrxName());
+			Optional<I_HR_Process> mybePayrollProcess = Optional.ofNullable(payrollProcessMap.get(payrollMovement.getHR_Process_ID()));
+			I_HR_Process payrollProcess = mybePayrollProcess.orElseGet(() -> {
+				I_HR_Process processFromMovement = RefactoryUtil.getPayrollProcess(getCtx(), payrollMovement.getHR_Process_ID(), get_TrxName());
 				payrollProcessMap.put(payrollMovement.getHR_Process_ID(), processFromMovement);
 				return processFromMovement;
 			});

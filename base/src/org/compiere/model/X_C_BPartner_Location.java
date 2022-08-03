@@ -264,11 +264,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
-	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException
-    {
-		return (org.eevolution.model.I_HR_Relationship)MTable.get(getCtx(), org.eevolution.model.I_HR_Relationship.Table_Name)
-			.getPO(getHR_Relationship_ID(), get_TrxName());	}
-
 	/** Set Employee Relationship.
 		@param HR_Relationship_ID 
 		Employee Relationship Identifies an employee relations
