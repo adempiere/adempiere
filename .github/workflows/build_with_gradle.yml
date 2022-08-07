@@ -32,3 +32,7 @@ jobs:
 
       - name: Build with Gradle
         run: gradle build
+        env:
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+          ADEMIERE_LIBRARY_VERSION: ${{ secrets.ADEMIERE_LIBRARY_VERSION }}
