@@ -48,9 +48,12 @@ java {
     withSourcesJar()
 }
 
-//signing {
-//    sign configurations.archives
-//}
+signing {
+    def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign configurations.archives
+}
 
 def entityType = 'D'
 version = "3.9.4-develop-1.0"
@@ -68,8 +71,8 @@ publishing {
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = System.getenv("OSSRH_USER_NAME")
-                password = System.getenv("OSSRH_PASSWORD")
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
             }
         }
     }
@@ -107,5 +110,8 @@ publishing {
 }
 
 signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }
