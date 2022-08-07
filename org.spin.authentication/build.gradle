@@ -51,9 +51,9 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    sign configurations.archives
+//}
 
 def entityType = 'ECA02'
 version = System.getenv("ADEMIERE_LIBRARY_VERSION")

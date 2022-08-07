@@ -35,9 +35,9 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    sign configurations.archives
+//}
 
 def entityType = 'D'
 version = "3.9.4-develop-1.0"
