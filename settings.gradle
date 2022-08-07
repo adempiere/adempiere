@@ -1,4 +1,4 @@
-rootProject.name = 'adempier'
+rootProject.name = 'adempiere'
 include ':tools'
 include ':base'
 include ':extend'
