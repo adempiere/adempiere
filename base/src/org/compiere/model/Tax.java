@@ -197,7 +197,7 @@ public class Tax {
 				td.billToLocationId = resultSet.getInt("BillToLocation_ID");
 				td.isSOTaxExempt = resultSet.getString("IsTaxExempt");
 				td.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
-				td.isTaxExempt = isSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				td.isTaxExempt = isSOTrx ? td.isSOTaxExempt : td.isPOTaxExempt;
 				td.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
 				td.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
 				td.linkBPartnerId = resultSet.getInt("C_BPartner_ID");
@@ -364,7 +364,7 @@ public class Tax {
 				td.billToLocationId = resultSet.getInt("BillToLocation_ID");
 				td.isSOTaxExempt = resultSet.getString("IsTaxExempt");
 				td.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
-				td.isTaxExempt = isSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				td.isTaxExempt = isSOTrx ? td.isSOTaxExempt : td.isPOTaxExempt;
 				td.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
 				td.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
 				td.linkBPartnerId = resultSet.getInt("C_BPartner_ID");
