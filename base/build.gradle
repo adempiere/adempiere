@@ -104,7 +104,7 @@ signing {
 }
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = "SNAPSHOT-1.0.0"//System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {
