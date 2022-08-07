@@ -18,6 +18,7 @@
 
 package org.eevolution.distribution.model;
 
+import org.adempiere.core.domains.models.X_DD_LicenseAssignment;
 import org.compiere.model.Query;
 
 import java.sql.ResultSet;

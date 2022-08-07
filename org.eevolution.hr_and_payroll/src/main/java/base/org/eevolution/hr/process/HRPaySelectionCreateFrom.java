@@ -15,7 +15,7 @@
  *****************************************************************************/
 package org.eevolution.hr.process;
 
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
 import org.compiere.model.Query;
 import org.eevolution.hr.model.MHREmployee;
 import org.eevolution.hr.model.MHRMovement;

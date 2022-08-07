@@ -22,6 +22,9 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Acct;
+import org.adempiere.core.domains.models.I_C_ValidCombination;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -882,9 +885,9 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return bd;
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import org.compiere.model.I_AD_SysConfig;
+import org.adempiere.core.domains.models.I_AD_SysConfig;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.Query;
 import org.compiere.process.FactAcctReset;

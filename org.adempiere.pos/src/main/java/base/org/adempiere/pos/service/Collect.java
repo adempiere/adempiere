@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
@@ -29,7 +30,6 @@ import org.compiere.model.MPaymentAllocate;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.X_C_Payment;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

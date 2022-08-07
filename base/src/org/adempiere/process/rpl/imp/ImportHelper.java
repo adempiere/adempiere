@@ -40,10 +40,12 @@ import java.util.Properties;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.adempiere.core.domains.models.I_AD_Client;
+import org.adempiere.core.domains.models.X_AD_ReplicationDocument;
+import org.adempiere.core.domains.models.X_AD_ReplicationTable;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.XMLHelper;
 import org.adempiere.process.rpl.exp.ExportHelper;
-import org.compiere.model.I_AD_Client;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
@@ -54,8 +56,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_ReplicationDocument;
-import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;

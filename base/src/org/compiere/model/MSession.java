@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Session;
 import org.compiere.Adempiere;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

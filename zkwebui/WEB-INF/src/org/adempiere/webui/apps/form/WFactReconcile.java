@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_Fact_Reconciliation;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -57,7 +58,6 @@ import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.I_Fact_Reconciliation;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MFactAcct;

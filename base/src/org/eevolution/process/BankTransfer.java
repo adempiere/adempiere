@@ -18,7 +18,7 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 
-import org.compiere.model.I_C_POS;
+import org.adempiere.core.domains.models.I_C_POS;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;

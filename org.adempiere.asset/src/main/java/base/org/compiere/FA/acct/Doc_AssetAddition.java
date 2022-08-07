@@ -4,10 +4,11 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_C_Project_Acct;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
+import org.adempiere.core.domains.models.I_C_Project;
+import org.adempiere.core.domains.models.I_C_Project_Acct;
+import org.adempiere.core.domains.models.X_C_Project_Acct;
 import org.compiere.FA.model.MAssetAcct;
 import org.compiere.FA.model.MAssetAddition;
 import org.compiere.acct.Doc;
@@ -16,7 +17,6 @@ import org.compiere.acct.FactLine;
 import org.compiere.model.MCharge;
 import org.compiere.model.MDocType;
 import org.compiere.model.ProductCost;
-import org.compiere.model.X_C_Project_Acct;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

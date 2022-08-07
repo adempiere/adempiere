@@ -3,12 +3,12 @@ package org.eevolution.cashflow.controller;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_CashFlow;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DB;
-import org.eevolution.model.I_C_CashFlow;
 
 /**
  * 

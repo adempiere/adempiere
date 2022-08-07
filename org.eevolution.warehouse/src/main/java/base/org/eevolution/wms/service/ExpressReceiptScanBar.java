@@ -25,10 +25,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_WM_InOutBoundLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_M_AttributeSetInstance;
-import org.compiere.model.I_M_Product;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MProduct;
@@ -40,7 +41,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.wms.model.I_WM_InOutBoundLine;
 import org.eevolution.wms.model.MWMInOutBoundLine;
 import org.eevolution.wms.model.MWMInOutBoundLineMA;
 

@@ -41,13 +41,13 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
 import org.adempiere.test.CommonIntegrationTestUtilities;
 import org.compiere.db.CConnection;
-import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAcctProcessor;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;

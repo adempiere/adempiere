@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Vector;
 
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_M_InOutLine;
+import org.adempiere.core.domains.models.I_M_InventoryLine;
+import org.adempiere.core.domains.models.I_M_Product;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_M_AttributeSetInstance;
-import org.compiere.model.I_M_InOutLine;
-import org.compiere.model.I_M_InventoryLine;
-import org.compiere.model.I_M_Product;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MInOutLine;

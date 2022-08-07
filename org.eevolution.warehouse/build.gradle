@@ -19,9 +19,12 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-2.3'
-    api 'io.github.adempiere:distribution:3.9.4-develop-1.0'
-    api 'io.github.adempiere:manufacturing:3.9.4-develop-1.2'
+	api project(path: ':base')
+	api project(path: ':org.eevolution.distribution')
+	api project(path: ':org.eevolution.manufacturing')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")    
+    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
 }
 
 sourceSets {
@@ -42,7 +45,7 @@ signing {
 }
 
 def entityType = 'EE03'
-version = "3.9.4-develop-1.5"
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

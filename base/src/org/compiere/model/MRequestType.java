@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_R_RequestType;
+import org.adempiere.core.domains.models.X_R_RequestType;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

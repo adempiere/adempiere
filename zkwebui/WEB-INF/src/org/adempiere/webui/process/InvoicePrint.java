@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.*;
 
+import org.adempiere.core.domains.models.X_C_Invoice;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;

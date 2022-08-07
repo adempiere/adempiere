@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_BP_BankAccount;
+import org.adempiere.core.domains.models.X_C_BP_BankAccount;
 import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.validator.routines.CreditCardValidator;
 import org.apache.commons.validator.routines.IBANValidator;

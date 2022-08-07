@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_I_FixedAsset;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
@@ -387,9 +389,9 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPartner_Value);
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartnerSR() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
 
 	/** Set BPartner (Agent).
@@ -415,9 +417,9 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_City getC_City() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_City getC_City() throws RuntimeException
     {
-		return (org.compiere.model.I_C_City)MTable.get(getCtx(), org.compiere.model.I_C_City.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_City)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_City.Table_Name)
 			.getPO(getC_City_ID(), get_TrxName());	}
 
 	/** Set City.
@@ -457,9 +459,9 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return (String)get_Value(COLUMNNAME_C_City_Value);
 	}
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_UOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -659,9 +661,9 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return (String)get_Value(COLUMNNAME_LocatorValue);
 	}
 
-	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Locator)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -687,9 +689,9 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

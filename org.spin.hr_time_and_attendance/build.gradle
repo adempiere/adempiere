@@ -19,8 +19,10 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-2.6'
-    api 'io.github.adempiere:human-resource-and-payroll:3.9.4-develop-1.5'
+	api project(path: ':base')
+	api project(path: ':org.eevolution.hr_and_payroll')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:human-resource-and-payroll:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
 }
 
 sourceSets {
@@ -41,7 +43,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.5"
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

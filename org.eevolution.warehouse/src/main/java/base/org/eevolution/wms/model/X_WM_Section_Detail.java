@@ -20,6 +20,9 @@ package org.eevolution.wms.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_M_Locator;
+import org.adempiere.core.domains.models.I_WM_Section_Detail;
 import org.compiere.model.*;
 
 /** Generated Model for WM_Section_Detail

@@ -19,7 +19,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.4'
+	api project(path: ':base')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
     api 'org.telegram:telegrambots:6.0.1'	
 }
 
@@ -41,7 +42,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Table_Detail;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;

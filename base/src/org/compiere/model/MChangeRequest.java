@@ -16,8 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_M_ChangeRequest;
+import org.adempiere.core.domains.models.X_PP_Product_BOM;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPProductBOM;
 
 import java.sql.ResultSet;
 import java.util.Properties;
@@ -108,9 +109,8 @@ public class MChangeRequest extends X_M_ChangeRequest
 		//	Derive ChangeNotice from BOM if defined
 		if (newRecord && getPP_Product_BOM_ID() != 0 && getM_ChangeNotice_ID() == 0)
 		{
-			MPPProductBOM bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
-			if (bom.getM_ChangeNotice_ID() != 0)
-			{
+			X_PP_Product_BOM bom = new X_PP_Product_BOM(getCtx(), getPP_Product_BOM_ID(), get_TrxName());
+			if (bom.getM_ChangeNotice_ID() != 0) {
 				setM_ChangeNotice_ID(bom.getM_ChangeNotice_ID());
 			}
 		}

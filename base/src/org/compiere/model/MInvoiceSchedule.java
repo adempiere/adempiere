@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_InvoiceSchedule;
 import org.compiere.util.CCache;
 import org.compiere.util.TimeUtil;
 

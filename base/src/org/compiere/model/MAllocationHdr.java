@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_C_AllocationHdr;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.X_C_AllocationHdr;
+import org.adempiere.core.domains.models.X_C_Invoice;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;

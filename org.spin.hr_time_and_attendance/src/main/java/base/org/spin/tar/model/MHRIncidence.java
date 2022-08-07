@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_Incidence;
+import org.adempiere.core.domains.models.X_HR_ShiftIncidence;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;

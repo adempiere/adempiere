@@ -26,12 +26,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Element;
+import org.adempiere.core.domains.models.I_AD_TreeNode;
+import org.adempiere.core.domains.models.X_AD_Table;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.pipo.exception.NonUniqueIDLookupException;
-import org.compiere.model.I_AD_Element;
-import org.compiere.model.I_AD_TreeNode;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_Table;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

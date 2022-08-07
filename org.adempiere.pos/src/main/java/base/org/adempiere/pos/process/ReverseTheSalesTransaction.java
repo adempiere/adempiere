@@ -16,6 +16,7 @@
 
 package org.adempiere.pos.process;
 
+import org.adempiere.core.domains.models.X_M_RMAType;
 import org.adempiere.pos.AdempierePOSException;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MDocType;
@@ -30,7 +31,6 @@ import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_RMAType;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Msg;

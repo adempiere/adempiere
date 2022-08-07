@@ -22,6 +22,11 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_C_Location;
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_M_Locator;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
@@ -301,9 +306,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -451,9 +456,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Activity)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -479,9 +484,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -507,9 +512,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner_Location)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -535,9 +540,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartnerSR() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
 
 	/** Set BPartner (Agent).
@@ -591,9 +596,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -889,9 +894,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_LastMaintenenceDate);
 	}
 
-	public org.compiere.model.I_C_BPartner getLease_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getLease_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getLease_BPartner_ID(), get_TrxName());	}
 
 	/** Set Lessor.
@@ -1050,9 +1055,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -1106,9 +1111,9 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

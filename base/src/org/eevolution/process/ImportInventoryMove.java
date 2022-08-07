@@ -18,8 +18,9 @@
 package org.eevolution.process;
 
 
-import org.compiere.model.I_M_Movement;
-import org.compiere.model.I_M_MovementLine;
+import org.adempiere.core.domains.models.I_M_Movement;
+import org.adempiere.core.domains.models.I_M_MovementLine;
+import org.adempiere.core.domains.models.X_I_Movement;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCampaign;
 import org.compiere.model.MColumn;
@@ -38,7 +39,6 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.X_I_Movement;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

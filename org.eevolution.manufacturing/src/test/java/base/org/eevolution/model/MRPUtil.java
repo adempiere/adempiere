@@ -17,9 +17,11 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_S_Resource;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Warehouse;
+import org.adempiere.core.domains.models.I_PP_MRP;
+import org.adempiere.core.domains.models.I_PP_Product_Planning;
+import org.adempiere.core.domains.models.I_S_Resource;
 import org.compiere.model.MLocation;
 import org.compiere.model.MProduct;
 import org.compiere.model.MResource;
@@ -27,6 +29,8 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
 
 /**
  * Many helper methods for producing different entities

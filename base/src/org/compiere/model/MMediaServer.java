@@ -21,6 +21,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.adempiere.core.domains.models.I_CM_Media_Server;
+import org.adempiere.core.domains.models.X_CM_Media_Server;
 import org.apache.commons.net.ftp.FTPClient;
 import org.compiere.util.CLogger;
 

@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Entry;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -154,9 +156,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return (String)get_Value(COLUMNNAME_A_Entry_Type);
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -182,9 +184,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Currency)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -210,9 +212,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -238,9 +240,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
@@ -426,9 +428,9 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException
+	public org.adempiere.core.domains.models.I_GL_Category getGL_Category() throws RuntimeException
     {
-		return (org.compiere.model.I_GL_Category)MTable.get(getCtx(), org.compiere.model.I_GL_Category.Table_Name)
+		return (org.adempiere.core.domains.models.I_GL_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_GL_Category.Table_Name)
 			.getPO(getGL_Category_ID(), get_TrxName());	}
 
 	/** Set GL Category.

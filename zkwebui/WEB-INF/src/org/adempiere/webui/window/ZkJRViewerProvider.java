@@ -5,7 +5,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.report.JRViewerProvider;
+import org.compiere.jr.report.JRViewerProvider;
 
 public class ZkJRViewerProvider implements JRViewerProvider {
 

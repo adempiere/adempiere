@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_PP_MRP;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;

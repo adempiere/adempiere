@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_A_Asset_Delivery;
 import org.compiere.FA.exceptions.AssetCheckDocumentException;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MBPartnerLocation;

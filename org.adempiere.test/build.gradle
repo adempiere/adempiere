@@ -25,7 +25,8 @@ dependencies {
         'SuperCSV-with_src-1.52.jar'
         ]
     )
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    api project(path: ':base')
+    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter

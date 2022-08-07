@@ -22,6 +22,10 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Change;
+import org.adempiere.core.domains.models.I_C_Location;
+import org.adempiere.core.domains.models.I_C_ValidCombination;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -485,9 +489,9 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -956,9 +960,9 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -984,9 +988,9 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -1012,9 +1016,9 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner_Location)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.

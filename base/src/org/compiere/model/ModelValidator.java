@@ -17,6 +17,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_AD_Table_ScriptValidator;
+
 /**
  *	Model Validator
  *	

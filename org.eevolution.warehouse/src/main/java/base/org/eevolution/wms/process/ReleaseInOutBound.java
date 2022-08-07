@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.X_C_BP_Group;
+import org.adempiere.core.domains.models.X_C_DocType;
+import org.adempiere.core.domains.models.X_DD_Order;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.NoVendorForProductException;
 import org.compiere.model.MBPartner;
@@ -52,8 +55,6 @@ import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.X_C_BP_Group;
-import org.compiere.model.X_C_DocType;
 import org.compiere.print.MPrintFormat;
 import org.compiere.process.DocAction;
 import org.compiere.util.DB;
@@ -61,17 +62,16 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.wms.engine.WMRuleEngine;
-import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
-import org.eevolution.exceptions.NoPlantForWarehouseException;
+import org.eevolution.manufacturing.exceptions.NoBPartnerLinkedforOrgException;
+import org.eevolution.manufacturing.exceptions.NoPlantForWarehouseException;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
 import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.distribution.model.MDDOrderLine;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductPlanning;
 import org.eevolution.wms.model.MWMInOutBound;
 import org.eevolution.wms.model.MWMInOutBoundLine;
-import org.eevolution.distribution.model.X_DD_Order;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com

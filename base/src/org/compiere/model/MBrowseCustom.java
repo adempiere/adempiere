@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_BrowseFieldCustom;
+import org.adempiere.core.domains.models.X_AD_BrowseCustom;
 import org.adempiere.model.MBrowse;
 import org.compiere.util.Util;
 

@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Build;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -141,9 +143,9 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.

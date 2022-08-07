@@ -19,6 +19,8 @@ package org.spin.store.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_W_Category;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -218,9 +220,9 @@ public class X_W_Category extends PO implements I_W_Category, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.spin.store.model.I_W_Category getW_Category_Parent() throws RuntimeException
+	public org.adempiere.core.domains.models.I_W_Category getW_Category_Parent() throws RuntimeException
     {
-		return (org.spin.store.model.I_W_Category)MTable.get(getCtx(), org.spin.store.model.I_W_Category.Table_Name)
+		return (org.adempiere.core.domains.models.I_W_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_Category.Table_Name)
 			.getPO(getW_Category_Parent_ID(), get_TrxName());	}
 
 	/** Set Product Store Group Parent.

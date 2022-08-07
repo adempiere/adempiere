@@ -21,6 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.X_C_InvoiceLine;
+import org.adempiere.core.domains.models.X_M_InOut;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.FA.model.MAsset;

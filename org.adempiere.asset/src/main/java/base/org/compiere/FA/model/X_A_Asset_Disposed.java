@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Disposed;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -386,9 +388,9 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return bd;
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -414,9 +416,9 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Invoice)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -442,9 +444,9 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_InvoiceLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -470,9 +472,9 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.

@@ -20,6 +20,8 @@ package org.compiere.FA.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Convention;
 import org.compiere.model.*;
 
 /** Generated Model for A_Depreciation_Convention

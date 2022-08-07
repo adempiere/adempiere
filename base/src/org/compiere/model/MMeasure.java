@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import javax.script.ScriptEngine;
 
 import org.adempiere.apps.graph.GraphColumn;
+import org.adempiere.core.domains.models.X_PA_Measure;
 import org.adempiere.util.MeasureInterface;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

@@ -22,6 +22,10 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Addition;
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_M_Locator;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -419,9 +423,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return bd;
 	}
 
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Charge)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -447,9 +451,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ConversionType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ConversionType.Table_Name)
 			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
@@ -475,9 +479,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Currency)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -503,9 +507,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -531,9 +535,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Invoice)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -559,9 +563,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_InvoiceLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -587,9 +591,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -843,9 +847,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
+	public org.adempiere.core.domains.models.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-		return (org.compiere.model.I_GL_JournalBatch)MTable.get(getCtx(), org.compiere.model.I_GL_JournalBatch.Table_Name)
+		return (org.adempiere.core.domains.models.I_GL_JournalBatch)MTable.get(getCtx(), org.adempiere.core.domains.models.I_GL_JournalBatch.Table_Name)
 			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.
@@ -963,9 +967,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -1019,9 +1023,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_MatchInv getM_MatchInv() throws RuntimeException
     {
-		return (org.compiere.model.I_M_MatchInv)MTable.get(getCtx(), org.compiere.model.I_M_MatchInv.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_MatchInv)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_MatchInv.Table_Name)
 			.getPO(getM_MatchInv_ID(), get_TrxName());	}
 
 	/** Set Match Invoice.
@@ -1047,9 +1051,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

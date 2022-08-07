@@ -20,6 +20,9 @@ package org.compiere.FA.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_FundingMode_Acct;
+import org.adempiere.core.domains.models.I_C_ValidCombination;
 import org.compiere.model.*;
 
 /** Generated Model for A_FundingMode_Acct
@@ -115,9 +118,9 @@ public class X_A_FundingMode_Acct extends PO implements I_A_FundingMode_Acct, I_
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.

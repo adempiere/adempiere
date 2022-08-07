@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_S_ResourceAssignment;
+
 
 /**
  *	Resource Assignment Model

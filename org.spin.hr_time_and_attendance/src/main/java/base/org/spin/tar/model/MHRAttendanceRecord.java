@@ -18,6 +18,8 @@ package org.spin.tar.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_AttendanceRecord;
+
 /**
  * Attendance Record
  * @author yamel, ysenih@erpya.com , http://www.erpya.com

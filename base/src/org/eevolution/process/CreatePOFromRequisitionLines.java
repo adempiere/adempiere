@@ -16,7 +16,7 @@
 
 package org.eevolution.process;
 
-import org.compiere.model.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;

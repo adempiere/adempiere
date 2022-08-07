@@ -7,19 +7,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.I_AD_WF_Node;
+import org.adempiere.core.domains.models.I_AD_Workflow;
+import org.adempiere.core.domains.models.I_S_Resource;
+import org.adempiere.core.domains.models.X_C_UOM;
 import org.adempiere.test.CommonGWSetup;
-import org.compiere.model.I_AD_WF_Node;
-import org.compiere.model.I_AD_Workflow;
-import org.compiere.model.I_S_Resource;
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MUOM;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_UOM;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
+import org.eevolution.manufacturing.model.impl.DefaultRoutingServiceImpl;
 import org.eevolution.model.RoutingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;

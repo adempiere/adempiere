@@ -20,6 +20,8 @@ package org.compiere.FA.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Table_Header;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

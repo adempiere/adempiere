@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Depreciation_Forecast;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

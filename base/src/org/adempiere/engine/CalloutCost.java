@@ -17,11 +17,11 @@ package org.adempiere.engine;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_AcctSchema;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_C_AcctSchema;
 
 
 /**

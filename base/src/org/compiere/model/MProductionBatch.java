@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_Movement;
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.X_M_ProductionBatch;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.Env;

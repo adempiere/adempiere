@@ -19,7 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_M_Freight;
+import org.adempiere.core.domains.models.X_M_Freight;
 
 /**
  * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.

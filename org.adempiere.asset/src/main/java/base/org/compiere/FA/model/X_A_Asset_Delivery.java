@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Delivery;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -121,9 +123,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -149,9 +151,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -262,9 +264,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -315,9 +317,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
     }
 
-	public org.compiere.model.I_M_ProductDownload getM_ProductDownload() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_ProductDownload getM_ProductDownload() throws RuntimeException
     {
-		return (org.compiere.model.I_M_ProductDownload)MTable.get(getCtx(), org.compiere.model.I_M_ProductDownload.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_ProductDownload)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_ProductDownload.Table_Name)
 			.getPO(getM_ProductDownload_ID(), get_TrxName());	}
 
 	/** Set Product Download.

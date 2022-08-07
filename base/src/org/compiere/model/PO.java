@@ -48,6 +48,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.I_AD_Element;
+import org.adempiere.core.domains.models.I_AD_Session;
+import org.adempiere.core.domains.models.X_C_ElementValue;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.model.GenericPO;

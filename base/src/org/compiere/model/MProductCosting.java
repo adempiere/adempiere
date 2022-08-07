@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Product_Costing;
+import org.adempiere.core.domains.models.X_M_Product_Costing;
 import org.compiere.util.Env;
 
 /**

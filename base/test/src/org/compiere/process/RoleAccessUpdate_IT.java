@@ -24,13 +24,13 @@ import java.sql.Savepoint;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Window_Access;
+import org.adempiere.core.domains.models.X_AD_Role;
+import org.adempiere.core.domains.models.X_AD_Window_Access;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.IntegrationTestTag;
-import org.compiere.model.I_AD_Window_Access;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Role;
-import org.compiere.model.X_AD_Window_Access;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;

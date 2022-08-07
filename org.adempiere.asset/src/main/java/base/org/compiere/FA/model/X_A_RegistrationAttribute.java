@@ -20,6 +20,8 @@ package org.compiere.FA.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_RegistrationAttribute;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -77,9 +79,9 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Reference getAD_Reference() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Reference)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
@@ -105,9 +107,9 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Reference getAD_Reference_Value() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Reference)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.

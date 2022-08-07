@@ -19,7 +19,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.1'
+    api project(path: ':base')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
 }
 
 sourceSets {
@@ -39,8 +40,8 @@ signing {
     sign configurations.archives
 }
 
-def entityType = 'D'
-version = "3.9.4-develop-1.0"
+def entityType = 'POS'
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

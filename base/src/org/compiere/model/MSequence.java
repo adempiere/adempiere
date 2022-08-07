@@ -34,6 +34,7 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Sequence;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;

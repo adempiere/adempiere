@@ -5,6 +5,7 @@ package org.compiere.FA.model;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_A_Asset_Reval;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;

@@ -29,10 +29,14 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.I_PP_Order;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
@@ -56,9 +60,6 @@ import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.RefactoryUtil;
-import org.eevolution.model.I_PP_Cost_Collector;
-import org.eevolution.model.I_PP_Order;
 
 /**
  *	Document Action Engine
@@ -1248,7 +1249,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Distribution Order
 		 */
-		else if (tableId == RefactoryUtil.DD_Order_Table_ID)
+		else if (tableId == I_DD_Order.Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)
@@ -1267,7 +1268,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (tableId == RefactoryUtil.HR_Process_Table_ID)
+		else if (tableId == I_HR_Process.Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)

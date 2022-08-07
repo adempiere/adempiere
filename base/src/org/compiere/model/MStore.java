@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_W_Store;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.CCache;

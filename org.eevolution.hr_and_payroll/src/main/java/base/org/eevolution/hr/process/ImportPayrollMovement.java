@@ -33,12 +33,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_HR_Movement;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
-import org.eevolution.hr.model.X_I_HR_Movement;
 
 /**
  *	Import Payroll Movements from I_HR_Movement

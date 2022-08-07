@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 
+import org.adempiere.core.domains.models.I_PP_MRP;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWSetup;
 import org.junit.jupiter.api.Tag;

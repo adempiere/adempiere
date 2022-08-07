@@ -22,6 +22,10 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_C_ValidCombination;
+import org.adempiere.core.domains.models.I_I_Asset;
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -882,9 +886,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -910,9 +914,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -938,9 +942,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner_Location)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -966,9 +970,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Location getC_Location() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Location)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Location.Table_Name)
 			.getPO(getC_Location_ID(), get_TrxName());	}
 
 	/** Set Address.
@@ -1350,9 +1354,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Locator)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -1378,9 +1382,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

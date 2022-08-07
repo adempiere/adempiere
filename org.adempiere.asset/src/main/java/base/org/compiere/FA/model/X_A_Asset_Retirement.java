@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Retirement;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -171,9 +173,9 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 		return bd;
 	}
 
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_InvoiceLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.

@@ -19,6 +19,7 @@ import org.compiere.model.MClient;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.ModelValidationEngine;
+import org.adempiere.core.domains.models.I_A_Asset_Disposed;
 import org.adempiere.util.POCacheLocal;
 
 

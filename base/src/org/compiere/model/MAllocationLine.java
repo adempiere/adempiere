@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_AllocationLine;
 import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

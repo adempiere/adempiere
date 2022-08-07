@@ -18,11 +18,11 @@
 package org.adempiere.webui.panel;
 
 import org.adempiere.apps.toolbar.AProcessActionModel;
+import org.adempiere.core.domains.models.I_AD_Process;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.MProcess;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;

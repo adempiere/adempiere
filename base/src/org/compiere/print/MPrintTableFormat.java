@@ -30,9 +30,9 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_PrintTableFormat;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MImage;
-import org.compiere.model.X_AD_PrintTableFormat;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

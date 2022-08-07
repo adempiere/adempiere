@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Attribute;
+import org.adempiere.core.domains.models.I_M_AttributeInstance;
+import org.adempiere.core.domains.models.I_M_AttributeValue;
+import org.adempiere.core.domains.models.X_M_Attribute;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

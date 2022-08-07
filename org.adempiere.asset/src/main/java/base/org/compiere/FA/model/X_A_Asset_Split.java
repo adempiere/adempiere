@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Split;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -234,9 +236,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Org)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Org.Table_Name)
 			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
@@ -389,9 +391,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return false;
 	}
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Activity)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -417,9 +419,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Campaign)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -445,9 +447,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -473,9 +475,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
@@ -501,9 +503,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -529,9 +531,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ProjectPhase)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ProjectPhase.Table_Name)
 			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
@@ -557,9 +559,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectTask)MTable.get(getCtx(), org.compiere.model.I_C_ProjectTask.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ProjectTask)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ProjectTask.Table_Name)
 			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
 
 	/** Set Project Task.
@@ -912,9 +914,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return false;
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -940,9 +942,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.
@@ -968,9 +970,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser3() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser3() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser3_ID(), get_TrxName());	}
 
 	/** Set User List 3.
@@ -996,9 +998,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser4() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser4_ID(), get_TrxName());	}
 
 	/** Set User List 4.

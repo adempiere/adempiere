@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.compiere.model.I_C_Payment;
+import org.adempiere.core.domains.models.I_C_Payment;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;

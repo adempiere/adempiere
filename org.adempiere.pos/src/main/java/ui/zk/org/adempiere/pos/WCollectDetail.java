@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.pos.service.CollectDetail;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
@@ -40,7 +41,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.X_C_Payment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;

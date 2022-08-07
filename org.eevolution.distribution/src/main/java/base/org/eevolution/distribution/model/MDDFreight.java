@@ -18,6 +18,8 @@
 
 package org.eevolution.distribution.model;
 
+import org.adempiere.core.domains.models.I_DD_FreightLine;
+import org.adempiere.core.domains.models.X_DD_Freight;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;

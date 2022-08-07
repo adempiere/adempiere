@@ -31,6 +31,7 @@ import javax.swing.JComboBox;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.core.domains.models.I_M_Product;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.search.POSQuery;
 import org.adempiere.pos.search.QueryBPartner;
@@ -43,7 +44,6 @@ import org.adempiere.pos.service.POSQueryInterface;
 import org.adempiere.pos.service.POSQueryListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.search.InfoProduct;
-import org.compiere.model.I_M_Product;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;

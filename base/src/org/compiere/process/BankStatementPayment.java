@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBank;
 import org.compiere.model.MBankStatement;
@@ -26,7 +27,6 @@ import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
-import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

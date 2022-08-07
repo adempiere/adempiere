@@ -22,6 +22,9 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Asset_Transfer;
+import org.adempiere.core.domains.models.I_C_ValidCombination;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -742,9 +745,9 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
-	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -770,9 +773,9 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.

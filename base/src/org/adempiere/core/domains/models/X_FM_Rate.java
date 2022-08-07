@@ -1,0 +1,201 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
+/** Generated Model - DO NOT CHANGE */
+package org.adempiere.core.domains.models;
+
+import java.sql.ResultSet;
+import java.util.Properties;
+
+import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
+
+/** Generated Model for FM_Rate
+ *  @author Adempiere (generated) 
+ *  @version Release 3.9.3 - $Id$ */
+public class X_FM_Rate extends PO implements I_FM_Rate, I_Persistent 
+{
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 20220507L;
+
+    /** Standard Constructor */
+    public X_FM_Rate (Properties ctx, int FM_Rate_ID, String trxName)
+    {
+      super (ctx, FM_Rate_ID, trxName);
+      /** if (FM_Rate_ID == 0)
+        {
+			setC_Charge_ID (0);
+			setFM_Rate_ID (0);
+			setName (null);
+			setValue (null);
+        } */
+    }
+
+    /** Load Constructor */
+    public X_FM_Rate (Properties ctx, ResultSet rs, String trxName)
+    {
+      super (ctx, rs, trxName);
+    }
+
+    /** AccessLevel
+      * @return 3 - Client - Org 
+      */
+    protected int get_AccessLevel()
+    {
+      return accessLevel.intValue();
+    }
+
+    /** Load Meta Data */
+    protected POInfo initPO (Properties ctx)
+    {
+      POInfo poi = POInfo.getPOInfo (ctx, Table_ID, get_TrxName());
+      return poi;
+    }
+
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("X_FM_Rate[")
+        .append(get_ID()).append("]");
+      return sb.toString();
+    }
+
+	public org.adempiere.core.domains.models.I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_Charge)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Financial Rate.
+		@param FM_Rate_ID Financial Rate	  */
+	public void setFM_Rate_ID (int FM_Rate_ID)
+	{
+		if (FM_Rate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FM_Rate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FM_Rate_ID, Integer.valueOf(FM_Rate_ID));
+	}
+
+	/** Get Financial Rate.
+		@return Financial Rate	  */
+	public int getFM_Rate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Rate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Name.
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name)
+	{
+		set_Value (COLUMNNAME_Name, Name);
+	}
+
+	/** Get Name.
+		@return Alphanumeric identifier of the entity
+	  */
+	public String getName () 
+	{
+		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Search Key.
+		@param Value 
+		Search key for the record in the format required - must be unique
+	  */
+	public void setValue (String Value)
+	{
+		set_Value (COLUMNNAME_Value, Value);
+	}
+
+	/** Get Search Key.
+		@return Search key for the record in the format required - must be unique
+	  */
+	public String getValue () 
+	{
+		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getValue());
+    }
+}

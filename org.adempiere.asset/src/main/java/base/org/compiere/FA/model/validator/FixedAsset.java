@@ -5,11 +5,12 @@ package org.compiere.FA.model.validator;
 
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.X_C_InvoiceLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.acct.Fact;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Product;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
@@ -21,7 +22,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.PO;
-import org.compiere.model.X_C_InvoiceLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;

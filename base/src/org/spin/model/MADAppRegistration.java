@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.I_AD_AppRegistration_Para;
+import org.adempiere.core.domains.models.X_AD_AppRegistration;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

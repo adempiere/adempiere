@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.I_PP_Order;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MBPartner;
@@ -30,6 +31,8 @@ import org.compiere.model.MProduct;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflow;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPProductBOM;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 

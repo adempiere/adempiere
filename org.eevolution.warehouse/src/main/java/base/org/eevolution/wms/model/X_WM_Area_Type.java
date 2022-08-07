@@ -20,6 +20,8 @@ package org.eevolution.wms.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_WM_Area_Type;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 

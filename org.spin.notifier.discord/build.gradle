@@ -19,7 +19,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.5'
+	api project(path: ':base')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/net.dv8tion/JDA
 	implementation 'net.dv8tion:JDA:5.0.0-alpha.11'
 }
@@ -42,7 +43,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

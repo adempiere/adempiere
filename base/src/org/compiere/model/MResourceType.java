@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_S_ResourceType;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.util.CCache;

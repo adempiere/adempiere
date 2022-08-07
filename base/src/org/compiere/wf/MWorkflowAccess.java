@@ -19,8 +19,8 @@ package org.compiere.wf;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Workflow_Access;
 import org.compiere.model.MRole;
-import org.compiere.model.X_AD_Workflow_Access;
 
 
 /**

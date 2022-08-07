@@ -22,9 +22,9 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.handler.GenericPOHandler;
-import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MMenu;
 import org.compiere.model.Query;
 import org.xml.sax.SAXException;

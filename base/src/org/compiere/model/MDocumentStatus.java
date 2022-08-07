@@ -3,6 +3,8 @@ package org.compiere.model;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_PA_DocumentStatus;
+
 public class MDocumentStatus extends X_PA_DocumentStatus {
 
 	/**

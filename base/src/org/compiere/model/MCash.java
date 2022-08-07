@@ -23,6 +23,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Cash;
+import org.adempiere.core.domains.models.I_C_CashLine;
+import org.adempiere.core.domains.models.X_C_Cash;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;

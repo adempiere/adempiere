@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_AD_FieldCondition;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
-import org.spin.model.I_AD_FieldCondition;
 import org.spin.model.MADFieldCondition;
 
 /**

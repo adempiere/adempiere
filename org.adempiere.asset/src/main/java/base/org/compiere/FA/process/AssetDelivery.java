@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_A_Asset_Delivery;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.FA.model.I_A_Asset;
-import org.compiere.FA.model.I_A_Asset_Delivery;
 import org.compiere.FA.model.MAsset;
 import org.compiere.FA.model.MAssetDelivery;
 import org.compiere.model.MClient;

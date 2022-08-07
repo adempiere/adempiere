@@ -21,6 +21,8 @@ package org.compiere.FA.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_A_Registration;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -101,9 +103,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -169,9 +171,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -303,9 +305,9 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return false;
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

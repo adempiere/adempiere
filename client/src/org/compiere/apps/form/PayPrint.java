@@ -25,13 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_BankAccountDoc;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_BankAccountDoc;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

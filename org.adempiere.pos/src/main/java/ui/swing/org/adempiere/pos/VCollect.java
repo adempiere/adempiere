@@ -38,6 +38,7 @@ import java.util.logging.Level;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.adempiere.pos.service.Collect;
@@ -45,7 +46,6 @@ import org.adempiere.pos.service.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
-import org.compiere.model.X_C_Payment;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;

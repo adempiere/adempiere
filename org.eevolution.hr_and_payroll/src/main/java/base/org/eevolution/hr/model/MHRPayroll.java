@@ -25,10 +25,11 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_Period;
+import org.adempiere.core.domains.models.X_C_Year;
+import org.adempiere.core.domains.models.X_HR_Payroll;
 import org.compiere.model.MCalendar;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_Period;
-import org.compiere.model.X_C_Year;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Util;

@@ -23,13 +23,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.ad.service.IDeveloperModeBL;
+import org.adempiere.core.domains.models.X_AD_Message;
 import org.adempiere.util.Check;
 import org.compiere.model.MEntityType;
 import org.compiere.model.MMessage;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.M_Element;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_Message;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
 import org.compiere.util.DB;

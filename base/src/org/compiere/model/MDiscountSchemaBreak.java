@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_DiscountSchemaBreak;
+
 
 /**
  *	Discount Break Schema (Model)

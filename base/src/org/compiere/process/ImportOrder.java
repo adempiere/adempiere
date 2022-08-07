@@ -22,6 +22,8 @@ import io.vavr.Tuple7;
 import io.vavr.collection.List;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
+
+import org.adempiere.core.domains.models.X_I_Order;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MLocation;
@@ -29,7 +31,6 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MUser;
 import org.compiere.model.Query;
-import org.compiere.model.X_I_Order;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.ResultSetIterable;

@@ -20,12 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_PP_MRP;
+import org.adempiere.core.domains.models.I_PP_Product_Planning;
+import org.adempiere.core.domains.models.X_PP_MRP;
 import org.compiere.model.MProduct;
 import org.compiere.model.PO;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
-import org.eevolution.process.MRP;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
+import org.eevolution.manufacturing.process.MRP;
 
 /**
  * Extends {@link MRP} engine process and simulates initial context
@@ -33,7 +37,7 @@ import org.eevolution.process.MRP;
  *    
  * @author Teo Sarca, www.arhipac.ro
  */
-class TestableMRP extends org.eevolution.process.MRP
+class TestableMRP extends org.eevolution.manufacturing.process.MRP
 {
 	public String name = "junit-test";
 	public String description = "";

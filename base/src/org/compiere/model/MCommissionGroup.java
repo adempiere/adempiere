@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Commission;
+import org.adempiere.core.domains.models.X_C_CommissionGroup;
+
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  	<a href="https://github.com/adempiere/adempiere/issues/766">

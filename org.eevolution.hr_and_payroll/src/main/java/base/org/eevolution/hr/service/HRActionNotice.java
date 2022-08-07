@@ -26,7 +26,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.core.api.I_HR_Process;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.X_HR_Concept;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MLookup;
@@ -46,7 +47,6 @@ import org.eevolution.hr.model.MHREmployee;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRPayroll;
 import org.eevolution.hr.model.MHRPeriod;
-import org.eevolution.hr.model.X_HR_Concept;
 
 /**
  *  @author victor.perez@e-evolution.com, www.e-evolution.com

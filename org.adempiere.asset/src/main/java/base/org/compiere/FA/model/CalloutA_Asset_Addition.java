@@ -3,6 +3,7 @@ package org.compiere.FA.model;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_A_Asset_Addition;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;

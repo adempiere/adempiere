@@ -25,22 +25,26 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.compiere.model.I_C_InvoiceLine;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_ProjectIssue;
-import org.compiere.model.I_M_CostElement;
-import org.compiere.model.I_M_CostType;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Inventory;
-import org.compiere.model.I_M_MatchInv;
-import org.compiere.model.I_M_MatchPO;
-import org.compiere.model.I_M_Movement;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Production;
-import org.compiere.model.I_M_Transaction;
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_ProjectIssue;
+import org.adempiere.core.domains.models.I_M_CostElement;
+import org.adempiere.core.domains.models.I_M_CostType;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_Inventory;
+import org.adempiere.core.domains.models.I_M_MatchInv;
+import org.adempiere.core.domains.models.I_M_MatchPO;
+import org.adempiere.core.domains.models.I_M_Movement;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.I_M_Transaction;
+import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.X_M_Product;
+import org.adempiere.core.domains.models.X_PP_Cost_Collector;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MConversionType;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
@@ -63,13 +67,10 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Product;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.model.I_PP_Cost_Collector;
-import org.eevolution.model.MPPCostCollector;
 
 
 /**
@@ -140,14 +141,14 @@ public class CostEngine {
      * @param costCollector
      * @return
      */
-	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPCostCollector costCollector) {
+	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, X_PP_Cost_Collector costCollector) {
 		StringBuffer whereClause = new StringBuffer()
 		.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
 		.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ")
 		.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ")
 		.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID)
 		.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ")
-		.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
+		.append(" cc.CostCollectorType <> '").append(X_PP_Cost_Collector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
 
 		List<MCostDetail> componentsIssue= new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
 				.setClient_ID()
@@ -179,10 +180,12 @@ public class CostEngine {
 		if (qtyDelivered.signum() != 0)
 			actualCost = actualCost.divide(qtyDelivered,
 					accountSchema.getCostingPrecision(), RoundingMode.HALF_DOWN);
-
+		int conversionTypeId = MConversionType.getDefault(costCollector.getAD_Client_ID());
+		MClient client  = MClient.get(costCollector.getCtx());
+		int currencyId = client.getC_Currency_ID();
 		BigDecimal rate = MConversionRate.getRate(
-				costCollector.getC_Currency_ID(), costCollector.getC_Currency_ID(),
-				costCollector.getDateAcct(), costCollector.getC_ConversionType_ID(),
+				currencyId, currencyId,
+				costCollector.getDateAcct(), conversionTypeId,
 				costCollector.getAD_Client_ID(), costCollector.getAD_Org_ID());
 		if (rate != null) {
 			actualCost = actualCost.multiply(rate);
@@ -232,7 +235,7 @@ public class CostEngine {
 		return unitCost;
 	}
 
-	protected static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
+	public static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
 		// Fix Cost Precision
 		int precision = MAcctSchema.get(Env.getCtx(), accountSchemaId)
 				.getCostingPrecision();
@@ -380,9 +383,9 @@ public class CostEngine {
 		}
 
 		if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())) {
-			if (model instanceof MPPCostCollector) {
-				MPPCostCollector costCollector = (MPPCostCollector) model;
-				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
+			if(model.get_TableName().equals(I_PP_Cost_Collector.Table_Name)) {
+				X_PP_Cost_Collector costCollector = (X_PP_Cost_Collector) model;
+				if (X_PP_Cost_Collector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
 					// get Actual Cost for Cost Type and Cost Element
 					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					costLowLevel = CostEngine.getParentActualCostByCostType(accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector);
@@ -765,7 +768,7 @@ public class CostEngine {
 			}
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
-				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
+				X_PP_Cost_Collector costCollector = (X_PP_Cost_Collector) transaction.getPP_Cost_Collector();
 				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getM_Product_ID() , costCollector.getDateAcct()));
 				return;
 			}

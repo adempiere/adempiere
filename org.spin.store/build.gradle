@@ -19,7 +19,10 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+	api project(path: ':base')
+	api project(path: ':org.eevolution.manufacturing')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
     api 'org.apache.httpcomponents:httpcore:4.4.10'
     // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
@@ -44,7 +47,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.1"
+version = System.getenv("ADEMIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

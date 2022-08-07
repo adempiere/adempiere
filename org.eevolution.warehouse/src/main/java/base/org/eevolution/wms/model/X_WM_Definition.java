@@ -20,6 +20,9 @@ package org.eevolution.wms.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_M_Locator;
+import org.adempiere.core.domains.models.I_WM_Definition;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -75,9 +78,9 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -103,9 +106,9 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BP_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Group.Table_Name)
 			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
@@ -221,9 +224,9 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product_Category.Table_Name)
 			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
@@ -249,9 +252,9 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

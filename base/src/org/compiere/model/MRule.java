@@ -26,6 +26,8 @@ import java.util.Properties;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.adempiere.core.domains.models.I_AD_Rule;
+import org.adempiere.core.domains.models.X_AD_Rule;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;

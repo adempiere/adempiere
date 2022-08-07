@@ -27,12 +27,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.acct.Doc;
 import org.compiere.acct.DocPostingTestUtilities;
 import org.compiere.acct.Doc_Invoice;
-import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;

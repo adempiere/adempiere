@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
 
+import org.adempiere.core.domains.models.I_AD_SchedulerLog;
+import org.adempiere.core.domains.models.I_AD_SchedulerRecipient;
+import org.adempiere.core.domains.models.I_AD_Scheduler_Para;
+import org.adempiere.core.domains.models.X_AD_Scheduler;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Msg;

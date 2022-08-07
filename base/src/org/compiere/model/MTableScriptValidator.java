@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Table_ScriptValidator;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

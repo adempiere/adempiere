@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.X_C_Payment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;

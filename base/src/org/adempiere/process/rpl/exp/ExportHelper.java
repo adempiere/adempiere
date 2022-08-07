@@ -41,6 +41,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.adempiere.core.domains.models.X_EXP_FormatLine;
 import org.adempiere.process.rpl.IExportProcessor;
 import org.adempiere.process.rpl.IExportProcessorAsWrapper;
 import org.adempiere.process.rpl.IExportProcessorDefinition;
@@ -59,7 +60,6 @@ import org.compiere.model.MReplicationTable;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Msg;

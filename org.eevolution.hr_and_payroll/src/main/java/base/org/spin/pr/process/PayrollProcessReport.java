@@ -24,9 +24,9 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import org.adempiere.core.api.I_HR_Process;
-import org.adempiere.core.api.I_HR_ProcessReport;
-import org.adempiere.core.api.I_RV_HR_ProcessDetail;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.I_HR_ProcessReport;
+import org.adempiere.core.domains.models.I_RV_HR_ProcessDetail;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;

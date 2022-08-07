@@ -22,6 +22,10 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_M_Locator;
+import org.adempiere.core.domains.models.I_WM_InOutBoundLine;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -85,9 +89,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Org)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Org.Table_Name)
 			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
@@ -113,9 +117,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Activity)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -141,9 +145,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Campaign)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -169,9 +173,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Charge)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -197,9 +201,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Invoice)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -225,9 +229,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_InvoiceLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoiceLine.Table_Name)
 			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
@@ -253,9 +257,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -281,9 +285,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_OrderLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -309,9 +313,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -337,9 +341,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ProjectPhase)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ProjectPhase.Table_Name)
 			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
@@ -365,9 +369,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ProjectTask)MTable.get(getCtx(), org.compiere.model.I_C_ProjectTask.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ProjectTask)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ProjectTask.Table_Name)
 			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
 
 	/** Set Project Task.
@@ -393,9 +397,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_UOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -598,9 +602,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
-		return (org.compiere.model.I_M_FreightCategory)MTable.get(getCtx(), org.compiere.model.I_M_FreightCategory.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
 			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
 
 	/** Set Freight Category.
@@ -626,9 +630,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Freight)MTable.get(getCtx(), org.compiere.model.I_M_Freight.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Freight.Table_Name)
 			.getPO(getM_Freight_ID(), get_TrxName());	}
 
 	/** Set Freight.
@@ -654,9 +658,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOut)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOut.Table_Name)
 			.getPO(getM_InOut_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt.
@@ -682,9 +686,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -766,9 +770,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Movement getM_Movement() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Movement)MTable.get(getCtx(), org.compiere.model.I_M_Movement.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Movement)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Movement.Table_Name)
 			.getPO(getM_Movement_ID(), get_TrxName());	}
 
 	/** Set Inventory Move.
@@ -794,9 +798,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_MovementLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_MovementLine.Table_Name)
 			.getPO(getM_MovementLine_ID(), get_TrxName());	}
 
 	/** Set Move Line.
@@ -842,9 +846,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return bd;
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -870,9 +874,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Shipper)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.
@@ -932,9 +936,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return bd;
 	}
 
-	public org.eevolution.model.I_PP_MRP getPP_MRP() throws RuntimeException
+	public org.adempiere.core.domains.models.I_PP_MRP getPP_MRP() throws RuntimeException
     {
-		return (org.eevolution.model.I_PP_MRP)MTable.get(getCtx(), org.eevolution.model.I_PP_MRP.Table_Name)
+		return (org.adempiere.core.domains.models.I_PP_MRP)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_MRP.Table_Name)
 			.getPO(getPP_MRP_ID(), get_TrxName());	}
 
 	/** Set Material Requirement Planning.
@@ -960,9 +964,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException
     {
-		return (org.eevolution.model.I_PP_Order_BOMLine)MTable.get(getCtx(), org.eevolution.model.I_PP_Order_BOMLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_PP_Order_BOMLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Order_BOMLine.Table_Name)
 			.getPO(getPP_Order_BOMLine_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order BOM Line.
@@ -985,9 +989,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException
+	public org.adempiere.core.domains.models.I_PP_Order getPP_Order() throws RuntimeException
     {
-		return (org.eevolution.model.I_PP_Order)MTable.get(getCtx(), org.eevolution.model.I_PP_Order.Table_Name)
+		return (org.adempiere.core.domains.models.I_PP_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Order.Table_Name)
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
@@ -1054,9 +1058,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_ShipDate);
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -1082,9 +1086,9 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.
