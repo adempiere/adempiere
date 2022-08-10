@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="Rename Manufacturing Package" ReleaseNo="3.9.4" SeqNo="9850">
+  <Migration EntityType="D" Name="Rename Manufacturing Package" ReleaseNo="3.9.4" SeqNo="9850">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="882" Action="U" Record_ID="50000" Table="AD_EntityType">
         <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.eevolution.model">org.eevolution.manufacturing.model</Data>
@@ -47,8 +47,8 @@
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53056" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CopyPriceToStandard">org.eevolution.manufacturing.process.CopyPriceToStandard</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="100" StepType="AD">
@@ -65,8 +65,8 @@
     </Step>
     <Step SeqNo="120" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53300" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CreatePeriods">org.eevolution.manufacturing.process.CreatePeriods</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="130" StepType="AD">
@@ -95,8 +95,8 @@
     </Step>
     <Step SeqNo="170" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53160" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.FrozenUnFrozenCost">org.eevolution.manufacturing.process.FrozenUnFrozenCost</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="180" StepType="AD">
@@ -131,8 +131,8 @@
     </Step>
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53231" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ImportProductBOM">org.eevolution.manufacturing.process.ImportProductBOM</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="240" StepType="AD">
@@ -179,8 +179,8 @@
     </Step>
     <Step SeqNo="310" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53323" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.MRPApproval">org.eevolution.manufacturing.process.MRPApproval</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="320" StepType="AD">
@@ -197,8 +197,8 @@
     </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53369" Table="AD_Process">
-        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
         <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.MRPSchedule">org.eevolution.manufacturing.process.MRPSchedule</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
       </PO>
     </Step>
     <Step SeqNo="350" StepType="AD">
@@ -336,6 +336,16 @@
     <Step SeqNo="600" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="53364" Table="AD_Column">
         <Data AD_Column_ID="1692" Column="Callout" oldValue="org.eevolution.model.CalloutBOM.parent">org.eevolution.manufacturing.controller.CalloutBOM.parent</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50039" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.eevolution.manufacturing.acct.Doc_PPOrder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50042" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.eevolution.manufacturing.acct.Doc_PPOrder</Data>
       </PO>
     </Step>
   </Migration>
