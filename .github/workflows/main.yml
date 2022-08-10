@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-# This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+# This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A.
 # Modifications by Mario Calderon, Systemhaus Westfalia 
 
 name: ADempiere Build
@@ -54,12 +54,12 @@ jobs:
         run: |
             echo  "Installing Tomcat version 9"
             cd /opt
-            echo  "Download Tomcat version 9- version 9.0.64"
-            wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.64/bin/apache-tomcat-9.0.64.tar.gz
+            echo  "Download Tomcat version 9- version 9.0.65"
+            wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
             echo  "Extract Tomcat version 9"
-            tar -zxvf apache-tomcat-9.0.64.tar.gz
+            tar -zxvf apache-tomcat-9.0.65.tar.gz
             echo  "Rename to tomcat"
-            mv apache-tomcat-9.0.64 tomcat
+            mv apache-tomcat-9.0.65 tomcat
             echo  "Installing Tomcat version 9 FINISHED"
 
       # Filter files to discern whether to run with or without database restore 

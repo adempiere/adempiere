@@ -96,7 +96,7 @@
   </target>
   	
   <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
-  <!-- Target will not be executed if called as follows: -Dnodbrestore=true                       -->
+  <!-- Target will NOT be executed if called as follows: -Dnodbrestore=true                       -->
   <!-- Skip Restore because database was already restored
   <target name="restore-database-seed" description="Step 5: Run DB Restore ADempiere: restore seed" unless="${nodbrestore}">
   	<echo message="Run DB Restore ADempiere"/>
