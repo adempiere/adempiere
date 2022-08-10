@@ -19,8 +19,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-2.3'
-    api 'io.github.adempiere:distribution:3.9.4-develop-1.1'
+    api 'io.github.adempiere:base:3.9.4-develop-1.0'
 }
 
 sourceSets {
@@ -41,7 +40,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-1.2"
+version = "3.9.4-develop-1.0"
 
 jar {
     manifest {

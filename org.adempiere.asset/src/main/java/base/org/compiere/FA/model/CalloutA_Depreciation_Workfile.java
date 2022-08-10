@@ -6,6 +6,8 @@ import java.util.Properties;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MDepreciationWorkfile;
+import org.compiere.model.SetGetUtil;
 
 /**
  * @author Teo Sarca, http://www.arhipac.ro

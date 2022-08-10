@@ -1225,7 +1225,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + Env.NL : "") 
 							+ (getTextMsg() != null ? getTextMsg() : ""))
 					.withDescription(Msg.getMsg(getCtx(), "NotApproved") + ": " + doc.getDocumentNo())
-					.withEntity(m_po);
+					.withTableId(m_po.get_Table_ID())
+					.withRecordId(m_po.get_ID());
 				//	Add to queue
 				notifier.addToQueue();
 			}
@@ -1577,7 +1578,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				.withText(message)
 				.addAttachment(pdf)
 				.withDescription(subject)
-				.withEntity(m_po);
+				.withTableId(m_po.get_Table_ID())
+				.withRecordId(m_po.get_ID());
 			//	For user
 			if (userId != 0) {
 				notifier.addRecipient(userId);

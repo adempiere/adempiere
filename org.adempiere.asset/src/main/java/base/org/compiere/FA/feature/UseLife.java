@@ -5,8 +5,7 @@ package org.compiere.FA.feature;
 
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.FA.model.SetGetModel;
+import org.compiere.model.SetGetModel;
  
  
  /**	Describe Use life Feature

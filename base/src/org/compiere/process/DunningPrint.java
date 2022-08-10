@@ -165,7 +165,8 @@ public class DunningPrint extends DunningPrintAbstract {
 					.addRecipient(to.getAD_User_ID())
 					.withText(message)
 					.withDescription(text.getMailHeader())
-					.withEntity(entry);
+					.withTableId(MDunningRunEntry.Table_ID)
+					.withRecordId(entry.getC_DunningRunEntry_ID());
 				//	Attachment
 				if (re != null) {
 					File attachment = re.getPDF();

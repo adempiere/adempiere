@@ -26,8 +26,7 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_M_Product;
+import org.compiere.model.I_A_Asset;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
@@ -36,7 +35,6 @@ import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.RefactoryUtil;
 
 /**
  *	Asset Information
@@ -166,7 +164,7 @@ public class InfoAsset extends Info
 		//	From A_Asset.
 		fBPartner_ID = new VLookup("C_BPartner_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
-					MColumn.getColumn_ID(RefactoryUtil.A_Asset_Table_Name, I_C_BPartner.COLUMNNAME_C_BPartner_ID),
+					MColumn.getColumn_ID(I_A_Asset.Table_Name, I_A_Asset.COLUMNNAME_C_BPartner_ID),
 					DisplayType.Search));
 		lBPartner_ID.setLabelFor(fBPartner_ID);
 		fBPartner_ID.setBackground(AdempierePLAF.getInfoBackground());
@@ -174,7 +172,7 @@ public class InfoAsset extends Info
 		
 		fProduct_ID = new VLookup("M_Product_ID", false, false, true,
 			MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
-					MColumn.getColumn_ID(RefactoryUtil.A_Asset_Table_Name, I_M_Product.COLUMNNAME_M_Product_ID),
+					MColumn.getColumn_ID(I_A_Asset.Table_Name,I_A_Asset.COLUMNNAME_M_Product_ID),
 					DisplayType.Search));
 		lProduct_ID.setLabelFor(fProduct_ID);
 		fProduct_ID.setBackground(AdempierePLAF.getInfoBackground());
@@ -344,6 +342,8 @@ public class InfoAsset extends Info
 	{
 		log.info( "InfoAsset.zoom");
 		Integer A_Asset_ID = record_ID;
+		if (A_Asset_ID == null)
+			return;
 		MQuery query = new MQuery("A_Asset");
 		query.addRestriction("A_Asset_ID", MQuery.EQUAL, A_Asset_ID);
 		query.setRecordCount(1);

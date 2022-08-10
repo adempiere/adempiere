@@ -26,7 +26,7 @@
 		<pathelement path="${classpath}" />
 		<pathelement path="lib/jstl.jar" />
 		<pathelement path="lib/jsp-api.jar" />
-		<pathelement path="lib/javax.servlet-api-4.0.1.jar" />
+		<pathelement path="lib/servlet-api.jar" />
 		<pathelement path="lib/standard.jar" />
 	</path>
 

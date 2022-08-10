@@ -313,7 +313,8 @@ public class InvoicePrint extends SvrProcess
 						.withText(message)
 						.addAttachment(attachment)
 						.withDescription(subject)
-						.withEntity(MInvoice.Table_ID, invoiceId);
+						.withTableId(MInvoice.Table_ID)
+						.withRecordId(invoiceId);
 					//	Add to queue
 					notifier.addToQueue();
 					count++;

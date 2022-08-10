@@ -506,11 +506,9 @@ public class MProduct extends X_M_Product
 		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
 		if (pc.getA_Asset_Group_ID() == 0)
 			return false;
-		PO assetGroup = MTable.get(getCtx(), "A_Asset_Group").getPO(pc.getA_Asset_Group_ID(), get_TrxName());
-		if(assetGroup != null) {
-			return assetGroup.get_ValueAsBoolean("IsOneAssetPerUOM");
-		}
-		return false;
+		//MAssetGroup.get(getCtx(), pc.getA_Asset_Group_ID());
+		//return ag.isOneAssetPerUOM();
+		return  pc.getA_Asset_Group().isOneAssetPerUOM();
 	}	//	isOneAssetPerUOM
 	
 	/**

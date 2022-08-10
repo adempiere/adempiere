@@ -23,8 +23,6 @@ import java.math.BigDecimal;
 
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
-import org.compiere.FA.model.MAsset;
-import org.compiere.FA.model.MAssetGroup;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

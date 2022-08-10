@@ -545,6 +545,12 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.eevolution.model.I_HR_Movement getHR_Movement() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Movement)MTable.get(getCtx(), org.eevolution.model.I_HR_Movement.Table_Name)
+			.getPO(getHR_Movement_ID(), get_TrxName());	}
+
 	/** Set Payroll Movement.
 		@param HR_Movement_ID Payroll Movement	  */
 	public void setHR_Movement_ID (int HR_Movement_ID)

@@ -82,7 +82,7 @@ dependencies {
     // https://mvnrepository.com/artifact/org.beanshell/bsh
     implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
     //  Local
-    api 'io.github.adempiere:tools:3.9.4-develop-1.2'
+    api 'io.github.adempiere:tools:3.9.4-develop-1.0'
 }
 
 sourceSets {
@@ -103,7 +103,7 @@ signing {
 }
 
 def entityType = 'D'
-version = "3.9.4-develop-2.6"
+version = "3.9.4-develop-1.0"
 
 jar {
     manifest {

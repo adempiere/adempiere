@@ -158,7 +158,8 @@ public class Telegram implements INotification {
 						"\n" + 
 						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
 				.addRecipient("-537126434", MADNotificationRecipient.MESSAGETYPE_Confirmation)
-				.withEntity(MClient.Table_ID, 1000000)
+				.withTableId(MClient.Table_ID)
+				.withRecordId(1000000)
 				.withDescription("Hello by Notes")
 				.addToQueue();
 		});

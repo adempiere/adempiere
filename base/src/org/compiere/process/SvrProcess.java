@@ -42,6 +42,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import org.eevolution.process.GenerateMovement;
 import org.spin.util.ASPUtil;
 
 /**
@@ -1001,7 +1002,7 @@ public abstract class SvrProcess implements ProcessCall
 			try {
 				ClassLoader loader = Thread.currentThread().getContextClassLoader();
 				if (loader == null)
-					loader = GardenWorldCleanup.class.getClassLoader();
+					loader = GenerateMovement.class.getClassLoader();
 				Class<?> clazz = loader.loadClass("org.eevolution.form.WPrintDocument");
 				Constructor<?> constructor = null;
 				constructor = clazz.getDeclaredConstructor();

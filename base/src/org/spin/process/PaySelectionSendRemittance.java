@@ -159,7 +159,8 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 			.withUserId(getAD_User_ID())
 			.withText(message)
 			.withDescription(mailText.getMailHeader())
-			.withEntity(payment);
+			.withTableId(MPayment.Table_ID)
+			.withRecordId(payment.getC_Payment_ID());
 		if(businessPartnerBankAccountContact != null) {
 			notifier.addRecipient(businessPartnerBankAccountContact.getAD_User_ID());
 		} else if(!Util.isEmpty(businessPartnerBankAccountMail)) {

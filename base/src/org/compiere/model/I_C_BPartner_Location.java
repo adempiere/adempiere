@@ -201,6 +201,8 @@ public interface I_C_BPartner_Location
 	  */
 	public int getHR_Relationship_ID();
 
+	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException;
+
     /** Column name ISDN */
     public static final String COLUMNNAME_ISDN = "ISDN";
 

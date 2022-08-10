@@ -90,6 +90,8 @@ public interface I_M_Product_Category
 	  */
 	public int getA_Asset_Group_ID();
 
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

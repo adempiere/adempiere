@@ -73,9 +73,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.distribution.model.MDDOrder;
-import org.eevolution.distribution.model.MDDOrderLine;
-import org.eevolution.distribution.util.FleetUtil;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MDDOrderLine;
 
 /**
  *	Create Movement for Material Receipt from Distribution Order
@@ -481,7 +480,7 @@ public class VOrderDistributionReceipt extends CPanel
 			if(QtyDeliver == null | QtyDeliver.compareTo(oline.getQtyInTransit()) > 0)
 				 throw new AdempiereException("Error in Qty");
 			
-			FleetUtil.setMovementOrderLine(line, oline, QtyDeliver, true);
+			line.setOrderLine(oline, QtyDeliver, true);
 			line.saveEx();
 		}
 		

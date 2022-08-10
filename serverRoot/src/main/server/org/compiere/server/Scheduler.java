@@ -206,7 +206,8 @@ public class Scheduler extends AdempiereServer
 						.addRecipient(supervisor)
 						.withText(info.getSummary() + " " + info.getLogInfo())
 						.withDescription(process.getName())
-						.withEntity(MPInstance.Table_ID, info.getAD_PInstance_ID());
+						.withTableId(MPInstance.Table_ID)
+						.withRecordId(info.getAD_PInstance_ID());
 					//	Add to queue
 					notifier.addToQueue();
 				});
@@ -246,7 +247,8 @@ public class Scheduler extends AdempiereServer
 							.addAttachment(report.get())
 							.withText(info.getSummary() + " " + info.getLogInfo())
 							.withDescription(process.getName())
-							.withEntity(schedulerConfiguration);
+							.withTableId(schedulerConfiguration.getAD_Table_ID())
+							.withRecordId(schedulerConfiguration.getRecord_ID());
 						//	Change Subject and Text
 						if (isReport) {
 							notifier

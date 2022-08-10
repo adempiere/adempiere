@@ -422,7 +422,8 @@ public class WorkflowProcessor extends AdempiereServer
 				.withText(subject)
 				.addAttachment(attachmentAsPDF.get())
 				.withDescription(message.get())
-				.withEntity(po);
+				.withTableId(po.get_Table_ID())
+				.withRecordId(po.get_ID());
 			list.forEach(userId -> notifier.addRecipient(userId));
 			notifier.addToQueue();
 		});
@@ -501,7 +502,8 @@ public class WorkflowProcessor extends AdempiereServer
 				.withText(subject)
 				.addAttachment(pdf)
 				.withDescription(message)
-				.withEntity(po);
+				.withTableId(po.get_Table_ID())
+				.withRecordId(po.get_ID());
 			//	Add all recipients
 			list.forEach(userId -> notifier.addRecipient(userId));
 			//	Add to queue

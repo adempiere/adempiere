@@ -251,8 +251,7 @@ public class MTable extends X_AD_Table
 		}
 		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd
 		if (!MEntityType.ENTITYTYPE_Dictionary.equals(entityType)
-				&& !entityType.equals("CRM")
-				&& !entityType.equals("FA"))
+				&& !entityType.equals("CRM"))
 		{
 			MEntityType entityTypeModel = MEntityType.get(Env.getCtx(), entityType);
 			String entityTypeModelpackage = entityTypeModel.getModelPackage();
@@ -800,12 +799,6 @@ public class MTable extends X_AD_Table
 		{
 			// Ignore errors
 			syncDatabase(null);
-		}
-		if(!newRecord && is_ValueChanged(COLUMNNAME_EntityType)) {
-			getColumnsAsList(true).forEach(column -> {
-				column.setEntityType(getEntityType());
-				column.saveEx();
-			});
 		}
 		return success;
 	}	//	afterSave

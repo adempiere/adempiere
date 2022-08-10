@@ -75,6 +75,8 @@ public interface I_R_IssueSystem
 	  */
 	public int getA_Asset_ID();
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
