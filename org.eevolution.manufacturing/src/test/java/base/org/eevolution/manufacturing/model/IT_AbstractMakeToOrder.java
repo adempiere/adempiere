@@ -14,7 +14,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.eevolution.model;
+package org.eevolution.manufacturing.model;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

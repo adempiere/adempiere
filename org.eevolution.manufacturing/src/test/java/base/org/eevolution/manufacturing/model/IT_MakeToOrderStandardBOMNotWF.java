@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.eevolution.model;
+package org.eevolution.manufacturing.model;
 
 import java.math.BigDecimal;
 

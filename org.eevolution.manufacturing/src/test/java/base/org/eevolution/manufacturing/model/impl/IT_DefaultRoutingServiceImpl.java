@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.eevolution.model.impl;
+package org.eevolution.manufacturing.model.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
