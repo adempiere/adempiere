@@ -1538,7 +1538,10 @@ public class DocumentEngine implements DocAction
      */
     public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, int recordId, String trxName)
     {
-        Doc doc = null;
+    	Doc doc = Doc.get(acctSchemas, MTable.getTable_ID(tableName), recordId, trxName);
+        if(doc != null) {
+        	return doc;
+        }
         String sql = "SELECT * FROM " + tableName
                 +" WHERE " + tableName + "_ID=? AND Processed='Y'";
         PreparedStatement pstmt = null;
@@ -1579,8 +1582,10 @@ public class DocumentEngine implements DocAction
      */
     public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) throws AdempiereUserError
     {
-        Doc doc = null;
-        
+        Doc doc = Doc.get(acctSchemas, MTable.getTable_ID(tableName), rs, trxName);
+        if(doc != null) {
+        	return doc;
+        }
         String packageName = "org.compiere.acct";
         String className = null;
 
