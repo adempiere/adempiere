@@ -11,8 +11,6 @@ import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_A_Asset_Disposed;
-import org.compiere.model.MAssetDisposed;
 import org.compiere.util.Env;
 
 

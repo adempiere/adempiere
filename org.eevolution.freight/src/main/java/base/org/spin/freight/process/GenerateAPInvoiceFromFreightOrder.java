@@ -28,7 +28,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.MDDFreightLine;
+import org.eevolution.distribution.model.MDDFreightLine;
 
 /** Generated Process for (Generate AP Invoice from Freight Order)
  *  @author ADempiere (generated) 

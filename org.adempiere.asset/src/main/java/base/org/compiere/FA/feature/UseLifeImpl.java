@@ -6,13 +6,12 @@ package org.compiere.FA.feature;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.FA.model.MAssetGroup;
+import org.compiere.FA.model.SetGetModel;
+import org.compiere.FA.model.SetGetUtil;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-//import org.compiere.model.MAssetClass; //commented by @win
-import org.compiere.model.MAssetGroup;
 import org.compiere.model.PO;
-import org.compiere.model.SetGetModel;
-import org.compiere.model.SetGetUtil;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
@@ -202,15 +201,6 @@ public class UseLifeImpl
 		return 0;
 	}
 	*/ // end comment by @win
-	
-	/**
-	 * Copy UseLifeMonths, UseLifeMonths_F, UseLifeYears, UseLifeYears_F fields from "from" to "to"
-	 * @param	to	destination model
-	 * @param	from source model
-	 */
-	public static void copyValues(PO to, PO from) {
-		SetGetUtil.copyValues(to, from, new String[]{"UseLifeMonths", "UseLifeYears", "UseLifeMonths_F", "UseLifeYears_F"}, null);
-	}
 	
 	/**	Validates and corrects errors in model  */
 	public boolean validate() {

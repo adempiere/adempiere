@@ -41,7 +41,6 @@ class TestDoc extends CommonUnitTestSetup {
 
                 arguments("C_Order", "DateAcct"),
                 arguments("C_BankStatement", "StatementDate"),
-                arguments("DD_Order", "DateOrdered"),
                 arguments("M_Inventory", "MovementDate"),
                 arguments("M_Movement", "MovementDate"),
                 arguments("PP_Cost_Collector", "MovementDate"),

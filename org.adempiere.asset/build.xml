@@ -62,6 +62,8 @@
     <!-- Transfer FixedAsset.jar -->
     <copy file="${dist}/lib/FixedAssetManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/FixedAssetManagement/lib"/>
     <copy file="${dist}/lib/FixedAssetManagement.jar" todir="${adempiere.source}/packages/"/>
+  	<copy file="../tools/lib/legacy/fixed-asset-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/FixedAssetManagement/lib" />
+  	<copy file="../tools/lib/legacy/fixed-asset-support-legacy-1.0.0.jar" todir="../packages/" />
 
   </target>
 

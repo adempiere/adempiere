@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -49,6 +50,17 @@ public interface I_AD_OrgInfo
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_EMailConfig_ID */
+    public static final String COLUMNNAME_AD_EMailConfig_ID = "AD_EMailConfig_ID";
+
+	/** Set EMail Configuration	  */
+	public void setAD_EMailConfig_ID (int AD_EMailConfig_ID);
+
+	/** Get EMail Configuration	  */
+	public int getAD_EMailConfig_ID();
+
+	public I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -75,7 +87,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getAD_OrgType_ID();
 
-	public org.compiere.model.I_AD_OrgType getAD_OrgType() throws RuntimeException;
+	public I_AD_OrgType getAD_OrgType() throws RuntimeException;
 
     /** Column name C_Calendar_ID */
     public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
@@ -90,7 +102,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getC_Calendar_ID();
 
-	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
+	public I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -149,7 +161,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getDropShip_Warehouse_ID();
 
-	public org.compiere.model.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException;
+	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException;
 
     /** Column name DUNS */
     public static final String COLUMNNAME_DUNS = "DUNS";
@@ -176,6 +188,19 @@ public interface I_AD_OrgInfo
 	  * Electronic Mail Address
 	  */
 	public String getEMail();
+
+    /** Column name EMailTest */
+    public static final String COLUMNNAME_EMailTest = "EMailTest";
+
+	/** Set EMail Test.
+	  * Test EMail
+	  */
+	public void setEMailTest (String EMailTest);
+
+	/** Get EMail Test.
+	  * Test EMail
+	  */
+	public String getEMailTest();
 
     /** Column name Fax */
     public static final String COLUMNNAME_Fax = "Fax";
@@ -225,7 +250,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getM_Warehouse_ID();
 
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
@@ -240,7 +265,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getPA_Goal_ID();
 
-	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException;
+	public I_PA_Goal getPA_Goal() throws RuntimeException;
 
     /** Column name Parent_Org_ID */
     public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";
@@ -255,7 +280,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getParent_Org_ID();
 
-	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException;
+	public I_AD_Org getParent_Org() throws RuntimeException;
 
     /** Column name Phone */
     public static final String COLUMNNAME_Phone = "Phone";
@@ -296,6 +321,19 @@ public interface I_AD_OrgInfo
 	  */
 	public String getReceiptFooterMsg();
 
+    /** Column name RequestUserPW */
+    public static final String COLUMNNAME_RequestUserPW = "RequestUserPW";
+
+	/** Set Request User Password.
+	  * Password of the user name (ID) for mail processing
+	  */
+	public void setRequestUserPW (String RequestUserPW);
+
+	/** Get Request User Password.
+	  * Password of the user name (ID) for mail processing
+	  */
+	public String getRequestUserPW();
+
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 
@@ -309,7 +347,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getSupervisor_ID();
 
-	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
+	public I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";
@@ -337,7 +375,7 @@ public interface I_AD_OrgInfo
 	  */
 	public int getTransferBank_ID();
 
-	public org.compiere.model.I_C_Bank getTransferBank() throws RuntimeException;
+	public I_C_Bank getTransferBank() throws RuntimeException;
 
     /** Column name TransferCashBook_ID */
     public static final String COLUMNNAME_TransferCashBook_ID = "TransferCashBook_ID";
@@ -348,7 +386,7 @@ public interface I_AD_OrgInfo
 	/** Get CashBook for transfers	  */
 	public int getTransferCashBook_ID();
 
-	public org.compiere.model.I_C_CashBook getTransferCashBook() throws RuntimeException;
+	public I_C_CashBook getTransferCashBook() throws RuntimeException;
 
     /** Column name UnidentifiedAPDocType_ID */
     public static final String COLUMNNAME_UnidentifiedAPDocType_ID = "UnidentifiedAPDocType_ID";
@@ -359,7 +397,7 @@ public interface I_AD_OrgInfo
 	/** Get Unidentified Document Type (AP)	  */
 	public int getUnidentifiedAPDocType_ID();
 
-	public org.compiere.model.I_C_DocType getUnidentifiedAPDocType() throws RuntimeException;
+	public I_C_DocType getUnidentifiedAPDocType() throws RuntimeException;
 
     /** Column name UnidentifiedARDocType_ID */
     public static final String COLUMNNAME_UnidentifiedARDocType_ID = "UnidentifiedARDocType_ID";
@@ -370,7 +408,7 @@ public interface I_AD_OrgInfo
 	/** Get Unidentified Document Type (AR)	  */
 	public int getUnidentifiedARDocType_ID();
 
-	public org.compiere.model.I_C_DocType getUnidentifiedARDocType() throws RuntimeException;
+	public I_C_DocType getUnidentifiedARDocType() throws RuntimeException;
 
     /** Column name UnidentifiedBPartner_ID */
     public static final String COLUMNNAME_UnidentifiedBPartner_ID = "UnidentifiedBPartner_ID";
@@ -381,7 +419,7 @@ public interface I_AD_OrgInfo
 	/** Get Business Partner (Unidentified Payments)	  */
 	public int getUnidentifiedBPartner_ID();
 
-	public org.compiere.model.I_C_BPartner getUnidentifiedBPartner() throws RuntimeException;
+	public I_C_BPartner getUnidentifiedBPartner() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

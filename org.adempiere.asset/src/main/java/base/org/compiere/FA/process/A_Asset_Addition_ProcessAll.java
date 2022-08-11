@@ -1,6 +1,6 @@
 package org.compiere.FA.process;
 
-import org.compiere.model.MAssetAddition;
+import org.compiere.FA.model.MAssetAddition;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
 import org.compiere.process.SvrProcess;

@@ -7,7 +7,6 @@
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.warehouse/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.hr_and_payroll/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.freight/build.xml" />
-    <buildFile url="file://$PROJECT_DIR$/org.eevolution.fleet/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.cashflow/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.eevolution.freight/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.adempiere.production/build.xml" />

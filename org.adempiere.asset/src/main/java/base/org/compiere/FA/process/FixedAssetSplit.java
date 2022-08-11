@@ -16,7 +16,7 @@
 
 package org.compiere.FA.process;
 
-import org.compiere.model.MAssetSplit;
+import org.compiere.FA.model.MAssetSplit;
 import org.compiere.model.MPeriod;
 import org.compiere.process.DocAction;
 import org.compiere.util.Trx;
@@ -48,7 +48,7 @@ public class FixedAssetSplit extends FixedAssetSplitAbstract {
                 assetSplit.setA_Transfer_Balance_IS(getSelectionAsBoolean(assetId, MAssetSplit.COLUMNNAME_A_Transfer_Balance_IS));
                 assetSplit.setDocStatus(DocAction.STATUS_Drafted);
                 assetSplit.setDocAction(DocAction.ACTION_Complete);
-                MPeriod period  = MPeriod.get(getCtx(), getDateAcct(), assetSplit.getAD_Org_ID());
+                MPeriod period  = MPeriod.get(getCtx(), getDateAcct(), assetSplit.getAD_Org_ID(), null);
                 if (period != null)
                     assetSplit.setC_Period_ID(period.getC_Period_ID());
 

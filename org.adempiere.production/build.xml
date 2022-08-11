@@ -24,6 +24,9 @@
     <fileset dir="../lib">
       <include name="*.jar"/>
     </fileset>
+  	<fileset dir="../org.eevolution.distribution/dist/lib">
+  	  <include name="*.jar"/>
+  	</fileset>
     <pathelement path="../tools/lib/c3p0-0.9.1.2.jar"/>
     <pathelement path="../serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
   </path>
@@ -97,6 +100,8 @@
         <attribute name="Class-Path" value="ProductionLight.jar"/>
       </manifest> 
     </jar>
+  	<copy file="../tools/lib/legacy/production-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/ProductionLight/lib" />
+  	<copy file="../tools/lib/legacy/production-support-legacy-1.0.0.jar" todir="../packages/" />
   </target>
 
 

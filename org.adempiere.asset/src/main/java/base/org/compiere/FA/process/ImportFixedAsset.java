@@ -4,13 +4,13 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
-import org.compiere.model.MAsset;
-import org.compiere.model.MAssetAddition;
-import org.compiere.model.MIFixedAsset;
+import org.compiere.FA.model.MAsset;
+import org.compiere.FA.model.MAssetAddition;
+import org.compiere.FA.model.MIFixedAsset;
+import org.compiere.FA.model.X_I_FixedAsset;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
-import org.compiere.model.X_I_FixedAsset;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;

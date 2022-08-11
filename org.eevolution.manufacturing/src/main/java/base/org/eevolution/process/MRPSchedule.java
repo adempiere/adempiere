@@ -23,8 +23,8 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequisition;
 import org.compiere.model.PO;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 
@@ -113,7 +113,7 @@ public class MRPSchedule extends MRPScheduleAbstract {
 			}
 		}
 		else if (MPPMRP.ORDERTYPE_DistributionOrder.equals(mrp.getOrderType())) {
-			MDDOrderLine orderLine = (MDDOrderLine) mrp.getDD_OrderLine();
+			MDDOrderLine orderLine = new MDDOrderLine(mrp.getCtx(), mrp.getDD_OrderLine_ID(), mrp.get_TrxName());
 			if (orderLine != null) {
 				orderLine.setDateOrdered(mrp.getDateStartSchedule());
 				orderLine.setDatePromised(mrp.getDatePromised());
