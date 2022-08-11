@@ -19,6 +19,7 @@ package org.compiere.process;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,6 +34,7 @@ import org.adempiere.core.domains.models.I_DD_Order;
 import org.adempiere.core.domains.models.I_HR_Process;
 import org.adempiere.core.domains.models.I_PP_Cost_Collector;
 import org.adempiere.core.domains.models.I_PP_Order;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
@@ -1535,7 +1537,37 @@ public class DocumentEngine implements DocAction
      *  @return Document or null
      */
     public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, int recordId, String trxName) {
-    	return Doc.get(acctSchemas, tableName, recordId, trxName);
+        Doc doc = Doc.get(acctSchemas, tableName, recordId, trxName);
+        if(doc != null) {
+        	return doc;
+        }
+        String sql = "SELECT * FROM " + tableName
+                +" WHERE " + tableName + "_ID=? AND Processed='Y'";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = DB.prepareStatement (sql, trxName);
+            pstmt.setInt (1, recordId);
+            rs = pstmt.executeQuery ();
+            if (rs.next ())
+            {
+                doc = getDoc (acctSchemas, tableName, rs, trxName);
+            }
+            else
+                getLogger().severe("Not Found: " + tableName + "_ID=" + recordId);
+        }
+        catch (Exception e)
+        {
+            getLogger().log (Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            DB.close(rs, pstmt);
+            rs = null; 
+            pstmt = null;
+        }
+        return doc;
     }
 
     /**
@@ -1548,7 +1580,35 @@ public class DocumentEngine implements DocAction
      * @throws AdempiereUserError 
      */
     public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) {
-        return Doc.get(acctSchemas, tableName, rs, trxName);
+        Doc doc = Doc.get(acctSchemas, tableName, rs, trxName);
+        if(doc != null) {
+        	return doc;
+        }
+        String packageName = "org.compiere.acct";
+        String className = null;
+
+        int firstUnderscore = tableName.indexOf("_");
+        if (firstUnderscore == 1)
+            className = packageName + ".Doc_" + tableName.substring(2).replace("_", "");
+        else
+            className = packageName + ".Doc_" + tableName.replace("_", "");
+        
+        try
+        {
+            Class<?> cClass = Class.forName(className);
+            Constructor<?> cnstr = cClass.getConstructor(MAcctSchema[].class, ResultSet.class, String.class);
+            doc = (Doc) cnstr.newInstance(acctSchemas, rs, trxName);
+        }
+        catch (Exception e)
+        {
+            getLogger().log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
+            throw new AdempiereException("Doc Class invalid: " + className + " (" + e.toString() + ")");
+        }
+
+        if (doc == null)
+            getLogger().log(Level.SEVERE, "Unknown table =" + tableName);
+        
+        return doc;
     }
 
     // For testing
