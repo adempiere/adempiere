@@ -348,5 +348,11 @@
         <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.eevolution.manufacturing.acct.Doc_PPOrder</Data>
       </PO>
     </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53075" Table="AD_Form">
+        <Data AD_Column_ID="84325" Column="UUID" isOldNull="true">78c36b1e-28aa-4ff7-b32b-ef4734e7ebbf</Data>
+        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.spin.form.VLoanSimulator">org.spin.investment.form.VLoanSimulator</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
