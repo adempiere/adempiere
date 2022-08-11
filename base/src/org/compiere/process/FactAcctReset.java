@@ -47,16 +47,12 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_A_Asset_Addition;
-import org.compiere.model.X_A_Asset_Disposed;
-import org.compiere.model.X_A_Depreciation_Entry;
 import org.compiere.model.X_M_Production;
 import org.compiere.model.X_M_ProductionBatch;
 import org.compiere.util.DB;
+import org.compiere.util.RefactoryUtil;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
-import org.eevolution.model.X_DD_Order;
-import org.eevolution.model.X_HR_Process;
 import org.eevolution.model.X_PP_Cost_Collector;
 import org.eevolution.model.X_PP_Order;
 
@@ -339,17 +335,17 @@ public class FactAcctReset extends FactAcctResetAbstract {
                     + "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "')";
-        else if (tableId == X_DD_Order.Table_ID)
+        else if (tableId == RefactoryUtil.DD_Order_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder + "'";
-        else if (tableId == X_HR_Process.Table_ID)
+        else if (tableId == RefactoryUtil.HR_Process_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll + "'";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "'";
-        else if (tableId == X_A_Asset_Addition.Table_ID)
+        else if (tableId == RefactoryUtil.A_Asset_Addition_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsAddition + "'";
-        else if (tableId == X_A_Depreciation_Entry.Table_ID)
+        else if (tableId == RefactoryUtil.A_Depreciation_Entry_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsDisposal + "'";
-        else if (tableId == X_A_Asset_Disposed.Table_ID)
+        else if (tableId == RefactoryUtil.A_Asset_Disposed_Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsDepreciation + "'";
         else if (tableId == X_M_ProductionBatch.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingPlannedOrder + "'";

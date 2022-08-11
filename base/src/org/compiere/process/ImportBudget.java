@@ -41,17 +41,16 @@ import org.compiere.model.MProject;
 import org.compiere.model.MSalesRegion;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
 import org.compiere.model.X_GL_Budget;
 import org.compiere.model.X_I_Budget;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.RefactoryUtil;
 import org.compiere.util.Trx;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -204,7 +203,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         if (importBudget.getA_Asset_ID() > 0)
             assetId = importBudget.getA_Asset_ID();
         if (assetId <= 0 && importBudget.getAssetValue() != null)
-            assetId = getId(X_A_Asset.Table_Name, X_A_Asset.COLUMNNAME_Value + "=?", trxName, importBudget.getAssetValue());
+            assetId = getId(RefactoryUtil.A_Asset_Table_Name, "Value = ?", trxName, importBudget.getAssetValue());
         if (assetId > 0 && importBudget.getA_Asset_ID() <= 0)
             importBudget.setA_Asset_ID(assetId);
         if (importBudget.getA_Asset_ID() <= 0 && importBudget.getAssetValue() != null)
@@ -636,9 +635,9 @@ public class ImportBudget extends ImportBudgetAbstract {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(period.getEndDate().getTime());
         calendar.add(Calendar.DATE, 1);
-        Timestamp startTime = new Timestamp(calendar.getTimeInMillis());
-        Date startDateNextPeriod = new Date(startTime.getTime());
-        offset = startDateNextPeriod.getMonth() - period.getStartDate().getMonth();
+        Calendar calendarStartDate = Calendar.getInstance();
+        calendarStartDate.setTimeInMillis(period.getStartDate().getTime());
+        offset = calendar.get(Calendar.MONTH) - calendarStartDate.get(Calendar.MONTH);
         glPeriods.add(period);
         glPeriodsDates.add(getAccountDate());
         Calendar cal = Calendar.getInstance();

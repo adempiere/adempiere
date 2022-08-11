@@ -67,6 +67,8 @@
     <!-- Transfer liberoWM.jar -->
     <copy file="${dist}/lib/TimeAndAttendance.jar" todir="${env.ADEMPIERE_HOME}/packages/TimeAndAttendance/lib"/>
     <copy file="${dist}/lib/TimeAndAttendance.jar" todir="../packages/"/>
+  	<copy file="../tools/lib/legacy/hr-support-legacy-1.0.1.jar" todir="${env.ADEMPIERE_HOME}/packages/TimeAndAttendance/lib" />
+  	<copy file="../tools/lib/legacy/hr-support-legacy-1.0.1.jar" todir="../packages/" />
 
   </target>
 

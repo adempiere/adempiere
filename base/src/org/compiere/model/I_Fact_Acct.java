@@ -105,8 +105,6 @@ public interface I_Fact_Acct
 	  */
 	public int getA_Asset_ID();
 
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name Account_ID */
     public static final String COLUMNNAME_Account_ID = "Account_ID";
 

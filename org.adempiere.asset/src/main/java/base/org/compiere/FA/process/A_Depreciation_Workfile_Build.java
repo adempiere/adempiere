@@ -3,7 +3,7 @@
  */
 package org.compiere.FA.process;
 
-import org.compiere.model.MDepreciationWorkfile;
+import org.compiere.FA.model.MDepreciationWorkfile;
 import org.compiere.model.Query;
 import org.compiere.util.Trx;
 

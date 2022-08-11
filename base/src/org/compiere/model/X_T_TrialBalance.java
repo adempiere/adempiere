@@ -162,12 +162,7 @@ public class X_T_TrialBalance extends PO implements I_T_TrialBalance, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
-    {
-		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
-			.getPO(getA_Asset_ID(), get_TrxName());	}
-
+	
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers

@@ -37,6 +37,7 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_T_Replenish;
 import org.compiere.util.AdempiereSystemError;
@@ -44,10 +45,9 @@ import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.RefactoryUtil;
 import org.compiere.util.ReplenishInterface;
 import org.compiere.util.Util;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
 
 /**
  *	Replenishment Report
@@ -591,7 +591,7 @@ public class ReplenishReport extends ReplenishReportAbstract {
 		String info = "";
 		//
 		MClient client = null;
-		MDDOrder order = null;
+		PO order = null;
 		int M_Warehouse_ID = 0;
 		int M_WarehouseSource_ID = 0;
 		MWarehouse whSource = null;
@@ -612,47 +612,47 @@ public class ReplenishReport extends ReplenishReportAbstract {
 				M_WarehouseSource_ID = replenish.getM_WarehouseSource_ID();
 				M_Warehouse_ID = replenish.getM_Warehouse_ID();
 				
-				order = new MDDOrder (getCtx(), 0, get_TrxName());
-				order.setC_DocType_ID(getDocTypeId());
-				order.setDescription(Msg.getMsg(getCtx(), "Replenishment")
+				order = RefactoryUtil.getDistributionOrder(getCtx(), 0, get_TrxName());
+				order.set_ValueOfColumn("C_DocType_ID", getDocTypeId());
+				order.set_ValueOfColumn("Description", Msg.getMsg(getCtx(), "Replenishment")
 					+ ": " + whSource.getName() + "->" + wh.getName());
 				//	Set Org
 				order.setAD_Org_ID(whSource.getAD_Org_ID());
 				// Set Org Trx
 				MOrg orgTrx = MOrg.get(getCtx(), wh.getAD_Org_ID());
-				order.setAD_OrgTrx_ID(orgTrx.getAD_Org_ID());
+				order.set_ValueOfColumn("AD_OrgTrx_ID", orgTrx.getAD_Org_ID());
 				int bPartnerId = orgTrx.getLinkedC_BPartner_ID(get_TrxName()); 
 				if (bPartnerId == 0)
 					throw new AdempiereUserError("@C_BPartner_ID@ @AD_Org_ID@ @FillMandatory@ ");
 				MBPartner bp = new MBPartner(getCtx(),bPartnerId,get_TrxName());
 				// Set BPartner Link to Org
-				order.setBPartner(bp);
-				order.setDateOrdered(new Timestamp(System.currentTimeMillis()));
-				order.setDeliveryRule(MDDOrder.DELIVERYRULE_Availability);
-				order.setDeliveryViaRule(MDDOrder.DELIVERYVIARULE_Delivery);
-				order.setPriorityRule(MDDOrder.PRIORITYRULE_Medium);
-				order.setIsInDispute(false);
-				order.setIsApproved(false);
-				order.setIsDropShip(false);
-				order.setIsDelivered(false);
-				order.setIsInTransit(false);
-				order.setIsPrinted(false);
-				order.setIsSelected(false);
-				order.setIsSOTrx(false);
+				RefactoryUtil.setBusinessPartner(order, bp);
+				order.set_ValueOfColumn("DateOrdered", new Timestamp(System.currentTimeMillis()));
+				order.set_ValueOfColumn("DeliveryRule", MOrder.DELIVERYRULE_Availability);
+				order.set_ValueOfColumn("DeliveryViaRule", MOrder.DELIVERYVIARULE_Delivery);
+				order.set_ValueOfColumn("PriorityRule", MOrder.PRIORITYRULE_Medium);
+				order.set_ValueOfColumn("IsInDispute", false);
+				order.set_ValueOfColumn("IsApproved", false);
+				order.set_ValueOfColumn("IsDropShip", false);
+				order.set_ValueOfColumn("IsDelivered", false);
+				order.set_ValueOfColumn("IsInTransit", false);
+				order.set_ValueOfColumn("IsPrinted", false);
+				order.set_ValueOfColumn("IsSelected", false);
+				order.set_ValueOfColumn("IsSOTrx", false);
 				// Warehouse in Transit
 				MWarehouse[] whsInTransit  = MWarehouse.getForOrg(getCtx(), whSource.getAD_Org_ID());
 				for (MWarehouse whInTransit:whsInTransit)
 				{
 					if(whInTransit.isInTransit())	
-					order.setM_Warehouse_ID(whInTransit.getM_Warehouse_ID());
+					order.set_ValueOfColumn("M_Warehouse_ID", whInTransit.getM_Warehouse_ID());
 				}
-				if (order.getM_Warehouse_ID()==0)
+				if (order.get_ValueAsInt("M_Warehouse_ID")==0)
 					throw new AdempiereUserError("@M_Warehouse_ID@ @InTransit@ @FillMandatory@ ");
 				
 				order.saveEx();
 				log.fine(order.toString());
 				noMoves++;
-				info += " - " + order.getDocumentNo();
+				info += " - " + order.get_ValueAsString("DocumentNo");
 			}
 		
 			//	To
@@ -661,16 +661,16 @@ public class ReplenishReport extends ReplenishReportAbstract {
 			if(M_LocatorTo_ID == 0 || M_Locator_ID==0)
 			throw new AdempiereUserError(Msg.translate(getCtx(), "M_Locator_ID")+" @FillMandatory@ ");
 			//	
-			MDDOrderLine line = new MDDOrderLine(order);
-			line.setM_Product_ID(replenish.getM_Product_ID());
-			line.setQty(replenish.getQtyToOrder());
+			PO line = RefactoryUtil.getDistributionOrderLineInstanceFromParent(order);
+			line.set_ValueOfColumn("M_Product_ID", replenish.getM_Product_ID());
+			line.set_ValueOfColumn("Qty", replenish.getQtyToOrder());
 			if (replenish.getQtyToOrder().compareTo(replenish.getQtyToOrder()) != 0)
-				line.setDescription("Total: " + replenish.getQtyToOrder());
-			line.setM_Locator_ID(M_Locator_ID);		//	from
-			line.setM_AttributeSetInstance_ID(0);
-			line.setM_LocatorTo_ID(M_LocatorTo_ID);					//	to
-			line.setM_AttributeSetInstanceTo_ID(0);
-			line.setIsInvoiced(false);
+				line.set_ValueOfColumn("Description", "Total: " + replenish.getQtyToOrder());
+			line.set_ValueOfColumn("M_Locator_ID", M_Locator_ID);		//	from
+			line.set_ValueOfColumn("M_AttributeSetInstance_ID", 0);
+			line.set_ValueOfColumn("M_LocatorTo_ID", M_LocatorTo_ID);					//	to
+			line.set_ValueOfColumn("M_AttributeSetInstanceTo_ID", 0);
+			line.set_ValueOfColumn("IsInvoiced", false);
 			line.saveEx();
 			
 		}

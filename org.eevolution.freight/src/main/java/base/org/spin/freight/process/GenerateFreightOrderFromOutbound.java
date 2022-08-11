@@ -19,10 +19,10 @@ package org.spin.freight.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClientInfo;
-import org.eevolution.model.I_DD_Freight;
-import org.eevolution.model.MDDFreight;
-import org.eevolution.model.MDDFreightLine;
-import org.eevolution.model.MWMInOutBound;
+import org.eevolution.distribution.model.I_DD_Freight;
+import org.eevolution.distribution.model.MDDFreight;
+import org.eevolution.distribution.model.MDDFreightLine;
+import org.eevolution.wms.model.MWMInOutBound;
 
 /** 
  * 	Generate Freight Order from Outbound

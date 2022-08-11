@@ -36,7 +36,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPOrder;
 

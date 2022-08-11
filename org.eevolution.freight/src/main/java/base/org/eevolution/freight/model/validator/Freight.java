@@ -40,10 +40,10 @@ import org.compiere.util.Env;
 import org.eevolution.freight.engine.FreightEngine;
 import org.eevolution.freight.engine.FreightEngineFactory;
 import org.eevolution.freight.engine.FreightInfo;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MWMInOutBound;
-import org.eevolution.model.MWMInOutBoundLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
+import org.eevolution.wms.model.MWMInOutBound;
+import org.eevolution.wms.model.MWMInOutBoundLine;
 
 /**
  * Model Validator to Calculate Freight
@@ -345,8 +345,10 @@ public class Freight implements ModelValidator {
     private FreightInfo getFreight(MWMInOutBoundLine orderLine) {
         if (orderLine.getC_OrderLine_ID() > 0)
             return getFreight((MOrderLine) orderLine.getC_OrderLine(), orderLine.getParent() , orderLine);
-        if (orderLine.getDD_OrderLine_ID() > 0)
-            return getFreight((MDDOrderLine) orderLine.getDD_OrderLine(), orderLine.getParent() , orderLine);
+        if (orderLine.getDD_OrderLine_ID() > 0) {
+        	MDDOrderLine distributionOrderLine = new MDDOrderLine(orderLine.getCtx(), orderLine.getDD_OrderLine_ID(), orderLine.get_TrxName());
+        	return getFreight(distributionOrderLine, orderLine.getParent() , orderLine);
+        }
         return new FreightInfo();
     }
 }
