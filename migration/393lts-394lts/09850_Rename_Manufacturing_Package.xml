@@ -354,5 +354,17 @@
         <Data AD_Column_ID="4607" Column="Classname" oldValue="org.spin.form.VLoanSimulator">org.spin.investment.form.VLoanSimulator</Data>
       </PO>
     </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53159" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.report.CostBillOfMaterial">org.eevolution.manufacturing.report.CostBillOfMaterial</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53216" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ImportInventoryMove">org.eevolution.manufacturing.process.ImportInventoryMove</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

@@ -15,8 +15,13 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  * Contributor: Victor Perez, www.e-evolution.com                             *
  *****************************************************************************/
-package org.eevolution.process;
+package org.eevolution.manufacturing.process;
 
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.adempiere.core.domains.models.I_M_Movement;
 import org.adempiere.core.domains.models.I_M_MovementLine;
@@ -34,17 +39,9 @@ import org.compiere.model.MProject;
 import org.compiere.model.MShipper;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
 
 
 /**
@@ -55,12 +52,8 @@ import java.util.logging.Level;
  * 	@version 	$Id: ImportInventoryMovement.java,v 1.0
  */
 
-public class ImportInventoryMove extends SvrProcess
-{
+public class ImportInventoryMove extends ImportInventoryMoveAbstract {
 
-	private boolean 		deleteOldImported = false;
-	private boolean 		isImportOnlyNoErrors = true;
-	private String 			docAction = MMovement.DOCACTION_Prepare;
 	private boolean 		isImported = false;
 	private int 			imported = 0;
 	private int 			notImported = 0;
@@ -69,22 +62,8 @@ public class ImportInventoryMove extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		for (ProcessInfoParameter para: getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if ("IsImportOnlyNoErrors".equals(name))
-				isImportOnlyNoErrors = para.getParameterAsBoolean();
-			else if ("DeleteOldImported".equals(name))
-				deleteOldImported = para.getParameterAsBoolean();
-			else if ("DocAction".equals(name))
-				docAction = para.getParameterAsString();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);			
-		}
+	protected void prepare() {
+		super.prepare();
 	}	//	prepare
 
 
@@ -97,7 +76,7 @@ public class ImportInventoryMove extends SvrProcess
 	{
 		
 		//Delete Old Imported
-		if (deleteOldImported)
+		if (isDeleteOldImported())
 		{
 			int no = 0;
 			for (X_I_Movement movement : getRecords(true,false))
@@ -121,7 +100,7 @@ public class ImportInventoryMove extends SvrProcess
 	private void importRecords()
 	{
 		isImported = false;
-		for(X_I_Movement movementImport : getRecords(false,isImportOnlyNoErrors))
+		for(X_I_Movement movementImport : getRecords(false,isImportOnlyNoErrors()))
 		{
 			MMovement movement = importInventoryMovement(movementImport);
 			if(movement != null)
@@ -167,7 +146,7 @@ public class ImportInventoryMove extends SvrProcess
 		for(Map.Entry<Integer, MMovement> entry : movementProcessed.entrySet())
 		{
 			MMovement movement = entry.getValue();
-			movement.processIt(docAction);
+			movement.processIt(getDocAction());
 			movement.saveEx();
 		}
 	}
@@ -215,7 +194,7 @@ public class ImportInventoryMove extends SvrProcess
 	private MMovementLine getInventoryMovementLine(MMovement movement, X_I_Movement movementImport)
 	{
 		final StringBuilder whereClause = new StringBuilder();
-		ArrayList<Object> parameters = new ArrayList();
+		ArrayList<Object> parameters = new ArrayList<Object>();
 		MColumn[] columns = getInventoryMovementColumns();
 		int count = 0;
 
@@ -304,7 +283,7 @@ public class ImportInventoryMove extends SvrProcess
 	 */
 	private void fillIDValues()
 	{
-		for(X_I_Movement movementImport : getRecords(false, isImportOnlyNoErrors))
+		for(X_I_Movement movementImport : getRecords(false, isImportOnlyNoErrors()))
 		{
 			//if(movementImport.getAD_Org_ID()==0)
 				movementImport.setAD_Org_ID(getID(MOrg.Table_Name,"Value = ?", new Object[]{movementImport.getOrgValue()}));
