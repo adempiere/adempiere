@@ -1159,7 +1159,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return product BOM
 	 */
 	private X_PP_Product_BOM getDefaultProductBom(MProduct product, String trxName) {
-		return (X_PP_Product_BOM) new Query(product.getCtx(), Table_Name, "M_Product_ID=? AND Value=?", trxName)
+		return (X_PP_Product_BOM) new Query(product.getCtx(), X_PP_Product_BOM.Table_Name, "M_Product_ID=? AND Value=?", trxName)
 				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()}).setOnlyActiveRecords(true)
 				.setOnlyActiveRecords(true)
 				.setClient_ID()
