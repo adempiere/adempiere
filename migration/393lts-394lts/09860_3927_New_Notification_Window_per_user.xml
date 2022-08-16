@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="09760_3927_New_Notification_Window_per_user" ReleaseNo="" SeqNo="9760">
+  <Migration EntityType="D" Name="09860_3927_New_Notification_Window_per_user" ReleaseNo="3.9.4" SeqNo="9860">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="132" Action="I" Record_ID="0" Table="AD_Window_Trl">
         <Data AD_Column_ID="699" Column="Updated">2022-07-21 11:47:41.82</Data>
