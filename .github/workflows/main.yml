@@ -2,7 +2,7 @@
 # This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A.
 # Modifications by Mario Calderon, Systemhaus Westfalia 
 
-name: ADempiere Build
+name: ADempiere Build ANT
 
 # Controls when the action will run. 
 on:
