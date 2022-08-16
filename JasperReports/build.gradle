@@ -50,7 +50,7 @@ java {
 
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

@@ -20,7 +20,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 dependencies {
 	api project(path: ':base')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/com.nimbusds/oauth2-oidc-sdk
 	api 'com.nimbusds:oauth2-oidc-sdk:9.35'
 
@@ -60,7 +60,7 @@ java {
 
 
 def entityType = 'ECA02'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

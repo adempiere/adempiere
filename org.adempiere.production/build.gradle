@@ -22,9 +22,9 @@ dependencies {
 	api project(path: ':base')
 	api project(path: ':org.eevolution.distribution')
 	api project(path: ':org.eevolution.manufacturing')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
 }
 
 sourceSets {
@@ -49,7 +49,7 @@ java {
 
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

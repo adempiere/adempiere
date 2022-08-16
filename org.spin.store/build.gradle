@@ -21,8 +21,8 @@ if (JavaVersion.current().isJava8Compatible()) {
 dependencies {
 	api project(path: ':base')
 	api project(path: ':org.eevolution.manufacturing')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:manufacturing:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore
     api 'org.apache.httpcomponents:httpcore:4.4.10'
     // https://mvnrepository.com/artifact/org.elasticsearch.client/elasticsearch-rest-high-level-client
@@ -50,7 +50,7 @@ java {
 //}
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

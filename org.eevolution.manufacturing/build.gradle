@@ -30,8 +30,8 @@ dependencies {
     api project(path: ':base')
     api project(path: ':org.eevolution.distribution')
     api project(path: ':org.adempiere.test')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
     //api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
@@ -59,7 +59,7 @@ java {
 
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {

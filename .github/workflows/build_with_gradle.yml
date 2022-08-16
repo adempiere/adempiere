@@ -33,7 +33,7 @@ jobs:
       - name: Build with Gradle
         run: gradle build
         env:
-          ADEMIERE_LIBRARY_VERSION: ${{ secrets.ADEMIERE_LIBRARY_VERSION }}
+          ADEMPIERE_LIBRARY_VERSION: 'test-version'
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_SECRET }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSPHRASE }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}

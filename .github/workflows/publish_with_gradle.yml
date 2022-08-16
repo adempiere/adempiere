@@ -32,7 +32,7 @@ jobs:
       - name: Publish with Gradle
         run: gradle publish
         env:
-          ADEMIERE_LIBRARY_VERSION: ${{ github.event.release.tag_name }}
+          ADEMPIERE_LIBRARY_VERSION: ${{ github.event.release.tag_name }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_SECRET }}
           ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSPHRASE }}
           ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}

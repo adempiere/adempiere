@@ -20,7 +20,7 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 dependencies {
     api project(path: ':base')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
 }
 
 sourceSets {
@@ -45,7 +45,7 @@ java {
 
 
 def entityType = 'D'
-version = System.getenv("ADEMIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {
