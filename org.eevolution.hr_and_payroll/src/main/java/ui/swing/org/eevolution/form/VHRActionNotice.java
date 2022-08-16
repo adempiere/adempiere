@@ -55,11 +55,11 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.MHRConcept;
-import org.eevolution.model.MHRMovement;
-import org.eevolution.model.MHRPeriod;
-import org.eevolution.model.MHRProcess;
-import org.eevolution.service.HRActionNotice;
+import org.eevolution.hr.model.MHRConcept;
+import org.eevolution.hr.model.MHRMovement;
+import org.eevolution.hr.model.MHRPeriod;
+import org.eevolution.hr.model.MHRProcess;
+import org.eevolution.hr.service.HRActionNotice;
 
 /**
  *  @author Oscar Gomez

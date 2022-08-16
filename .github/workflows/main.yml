@@ -46,6 +46,19 @@ jobs:
         with:
             java-version: '11'
             java-package: jdk
+      
+      # Deploy Tomcat-Server
+      - name: Deploy Tomcat ...
+        run: |
+            echo  "Installing Tomcat version 9"
+            cd /opt
+            echo  "Download Tomcat version 9- version 9.0.65"
+            wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
+            echo  "Extract Tomcat version 9"
+            tar -zxvf apache-tomcat-9.0.65.tar.gz
+            echo  "Rename to tomcat"
+            mv apache-tomcat-9.0.65 tomcat
+            echo  "Installing Tomcat version 9 FINISHED"
 
       # Build ADempiere with ant
       - name: Build Adempiere ...

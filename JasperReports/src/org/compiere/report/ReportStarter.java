@@ -637,7 +637,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
                     		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size(), numCopies, true));
 
                     		// Create print service exporter
-                        	JRPrintServiceExporter exporter = new JRPrintServiceExporter();;
+                        	JRPrintServiceExporter exporter = new JRPrintServiceExporter();
                         	// Set parameters
                         	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                         	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE, printerJob.getPrintService());
@@ -657,6 +657,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 						File PDF = File.createTempFile("mail", ".pdf");
 						JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
 						processInfo.setPDFReport(PDF);
+						processInfo.setPrintPreview(true);
 						if (processInfo.isPrintPreview()) {
 							log.info("ReportStarter.startProcess run report -" + jasperPrint.getName());
 							JRViewerProvider viewerLauncher = getReportViewerProvider();

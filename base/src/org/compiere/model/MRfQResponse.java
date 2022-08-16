@@ -262,8 +262,7 @@ public class MRfQResponse extends X_C_RfQResponse
 			.withText(message)
 			.addRecipient(getAD_User_ID())
 			.withDescription(Msg.parseTranslation(getCtx(), "@C_RfQ_ID@: ") + getName())
-			.withTableId(get_Table_ID())
-			.withRecordId(getC_RfQResponse_ID());
+			.withEntity(this);
 		//	Attachment with name
 		ReportEngine reportEngine = ReportEngine.get (getCtx(), ReportEngine.RFQ, getC_RfQResponse_ID());
 		if(reportEngine != null) {

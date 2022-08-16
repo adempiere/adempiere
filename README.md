@@ -14,7 +14,7 @@
  \
  \
 **Social Media**:
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.com/invite/rn7GxBYwDe)
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/T6eH6A7PJZ)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/adempiere/adempiere?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The _ADempiere Business Suite_ _ERP/CRM/MFG/SCM/POS_ is done the Bazaar way in an open and unabated fashion. \

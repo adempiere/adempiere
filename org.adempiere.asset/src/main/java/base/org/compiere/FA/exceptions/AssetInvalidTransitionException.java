@@ -3,7 +3,7 @@
  */
 package org.compiere.FA.exceptions;
 
-import org.compiere.model.MAsset;
+import org.compiere.FA.model.MAsset;
 import org.compiere.model.MRefList;
 
 

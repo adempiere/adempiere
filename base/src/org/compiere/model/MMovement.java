@@ -23,7 +23,6 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MDDOrder;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -91,47 +90,6 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 	{
 		super(ctx, rs, trxName);
 	}	//	MMovement
-
-	/**
-	 * Created an instance based Distribution Order
-	 * @param order
-	 * @param movementDate
-     */
-	public MMovement(MDDOrder order , Timestamp movementDate)
-	{
-		super(order.getCtx() , 0 , order.get_TrxName());
-		setDD_Order_ID(order.getDD_Order_ID());
-		setAD_User_ID(order.getAD_User_ID());
-		setPOReference(order.getPOReference());
-		setReversal_ID(0);
-		setM_Shipper_ID(order.getM_Shipper_ID());
-		setDescription(order.getDescription());
-		setC_BPartner_ID(order.getC_BPartner_ID());
-		setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
-		setAD_Org_ID(order.getAD_Org_ID());
-		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
-		setAD_User_ID(order.getAD_User_ID());
-		setC_Activity_ID(order.getC_Activity_ID());
-		setC_Charge_ID(order.getC_Charge_ID());
-		setChargeAmt(order.getChargeAmt());
-		setC_Campaign_ID(order.getC_Campaign_ID());
-		setC_Project_ID(order.getC_Project_ID());
-		setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
-		setUser1_ID(order.getUser1_ID());
-		setUser2_ID(order.getUser2_ID());
-		setUser3_ID(order.getUser3_ID());
-		setUser4_ID(order.getUser4_ID());
-		setPriorityRule(order.getPriorityRule());
-		if (movementDate != null)
-			setMovementDate (movementDate);
-		setDeliveryRule(order.getDeliveryRule());
-		setDeliveryViaRule(order.getDeliveryViaRule());
-		setDocStatus(MMovement.DOCSTATUS_Drafted);
-		setDocAction(MMovement.ACTION_Prepare);
-		setFreightCostRule (order.getFreightCostRule());
-		setFreightAmt(order.getFreightAmt());
-		setSalesRep_ID(order.getSalesRep_ID());
-	}
 
 	/**	Lines						*/
 	private MMovementLine[] movementLines = null;

@@ -64,10 +64,10 @@ import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.model.I_PP_Product_Planning;
-import org.eevolution.model.MDDNetworkDistribution;
-import org.eevolution.model.MDDNetworkDistributionLine;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
+import org.eevolution.distribution.model.MDDNetworkDistribution;
+import org.eevolution.distribution.model.MDDNetworkDistributionLine;
+import org.eevolution.distribution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MPPMRPDetail;
 import org.eevolution.model.MPPOrder;
@@ -1313,8 +1313,9 @@ public class MRP extends SvrProcess
 										.list();
 			for (MPPMRP mrp : mrpList)
 			{
+				MDDOrder distributionOrder = new MDDOrder(mrp.getCtx(), mrp.getDD_OrderLine_ID(), mrp.get_TrxName());
 				mrp.setDateOrdered(getToday());               
-				mrp.setDateOrdered(mrp.getDD_Order().getDateOrdered());  
+				mrp.setDateOrdered(distributionOrder.getDateOrdered());  
 				mrp.setDateStartSchedule(mrp.getDateOrdered());
 				mrp.setDatePromised(DemandDateStartSchedule);
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
