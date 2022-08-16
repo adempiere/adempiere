@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import io.vavr.collection.List;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -53,6 +54,8 @@ import java.util.logging.Level;
  *  @author Michael McKay, mckayERP@gmail.com
  *  		<li><A href="https://github.com/adempiere/adempiere/issues/2428">#2428 Allow changes to AD_Column and AD_Table</a>
  *  		Uses explicit references to column names rather than '*'
+ *  @author Raul Capecce, Openup Solutions http://openupsolutions.com/
+ *  		<li><a href="https://github.com/adempiere/adempiere/issues/3968">#3968 [Bug Report] POInfo cached sql sintax error</a></li>
  */
 public class POInfo implements Serializable
 {
@@ -245,6 +248,8 @@ public class POInfo implements Serializable
 								trxName);
 					}).toList();
 					list.addAll(infoColumns.asJava());
+				}).onFailure(throwable -> {
+					throw new AdempiereException(throwable);
 				});
 		//  convert to array
 		columns = new POInfoColumn[list.size()];
@@ -298,9 +303,6 @@ public class POInfo implements Serializable
 	 */
 	private StringBuffer getPOInfoColumnList(boolean baseLanguage) {
 
-		if (columnListCache != null && columnListCache.length() > 0)
-			return columnListCache;
-		
 		StringBuilder columnList = new StringBuilder("t.TableName, "
 				+ "c.ColumnName, "
 				+ "c.AD_Reference_ID,"
