@@ -107,6 +107,8 @@ public class POInfo implements Serializable
 	// #2428
 	/** Cache of POInfo Columns     */
 	private static StringBuffer  columnListCache = null;
+	/** Cached of POInfo Translated Columns     */
+	private static StringBuffer translatedColumnListCache = null;
 
 	/**************************************************************************
 	 *  Create Persistent Info
@@ -303,6 +305,16 @@ public class POInfo implements Serializable
 	 */
 	private StringBuffer getPOInfoColumnList(boolean baseLanguage) {
 
+		if (baseLanguage) {
+			if (columnListCache != null && columnListCache.length() > 0) {
+				return columnListCache;
+			}
+		} else {
+			if (translatedColumnListCache != null && translatedColumnListCache.length() > 0) {
+				return translatedColumnListCache;
+			}
+		}
+
 		StringBuilder columnList = new StringBuilder("t.TableName, "
 				+ "c.ColumnName, "
 				+ "c.AD_Reference_ID,"
@@ -404,8 +416,13 @@ public class POInfo implements Serializable
 			conn = null;
 		}
 
-		columnListCache = new StringBuffer().append(columnList).append(extraColumns);
-		return columnListCache;
+		if (baseLanguage) {
+			columnListCache = new StringBuffer().append(columnList).append(extraColumns);
+			return columnListCache;
+		} else {
+			translatedColumnListCache = new StringBuffer().append(columnList).append(extraColumns);
+			return translatedColumnListCache;
+		}
 	}
 	
 	/**
@@ -415,6 +432,7 @@ public class POInfo implements Serializable
 	 */
 	public static void resetPOInfoColumnList() {
 		columnListCache = null;
+		translatedColumnListCache = null;
 	}
 
 	/**
