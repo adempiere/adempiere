@@ -16,7 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import org.adempiere.exceptions.DBException;
+import io.vavr.Tuple;
+import io.vavr.Tuple3;
+import io.vavr.collection.List;
 import org.adempiere.exceptions.TaxCriteriaNotFoundException;
 import org.adempiere.exceptions.TaxForChangeNotFoundException;
 import org.adempiere.exceptions.TaxNoExemptFoundException;
@@ -24,12 +26,13 @@ import org.adempiere.exceptions.TaxNotFoundException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.compiere.util.ResultSetIterable;
+import org.compiere.util.Env;
 import java.sql.Timestamp;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *	Tax Handling
@@ -159,7 +162,7 @@ public class Tax {
 	 * 	@param warehouseId warehouse (ignored)
 	 * 	@param billPartnerLocationId invoice location
 	 * 	@param shipPartnerLocationId ship location (ignored)
-	 * 	@param IsSOTrx is a sales trx
+	 * 	@param isSOTrx is a sales trx
 	 *  @param trxName Transaction name
 	 * 	@return C_Tax_ID
 	 *  @throws TaxForChangeNotFoundException if criteria not found for given change
@@ -169,92 +172,99 @@ public class Tax {
 		Timestamp billDate, Timestamp shipDate,
 		int orgId, int warehouseId,
 		int billPartnerLocationId, int shipPartnerLocationId,
-		boolean IsSOTrx, String trxName) {
-		int taxCategoryId = 0;
-		int shipFromLocationId = 0;
-		int shipToLocationId = 0;
-		int billFromLocationId = 0;
-		int billToLocationId = 0;
-		String isTaxExempt = null;
-		String isSOTaxExempt = null;
-		String isPOTaxExempt = null;
-
+		boolean isSOTrx, String trxName) {
 		//	Get all at once
-		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt,"
-			 + " w.C_Location_ID, sl.C_Location_ID "
-			 + "FROM C_Charge c, AD_OrgInfo o,"
-			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
-			 + " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
-			 + "WHERE c.C_Charge_ID=?"
-			 + " AND o.AD_Org_ID=?"
-			 + " AND il.C_BPartner_Location_ID=?"
-			 + " AND sl.C_BPartner_Location_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, warehouseId);
-			pstmt.setInt (2, chargeId);
-			pstmt.setInt (3, orgId);
-			pstmt.setInt (4, billPartnerLocationId);
-			pstmt.setInt (5, shipPartnerLocationId);
-			rs = pstmt.executeQuery ();
-			boolean found = false;
-			if (rs.next ())
-			{
-				taxCategoryId = rs.getInt (1);
-				billFromLocationId = rs.getInt (2);
-				billToLocationId = rs.getInt (3);
-				isSOTaxExempt = rs.getString (4);
-				isPOTaxExempt = rs.getString (5);
-				isTaxExempt = IsSOTrx ? isSOTaxExempt : isPOTaxExempt;
-				shipFromLocationId = rs.getInt (6);
-				shipToLocationId = rs.getInt (7);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			//
-			if (!found)
-			{
+		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID AS BillFromLocation_ID, il.C_Location_ID AS BillToLocation_ID, b.IsTaxExempt, "
+				+ "b.IsPOTaxExempt, w.C_Location_ID AS ShipFromLocation_ID, sl.C_Location_ID AS ShipToLocation_ID, linkBP.C_BPartner_ID, "
+				+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsTaxExempt ELSE NULL END AS linkBP_TaxExempt, "
+				+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsPOTaxExempt ELSE NULL END AS linkBP_POTaxEXempt "
+				+ "FROM C_Charge c, AD_OrgInfo o, "
+				+ "C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+				+ "LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
+				+ "LEFT JOIN C_BPartner linkBP ON (linkBP.AD_OrgBP_ID=?) "
+				+ "WHERE c.C_Charge_ID=? "
+				+ "AND o.AD_Org_ID=? "
+				+ "AND il.C_BPartner_Location_ID=? "
+				+ "AND sl.C_BPartner_Location_ID=?";
+
+		AtomicBoolean found = new AtomicBoolean(false);
+		TaxDefinition taxDefinition = new TaxDefinition();
+		DB.runResultSetFunction.apply(trxName, sql, List.of(warehouseId, orgId, chargeId, orgId, billPartnerLocationId, shipPartnerLocationId), resultSet -> {
+			TaxDefinition td = new TaxDefinition();
+			List<TaxDefinition> taxes = new ResultSetIterable<>(resultSet, row -> {
+				td.taxCategoryId = resultSet.getInt("C_TaxCategory_ID");
+				td.billFromLocationId = resultSet.getInt("BillFromLocation_ID");
+				td.billToLocationId = resultSet.getInt("BillToLocation_ID");
+				td.isSOTaxExempt = resultSet.getString("IsTaxExempt");
+				td.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
+				td.isTaxExempt = isSOTrx ? td.isSOTaxExempt : td.isPOTaxExempt;
+				td.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
+				td.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
+				td.linkBPartnerId = resultSet.getInt("C_BPartner_ID");
+				td.linkBPartnerTaxExempt = resultSet.getString("linkBP_TaxExempt");
+				td.linkBPartnerPOTaxExempt = resultSet.getString("linkBP_POTaxExempt");
+				return td;
+			}).toList();
+
+			taxes.forEach(row -> {
+				taxDefinition.taxCategoryId = row.taxCategoryId;
+				taxDefinition.billFromLocationId = row.billFromLocationId;
+				taxDefinition.billToLocationId = row.billToLocationId;
+				taxDefinition.isSOTaxExempt = row.isSOTaxExempt;
+				taxDefinition.isPOTaxExempt = row.isPOTaxExempt;
+				taxDefinition.isTaxExempt = isSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				taxDefinition.shipFromLocationId = row.shipFromLocationId;
+				taxDefinition.shipToLocationId = row.shipToLocationId;
+				taxDefinition.linkBPartnerId = row.linkBPartnerId;
+				taxDefinition.linkBPartnerTaxExempt = row.linkBPartnerTaxExempt;
+				taxDefinition.linkBPartnerPOTaxExempt = row.linkBPartnerPOTaxExempt;
+				found.set(true);
+			});
+
+			if (!found.get()) {
 				throw new TaxForChangeNotFoundException(chargeId, orgId, warehouseId,
 						billPartnerLocationId, shipPartnerLocationId,
 						null);
 			}
-			else if ("Y".equals (isTaxExempt))
-			{
-				return getExemptTax (ctx, orgId);
+		});
+
+		if ("Y".equals(taxDefinition.isTaxExempt)) {
+			return getExemptTax(ctx, orgId);
+		} else if ("N".equals(taxDefinition.isTaxExempt)) {
+
+			Boolean useTaxExemptOrg = MSysConfig.getBooleanValue("VALIDATE_EXEMPT_TAXES_BASED_ON_ORGANIZATION",
+					false, Env.getAD_Client_ID(ctx));
+
+			if (useTaxExemptOrg) {
+				if (taxDefinition.linkBPartnerId > 0) {
+					if (isSOTrx && taxDefinition.linkBPartnerTaxExempt.equalsIgnoreCase("Y")
+							|| !isSOTrx && taxDefinition.linkBPartnerTaxExempt.equalsIgnoreCase("Y")) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, orgId);
+					}
+				}
 			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
 		}
 
 		//	Reverese for PO
-		if (!IsSOTrx)
+		if (!isSOTrx)
 		{
-			int temp = billFromLocationId;
-			billFromLocationId = billToLocationId;
-			billToLocationId = temp;
-			temp = shipFromLocationId;
-			shipFromLocationId = shipToLocationId;
-			shipToLocationId = temp;
+			int temp = taxDefinition.billFromLocationId;
+			taxDefinition.billFromLocationId = taxDefinition.billToLocationId;
+			taxDefinition.billToLocationId= temp;
+			temp = taxDefinition.shipFromLocationId;
+			taxDefinition.shipFromLocationId= taxDefinition.shipToLocationId;
+			taxDefinition.shipToLocationId = temp;
 		}
 		//
-		log.fine("getCharge - C_TaxCategory_ID=" + taxCategoryId
-		  + ", billFromC_Location_ID=" + billFromLocationId
-		  + ", billToC_Location_ID=" + billToLocationId
-		  + ", shipFromC_Location_ID=" + shipFromLocationId
-		  + ", shipToC_Location_ID=" + shipToLocationId);
-		return get (ctx, taxCategoryId, IsSOTrx,
-		  shipDate, shipFromLocationId, shipToLocationId,
-		  billDate, billFromLocationId, billToLocationId, trxName);
+		log.fine("getCharge - C_TaxCategory_ID=" + taxDefinition.taxCategoryId
+		  + ", billFromC_Location_ID=" + taxDefinition.billFromLocationId
+		  + ", billToC_Location_ID=" + taxDefinition.billToLocationId
+		  + ", shipFromC_Location_ID=" + taxDefinition.shipFromLocationId
+		  + ", shipToC_Location_ID=" + taxDefinition.shipToLocationId);
+		return get (ctx, taxDefinition.taxCategoryId, isSOTrx,
+		  shipDate, taxDefinition.shipFromLocationId, taxDefinition.shipToLocationId,
+		  billDate, taxDefinition.billFromLocationId, taxDefinition.billToLocationId, trxName);
 	}	//	getCharge
 
 	/**
@@ -310,203 +320,212 @@ public class Tax {
 	 *  if IsSOTrx is false, bill and ship are reversed
 	 *  </pre>
 	 * 	@param ctx	context
-	 * 	@param M_Product_ID product
+	 * 	@param productId product
 	 * 	@param billDate invoice date
 	 * 	@param shipDate ship date (ignored)
-	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse (ignored)
-	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
-	 * 	@param IsSOTrx is a sales trx
+	 * 	@param organizationId org
+	 * 	@param warehouseId warehouse (ignored)
+	 * 	@param billBPartnerLocationId invoice location
+	 * 	@param shipBPartnerLocationId ship location (ignored)
+	 * 	@param isSOTrx is a sales trx
 	 *  @param trxName Transaction Name
 	 * 	@return C_Tax_ID
 	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
 	 */
-	public static int getProduct (Properties ctx, int M_Product_ID,
+	public static int getProduct (Properties ctx, int productId,
 		Timestamp billDate, Timestamp shipDate,
-		int AD_Org_ID, int M_Warehouse_ID,
-		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
-		boolean IsSOTrx, String trxName)
+		int organizationId, int warehouseId,
+		int billBPartnerLocationId, int shipBPartnerLocationId,
+		boolean isSOTrx, String trxName)
 	{
 		String variable = "";
-		int C_TaxCategory_ID = 0;
-		int shipFromC_Location_ID = 0;
-		int shipToC_Location_ID = 0;
-		int billFromC_Location_ID = 0;
-		int billToC_Location_ID = 0;
-		String IsTaxExempt = null;
-		String IsSOTaxExempt = null;
-		String IsPOTaxExempt = null;
+		String sql;
+		//	Get all at once
+		sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID AS BillFromLocation_ID, il.C_Location_ID AS BillToLocation_ID, b.IsTaxExempt, b.IsPOTaxExempt, "
+			+ "w.C_Location_ID AS ShipFromLocation_ID, sl.C_Location_ID AS ShipToLocation_ID, linkBP.C_BPartner_ID, "
+			+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsTaxExempt ELSE NULL END AS linkBP_TaxExempt, "
+			+ "CASE WHEN linkBP.C_BPartner_ID IS NOT NULL THEN linkBP.IsPOTaxExempt ELSE NULL END AS linkBP_POTaxEXempt "
+			+ "FROM M_Product p, AD_OrgInfo o, "
+			+ "C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+			+ "LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
+			+ "LEFT JOIN C_BPartner linkBP ON (linkBP.AD_OrgBP_ID=?) "
+			+ "WHERE p.M_Product_ID=? "
+			+ "AND o.AD_Org_ID=? "
+			+ "AND il.C_BPartner_Location_ID=? "
+			+ "AND sl.C_BPartner_Location_ID=?";
 
-		String sql = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			//	Get all at once
-			sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt, "
-				+ " w.C_Location_ID, sl.C_Location_ID "
-				+ "FROM M_Product p, AD_OrgInfo o,"
-				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
-				+ " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
-				+ "WHERE p.M_Product_ID=?"
-				+ " AND o.AD_Org_ID=?"
-				+ " AND il.C_BPartner_Location_ID=?"
-				+ " AND sl.C_BPartner_Location_ID=?";
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, M_Warehouse_ID);
-			pstmt.setInt(2, M_Product_ID);
-			pstmt.setInt(3, AD_Org_ID);
-			pstmt.setInt(4, billC_BPartner_Location_ID);
-			pstmt.setInt(5, shipC_BPartner_Location_ID);
-			rs = pstmt.executeQuery();
-			boolean found = false;
-			if (rs.next())
-			{
-				C_TaxCategory_ID = rs.getInt(1);
-				billFromC_Location_ID = rs.getInt(2);
-				billToC_Location_ID = rs.getInt(3);
-				IsSOTaxExempt = rs.getString(4);
-				IsPOTaxExempt = rs.getString(5);
-				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
-				shipFromC_Location_ID = rs.getInt(6);
-				shipToC_Location_ID = rs.getInt(7);
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			//
-			if (found && "Y".equals(IsTaxExempt))
-			{
-				log.fine("getProduct - Business Partner is Tax exempt");
-				return getExemptTax(ctx, AD_Org_ID);
-			}
-			else if (found)
-			{
-				if (!IsSOTrx)
-				{
-					int temp = billFromC_Location_ID;
-					billFromC_Location_ID = billToC_Location_ID;
-					billToC_Location_ID = temp;
-					temp = shipFromC_Location_ID;
-					shipFromC_Location_ID = shipToC_Location_ID;
-					shipToC_Location_ID = temp;
+		AtomicBoolean found = new AtomicBoolean(false);
+		TaxDefinition taxDefinition = new TaxDefinition();
+		DB.runResultSetFunction.apply(trxName, sql, List.of(warehouseId, organizationId, productId, organizationId, billBPartnerLocationId, shipBPartnerLocationId), resultSet -> {
+			List<TaxDefinition> taxes = new ResultSetIterable<>(resultSet, row -> {
+				TaxDefinition td = new TaxDefinition();
+				td.taxCategoryId = resultSet.getInt("C_TaxCategory_ID");
+				td.billFromLocationId = resultSet.getInt("BillFromLocation_ID");
+				td.billToLocationId = resultSet.getInt("BillToLocation_ID");
+				td.isSOTaxExempt = resultSet.getString("IsTaxExempt");
+				td.isPOTaxExempt = resultSet.getString("IsPOTaxExempt");
+				td.isTaxExempt = isSOTrx ? td.isSOTaxExempt : td.isPOTaxExempt;
+				td.shipFromLocationId = resultSet.getInt("ShipFromLocation_ID");
+				td.shipToLocationId = resultSet.getInt("ShipToLocation_ID");
+				td.linkBPartnerId = resultSet.getInt("C_BPartner_ID");
+				td.linkBPartnerTaxExempt = resultSet.getString("linkBP_TaxExempt");
+				td.linkBPartnerPOTaxExempt = resultSet.getString("linkBP_POTaxExempt");
+				return td;
+			}).toList();
+			taxes.forEach(row -> {
+				taxDefinition.taxCategoryId = row.taxCategoryId;
+				taxDefinition.billFromLocationId = row.billFromLocationId;
+				taxDefinition.billToLocationId = row.billToLocationId;
+				taxDefinition.isSOTaxExempt = row.isSOTaxExempt;
+				taxDefinition.isPOTaxExempt = row.isPOTaxExempt;
+				taxDefinition.isTaxExempt = isSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+				taxDefinition.shipFromLocationId = row.shipFromLocationId;
+				taxDefinition.shipToLocationId = row.shipToLocationId;
+				taxDefinition.linkBPartnerId = row.linkBPartnerId;
+				taxDefinition.linkBPartnerTaxExempt = row.linkBPartnerTaxExempt;
+				taxDefinition.linkBPartnerPOTaxExempt = row.linkBPartnerPOTaxExempt;
+				found.set(true);
+			});
+		});
+
+		//
+		if (found.get() && "Y".equals(taxDefinition.isTaxExempt)) {
+			log.fine("getProduct - Business Partner is Tax exempt");
+			return getExemptTax(ctx, organizationId);
+		} else if (found.get() && "N".equals(taxDefinition.isTaxExempt)) {
+
+			Boolean useTaxExemptOrg = MSysConfig.getBooleanValue("VALIDATE_EXEMPT_TAXES_BASED_ON_ORGANIZATION",
+					false, Env.getAD_Client_ID(ctx));
+
+			if (useTaxExemptOrg) {
+				if (taxDefinition.linkBPartnerId > 0) {
+					if (isSOTrx && taxDefinition.linkBPartnerTaxExempt.equalsIgnoreCase("Y")
+							|| !isSOTrx && taxDefinition.linkBPartnerPOTaxExempt.equalsIgnoreCase("Y")) {
+						log.fine("getProduct - Business Partner is Tax exempt");
+						return getExemptTax(ctx, organizationId);
+					}
 				}
-				log.fine("getProduct - C_TaxCategory_ID=" + C_TaxCategory_ID
-					+ ", billFromC_Location_ID=" + billFromC_Location_ID
-					+ ", billToC_Location_ID=" + billToC_Location_ID
-					+ ", shipFromC_Location_ID=" + shipFromC_Location_ID
-					+ ", shipToC_Location_ID=" + shipToC_Location_ID);
-				return get(ctx, C_TaxCategory_ID, IsSOTrx,
-					shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-					billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
 			}
 
-			// ----------------------------------------------------------------
-
-			//	Detail for error isolation
-
-		//	M_Product_ID				->	C_TaxCategory_ID
-			variable = "M_Product_ID";
-			sql = "SELECT C_TaxCategory_ID FROM M_Product WHERE M_Product_ID=?";
-			C_TaxCategory_ID = DB.getSQLValueEx(null, sql, M_Product_ID);
-			found = C_TaxCategory_ID != -1;
-			if (C_TaxCategory_ID <= 0)
-			{
-				throw new TaxCriteriaNotFoundException(variable, M_Product_ID);
+			if (!isSOTrx) {
+				int temp = taxDefinition.billFromLocationId;
+				taxDefinition.billFromLocationId = taxDefinition.billToLocationId;
+				taxDefinition.billToLocationId = temp;
+				temp = taxDefinition.shipFromLocationId;
+				taxDefinition.shipFromLocationId = taxDefinition.shipToLocationId;
+				taxDefinition.shipToLocationId = temp;
 			}
-			log.fine("getProduct - C_TaxCategory_ID=" + C_TaxCategory_ID);
+			log.fine("getProduct - C_TaxCategory_ID=" + taxDefinition.taxCategoryId
+					+ ", billFromC_Location_ID=" + taxDefinition.billFromLocationId
+					+ ", billToC_Location_ID=" + taxDefinition.billToLocationId
+					+ ", shipFromC_Location_ID=" + taxDefinition.shipFromLocationId
+					+ ", shipToC_Location_ID=" + taxDefinition.shipToLocationId);
+			return get(ctx, taxDefinition.taxCategoryId, isSOTrx,
+					shipDate, taxDefinition.shipFromLocationId, taxDefinition.shipToLocationId,
+					billDate, taxDefinition.billFromLocationId, taxDefinition.billToLocationId, trxName);
 
-		//	AD_Org_ID					->	billFromC_Location_ID
-			variable = "AD_Org_ID";
-			sql = "SELECT C_Location_ID FROM AD_OrgInfo WHERE AD_Org_ID=?";
-			billFromC_Location_ID = DB.getSQLValueEx(null, sql, AD_Org_ID);
-			found = billFromC_Location_ID != -1;
-			if (billFromC_Location_ID <= 0)
-			{
-				throw new TaxCriteriaNotFoundException(variable, AD_Org_ID);
-			}
-
-		//	billC_BPartner_Location_ID  ->	billToC_Location_ID
-			variable = "BillTo_ID";
-			sql = "SELECT l.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt "
-				+ " FROM C_BPartner_Location l"
-				+ " INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
-				+ " WHERE C_BPartner_Location_ID=?";
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, billC_BPartner_Location_ID);
-			rs = pstmt.executeQuery();
-			found = false;
-			if (rs.next())
-			{
-				billToC_Location_ID = rs.getInt(1);
-				IsSOTaxExempt = rs.getString(2);
-				IsPOTaxExempt = rs.getString(3);
-				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
-				found = true;
-			}
-			DB.close(rs, pstmt);
-			if (billToC_Location_ID <= 0)
-			{
-				throw new TaxCriteriaNotFoundException(variable, billC_BPartner_Location_ID);
-			}
-			if ("Y".equals(IsTaxExempt))
-				return getExemptTax(ctx, AD_Org_ID);
-
-			//  Reverse for PO
-			if (!IsSOTrx)
-			{
-				int temp = billFromC_Location_ID;
-				billFromC_Location_ID = billToC_Location_ID;
-				billToC_Location_ID = temp;
-			}
-			log.fine("getProduct - billFromC_Location_ID = " + billFromC_Location_ID);
-			log.fine("getProduct - billToC_Location_ID = " + billToC_Location_ID);
-
-			//-----------------------------------------------------------------
-
-		//	M_Warehouse_ID				->	shipFromC_Location_ID
-			variable = "M_Warehouse_ID";
-			sql = "SELECT C_Location_ID FROM M_Warehouse WHERE M_Warehouse_ID=?";
-			shipFromC_Location_ID = DB.getSQLValueEx(null, sql, M_Warehouse_ID);
-			found = shipFromC_Location_ID != -1;
-			if (shipFromC_Location_ID <= 0)
-			{
-				throw new TaxCriteriaNotFoundException(variable, M_Warehouse_ID);
-			}
-
-		//	shipC_BPartner_Location_ID 	->	shipToC_Location_ID
-			variable = "C_BPartner_Location_ID";
-			sql = "SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?";
-			shipToC_Location_ID = DB.getSQLValueEx(trxName, sql, shipC_BPartner_Location_ID);
-			found = shipToC_Location_ID != -1;
-			if (shipToC_Location_ID <= 0)
-			{
-				throw new TaxCriteriaNotFoundException(variable, shipC_BPartner_Location_ID);
-			}
-
-			//  Reverse for PO
-			if (!IsSOTrx)
-			{
-				int temp = shipFromC_Location_ID;
-				shipFromC_Location_ID = shipToC_Location_ID;
-				shipToC_Location_ID = temp;
-			}
-			log.fine("getProduct - shipFromC_Location_ID = " + shipFromC_Location_ID);
-			log.fine("getProduct - shipToC_Location_ID = " + shipToC_Location_ID);
 		}
-		catch (SQLException e)
+
+		// ----------------------------------------------------------------
+
+		//	Detail for error isolation
+
+	//	M_Product_ID				->	C_TaxCategory_ID
+		variable = "M_Product_ID";
+		sql = "SELECT C_TaxCategory_ID FROM M_Product WHERE M_Product_ID=?";
+		taxDefinition.taxCategoryId = DB.getSQLValueEx(null, sql, productId);
+		found.set(taxDefinition.taxCategoryId != -1);
+		if (taxDefinition.taxCategoryId <= 0)
 		{
-			throw new DBException(e, sql);
+			throw new TaxCriteriaNotFoundException(variable, productId);
 		}
-		finally
+		log.fine("getProduct - C_TaxCategory_ID=" + taxDefinition.taxCategoryId);
+
+	//	AD_Org_ID					->	billFromC_Location_ID
+		variable = "AD_Org_ID";
+		sql = "SELECT C_Location_ID FROM AD_OrgInfo WHERE AD_Org_ID=?";
+		taxDefinition.billFromLocationId = DB.getSQLValueEx(null, sql, organizationId);
+		found.set(taxDefinition.billFromLocationId != -1);
+		if (taxDefinition.billFromLocationId <= 0)
 		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+			throw new TaxCriteriaNotFoundException(variable, organizationId);
 		}
 
-		return get (ctx, C_TaxCategory_ID, IsSOTrx,
-			shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-			billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
+	//	billC_BPartner_Location_ID  ->	billToC_Location_ID
+		variable = "BillTo_ID";
+		sql = "SELECT l.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt "
+			+ " FROM C_BPartner_Location l"
+			+ " INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
+			+ " WHERE C_BPartner_Location_ID=?";
+		found.set(false);
+		DB.runResultSetFunction.apply(trxName, sql, List.of(billBPartnerLocationId), resultSet -> {
+			List<Tuple3<Integer, String, String>> rows = new ResultSetIterable<>(resultSet, row -> Tuple.of(
+					row.getInt(1),
+					row.getString(2),
+					row.getString(3)
+			)).toList();
+
+			rows.forEach(row -> {
+				taxDefinition.billToLocationId = row._1;
+				taxDefinition.isSOTaxExempt = row._2;
+				taxDefinition.isPOTaxExempt = row._3;
+				taxDefinition.isTaxExempt = isSOTrx ? taxDefinition.isSOTaxExempt : taxDefinition.isPOTaxExempt;
+			});
+		});
+
+		if (taxDefinition.billToLocationId <= 0)
+		{
+			throw new TaxCriteriaNotFoundException(variable, billBPartnerLocationId);
+		}
+		if ("Y".equals(taxDefinition.isTaxExempt))
+			return getExemptTax(ctx, organizationId);
+
+		//  Reverse for PO
+		if (!isSOTrx)
+		{
+			int temp = taxDefinition.billFromLocationId;
+			taxDefinition.billFromLocationId = taxDefinition.billToLocationId;
+			taxDefinition.billToLocationId = temp;
+		}
+		log.fine("getProduct - billFromC_Location_ID = " + taxDefinition.billFromLocationId);
+		log.fine("getProduct - billToC_Location_ID = " + taxDefinition.billToLocationId);
+
+		//-----------------------------------------------------------------
+
+	//	M_Warehouse_ID				->	shipFromC_Location_ID
+		variable = "M_Warehouse_ID";
+		sql = "SELECT C_Location_ID FROM M_Warehouse WHERE M_Warehouse_ID=?";
+		taxDefinition.shipFromLocationId = DB.getSQLValueEx(null, sql, warehouseId);
+		found.set(taxDefinition.shipFromLocationId != -1);
+		if (taxDefinition.shipFromLocationId <= 0)
+		{
+			throw new TaxCriteriaNotFoundException(variable, warehouseId);
+		}
+
+	//	shipC_BPartner_Location_ID 	->	shipToC_Location_ID
+		variable = "C_BPartner_Location_ID";
+		sql = "SELECT C_Location_ID FROM C_BPartner_Location WHERE C_BPartner_Location_ID=?";
+		taxDefinition.shipToLocationId= DB.getSQLValueEx(trxName, sql, shipBPartnerLocationId);
+		found.set(taxDefinition.shipToLocationId != -1);
+		if (taxDefinition.shipToLocationId <= 0)
+		{
+			throw new TaxCriteriaNotFoundException(variable, shipBPartnerLocationId);
+		}
+
+		//  Reverse for PO
+		if (!isSOTrx)
+		{
+			int temp = taxDefinition.shipFromLocationId;
+			taxDefinition.shipFromLocationId = taxDefinition.shipToLocationId;
+			taxDefinition.shipToLocationId = temp;
+		}
+		log.fine("getProduct - shipFromC_Location_ID = " + taxDefinition.shipFromLocationId);
+		log.fine("getProduct - shipToC_Location_ID = " + taxDefinition.shipToLocationId);
+
+
+		return get (ctx, taxDefinition.taxCategoryId, isSOTrx,
+			shipDate, taxDefinition.shipFromLocationId, taxDefinition.shipToLocationId,
+			billDate, taxDefinition.billFromLocationId, taxDefinition.billToLocationId, trxName);
 	}	//	getProduct
 
 	/**
@@ -663,5 +682,19 @@ public class Tax {
 				shipDate, shipFromC_Location_ID, shipToC_Location_ID,
 				billDate, billFromC_Location_ID, billToC_Location_ID);
 	}	//	get
+
+	private static class TaxDefinition {
+		private int taxCategoryId = 0;
+		private int billFromLocationId = 0;
+		private int billToLocationId = 0;
+		private String isSOTaxExempt = null;
+		private String isPOTaxExempt = null;
+		private String isTaxExempt = null;
+		private int shipFromLocationId = 0;
+		private int shipToLocationId = 0;
+		private int linkBPartnerId = 0;
+		private String linkBPartnerTaxExempt = null;
+		private String linkBPartnerPOTaxExempt = null;
+	}
 	
 }	//	Tax

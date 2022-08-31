@@ -77,12 +77,12 @@
   	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
-  	
+<!-- Skip Restore to avoid importing seed twice
   	<echo message="Run DB Restore Adempiere"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
-  	
+-->
 	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_MigrateXML}"/>
