@@ -514,7 +514,6 @@ public class DB_MariaDB implements AdempiereDatabase {
 				config.setPassword(connection.getDbPwd());
 				config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
 				config.setIdleTimeout(0);
-				config.setKeepaliveTime(30000);
 				config.setMinimumIdle(15);
 				config.setMaximumPoolSize(150);
 				config.setPoolName("AdempiereDS");
