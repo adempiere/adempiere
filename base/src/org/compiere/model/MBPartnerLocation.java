@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import io.vavr.control.Option;
+
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
@@ -169,6 +171,8 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		if (getC_Location_ID() == 0)
 			return false;
 
+		setLatitudeAndLongitude();
+
 		//	Set New Name
 		if (!newRecord)
 			return true;
@@ -207,7 +211,26 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		setName (m_uniqueName);
 		return true;
 	}	//	beforeSave
-	
+
+	/**
+	 * Set Latitude And Longitude
+	 */
+	public void setLatitudeAndLongitude() {
+		Option<String> maybeMapUrl = Option.of(getMapURL());
+		maybeMapUrl.filter(mapUrl -> mapUrl != null && mapUrl.contains("q="));
+		maybeMapUrl.map(mapUrl -> {
+			String locationInfo = mapUrl.substring(mapUrl.indexOf("q=") + 2);
+			java.util.StringTokenizer tokenizer = new java.util.StringTokenizer(locationInfo, ",");
+			String latitude = tokenizer.nextToken();
+			String longitude = tokenizer.nextToken();
+			MLocation location = new MLocation(getCtx() , getC_Location_ID() , get_TrxName());
+			location.setLatitude(new java.math.BigDecimal(latitude));
+			location.setLongitude(new java.math.BigDecimal(longitude));
+			location.saveEx();
+			return location;
+		});
+	}
+
 	/**
 	 * 	Make name Unique
 	 * 	@param address address

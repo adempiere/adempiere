@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -23,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20220909L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -230,6 +231,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return (String)get_Value(COLUMNNAME_ContactType);
 	}
 
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
 	/** Set EMail Address.
 		@param EMail 
 		Electronic Mail Address
@@ -328,6 +346,54 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return false;
 	}
 
+	/** Set Default Billing Location.
+		@param IsDefaultBilling 
+		Default Billing Location for Store
+	  */
+	public void setIsDefaultBilling (boolean IsDefaultBilling)
+	{
+		set_Value (COLUMNNAME_IsDefaultBilling, Boolean.valueOf(IsDefaultBilling));
+	}
+
+	/** Get Default Billing Location.
+		@return Default Billing Location for Store
+	  */
+	public boolean isDefaultBilling () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefaultBilling);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Default Shipping.
+		@param IsDefaultShipping 
+		Default Shipping
+	  */
+	public void setIsDefaultShipping (boolean IsDefaultShipping)
+	{
+		set_Value (COLUMNNAME_IsDefaultShipping, Boolean.valueOf(IsDefaultShipping));
+	}
+
+	/** Get Default Shipping.
+		@return Default Shipping
+	  */
+	public boolean isDefaultShipping () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDefaultShipping);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Pay-From Address.
 		@param IsPayFrom 
 		Business Partner pays from that address and we'll send dunning letters there
@@ -398,6 +464,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Map URL.
+		@param MapURL 
+		Location Map URL.
+	  */
+	public void setMapURL (String MapURL)
+	{
+		set_Value (COLUMNNAME_MapURL, MapURL);
+	}
+
+	/** Get Map URL.
+		@return Location Map URL.
+	  */
+	public String getMapURL () 
+	{
+		return (String)get_Value(COLUMNNAME_MapURL);
 	}
 
 	/** Set Mobile Phone.

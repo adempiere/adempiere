@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_BPartner_Location 
 {
@@ -162,6 +163,19 @@ public interface I_C_BPartner_Location
 	  */
 	public int getCreatedBy();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
     /** Column name EMail */
     public static final String COLUMNNAME_EMail = "EMail";
 
@@ -240,6 +254,32 @@ public interface I_C_BPartner_Location
 	  */
 	public boolean isBillTo();
 
+    /** Column name IsDefaultBilling */
+    public static final String COLUMNNAME_IsDefaultBilling = "IsDefaultBilling";
+
+	/** Set Default Billing Location.
+	  * Default Billing Location for Store
+	  */
+	public void setIsDefaultBilling (boolean IsDefaultBilling);
+
+	/** Get Default Billing Location.
+	  * Default Billing Location for Store
+	  */
+	public boolean isDefaultBilling();
+
+    /** Column name IsDefaultShipping */
+    public static final String COLUMNNAME_IsDefaultShipping = "IsDefaultShipping";
+
+	/** Set Default Shipping.
+	  * Default Shipping
+	  */
+	public void setIsDefaultShipping (boolean IsDefaultShipping);
+
+	/** Get Default Shipping.
+	  * Default Shipping
+	  */
+	public boolean isDefaultShipping();
+
     /** Column name IsPayFrom */
     public static final String COLUMNNAME_IsPayFrom = "IsPayFrom";
 
@@ -278,6 +318,19 @@ public interface I_C_BPartner_Location
 	  * Business Partner Shipment Address
 	  */
 	public boolean isShipTo();
+
+    /** Column name MapURL */
+    public static final String COLUMNNAME_MapURL = "MapURL";
+
+	/** Set Map URL.
+	  * Location Map URL.
+	  */
+	public void setMapURL (String MapURL);
+
+	/** Get Map URL.
+	  * Location Map URL.
+	  */
+	public String getMapURL();
 
     /** Column name MobilePhone */
     public static final String COLUMNNAME_MobilePhone = "MobilePhone";
