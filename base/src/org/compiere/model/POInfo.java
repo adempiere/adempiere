@@ -20,6 +20,7 @@ import io.vavr.collection.List;
 
 import org.adempiere.core.domains.models.I_AD_Column;
 import org.adempiere.core.domains.models.I_AD_Table;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -56,6 +57,8 @@ import java.util.logging.Level;
  *  @author Michael McKay, mckayERP@gmail.com
  *  		<li><A href="https://github.com/adempiere/adempiere/issues/2428">#2428 Allow changes to AD_Column and AD_Table</a>
  *  		Uses explicit references to column names rather than '*'
+ *  @author Raul Capecce, Openup Solutions http://openupsolutions.com/
+ *  		<li><a href="https://github.com/adempiere/adempiere/issues/3968">#3968 [Bug Report] POInfo cached sql sintax error</a></li>
  */
 public class POInfo implements Serializable
 {
@@ -107,6 +110,8 @@ public class POInfo implements Serializable
 	// #2428
 	/** Cache of POInfo Columns     */
 	private static StringBuffer  columnListCache = null;
+	/** Cached of POInfo Translated Columns     */
+	private static StringBuffer translatedColumnListCache = null;
 
 	/**************************************************************************
 	 *  Create Persistent Info
@@ -248,6 +253,8 @@ public class POInfo implements Serializable
 								trxName);
 					}).toList();
 					list.addAll(infoColumns.asJava());
+				}).onFailure(throwable -> {
+					throw new AdempiereException(throwable);
 				});
 		//  convert to array
 		columns = new POInfoColumn[list.size()];
@@ -301,9 +308,16 @@ public class POInfo implements Serializable
 	 */
 	private StringBuffer getPOInfoColumnList(boolean baseLanguage) {
 
-		if (columnListCache != null && columnListCache.length() > 0)
-			return columnListCache;
-		
+		if (baseLanguage) {
+			if (columnListCache != null && columnListCache.length() > 0) {
+				return columnListCache;
+			}
+		} else {
+			if (translatedColumnListCache != null && translatedColumnListCache.length() > 0) {
+				return translatedColumnListCache;
+			}
+		}
+
 		StringBuilder columnList = new StringBuilder("t.TableName, "
 				+ "c.ColumnName, "
 				+ "c.AD_Reference_ID,"
@@ -405,8 +419,13 @@ public class POInfo implements Serializable
 			conn = null;
 		}
 
-		columnListCache = new StringBuffer().append(columnList).append(extraColumns);
-		return columnListCache;
+		if (baseLanguage) {
+			columnListCache = new StringBuffer().append(columnList).append(extraColumns);
+			return columnListCache;
+		} else {
+			translatedColumnListCache = new StringBuffer().append(columnList).append(extraColumns);
+			return translatedColumnListCache;
+		}
 	}
 	
 	/**
@@ -416,6 +435,7 @@ public class POInfo implements Serializable
 	 */
 	public static void resetPOInfoColumnList() {
 		columnListCache = null;
+		translatedColumnListCache = null;
 	}
 
 	/**
