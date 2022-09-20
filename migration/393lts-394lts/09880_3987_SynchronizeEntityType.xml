@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Synchronize Entity Type" ReleaseNo="3.9.4" SeqNo="9860">
+  <Migration EntityType="D" Name="Synchronize Entity Type" ReleaseNo="3.9.4" SeqNo="9880">
     <Comments>https://github.com/adempiere/adempiere/issues/3987</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54646" Table="AD_Process">
