@@ -16,7 +16,7 @@
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
 
-package org.eevolution.manufacturing.utils;
+package org.eevolution.manufacturing.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -48,7 +48,7 @@ import org.eevolution.model.RoutingServiceFactory;
  * A Cost collector cost implementation
  */
 public class StandardCostCollector {
-	public BigDecimal getResourceStandardCostRate(MPPCostCollector cc,
+	public static BigDecimal getResourceStandardCostRate(MPPCostCollector cc,
 			int S_Resource_ID, CostDimension d, String trxName) {
 		final MProduct resourceProduct = MProduct.forS_Resource_ID(
 				Env.getCtx(), S_Resource_ID, null);
@@ -57,7 +57,7 @@ public class StandardCostCollector {
 				MCostElement.get(Env.getCtx(), d.getM_CostElement_ID()));
 	}
 	
-	public BigDecimal getProductStandardCostPrice(MPPCostCollector cc,
+	public static BigDecimal getProductStandardCostPrice(MPPCostCollector cc,
 			MProduct product, MAcctSchema as, MCostElement element) {
 		CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
 				0, // AD_Org_ID,
@@ -76,7 +76,7 @@ public class StandardCostCollector {
 		return CostEngine.roundCost(costs, as.getC_AcctSchema_ID());
 	}
 
-	public void createRateVariances(MPPCostCollector costCollector) {
+	public static void createRateVariances(MPPCostCollector costCollector) {
 		MProduct product = null;
 		if (costCollector.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl)) {
 			final I_AD_WF_Node node = costCollector.getPP_Order_Node().getAD_WF_Node();
@@ -145,7 +145,26 @@ public class StandardCostCollector {
 		return cd;
 	}
 
-	public static void createMethodVariances(MPPCostCollector costCollector) {
+	public static void  createMethodVariances (MPPCostCollector costCollector) {
+		if (!costCollector.getCostCollectorType().equals(MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance))
+			return;
+
+		for (MAcctSchema as : CostEngine.getAcctSchema(costCollector)) {
+			for (MCostElement element : MCostElement.getCostElement(costCollector.getCtx(), costCollector.get_TrxName())) {
+				List<MCostType> costtypes = MCostType.get(as.getCtx(), as.get_TrxName());
+				for (MCostType costType : costtypes) {
+					//implementation only for standard cost
+					if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod()))
+						continue;
+					MProduct product = MProduct.get(costCollector.getCtx(),costCollector.getM_Product_ID());
+					final BigDecimal priceActual = getProductActualCostPrice(costCollector, product, as, element, costCollector.get_TrxName());
+					createVarianceCostDetail(costCollector, priceActual, costCollector.getMovementQty(), null, product , as, costType, element);
+				}
+			}
+		}
+	}
+
+	public static void createMethodVariancesFromActivityControl(MPPCostCollector costCollector) {
 		if (!costCollector.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl))
 			return;
 		//

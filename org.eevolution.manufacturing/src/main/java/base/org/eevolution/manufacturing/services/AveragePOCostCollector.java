@@ -16,7 +16,7 @@
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
 
-package org.eevolution.manufacturing.utils;
+package org.eevolution.manufacturing.services;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,7 +38,7 @@ import org.eevolution.manufacturing.model.MPPCostCollector;
 /**
  * A Cost collector cost implementation
  */
-public class AverageCostCollector {
+public class AveragePOCostCollector {
 	public static void createUpdateAverageCostDetail(MPPCostCollector costCollectorVariance,
 			BigDecimal costVarianceThisLevel, BigDecimal costVarianceLowLevel,
 			MProduct product,
@@ -132,7 +132,7 @@ public class AverageCostCollector {
 	}
 	
 
-	public BigDecimal getResourceFutureCostRate(MPPCostCollector costCollector,
+	public static BigDecimal getResourceFutureCostRate(MPPCostCollector costCollector,
 			int resourceId, CostDimension costDimension, String trxName) {
 		if (resourceId <= 0)
 			return Env.ZERO;
@@ -185,4 +185,4 @@ public class AverageCostCollector {
                 cost.getFutureCostPriceLL());
 		return roundCost(price, acctSchema.getC_AcctSchema_ID());
 	}
-}    //	AverageCostCollector
+}    //	AveragePOCostCollector

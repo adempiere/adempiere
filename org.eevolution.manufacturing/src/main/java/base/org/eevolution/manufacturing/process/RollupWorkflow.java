@@ -40,7 +40,7 @@ import org.compiere.util.TrxRunnable;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.manufacturing.model.MPPProductPlanning;
-import org.eevolution.manufacturing.utils.StandardCostCollector;
+import org.eevolution.manufacturing.services.StandardCostCollector;
 import org.eevolution.model.RoutingService;
 import org.eevolution.model.RoutingServiceFactory;
 

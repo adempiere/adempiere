@@ -37,7 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Trx;
 import org.eevolution.manufacturing.model.MPPCostCollector;
-import org.eevolution.manufacturing.utils.StandardCostCollector;
+import org.eevolution.manufacturing.services.StandardCostCollector;
 
 /**
  * Regenerate Cost Detail The Generate Cost Transaction process allows the
@@ -344,11 +344,11 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(costCollector.getCostCollectorType()))
             	StandardCostCollector.createUsageVariances(costCollector);
             else if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(costCollector.getCostCollectorType()))
-            	StandardCostCollector.createUsageVariances(costCollector);
+            	StandardCostCollector.createMethodVariancesFromActivityControl(costCollector);
             else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(costCollector.getCostCollectorType()))
-            	StandardCostCollector.createUsageVariances(costCollector);
+            	StandardCostCollector.createRateVariances(costCollector);
             else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(costCollector.getCostCollectorType()))
-            	StandardCostCollector.createUsageVariances(costCollector);
+            	StandardCostCollector.createActivityControl(costCollector);
             //else
                 //System.out.println("Cost Collector Type: " + costCollector.getCostCollectorType());
         }

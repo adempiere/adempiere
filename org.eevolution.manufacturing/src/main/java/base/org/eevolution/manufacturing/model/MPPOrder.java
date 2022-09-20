@@ -1639,7 +1639,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				M_Locator_ID = locator.getM_Locator_ID();
 		}
 		//
-		MPPCostCollector cc = MPPCostCollector.createCollector(
+		MPPCostCollector methodChangeVariance = MPPCostCollector.createCollector(
 				order,
 				line.getM_Product_ID(),
 				M_Locator_ID,
@@ -1656,6 +1656,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				Env.ZERO, //durationSetup,
 				Env.ZERO // duration
 		);
+
 	}
 	private void createUsageVariance(I_PP_Order_Node orderNode)
 	{

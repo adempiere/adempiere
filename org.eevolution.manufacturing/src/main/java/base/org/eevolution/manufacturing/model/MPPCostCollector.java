@@ -60,7 +60,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.eevolution.manufacturing.exceptions.ActivityProcessedException;
-import org.eevolution.manufacturing.utils.StandardCostCollector;
+import org.eevolution.manufacturing.services.StandardCostCollector;
 
 /**
  *	PP Cost Collector Model
@@ -483,7 +483,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				log.fine("OrderLine - Reserved=" + orderBomLine.getQtyReserved() + ", Delivered=" + orderBomLine.getQtyDelivered());
 				orderBomLine.saveEx();
 				log.fine("OrderLine -> Reserved="+orderBomLine.getQtyReserved()+", Delivered="+orderBomLine.getQtyDelivered());
+			} // Creathe meterial Method Change Variance
+			else if (isIssue() && isCostCollectorType(COSTCOLLECTORTYPE_MethodChangeVariance) && isVariance()) {
+				StandardCostCollector.createMethodVariances(this);
 			}
+
 			if (isReceipt())
 			{
 				//	Update PP Order Qtys 
