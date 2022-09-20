@@ -58,7 +58,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.eevolution.hr.service.HRProcessActionMsg;
+import org.eevolution.hr.services.HRProcessActionMsg;
 import org.eevolution.manufacturing.model.MPPCostCollector;
 import org.spin.hr.util.PayrollEngineHandler;
 import org.spin.hr.util.RuleInterface;

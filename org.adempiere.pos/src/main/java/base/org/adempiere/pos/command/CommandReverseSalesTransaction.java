@@ -20,7 +20,7 @@ import org.adempiere.pos.process.ReverseTheSalesTransaction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 
 /**

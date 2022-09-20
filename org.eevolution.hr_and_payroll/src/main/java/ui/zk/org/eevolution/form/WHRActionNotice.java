@@ -53,7 +53,7 @@ import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRPeriod;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.hr.service.HRActionNotice;
+import org.eevolution.hr.services.HRActionNotice;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;

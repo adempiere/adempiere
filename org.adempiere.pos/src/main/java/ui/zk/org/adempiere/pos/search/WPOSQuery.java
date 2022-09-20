@@ -28,8 +28,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.adempiere.pos.WPOS;
-import org.adempiere.pos.service.POSQueryInterface;
-import org.adempiere.pos.service.POSQueryListener;
+import org.adempiere.pos.services.POSQueryInterface;
+import org.adempiere.pos.services.POSQueryListener;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;

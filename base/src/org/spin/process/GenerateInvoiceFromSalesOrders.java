@@ -30,7 +30,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.PO;
 import org.compiere.process.InvoiceGenerate;
 import org.compiere.process.ProcessInfo;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /** 
  * 	Generated Process for (Generate Invoices from Sales Orders)

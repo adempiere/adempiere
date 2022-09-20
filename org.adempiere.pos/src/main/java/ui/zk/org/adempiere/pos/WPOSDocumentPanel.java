@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 
 import org.adempiere.core.domains.models.I_C_Order;
 import org.adempiere.pos.search.WQueryBPartner;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;

@@ -26,8 +26,8 @@ import java.util.Properties;
 import javax.swing.KeyStroke;
 
 import org.adempiere.core.domains.models.X_C_Payment;
-import org.adempiere.pos.service.CollectDetail;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.CollectDetail;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Datebox;

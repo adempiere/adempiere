@@ -38,8 +38,8 @@ import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.core.domains.models.X_C_Payment;
-import org.adempiere.pos.service.CollectDetail;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.CollectDetail;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AppsAction;
 import org.compiere.grid.ed.VComboBox;

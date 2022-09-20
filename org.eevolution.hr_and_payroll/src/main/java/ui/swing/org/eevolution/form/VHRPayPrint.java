@@ -35,7 +35,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.hr.model.MHRPaySelectionCheck;
-import org.eevolution.hr.service.HRPayPrint;
+import org.eevolution.hr.services.HRPayPrint;
 import org.eevolution.hr.util.HRPaymentExport;
 
 import javax.swing.JButton;

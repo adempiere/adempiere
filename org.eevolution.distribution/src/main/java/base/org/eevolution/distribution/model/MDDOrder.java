@@ -58,7 +58,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.distribution.process.GenerateMovement;
 import org.eevolution.distribution.process.GenerateMovementMaterial;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  *  Order Distribution Model.

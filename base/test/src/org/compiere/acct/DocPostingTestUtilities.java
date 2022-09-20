@@ -9,7 +9,7 @@ import org.compiere.model.MSysConfig;
 import org.compiere.model.Query;
 import org.compiere.process.FactAcctReset;
 import org.compiere.util.TimeUtil;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 public class DocPostingTestUtilities {
 

@@ -57,7 +57,7 @@ import org.eevolution.manufacturing.model.MPPOrder;
 import org.eevolution.manufacturing.model.MPPOrderBOMLine;
 import org.eevolution.wms.model.MWMInOutBound;
 import org.eevolution.wms.model.MWMInOutBoundLine;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com

@@ -32,7 +32,7 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.adempiere.ad.process.ISvrProcessPrecondition;
-import org.adempiere.ad.service.IDeveloperModeBL;
+import org.adempiere.ad.services.IDeveloperModeBL;
 import org.adempiere.core.domains.models.I_AD_Process;
 import org.adempiere.core.domains.models.I_AD_Table_Process;
 import org.adempiere.util.Check;

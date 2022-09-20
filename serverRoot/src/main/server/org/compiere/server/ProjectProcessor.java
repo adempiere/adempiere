@@ -32,7 +32,7 @@ import org.compiere.model.MProjectTask;
 import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.project.service.ProjectProcessorService;
+import org.compiere.project.services.ProjectProcessorService;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

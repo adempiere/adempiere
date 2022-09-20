@@ -41,7 +41,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.hr.model.MHRPayroll;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.pr.model.MHRProcessReport;
 import org.spin.pr.model.MHRProcessReportTemplate;
