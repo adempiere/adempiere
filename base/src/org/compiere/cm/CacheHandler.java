@@ -23,7 +23,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Properties;
 
-import org.compiere.model.X_CM_BroadcastServer;
+import org.adempiere.core.domains.models.X_CM_BroadcastServer;
 import org.compiere.util.CLogger;
 
 /**

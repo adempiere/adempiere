@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.compiere.model.I_C_BankStatement;
+import org.adempiere.core.domains.models.I_C_BankStatement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;

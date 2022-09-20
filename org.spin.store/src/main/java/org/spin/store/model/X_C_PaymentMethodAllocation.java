@@ -19,6 +19,8 @@ package org.spin.store.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_C_PaymentMethodAllocation;
 import org.compiere.model.*;
 
 /** Generated Model for C_PaymentMethodAllocation
@@ -92,9 +94,9 @@ public class X_C_PaymentMethodAllocation extends PO implements I_C_PaymentMethod
 		return ii.intValue();
 	}
 
-	public org.spin.store.model.I_C_PaymentMethod getC_PaymentMethod() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_PaymentMethod getC_PaymentMethod() throws RuntimeException
     {
-		return (org.spin.store.model.I_C_PaymentMethod)MTable.get(getCtx(), org.spin.store.model.I_C_PaymentMethod.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_PaymentMethod)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_PaymentMethod.Table_Name)
 			.getPO(getC_PaymentMethod_ID(), get_TrxName());	}
 
 	/** Set Store Payment Method.
@@ -171,9 +173,9 @@ public class X_C_PaymentMethodAllocation extends PO implements I_C_PaymentMethod
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException
+	public org.adempiere.core.domains.models.I_W_Store getW_Store() throws RuntimeException
     {
-		return (org.compiere.model.I_W_Store)MTable.get(getCtx(), org.compiere.model.I_W_Store.Table_Name)
+		return (org.adempiere.core.domains.models.I_W_Store)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_Store.Table_Name)
 			.getPO(getW_Store_ID(), get_TrxName());	}
 
 	/** Set Web Store.

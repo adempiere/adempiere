@@ -6223,7 +6223,7 @@
     <Step SeqNo="12250" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="201" Table="AD_Process">
         <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
-        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.AssetDelivery">org.compiere.FA.process.AssetDelivery</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.AssetDelivery">org.compiere.asset.process.AssetDelivery</Data>
       </PO>
     </Step>
     <Step SeqNo="12260" StepType="AD">
@@ -6277,27 +6277,27 @@
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="12360" StepType="SQL">
-      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.FA.model.validator.FixedAsset' WHERE ModelValidationClass = 'org.compiere.FA.model.ModelValidator';</SQLStatement>
-      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.FA.model.ModelValidator' WHERE ModelValidationClass = 'org.compiere.FA.model.validator.FixedAsset';</RollbackStatement>
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.asset.model.validator.FixedAsset' WHERE ModelValidationClass = 'org.compiere.FA.model.ModelValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.FA.model.ModelValidator' WHERE ModelValidationClass = 'org.compiere.asset.model.validator.FixedAsset';</RollbackStatement>
     </Step>
     <Step SeqNo="12370" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50031" Table="C_DocBaseType">
-        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetAddition">org.compiere.FA.acct.Doc_AssetAddition</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetAddition">org.compiere.asset.acct.Doc_AssetAddition</Data>
       </PO>
     </Step>
     <Step SeqNo="12380" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50032" Table="C_DocBaseType">
-        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_DepreciationEntry">org.compiere.FA.acct.Doc_DepreciationEntry</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_DepreciationEntry">org.compiere.asset.acct.Doc_DepreciationEntry</Data>
       </PO>
     </Step>
     <Step SeqNo="12390" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50033" Table="C_DocBaseType">
-        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetDisposed">org.compiere.FA.acct.Doc_AssetDisposed</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetDisposed">org.compiere.asset.acct.Doc_AssetDisposed</Data>
       </PO>
     </Step>
     <Step SeqNo="12400" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50034" Table="C_DocBaseType">
-        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetSplit">org.compiere.FA.acct.Doc_AssetSplit</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetSplit">org.compiere.asset.acct.Doc_AssetSplit</Data>
       </PO>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="12410" StepType="SQL">

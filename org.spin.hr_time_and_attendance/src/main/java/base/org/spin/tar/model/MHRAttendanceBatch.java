@@ -24,7 +24,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.core.api.I_HR_AttendanceRecord;
+import org.adempiere.core.domains.models.I_HR_AttendanceRecord;
+import org.adempiere.core.domains.models.X_HR_AttendanceBatch;
+import org.adempiere.core.domains.models.X_HR_ShiftIncidence;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;

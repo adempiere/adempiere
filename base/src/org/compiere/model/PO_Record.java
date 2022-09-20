@@ -20,6 +20,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Archive;
+import org.adempiere.core.domains.models.X_AD_Attachment;
+import org.adempiere.core.domains.models.X_AD_Note;
+import org.adempiere.core.domains.models.X_AD_RecentItem;
+import org.adempiere.core.domains.models.X_CM_Chat;
+import org.adempiere.core.domains.models.X_CM_Container;
+import org.adempiere.core.domains.models.X_CM_Container_Element;
+import org.adempiere.core.domains.models.X_C_Order;
+import org.adempiere.core.domains.models.X_C_OrderLine;
+import org.adempiere.core.domains.models.X_K_Index;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

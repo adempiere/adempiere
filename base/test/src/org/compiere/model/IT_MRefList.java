@@ -16,7 +16,7 @@
 package org.compiere.model;
 
 import static org.compiere.model.PO.ENTITYTYPE_UserMaintained;
-import static org.compiere.model.X_AD_Reference.VALIDATIONTYPE_ListValidation;
+import static org.adempiere.core.domains.models.X_AD_Reference.VALIDATIONTYPE_ListValidation;
 import static org.compiere.model.ModelTestUtilities
                             .verifyExceptionForMissingMandatoryField;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.adempiere.core.domains.models.X_AD_Reference;
+import org.adempiere.core.domains.models.X_AD_Table;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.util.Util;

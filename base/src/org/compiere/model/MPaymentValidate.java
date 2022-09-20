@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.compiere.util.CLogger;
 
 

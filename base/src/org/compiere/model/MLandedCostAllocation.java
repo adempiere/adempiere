@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_C_LandedCostAllocation;
+import org.adempiere.core.domains.models.X_C_LandedCostAllocation;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

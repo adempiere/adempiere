@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.eevolution.model.MPPProductBOMLine;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_PP_Product_BOMLine;
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
+import org.compiere.model.MProduct;
+import org.compiere.model.Query;
 
 /**
  * 	Validate BOM
@@ -29,17 +33,7 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @author Jorg Janke
  *  @version $Id: BOMVerify.java,v 1.1 2007/07/23 05:34:35 mfuggle Exp $
  */
-public class BOMVerify extends SvrProcess
-{
-	/**	The Product			*/
-	private int		p_M_Product_ID = 0;
-	/** Product Category	*/
-	private int		p_M_Product_Category_ID = 0;
-	/** Re-Validate			*/
-	private boolean	p_IsReValidate = false;
-	
-	/**	Product				*/
-	private MProduct			m_product = null;
+public class BOMVerify extends BOMVerifyAbstract {
 	/**	List of Products	*/
 	private ArrayList<MProduct>	foundproducts = new ArrayList<MProduct>();
 	private ArrayList<MProduct> validproducts = new ArrayList<MProduct>();
@@ -50,88 +44,58 @@ public class BOMVerify extends SvrProcess
 	/**
 	 * 	Prepare
 	 */
-	protected void prepare ()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("M_Product_ID"))
-				p_M_Product_ID = para[i].getParameterAsInt();
-			else if (name.equals("M_Product_Category_ID"))
-				p_M_Product_Category_ID = para[i].getParameterAsInt();
-			else if (name.equals("IsReValidate"))
-				p_IsReValidate = "Y".equals(para[i].getParameter());
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+	protected void prepare() {
+		super.prepare();
+		if(getProductId() == 0) {
+			setProductId(getRecord_ID());
 		}
-		if ( p_M_Product_ID == 0 )
-			p_M_Product_ID = getRecord_ID();
 	}	//	prepare
 
+	/**
+	 * 	Get Product List from parameters
+	 * 	@return BOM Lines
+	 */
+	private List<Integer> getProductLists() {
+		StringBuffer whereClause = new StringBuffer("IsBOM = 'Y'");
+		List<Object> parameters = new ArrayList<>(); 
+		if(getProductCategoryId() == 0) {
+			whereClause.append(" AND AD_Client_ID = ?");
+			parameters.add(getAD_Client_ID());
+		} else {
+			whereClause.append(" AND M_Product_Category_ID = ?");
+			parameters.add(getProductCategoryId());
+		}
+		//	Re-validate
+		if(!isReValidate()) {
+			whereClause.append(" AND IsVerified <> 'Y'");
+		}
+		return new Query(getCtx(), I_M_Product.Table_Name, whereClause.toString(), get_TrxName())
+				.setParameters(parameters)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(I_M_Product.COLUMNNAME_Name)
+				.getIDsAsList();
+	}	//	getLines 
+	
 	/**
 	 * 	Process
 	 *	@return Info
 	 *	@throws Exception
 	 */
-	protected String doIt() throws Exception
-	{
-		if (p_M_Product_ID != 0)
-		{
-			log.info("M_Product_ID=" + p_M_Product_ID);
-			checkProduct(new MProduct(getCtx(), p_M_Product_ID, get_TrxName()));
+	protected String doIt() throws Exception {
+		if (getProductId() != 0) {
+			log.info("M_Product_ID=" + getProductId());
+			checkProduct(new MProduct(getCtx(), getProductId(), get_TrxName()));
 			return "Product Checked";
 		}
-		log.info("M_Product_Category_ID=" + p_M_Product_Category_ID
-			+ ", IsReValidate=" + p_IsReValidate);
+		log.info("M_Product_Category_ID=" + getProductCategoryId()
+			+ ", IsReValidate=" + isReValidate());
 		//
-		int counter = 0;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT M_Product_ID FROM M_Product "
-			+ "WHERE IsBOM='Y' AND ";
-		if (p_M_Product_Category_ID == 0)
-			sql += "AD_Client_ID=? ";
-		else
-			sql += "M_Product_Category_ID=? ";
-		if (!p_IsReValidate)
-			sql += "AND IsVerified<>'Y' ";
-		sql += "ORDER BY Name";
-		int AD_Client_ID = Env.getAD_Client_ID(getCtx());
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			if (p_M_Product_Category_ID == 0)
-				pstmt.setInt (1, AD_Client_ID);
-			else
-				pstmt.setInt(1, p_M_Product_Category_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				p_M_Product_ID = rs.getInt(1); //ADAXA - validate the product retrieved from database
-				checkProduct(new MProduct(getCtx(), p_M_Product_ID, get_TrxName()));
-				
-				counter++;
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		AtomicInteger counter = new AtomicInteger(0);
+		getProductLists().forEach(productId -> {
+			checkProduct(new MProduct(getCtx(), productId, get_TrxName()));
+			counter.incrementAndGet();
+		});
 		return "#" + counter;
 	}	//	doIt
 
@@ -142,6 +106,19 @@ public class BOMVerify extends SvrProcess
 			validateProduct(product);
 		}
 		
+	}
+	
+	/**
+	 * Get all the Product BOM line for a Component
+	 * @param product Product
+	 * @return list of MPPProductBOMLine
+	 */
+	public static List<Integer> getBOMLinesFromProduct(MProduct product) {
+		final String whereClause = I_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID 
+							+ " IN ( SELECT PP_PRODUCT_BOM_ID FROM PP_PRODUCT_BOM WHERE M_PRODUCT_ID = " + product.getM_Product_ID() + ")";
+		return new Query(product.getCtx(), I_PP_Product_BOMLine.Table_Name, whereClause, product.get_TrxName())
+								.setClient_ID()
+								.getIDsAsList();
 	}
 	
 	/**
@@ -158,77 +135,47 @@ public class BOMVerify extends SvrProcess
 		//	Check Old Product BOM Structure
 		log.config(product.getName());
 		
-		
 		foundproducts.add(product);
-		//MProductBOM[] productsBOMs = MProductBOM.getBOMLines(product);
-		
-		MPPProductBOMLine[] productsBOMs = MPPProductBOMLine.getBOMLines(product);
-		boolean containsinvalid = false;
-		boolean invalid = false;
-		for (int i = 0; i < productsBOMs.length; i++)
-		{
-			MPPProductBOMLine productsBOM = productsBOMs[i];
-			MProduct pp = new MProduct(getCtx(), productsBOM.getM_Product_ID(), get_TrxName());
-			if (!pp.isBOM())
+		AtomicBoolean containsinvalid = new AtomicBoolean(false);
+		AtomicBoolean invalid = new AtomicBoolean(false);
+		getBOMLinesFromProduct(product).forEach(productBomLineId -> {
+			X_PP_Product_BOMLine productBomLine = new X_PP_Product_BOMLine(getCtx(), productBomLineId, get_TrxName());
+			MProduct pp = new MProduct(getCtx(), productBomLine.getM_Product_ID(), get_TrxName());
+			if (!pp.isBOM()) {
 				log.finer(pp.getName());
-			else 
-			{
-				if (validproducts.contains(pp))
-				{
+			} else  {
+				if (validproducts.contains(pp)) {
 					//Do nothing, no need to recheck
 				}
-				if (invalidproducts.contains(pp))
-				{
-					containsinvalid = true;
-				}
-				else if (foundproducts.contains(pp))
-				{
-					invalid = true;
+				if (invalidproducts.contains(pp)) {
+					containsinvalid.set(true);
+				} else if (foundproducts.contains(pp)) {
+					invalid.set(true);
 					addLog(0, null, null, product.getValue() + " recursively contains " + pp.getValue());
-				}
-				else
-				{
-					if (!validateProduct(pp))
-					{
-						containsinvalid = true;
-					}
-					
+				} else if(!validateProduct(pp)){
+					containsinvalid.set(true);
 				}
 			}
-
-			
-			
-		}
-		
+		});
+		//	
 		checkedproducts.add(product);
 		foundproducts.remove(product);
-		if (invalid)
-		{
+		if (invalid.get()) {
 			invalidproducts.add(product);
 			product.setIsVerified(false);
 			product.save();
 			return false;
-		}
-		else if (containsinvalid)
-		{
+		} else if (containsinvalid.get()) {
 			containinvalidproducts.add(product);
 			product.setIsVerified(false);
 			product.save();
 			return false;
-		}
-		else
-		{
+		} else {
 			validproducts.add(product);
 			product.setIsVerified(true);
 			product.save();
 			return true;
 		}
-		
-		
-		
 	}	//	validateProduct
-
-
-	
 }	//	BOMValidate
 

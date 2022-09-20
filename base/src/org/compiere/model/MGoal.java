@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_PA_Goal;
+import org.adempiere.core.domains.models.X_PA_Goal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

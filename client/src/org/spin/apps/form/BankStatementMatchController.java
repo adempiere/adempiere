@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.compiere.impexp.BankStatementMatchInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
@@ -38,7 +39,6 @@ import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MBankStatementMatcher;
 import org.compiere.model.MPayment;
 import org.compiere.model.MRole;
-import org.compiere.model.X_I_BankStatement;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

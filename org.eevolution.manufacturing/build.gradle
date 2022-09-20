@@ -1,0 +1,120 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(
+        dir: '../tools/lib/testing',
+        include: [
+        'SuperCSV-with_src-1.52.jar'
+        ]
+    )
+    // https://mvnrepository.com/artifact/com.github.lbordowitz.openforecast/openforecast
+    api 'com.github.lbordowitz.openforecast:openforecast:0.5.0'
+    api project(path: ':base')
+    api project(path: ':org.eevolution.distribution')
+    api project(path: ':org.adempiere.test')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src/main/java/base']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
+
+def entityType = 'D'
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Project Management",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'manufacturing'
+            version
+           	from components.java
+           	pom {
+                name = 'Manufacturing Management'
+                description = 'manufacturing Management dedicated to manage all related with production BOM, costing, and manufacturing.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}

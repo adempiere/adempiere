@@ -15,8 +15,8 @@
  *****************************************************************************/
 package org.adempiere.test;
 
-import static org.compiere.model.X_C_PeriodControl.PERIODSTATUS_Closed;
-import static org.compiere.model.X_C_PeriodControl.PERIODSTATUS_Open;
+import static org.adempiere.core.domains.models.X_C_PeriodControl.PERIODSTATUS_Closed;
+import static org.adempiere.core.domains.models.X_C_PeriodControl.PERIODSTATUS_Open;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 

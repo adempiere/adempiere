@@ -24,9 +24,9 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
-import org.adempiere.core.api.I_HR_Process;
-import org.adempiere.core.api.I_HR_ProcessReport;
-import org.adempiere.core.api.I_RV_HR_ProcessDetail;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.I_HR_ProcessReport;
+import org.adempiere.core.domains.models.I_RV_HR_ProcessDetail;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
@@ -41,7 +41,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.hr.model.MHRPayroll;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.pr.model.MHRProcessReport;
 import org.spin.pr.model.MHRProcessReportTemplate;

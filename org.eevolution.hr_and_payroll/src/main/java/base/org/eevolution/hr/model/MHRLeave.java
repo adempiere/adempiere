@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_Leave;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.process.DocAction;

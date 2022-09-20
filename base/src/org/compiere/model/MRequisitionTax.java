@@ -16,6 +16,7 @@
 
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_M_RequisitionTax;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 

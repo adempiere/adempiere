@@ -42,6 +42,9 @@ import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
+import org.adempiere.core.domains.models.X_AD_Reference;
+import org.adempiere.core.domains.models.X_WS_WebServiceMethod;
+import org.adempiere.core.domains.models.X_WS_WebService_Para;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.codehaus.xfire.fault.XFireFault;
 
@@ -57,9 +60,6 @@ import org.compiere.model.MWebServiceType;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Reference;
-import org.compiere.model.X_WS_WebServiceMethod;
-import org.compiere.model.X_WS_WebService_Para;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

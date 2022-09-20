@@ -21,8 +21,8 @@ import org.compiere.model.MFreightCategory;
 import org.compiere.model.MLocation;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.freight.service.FreightService;
-import org.eevolution.freight.service.FreightServiceInterface;
+import org.eevolution.freight.services.FreightService;
+import org.eevolution.freight.services.FreightServiceInterface;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

@@ -19,6 +19,8 @@ package org.eevolution.hr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_EmployeeWeeklyOff;
+
 /**
  * Created by  victor.perez@e-evolution.com,e-Evolution on 04/12/13.
  */

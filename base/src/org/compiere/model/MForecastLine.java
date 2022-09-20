@@ -19,9 +19,10 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_PP_Period;
+import org.adempiere.core.domains.models.X_M_ForecastLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.WarehouseInvalidForOrgException;
-import org.eevolution.model.I_PP_Period;
 
 
 /**

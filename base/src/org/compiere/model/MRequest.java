@@ -16,6 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.I_C_ProjectTask;
+import org.adempiere.core.domains.models.I_R_RequestAction;
+import org.adempiere.core.domains.models.I_R_RequestUpdate;
+import org.adempiere.core.domains.models.X_C_BP_Group;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;

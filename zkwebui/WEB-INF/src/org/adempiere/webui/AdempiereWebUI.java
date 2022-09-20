@@ -38,7 +38,7 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
-import org.spin.authentication.service.OpenIDUtil;
+import org.spin.authentication.services.OpenIDUtil;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;

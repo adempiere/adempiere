@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_FM_Account;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

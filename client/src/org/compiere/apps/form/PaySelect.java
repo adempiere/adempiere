@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_Order;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
@@ -39,7 +40,6 @@ import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
 import org.compiere.model.MRole;
-import org.compiere.model.X_C_Order;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

@@ -31,7 +31,7 @@ import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 
-import org.compiere.model.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MFactAcct;

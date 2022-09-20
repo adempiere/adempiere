@@ -21,8 +21,8 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.adempiere.core.domains.models.X_CM_WebAccessLog;
 import org.compiere.cm.HttpServletCM;
-import org.compiere.model.X_CM_WebAccessLog;
 import org.compiere.util.Env;
 
 

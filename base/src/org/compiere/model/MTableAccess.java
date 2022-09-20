@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Table_Access;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 

@@ -19,6 +19,8 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Optional;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.X_AD_Token;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MRole;
 

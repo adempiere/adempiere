@@ -19,7 +19,7 @@ package org.compiere.impexp;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_AD_ImpFormat_Row;
+import org.adempiere.core.domains.models.X_AD_ImpFormat_Row;
 
 
 /**

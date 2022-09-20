@@ -27,6 +27,7 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Language;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.util.DB;

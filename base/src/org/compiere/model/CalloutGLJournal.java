@@ -22,12 +22,12 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.ResultSetIterable;
 
+import static org.adempiere.core.domains.models.X_C_Period.PERIODTYPE_AdjustmentPeriod;
+import static org.adempiere.core.domains.models.X_C_Period.PERIODTYPE_StandardCalendarPeriod;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import static org.compiere.model.X_C_Period.PERIODTYPE_AdjustmentPeriod;
-import static org.compiere.model.X_C_Period.PERIODTYPE_StandardCalendarPeriod;
 
 /**
  *	GL Journal Callout

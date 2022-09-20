@@ -13,9 +13,9 @@
  *****************************************************************************/
 package org.adempiere.model;
 
-import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID;
-import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_OrderByClause;
-import static org.compiere.model.I_AD_Ref_Table.COLUMNNAME_WhereClause;
+import static org.adempiere.core.domains.models.I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID;
+import static org.adempiere.core.domains.models.I_AD_Ref_Table.COLUMNNAME_OrderByClause;
+import static org.adempiere.core.domains.models.I_AD_Ref_Table.COLUMNNAME_WhereClause;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,10 +27,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.adempiere.core.domains.models.I_AD_Ref_Table;
+import org.adempiere.core.domains.models.X_AD_RelationType;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PORelationException;
 import org.adempiere.model.ZoomInfoFactory.ZoomInfo;
-import org.compiere.model.I_AD_Ref_Table;
 import org.compiere.model.Lookup;
 import org.compiere.model.MColumn;
 import org.compiere.model.MQuery;
@@ -38,7 +39,6 @@ import org.compiere.model.MRefTable;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_RelationType;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

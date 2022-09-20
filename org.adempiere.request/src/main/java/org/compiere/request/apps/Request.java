@@ -16,26 +16,26 @@
 
 package org.compiere.request.apps;
 
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_Campaign;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.I_C_Project;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_RMA;
+import org.adempiere.core.domains.models.I_R_Request;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_Payment;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_RMA;
-import org.compiere.model.I_R_Request;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.RefactoryUtil;
 import org.compiere.util.ValueNamePair;
 
 import java.sql.PreparedStatement;
@@ -95,7 +95,7 @@ public class Request {
             whereClause.append(" OR C_Project_ID=").append(recordId);
         else if (tableId == I_C_Campaign.Table_ID)
             whereClause.append(" OR C_Campaign_ID=").append(recordId);
-        else if (tableId == RefactoryUtil.A_Asset_Table_ID)
+        else if (tableId == I_A_Asset.Table_ID)
             whereClause.append(" OR A_Asset_ID=").append(recordId);
     }
 
@@ -112,7 +112,7 @@ public class Request {
             gridTab.setValue("AD_User_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Project.Table_ID)
             gridTab.setValue("C_Project_ID", Integer.valueOf(recordId));
-        else if (tableId == RefactoryUtil.A_Asset_Table_ID)
+        else if (tableId == I_A_Asset.Table_ID)
             gridTab.setValue("A_Asset_ID", Integer.valueOf(recordId));
         else if (tableId == I_C_Order.Table_ID)
             gridTab.setValue("C_Order_ID", Integer.valueOf(recordId));

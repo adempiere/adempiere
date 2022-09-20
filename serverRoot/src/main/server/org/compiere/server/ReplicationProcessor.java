@@ -30,10 +30,10 @@ package org.compiere.server;
 
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.X_IMP_Processor_Type;
 import org.adempiere.server.rpl.IImportProcessor;
 import org.compiere.model.AdempiereProcessor;
 import org.compiere.model.MClient;
-import org.compiere.model.X_IMP_Processor_Type;
 import org.compiere.util.TimeUtil;
 import org.compiere.model.MIMPProcessor;
 import org.compiere.model.MIMPProcessorLog;

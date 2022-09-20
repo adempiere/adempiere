@@ -19,6 +19,10 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_ValidCombination;
+import org.adempiere.core.domains.models.I_Fact_Acct;
+import org.adempiere.core.domains.models.X_C_ElementValue;
+import org.adempiere.core.domains.models.X_I_ElementValue;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.Env;
 

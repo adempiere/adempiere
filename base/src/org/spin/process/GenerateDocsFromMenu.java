@@ -21,12 +21,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_AD_Browse;
+import org.adempiere.core.domains.models.I_AD_Form;
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.I_AD_Window;
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.model.I_AD_Browse;
 import org.adempiere.model.MBrowse;
-import org.compiere.model.I_AD_Form;
-import org.compiere.model.I_AD_Process;
-import org.compiere.model.I_AD_Window;
 import org.compiere.model.MForm;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProcess;

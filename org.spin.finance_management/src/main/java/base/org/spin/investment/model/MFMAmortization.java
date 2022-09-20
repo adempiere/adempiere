@@ -22,6 +22,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_FM_Amortization;
+import org.adempiere.core.domains.models.X_FM_Amortization;
+import org.adempiere.core.domains.models.X_I_FM_Agreement;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

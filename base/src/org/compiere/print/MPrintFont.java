@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_PrintFont;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_PrintFont;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 

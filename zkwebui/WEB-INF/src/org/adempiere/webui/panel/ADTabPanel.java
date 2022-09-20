@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_FieldGroup;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Column;

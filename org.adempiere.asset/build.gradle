@@ -2,8 +2,8 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
+
 
 repositories {
     mavenLocal()
@@ -25,9 +25,13 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
 	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
-    api 'io.github.adempiere:base:3.9.4-develop-2.0'
-    api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
-    api 'io.github.adempiere:project:3.9.4-develop-1.0'
+	
+	api project(path: ':base')
+	api project(path: ':org.adempiere.project')
+	api project(path: ':org.adempiere.test')
+	//api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
+    //api 'io.github.adempiere:project:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 }
@@ -45,12 +49,16 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
 
 def entityType = 'D'
-version = "3.9.4-develop-1.4"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {
@@ -65,8 +73,8 @@ publishing {
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
-                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
             }
         }
     }
@@ -104,5 +112,8 @@ publishing {
 }
 
 signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }

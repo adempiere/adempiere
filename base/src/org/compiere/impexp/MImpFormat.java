@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.X_AD_ImpFormat;
+import org.adempiere.core.domains.models.X_AD_ImpFormat;
 import org.compiere.util.DB;
 
 

@@ -36,8 +36,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_InOut;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_InOut;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;

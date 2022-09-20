@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_ProductionBatchLine;
 import org.compiere.util.Env;
 
 public class MProductionBatchLine extends X_M_ProductionBatchLine

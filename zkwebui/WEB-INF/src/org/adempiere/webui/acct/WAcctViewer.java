@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_AcctSchema_Element;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -46,7 +47,6 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_AcctSchema_Element;
 import org.compiere.report.core.RColumn;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;

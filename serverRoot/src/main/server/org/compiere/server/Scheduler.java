@@ -41,7 +41,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.util.QueueLoader;
 

@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_Forecast;
+
 
 /**
  * Forecast Model

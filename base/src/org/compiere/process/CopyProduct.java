@@ -4,13 +4,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_RelatedProduct;
+import org.adempiere.core.domains.models.X_M_Replenish;
+import org.adempiere.core.domains.models.X_M_Substitute;
 import org.compiere.model.MBPartnerProduct;
 import org.compiere.model.MProductDownload;
 import org.compiere.model.MProductPrice;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_RelatedProduct;
-import org.compiere.model.X_M_Replenish;
-import org.compiere.model.X_M_Substitute;
 
 /**
  * Process that copies product information such as substitutes, related, prices, downloads

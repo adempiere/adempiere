@@ -16,8 +16,8 @@
 
 package org.eevolution.hr.process;
 
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_BPartner_Location;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner_Location;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MInvoice;

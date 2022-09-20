@@ -22,9 +22,9 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_Payment;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MPayment;
-import org.compiere.model.X_I_Payment;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

@@ -18,8 +18,8 @@ package org.compiere.impexp;
 
 import java.util.List;
 
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.compiere.model.MBankStatementLine;
-import org.compiere.model.X_I_BankStatement;
 
 /**
  *	Bank Statement Matcher Algorithm Interface

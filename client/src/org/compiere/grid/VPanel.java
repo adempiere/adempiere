@@ -38,6 +38,7 @@ import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.LayoutCallback;
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.core.domains.models.X_AD_FieldGroup;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
 import org.compiere.grid.ed.VButton;
@@ -45,7 +46,6 @@ import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
-import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;

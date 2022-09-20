@@ -21,7 +21,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.I_M_Requisition;
+import org.adempiere.core.domains.models.I_M_Requisition;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MRequisition;

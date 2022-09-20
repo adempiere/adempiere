@@ -42,9 +42,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.X_EXP_ProcessorParameter;
 import org.adempiere.process.rpl.IExportProcessor;
 import org.compiere.model.MEXPProcessor;
-import org.compiere.model.X_EXP_ProcessorParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.Trx;
 import org.w3c.dom.Document;

@@ -20,6 +20,8 @@ package org.compiere.production.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_ReplenishPlan;
+
 public class MReplenishPlan extends X_M_ReplenishPlan
 {
 

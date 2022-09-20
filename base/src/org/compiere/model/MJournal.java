@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_GL_JournalLine;
+import org.adempiere.core.domains.models.X_GL_Journal;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentReversalEnabled;

@@ -17,7 +17,7 @@
 package org.adempiere.pos.util;
 
 import org.adempiere.pos.AdempierePOSException;
-import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.services.CPOS;
 import org.compiere.model.MInvoice;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;

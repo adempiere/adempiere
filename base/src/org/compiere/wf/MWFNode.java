@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WF_Node;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -309,7 +309,7 @@ public class MWFNode extends X_AD_WF_Node
 	
 	/**
 	 * 	Get Attribute Name
-	 *	@see org.compiere.model.X_AD_WF_Node#getAttributeName()
+	 *	@see org.adempiere.core.domains.models.X_AD_WF_Node#getAttributeName()
 	 *	@return Attribute Name
 	 */
 	public String getAttributeName ()

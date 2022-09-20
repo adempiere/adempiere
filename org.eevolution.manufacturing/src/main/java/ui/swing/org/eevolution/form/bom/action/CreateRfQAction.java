@@ -30,10 +30,10 @@ import org.compiere.model.MRfQLineQty;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.form.action.ProcessPopupAction;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.reasoner.StorageReasoner;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.reasoner.StorageReasoner;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
 
 /**
  * @author Victor Perez, e-Evolution, S.C. *  @author Victor Perez, e-Evolution, S.C.

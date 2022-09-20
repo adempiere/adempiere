@@ -21,6 +21,12 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Memo;
+import org.adempiere.core.domains.models.I_C_UOM_Conversion;
+import org.adempiere.core.domains.models.I_M_CostDetail;
+import org.adempiere.core.domains.models.I_M_ProductDownload;
+import org.adempiere.core.domains.models.X_I_Product;
+import org.adempiere.core.domains.models.X_M_Product;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

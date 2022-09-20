@@ -19,6 +19,8 @@ package org.spin.store.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_W_DeliveryViaRuleAllocation;
 import org.compiere.model.*;
 
 /** Generated Model for W_DeliveryViaRuleAllocation
@@ -144,9 +146,9 @@ public class X_W_DeliveryViaRuleAllocation extends PO implements I_W_DeliveryVia
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
 	}
 
-	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
-		return (org.compiere.model.I_M_FreightCategory)MTable.get(getCtx(), org.compiere.model.I_M_FreightCategory.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
 			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
 
 	/** Set Freight Category.
@@ -172,9 +174,9 @@ public class X_W_DeliveryViaRuleAllocation extends PO implements I_W_DeliveryVia
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Shipper getM_Shipper() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Shipper)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Shipper.Table_Name)
 			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.
@@ -257,9 +259,9 @@ public class X_W_DeliveryViaRuleAllocation extends PO implements I_W_DeliveryVia
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException
+	public org.adempiere.core.domains.models.I_W_Store getW_Store() throws RuntimeException
     {
-		return (org.compiere.model.I_W_Store)MTable.get(getCtx(), org.compiere.model.I_W_Store.Table_Name)
+		return (org.adempiere.core.domains.models.I_W_Store)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_Store.Table_Name)
 			.getPO(getW_Store_ID(), get_TrxName());	}
 
 	/** Set Web Store.

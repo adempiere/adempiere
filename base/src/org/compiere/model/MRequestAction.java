@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_R_RequestAction;
 import org.compiere.util.Msg;
 
 import java.sql.ResultSet;

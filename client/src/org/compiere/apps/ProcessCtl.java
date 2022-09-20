@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.core.domains.models.I_AD_Process;
 import org.adempiere.util.ProcessUtil;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRule;

@@ -20,6 +20,8 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.adempiere.core.domains.models.X_CM_Ad;
+
 /**
  * Container Model
  * 

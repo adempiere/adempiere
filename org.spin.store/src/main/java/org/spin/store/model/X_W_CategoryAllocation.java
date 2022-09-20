@@ -19,6 +19,8 @@ package org.spin.store.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_W_CategoryAllocation;
 import org.compiere.model.*;
 
 /** Generated Model for W_CategoryAllocation
@@ -89,9 +91,9 @@ public class X_W_CategoryAllocation extends PO implements I_W_CategoryAllocation
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -154,9 +156,9 @@ public class X_W_CategoryAllocation extends PO implements I_W_CategoryAllocation
 		return ii.intValue();
 	}
 
-	public org.spin.store.model.I_W_Category getW_Category() throws RuntimeException
+	public org.adempiere.core.domains.models.I_W_Category getW_Category() throws RuntimeException
     {
-		return (org.spin.store.model.I_W_Category)MTable.get(getCtx(), org.spin.store.model.I_W_Category.Table_Name)
+		return (org.adempiere.core.domains.models.I_W_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_Category.Table_Name)
 			.getPO(getW_Category_ID(), get_TrxName());	}
 
 	/** Set Product Store Group.

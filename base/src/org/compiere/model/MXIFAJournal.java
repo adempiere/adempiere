@@ -18,6 +18,8 @@ package org.compiere.model;
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+
+import org.adempiere.core.domains.models.X_I_FAJournal;
 import org.compiere.model.*;
 import org.compiere.util.*;
 /** Generated Model for A_Asset

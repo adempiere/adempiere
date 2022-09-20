@@ -21,6 +21,8 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_ProductPrice;
+import org.adempiere.core.domains.models.X_M_ProductPrice;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 

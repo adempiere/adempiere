@@ -80,7 +80,7 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.eevolution.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrder;
 
 /**
  * 
