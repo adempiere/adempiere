@@ -16,19 +16,19 @@
  * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.eevolution.wms.model;
+package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.core.domains.models.I_WM_Area_Type;
+import org.adempiere.core.domains.models.I_WM_Area;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for WM_Area_Type
+/** Generated Model for WM_Area
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent 
+public class X_WM_Area extends PO implements I_WM_Area, I_Persistent 
 {
 
 	/**
@@ -37,18 +37,20 @@ public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent
 	private static final long serialVersionUID = 20220620L;
 
     /** Standard Constructor */
-    public X_WM_Area_Type (Properties ctx, int WM_Area_Type_ID, String trxName)
+    public X_WM_Area (Properties ctx, int WM_Area_ID, String trxName)
     {
-      super (ctx, WM_Area_Type_ID, trxName);
-      /** if (WM_Area_Type_ID == 0)
+      super (ctx, WM_Area_ID, trxName);
+      /** if (WM_Area_ID == 0)
         {
+			setM_Warehouse_ID (0);
 			setName (null);
+			setWM_Area_ID (0);
 			setWM_Area_Type_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_WM_Area_Type (Properties ctx, ResultSet rs, String trxName)
+    public X_WM_Area (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -70,7 +72,7 @@ public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_WM_Area_Type[")
+      StringBuffer sb = new StringBuffer ("X_WM_Area[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -90,6 +92,34 @@ public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Name.
@@ -134,6 +164,29 @@ public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	/** Set Warehouse Area.
+		@param WM_Area_ID 
+		Warehouse Area allow grouping the Warehouse Section
+	  */
+	public void setWM_Area_ID (int WM_Area_ID)
+	{
+		if (WM_Area_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WM_Area_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WM_Area_ID, Integer.valueOf(WM_Area_ID));
+	}
+
+	/** Get Warehouse Area.
+		@return Warehouse Area allow grouping the Warehouse Section
+	  */
+	public int getWM_Area_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_Area_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Warehouse Area Type.
 		@param WM_Area_Type_ID 
 		Warehouse Area Type allow grouping the Warehouse Area for Type
@@ -141,9 +194,9 @@ public class X_WM_Area_Type extends PO implements I_WM_Area_Type, I_Persistent
 	public void setWM_Area_Type_ID (int WM_Area_Type_ID)
 	{
 		if (WM_Area_Type_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WM_Area_Type_ID, null);
+			set_Value (COLUMNNAME_WM_Area_Type_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_WM_Area_Type_ID, Integer.valueOf(WM_Area_Type_ID));
+			set_Value (COLUMNNAME_WM_Area_Type_ID, Integer.valueOf(WM_Area_Type_ID));
 	}
 
 	/** Get Warehouse Area Type.

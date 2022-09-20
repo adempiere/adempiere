@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.store.model;
+package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;

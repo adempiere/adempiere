@@ -16,18 +16,18 @@
  * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.pr.model;
+package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.core.domains.models.I_HR_ProcessReportTemplate;
+import org.adempiere.core.domains.models.I_HR_ProcessReportLine;
 import org.compiere.model.*;
 
-/** Generated Model for HR_ProcessReportTemplate
+/** Generated Model for HR_ProcessReportLine
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReportTemplate, I_Persistent 
+public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine, I_Persistent 
 {
 
 	/**
@@ -36,20 +36,22 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	private static final long serialVersionUID = 20220801L;
 
     /** Standard Constructor */
-    public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
+    public X_HR_ProcessReportLine (Properties ctx, int HR_ProcessReportLine_ID, String trxName)
     {
-      super (ctx, HR_ProcessReportTemplate_ID, trxName);
-      /** if (HR_ProcessReportTemplate_ID == 0)
+      super (ctx, HR_ProcessReportLine_ID, trxName);
+      /** if (HR_ProcessReportLine_ID == 0)
         {
-			setAD_PrintFormat_ID (0);
 			setHR_ProcessReport_ID (0);
-			setHR_ProcessReportTemplate_ID (0);
-			setName (null);
+			setHR_ProcessReportLine_ID (0);
+			setIsAveraged (false);
+// N
+			setIsSummarized (false);
+// N
         } */
     }
 
     /** Load Constructor */
-    public X_HR_ProcessReportTemplate (Properties ctx, ResultSet rs, String trxName)
+    public X_HR_ProcessReportLine (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,38 +73,10 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_HR_ProcessReportTemplate[")
+      StringBuffer sb = new StringBuffer ("X_HR_ProcessReportLine[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.adempiere.core.domains.models.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_AD_PrintFormat)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PrintFormat.Table_Name)
-			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
-
-	/** Set Print Format.
-		@param AD_PrintFormat_ID 
-		Data Print Format
-	  */
-	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
-	{
-		if (AD_PrintFormat_ID < 1) 
-			set_Value (COLUMNNAME_AD_PrintFormat_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
-	}
-
-	/** Get Print Format.
-		@return Data Print Format
-	  */
-	public int getAD_PrintFormat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 
@@ -119,6 +93,29 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Global Payroll Concept.
+		@param HR_Concept_ID 
+		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
+	public void setHR_Concept_ID (int HR_Concept_ID)
+	{
+		if (HR_Concept_ID < 1) 
+			set_Value (COLUMNNAME_HR_Concept_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
+	}
+
+	/** Get Global Payroll Concept.
+		@return The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
+	  */
+	public int getHR_Concept_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Payroll Process Report.
@@ -141,41 +138,72 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return ii.intValue();
 	}
 
-	/** Set Payroll Process Report Template.
-		@param HR_ProcessReportTemplate_ID Payroll Process Report Template	  */
-	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
+	/** Set Payroll Process Report Line.
+		@param HR_ProcessReportLine_ID Payroll Process Report Line	  */
+	public void setHR_ProcessReportLine_ID (int HR_ProcessReportLine_ID)
 	{
-		if (HR_ProcessReportTemplate_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, null);
+		if (HR_ProcessReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, Integer.valueOf(HR_ProcessReportLine_ID));
 	}
 
-	/** Get Payroll Process Report Template.
-		@return Payroll Process Report Template	  */
-	public int getHR_ProcessReportTemplate_ID () 
+	/** Get Payroll Process Report Line.
+		@return Payroll Process Report Line	  */
+	public int getHR_ProcessReportLine_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
+	/** Set Calculate Mean (µ).
+		@param IsAveraged 
+		Calculate Average of numeric content or length
 	  */
-	public void setName (String Name)
+	public void setIsAveraged (boolean IsAveraged)
 	{
-		set_Value (COLUMNNAME_Name, Name);
+		set_Value (COLUMNNAME_IsAveraged, Boolean.valueOf(IsAveraged));
 	}
 
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
+	/** Get Calculate Mean (µ).
+		@return Calculate Average of numeric content or length
 	  */
-	public String getName () 
+	public boolean isAveraged () 
 	{
-		return (String)get_Value(COLUMNNAME_Name);
+		Object oo = get_Value(COLUMNNAME_IsAveraged);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Calculate Sum (S).
+		@param IsSummarized 
+		Calculate the Sum of numeric content or length
+	  */
+	public void setIsSummarized (boolean IsSummarized)
+	{
+		set_Value (COLUMNNAME_IsSummarized, Boolean.valueOf(IsSummarized));
+	}
+
+	/** Get Calculate Sum (S).
+		@return Calculate the Sum of numeric content or length
+	  */
+	public boolean isSummarized () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsSummarized);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Print Text.
@@ -195,38 +223,24 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return (String)get_Value(COLUMNNAME_PrintName);
 	}
 
-	/** Set Receipt Footer Msg.
-		@param ReceiptFooterMsg 
-		This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	/** Set Sequence.
+		@param SeqNo 
+		Method of ordering records; lowest number comes first
 	  */
-	public void setReceiptFooterMsg (String ReceiptFooterMsg)
+	public void setSeqNo (int SeqNo)
 	{
-		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
+		set_Value (COLUMNNAME_SeqNo, Integer.valueOf(SeqNo));
 	}
 
-	/** Get Receipt Footer Msg.
-		@return This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	/** Get Sequence.
+		@return Method of ordering records; lowest number comes first
 	  */
-	public String getReceiptFooterMsg () 
+	public int getSeqNo () 
 	{
-		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
-	}
-
-	/** Set Text Message.
-		@param TextMsg 
-		Text Message
-	  */
-	public void setTextMsg (String TextMsg)
-	{
-		set_Value (COLUMNNAME_TextMsg, TextMsg);
-	}
-
-	/** Get Text Message.
-		@return Text Message
-	  */
-	public String getTextMsg () 
-	{
-		return (String)get_Value(COLUMNNAME_TextMsg);
+		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.

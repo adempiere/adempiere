@@ -28,16 +28,11 @@
  **********************************************************************/
 package org.eevolution.wms.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.adempiere.core.domains.models.I_C_OrderLine;
 import org.adempiere.core.domains.models.I_M_InOutLine;
 import org.adempiere.core.domains.models.I_M_MovementLine;
 import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.X_WM_InOutBoundLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoiceLine;
@@ -49,12 +44,18 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.eevolution.distribution.model.MDDOrderLine;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
  * Class Model for Inbound & Outbound Operation Line
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MWMInOutBoundLine extends X_WM_InOutBoundLine 
+public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 {
 
 	public static MWMInOutBoundLine getByInvoiceLine(MInvoiceLine invoiceLine)
