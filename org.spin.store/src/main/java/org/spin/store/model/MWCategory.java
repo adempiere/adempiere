@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.compiere.model.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Product;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

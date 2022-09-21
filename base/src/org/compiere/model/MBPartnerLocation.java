@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_BPartner_Location;
+
 
 /**
  *	Partner Location Model

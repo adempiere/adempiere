@@ -22,12 +22,12 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_PrintFormat;
+import org.adempiere.core.domains.models.I_AD_PrintFormatItem;
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_PrintFormat;
-import org.compiere.model.I_AD_PrintFormatItem;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.util.Env;

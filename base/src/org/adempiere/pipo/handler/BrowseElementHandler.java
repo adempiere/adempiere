@@ -24,8 +24,8 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.adempiere.model.I_AD_Browse;
-import org.adempiere.model.I_AD_Browse_Field;
+import org.adempiere.core.domains.models.I_AD_Browse;
+import org.adempiere.core.domains.models.I_AD_Browse_Field;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.pipo.PackOut;

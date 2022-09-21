@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.I_AD_Browse_Field;
+import org.adempiere.core.domains.models.I_AD_Browse_Field;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.webui.component.ListHead;

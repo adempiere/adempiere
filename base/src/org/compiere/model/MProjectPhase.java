@@ -23,6 +23,8 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_ProjectLine;
+import org.adempiere.core.domains.models.X_C_ProjectPhase;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 

@@ -32,8 +32,11 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_DocType;
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_DD_OrderLine;
+import org.adempiere.core.domains.models.X_DD_Order;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_DocType;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MDocType;
@@ -55,7 +58,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.distribution.process.GenerateMovement;
 import org.eevolution.distribution.process.GenerateMovementMaterial;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  *  Order Distribution Model.

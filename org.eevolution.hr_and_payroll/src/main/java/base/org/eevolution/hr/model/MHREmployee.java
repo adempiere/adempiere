@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_Employee;
+import org.adempiere.core.domains.models.X_I_HR_Employee;
 import org.compiere.model.MBPartner;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Period;
+import org.adempiere.core.domains.models.X_C_Period;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;

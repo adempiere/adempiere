@@ -20,6 +20,7 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_ProjectStatus;
 import org.compiere.util.CCache;
 
 

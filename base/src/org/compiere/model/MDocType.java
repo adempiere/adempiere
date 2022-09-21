@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.X_C_DocType;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

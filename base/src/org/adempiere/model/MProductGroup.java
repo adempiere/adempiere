@@ -19,7 +19,7 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_M_Product_Group;
+import org.adempiere.core.domains.models.X_M_Product_Group;
 
 public class MProductGroup extends X_M_Product_Group {
 

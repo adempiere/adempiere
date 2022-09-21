@@ -61,7 +61,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
-import org.spin.authentication.service.OpenIDUtil;
+import org.spin.authentication.services.OpenIDUtil;
 import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
 import org.zkoss.zhtml.Div;

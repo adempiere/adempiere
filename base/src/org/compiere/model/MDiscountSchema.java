@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_DiscountSchemaBreak;
+import org.adempiere.core.domains.models.I_M_DiscountSchemaLine;
+import org.adempiere.core.domains.models.X_M_DiscountSchema;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;

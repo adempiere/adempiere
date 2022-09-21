@@ -23,7 +23,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MUOM;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductBOM;
 
 public class TreeBOM {
 

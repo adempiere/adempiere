@@ -17,9 +17,9 @@
 package org.adempiere.pos;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.service.POSScalesPanelInterface;
-import org.adempiere.pos.service.driver.POSScalesDriverInterface;
-import org.adempiere.pos.service.driver.POSScalesDriver;
+import org.adempiere.pos.services.POSScalesPanelInterface;
+import org.adempiere.pos.services.driver.POSScalesDriverInterface;
+import org.adempiere.pos.services.driver.POSScalesDriver;
 import org.compiere.apps.ADialog;
 import org.compiere.swing.CButton;
 

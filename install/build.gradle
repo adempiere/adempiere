@@ -1,0 +1,105 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+dependencies {
+    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
+
+def entityType = 'D'
+version = "3.9.4-develop-1.0"
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Install",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'install'
+            version
+           	from components.java
+           	pom {
+                name = 'Install'
+                description = 'Manage all related with ADempiere install.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}

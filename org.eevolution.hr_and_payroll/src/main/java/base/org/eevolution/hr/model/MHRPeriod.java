@@ -5,6 +5,8 @@ package org.eevolution.hr.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.X_HR_Period;
 import org.compiere.util.CCache;
 
 /**

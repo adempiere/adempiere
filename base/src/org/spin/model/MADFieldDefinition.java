@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import org.compiere.util.Env;
-
+import org.adempiere.core.domains.models.I_AD_FieldCondition;
+import org.adempiere.core.domains.models.X_AD_FieldDefinition;
 import org.compiere.model.Query;
 
 /**

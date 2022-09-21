@@ -19,6 +19,7 @@ package org.spin.queue.notification.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_NotificationUpdates;
 import org.spin.queue.notification.util.UpdateHandlerUtil;
 
 /**

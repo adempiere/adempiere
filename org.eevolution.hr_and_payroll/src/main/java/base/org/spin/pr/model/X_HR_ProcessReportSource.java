@@ -21,7 +21,7 @@ package org.spin.pr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.core.api.I_HR_ProcessReportSource;
+import org.adempiere.core.domains.models.I_HR_ProcessReportSource;
 import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportSource

@@ -17,10 +17,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_PInstance_Log;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPInstanceLog;
 import org.compiere.model.MQuery;
-import org.compiere.model.X_AD_PInstance_Log;
 import org.compiere.print.MPrintTableFormat;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;

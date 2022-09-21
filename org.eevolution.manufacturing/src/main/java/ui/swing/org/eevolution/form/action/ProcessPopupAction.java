@@ -27,7 +27,7 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.ProcessModalDialog;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.process.ProcessInfoHandler;
+import org.eevolution.manufacturing.process.ProcessInfoHandler;
 import org.eevolution.tools.swing.SwingTool;
 
 /**

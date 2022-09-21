@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.List;
+
+import org.adempiere.core.domains.models.X_C_POS;
 import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 

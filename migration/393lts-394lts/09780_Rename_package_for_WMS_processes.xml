@@ -41,7 +41,7 @@
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="376" Action="U" Record_ID="53029" Table="AD_Form">
-        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.eevolution.form.VExpressReceiptScanBarUI">org.eevolution.wms.service.VExpressReceiptScanBarUI</Data>
+        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.eevolution.form.VExpressReceiptScanBarUI">org.eevolution.wms.form.VExpressReceiptScanBarUI</Data>
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="100" StepType="SQL">

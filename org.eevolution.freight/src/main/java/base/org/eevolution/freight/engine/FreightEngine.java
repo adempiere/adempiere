@@ -16,8 +16,8 @@
 
 package org.eevolution.freight.engine;
 
+import org.adempiere.core.domains.models.I_M_Shipper;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_Shipper;
 import org.compiere.model.MOrder;
 import org.compiere.util.CLogger;
 

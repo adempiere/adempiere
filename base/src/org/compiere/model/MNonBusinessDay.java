@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_NonBusinessDay;
+
 /** Generated Model for C_NonBusinessDay
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */

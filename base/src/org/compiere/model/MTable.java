@@ -32,6 +32,10 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Column;
+import org.adempiere.core.domains.models.X_AD_Table;
+import org.adempiere.core.domains.models.X_AD_WF_Node;
+import org.adempiere.core.domains.models.X_AD_Workflow;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.GenericPO;
 import org.compiere.util.CCache;
@@ -339,7 +343,14 @@ public class MTable extends X_AD_Table
 			s_classCache.put(tableName, clazz);
 			return clazz;
 		}
-
+		
+		//	Default As domain models
+		clazz = getPOclass("org.adempiere.core.domains.models.X_" + tableName, tableName);
+		if (clazz != null)
+		{
+			s_classCache.put(tableName, clazz);
+			return clazz;
+		}
 		//Object.class to indicate no PO class for tableName
 		s_classCache.put(tableName, Object.class);
 		return null;

@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_View_Column;
+import org.adempiere.core.domains.models.X_AD_View;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;

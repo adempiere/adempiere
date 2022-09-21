@@ -16,8 +16,9 @@ package org.adempiere.pos;
 
 import java.text.DecimalFormat;
 
+import org.adempiere.core.domains.models.I_C_Order;
 import org.adempiere.pos.search.WQueryBPartner;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -25,7 +26,6 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerInfo;
 import org.compiere.model.MPOSKey;

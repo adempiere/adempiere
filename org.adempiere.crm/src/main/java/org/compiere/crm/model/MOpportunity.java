@@ -20,7 +20,8 @@ package org.compiere.crm.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.I_C_Order;
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.X_C_Opportunity;
 
 public class MOpportunity extends X_C_Opportunity {
 

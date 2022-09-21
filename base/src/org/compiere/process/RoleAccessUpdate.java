@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
+import org.adempiere.core.domains.models.I_AD_Role;
 import org.compiere.Adempiere;
-import org.compiere.model.I_AD_Role;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * Update Role Access

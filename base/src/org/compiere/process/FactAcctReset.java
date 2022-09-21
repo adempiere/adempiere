@@ -25,9 +25,18 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Table;
+import org.adempiere.core.domains.models.I_A_Asset_Addition;
+import org.adempiere.core.domains.models.I_A_Asset_Disposed;
+import org.adempiere.core.domains.models.I_A_Depreciation_Entry;
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.X_M_Production;
+import org.adempiere.core.domains.models.X_M_ProductionBatch;
+import org.adempiere.core.domains.models.X_PP_Cost_Collector;
+import org.adempiere.core.domains.models.X_PP_Order;
 import org.compiere.acct.Doc;
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
@@ -47,14 +56,9 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Production;
-import org.compiere.model.X_M_ProductionBatch;
 import org.compiere.util.DB;
-import org.compiere.util.RefactoryUtil;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
-import org.eevolution.model.X_PP_Cost_Collector;
-import org.eevolution.model.X_PP_Order;
 
 /**
  * Accounting Fact Reset
@@ -335,17 +339,17 @@ public class FactAcctReset extends FactAcctResetAbstract {
                     + "','" + MPeriodControl.DOCBASETYPE_QualityOrder + "')";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "IN ('" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "')";
-        else if (tableId == RefactoryUtil.DD_Order_Table_ID)
+        else if (tableId == I_DD_Order.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_DistributionOrder + "'";
-        else if (tableId == RefactoryUtil.HR_Process_Table_ID)
+        else if (tableId == I_HR_Process.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_Payroll + "'";
         else if (tableId == X_PP_Cost_Collector.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingCostCollector + "'";
-        else if (tableId == RefactoryUtil.A_Asset_Addition_Table_ID)
+        else if (tableId == I_A_Asset_Addition.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsAddition + "'";
-        else if (tableId == RefactoryUtil.A_Depreciation_Entry_Table_ID)
+        else if (tableId == I_A_Depreciation_Entry.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsDisposal + "'";
-        else if (tableId == RefactoryUtil.A_Asset_Disposed_Table_ID)
+        else if (tableId == I_A_Asset_Disposed.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_FixedAssetsDepreciation + "'";
         else if (tableId == X_M_ProductionBatch.Table_ID)
             docBaseType = "= '" + MPeriodControl.DOCBASETYPE_ManufacturingPlannedOrder + "'";

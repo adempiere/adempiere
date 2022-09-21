@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.compiere.production.model.MReplenishPlan;
+import org.adempiere.core.domains.models.X_AD_PrintFormatItem;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.util.DB;

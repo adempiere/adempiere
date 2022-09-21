@@ -22,6 +22,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_ValidCombination;
+import org.adempiere.core.domains.models.X_C_Activity;
+import org.adempiere.core.domains.models.X_C_BPartner;
+import org.adempiere.core.domains.models.X_C_Campaign;
+import org.adempiere.core.domains.models.X_C_Project;
+import org.adempiere.core.domains.models.X_C_SubAcct;
+import org.adempiere.core.domains.models.X_C_ValidCombination;
+import org.adempiere.core.domains.models.X_Fact_Acct;
+import org.adempiere.core.domains.models.X_M_Product;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 

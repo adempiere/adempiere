@@ -20,6 +20,8 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_R_NoticeTemplateEvent;
+
 /**
  * 	Notice by Event
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com

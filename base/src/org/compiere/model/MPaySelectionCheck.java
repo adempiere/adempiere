@@ -25,6 +25,11 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_PaySelection;
+import org.adempiere.core.domains.models.I_C_PaySelectionCheck;
+import org.adempiere.core.domains.models.X_C_Order;
+import org.adempiere.core.domains.models.X_C_PaySelectionCheck;
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;

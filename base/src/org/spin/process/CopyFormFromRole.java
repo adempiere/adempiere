@@ -20,11 +20,11 @@ package org.spin.process;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Form_Access;
+import org.adempiere.core.domains.models.X_AD_Form_Access;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Form_Access;
 import org.compiere.model.MForm;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Form_Access;
 
 /** 
  * 	Generated Process for (Copy Forms From Role)

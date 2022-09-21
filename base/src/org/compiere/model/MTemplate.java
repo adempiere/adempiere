@@ -24,6 +24,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_CM_Template;
 import org.compiere.util.DB;
 
 /**

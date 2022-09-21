@@ -42,6 +42,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.X_PP_MRP;
+import org.adempiere.core.domains.models.X_PP_Product_Planning;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
@@ -60,7 +63,6 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -84,11 +86,9 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPProductPlanning;
-import org.eevolution.model.X_PP_MRP;
-import org.eevolution.model.X_PP_Product_Planning;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
 
 /**
  * VMRPDetailed

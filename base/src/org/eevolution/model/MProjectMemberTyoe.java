@@ -3,6 +3,8 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_ProjectMemberType;
+
 public class MProjectMemberTyoe extends X_C_ProjectMemberType{
     public MProjectMemberTyoe(Properties ctx, int C_ProjectMemberType_ID, String trxName) {
         super(ctx, C_ProjectMemberType_ID, trxName);

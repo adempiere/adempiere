@@ -19,8 +19,8 @@ package org.spin.process;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 

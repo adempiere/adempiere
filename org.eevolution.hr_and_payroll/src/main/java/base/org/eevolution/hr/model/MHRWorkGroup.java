@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_HR_WorkGroup;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

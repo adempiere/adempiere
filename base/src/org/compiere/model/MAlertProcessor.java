@@ -21,6 +21,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Alert;
+import org.adempiere.core.domains.models.I_AD_AlertProcessor;
+import org.adempiere.core.domains.models.I_AD_AlertProcessorLog;
+import org.adempiere.core.domains.models.X_AD_AlertProcessor;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

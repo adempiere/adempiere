@@ -19,6 +19,8 @@ package org.eevolution.distribution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_DD_NetworkDistributionLine;
+
 /**
  * Network Distribution
  * @author Victor Perez,e-Evolution,SC

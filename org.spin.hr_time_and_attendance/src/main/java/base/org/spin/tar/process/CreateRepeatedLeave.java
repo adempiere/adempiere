@@ -22,9 +22,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.adempiere.core.api.I_HR_LeaveAssign;
-import org.adempiere.core.api.I_HR_LeaveReason;
-import org.adempiere.core.api.I_HR_LeaveType;
+import org.adempiere.core.domains.models.I_HR_LeaveAssign;
+import org.adempiere.core.domains.models.I_HR_LeaveReason;
+import org.adempiere.core.domains.models.I_HR_LeaveType;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.DisplayType;

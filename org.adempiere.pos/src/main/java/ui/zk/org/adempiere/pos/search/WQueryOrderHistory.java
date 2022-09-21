@@ -26,7 +26,7 @@ import java.util.Properties;
 import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPOSTextField;
-import org.adempiere.pos.service.POSQueryInterface;
+import org.adempiere.pos.services.POSQueryInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;

@@ -19,6 +19,8 @@ package org.eevolution.hr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_JobOpening;
+
 /**
  * Created victor.perez@e-evolution.com, by e-Evolution on 04/12/13.
  */

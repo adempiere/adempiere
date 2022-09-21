@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_RfQ_TopicSubscriberOnly;
+
 
 /**
  *	Subcriber Topic Only List (positive - i.e. must be a match if exists)

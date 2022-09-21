@@ -19,7 +19,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * Test case for Workflow with transaction

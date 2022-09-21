@@ -24,9 +24,9 @@ import java.util.logging.Level;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.adempiere.core.domains.models.X_AD_Package_Imp_Proc;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
-import org.compiere.model.X_AD_Package_Imp_Proc;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

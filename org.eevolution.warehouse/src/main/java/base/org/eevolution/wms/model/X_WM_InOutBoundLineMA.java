@@ -21,6 +21,9 @@ package org.eevolution.wms.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
+import org.adempiere.core.domains.models.I_WM_InOutBoundLineMA;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
@@ -102,9 +105,9 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.

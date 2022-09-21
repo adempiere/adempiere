@@ -17,12 +17,12 @@ package org.eevolution.hr.acct;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.X_HR_Concept_Acct;
 import org.compiere.acct.DocLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
-import org.eevolution.hr.model.X_HR_Concept_Acct;
 
 /**
  *  Payroll Line

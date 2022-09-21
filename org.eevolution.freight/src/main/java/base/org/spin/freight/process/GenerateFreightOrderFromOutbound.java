@@ -17,9 +17,9 @@
 
 package org.spin.freight.process;
 
+import org.adempiere.core.domains.models.I_DD_Freight;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClientInfo;
-import org.eevolution.distribution.model.I_DD_Freight;
 import org.eevolution.distribution.model.MDDFreight;
 import org.eevolution.distribution.model.MDDFreightLine;
 import org.eevolution.wms.model.MWMInOutBound;

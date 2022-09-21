@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_BankAccountDoc;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 

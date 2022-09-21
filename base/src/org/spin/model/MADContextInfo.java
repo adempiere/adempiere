@@ -27,7 +27,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.I_AD_Field;
+import org.adempiere.core.domains.models.I_AD_Field;
+import org.adempiere.core.domains.models.X_AD_ContextInfo;
 import org.compiere.model.MField;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

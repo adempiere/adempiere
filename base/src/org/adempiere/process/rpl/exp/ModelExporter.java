@@ -29,11 +29,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.X_AD_ReplicationTable;
 import org.compiere.Adempiere;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.ModelValidator;
-import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;

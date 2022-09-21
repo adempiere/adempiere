@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.I_DD_Freight;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MDocType;
@@ -28,7 +29,6 @@ import org.compiere.model.MFreight;
 import org.compiere.model.MFreightCategory;
 import org.compiere.model.MPackage;
 import org.compiere.util.Env;
-import org.eevolution.distribution.model.I_DD_Freight;
 import org.eevolution.distribution.model.MDDFreight;
 import org.eevolution.distribution.model.MDDFreightLine;
 

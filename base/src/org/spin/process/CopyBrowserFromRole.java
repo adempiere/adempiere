@@ -20,11 +20,11 @@ package org.spin.process;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Browse_Access;
+import org.adempiere.core.domains.models.I_AD_Process_Access;
+import org.adempiere.core.domains.models.X_AD_Browse_Access;
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.model.I_AD_Browse_Access;
 import org.adempiere.model.MBrowse;
-import org.adempiere.model.X_AD_Browse_Access;
-import org.compiere.model.I_AD_Process_Access;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessAccess;
 import org.compiere.model.Query;

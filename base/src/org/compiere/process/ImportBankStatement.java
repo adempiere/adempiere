@@ -22,12 +22,12 @@ import java.sql.ResultSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import org.compiere.model.I_I_BankStatement;
+import org.adempiere.core.domains.models.I_I_BankStatement;
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.Query;
-import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;

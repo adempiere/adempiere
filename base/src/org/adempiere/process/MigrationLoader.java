@@ -22,9 +22,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Client;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
-import org.compiere.model.I_AD_Client;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.process.MigrationFromXML;
@@ -36,7 +36,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Util;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 public class MigrationLoader {
 	

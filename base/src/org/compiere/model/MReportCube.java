@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_PA_ReportCube;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.DB;

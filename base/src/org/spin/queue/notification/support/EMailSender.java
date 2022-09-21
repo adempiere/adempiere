@@ -18,11 +18,11 @@ package org.spin.queue.notification.support;
 
 import java.util.Arrays;
 
+import org.adempiere.core.domains.models.X_AD_UserMail;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
 import org.compiere.model.MEMailConfig;
 import org.compiere.model.MUser;
-import org.compiere.model.X_AD_UserMail;
 import org.compiere.model.MOrg;
 import org.compiere.model.MOrgInfo;
 import org.compiere.util.CLogger;

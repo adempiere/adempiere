@@ -24,9 +24,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_PP_Product_BOM;
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
@@ -45,6 +48,7 @@ import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.MValRule;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CEditor;
@@ -54,8 +58,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
 /**
  * A controller class for the BOM Drop functionality.  The BOM Drop provides a
@@ -141,7 +143,7 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 		public int m_product_id;
 		public BigDecimal qty;
 		public int c_uom_id;
-		public MPPProductBOMLine bomLine;
+		public X_PP_Product_BOMLine bomLine;
 		public String name;
 		public CEditor checkEditor;
 		public CEditor qtyEditor;
@@ -597,7 +599,7 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 		if (index >= 0)
 		{
 			//  Ignore changes from component items
-			if (MPPProductBOMLine.COMPONENTTYPE_Component.equals(selectionList.get(index).bomLine.getComponentType()))
+			if (X_PP_Product_BOMLine.COMPONENTTYPE_Component.equals(selectionList.get(index).bomLine.getComponentType()))
 			{
 				editor.setValue(true);  // Has to be selected
 				if (isSwing)
@@ -851,30 +853,88 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 		if (product == null)
 			return;
 		
-		MPPProductBOM bom = MPPProductBOM.getDefault(product, null);
-		MPPProductBOMLine[] bomLines = bom.getLines(true);
-		for (int i = 0; i < bomLines.length; i++)
-		{
-			addBOMLine (product.getM_Product_ID(), bomLines[i], qty, baseQty);
-		}
-		
-		log.fine("#" + bomLines.length);
+		X_PP_Product_BOM bom = getDefaultProductBom(product, null);
+		getProductBomLines(bom.getPP_Product_BOM_ID()).forEach(productBomLineId -> {
+			X_PP_Product_BOMLine productBomLine = new X_PP_Product_BOMLine(Env.getCtx(), productBomLineId, null);
+			addBOMLine (product.getM_Product_ID(), productBomLine, qty, baseQty);
+		});
 	}	//	addBOMLines
 
+	/**
+	 * 	Get BOM Lines for Product BOM
+	 * 	@return BOM Lines
+	 */
+	private List<Integer> getProductBomLines(int productBomId) {
+		return new Query(Env.getCtx(), X_PP_Product_BOMLine.Table_Name, X_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?", null)
+				.setParameters(productBomId)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(X_PP_Product_BOMLine.COLUMNNAME_Line)
+				.getIDsAsList();
+	}	//	getLines
+	
+	/**
+	 * Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value) 
+	 * @param product
+	 * @param trxName
+	 * @return product BOM
+	 */
+	private X_PP_Product_BOM getDefaultProductBom(MProduct product, String trxName) {
+		return (X_PP_Product_BOM) new Query(product.getCtx(), X_PP_Product_BOM.Table_Name, "M_Product_ID=? AND Value=?", trxName)
+				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()}).setOnlyActiveRecords(true)
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
+				.first();
+	}
+	
+	/**
+	 * Return absolute (unified) quantity value.
+	 * If IsQtyPercentage then QtyBatch / 100 will be returned.
+	 * Else QtyBOM will be returned.
+	 * @param includeScrapQty if true, scrap qty will be used for calculating qty 
+	 * @return qty
+	 */
+	private BigDecimal getQty(X_PP_Product_BOMLine line, boolean includeScrapQty) {
+		int precision = MUOM.getPrecision(line.getCtx(), line.getC_UOM_ID());
+		BigDecimal qty;
+		if (line.isQtyPercentage())
+		{
+			precision += 2;
+			qty = line.getQtyBatch().divide(Env.ONEHUNDRED, precision, RoundingMode.HALF_UP);
+		}
+		else
+		{
+			qty = line.getQtyBOM();
+		}
+		//
+		if (includeScrapQty)
+		{
+			BigDecimal scrapDec = line.getScrap().divide(Env.ONEHUNDRED, 12, RoundingMode.UP);
+			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, RoundingMode.UP);
+		}
+		//
+		if (qty.scale() > precision)
+		{
+			qty = qty.setScale(precision, RoundingMode.HALF_UP);
+		}
+		//
+		return qty;
+	}
+	
 	/**
 	 * 	Add a BOM Line to the selection list or, if Explode BOM is selected, explode the 
 	 *  line if it represents a BOM itself.
 	 * 	@param bomLines BOM Line
 	 * 	@param qty quantity
 	 */
-	private void addBOMLine (int parentProductID, MPPProductBOMLine line, BigDecimal qty, BigDecimal baseQty)
+	private void addBOMLine (int parentProductID, X_PP_Product_BOMLine line, BigDecimal qty, BigDecimal baseQty)
 	{
 		log.info(line.toString());
 		String bomType = line.getComponentType();
 		String itemType = null;
 		//
-		BigDecimal lineQty = line.getQty();
-		MProduct product = line.getProduct();
+		BigDecimal lineQty = getQty(line, false);
+		MProduct product = MProduct.get(line.getCtx(), line.getM_Product_ID());
 		if (product == null)
 			return;
 		
@@ -889,12 +949,12 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 		}
 		else 
 		{
-			if (MPPProductBOMLine.COMPONENTTYPE_Component.equals(bomType)
-				|| MPPProductBOMLine.COMPONENTTYPE_Option.equals(bomType))
+			if (X_PP_Product_BOMLine.COMPONENTTYPE_Component.equals(bomType)
+				|| X_PP_Product_BOMLine.COMPONENTTYPE_Option.equals(bomType))
 			{
 				itemType = BOMDropForm.ITEMTYPE_CHECK;
 			}
-			else if (MPPProductBOMLine.COMPONENTTYPE_Variant.equals(bomType))
+			else if (X_PP_Product_BOMLine.COMPONENTTYPE_Variant.equals(bomType))
 			{
 				itemType = BOMDropForm.ITEMTYPE_RADIO;
 			}
@@ -910,8 +970,8 @@ public class BOMDropController implements ValueChangeListener, VetoableChangeLis
 				selection.parentProductID = parentProductID;
 				selection.feature = line.getFeature();
 				selection.name = product.getName();
-				selection.baseQty = line.getQty().multiply(baseQty);
-				BigDecimal displayedQty = line.getQty().multiply(qty).setScale(MUOM.getPrecision(ctx, line.getC_UOM_ID()), RoundingMode.HALF_UP);
+				selection.baseQty = getQty(line, false).multiply(baseQty);
+				BigDecimal displayedQty = getQty(line, false).multiply(qty).setScale(MUOM.getPrecision(ctx, line.getC_UOM_ID()), RoundingMode.HALF_UP);
 				selection.qty = displayedQty;
 				
 				selectionList.add(selection);

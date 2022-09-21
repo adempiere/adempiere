@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_ProjectIssue;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

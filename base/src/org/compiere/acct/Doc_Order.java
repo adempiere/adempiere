@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClientInfo;

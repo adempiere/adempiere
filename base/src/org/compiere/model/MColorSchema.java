@@ -22,6 +22,7 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_PA_ColorSchema;
 import org.compiere.print.MPrintColor;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

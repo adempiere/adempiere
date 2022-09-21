@@ -6,6 +6,7 @@ package org.eevolution.hr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_Concept_Category;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

@@ -22,7 +22,7 @@ import org.compiere.model.MUOM;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.tools.worker.SingleWorker;
+import org.eevolution.manufacturing.tools.worker.SingleWorker;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;

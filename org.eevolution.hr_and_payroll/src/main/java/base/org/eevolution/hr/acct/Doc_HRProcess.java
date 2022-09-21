@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.adempiere.core.api.I_HR_Movement;
+import org.adempiere.core.domains.models.I_HR_Movement;
+import org.adempiere.core.domains.models.X_HR_Concept_Acct;
 import org.compiere.acct.Doc;
 import org.compiere.acct.DocLine;
 import org.compiere.acct.Fact;
@@ -36,7 +37,6 @@ import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRPayroll;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.hr.model.X_HR_Concept_Acct;
 
 
 /**
