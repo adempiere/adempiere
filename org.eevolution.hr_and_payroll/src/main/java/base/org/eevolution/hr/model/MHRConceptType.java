@@ -15,6 +15,7 @@
  *****************************************************************************/
 package org.eevolution.hr.model;
 
+import org.adempiere.core.domains.models.X_HR_Concept_Type;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

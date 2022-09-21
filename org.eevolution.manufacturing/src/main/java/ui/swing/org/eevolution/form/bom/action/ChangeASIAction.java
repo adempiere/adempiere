@@ -26,7 +26,7 @@ import org.compiere.model.MProduct;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.form.action.ProcessPopupAction;
-import org.eevolution.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
 
 
 /**

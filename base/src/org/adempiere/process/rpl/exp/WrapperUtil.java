@@ -16,12 +16,12 @@ package org.adempiere.process.rpl.exp;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Client;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.IExportProcessorAsWrapper;
 import org.adempiere.process.rpl.IExportProcessorDefinition;
 import org.adempiere.util.rpl.EntityWrapper;
 import org.adempiere.util.rpl.EntityWrapperFactory;
-import org.compiere.model.I_AD_Client;
 import org.compiere.model.MClient;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPProcessor;

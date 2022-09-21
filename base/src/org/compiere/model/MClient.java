@@ -30,6 +30,10 @@ import java.util.logging.Level;
 
 import javax.mail.internet.InternetAddress;
 
+import org.adempiere.core.domains.models.I_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Tree;
+import org.adempiere.core.domains.models.X_AD_UserMail;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.CCache;

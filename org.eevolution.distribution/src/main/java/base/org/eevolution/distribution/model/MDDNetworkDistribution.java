@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_DD_NetworkDistribution;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 

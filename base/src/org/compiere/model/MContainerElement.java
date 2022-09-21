@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_CM_Container_Element;
 import org.compiere.util.CLogger;
 
 /**

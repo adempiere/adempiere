@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
-import org.adempiere.core.api.I_HR_Attribute;
-import org.adempiere.core.api.I_HR_Concept;
+import org.adempiere.core.domains.models.I_HR_Attribute;
+import org.adempiere.core.domains.models.I_HR_Concept;
+import org.adempiere.core.domains.models.X_HR_Attribute;
+import org.adempiere.core.domains.models.X_I_HR_Attribute;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.Env;

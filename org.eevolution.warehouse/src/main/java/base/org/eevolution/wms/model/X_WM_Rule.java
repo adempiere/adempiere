@@ -20,6 +20,8 @@ package org.eevolution.wms.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_WM_Rule;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -75,9 +77,9 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Rule getAD_Rule() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Rule.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Rule)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Rule.Table_Name)
 			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.

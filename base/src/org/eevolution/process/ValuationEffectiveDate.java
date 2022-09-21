@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.compiere.model.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Product;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;

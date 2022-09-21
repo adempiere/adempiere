@@ -23,7 +23,7 @@
   <property name="test.results.dir" value="test/test_results"/>
   <property name="base.test.build.dir" value="../base/test/build"/>
   <property name="base.build.dir" value="../base/build"/>
-  <property name="distribution.build.dir" value="../org.eevolution.distribution/build"/>
+  <!--<property name="distribution.build.dir" value="../org.eevolution.distribution/build"/>-->
 
   <path id="compile.classpath">
     <pathelement location="${basedir}/build"/>

@@ -19,14 +19,14 @@ package org.spin.tar.process;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.X_HR_Incidence;
+import org.adempiere.core.domains.models.X_S_TimeExpense;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MTimeExpense;
 import org.compiere.model.MTimeExpenseLine;
-import org.compiere.model.X_S_TimeExpense;
 import org.compiere.util.Util;
 import org.spin.tar.model.MHRIncidence;
 import org.spin.tar.model.MHRShiftIncidence;
-import org.spin.tar.model.X_HR_Incidence;
 
 /** Generated Process for (Create Expense Report (From Incidence))
  *  @author ADempiere (generated) 

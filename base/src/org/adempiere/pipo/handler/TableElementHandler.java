@@ -22,16 +22,16 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_Sequence;
+import org.adempiere.core.domains.models.I_AD_Table;
+import org.adempiere.core.domains.models.I_AD_Table_Process;
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
+import org.adempiere.core.domains.models.X_AD_Table_Process;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Sequence;
-import org.compiere.model.I_AD_Table;
-import org.compiere.model.I_AD_Table_Process;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Table_Process;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 

@@ -15,8 +15,8 @@ package org.adempiere.exceptions;
 
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.X_C_DocType;
 import org.compiere.model.MRefList;
-import org.compiere.model.X_C_DocType;
 import org.compiere.util.Env;
 
 /**

@@ -22,6 +22,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_CM_CStage;
+import org.adempiere.core.domains.models.X_CM_CStageTTable;
+import org.adempiere.core.domains.models.X_CM_CStage_Element;
+import org.adempiere.core.domains.models.X_CM_Template;
+import org.adempiere.core.domains.models.X_CM_TemplateTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;

@@ -2,8 +2,8 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+
+
 
 repositories {
     mavenLocal()
@@ -25,7 +25,8 @@ dependencies {
         'SuperCSV-with_src-1.52.jar'
         ]
     )
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    api project(path: ':base')
+    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
@@ -47,9 +48,13 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
-}
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
 
 def entityType = 'D'
 version = "3.9.4-develop-1.0"
@@ -67,8 +72,8 @@ publishing {
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
-                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
             }
         }
     }
@@ -106,5 +111,8 @@ publishing {
 }
 
 signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
 }

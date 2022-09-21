@@ -21,13 +21,18 @@ import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_DD_OrderLine;
+import org.adempiere.core.domains.models.I_T_DistributionRunDetail;
+import org.adempiere.core.domains.models.X_DD_Order;
+import org.adempiere.core.domains.models.X_DD_OrderLine;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_T_DistributionRunDetail;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MDistributionRun;
 import org.compiere.model.MDistributionRunDetail;
 import org.compiere.model.MDistributionRunLine;
@@ -40,12 +45,10 @@ import org.compiere.model.MOrgInfo;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTable;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.compiere.util.RefactoryUtil;
 
 /**
  *	Create Distribution	
@@ -774,19 +777,19 @@ public class DistributionRun extends SvrProcess
 			{
 				MDistributionRunDetail detail = m_details[i];
 				
-				PO distributionOrderLine = new Query(getCtx(), RefactoryUtil.DD_OrderLine_Table_Name, "M_Product_ID = ? AND DatePromised <= ?"
+				X_DD_OrderLine distributionOrderLine = new Query(getCtx(), I_DD_OrderLine.Table_Name, "M_Product_ID = ? AND DatePromised <= ?"
 						+ " AND EXISTS(SELECT 1 FROM DD_Order o WHERE o.DD_Order_ID = DD_OrderLine.DD_Order_ID AND o.DocStatus IN('DR','IN') AND o.C_BPartner_ID = ?)"
 						+ " AND EXISTS(SELECT 1 FROM M_Locator l WHERE l.M_Locator_ID = DD_OrderLine.M_Locator_ID AND l.M_Warehouse_ID = ?)", get_TrxName())
 				.setParameters(detail.getM_Product_ID(), p_DatePromised, detail.getC_BPartner_ID(), M_Warehouse_ID)
 				.first();
 				if(distributionOrderLine != null) {
 					distributionOrderLine.set_ValueOfColumn("M_Product_ID", detail.getM_Product_ID());
-					BigDecimal targetQuantity = Optional.ofNullable((BigDecimal) distributionOrderLine.get_Value("TargetQty")).orElse(Env.ZERO);
-					distributionOrderLine.set_ValueOfColumn("ConfirmedQty", targetQuantity.add(detail.getActualAllocation()));
+					BigDecimal targetQuantity = Optional.ofNullable(distributionOrderLine.getTargetQty()).orElse(Env.ZERO);
+					distributionOrderLine.setConfirmedQty(targetQuantity.add(detail.getActualAllocation()));
 	 	   			if(p_M_Warehouse_ID > 0) {
-	 	   				distributionOrderLine.set_ValueOfColumn("Description", Msg.translate(getCtx(), "PlannedQty"));
+	 	   				distributionOrderLine.setDescription(Msg.translate(getCtx(), "PlannedQty"));
 	 	   			} else {
-	 	   				distributionOrderLine.set_ValueOfColumn("Description", m_run.getName());
+	 	   				distributionOrderLine.setDescription(m_run.getName());
 	 	   			}
 	 	   			distributionOrderLine.saveEx();
 				}
@@ -815,7 +818,7 @@ public class DistributionRun extends SvrProcess
 			+ ",C_BPartner_ID=" + runC_BPartner_ID + "," + runBPartner);
 		//
 		MBPartner bp = null;
-		PO singleOrder = null;
+		X_DD_Order singleOrder = null;
 		MProduct product = null;
 		
 		MWarehouse 	 m_source = null;
@@ -847,27 +850,23 @@ public class DistributionRun extends SvrProcess
 			//
 			if (!p_IsTest)
 			{
-				singleOrder = RefactoryUtil.getDistributionOrder(getCtx(), 0, get_TrxName());
-				singleOrder.set_ValueOfColumn("C_DocType_ID", m_docType.getC_DocType_ID());
-				singleOrder.set_ValueOfColumn("IsSOTrx", m_docType.isSOTrx());
-				RefactoryUtil.setBusinessPartner(singleOrder, bp);
+				singleOrder = new X_DD_Order(getCtx(), 0, get_TrxName());
+				singleOrder.setC_DocType_ID(m_docType.getC_DocType_ID());
+				singleOrder.setIsSOTrx(m_docType.isSOTrx());
+				setBusinessPartner(singleOrder, bp);
 				if (m_run.getC_BPartner_Location_ID() != 0)
-					singleOrder.set_ValueOfColumn("C_BPartner_Location_ID", m_run.getC_BPartner_Location_ID());
-				singleOrder.set_ValueOfColumn("DateOrdered", m_DateOrdered);
-				singleOrder.set_ValueOfColumn("DatePromised", p_DatePromised);
-				singleOrder.set_ValueOfColumn("M_Warehouse_ID", ws[0].getM_Warehouse_ID());
-				if (!singleOrder.save())
-				{
-					log.log(Level.SEVERE, "Order not saved");
-					return false;
-				}
+					singleOrder.setC_BPartner_Location_ID(m_run.getC_BPartner_Location_ID());
+				singleOrder.setDateOrdered(m_DateOrdered);
+				singleOrder.setDatePromised(p_DatePromised);
+				singleOrder.setM_Warehouse_ID(ws[0].getM_Warehouse_ID());
+				singleOrder.saveEx();
 				m_counter++;
 			}
 		}
 		
 		int lastC_BPartner_ID = 0;
 		int lastC_BPartner_Location_ID = 0;
-		PO order = null;
+		X_DD_Order order = null;
 
 		
 		//	For all lines
@@ -909,7 +908,7 @@ public class DistributionRun extends SvrProcess
 									    MOrder.COLUMNNAME_M_Warehouse_ID +"=?  AND " +
 									    MOrder.COLUMNNAME_DatePromised   +"<=? ";
 				
-				order = new Query(getCtx(), MOrder.Table_Name, whereClause, get_TrxName())
+				order = (X_DD_Order) new Query(getCtx(), MOrder.Table_Name, whereClause, get_TrxName())
 							.setParameters(new Object[]{lastC_BPartner_ID, ws[0].getM_Warehouse_ID(), p_DatePromised})
 							.setOrderBy(MOrder.COLUMNNAME_DatePromised +" DESC")
 							.first();
@@ -920,10 +919,9 @@ public class DistributionRun extends SvrProcess
 			{
 				if (!p_IsTest)
 				{
-					order = RefactoryUtil.getDistributionOrder(getCtx(), 0, get_TrxName());
+					order = new X_DD_Order(getCtx(), 0, get_TrxName());
 					order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-					order.set_ValueOfColumn("C_DocType_ID", order);
-					order.set_ValueOfColumn("IsSOTrx", m_docType.isSOTrx());					
+					order.setIsSOTrx(m_docType.isSOTrx());					
 
 					//	Counter Doc
 					if (counter && bp.getAD_OrgBP_ID_Int() > 0)
@@ -932,28 +930,24 @@ public class DistributionRun extends SvrProcess
 							+ "-" + bp + ", To_BP=" + runBPartner);
 						order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
 						if (ws[0].getM_Warehouse_ID() > 0)
-						order.set_ValueOfColumn("M_Warehouse_ID", ws[0].getM_Warehouse_ID());
-						RefactoryUtil.setBusinessPartner(order, runBPartner);
+						order.setM_Warehouse_ID(ws[0].getM_Warehouse_ID());
+						setBusinessPartner(order, runBPartner);
 					}
 					else	//	normal
 					{
 						log.fine("From_Org=" + runAD_Org_ID 
 							+ ", To_BP=" + bp);
 						order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-						RefactoryUtil.setBusinessPartner(order, bp);
+						setBusinessPartner(order, bp);
 						if (detail.getC_BPartner_Location_ID() != 0)
-							order.set_ValueOfColumn("C_BPartner_Location_ID", detail.getC_BPartner_Location_ID());
+							order.setC_BPartner_Location_ID(detail.getC_BPartner_Location_ID());
 					}
-					order.set_ValueOfColumn("M_Warehouse_ID", ws[0].getM_Warehouse_ID());
-					order.set_ValueOfColumn("DateOrdered", m_DateOrdered);
-					order.set_ValueOfColumn("DatePromised", p_DatePromised);
-					order.set_ValueOfColumn("IsInDispute", false);
-					order.set_ValueOfColumn("IsInTransit", false);
-					if (!order.save())
-					{
-						log.log(Level.SEVERE, "Order not saved");
-						return false;
-					}
+					order.setM_Warehouse_ID(ws[0].getM_Warehouse_ID());
+					order.setDateOrdered(m_DateOrdered);
+					order.setDatePromised(p_DatePromised);
+					order.setIsInDispute(false);
+					order.setIsInTransit(false);
+					order.saveEx();
 				}
 			}
 			
@@ -974,41 +968,41 @@ public class DistributionRun extends SvrProcess
 				int DD_OrderLine_ID = DB.getSQLValueEx(get_TrxName(), sql, new Object[]{detail.getC_BPartner_ID(),product.getM_Product_ID(), m_locator.getM_Locator_ID(), p_DatePromised});	
 				if (DD_OrderLine_ID  <= 0)
 				{	
-					PO line = RefactoryUtil.getDistributionOrderLineInstanceFromParent(order);
+					X_DD_OrderLine line = getDistributionOrderLineInstanceFromParent(order);
 					line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-					line.set_ValueOfColumn("M_Locator_ID", m_locator.getM_Locator_ID());
-					line.set_ValueOfColumn("M_LocatorTo_ID", m_locator_to.getM_Locator_ID());
-					line.set_ValueOfColumn("IsInvoiced", false);
-					line.set_ValueOfColumn("M_Product_ID", product.getM_Product_ID());
+					line.setM_Locator_ID(m_locator.getM_Locator_ID());
+					line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
+					line.setIsInvoiced(false);
+					line.setM_Product_ID(product.getM_Product_ID());
 					BigDecimal QtyAllocation = detail.getActualAllocation();
 					if(QtyAllocation == null)
 						QtyAllocation = Env.ZERO;
 					
-					line.set_ValueOfColumn("Qty", QtyAllocation);
-					line.set_ValueOfColumn("QtyEntered", QtyAllocation);
-					//line.setTargetQty(detail.getActualAllocation());
-					line.set_ValueOfColumn("TargetQty", Env.ZERO);
+					line.setQtyEntered(QtyAllocation);
+					line.setQtyOrdered(QtyAllocation);
+					line.setTargetQty(Env.ZERO);
 					String Description ="";
 					if (m_run.getName() != null)
 						Description =Description.concat(m_run.getName());
-					line.set_ValueOfColumn("Description", Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
+					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
 					//line.setConfirmedQty(QtyAllocation);
 					line.saveEx();
 				}
 				else 
 				{
-					PO line = RefactoryUtil.getDistributionOrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
+					X_DD_OrderLine line = new X_DD_OrderLine(getCtx(), DD_OrderLine_ID, get_TrxName());		
 					BigDecimal QtyAllocation = detail.getActualAllocation();
 					if(QtyAllocation == null)
 						QtyAllocation = Env.ZERO;
-					String Description = line.get_ValueAsString("Description");
+					String Description = line.getDescription();
 					if (Description ==  null)
 						Description ="";
 					if (m_run.getName() != null)
 						Description =Description.concat(m_run.getName());
-					line.set_ValueOfColumn("Description", Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
-					BigDecimal quantityentered = Optional.ofNullable((BigDecimal) line.get_Value("QtyEntered")).orElse(Env.ZERO);
-					line.set_ValueOfColumn("Qty", quantityentered.add(QtyAllocation));
+					line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +QtyAllocation+" ");
+					BigDecimal quantityentered = Optional.ofNullable(line.getQtyEntered()).orElse(Env.ZERO);
+					line.setQtyEntered(quantityentered.add(QtyAllocation));
+					line.setQtyOrdered(quantityentered.add(QtyAllocation));
 					//line.setConfirmedQty(line.getConfirmedQty().add( QtyAllocation));
 					line.saveEx();
 				}
@@ -1016,7 +1010,7 @@ public class DistributionRun extends SvrProcess
 			else
 			{	
 				//	Create Order Line
-				PO line = RefactoryUtil.getDistributionOrderLineInstanceFromParent(order);
+				X_DD_OrderLine line = getDistributionOrderLineInstanceFromParent(order);
 				if (counter && bp.getAD_OrgBP_ID_Int() > 0)
 					;	//	don't overwrite counter doc
 				/*else	//	normal - optionally overwrite
@@ -1027,19 +1021,17 @@ public class DistributionRun extends SvrProcess
 				}*/
 				//
 				line.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-				line.set_ValueOfColumn("M_Locator_ID", m_locator.getM_Locator_ID());
-				line.set_ValueOfColumn("M_LocatorTo_ID", m_locator_to.getM_Locator_ID());
-				line.set_ValueOfColumn("IsInvoiced",false);
-				line.set_ValueOfColumn("M_Product_ID", product.getM_Product_ID());
-				line.set_ValueOfColumn("Qty", detail.getActualAllocation());
-				line.set_ValueOfColumn("QtyEntered", detail.getActualAllocation());
-				//line.setTargetQty(detail.getActualAllocation());
-				line.set_ValueOfColumn("TargetQty", Env.ZERO);
-				//line.setConfirmedQty(detail.getActualAllocation());
+				line.setM_Locator_ID(m_locator.getM_Locator_ID());
+				line.setM_LocatorTo_ID(m_locator_to.getM_Locator_ID());
+				line.setIsInvoiced(false);
+				line.setM_Product_ID(product.getM_Product_ID());
+				line.setQtyEntered(detail.getActualAllocation());
+				line.setQtyOrdered(detail.getActualAllocation());
+				line.setTargetQty(Env.ZERO);
 				String Description ="";
 				if (m_run.getName() != null)
 					Description =Description.concat(m_run.getName());
-				line.set_ValueOfColumn("Description", Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +detail.getActualAllocation()+" ");
+				line.setDescription(Description + " " +Msg.translate(getCtx(), "Qty")+ " = " +detail.getActualAllocation()+" ");
 				line.saveEx();
 				
 			}	
@@ -1049,6 +1041,76 @@ public class DistributionRun extends SvrProcess
 		//	finish order
 		order = null;
 		return true;
+	}
+	
+	/**
+	 * Set Business Partner Reference
+	 * @param referenceToSet
+	 * @param bp
+	 */
+	private void setBusinessPartner(X_DD_Order referenceToSet, MBPartner bp) {
+		if (bp == null)
+			return;
+
+		referenceToSet.setC_BPartner_ID(bp.getC_BPartner_ID());
+		//	Defaults Payment Term
+		int ii = 0;
+		if (referenceToSet.isSOTrx())
+			ii = bp.getC_PaymentTerm_ID();
+		else
+			ii = bp.getPO_PaymentTerm_ID();
+		
+		//	Default Price List
+		if (referenceToSet.isSOTrx())
+			ii = bp.getM_PriceList_ID();
+		else
+			ii = bp.getPO_PriceList_ID();
+		//	Default Delivery/Via Rule
+		String ss = bp.getDeliveryRule();
+		if (ss != null)
+			referenceToSet.setDeliveryRule(ss);
+		ss = bp.getDeliveryViaRule();
+		if (ss != null)
+			referenceToSet.setDeliveryViaRule(ss);
+		//	Default Invoice/Payment Rule
+		ss = bp.getInvoiceRule();
+
+		if (referenceToSet.getSalesRep_ID() == 0)
+		{
+			ii = Env.getAD_User_ID(referenceToSet.getCtx());
+			if (ii != 0)
+				referenceToSet.setSalesRep_ID(ii);
+		}
+
+		List<MBPartnerLocation> partnerLocations = Arrays.asList(bp.getLocations(false));
+		// search the Ship To Location
+		MBPartnerLocation partnerLocation = partnerLocations.stream() 			// create steam
+				.filter( pl -> pl.isShipTo()).reduce((first , last ) -> last) 	// get of last Ship to location
+				.orElseGet(() -> partnerLocations.stream() 								// if not exist Ship to location else get first partner location
+							.findFirst()										// if not exist partner location then throw an exception
+							.orElseThrow(() -> new AdempiereException("@IsShipTo@ @NotFound@"))
+				);
+
+		referenceToSet.setC_BPartner_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+		//	
+		Arrays.asList(bp.getContacts(false))
+				.stream()
+				.findFirst()
+				.ifPresent(user -> referenceToSet.setAD_User_ID(user.getAD_User_ID()));
+	}
+	
+	/**
+	 * Get Instance of Distribution Order Line from Distribution Order
+	 * @param distributionOrder
+	 * @return
+	 */
+	private X_DD_OrderLine getDistributionOrderLineInstanceFromParent(X_DD_Order distributionOrder) {
+		X_DD_OrderLine distributionOrderLine = new X_DD_OrderLine(distributionOrder.getCtx(), 0, distributionOrder.get_TrxName());
+		distributionOrderLine.setDD_Order_ID(distributionOrder.get_ID());
+		distributionOrderLine.setAD_Org_ID(distributionOrder.getAD_Org_ID());
+		distributionOrderLine.setDateOrdered(distributionOrder.getDateOrdered());
+		distributionOrderLine.setDatePromised(distributionOrder.getDatePromised());
+		return distributionOrderLine;
 	}
 	
 }	//	DistributionRun

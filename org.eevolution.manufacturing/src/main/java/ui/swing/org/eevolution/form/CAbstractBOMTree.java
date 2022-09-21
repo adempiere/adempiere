@@ -57,12 +57,12 @@ import org.eevolution.form.bom.action.ChangeASIAction;
 import org.eevolution.form.bom.action.CreateRfQAction;
 import org.eevolution.form.bom.action.DeleteBOMAction;
 import org.eevolution.form.bom.action.MergeBOMAction;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.reasoner.StorageReasoner;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.reasoner.StorageReasoner;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.tools.worker.SingleWorker;
 import org.eevolution.tools.swing.SwingTool;
-import org.eevolution.tools.worker.SingleWorker;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

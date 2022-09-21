@@ -22,7 +22,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.I_M_Production;
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.X_M_Product;
+import org.adempiere.core.domains.models.X_M_Production;
+import org.adempiere.core.domains.models.X_M_ProductionLine;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
@@ -32,9 +35,6 @@ import org.compiere.model.MCostType;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
 import org.compiere.model.ProductCost;
-import org.compiere.model.X_M_Product;
-import org.compiere.model.X_M_Production;
-import org.compiere.model.X_M_ProductionLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

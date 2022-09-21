@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_HR_Concept;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.component.Button;
@@ -52,8 +53,7 @@ import org.eevolution.hr.model.MHRConcept;
 import org.eevolution.hr.model.MHRMovement;
 import org.eevolution.hr.model.MHRPeriod;
 import org.eevolution.hr.model.MHRProcess;
-import org.eevolution.hr.service.HRActionNotice;
-import org.eevolution.hr.model.X_HR_Concept;
+import org.eevolution.hr.services.HRActionNotice;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;

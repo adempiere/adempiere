@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Tree;
+import org.adempiere.core.domains.models.X_C_Element;
 import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 

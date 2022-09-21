@@ -26,9 +26,9 @@ import java.util.List;
 
 import javax.swing.text.JTextComponent;
 
+import org.adempiere.core.domains.models.I_AD_Table;
 import org.adempiere.model.POWrapper;
 import org.compiere.apps.search.FieldAutoCompleter;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupInfo;

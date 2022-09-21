@@ -23,13 +23,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_ElementValue;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MCharge;
 import org.compiere.model.MChargeAcct;
 import org.compiere.model.MElementValue;
-import org.compiere.model.X_I_ElementValue;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;

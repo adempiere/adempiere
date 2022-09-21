@@ -19,7 +19,6 @@ package org.compiere.process;
 import static java.util.Objects.requireNonNull;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,10 +28,14 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_HR_Process;
+import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.I_PP_Order;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
@@ -52,13 +55,9 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.RefactoryUtil;
-import org.eevolution.model.I_PP_Cost_Collector;
-import org.eevolution.model.I_PP_Order;
 
 /**
  *	Document Action Engine
@@ -1248,7 +1247,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Distribution Order
 		 */
-		else if (tableId == RefactoryUtil.DD_Order_Table_ID)
+		else if (tableId == I_DD_Order.Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)
@@ -1267,7 +1266,7 @@ public class DocumentEngine implements DocAction
 		/********************
 		 *  Payroll Process
 		 */
-		else if (tableId == RefactoryUtil.HR_Process_Table_ID)
+		else if (tableId == I_HR_Process.Table_ID)
 		{
 			if (docStatus.equals(STATUS_Drafted)
 					|| docStatus.equals(STATUS_InProgress)
@@ -1535,36 +1534,8 @@ public class DocumentEngine implements DocAction
      *  @param trxName transaction name
      *  @return Document or null
      */
-    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, int recordId, String trxName)
-    {
-        Doc doc = null;
-        String sql = "SELECT * FROM " + tableName
-                +" WHERE " + tableName + "_ID=? AND Processed='Y'";
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try
-        {
-            pstmt = DB.prepareStatement (sql, trxName);
-            pstmt.setInt (1, recordId);
-            rs = pstmt.executeQuery ();
-            if (rs.next ())
-            {
-                doc = getDoc (acctSchemas, tableName, rs, trxName);
-            }
-            else
-                getLogger().severe("Not Found: " + tableName + "_ID=" + recordId);
-        }
-        catch (Exception e)
-        {
-            getLogger().log (Level.SEVERE, sql, e);
-        }
-        finally
-        {
-            DB.close(rs, pstmt);
-            rs = null; 
-            pstmt = null;
-        }
-        return doc;
+    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, int recordId, String trxName) {
+    	return Doc.get(acctSchemas, tableName, recordId, trxName);
     }
 
     /**
@@ -1576,35 +1547,8 @@ public class DocumentEngine implements DocAction
      *  @return Document
      * @throws AdempiereUserError 
      */
-    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) throws AdempiereUserError
-    {
-        Doc doc = null;
-        
-        String packageName = "org.compiere.acct";
-        String className = null;
-
-        int firstUnderscore = tableName.indexOf("_");
-        if (firstUnderscore == 1)
-            className = packageName + ".Doc_" + tableName.substring(2).replace("_", "");
-        else
-            className = packageName + ".Doc_" + tableName.replace("_", "");
-        
-        try
-        {
-            Class<?> cClass = Class.forName(className);
-            Constructor<?> cnstr = cClass.getConstructor(MAcctSchema[].class, ResultSet.class, String.class);
-            doc = (Doc) cnstr.newInstance(acctSchemas, rs, trxName);
-        }
-        catch (Exception e)
-        {
-            getLogger().log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
-            throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
-        }
-
-        if (doc == null)
-            getLogger().log(Level.SEVERE, "Unknown table =" + tableName);
-        
-        return doc;
+    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) {
+        return Doc.get(acctSchemas, tableName, rs, trxName);
     }
 
     // For testing

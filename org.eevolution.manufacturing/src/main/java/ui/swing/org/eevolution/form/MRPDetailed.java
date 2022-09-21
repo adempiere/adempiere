@@ -19,11 +19,14 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_M_Forecast;
+import org.adempiere.core.domains.models.I_M_Requisition;
+import org.adempiere.core.domains.models.I_PP_Order;
+import org.adempiere.core.domains.models.X_PP_MRP;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_M_Forecast;
-import org.compiere.model.I_M_Requisition;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MResource;
@@ -31,12 +34,9 @@ import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.distribution.model.I_DD_Order;
-import org.eevolution.model.I_PP_Order;
 import org.eevolution.distribution.model.MDDOrder;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.X_PP_MRP;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPOrder;
 
 /**
  * Business Logic to show the MRP Info

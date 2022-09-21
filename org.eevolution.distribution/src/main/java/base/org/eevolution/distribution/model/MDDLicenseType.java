@@ -22,6 +22,8 @@ package org.eevolution.distribution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_DD_LicenseType;
+
 /**
  * Domain Model for License Type
  * @author victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution

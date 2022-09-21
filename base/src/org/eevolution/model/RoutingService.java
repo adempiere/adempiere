@@ -5,9 +5,11 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 
-import org.compiere.model.I_AD_WF_Node;
-import org.compiere.model.I_AD_Workflow;
-import org.compiere.model.I_S_Resource;
+import org.adempiere.core.domains.models.I_AD_WF_Node;
+import org.adempiere.core.domains.models.I_AD_Workflow;
+import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.I_PP_Order_Node;
+import org.adempiere.core.domains.models.I_S_Resource;
 
 /**
  * Rounting(Workflow Service)

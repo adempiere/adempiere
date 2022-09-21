@@ -19,7 +19,7 @@ package org.compiere.report;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_PA_Report;
+import org.adempiere.core.domains.models.X_PA_Report;
 
 
 /**

@@ -13,5 +13,5 @@ public interface IInvoiceBL extends ISingletonService
 	 * @param openAmt open amount (not absolute, the value is relative to IsSOTrx sign)
 	 * @param description
 	 */
-	void writeOffInvoice(org.compiere.model.I_C_Invoice invoice, BigDecimal openAmt, String description);
+	void writeOffInvoice(org.adempiere.core.domains.models.I_C_Invoice invoice, BigDecimal openAmt, String description);
 }

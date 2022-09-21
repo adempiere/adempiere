@@ -16,7 +16,8 @@
  *****************************************************************************/
 package org.eevolution.hr.process;
 
-import org.adempiere.core.api.I_I_HR_Attribute;
+import org.adempiere.core.domains.models.I_I_HR_Attribute;
+import org.adempiere.core.domains.models.X_I_HR_Attribute;
 import org.compiere.model.MActivity;
 import org.compiere.model.MCampaign;
 import org.compiere.model.MOrg;

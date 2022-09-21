@@ -20,6 +20,7 @@ package org.spin.investment.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_FM_FunctionalApplicability;
 import org.spin.investment.util.AbstractFunctionalSetting;
 
 /**

@@ -26,13 +26,15 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_CostDetail;
+import org.adempiere.core.domains.models.I_M_CostType;
+import org.adempiere.core.domains.models.X_M_CostDetail;
 import org.adempiere.engine.CostEngine;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.acct.DocLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.MPPCostCollector;
 
 /**
  * 	Cost Detail Model
@@ -135,19 +137,6 @@ public class MCostDetail extends X_M_CostDetail
 		.setOrderBy(MCostDetail.COLUMNNAME_SeqNo)
 		.list();
 	}
-
-	public static MCostDetail getCostDetail(MPPCostCollector cc, int M_CostElement_ID) {
-		final String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID
-				+ "=?" + " AND " + MCostDetail.COLUMNNAME_M_CostElement_ID
-				+ "=?";
-		MCostDetail cd = new Query(cc.getCtx(), MCostDetail.Table_Name,
-				whereClause, cc.get_TrxName())
-				.setClient_ID()
-				.setParameters(
-						new Object[] { cc.getPP_Cost_Collector_ID(),
-								M_CostElement_ID }).firstOnly();
-		return cd;
-	}
 	
 	/**
 	 * get true if cost is different of zero
@@ -176,16 +165,6 @@ public class MCostDetail extends X_M_CostDetail
 				.add(costDetail.getCostAmtLL())
 				.add(costDetail.getCostAdjustmentLL())
 				.setScale(acctSchema.getCostingPrecision(), RoundingMode.HALF_UP);
-	}
-	
-	public static List<MCostDetail> getByCollectorCost(MPPCostCollector costCollector)
-	{
-		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID).append("=? ");	
-		return new Query(costCollector.getCtx(), MCostDetail.Table_Name , whereClause.toString(), costCollector.get_TrxName())
-		.setClient_ID()
-		.setParameters(costCollector.getPP_Cost_Collector_ID())
-		.list();
 	}
 	
 	/**

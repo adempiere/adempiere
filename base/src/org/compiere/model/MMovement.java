@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_M_MovementConfirm;
+import org.adempiere.core.domains.models.I_M_MovementLine;
+import org.adempiere.core.domains.models.X_M_Movement;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentReversalEnabled;

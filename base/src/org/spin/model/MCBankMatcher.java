@@ -18,6 +18,7 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_BankMatcher;
 import org.compiere.model.MBankStatementMatcher;
 import org.compiere.util.Util;
 

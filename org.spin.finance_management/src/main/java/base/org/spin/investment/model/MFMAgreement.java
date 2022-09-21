@@ -22,6 +22,10 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_FM_AccountProduct;
+import org.adempiere.core.domains.models.X_FM_Agreement;
+import org.adempiere.core.domains.models.X_I_FM_Agreement;
 import org.compiere.model.*;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;

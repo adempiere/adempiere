@@ -23,7 +23,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.X_HR_Process;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MClient;
@@ -38,7 +39,6 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.eevolution.hr.model.X_HR_Process;
 import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.util.QueueLoader;
 

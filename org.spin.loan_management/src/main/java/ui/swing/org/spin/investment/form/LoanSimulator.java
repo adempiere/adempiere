@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
+import org.adempiere.core.domains.models.X_FM_Agreement;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.IStatusBar;
 import org.compiere.minigrid.IMiniTable;
@@ -38,7 +39,6 @@ import org.spin.investment.model.MFMAccount;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.model.MFMFunctionalApplicability;
 import org.spin.investment.model.MFMProduct;
-import org.spin.investment.model.X_FM_Agreement;
 import org.spin.investment.util.FinancialSetting;
 
 /**

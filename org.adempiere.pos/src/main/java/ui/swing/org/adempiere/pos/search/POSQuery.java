@@ -33,8 +33,8 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.pos.POSTextField;
 import org.adempiere.pos.VPOS;
-import org.adempiere.pos.service.POSQueryInterface;
-import org.adempiere.pos.service.POSQueryListener;
+import org.adempiere.pos.services.POSQueryInterface;
+import org.adempiere.pos.services.POSQueryListener;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.StatusBar;

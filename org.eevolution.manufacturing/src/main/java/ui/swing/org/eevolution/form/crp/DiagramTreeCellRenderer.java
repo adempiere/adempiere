@@ -29,8 +29,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.compiere.model.MResource;
 import org.compiere.util.Env;
 import org.eevolution.form.tree.MapTreeCellRenderer;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderNode;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrderNode;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany

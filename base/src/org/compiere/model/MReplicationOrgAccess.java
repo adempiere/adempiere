@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_ReplicationOrgAccess;
+
 /**
  * Created by Victor Perez , e-Evolution on 03/07/16.
  */

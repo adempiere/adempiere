@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_ShiftSchedule;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 

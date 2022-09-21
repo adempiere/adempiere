@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_BankStatementLoader;
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.compiere.impexp.BankStatementLoaderInterface;
 import org.compiere.util.Util;
  

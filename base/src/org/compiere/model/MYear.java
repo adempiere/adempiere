@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_Year;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.process.DocumentTypeVerify;
 import org.compiere.process.SvrProcess;

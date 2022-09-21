@@ -1710,6 +1710,35 @@ public class FinReport extends FinReportAbstract {
                     Optional.ofNullable(new MLocation(getCtx(), orgInfo.getC_Location_ID(), trxName)).map(location -> location).get()
             );
 
+            AtomicReference<String> yearName = new AtomicReference<>("");
+            AtomicReference<String> yearFiscal = new AtomicReference<>("");
+            AtomicReference<String> currentPeriodName = new AtomicReference<>("");
+            AtomicReference<String> startPeriodName = new AtomicReference<>("");
+            AtomicReference<String> periodStartDay = new AtomicReference<>("");
+            AtomicReference<String> periodStartDate = new AtomicReference<>("");
+
+            AtomicReference<String> periodEndDay = new AtomicReference<>("");
+            AtomicReference<String> periodEndDate = new AtomicReference<>("");
+            AtomicReference<String> yearStartDay = new AtomicReference<>("");
+            AtomicReference<String> yearStartDate = new AtomicReference<>("");
+
+            finReportPeriods.filter(finReportPeriod -> finReportPeriod.getC_Period_ID() == getPeriodId())
+                    .forEach(finReportPeriod -> {
+                        org.compiere.model.MYear year = (org.compiere.model.MYear)MPeriod.get(getCtx(),finReportPeriod.getC_Period_ID()).getC_Year();
+                        yearName.set(year.getYY());
+                        yearFiscal.set(year.getFiscalYear());
+                        currentPeriodName.set(finReportPeriod.getName());
+                        startPeriodName.set(year.getPeriod(1).getName());
+                        java.text.SimpleDateFormat dayFormat = new java.text.SimpleDateFormat("dd");
+                        java.text.SimpleDateFormat dateFormat = Env.getLanguage(getCtx()).getDateFormat();
+                        periodStartDay.set(dayFormat.format(finReportPeriod.getStartDate()));
+                        periodStartDate.set(dateFormat.format(finReportPeriod.getStartDate()));
+                        periodEndDay.set(dayFormat.format(finReportPeriod.getEndDate()));
+                        periodEndDate.set(dateFormat.format(finReportPeriod.getEndDate()));
+                        yearStartDay.set(dayFormat.format(finReportPeriod.getYearStartDate()));
+                        yearStartDate.set(dateFormat.format(finReportPeriod.getYearStartDate()));
+                    });
+
             Arrays.stream(printFormatHeader.getItems()).forEach(printFormatItem -> {
                 Optional.ofNullable(printFormatItem.getName()).ifPresent(printFormatItemName -> {
                     AtomicReference<String> printFormatItemToPrint = new AtomicReference<>(printFormatItemName);
@@ -1743,11 +1772,87 @@ public class FinReport extends FinReportAbstract {
                         adjustPrintFormatItem(printFormatItem);
                         printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Currency@", Optional.ofNullable(finReport.getC_AcctSchema().getC_Currency().getDescription()).orElse("")));
                     }
+                    if (printFormatItemName.contains("@Year@")) {
+                        if (getPeriodId() != 0) {
+                            adjustPrintFormatItem(printFormatItem);
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Year@", Optional.ofNullable(yearName.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@YearFiscal@")) {
+                        if (getPeriodId() != 0) {
+                            adjustPrintFormatItem(printFormatItem);
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@YearFiscal@", Optional.ofNullable(yearFiscal.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@StartPeriodName@")) {
+                        if (getPeriodId() != 0) {
+                            adjustPrintFormatItem(printFormatItem);
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@StartPeriodName@", Optional.ofNullable(startPeriodName.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
                     if (printFormatItemName.contains("@Period@")) {
                         if (getPeriodId() != 0) {
-                            MPeriod period = MPeriod.get(getCtx(), getPeriodId());
                             adjustPrintFormatItem(printFormatItem);
-                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Period@", Optional.ofNullable(period.getName()).orElse("")));
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Period@", Optional.ofNullable(currentPeriodName.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@PeriodStartDay@")) {
+                        if (getPeriodId() != 0) {
+                            adjustPrintFormatItem(printFormatItem);
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@PeriodStartDay@", Optional.ofNullable(periodStartDay.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@PeriodStartDate@")) {
+                        if (getPeriodId() != 0) {
+                            adjustPrintFormatItem(printFormatItem);
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@PeriodStartDate@", Optional.ofNullable(periodStartDate.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@PeriodEndDay@")) {
+                        if (getPeriodId() != 0) {
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@PeriodEndDay@", Optional.ofNullable(periodEndDay.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@PeriodEndDate@")) {
+                        if (getPeriodId() != 0) {
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@PeriodEndDate@", Optional.ofNullable(periodEndDate.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@YearStartDay@")) {
+                        if (getPeriodId() != 0) {
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@YearStartDay@", Optional.ofNullable(yearStartDay.get()).orElse("")));
+
+                        } else {
+                            printFormatItem.setIsPrinted(false);
+                        }
+                    }
+                    if (printFormatItemName.contains("@YearStartDate@")) {
+                        if (getPeriodId() != 0) {
+                            printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@YearStartDate@", Optional.ofNullable(yearStartDate.get()).orElse("")));
 
                         } else {
                             printFormatItem.setIsPrinted(false);

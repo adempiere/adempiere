@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_DD_Driver;
+
 /**
  * Domain Model for Driver
  * @author victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="09770_3776_Add_config_email_in_org" ReleaseNo="" SeqNo="9770">
+  <Migration EntityType="D" Name="09770_3776_Add_config_email_in_org" ReleaseNo="3.9.4" SeqNo="9770">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54620" Table="AD_Process">
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>

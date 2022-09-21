@@ -26,10 +26,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_AD_Table;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.model.POWrapper;
 import org.adempiere.webui.component.AutoCompleter;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupInfo;

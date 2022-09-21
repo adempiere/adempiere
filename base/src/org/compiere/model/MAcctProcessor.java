@@ -22,6 +22,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_AcctProcessor;
+import org.adempiere.core.domains.models.I_C_AcctProcessorLog;
+import org.adempiere.core.domains.models.X_C_AcctProcessor;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 

@@ -21,11 +21,11 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_BrowseCustom;
+import org.adempiere.core.domains.models.I_AD_BrowseFieldCustom;
+import org.adempiere.core.domains.models.I_AD_Role;
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_BrowseCustom;
-import org.compiere.model.I_AD_BrowseFieldCustom;
-import org.compiere.model.I_AD_Role;
-import org.compiere.model.I_AD_User;
 import org.compiere.model.MBrowseFieldCustom;
 import org.compiere.model.Query;
 import org.compiere.util.Env;

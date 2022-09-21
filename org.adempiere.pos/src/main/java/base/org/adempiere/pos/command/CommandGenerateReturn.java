@@ -21,7 +21,7 @@ import org.compiere.model.MDocType;
 import org.compiere.process.DocAction;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 
 /**

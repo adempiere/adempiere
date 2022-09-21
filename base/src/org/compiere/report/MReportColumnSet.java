@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.X_PA_ReportColumnSet;
+import org.adempiere.core.domains.models.X_PA_ReportColumnSet;
 import org.compiere.util.DB;
 
 

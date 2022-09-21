@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_FM_Transaction;
+import org.adempiere.core.domains.models.X_FM_Batch;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MCurrency;

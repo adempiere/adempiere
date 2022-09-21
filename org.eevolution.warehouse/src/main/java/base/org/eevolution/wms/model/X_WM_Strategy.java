@@ -20,6 +20,8 @@ package org.eevolution.wms.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_WM_Strategy;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -116,9 +118,9 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
 		return (String)get_Value(COLUMNNAME_InOutBoundType);
 	}
 
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.

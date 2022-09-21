@@ -38,6 +38,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import org.adempiere.core.domains.models.X_AD_Issue;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.compiere.Adempiere;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

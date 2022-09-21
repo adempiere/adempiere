@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.X_M_PackageLine;
 import org.compiere.util.Env;
 /**
  *	Package Line Model

@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_OrderLine;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.ProductNotOnPriceListException;
 import org.compiere.util.CLogger;
