@@ -2459,8 +2459,7 @@ public final class MPayment extends X_C_Payment
 	private int getC_BankStatementLine_ID() {
 		String sql = "SELECT bsl.C_BankStatementLine_ID FROM C_BankStatementLine bsl WHERE bsl.C_Payment_ID=? "
 				+ "AND EXISTS(SELECT 1 FROM C_BankStatement bs "
-				+ "					WHERE bs.C_BankStatement_ID = bsl.C_BankStatement_ID "
-				+ "					AND bs.DocStatus IN('CO', 'CL'))";
+				+ "					WHERE bs.C_BankStatement_ID = bsl.C_BankStatement_ID )";
 		return DB.getSQLValue(get_TrxName(), sql, getC_Payment_ID());
 	}	//	getC_BankStatementLine_ID
 
