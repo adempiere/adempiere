@@ -219,18 +219,19 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	 */
 	public void setLatitudeAndLongitude() {
 		Option<String> maybeMapUrl = Option.of(getMapURL());
-		maybeMapUrl.filter(mapUrl -> mapUrl != null && mapUrl.contains("q="));
-		maybeMapUrl.map(mapUrl -> {
-			String locationInfo = mapUrl.substring(mapUrl.indexOf("q=") + 2);
-			java.util.StringTokenizer tokenizer = new java.util.StringTokenizer(locationInfo, ",");
-			String latitude = tokenizer.nextToken();
-			String longitude = tokenizer.nextToken();
-			MLocation location = new MLocation(getCtx() , getC_Location_ID() , get_TrxName());
-			location.setLatitude(new java.math.BigDecimal(latitude));
-			location.setLongitude(new java.math.BigDecimal(longitude));
-			location.saveEx();
-			return location;
-		});
+		maybeMapUrl
+				.filter(mapUrl -> mapUrl != null && mapUrl.contains("q="))
+				.map(mapUrl -> {
+					String locationInfo = mapUrl.substring(mapUrl.indexOf("q=") + 2);
+					java.util.StringTokenizer tokenizer = new java.util.StringTokenizer(locationInfo, ",");
+					String latitude = tokenizer.nextToken();
+					String longitude = tokenizer.nextToken();
+					MLocation location = new MLocation(getCtx(), getC_Location_ID(), get_TrxName());
+					location.setLatitude(new java.math.BigDecimal(latitude));
+					location.setLongitude(new java.math.BigDecimal(longitude));
+					location.saveEx();
+					return location;
+				});
 	}
 
 	/**

@@ -12,7 +12,7 @@
         <Data AD_Column_ID="2602" Column="ColumnName">MapURL</Data>
         <Data AD_Column_ID="2598" Column="Created">2022-09-09 12:19:11.902</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2604" Column="Description">Location Map URL.</Data>
+        <Data AD_Column_ID="2604" Column="Description">Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location</Data>
         <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58589" Column="FieldLength">255</Data>
         <Data AD_Column_ID="2605" Column="Help">Location Map URL.</Data>
@@ -37,7 +37,7 @@
         <Data AD_Column_ID="2642" Column="Created">2022-09-09 12:19:12.791</Data>
         <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2647" Column="Description">Location Map URL.</Data>
-        <Data AD_Column_ID="2648" Column="Help">Location Map URL.</Data>
+        <Data AD_Column_ID="2648" Column="Help">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2646" Column="Name">Map URL</Data>
@@ -55,8 +55,8 @@
       <PO AD_Table_ID="277" Action="U" Record_ID="62075" Table="AD_Element_Trl">
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="62075">62075</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2647" Column="Description" oldValue="Location Map URL.">URL del Mapa de Ubicación.</Data>
-        <Data AD_Column_ID="2648" Column="Help" oldValue="Location Map URL.">URL del Mapa de Ubicación.</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Location Map URL.">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="Location Map URL.">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="false">true</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Map URL">URL del Mapa</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Map URL">URL del Mapa</Data>
