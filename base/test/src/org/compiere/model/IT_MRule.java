@@ -15,11 +15,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import static org.adempiere.core.domains.models.X_AD_Rule.RULETYPE_AspectOrientProgram;
+import static org.adempiere.core.domains.models.X_AD_Rule.RULETYPE_JSR223ScriptingAPIs;
+import static org.adempiere.core.domains.models.X_AD_Rule.RULETYPE_JSR94RuleEngineAPI;
+import static org.adempiere.core.domains.models.X_AD_Rule.RULETYPE_SQL;
 import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
-import static org.compiere.model.X_AD_Rule.RULETYPE_AspectOrientProgram;
-import static org.compiere.model.X_AD_Rule.RULETYPE_JSR223ScriptingAPIs;
-import static org.compiere.model.X_AD_Rule.RULETYPE_JSR94RuleEngineAPI;
-import static org.compiere.model.X_AD_Rule.RULETYPE_SQL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

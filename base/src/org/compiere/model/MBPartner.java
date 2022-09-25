@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.X_C_BPartner;
+import org.adempiere.core.domains.models.X_I_BPartner;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

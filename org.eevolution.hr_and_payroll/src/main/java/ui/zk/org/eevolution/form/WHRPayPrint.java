@@ -43,7 +43,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.hr.model.MHRPaySelection;
 import org.eevolution.hr.model.MHRPaySelectionCheck;
-import org.eevolution.hr.service.HRPayPrint;
+import org.eevolution.hr.services.HRPayPrint;
 import org.eevolution.hr.util.HRPaymentExport;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;

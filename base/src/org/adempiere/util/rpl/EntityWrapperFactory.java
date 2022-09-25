@@ -24,10 +24,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.adempiere.core.domains.models.I_AD_Image;
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.X_AD_ReplicationDocument;
+import org.adempiere.core.domains.models.X_AD_ReplicationTable;
+import org.adempiere.core.domains.models.X_EXP_FormatLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.exp.WrapperUtil;
-import org.compiere.model.I_AD_Image;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
@@ -39,9 +42,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_ReplicationDocument;
-import org.compiere.model.X_AD_ReplicationTable;
-import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;

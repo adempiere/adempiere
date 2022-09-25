@@ -38,6 +38,10 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_IMP_ProcessorParameter;
+import org.adempiere.core.domains.models.X_IMP_Processor;
+import org.adempiere.core.domains.models.X_IMP_ProcessorLog;
+import org.adempiere.core.domains.models.X_IMP_ProcessorParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Util;

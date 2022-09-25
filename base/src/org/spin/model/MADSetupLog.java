@@ -19,6 +19,8 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_SetupLog;
+
 /**
  * Model class for setup log
  * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com

@@ -25,6 +25,8 @@ import java.util.logging.Level;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.adempiere.core.domains.models.I_AD_MigrationStep;
+import org.adempiere.core.domains.models.X_AD_Migration;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

@@ -16,6 +16,8 @@
 
 package org.eevolution.project.process;
 
+import org.adempiere.core.domains.models.I_I_Project;
+import org.adempiere.core.domains.models.X_I_Project;
 import org.compiere.model.MActivity;
 import org.compiere.model.MBPGroup;
 import org.compiere.model.MBPartner;
@@ -35,12 +37,10 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.I_I_Project;
 import org.eevolution.model.MProjectCategory;
 import org.eevolution.model.MProjectClass;
 import org.eevolution.model.MProjectGroup;
 import org.eevolution.model.MProjectStatus;
-import org.eevolution.model.X_I_Project;
 
 import java.util.Arrays;
 import java.util.Optional;

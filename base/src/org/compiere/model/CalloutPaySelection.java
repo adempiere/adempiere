@@ -27,12 +27,11 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.core.api.I_HR_Concept;
-import org.adempiere.core.api.I_HR_Movement;
-import org.adempiere.core.api.I_HR_Payroll;
+import org.adempiere.core.domains.models.X_HR_Concept;
+import org.adempiere.core.domains.models.X_HR_Movement;
+import org.adempiere.core.domains.models.X_HR_Payroll;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.RefactoryUtil;
 
 
 /**
@@ -409,13 +408,13 @@ public class CalloutPaySelection extends CalloutEngine
 		if (HR_Movement_ID == 0)
 			return "";
 		//	Get amount from movement
-		I_HR_Movement movement = RefactoryUtil.getPayrollMovement(ctx, HR_Movement_ID, null);
-		I_HR_Concept concept =  RefactoryUtil.getPayrollConcept(ctx, movement.getHR_Concept_ID(), null);
-		if(!concept.getColumnType().equals(RefactoryUtil.HR_Concept_COLUMNTYPE_Amount)) {
+		X_HR_Movement movement = new X_HR_Movement(ctx, HR_Movement_ID, null);
+		X_HR_Concept concept =  new X_HR_Concept(ctx, movement.getHR_Concept_ID(), null);
+		if(!concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) {
 			return "@HR_Concept_ID@ <> @Amount@";
 		}
 		//	Valid payroll
-		I_HR_Payroll payroll = RefactoryUtil.getPayrollDefinition(ctx, movement.getHR_Payroll_ID(), null);
+		X_HR_Payroll payroll = new X_HR_Payroll(ctx, movement.getHR_Payroll_ID(), null);
 		if(payroll.getC_Charge_ID() == 0) {
 			return "@C_Charge_ID@ @NotFound@";
 		}

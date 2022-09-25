@@ -20,8 +20,8 @@ package org.spin.process;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;

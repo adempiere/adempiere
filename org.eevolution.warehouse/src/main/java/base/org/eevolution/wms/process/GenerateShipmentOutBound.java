@@ -37,6 +37,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.X_C_Order;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -46,18 +48,16 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
-import org.compiere.model.X_C_Order;
 import org.compiere.process.ProcessInfo;
-import org.eevolution.distribution.model.I_DD_Order;
 import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.distribution.model.MDDOrderLine;
 import org.eevolution.distribution.process.MovementGenerate;
-import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderBOMLine;
+import org.eevolution.manufacturing.model.MPPCostCollector;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrderBOMLine;
 import org.eevolution.wms.model.MWMInOutBound;
 import org.eevolution.wms.model.MWMInOutBoundLine;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com

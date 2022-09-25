@@ -16,8 +16,8 @@
 
 package org.adempiere.pos;
 
-import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.POSLookupProductInterface;
+import org.adempiere.pos.services.CPOS;
+import org.adempiere.pos.services.POSLookupProductInterface;
 import org.adempiere.util.StringUtils;
 import org.compiere.apps.ADialog;
 import org.compiere.util.DB;

@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.adempiere.core.domains.models.I_M_CostType;
+import org.adempiere.core.domains.models.X_M_CostType;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_CostType;
 import org.compiere.model.MCostType;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_CostType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 

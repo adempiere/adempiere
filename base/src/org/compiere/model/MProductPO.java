@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_Product_PO;
+
 /**
  *	Product PO Model
  *	

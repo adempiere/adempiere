@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_DunningLevel;
+import org.adempiere.core.domains.models.X_C_DunningLevel;
+
 
 /**
  *	Dunning Level Model

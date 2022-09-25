@@ -20,6 +20,10 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_DunningLevel;
+import org.adempiere.core.domains.models.I_C_DunningRunLine;
+import org.adempiere.core.domains.models.X_C_BPartner;
+import org.adempiere.core.domains.models.X_C_DunningRunEntry;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

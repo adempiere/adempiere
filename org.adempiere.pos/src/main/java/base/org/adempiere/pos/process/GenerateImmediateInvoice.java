@@ -21,7 +21,7 @@ import org.compiere.model.MOrder;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * This process call of create order based on another and reverse the sales transactions process

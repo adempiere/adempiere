@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_InventoryLine;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

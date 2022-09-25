@@ -21,7 +21,7 @@ package org.spin.pr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.core.api.I_HR_ProcessReport;
+import org.adempiere.core.domains.models.I_HR_ProcessReport;
 import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReport
@@ -76,9 +76,9 @@ public class X_HR_ProcessReport extends PO implements I_HR_ProcessReport, I_Pers
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_PrintFormat)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.

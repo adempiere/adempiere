@@ -23,13 +23,13 @@
 
 package org.adempiere.webui.window;
 
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.NewPassPanel;
 import org.adempiere.webui.panel.PassResetPanel;
 import org.adempiere.webui.panel.RolePanel;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.I_AD_User;
 import org.compiere.model.MUser;
 import org.compiere.model.M_Element;
 import org.compiere.util.Env;

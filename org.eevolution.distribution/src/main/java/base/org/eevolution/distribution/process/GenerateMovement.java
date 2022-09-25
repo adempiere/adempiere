@@ -25,7 +25,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.distribution.model.MDDOrder;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 import java.util.Arrays;
 

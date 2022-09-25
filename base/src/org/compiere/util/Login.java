@@ -33,11 +33,12 @@ import io.vavr.Tuple3;
 import io.vavr.Tuple4;
 import io.vavr.collection.List;
 import io.vavr.control.Try;
+
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_AD_User_Roles;
+import org.adempiere.core.domains.models.I_M_Warehouse;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_AD_User_Roles;
-import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MClientInfo;

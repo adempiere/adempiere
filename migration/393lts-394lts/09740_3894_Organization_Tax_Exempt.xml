@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="09740_3894_Organization_Tax_Exempt" ReleaseNo="" SeqNo="9700">
+  <Migration EntityType="D" Name="09740_3894_Organization_Tax_Exempt" ReleaseNo="3.9.4" SeqNo="9700">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="50009" Action="I" Record_ID="50162" Table="AD_SysConfig">
         <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>

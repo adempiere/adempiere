@@ -32,13 +32,13 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.adempiere.ad.process.ISvrProcessPrecondition;
-import org.adempiere.ad.service.IDeveloperModeBL;
+import org.adempiere.ad.services.IDeveloperModeBL;
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.I_AD_Table_Process;
 import org.adempiere.util.Check;
 import org.adempiere.util.Services;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_AD_Process;
-import org.compiere.model.I_AD_Table_Process;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
@@ -225,7 +225,8 @@ public class AProcessActionModel
 						+ "			FROM AD_Field f "
 						+ "			INNER JOIN AD_Column c ON(c.AD_Column_ID = f.AD_Column_ID) "
 						+ "			WHERE f.AD_Tab_ID = " + gridTab.getAD_Tab_ID() + " "
-						+ "			AND c.AD_Process_ID = AD_Process.AD_Process_ID"
+						+ "			AND c.AD_Process_ID = AD_Process.AD_Process_ID "
+						+ "			AND c.IsActive = 'Y' AND f.IsActive = 'Y' AND f.IsDisplayed = 'Y'"
 						+ ")"
 						// ... or AD_Process_ID was statically registered
 						+ " OR " + MProcess.COLUMNNAME_AD_Process_ID + " IN " + DB.buildSqlList(processIds, params);

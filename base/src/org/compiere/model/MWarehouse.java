@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Locator;
+import org.adempiere.core.domains.models.X_M_Warehouse;
 import org.compiere.util.CCache;
 
 /**

@@ -22,15 +22,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_M_RMA;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_M_RMA;
 import org.compiere.model.MInvoice;
 import org.compiere.model.PO;
 import org.compiere.process.InvoiceGenerate;
 import org.compiere.process.ProcessInfo;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /** 
  * 	Generated Process for (Generate Invoices from Sales Orders)

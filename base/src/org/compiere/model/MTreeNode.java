@@ -24,6 +24,7 @@ import javax.swing.Icon;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
+import org.adempiere.core.domains.models.X_AD_Menu;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.wf.MWFNode;

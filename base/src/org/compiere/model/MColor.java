@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Color;
+
 /**
  *  Color Persistent Object Model
  *  (DisplayType=27)

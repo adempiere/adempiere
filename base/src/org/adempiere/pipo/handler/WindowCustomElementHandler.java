@@ -21,12 +21,12 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_FieldCustom;
+import org.adempiere.core.domains.models.I_AD_Role;
+import org.adempiere.core.domains.models.I_AD_TabCustom;
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_AD_WindowCustom;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_FieldCustom;
-import org.compiere.model.I_AD_Role;
-import org.compiere.model.I_AD_TabCustom;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_AD_WindowCustom;
 import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.Query;

@@ -21,8 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_InOutLineConfirm;
 import org.compiere.model.MInOutLineConfirm;
-import org.compiere.model.X_I_InOutLineConfirm;
 import org.compiere.util.DB;
 
 

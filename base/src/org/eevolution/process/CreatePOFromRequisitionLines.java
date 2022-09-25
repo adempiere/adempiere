@@ -16,13 +16,13 @@
 
 package org.eevolution.process;
 
-import org.compiere.model.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.RequisitionPOCreate;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

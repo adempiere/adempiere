@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_C_Activity;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 

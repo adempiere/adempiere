@@ -183,14 +183,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         {
         	if( ((Button)event.getTarget()).getName().equals("bUrl") )
         	{
-        		String location = "";
-        		if (!getComponent().getText().isEmpty()) {
-        			location = getComponent().getText().replace(" ", "+");
-        		}
-        		else if(m_value != null) {
-        			location = m_value.toString().replace(" ", "+");
-        		}
-                String urlString = MLocation.LOCATION_MAPS_URL_PREFIX + location;
+                String urlString = MLocation.getMapUrl(m_value);
                 String message = null;
                 try {
                     //Executions.getCurrent().sendRedirect(urlString, "_blank");
@@ -204,22 +197,11 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         	}
             else if( ((Button)event.getTarget()).getName().equals("bRouteUrl") )
             {
-                String location = "";
-                if (!getComponent().getText().isEmpty()) {
-                    location = getComponent().getText().replace(" ", "+");;
-                }
-                else if(m_value != null) {
-                    location = m_value.toString().replace(" ", "+");
-                }
-
                 int orgId = Env.getAD_Org_ID(Env.getCtx());
                 if (orgId != 0){
                     MOrgInfo orgInfo = 	MOrgInfo.get(Env.getCtx(), orgId,null);
                     MLocation orgLocation = new MLocation(Env.getCtx(),orgInfo.getC_Location_ID(),null);
-
-                    String urlString = MLocation.LOCATION_MAPS_ROUTE_PREFIX +
-                            MLocation.LOCATION_MAPS_SOURCE_ADDRESS + orgLocation.getMapsLocation() + //org
-                            MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + location; //partner
+                    String urlString = MLocation.getRouteUrl(orgLocation , m_value);
                     String message = null;
                     try {
                         Env.startBrowser(urlString+"&output=embed");

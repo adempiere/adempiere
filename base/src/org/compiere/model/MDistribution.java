@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_GL_Distribution;
+import org.adempiere.core.domains.models.I_GL_DistributionLine;
+import org.adempiere.core.domains.models.X_GL_Distribution;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;

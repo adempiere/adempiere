@@ -82,7 +82,7 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
       info("--------------------------------------------------------")
       And(s"the total Sales Order is that $TotalSales")
       assert(TotalSales.toDouble == order.getGrandTotal.doubleValue())
-      import org.eevolution.service.dsl.*
+      import org.eevolution.services.dsl.*
 
       val processInfo = ProcessBuilder.create(Context)
         .process("Rpt C_Order")

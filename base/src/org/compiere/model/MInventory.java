@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_InventoryLine;
+import org.adempiere.core.domains.models.X_M_Inventory;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentReversalEnabled;

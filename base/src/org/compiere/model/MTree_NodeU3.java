@@ -19,6 +19,7 @@
  */
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_AD_TreeNodeU3;
 import org.compiere.util.CLogger;
 
 import java.sql.ResultSet;

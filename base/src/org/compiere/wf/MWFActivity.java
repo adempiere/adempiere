@@ -35,8 +35,9 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.X_AD_WF_Activity;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MColumn;
@@ -55,7 +56,6 @@ import org.compiere.model.MUser;
 import org.compiere.model.MUserRoles;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;

@@ -17,6 +17,9 @@
 package org.compiere.model;
 
 import io.vavr.collection.List;
+
+import org.adempiere.core.domains.models.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Table;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;

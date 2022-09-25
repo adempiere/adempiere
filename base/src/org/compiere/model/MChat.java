@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_CM_Chat;
 import org.adempiere.legacy.apache.ecs.xhtml.b;
 import org.adempiere.legacy.apache.ecs.xhtml.hr;
 import org.adempiere.legacy.apache.ecs.xhtml.p;

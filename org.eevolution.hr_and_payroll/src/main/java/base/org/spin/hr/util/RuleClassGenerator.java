@@ -29,13 +29,13 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.X_HR_Concept;
 import org.adempiere.util.ModelInterfaceGenerator;
 import org.compiere.Adempiere;
 import org.compiere.model.MRule;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.hr.model.X_HR_Concept;
 import org.spin.util.RuleEngineUtil;
 
 /**

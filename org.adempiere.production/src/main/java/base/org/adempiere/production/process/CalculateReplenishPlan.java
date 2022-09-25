@@ -34,11 +34,13 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_M_Product_BOM;
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.I_M_Replenish;
+import org.adempiere.core.domains.models.X_M_Replenish;
+import org.adempiere.core.domains.models.X_M_ReplenishPlanLine;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_M_Product_BOM;
-import org.compiere.model.I_M_Production;
-import org.compiere.model.I_M_Replenish;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
@@ -51,16 +53,14 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Replenish;
 import org.compiere.production.model.MReplenishPlan;
-import org.compiere.production.model.X_M_ReplenishPlanLine;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.manufacturing.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductBOMLine;
 
 /**
  * CalculateReplenishPlan.Java

@@ -23,7 +23,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.adempiere.core.api.I_HR_Concept_Acct;
+import org.adempiere.core.domains.models.I_HR_Concept_Acct;
+import org.adempiere.core.domains.models.X_HR_Concept;
+import org.adempiere.core.domains.models.X_HR_Concept_Acct;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MRule;
 import org.compiere.model.Query;

@@ -66,7 +66,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrder;
 /**
  *
  * @author  vpj-cd

@@ -18,7 +18,7 @@ package org.compiere.process;
 
 import java.util.List;
 
-import org.compiere.model.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.model.MColumn;
 import org.compiere.model.MField;
 import org.compiere.model.MTab;

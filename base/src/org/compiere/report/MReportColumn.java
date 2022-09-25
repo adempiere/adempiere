@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.model.I_PA_ReportSource;
+import org.adempiere.core.domains.models.I_PA_ReportSource;
+import org.adempiere.core.domains.models.X_PA_ReportColumn;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.Query;
-import org.compiere.model.X_PA_ReportColumn;
 
 /**
  *  Report Column Model

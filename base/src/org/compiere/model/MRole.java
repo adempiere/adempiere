@@ -37,6 +37,13 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.I_AD_Record_Access;
+import org.adempiere.core.domains.models.X_AD_Dashboard_Access;
+import org.adempiere.core.domains.models.X_AD_PInstance_Log;
+import org.adempiere.core.domains.models.X_AD_Role;
+import org.adempiere.core.domains.models.X_AD_Role_Included;
+import org.adempiere.core.domains.models.X_AD_Table;
+import org.adempiere.core.domains.models.X_AD_Table_Access;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -48,7 +55,6 @@ import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trace;
-import org.spin.model.X_AD_Dashboard_Access;
 
 /**
  *	Role Model.

@@ -21,6 +21,8 @@ import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Requisition;
+import org.adempiere.core.domains.models.I_M_RequisitionLine;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.Env;
 

@@ -23,6 +23,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_M_MatchPO;
+import org.adempiere.core.domains.models.X_M_InOutLine;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.WarehouseLocatorConflictException;

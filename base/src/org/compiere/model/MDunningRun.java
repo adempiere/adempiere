@@ -22,6 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_DunningLevel;
+import org.adempiere.core.domains.models.I_C_DunningRun;
+import org.adempiere.core.domains.models.I_C_DunningRunEntry;
+import org.adempiere.core.domains.models.X_C_DunningRun;
+
 /**
  *	Dunning Run Model
  *	
