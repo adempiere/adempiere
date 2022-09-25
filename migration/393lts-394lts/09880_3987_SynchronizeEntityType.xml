@@ -12,7 +12,7 @@
         <Data AD_Column_ID="2801" Column="AD_Process_ID">54646</Data>
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
-        <Data AD_Column_ID="5790" Column="AccessLevel">5</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
         <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SynchronizeEntityType</Data>
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="2805" Column="Created">2022-09-19 16:15:23.474</Data>
