@@ -15,7 +15,7 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.pr.model;
+package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;

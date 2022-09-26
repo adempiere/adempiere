@@ -15,6 +15,8 @@
  ************************************************************************************/
 package org.spin.store.model;
 
+import org.adempiere.core.domains.models.X_W_CategoryAllocation;
+
 import java.sql.ResultSet;
 import java.util.Properties;
 

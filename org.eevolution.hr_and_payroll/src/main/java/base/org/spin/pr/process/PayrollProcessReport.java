@@ -45,7 +45,7 @@ import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.pr.model.MHRProcessReport;
 import org.spin.pr.model.MHRProcessReportTemplate;
-import org.spin.pr.model.X_RV_HR_ProcessDetail;
+import org.adempiere.core.domains.models.X_RV_HR_ProcessDetail;
 
 
 /**
