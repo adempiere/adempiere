@@ -64,22 +64,17 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.adempiere.test.CommonUnitTestSetup;
 import org.apache.commons.lang.ArrayUtils;
-import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
-import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MInOut;
@@ -88,10 +83,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
-import org.compiere.util.CPreparedStatement;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -1123,113 +1115,6 @@ class TestDocumentEngine extends CommonUnitTestSetup {
             }
         }
 
-    }
-
-    @Test
-    @DisplayName("Given a table and record ID, getDoc gets ResultSet and "
-            + "loads the Doc model")
-    final void givenTableAndRecord_thenGetDocGetsRecordandLoadsDoc()
-            throws Exception {
-
-        MAcctSchema[] acctSchemas = new MAcctSchema[] {};
-        Doc docMock = mock(Doc.class);
-        setupSimpleEngineSpy();
-        doReturn(docMock).when(engineSpy).getDoc(any(MAcctSchema[].class),
-                anyString(), any(ResultSet.class), anyString());
-        ResultSet rsMock = mock(ResultSet.class);
-        doReturn(true).when(rsMock).next();
-        CPreparedStatement pstmtMock = mock(CPreparedStatement.class);
-        doReturn(rsMock).when(pstmtMock).executeQuery();
-        try (MockedStatic<DB> dbMockStatic = mockStatic(DB.class)) {
-            dbMockStatic.when(() -> {
-                DB.prepareStatement(sqlCaptor.capture(), anyString());
-            }).thenReturn(pstmtMock);
-
-            assertEquals(docMock,
-                    engineSpy.getDoc(acctSchemas, "TableName", 1, trxName));
-        }
-
-        verify(engineSpy).getDoc(acctSchemas, "TableName", rsMock, trxName);
-        assertEquals("SELECT * FROM TableName WHERE TableName_ID=? AND Processed='Y'", sqlCaptor.getValue());
-    }
-
-    @Test
-    @DisplayName("GetDoc, when given a table and record ID, if not found, getDoc "
-            + "logs an error")
-    final void givenTableAndRecord_ifNotFoundLogsError()
-            throws Exception {
-
-        MAcctSchema[] acctSchemas = new MAcctSchema[] {};
-        setupSimpleEngineSpy();
-        ResultSet rsMock = mock(ResultSet.class);
-        doReturn(false).when(rsMock).next();
-        CPreparedStatement pstmtMock = mock(CPreparedStatement.class);
-        doReturn(rsMock).when(pstmtMock).executeQuery();
-        CLogger loggerMock = mock(CLogger.class);
-        doReturn(loggerMock).when(engineSpy).getLogger();
-
-        try (MockedStatic<DB> dbMockStatic = mockStatic(DB.class)) {
-            dbMockStatic.when(() -> {
-                DB.prepareStatement(anyString(), anyString());
-            }).thenReturn(pstmtMock);
-
-            assertNull(engineSpy.getDoc(acctSchemas, "TableName", 1, trxName));
-        }
-        verify(loggerMock).severe(logCaptor.capture());
-        assertEquals("Not Found: TableName_ID=1", logCaptor.getValue());
-
-    }
-
-    @Test
-    @DisplayName("GetDoc, if there is an exception, getDoc "
-            + "logs an error and returns null")
-    final void whenThereIsAnException_getDocLogsErrorAndReturnsNull()
-            throws Exception {
-
-        MAcctSchema[] acctSchemas = new MAcctSchema[] {};
-        setupSimpleEngineSpy();
-        CPreparedStatement pstmtMock = mock(CPreparedStatement.class);
-        doThrow(SQLException.class).when(pstmtMock).executeQuery();
-        CLogger loggerMock = mock(CLogger.class);
-        doReturn(loggerMock).when(engineSpy).getLogger();
-
-        try (MockedStatic<DB> dbMockStatic = mockStatic(DB.class)) {
-            dbMockStatic.when(() -> {
-                DB.prepareStatement(anyString(), anyString());
-            }).thenReturn(pstmtMock);
-
-            assertNull(engineSpy.getDoc(acctSchemas, "TableName", 1, trxName));
-        }
-        verify(loggerMock).log(any(Level.class), logCaptor.capture(), any(Exception.class));
-        assertEquals("SELECT * FROM TableName WHERE TableName_ID=? AND Processed='Y'", logCaptor.getValue());
-
-    }
-
-    private static Stream<Arguments> argProviderDocClassNames() {
-        
-        return Stream.of(
-                arguments("X_Some_Table", "org.compiere.acct.Doc_SomeTable"),
-                arguments("XX_Some_Table", "org.compiere.acct.Doc_XXSomeTable"),
-                arguments("XXSomeTable", "org.compiere.acct.Doc_XXSomeTable")
-                );
-    }
-    
-    @ParameterizedTest(name="For table name {0}, result should by {1}")
-    @DisplayName("GetDoc, given a table name, generates the correct .doc "
-            + "name format")
-    @MethodSource("argProviderDocClassNames")
-    final void whenGivenATableNameGetDocGeneratesTheCorrectDocNameForamt(
-            String tableName, String expectedClassName)
-            throws Exception {
-
-        MAcctSchema[] acctSchemas = new MAcctSchema[] {};
-        AdempiereUserError error = assertThrows(AdempiereUserError.class, 
-                () -> {
-                    DocumentEngine.get().getDoc(acctSchemas, tableName, (ResultSet) null, trxName);
-                });
-        
-        assertTrue(error.getMessage().contains(expectedClassName));
-        
     }
 
     @Nested

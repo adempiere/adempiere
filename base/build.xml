@@ -195,8 +195,6 @@
     	memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>
       <src path="../org.adempiere.test/src/test/java"/>
-      <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
-      <src path="../org.eevolution.manufacturing/src/main/java/base/org/compiere/acct"/>            
       <classpath refid="test.class.path"/>
       <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
     </javac>		

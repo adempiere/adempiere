@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_ProductPrice;
+import org.adempiere.core.domains.models.X_M_PriceList_Version;
 import org.compiere.util.DisplayType;
 import org.compiere.util.TimeUtil;
 

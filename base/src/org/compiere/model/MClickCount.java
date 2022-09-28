@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_W_ClickCount;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.ValueNamePair;

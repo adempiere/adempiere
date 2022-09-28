@@ -43,12 +43,12 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MNote;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -210,6 +210,18 @@ public abstract class Doc
 	/**	Document Status         */
 	public static final String 	STATUS_Error            = "E";
 
+	/**
+	 *  Create Posting document
+	 *	@param ass accounting schema
+	 *  @param tableName Table Name of Documents
+	 *  @param Record_ID record ID to load
+	 *  @param trxName transaction name
+	 *  @return Document or null
+	 */
+	public static Doc get (MAcctSchema[] ass, String tableName, int Record_ID, String trxName)  {
+		return get(ass, MTable.getTable_ID(tableName), Record_ID, trxName);
+	}	//	get
+	
 	
 	/**
 	 *  Create Posting document
@@ -221,18 +233,26 @@ public abstract class Doc
 	 */
 	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, int Record_ID, String trxName) 
 	{
-		try {
-			return new DocFactory()
-					.withAccountingSchemes(ass)
-					.withTableID(AD_Table_ID)
-					.withRecordID(Record_ID)
-					.withTrxName(trxName)
-					.get();
-		} catch (AdempiereUserError e) {
-			s_log.log (Level.SEVERE, e.getMessage(), e);
-			return null;
-		}
+		return new DocFactory()
+				.withAccountingSchemes(ass)
+				.withTableID(AD_Table_ID)
+				.withRecordID(Record_ID)
+				.withTrxName(trxName)
+				.get();
 	}	//	get
+	
+	/**
+	 *  Create Posting document
+	 *	@param ass accounting schema
+	 *  @param String Table Name of Documents
+	 *  @param rs ResultSet
+	 *  @param trxName transaction name
+	 *  @return Document
+	 * @throws AdempiereUserError 
+	 */
+	public static Doc get(MAcctSchema[] ass, String tableName, ResultSet rs, String trxName) {
+		return get(ass, MTable.getTable_ID(tableName), rs, trxName);
+	}   //  get
 	
 	/**
 	 *  Create Posting document
@@ -243,7 +263,7 @@ public abstract class Doc
 	 *  @return Document
 	 * @throws AdempiereUserError 
 	 */
-	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName) throws AdempiereUserError
+	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName)
 	{
 		
 		return new DocFactory()

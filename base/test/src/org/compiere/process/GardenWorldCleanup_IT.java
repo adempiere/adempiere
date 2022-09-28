@@ -34,11 +34,11 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
+import org.adempiere.core.domains.models.I_M_PriceList_Version;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonSystemSetup;
 import org.compiere.acct.Doc;
-import org.compiere.model.I_M_PriceList_Version;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MDiscountSchema;
 import org.compiere.model.MPriceListVersion;

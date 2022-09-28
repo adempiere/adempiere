@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.model.MBPartner;
@@ -57,8 +58,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.eevolution.hr.service.HRProcessActionMsg;
-import org.eevolution.model.MPPCostCollector;
+import org.eevolution.hr.services.HRProcessActionMsg;
+import org.eevolution.manufacturing.model.MPPCostCollector;
 import org.spin.hr.util.PayrollEngineHandler;
 import org.spin.hr.util.RuleInterface;
 import org.spin.hr.util.TNAUtil;

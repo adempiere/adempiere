@@ -20,8 +20,8 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_Element;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Element;
 import org.compiere.model.M_Element;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;

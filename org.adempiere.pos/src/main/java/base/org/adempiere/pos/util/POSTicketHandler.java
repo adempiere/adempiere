@@ -18,7 +18,7 @@ package org.adempiere.pos.util;
 
 import java.lang.reflect.Constructor;
 
-import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.services.CPOS;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 

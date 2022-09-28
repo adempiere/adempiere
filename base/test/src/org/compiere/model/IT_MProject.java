@@ -15,9 +15,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import static org.adempiere.core.domains.models.X_C_Project.PROJECTLINELEVEL_Project;
+import static org.adempiere.core.domains.models.X_C_Project.PROJINVOICERULE_None;
 import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
-import static org.compiere.model.X_C_Project.PROJECTLINELEVEL_Project;
-import static org.compiere.model.X_C_Project.PROJINVOICERULE_None;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

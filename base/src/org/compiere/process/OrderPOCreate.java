@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_Order;
+import org.adempiere.core.domains.models.I_C_Order;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;

@@ -36,6 +36,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_EXP_Format;
+import org.adempiere.core.domains.models.I_EXP_FormatLine;
+import org.adempiere.core.domains.models.X_EXP_Format;
+import org.adempiere.core.domains.models.X_EXP_FormatLine;
 import org.compiere.util.CCache;
 
 

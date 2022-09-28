@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.X_C_CommissionRun;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;

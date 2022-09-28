@@ -17,6 +17,7 @@
 
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_R_StandardRequest;
 import org.adempiere.exceptions.AdempiereException;
 
 import java.sql.ResultSet;

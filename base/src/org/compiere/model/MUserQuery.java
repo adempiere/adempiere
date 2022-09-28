@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.X_AD_UserQuery;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

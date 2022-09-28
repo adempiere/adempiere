@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_T_InvoiceGL;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaDefault;
@@ -33,7 +34,6 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
 import org.compiere.model.MOrg;
 import org.compiere.model.Query;
-import org.compiere.model.X_T_InvoiceGL;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

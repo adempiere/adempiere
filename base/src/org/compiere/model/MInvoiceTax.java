@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_InvoiceTax;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

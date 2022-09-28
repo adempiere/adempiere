@@ -22,10 +22,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.I_AD_Process_Access;
+import org.adempiere.core.domains.models.I_AD_Window_Access;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Process;
-import org.compiere.model.I_AD_Process_Access;
-import org.compiere.model.I_AD_Window_Access;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessAccess;
 import org.compiere.model.MTab;

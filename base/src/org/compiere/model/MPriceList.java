@@ -22,6 +22,9 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_PriceList_Version;
+import org.adempiere.core.domains.models.X_I_PriceList;
+import org.adempiere.core.domains.models.X_M_PriceList;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

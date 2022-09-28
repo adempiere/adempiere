@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoiceLine;

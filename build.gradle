@@ -1,0 +1,40 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+dependencies {
+    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+
+def entityType = 'D'
+version = "3.9.4-develop-1.0"
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Project Management",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}

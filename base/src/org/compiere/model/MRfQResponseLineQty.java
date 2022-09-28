@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.Comparator;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_RfQResponseLineQty;
 import org.compiere.util.Env;
 
 /**

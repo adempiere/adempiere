@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_FieldCustom;
+import org.adempiere.core.domains.models.X_AD_TabCustom;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.Util;
 

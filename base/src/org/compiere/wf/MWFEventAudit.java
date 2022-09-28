@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WF_EventAudit;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_EventAudit;
 import org.compiere.util.Env;
 
 /**

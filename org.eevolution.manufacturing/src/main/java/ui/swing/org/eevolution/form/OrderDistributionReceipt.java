@@ -41,7 +41,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.distribution.model.MDDOrderLine;
-import org.eevolution.distribution.util.FleetUtil;
+import org.eevolution.distribution.services.InventoryMovementService;
 
 /**
  *	Create Movement for Material Receipt from Distribution Order
@@ -211,7 +211,7 @@ public class OrderDistributionReceipt extends GenForm
 		
 		Timestamp movementDate = (Timestamp) m_MovementDate;
 		MDDOrder order = new MDDOrder(m_ctx , Integer.parseInt(m_DD_Order_ID.toString()), trxName);
-		MMovement movement = FleetUtil.createMovementFromOrder(order, movementDate);
+		MMovement movement = InventoryMovementService.createMovementFromOrder(order, movementDate);
 		movement.saveEx();
 		
 		ArrayList<Integer> ids = getSelection();
@@ -224,7 +224,7 @@ public class OrderDistributionReceipt extends GenForm
 			BigDecimal QtyDeliver = (BigDecimal) miniTable.getValueAt(i, 1);
 			if(QtyDeliver == null | QtyDeliver.compareTo(oline.getQtyInTransit()) > 0)
 				 throw new AdempiereException("Error in Qty");
-			FleetUtil.setMovementOrderLine(line, oline, QtyDeliver, true);
+			InventoryMovementService.setMovementOrderLine(line, oline, QtyDeliver, true);
 			line.saveEx();
 			i ++;
 		}

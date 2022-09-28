@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.util.*;
 import java.util.logging.*;
 
+import org.adempiere.core.domains.models.I_C_Currency;
 import org.compiere.util.Util;
 
 import paypal.payflow.ClientInfo;

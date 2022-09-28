@@ -37,9 +37,9 @@ import org.compiere.model.MStorage;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.distribution.util.FleetUtil;
 import org.eevolution.distribution.model.MDDOrder;
 import org.eevolution.distribution.model.MDDOrderLine;
+import org.eevolution.distribution.services.InventoryMovementService;
 
 
 /**
@@ -362,7 +362,7 @@ public class MovementGenerate extends MovementGenerateAbstract
         lastPartnerLocationId = order.getC_BPartner_Location_ID();
 		MMovement currentMovement  = getCurrentMovement().orElseGet(() -> {
 			MLocator locator = MLocator.get(getCtx(), orderLine.getM_Locator_ID());
-			movement = org.eevolution.distribution.util.FleetUtil.createMovementFromOrder(order, getMovementDate());
+			movement = InventoryMovementService.createMovementFromOrder(order, getMovementDate());
 			movement.setAD_Org_ID(locator.getAD_Org_ID());
 			movement.setIsInTransit(true);
 			if (order.getC_BPartner_ID() != order.getC_BPartner_ID())
@@ -385,7 +385,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 		//	Non Inventory Lines
 		if (storages == null) {
 			MMovementLine line = new MMovementLine(currentMovement);
-			org.eevolution.distribution.util.FleetUtil.setMovementOrderLine(line, orderLine, Env.ZERO, false);
+			InventoryMovementService.setMovementOrderLine(line, orderLine, Env.ZERO, false);
 			line.setMovementQty(qty);    //	Correct UOM
 			if (orderLine.getQtyEntered().compareTo(orderLine.getQtyOrdered()) != 0)
 				line.setMovementQty(qty
@@ -442,7 +442,7 @@ public class MovementGenerate extends MovementGenerateAbstract
 			if (line == null)	//	new line
 			{
 				line = new MMovementLine (currentMovement);
-				FleetUtil.setMovementOrderLine(line, orderLine, deliver, false);
+				InventoryMovementService.setMovementOrderLine(line, orderLine, deliver, false);
 				line.setMovementQty(deliver);
 				list.add(line);
 			}

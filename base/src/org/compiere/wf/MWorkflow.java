@@ -27,13 +27,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Workflow;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Workflow;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.CCache;

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_DD_OrderLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.util.CLogger;

@@ -27,6 +27,9 @@
   	<fileset dir="../org.eevolution.distribution/dist/lib">
   	  <include name="*.jar"/>
   	</fileset>
+  	<fileset dir="../org.eevolution.manufacturing/dist/lib">
+  	  <include name="*.jar"/>
+  	</fileset>
     <pathelement path="../tools/lib/c3p0-0.9.1.2.jar"/>
     <pathelement path="../serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
   </path>

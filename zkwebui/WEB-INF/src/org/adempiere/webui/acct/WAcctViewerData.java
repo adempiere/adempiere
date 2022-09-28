@@ -34,8 +34,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.adempiere.webui.component.Listbox;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MFactAcct;

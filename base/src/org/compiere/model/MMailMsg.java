@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_W_MailMsg;
+
 /**
  * 	Wab Store Mail Message Model
  *  @author Jorg Janke

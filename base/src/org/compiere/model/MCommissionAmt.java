@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_CommissionDetail;
+import org.adempiere.core.domains.models.X_C_CommissionAmt;
 import org.compiere.util.Env;
 
 /**

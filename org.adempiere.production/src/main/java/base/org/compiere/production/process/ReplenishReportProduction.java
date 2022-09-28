@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_T_Replenish;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
@@ -38,7 +39,6 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.X_T_Replenish;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;

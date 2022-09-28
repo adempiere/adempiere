@@ -27,6 +27,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_MatchPO;
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;

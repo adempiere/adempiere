@@ -26,11 +26,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.IntStream;
 
+import org.adempiere.core.domains.models.I_AD_Queue;
 import org.compiere.model.Query;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.spin.queue.model.I_AD_Queue;
 import org.spin.queue.model.MADQueue;
 import org.spin.queue.model.MADQueueType;
 import org.spin.queue.util.QueueLoader;

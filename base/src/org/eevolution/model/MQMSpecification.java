@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_QM_SpecificationLine;
+import org.adempiere.core.domains.models.X_QM_Specification;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;

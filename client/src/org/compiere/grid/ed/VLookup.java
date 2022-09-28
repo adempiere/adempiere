@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.core.domains.models.I_PP_Product_BOMLine;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -79,7 +80,6 @@ import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.I_PP_Product_BOMLine;
 
 /**
  *  Lookup Visual Field.

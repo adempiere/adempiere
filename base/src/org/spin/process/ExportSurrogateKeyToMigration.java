@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.compiere.model.I_AD_MigrationStep;
-import org.compiere.model.I_AD_Table;
+import org.adempiere.core.domains.models.I_AD_MigrationStep;
+import org.adempiere.core.domains.models.I_AD_Table;
 import org.compiere.model.MColumn;
 import org.compiere.model.MMigration;
 import org.compiere.model.MMigrationStep;

@@ -19,10 +19,10 @@ package org.adempiere.model;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.MColumn;
 
 /**

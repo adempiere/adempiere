@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_MovementLine;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -56,7 +57,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSerNoCtl;
 import org.compiere.model.MWindow;
-import org.compiere.model.X_M_MovementLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

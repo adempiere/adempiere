@@ -16,6 +16,7 @@
 
 package org.eevolution.hr.model;
 
+import org.adempiere.core.domains.models.X_HR_LeaveAssign;
 import org.compiere.model.Query;
 
 import java.sql.ResultSet;

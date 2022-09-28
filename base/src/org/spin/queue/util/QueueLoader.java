@@ -28,7 +28,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.queue.model.MADQueueType;
 import org.spin.queue.process.FlushSystemQueue;
 

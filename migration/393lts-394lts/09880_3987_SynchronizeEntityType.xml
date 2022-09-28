@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Synchronize Entity Type" ReleaseNo="3.9.4" SeqNo="9880">
+    <Comments>https://github.com/adempiere/adempiere/issues/3987</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54646" Table="AD_Process">
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54646</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SynchronizeEntityType</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="2805" Column="Created">2022-09-19 16:15:23.474</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2810" Column="Description">Synchronize entity type based on main menu</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="2811" Column="Help">This process allows to synchronize the Entity Type for the elements defined in the menu, processes, windows, forms, etc.</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name">Synchronize Entity Type</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="84383" Column="UUID">47da3ece-a93e-4cc6-9926-f80ac500f8e9</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2022-09-19 16:15:23.474</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4023" Column="Value">AD_EntityType Synchronize</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54646</Data>
+        <Data AD_Column_ID="2848" Column="Created">2022-09-19 16:15:27.766</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2853" Column="Description">Synchronize entity type based on main menu</Data>
+        <Data AD_Column_ID="2854" Column="Help">This process allows to synchronize the Entity Type for the elements defined in the menu, processes, windows, forms, etc.</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2852" Column="Name">Synchronize Entity Type</Data>
+        <Data AD_Column_ID="84387" Column="UUID">e0bc589f-d472-4f56-bcc5-e2cac2570d3c</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2022-09-19 16:15:27.766</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54646">54646</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Synchronize entity type based on main menu">Sincronizar Tipo de Entidad basado en el menu principal</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="This process allows to synchronize the Entity Type for the elements defined in the menu, processes, windows, forms, etc.">Este proceso permite sincronizar el tipo de entidad para los elementos definidos en el menu , procesos , ventanas , formas , etc</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Synchronize Entity Type">Sincronizar Tipo de Entidad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58797" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">110</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54646</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58797</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AD_Menu_ID</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-09-19 16:17:17.983</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Identifies a Menu</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Menu identifies a unique Menu.  Menus are used to control the display of those screens a user has access to.</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Menu</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="84385" Column="UUID">a87c6441-f79a-486b-8aa9-1a88164ae639</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-09-19 16:17:17.983</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58797</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-09-19 16:17:18.795</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2841" Column="Description">Identifies a Menu</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Menu identifies a unique Menu.  Menus are used to control the display of those screens a user has access to.</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Menu</Data>
+        <Data AD_Column_ID="84386" Column="UUID">3a585e4a-a666-405b-95a2-5bf01d01331a</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-09-19 16:17:18.795</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="58798" Table="AD_Process_Para">
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">3052</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54646</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58798</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AD_EntityType_ID</Data>
+        <Data AD_Column_ID="2818" Column="Created">2022-09-19 16:17:38.015</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">System Entity Type</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2824" Column="Help">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintained by Adempiere (i.e. all changes are reversed during migration to the current definition).</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2822" Column="Name">Entity Type</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="84385" Column="UUID">92e26370-8fdf-4277-bdeb-24afd241c1d5</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2022-09-19 16:17:38.015</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">58798</Data>
+        <Data AD_Column_ID="2836" Column="Created">2022-09-19 16:17:38.878</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2841" Column="Description">System Entity Type</Data>
+        <Data AD_Column_ID="3743" Column="Help">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintained by Adempiere (i.e. all changes are reversed during migration to the current definition).</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Entity Type</Data>
+        <Data AD_Column_ID="84386" Column="UUID">b7f99ca3-3f05-4494-ab5f-caf71299acc3</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2022-09-19 16:17:38.878</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="58798" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="58797" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54835" Table="AD_Menu">
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54835</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">54646</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="232" Column="Action">P</Data>
+        <Data AD_Column_ID="599" Column="Created">2022-09-19 19:39:51.925</Data>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="230" Column="Description">Synchronize entity type based on main menu</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="229" Column="Name">Synchronize Entity Type</Data>
+        <Data AD_Column_ID="84344" Column="UUID">cc05317f-1ad5-4c78-b97f-3d3caf1a05b4</Data>
+        <Data AD_Column_ID="601" Column="Updated">2022-09-19 19:39:51.925</Data>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="0" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54835</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="637" Column="Created">2022-09-19 19:39:55.299</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description">Synchronize entity type based on main menu</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="247" Column="Name">Synchronize Entity Type</Data>
+        <Data AD_Column_ID="84345" Column="UUID">0011a101-f207-4a5c-a712-1fa9c5a4c12a</Data>
+        <Data AD_Column_ID="639" Column="Updated">2022-09-19 19:39:55.299</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="6151" Column="Created">2022-09-19 19:39:55.339</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54835</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="84442" Column="UUID">6057e0d0-76fc-4cc5-91b9-1e99629d2a2f</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2022-09-19 19:39:55.339</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54835">54835</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">1011</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54835">54835</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="1011">1012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54835">54835</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">153</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="1012">5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="138">138</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="5">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="249">249</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="6">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54312">54312</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="139">139</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="8">9</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54438">54438</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="9">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="141">141</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="10">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="589">589</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="11">12</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="216">216</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="12">13</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="300">300</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="13">14</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="140">140</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="14">15</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="295">295</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="15">16</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="142">142</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="16">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53012">53012</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="17">18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="143">143</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="18">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="201">201</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="19">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="176">176</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="20">21</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53228">53228</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="21">22</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53086">53086</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="22">23</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54759">54759</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="23">24</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53227">53227</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="24">25</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="239">239</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="25">26</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="517">517</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="26">27</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54314">54314</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="27">28</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="499">499</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="28">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54441">54441</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="29">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54667">54667</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="30">31</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54817">54817</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="31">32</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53221">53221</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="32">33</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53222">53222</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="33">34</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53089">53089</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="34">35</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54442">54442</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="35">36</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53090">53090</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="36">37</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="10" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="37">38</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

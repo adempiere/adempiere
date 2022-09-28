@@ -21,17 +21,17 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_I_FM_Agreement;
+import org.adempiere.core.domains.models.X_I_FM_Agreement;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Util;
-import org.spin.investment.model.I_I_FM_Agreement;
 import org.spin.investment.model.MFMAccount;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.model.MFMAmortization;
-import org.spin.investment.model.X_I_FM_Agreement;
 
 /**
  * Import process for Agreement

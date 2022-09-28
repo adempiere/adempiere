@@ -25,8 +25,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_ImpFormat_Row;
 import org.compiere.model.Callout;
-import org.compiere.model.X_AD_ImpFormat_Row;
 import org.compiere.util.CLogger;
 
 /**

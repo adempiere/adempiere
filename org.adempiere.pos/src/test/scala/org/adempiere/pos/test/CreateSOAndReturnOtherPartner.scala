@@ -19,7 +19,7 @@ package org.adempiere.pos.test
 import org.compiere.model.*
 import org.compiere.process.DocAction
 import org.eevolution.dsl.builder.PaymentBuilder
-import org.eevolution.service.dsl.ProcessBuilder
+import org.eevolution.services.dsl.ProcessBuilder
 import org.eevolution.services.{PaymentService, ProductService, SystemConfigService}
 import org.eevolution.test.*
 import org.scalatest.GivenWhenThen

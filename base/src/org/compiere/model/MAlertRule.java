@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_AlertRule;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Util;

@@ -24,11 +24,15 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.I_C_ProjectIssue;
+import org.adempiere.core.domains.models.I_C_ProjectLine;
+import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.X_C_Project;
+import org.adempiere.core.domains.models.X_I_Project;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.MProjectMember;
-import org.eevolution.model.X_I_Project;
 
 /**
  * 	Project Model

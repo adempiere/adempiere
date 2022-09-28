@@ -22,8 +22,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.adempiere.core.api.I_HR_EmployeeDependent;
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_HR_EmployeeDependent;
+import org.adempiere.core.domains.models.X_HR_EmployeeDependent;
 import org.compiere.model.Query;
 
 /**

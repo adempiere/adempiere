@@ -28,10 +28,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_OrderTax;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_RMA;
+import org.adempiere.core.domains.models.I_PP_Product_Planning;
+import org.adempiere.core.domains.models.X_C_Order;
+import org.adempiere.core.domains.models.X_PP_Product_BOM;
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
+import org.adempiere.core.domains.models.X_PP_Product_Planning;
 import org.adempiere.exceptions.BPartnerNoBillToAddressException;
 import org.adempiere.exceptions.BPartnerNoShipToAddressException;
 import org.adempiere.exceptions.FillMandatoryException;
@@ -41,9 +52,8 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
 
 /**
@@ -1408,27 +1418,27 @@ public class MOrder extends X_C_Order implements DocAction
 				MProduct product = MProduct.get (getCtx(), line.getM_Product_ID());
 				log.fine(product.getName());
 				//	New Lines
-				int lineNo = line.getLine ();
+				AtomicInteger lineNumber = new AtomicInteger(line.getLine());
 				//find default BOM with valid dates and to this product
-				MPPProductBOM bom = MPPProductBOM.get(product, getAD_Org_ID(),getDatePromised(), get_TrxName());
-				if(bom != null)
-				{	
-					MPPProductBOMLine[] bomlines = bom.getLines(getDatePromised());
-					for (int j = 0; j < bomlines.length; j++)
-					{
-						MPPProductBOMLine bomline = bomlines[j];
-						MOrderLine newLine = new MOrderLine (this);
-						newLine.setLine (++lineNo);
-						newLine.setM_Product_ID (bomline.getM_Product_ID ());
-						newLine.setC_UOM_ID (bomline.getC_UOM_ID ());
-						newLine.setQty (line.getQtyOrdered ().multiply (
-							bomline.getQtyBOM()));
-						if (bomline.getDescription () != null)
-							newLine.setDescription (bomline.getDescription ());
-						//
-						newLine.setPrice ();
-						newLine.save (get_TrxName());
-					}
+				X_PP_Product_BOM bom = getProductBom(product, getAD_Org_ID(), getDatePromised(), get_TrxName());
+				if(bom != null) {
+					getProductBomLines(bom.getPP_Product_BOM_ID()).forEach(productBomLineId -> {
+						X_PP_Product_BOMLine productBomLine = new X_PP_Product_BOMLine(getCtx(), productBomLineId, get_TrxName());
+						//	Validate
+						if (TimeUtil.isValid(productBomLine.getValidFrom(), productBomLine.getValidTo(), getDatePromised())) {
+							MOrderLine newLine = new MOrderLine (this);
+							newLine.setLine(lineNumber.incrementAndGet());
+							newLine.setM_Product_ID(productBomLine.getM_Product_ID ());
+							newLine.setC_UOM_ID(productBomLine.getC_UOM_ID ());
+							newLine.setQty(line.getQtyOrdered().multiply(productBomLine.getQtyBOM()));
+							if (productBomLine.getDescription() != null) {
+								newLine.setDescription (productBomLine.getDescription());
+							}
+							//
+							newLine.setPrice ();
+							newLine.save (get_TrxName());
+						}
+					});
 				}
 				
 				//	Convert into Comment Line
@@ -1455,6 +1465,119 @@ public class MOrder extends X_C_Order implements DocAction
 		}	//	while count != 0
 		return retValue;
 	}	//	explodeBOM
+	
+	/**
+	 * 	Get BOM Lines for Product BOM
+	 * 	@return BOM Lines
+	 */
+	private List<Integer> getProductBomLines(int productBomId) {
+		return new Query(getCtx(), X_PP_Product_BOMLine.Table_Name, X_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?", get_TrxName())
+				.setParameters(productBomId)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(X_PP_Product_BOMLine.COLUMNNAME_Line)
+				.getIDsAsList();
+	}	//	getLines    	
+	
+	private X_PP_Product_BOM getProductBom(MProduct product, int organizationId, Timestamp promisedDate, String transactionName) {
+		X_PP_Product_BOM bom = null;
+		Properties ctx = product.getCtx();
+		// find Default BOM in Product Data Planning  
+		if (organizationId > 0 ) {	
+			X_PP_Product_Planning pp = getProductPlanning(ctx, product.getAD_Client_ID(), organizationId, product.getM_Product_ID(), transactionName);
+			if(pp != null && pp.getPP_Product_BOM_ID() > 0) {
+				bom = new X_PP_Product_BOM(ctx, pp.getPP_Product_BOM_ID(), transactionName);
+			}
+		}	
+		if (bom == null) {
+			//Find BOM with Default Logic where product = bom product and bom value = value 
+			bom = getDefaultProductBom(product, transactionName);
+		}
+		return bom;
+	}
+	
+	/**
+	 * Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value) 
+	 * @param product
+	 * @param trxName
+	 * @return product BOM
+	 */
+	private X_PP_Product_BOM getDefaultProductBom(MProduct product, String trxName) {
+		return (X_PP_Product_BOM) new Query(product.getCtx(), X_PP_Product_BOM.Table_Name, "M_Product_ID=? AND Value=?", trxName)
+				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()}).setOnlyActiveRecords(true)
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
+				.first();
+	}
+	
+	/**
+	 * Get Data Product Planning to Organization
+	 * @param ctx Context
+	 * @param organizationId Organization ID
+	 * @param productId Product ID
+	 * @param transactionName Transaction Name 
+	 * @return MPPProductPlanning
+	 */    
+	private X_PP_Product_Planning getProductPlanning(Properties ctx, int clientId, int organizationId, int productId, String transactionName) {
+		int warehouseId = MOrgInfo.get(ctx, organizationId, transactionName).getM_Warehouse_ID();
+		if(warehouseId <= 0) {
+			return null;
+		}
+		int resourceId = getPlantForWarehouse(warehouseId); 
+		if (resourceId <= 0)
+			return null;
+
+		return getProductPlanning(ctx, clientId,organizationId, warehouseId, resourceId, productId, transactionName);
+	}
+	
+	/**
+	 * Get plant resource for warehouse. If more than one resource is found, first will be used.
+	 * @param warehouseId
+	 * @return Plant_ID (S_Resource_ID)
+	 */
+	private int getPlantForWarehouse(int warehouseId) {
+		final String sql = "SELECT MIN("+MResource.COLUMNNAME_S_Resource_ID+")"
+							+" FROM "+MResource.Table_Name
+							+" WHERE "+MResource.COLUMNNAME_IsManufacturingResource+"=?"
+							+" AND "+MResource.COLUMNNAME_ManufacturingResourceType+"=?"
+							+" AND "+MResource.COLUMNNAME_M_Warehouse_ID+"=?"; 
+		int plantId = DB.getSQLValueEx(null, sql, true, MResource.MANUFACTURINGRESOURCETYPE_Plant, warehouseId);
+		return plantId;
+	}
+
+	/**
+	 * Get Data Product Planning 
+	 * @param ctx Context
+	 * @param AD_Client_ID ID Organization
+	 * @param AD_Org_ID ID Organization
+	 * @param M_Warehouse_ID Warehouse
+	 * @param S_Resource_ID Resource type Plant
+	 * @param M_Product_ID ID Product
+	 * @param transactionName Trx Name
+	 * @return MPPProductPlanning
+	 */     
+	private X_PP_Product_Planning getProductPlanning(Properties ctx, int clientId, int organizationId,
+											int warehouseId, int resourceId, int productId,
+											String transactionName)
+	{
+		log.info("AD_Client_ID="  + clientId + " AD_Org_ID=" + organizationId + " M_Product_ID=" + productId + " M_Warehouse_ID=" + warehouseId + " S_Resource_ID=" + resourceId );
+		String  sql_warehouse = X_PP_Product_Planning.COLUMNNAME_M_Warehouse_ID+"=?";
+		if(warehouseId == 0)
+		{
+			sql_warehouse += " OR "+X_PP_Product_Planning.COLUMNNAME_M_Warehouse_ID+" IS NULL";
+		}
+
+		String whereClause =
+			" AD_Client_ID=? AND AD_Org_ID=?"
+			+" AND "+I_PP_Product_Planning.COLUMNNAME_M_Product_ID+"=?"
+			+" AND ("+sql_warehouse+")"
+			+" AND "+I_PP_Product_Planning.COLUMNNAME_S_Resource_ID+"=?";
+
+		return new Query(ctx, I_PP_Product_Planning.Table_Name, whereClause, transactionName)
+			.setParameters(clientId, organizationId, productId, warehouseId, resourceId)
+			.setOnlyActiveRecords(true)
+			.firstOnly();
+	} 
 
 	/**
 	 * Is Binding

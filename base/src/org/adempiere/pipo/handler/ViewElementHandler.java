@@ -24,12 +24,12 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.adempiere.model.I_AD_View;
-import org.adempiere.model.I_AD_View_Column;
-import org.adempiere.model.I_AD_View_Definition;
+import org.adempiere.core.domains.models.I_AD_View;
+import org.adempiere.core.domains.models.I_AD_View_Column;
+import org.adempiere.core.domains.models.I_AD_View_Definition;
+import org.adempiere.core.domains.models.X_AD_View_Definition;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
-import org.adempiere.model.X_AD_View_Definition;
 import org.adempiere.pipo.PackOut;
 import org.compiere.model.Query;
 import org.compiere.util.Env;

@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_R_Category;
 import org.compiere.util.CCache;
 
 import java.sql.ResultSet;

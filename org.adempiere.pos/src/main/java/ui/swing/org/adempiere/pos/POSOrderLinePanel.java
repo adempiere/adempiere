@@ -32,8 +32,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
-import org.adempiere.pos.service.POSOrderLineTableHandle;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSOrderLineTableHandle;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.PO;
 import org.compiere.swing.CScrollPane;

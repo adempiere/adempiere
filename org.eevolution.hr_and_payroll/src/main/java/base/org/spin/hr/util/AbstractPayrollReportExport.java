@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.Util;
-import org.spin.pr.model.X_RV_HR_ProcessDetail;
+import org.adempiere.core.domains.models.X_RV_HR_ProcessDetail;
 
 /**
  * 	Abstract class implementation for export files from Payroll Process Report

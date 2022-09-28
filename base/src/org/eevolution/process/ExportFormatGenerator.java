@@ -18,8 +18,8 @@ package org.eevolution.process;
 import java.sql.SQLException;
 import java.util.Hashtable;
 
+import org.adempiere.core.domains.models.I_EXP_Format;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_EXP_Format;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPFormatLine;

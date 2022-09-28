@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="09860_3927_New_Notification_Window_per_user" ReleaseNo="3.9.4" SeqNo="9860">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="132" Action="I" Record_ID="0" Table="AD_Window_Trl">
+        <Data AD_Column_ID="699" Column="Updated">2022-07-21 11:47:41.82</Data>
+        <Data AD_Column_ID="308" Column="Description">Recipientes de la Cola de Notificaciones del Sistema</Data>
+        <Data AD_Column_ID="697" Column="Created">2022-07-21 11:47:41.82</Data>
+        <Data AD_Column_ID="696" Column="IsActive">true</Data>
+        <Data AD_Column_ID="307" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="309" Column="Help">Esta entidad permite encolar todos los Recipientes de las notificaciones del sistema</Data>
+        <Data AD_Column_ID="310" Column="Name">Recipientes de Cola de Notificación</Data>
+        <Data AD_Column_ID="311" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1211" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1212" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="698" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="700" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="306" Column="AD_Window_ID">53787</Data>
+        <Data AD_Column_ID="84480" Column="UUID">0f773098-2949-42a6-9c6c-634fb0e02c16</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="123" Action="I" Record_ID="55148" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="267" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="654" Column="Updated">2022-07-21 11:47:42.913</Data>
+        <Data AD_Column_ID="651" Column="IsActive">true</Data>
+        <Data AD_Column_ID="652" Column="Created">2022-07-21 11:47:42.913</Data>
+        <Data AD_Column_ID="266" Column="Name">Destinatarios de Notificaciones</Data>
+        <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="268" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID">55148</Data>
+        <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="265" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84424" Column="UUID">f28cf313-8f5a-414e-85f1-474ccdc81f00</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102165" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.185</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.185</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Notification Recipient allows save a contact list for send notification</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Notification Recipient</Data>
+        <Data AD_Column_ID="288" Column="Help">Use this for save a list of contact for send notification</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102165</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">84dac2f5-df40-426a-bb9b-da529e54d0fd</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102166" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.342</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.342</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="288" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102166</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">017fb55a-22a5-45c7-b804-08153bcba69a</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102167" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.494</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.494</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Compañía para esta instalación</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Compañía</Data>
+        <Data AD_Column_ID="288" Column="Help">Compañía o entidad legal. No se pueden compartir datos entre diferentes compañías.</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102167</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">6f122499-10e4-48c5-81cf-9f0d5bd0efd1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102168" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.643</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.643</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Entidad organizacional dentro de la compañía</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Organización</Data>
+        <Data AD_Column_ID="288" Column="Help">Una organización es una unidad de la compañía o entidad legal - Ej. Tiendas y departamentos. Es posible compartir datos entre organizaciones.</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102168</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">ce13ec15-ea1b-4a00-b037-79b8efdf100b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102169" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.802</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.802</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Cola de notificación para manejar todas las notificaciones del sistema</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Cola de Notificación</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102169</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">7edcc764-005a-47ee-990b-e6de7edddda6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102170" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:43.962</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:43.962</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">El registro está activo en el sistema</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Activo</Data>
+        <Data AD_Column_ID="288" Column="Help">Hay dos métodos para que los registros no estén disponibles en el sistema: Uno es eliminar el registro; el otro es desactivarlo. Un registro desactivado no está disponible para selección; pero está disponible para Informes</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102170</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">902c300f-9b18-423b-b843-f645e3c4aa64</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102171" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.117</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.117</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Nombre de Cuenta</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102171</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">8b615c85-8a9d-45f9-84c6-ca6c2dc2ce7c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102172" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.262</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.262</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">ID de Usuario dentro del sistema</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Usuario</Data>
+        <Data AD_Column_ID="288" Column="Help">La ID de usuario identifica un usuario único en el sistema</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102172</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">fa77695b-9499-418e-b356-144b41b09ae8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102173" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.41</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.41</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">El documento ha sido procesado</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Procesado</Data>
+        <Data AD_Column_ID="288" Column="Help">El cuadro de verificación procesada indica que un documento ha sido procesado</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102173</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">88849dd2-046f-4190-89f6-550a5ba30b35</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102174" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.555</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.555</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Mensaje de Error</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102174</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">261ce68d-3065-4c11-8b4d-69ed830d8346</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102175" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.708</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.708</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Tipo de Mensaje para la notificación</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Tipo de Mensaje</Data>
+        <Data AD_Column_ID="288" Column="Help">Determina el tipo de mensaje asociado a la notificación, esto puede ayudar a crear formatos personalizados de envío dependiendo de su tipo</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102175</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">c87e620f-c82e-4d54-b60c-681ad3048f1d</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102176" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:44.999</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:44.999</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Creado</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102176</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">9dff11d0-8f88-45f9-abc2-bc4209ffea51</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102177" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:45.269</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:45.269</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Actualizado</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102177</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">439dd0ba-fec6-4235-af57-078ee7b90524</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="123" Action="I" Record_ID="55149" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="267" Column="Description">Notification Queue</Data>
+        <Data AD_Column_ID="654" Column="Updated">2022-07-21 11:47:45.96</Data>
+        <Data AD_Column_ID="651" Column="IsActive">true</Data>
+        <Data AD_Column_ID="652" Column="Created">2022-07-21 11:47:45.96</Data>
+        <Data AD_Column_ID="266" Column="Name">Notification</Data>
+        <Data AD_Column_ID="3376" Column="CommitWarning" isNewNull="true"/>
+        <Data AD_Column_ID="268" Column="Help">This entity allows queuing all request of system</Data>
+        <Data AD_Column_ID="269" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1198" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1199" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID">55149</Data>
+        <Data AD_Column_ID="655" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="653" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="265" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84424" Column="UUID">2fb133ef-1ff4-41ac-a409-bf4af1b122bd</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102178" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.118</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.118</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Active</Data>
+        <Data AD_Column_ID="288" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102178</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">5ac0a5fa-3573-49d1-a27b-617f9e310789</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102179" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.264</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.264</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Notification Queue used for manage all system notification</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Notification Queue</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102179</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">42c042f5-02f6-4324-9801-99a6137cbe75</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102180" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.413</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.413</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="288" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102180</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">b79e6a42-ff8c-4d20-9b3c-a1ed1cef754a</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102181" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.558</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.558</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Compañía para esta instalación</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Compañía</Data>
+        <Data AD_Column_ID="288" Column="Help">Compañía o entidad legal. No se pueden compartir datos entre diferentes compañías.</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102181</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">954ac887-7845-4221-808b-f2f268eae5f8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102182" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.706</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.706</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Entidad organizacional dentro de la compañía</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Organización</Data>
+        <Data AD_Column_ID="288" Column="Help">Una organización es una unidad de la compañía o entidad legal - Ej. Tiendas y departamentos. Es posible compartir datos entre organizaciones.</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102182</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">7659545e-9b51-4427-bbcb-294923cce5e6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102183" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.849</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.849</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Referencia a la cola del sistema</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Cola del Sistema</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102183</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">189299e8-ebe7-4ef5-b6dc-503d02de80af</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102184" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:46.996</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:46.996</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Tipo de Aplicación, usado para identificar un tipo de aplicación como Cola de Mensaje</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Tipo de Aplicación</Data>
+        <Data AD_Column_ID="288" Column="Help">Puede definir un Tipo de Aplicación como Cola de Mensaje</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102184</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">d9efb824-85a4-4e24-87ed-9071d8ce6ae7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102185" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.147</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.147</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Aplicación Soportada para Conexión Externa</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Aplicación Soportada</Data>
+        <Data AD_Column_ID="288" Column="Help">Usado para definir un API de una aplicación Externa</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102185</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">a13a2d97-4541-4d30-8764-7b4e0af0789c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102186" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.295</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.295</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Registro de Aplicación Externa</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Registro de Aplicación</Data>
+        <Data AD_Column_ID="288" Column="Help">Conecta a ADempiere con una aplicación externa</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102186</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">0346cd39-85f4-45dd-ab57-4f7e29936073</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102187" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.44</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.44</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">ID de Usuario dentro del sistema</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Usuario</Data>
+        <Data AD_Column_ID="288" Column="Help">La ID de usuario identifica un usuario único en el sistema</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102187</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">17b0addf-3b5d-4d27-bae7-f61babbca43a</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102188" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.59</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.59</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">El documento ha sido procesado</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Procesado</Data>
+        <Data AD_Column_ID="288" Column="Help">El cuadro de verificación procesada indica que un documento ha sido procesado</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102188</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">fdf95d20-28e9-41d5-b856-ad90f1e2d0a4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102189" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.739</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.739</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Descripción corta opcional del registro</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Descripción</Data>
+        <Data AD_Column_ID="288" Column="Help">Una descripción esta limitada a 255 caracteres</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102189</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">a66f68de-c37c-4bab-8300-e30c4d86e5d3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102190" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:47.937</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:47.937</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Texto</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102190</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">8bc8cf04-e296-4583-bd86-323ba023ad5d</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102191" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:48.092</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:48.092</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Tipo de Mensaje para la notificación</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Tipo de Mensaje</Data>
+        <Data AD_Column_ID="288" Column="Help">Determina el tipo de mensaje asociado a la notificación, esto puede ayudar a crear formatos personalizados de envío dependiendo de su tipo</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102191</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">b9139298-f20f-4604-9313-8e69f2d815e1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102192" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-07-21 11:47:48.243</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-07-21 11:47:48.243</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="287" Column="Description">Manejador de Respuesta para una notificación</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Manejador de Respuesta</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102192</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">1a97c74b-01c5-4d06-be55-12178e173824</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="54818" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="639" Column="Updated">2022-07-21 11:47:48.463</Data>
+        <Data AD_Column_ID="637" Column="Created">2022-07-21 11:47:48.463</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54818</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID">9ce6d524-2688-4257-98d3-31403c264439</Data>
+        <Data AD_Column_ID="247" Column="Name">Notification Recipientes</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54818" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54818">54818</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">54754</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">4</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="123" Action="U" Record_ID="55149" Table="AD_Tab_Trl">
+        <Data AD_Column_ID="267" Column="Description" oldValue="Notification Queue">Cola de Notificación</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Notification">Notificación</Data>
+        <Data AD_Column_ID="268" Column="Help" isNewNull="true" oldValue="This entity allows queuing all request of system"/>
+        <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="55149">55149</Data>
+        <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="55149" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" isOldNull="true">AD_NotificationQueue.AD_NotificationQueue_ID=@0|AD_NotificationQueue_ID@</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

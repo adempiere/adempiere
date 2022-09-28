@@ -23,16 +23,16 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_Product;
+import org.adempiere.core.domains.models.X_M_Product_Class;
+import org.adempiere.core.domains.models.X_M_Product_Classification;
+import org.adempiere.core.domains.models.X_M_Product_Group;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPrice;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.X_I_Product;
-import org.compiere.model.X_M_Product_Class;
-import org.compiere.model.X_M_Product_Classification;
-import org.compiere.model.X_M_Product_Group;
 import org.compiere.util.DB;
 import org.compiere.util.Util;
 

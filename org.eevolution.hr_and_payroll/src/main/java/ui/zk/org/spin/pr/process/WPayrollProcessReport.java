@@ -23,7 +23,7 @@ import java.util.List;
 import org.compiere.util.Ini;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.pr.model.MHRProcessReport;
-import org.spin.pr.model.X_RV_HR_ProcessDetail;
+import org.adempiere.core.domains.models.X_RV_HR_ProcessDetail;
 import org.zkoss.zul.Filedownload;
 
 

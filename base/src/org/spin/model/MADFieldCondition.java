@@ -18,6 +18,8 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_FieldCondition;
+
 /**
  * Class for handle status bar
  * @author Raúl Muñoz, rMunoz@erpya.com , http://www.erpya.com

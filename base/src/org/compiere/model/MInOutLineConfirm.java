@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_InOutLineConfirm;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 

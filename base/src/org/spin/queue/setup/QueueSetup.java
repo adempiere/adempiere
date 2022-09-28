@@ -18,8 +18,8 @@ package org.spin.queue.setup;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Scheduler;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Scheduler;
 import org.compiere.model.MProcess;
 import org.compiere.model.MScheduler;
 import org.compiere.model.MSchedulerPara;

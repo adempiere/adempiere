@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_ConversionType;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 

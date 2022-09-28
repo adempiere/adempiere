@@ -25,8 +25,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
-import org.eevolution.distribution.util.FleetUtil;
 import org.eevolution.distribution.model.MDDOrderLine;
+import org.eevolution.distribution.services.InventoryMovementService;
 
 /**
  * Generate Movement Material
@@ -59,7 +59,7 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
             if (qtyDeliver == null | qtyDeliver.compareTo(orderLine.getQtyInTransit()) > 0)
                 throw new AdempiereException("Error @QtyInTransit@");
 
-            org.eevolution.distribution.util.FleetUtil.setMovementOrderLine(line, orderLine, qtyDeliver, true);
+            InventoryMovementService.setMovementOrderLine(line, orderLine, qtyDeliver, true);
             line.saveEx();
         });
 
@@ -73,7 +73,7 @@ public class GenerateMovementMaterial extends GenerateMovementMaterialAbstract {
         if (movement != null && movement.get_ID() > 0)
             return;
 
-        movement = FleetUtil.createMovementFromOrder(orderLine.getParent(), getMovementDate());
+        movement = InventoryMovementService.createMovementFromOrder(orderLine.getParent(), getMovementDate());
         //Look the document type for the organization
         int docTypeDO_ID = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialMovement, orderLine.getAD_Org_ID());
         if (docTypeDO_ID > 0)

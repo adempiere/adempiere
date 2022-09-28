@@ -15,9 +15,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import static org.adempiere.core.domains.models.X_M_Product.PRODUCTTYPE_Item;
 import static org.adempiere.test.CommonGWData.AZALEA_BUSH_PRODUCT_ID;
 import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
-import static org.compiere.model.X_M_Product.PRODUCTTYPE_Item;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;

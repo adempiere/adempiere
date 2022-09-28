@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.compiere.model.I_M_Package;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Shipper;
+import org.adempiere.core.domains.models.I_M_Package;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Shipper;
 import org.compiere.model.MClient;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;

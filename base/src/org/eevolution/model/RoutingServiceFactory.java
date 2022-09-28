@@ -12,7 +12,7 @@ import org.compiere.util.Env;
  */
 public class RoutingServiceFactory
 {
-	public static final String DEFAULT_ServiceName = "org.eevolution.model.impl.DefaultRoutingServiceImpl";
+	public static final String DEFAULT_ServiceName = "org.eevolution.manufacturing.model.impl.DefaultRoutingServiceImpl";
 
 	public static RoutingServiceFactory s_instance = null;
 	private static final HashMap<Integer, String> s_serviceClassnames = new HashMap<Integer, String>(5);

@@ -32,4 +32,10 @@
                   global="java/AdempiereDS"
                   auth="Container"
                   type="javax.sql.DataSource" />
+
+    <ResourceLink name="java/AdempiereSRDS"
+                  global="java/AdempiereSRDS"
+                  auth="Container"
+                  type="javax.sql.DataSource" />
+
 </Context>

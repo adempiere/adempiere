@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.compiere.model.I_C_Payment;
+import org.adempiere.core.domains.models.I_C_Payment;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -34,7 +34,7 @@ import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.util.QueueLoader;
 

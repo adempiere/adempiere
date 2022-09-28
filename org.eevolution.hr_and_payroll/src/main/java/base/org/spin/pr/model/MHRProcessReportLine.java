@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.spin.pr.model;
 
+import org.adempiere.core.domains.models.X_HR_ProcessReportLine;
+import org.eevolution.hr.model.MHRConcept;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.eevolution.hr.model.MHRConcept;
 
 /**
  * Process Report for Payroll Movements: it allows create dynamic reports from templates of iReport and ADempiere

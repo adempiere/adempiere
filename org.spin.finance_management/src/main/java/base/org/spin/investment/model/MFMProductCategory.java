@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_FM_FunctionalApplicability;
+import org.adempiere.core.domains.models.X_FM_ProductCategory;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

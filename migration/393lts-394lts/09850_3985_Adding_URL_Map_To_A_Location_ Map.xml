@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Adding URL Map to a location map" ReleaseNo="3.9.4" SeqNo="9850">
+    <Comments>https://github.com/adempiere/adempiere/issues/3985</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="62075" Table="AD_Element">
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">62075</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">40</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2602" Column="ColumnName">MapURL</Data>
+        <Data AD_Column_ID="2598" Column="Created">2022-09-09 12:19:11.902</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2604" Column="Description">Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2605" Column="Help">Location Map URL.</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Map URL</Data>
+        <Data AD_Column_ID="84316" Column="UUID">c7f320cd-1a50-46c8-bfe0-ecea566d899e</Data>
+        <Data AD_Column_ID="2600" Column="Updated">2022-09-09 12:19:11.902</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="62075" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">62075</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2642" Column="Created">2022-09-09 12:19:12.791</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2647" Column="Description">Location Map URL.</Data>
+        <Data AD_Column_ID="2648" Column="Help">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2646" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Map URL</Data>
+        <Data AD_Column_ID="84317" Column="UUID">ab3d5411-56fe-4051-80cf-60b8756b266f</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2022-09-09 12:19:12.791</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="62075" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="62075">62075</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Location Map URL.">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="Location Map URL.">URL del mapa de la Ubicación, use el formato similar a https://maps.google.com/?q=latitude,longitude para sincronizar la Latitud y Longitud en la Ubicación.</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Map URL">URL del Mapa</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Map URL">URL del Mapa</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="100149" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">Location Map URL.</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2022-09-09 12:23:08.244</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2022-09-09 12:23:08.244</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">100149</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">MapURL</Data>
+        <Data AD_Column_ID="113" Column="Help">Location Map URL.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">293</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">62075</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">40</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">d34bf163-0efc-413b-afc0-3ea18a1a7698</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="100149" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">100149</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12960" Column="Created">2022-09-09 12:23:09.129</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="84310" Column="UUID">19757b37-5283-494d-850a-9946fa92fded</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2022-09-09 12:23:09.129</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="100149" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="102354" Table="AD_Field">
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">100149</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">102354</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">222</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="579" Column="Created">2022-09-09 12:25:21.125</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Location Map URL.</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="170" Column="Help">Location Map URL.</Data>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">200</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">200</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="84320" Column="UUID">33ba694e-c206-4f7e-8553-9fe89eaafdb0</Data>
+        <Data AD_Column_ID="581" Column="Updated">2022-09-09 12:25:21.125</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="102354" Table="AD_Field_Trl">
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">102354</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="672" Column="Created">2022-09-09 12:25:22.041</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="287" Column="Description">Location Map URL.</Data>
+        <Data AD_Column_ID="288" Column="Help">Location Map URL.</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Map URL</Data>
+        <Data AD_Column_ID="84323" Column="UUID">e77a7e6d-80d6-44a2-ab50-75064791c3c9</Data>
+        <Data AD_Column_ID="674" Column="Updated">2022-09-09 12:25:22.041</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2613" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="10">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2181" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="20">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2182" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="30">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2183" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="40">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2190" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="50">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2189" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="60">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2185" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="70">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102354" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="102354" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

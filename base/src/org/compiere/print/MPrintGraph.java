@@ -19,7 +19,7 @@ package org.compiere.print;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_AD_PrintGraph;
+import org.adempiere.core.domains.models.X_AD_PrintGraph;
 
 /**
  *	Graph Model

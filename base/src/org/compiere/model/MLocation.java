@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_Location;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -56,7 +57,46 @@ public class MLocation extends X_C_Location implements Comparator
 	public static String LOCATION_MAPS_ROUTE_PREFIX   = MSysConfig.getValue("LOCATION_MAPS_ROUTE_PREFIX");
 	public static String LOCATION_MAPS_SOURCE_ADDRESS      = MSysConfig.getValue("LOCATION_MAPS_SOURCE_ADDRESS");
 	public static String LOCATION_MAPS_DESTINATION_ADDRESS = MSysConfig.getValue("LOCATION_MAPS_DESTINATION_ADDRESS");
-	
+
+	/**
+	 * Get Map Url
+	 * @param location
+	 * @return
+	 */
+	public static String getMapUrl(MLocation location) {
+		String locationUrl = "";
+		if (location.getLatitude().signum() != 0 && location.getLongitude().signum() != 0){
+			locationUrl = location.getLatitude() + "," + location.getLongitude();
+		} else {
+			locationUrl = location.getMapsLocation();
+		}
+		return MLocation.LOCATION_MAPS_URL_PREFIX + locationUrl;
+	}
+
+	/**
+	 * Get Route from - to
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public static String getRouteUrl(MLocation from , MLocation to) {
+		String locationTo = "";
+		String locationFrom = "";
+		if (to.getLongitude().signum() != 0 && to.getLatitude().signum() !=0) {
+			locationFrom = to.getLatitude() + "," + to.getLongitude();
+		} else {
+			locationFrom = to.getMapsLocation();
+		}
+		if (from.getLatitude().signum() != 0 && from.getLongitude().signum() != 0){
+			locationTo = from.getLatitude() + "," + from.getLongitude();
+		} else {
+			locationTo = from.getMapsLocation();
+		}
+		return MLocation.LOCATION_MAPS_ROUTE_PREFIX +
+				MLocation.LOCATION_MAPS_SOURCE_ADDRESS + locationFrom + //org
+				MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + locationTo; //partner
+	}
+
 	/**
 	 * 	Get Location from Cache
 	 *	@param ctx context
@@ -678,5 +718,4 @@ public class MLocation extends X_C_Location implements Comparator
 
 		return address.replace(" ", "+");
 	}
-
 }	//	MLocation
