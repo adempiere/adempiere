@@ -31,10 +31,10 @@ package org.adempiere.server.rpl.imp;
 import java.util.Properties;
 
 import org.adempiere.process.rpl.imp.ImportHelper;
+import org.adempiere.core.domains.models.X_IMP_ProcessorParameter;
 import org.adempiere.process.rpl.XMLHelper;
 import org.adempiere.server.rpl.IImportProcessor;
 import org.compiere.model.MIMPProcessor;
-import org.compiere.model.X_IMP_ProcessorParameter;
 import org.compiere.server.ReplicationProcessor;
 import org.compiere.util.CLogger;
 import org.w3c.dom.Document;

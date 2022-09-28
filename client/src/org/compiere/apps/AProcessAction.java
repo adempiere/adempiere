@@ -26,8 +26,8 @@ import javax.swing.AbstractButton;
 import javax.swing.JPopupMenu;
 
 import org.adempiere.apps.toolbar.AProcessActionModel;
+import org.adempiere.core.domains.models.I_AD_Process;
 import org.compiere.grid.ed.VButton;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.MProcess;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.Env;

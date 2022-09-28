@@ -16,10 +16,11 @@
  *****************************************************************************/
 package org.spin.pr.model;
 
+import org.adempiere.core.domains.models.X_HR_ProcessReportTemplate;
+import org.compiere.util.CCache;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.CCache;
 
 /**
  * Process Report Template for Payroll Movements

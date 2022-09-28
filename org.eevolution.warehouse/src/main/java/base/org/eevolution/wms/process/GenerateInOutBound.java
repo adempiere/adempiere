@@ -33,15 +33,15 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_PP_Order_BOMLine;
 import org.adempiere.exceptions.DocTypeNotFoundException;
-import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.DB;
 import org.eevolution.distribution.model.MDDOrderLine;
-import org.eevolution.model.I_PP_Order_BOMLine;
-import org.eevolution.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPMRP;
 import org.eevolution.wms.model.MWMInOutBound;
 import org.eevolution.wms.model.MWMInOutBoundLine;
 

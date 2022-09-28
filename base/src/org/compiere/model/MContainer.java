@@ -20,6 +20,14 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_CM_CStageTTable;
+import org.adempiere.core.domains.models.I_CM_Container;
+import org.adempiere.core.domains.models.I_CM_ContainerTTable;
+import org.adempiere.core.domains.models.X_CM_CStageTTable;
+import org.adempiere.core.domains.models.X_CM_CStage_Element;
+import org.adempiere.core.domains.models.X_CM_Container;
+import org.adempiere.core.domains.models.X_CM_ContainerTTable;
+import org.adempiere.core.domains.models.X_CM_Container_Element;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 

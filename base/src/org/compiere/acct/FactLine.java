@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_AcctSchema_Element;
+import org.adempiere.core.domains.models.X_Fact_Acct;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
@@ -34,8 +36,6 @@ import org.compiere.model.MFactAcct;
 import org.compiere.model.MMatchInv;
 import org.compiere.model.MMovement;
 import org.compiere.model.MRevenueRecognitionPlan;
-import org.compiere.model.X_C_AcctSchema_Element;
-import org.compiere.model.X_Fact_Acct;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

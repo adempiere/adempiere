@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Conversion_Rate;
+import org.adempiere.core.domains.models.X_C_Conversion_Rate;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

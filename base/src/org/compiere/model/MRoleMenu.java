@@ -24,6 +24,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_U_RoleMenu;
+
 
 public class MRoleMenu extends X_U_RoleMenu
 {

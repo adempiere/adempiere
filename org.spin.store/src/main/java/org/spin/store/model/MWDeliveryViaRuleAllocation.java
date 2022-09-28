@@ -15,10 +15,11 @@
  ************************************************************************************/
 package org.spin.store.model;
 
+import org.adempiere.core.domains.models.X_W_DeliveryViaRuleAllocation;
+import org.compiere.model.Query;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.Query;
 
 
 /**

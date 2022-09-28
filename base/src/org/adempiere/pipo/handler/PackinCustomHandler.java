@@ -18,9 +18,9 @@ package org.adempiere.pipo.handler;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.adempiere.core.domains.models.I_AD_PrintFormat;
+import org.adempiere.core.domains.models.I_AD_Workflow;
 import org.adempiere.pipo.ElementHandler;
-import org.compiere.model.I_AD_PrintFormat;
-import org.compiere.model.I_AD_Workflow;
 import org.compiere.util.Util;
 
 /**

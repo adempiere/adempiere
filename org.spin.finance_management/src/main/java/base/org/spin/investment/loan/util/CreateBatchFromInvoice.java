@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_FM_Batch;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
@@ -27,7 +28,6 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MTax;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
-import org.spin.investment.model.I_FM_Batch;
 import org.spin.investment.model.MFMAccount;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.model.MFMAmortization;

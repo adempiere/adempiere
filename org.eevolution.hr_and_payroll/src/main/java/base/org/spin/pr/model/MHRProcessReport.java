@@ -16,19 +16,21 @@
  *****************************************************************************/
 package org.spin.pr.model;
 
-import java.io.File;
-import java.lang.reflect.Constructor;
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-
+import org.adempiere.core.domains.models.X_HR_ProcessReport;
+import org.adempiere.core.domains.models.X_RV_HR_ProcessDetail;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Util;
 import org.spin.hr.util.AbstractPayrollReportExport;
 import org.spin.hr.util.GenericPayrollExport;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * Process Report for Payroll Movements: it allows create dynamic reports from templates of iReport and ADempiere

@@ -37,7 +37,7 @@ import org.compiere.model.MStore;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductBOM;
 import org.spin.model.MADAttachmentReference;
 import org.spin.store.model.MWCategory;
 

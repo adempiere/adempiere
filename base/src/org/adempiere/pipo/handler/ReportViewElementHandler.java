@@ -21,12 +21,12 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_PrintFormat;
+import org.adempiere.core.domains.models.I_AD_ReportView_Col;
+import org.adempiere.core.domains.models.X_AD_ReportView_Col;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_PrintFormat;
-import org.compiere.model.I_AD_ReportView_Col;
 import org.compiere.model.MReportView;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.print.MPrintFormat;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;

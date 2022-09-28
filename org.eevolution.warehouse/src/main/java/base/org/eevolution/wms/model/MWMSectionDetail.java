@@ -28,14 +28,15 @@
  **********************************************************************/
 package org.eevolution.wms.model;
 
+import org.adempiere.core.domains.models.X_WM_Section_Detail;
+import org.compiere.model.MLocator;
+import org.compiere.model.Query;
+import org.compiere.util.CLogger;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.compiere.model.MLocator;
-import org.compiere.model.Query;
-import org.compiere.util.CLogger;
 
 /**
  * Class Model Warehouse Section Detail

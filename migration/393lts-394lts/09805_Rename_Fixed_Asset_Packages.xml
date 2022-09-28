@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename Fixed Asset Packages" ReleaseNo="3.9.4" SeqNo="9805">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55954" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.asset">org.compiere.asset.controller.CalloutAsset.asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59463" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.uselife;org.compiere.FA.model.CalloutA_Asset_Addition.periodOffset">org.compiere.asset.controller.CalloutAssetAddition.uselife;org.compiere.asset.controller.CalloutAssetAddition.periodOffset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59473" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.project">org.compiere.asset.controller.CalloutAssetAddition.project</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59475" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.periodOffset">org.compiere.asset.controller.CalloutAssetAddition.periodOffset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59465" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.dateDoc;org.compiere.FA.model.CalloutA_Asset_Addition.periodOffset">org.compiere.asset.controller.CalloutAssetAddition.dateDoc;org.compiere.asset.controller.CalloutAssetAddition.periodOffset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59467" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt;org.compiere.FA.model.CalloutA_Asset_Addition.periodOffset">org.compiere.asset.controller.CalloutAssetAddition.amt;org.compiere.asset.controller.CalloutAssetAddition.periodOffset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59469" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59476" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59462" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59461" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59460" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59468" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Addition.amt">org.compiere.asset.controller.CalloutAssetAddition.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8073" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.locator">org.compiere.asset.controller.CalloutAsset.locator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8049" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.locator">org.compiere.asset.controller.CalloutAsset.locator</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8041" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.location">org.compiere.asset.controller.CalloutAsset.location</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55603" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.Table_Period">org.compiere.asset.controller.CalloutAsset.tablePeriod</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55601" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.Field_Clear">org.compiere.asset.controller.model.CalloutAsset.fieldClear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55603" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.asset.controller.CalloutAsset.Table_Period">org.compiere.asset.controller.CalloutAsset.tablePeriod</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55601" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.asset.controller.model.CalloutAsset.Field_Clear">org.compiere.asset.controller.model.CalloutAsset.fieldClear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55641" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.date">org.compiere.asset.controller.CalloutAssetDisposed.date</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55651" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.date">org.compiere.asset.controller.CalloutAssetDisposed.date</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55645" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.date">org.compiere.asset.controller.CalloutAssetDisposed.date</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55640" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.asset">org.compiere.asset.controller.CalloutAssetDisposed.asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59491" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.asset">org.compiere.asset.controller.CalloutAssetDisposed.asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59490" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.amt">org.compiere.asset.controller.CalloutAssetDisposed.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59488" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.amt">org.compiere.asset.controller.CalloutAssetDisposed.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59489" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Disposed.amt">org.compiere.asset.controller.CalloutAssetDisposed.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55784" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.Table_Period">org.compiere.asset.controller.CalloutAsset.tablePeriod</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55773" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59409" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55772" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59408" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59417" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Reval.dateDoc">org.compiere.asset.controller.CalloutAssetReval.dateDoc</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59413" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Reval.asset">org.compiere.asset.controller.CalloutAssetReval.asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59352" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Transfer.dateDoc">org.compiere.asset.controller.CalloutAssetTransfer.dateDoc</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55688" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Asset_Transfer.asset">org.compiere.asset.controller.CalloutAssetTransfer.asset</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59282" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59284" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59281" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59283" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.uselifeyear">org.compiere.asset.controller.CalloutDepreciationWorkfile.uselifeyear</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59293" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutA_Depreciation_Workfile.A_Valoare_Cofinantare">org.compiere.asset.controller.CalloutDepreciationWorkfile.valoareCofinantare</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55399" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.CalloutA_Depreciation_Workfile.A_Valoare_Cofinantare">org.compiere.asset.controller.CalloutDepreciationWorkfile.valoareCofinantare</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59292" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.CalloutA_Depreciation_Workfile.A_Valoare_Cofinantare">org.compiere.asset.controller.CalloutDepreciationWorkfile.valoareCofinantare</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

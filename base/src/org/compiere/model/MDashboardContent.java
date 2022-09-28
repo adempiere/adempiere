@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.X_PA_DashboardContent;
 import org.compiere.util.Env;
 
 /**

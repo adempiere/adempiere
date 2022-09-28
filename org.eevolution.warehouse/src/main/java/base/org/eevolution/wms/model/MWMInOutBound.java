@@ -28,16 +28,9 @@
  **********************************************************************/
 package org.eevolution.wms.model;
 
-import java.io.File;
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.X_WM_InOutBound;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_InOut;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -54,6 +47,14 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+
+import java.io.File;
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 
 /**
  * Class Model for In & Out Bound Operation

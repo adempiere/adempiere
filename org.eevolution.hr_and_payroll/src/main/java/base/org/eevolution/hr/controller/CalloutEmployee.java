@@ -16,8 +16,8 @@
  *****************************************************************************/
 package org.eevolution.hr.controller;
 
-import org.adempiere.core.api.I_HR_EmployeeDependent;
-import org.adempiere.core.api.I_HR_EmployeeInsurance;
+import org.adempiere.core.domains.models.I_HR_EmployeeDependent;
+import org.adempiere.core.domains.models.I_HR_EmployeeInsurance;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;

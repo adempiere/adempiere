@@ -18,6 +18,8 @@ package org.compiere.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.adempiere.core.domains.models.I_M_Replenish;
+import org.adempiere.core.domains.models.I_T_Replenish;
 import org.adempiere.test.CommonGWSetup;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;

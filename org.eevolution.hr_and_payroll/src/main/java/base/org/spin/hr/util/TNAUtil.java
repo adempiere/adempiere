@@ -25,7 +25,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.adempiere.core.api.I_HR_Leave;
+import org.adempiere.core.domains.models.I_HR_Leave;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

@@ -21,6 +21,9 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_FieldGroup;
+import org.adempiere.core.domains.models.I_AD_Process_Para;
+import org.adempiere.core.domains.models.X_AD_FieldGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;

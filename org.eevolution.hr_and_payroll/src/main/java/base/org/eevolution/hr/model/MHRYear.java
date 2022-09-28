@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_Year;
 import org.compiere.model.MCalendar;
 import org.compiere.model.MPeriod;
 import org.compiere.util.DB;

@@ -22,9 +22,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.adempiere.core.domains.models.X_AD_PrintFormatItem;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

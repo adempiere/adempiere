@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_NotificationRecipient;
+import org.adempiere.core.domains.models.I_AD_NotificationUpdates;
+import org.adempiere.core.domains.models.X_AD_NotificationQueue;
 import org.compiere.model.Query;
 import org.spin.queue.model.MADQueue;
 

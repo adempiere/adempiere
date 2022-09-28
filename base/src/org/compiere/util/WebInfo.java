@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_UserBPAccess;
 import org.compiere.model.MAdvertisement;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommissionRun;
@@ -37,7 +38,6 @@ import org.compiere.model.MRequestType;
 import org.compiere.model.MRfQ;
 import org.compiere.model.MRfQResponse;
 import org.compiere.model.MTimeExpense;
-import org.compiere.model.X_AD_UserBPAccess;
 import org.compiere.wf.MWFActivity;
 
 

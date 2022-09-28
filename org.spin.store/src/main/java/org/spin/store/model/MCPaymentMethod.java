@@ -15,16 +15,17 @@
  ************************************************************************************/
 package org.spin.store.model;
 
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
-
-import org.compiere.model.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.X_C_PaymentMethod;
 import org.compiere.model.MStore;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
+
+import java.sql.ResultSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 /**
  * 	Implementation for Web Store Product Group

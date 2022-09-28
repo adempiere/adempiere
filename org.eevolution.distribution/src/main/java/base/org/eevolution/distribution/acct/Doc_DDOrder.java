@@ -19,12 +19,12 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.adempiere.core.domains.models.I_DD_Order;
 import org.compiere.acct.Doc;
 import org.compiere.acct.Fact;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
 import org.compiere.util.Env;
-import org.eevolution.distribution.model.I_DD_Order;
 import org.eevolution.distribution.model.MDDOrder;
 
 /**

@@ -18,13 +18,13 @@ package org.spin.investment.acct;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.X_FM_TransactionType_Acct;
 import org.compiere.acct.DocLine;
 import org.compiere.util.Env;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.model.MFMBatch;
 import org.spin.investment.model.MFMTransaction;
 import org.spin.investment.model.MFMTransactionType;
-import org.spin.investment.model.X_FM_TransactionType_Acct;
 
 /**
  * Post Batch Document Transaction

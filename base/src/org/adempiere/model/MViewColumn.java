@@ -20,7 +20,8 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Column;
+import org.adempiere.core.domains.models.X_AD_View_Column;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

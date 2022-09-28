@@ -18,7 +18,7 @@ package org.compiere.crm.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_AD_User;
+import org.adempiere.core.domains.models.X_AD_User;
 
 /**
  * Lead

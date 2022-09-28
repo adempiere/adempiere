@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.model.MADAppRegistration;
 import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.notification.discord.util.BaseMessage;

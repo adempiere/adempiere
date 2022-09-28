@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_M_InOutLine;
+import org.adempiere.core.domains.models.X_C_InvoiceLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.CLogger;

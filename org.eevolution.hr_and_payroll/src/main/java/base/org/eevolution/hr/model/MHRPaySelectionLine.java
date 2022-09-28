@@ -19,6 +19,7 @@ package org.eevolution.hr.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_HR_PaySelectionLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

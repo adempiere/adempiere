@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.exceptions;
 
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
 
 /**
  * Thrown when an location/address is required for a BPartner but not found.

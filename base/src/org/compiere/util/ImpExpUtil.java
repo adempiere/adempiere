@@ -10,11 +10,11 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
 import org.adempiere.pipo.IDFinder;
 import org.adempiere.pipo.PackIn;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.util.DateUtil;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.spin.util.XMLUtils;

@@ -27,7 +27,7 @@ import org.compiere.model.MProjectTask;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.project.service.ProjectProcessorService;
+import org.compiere.project.services.ProjectProcessorService;
 import org.compiere.util.Util;
 import org.eevolution.model.MProjectProcessorLog;
 

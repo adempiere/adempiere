@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.spin.pr.model;
 
+import org.adempiere.core.domains.models.X_HR_ProcessReportSource;
+
 import java.sql.ResultSet;
 import java.util.Properties;
 

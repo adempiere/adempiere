@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Task;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Task;

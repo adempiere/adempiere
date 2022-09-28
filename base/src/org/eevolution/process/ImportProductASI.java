@@ -20,8 +20,10 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.compiere.model.I_M_AttributeSearch;
-import org.compiere.model.I_M_AttributeUse;
+import org.adempiere.core.domains.models.I_M_AttributeSearch;
+import org.adempiere.core.domains.models.I_M_AttributeUse;
+import org.adempiere.core.domains.models.X_I_Product_ASI;
+import org.adempiere.core.domains.models.X_M_AttributeSearch;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;
@@ -30,12 +32,10 @@ import org.compiere.model.MAttributeUse;
 import org.compiere.model.MAttributeValue;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_AttributeSearch;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
-import org.eevolution.model.X_I_Product_ASI;
 
 /**
  * Import Attribute Set Instance from I_Product_ASI

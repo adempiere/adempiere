@@ -45,10 +45,10 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Workflow;
 import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.PackinCustomHandler;
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
 import org.compiere.util.CLogger;

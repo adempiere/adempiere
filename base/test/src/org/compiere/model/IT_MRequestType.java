@@ -15,8 +15,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import static org.adempiere.core.domains.models.X_R_RequestType.CONFIDENTIALTYPE_PublicInformation;
 import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
-import static org.compiere.model.X_R_RequestType.CONFIDENTIALTYPE_PublicInformation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;

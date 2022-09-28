@@ -25,8 +25,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_ProductionLine;
+import org.adempiere.core.domains.models.X_M_Production;
+import org.adempiere.core.domains.models.X_PP_Product_BOM;
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
@@ -39,9 +44,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * Contributed from Adaxa
@@ -552,7 +555,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 			return "@NotBOM@ [" + product.getValue() + "-" + product.getName() + "]";	//	TODO: Translation for message (Attempt to create product line for Non Bill Of Materials)
 		}
 		//	
-		if(MPPProductBOM.getDefault(product, get_TrxName()) == null) {
+		if(getDefaultProductBom(product, get_TrxName()) == null) {
 			return "@NotBOMProducts@";	//	TODO: Translation for message (Attempt to create product line for Bill Of Materials with no BOM Products)
 		}
 		//	
@@ -1137,6 +1140,33 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	}
 	
 	/**
+	 * 	Get BOM Lines for Product BOM
+	 * 	@return BOM Lines
+	 */
+	private List<Integer> getProductBomLines(int productBomId) {
+		return new Query(getCtx(), X_PP_Product_BOMLine.Table_Name, X_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?", get_TrxName())
+				.setParameters(productBomId)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(X_PP_Product_BOMLine.COLUMNNAME_Line)
+				.getIDsAsList();
+	}	//	getLines    
+	
+	/**
+	 * Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value) 
+	 * @param product
+	 * @param trxName
+	 * @return product BOM
+	 */
+	private X_PP_Product_BOM getDefaultProductBom(MProduct product, String trxName) {
+		return (X_PP_Product_BOM) new Query(product.getCtx(), X_PP_Product_BOM.Table_Name, "M_Product_ID=? AND Value=?", trxName)
+				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()}).setOnlyActiveRecords(true)
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
+				.first();
+	}
+	
+	/**
 	 * Create Lines from finished product
 	 * @param mustBeStocked
 	 * @param finishedProduct
@@ -1144,40 +1174,39 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return
 	 */
 	private String createBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
-		int defaultLocator = 0;
-		MPPProductBOM bom = null;
+		AtomicInteger defaultLocator = new AtomicInteger(0);
+		X_PP_Product_BOM bom = null;
 		if(getPP_Product_BOM_ID() != 0) {
-			bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+			bom = new X_PP_Product_BOM(getCtx(), getPP_Product_BOM_ID(), get_TrxName());
 		} else {
-			bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+			bom = getDefaultProductBom(finishedProduct, get_TrxName());
 		}
-		for (MPPProductBOMLine bLine : bom.getLines())
-		{			
-			lineno = lineno + 10;
-			BigDecimal BOMMovementQty = getQty(bLine,true).multiply(requiredQty);	
-			int precision = bLine.getPrecision();
+		getProductBomLines(bom.getPP_Product_BOM_ID()).forEach(productBomLineId -> {
+			X_PP_Product_BOMLine bomLine = new X_PP_Product_BOMLine(getCtx(), productBomLineId, get_TrxName());
+			BigDecimal BOMMovementQty = getQty(bomLine,true).multiply(requiredQty);	
+			int precision = MUOM.getPrecision(getCtx(), bomLine.getC_UOM_ID());
 			if (BOMMovementQty.scale() > precision)
 			{
 				BOMMovementQty = BOMMovementQty.setScale(precision, RoundingMode.HALF_UP);
 			}
-			MProduct bomproduct = bLine.getProduct();
-			if ( bomproduct.isBOM() && bomproduct.isPhantom() )
-			{
+			MProduct bomproduct = new MProduct(getCtx(), bomLine.getM_Product_ID(), get_TrxName());
+			if ( bomproduct.isBOM() && bomproduct.isPhantom() ) {
 				createBOM(mustBeStocked, bomproduct, BOMMovementQty);
 			}
 			else
 			{
-				defaultLocator = bomproduct.getM_Locator_ID();
-				if ( defaultLocator == 0 )
-					defaultLocator = getM_Locator_ID();
+				defaultLocator.set(bomproduct.getM_Locator_ID());
+				if (defaultLocator.get() == 0) {
+					defaultLocator.set(getM_Locator_ID());
+				}
 
 				if (!bomproduct.isStocked())
 				{					
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID(  bomproduct.getM_Product_ID()  );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID()  );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setQtyUsed(BOMMovementQty );
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.setMovementQty(BOMMovementQty.negate());
@@ -1189,9 +1218,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				{
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID( bomproduct.getM_Product_ID() );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID() );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setQtyUsed( BOMMovementQty );
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.saveEx(get_TrxName());
@@ -1202,9 +1231,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				{					
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID(  bomproduct.getM_Product_ID()  );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID()  );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.setQtyReserved(BOMMovementQty);
 					BOMLine.setMovementQty(BOMMovementQty.negate());
@@ -1212,8 +1241,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 					lineno = lineno + 10;				
 				} // for available storages
 
-			}			
-		}
+			}
+		});
 		return "";
 	}
 	
@@ -1251,9 +1280,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		return "";
 	}
 	
-	public BigDecimal getQty(MPPProductBOMLine bLine, boolean includeScrapQty)
+	public BigDecimal getQty(X_PP_Product_BOMLine bLine, boolean includeScrapQty)
 	{
-		int precision = bLine.getPrecision();
+		int precision = MUOM.getPrecision(getCtx(), bLine.getC_UOM_ID());
 		BigDecimal qty;
 		if (bLine.isQtyPercentage())
 		{

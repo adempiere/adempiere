@@ -138,7 +138,7 @@ class ProjectTestSuite extends FeatureSpec  with AdempiereTestCase with GivenWhe
 
       And(s"The Project Type [$projectTypeNameB]")
       assert(projectTypeB.getName == projectTypeNameB)
-      val projectSetType = org.eevolution.service.dsl.ProcessBuilder.create(Context)
+      val projectSetType = ProcessBuilder.create(Context)
         .process(org.eevolution.process.CopyFromProjectTypeAbstract.getProcessValue)
         .withTitle(org.eevolution.process.CopyFromProjectTypeAbstract.getProcessName)
         .withRecordId(I_C_ProjectType.Table_ID, projectTypeB.get_ID)
@@ -225,7 +225,7 @@ class ProjectTestSuite extends FeatureSpec  with AdempiereTestCase with GivenWhe
       Then(s"Project have name of [$projectName]")
       assert(project.getName == projectName)
       When(s"define Project Type [${projectTypeA.getName}]")
-      val pryectSetType = org.eevolution.service.dsl.ProcessBuilder.create(Context)
+      val pryectSetType = dsl.ProcessBuilder.create(Context)
         .process(org.compiere.process.ProjectSetTypeAbstract.getProcessValue)
         .withTitle(org.compiere.process.ProjectSetTypeAbstract.getProcessName)
         .withRecordId(I_C_Project.Table_ID, project.get_ID())
@@ -248,7 +248,7 @@ class ProjectTestSuite extends FeatureSpec  with AdempiereTestCase with GivenWhe
       assert(taskListA.size == projectTaskList.size)
 
       projectPhases.forEach{ phase =>
-      val generateOrder = org.eevolution.service.dsl.ProcessBuilder.create(Context)
+      val generateOrder = dsl.ProcessBuilder.create(Context)
         .process(org.compiere.process.ProjectPhaseGenOrderAbstract.getProcessValue)
         .withTitle(org.compiere.process.ProjectPhaseGenOrderAbstract.getProcessName)
         .withRecordId(I_C_ProjectPhase.Table_ID, phase.get_ID())

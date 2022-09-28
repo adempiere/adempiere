@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_FM_Transaction;
+import org.adempiere.core.domains.models.X_FM_TransactionType_Acct;
 import org.compiere.acct.Doc;
 import org.compiere.acct.DocLine;
 import org.compiere.acct.Fact;
@@ -30,12 +32,10 @@ import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
-import org.spin.investment.model.I_FM_Transaction;
 import org.spin.investment.model.MFMAccount;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.model.MFMBatch;
 import org.spin.investment.model.MFMTransaction;
-import org.spin.investment.model.X_FM_TransactionType_Acct;
 
 /**
  * Post Batch Document

@@ -270,14 +270,14 @@ public class WLocationDialog extends Window implements EventListener
 		lstCountry.setWidth("154px");
 		lstCountry.setRows(0);
 
-		fieldLatitude = new NumberBox(true);
-		fieldLatitude.setValue(0);
+		fieldLatitude = new NumberBox(false);
+		fieldLatitude.setValue(BigDecimal.ZERO);
 
-		fieldLongitude = new NumberBox(true);
-		fieldLongitude.setValue(0);
+		fieldLongitude = new NumberBox(false);
+		fieldLongitude.setValue(BigDecimal.ZERO);
 
-		fieldAltitude = new NumberBox(true);
-		fieldAltitude.setValue(0);
+		fieldAltitude = new NumberBox(false);
+		fieldAltitude.setValue(BigDecimal.ZERO);
 
 
 		btnOk = new Button();
@@ -602,7 +602,7 @@ public class WLocationDialog extends Window implements EventListener
 		}
 		else if (toLink.equals(event.getTarget()))
 		{
-			String urlString = MLocation.LOCATION_MAPS_URL_PREFIX + m_location.getMapsLocation();
+			String urlString = MLocation.getMapUrl(m_location);
 			String message = null;
 			try {
 				Env.startBrowser(urlString+"&output=embed");
@@ -618,10 +618,7 @@ public class WLocationDialog extends Window implements EventListener
 			if (orgId != 0){
 				MOrgInfo orgInfo = 	MOrgInfo.get(Env.getCtx(), orgId,null);
 				MLocation orgLocation = new MLocation(Env.getCtx(),orgInfo.getC_Location_ID(),null);
-
-				String urlString = MLocation.LOCATION_MAPS_ROUTE_PREFIX +
-						         MLocation.LOCATION_MAPS_SOURCE_ADDRESS + orgLocation.getMapsLocation() + //org
-						         MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + m_location.getMapsLocation(); //partner
+				String urlString =MLocation.getRouteUrl(orgLocation, m_location);
 				String message = null;
 				try {
 					Env.startBrowser(urlString+"&output=embed");
@@ -707,13 +704,13 @@ public class WLocationDialog extends Window implements EventListener
 		m_location.setPostal(txtPostal.getValue());
 
 		Optional.ofNullable(fieldLatitude.getValue())
-				.ifPresent(latitude -> m_location.setLatitude((BigDecimal) latitude));
+				.ifPresent(latitude -> m_location.setLatitude( latitude));
 
 		Optional.ofNullable(fieldLongitude.getValue())
-				.ifPresent(longitude -> m_location.setLongitude((BigDecimal) longitude));
+				.ifPresent(longitude -> m_location.setLongitude( longitude));
 
 		Optional.ofNullable(fieldAltitude.getValue())
-				.ifPresent(altitude -> m_location.setAltitude((BigDecimal) altitude));
+				.ifPresent(altitude -> m_location.setAltitude( altitude));
 
 		//  Country/Region
 		MCountry country = (MCountry)lstCountry.getSelectedItem().getValue();

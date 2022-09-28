@@ -23,8 +23,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.POSLookupProductInterface;
+import org.adempiere.pos.services.CPOS;
+import org.adempiere.pos.services.POSLookupProductInterface;
 import org.adempiere.util.StringUtils;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.window.FDialog;

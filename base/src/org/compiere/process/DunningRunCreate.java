@@ -24,8 +24,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Dunning;
 import org.adempiere.exceptions.BPartnerNoAddressException;
-import org.compiere.model.I_C_Dunning;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDunning;
 import org.compiere.model.MDunningLevel;

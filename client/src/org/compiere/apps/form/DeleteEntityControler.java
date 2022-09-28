@@ -24,9 +24,9 @@ import java.util.HashSet;
 import java.util.Stack;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Table;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.util.DeleteEntitiesModel;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;

@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Reference;
+import org.adempiere.core.domains.models.X_AD_Val_Rule;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
 import org.compiere.model.MChangeLog;
@@ -35,8 +37,6 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
-import org.compiere.model.X_AD_Reference;
-import org.compiere.model.X_AD_Val_Rule;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

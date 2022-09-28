@@ -26,6 +26,9 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_ProjectMember;
+import org.adempiere.core.domains.models.X_C_ProjectMemberType;
+import org.adempiere.core.domains.models.X_I_BPartner;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
@@ -37,11 +40,8 @@ import org.compiere.model.MLocation;
 import org.compiere.model.MProject;
 import org.compiere.model.MUser;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.X_I_BPartner;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
-import org.eevolution.model.X_C_ProjectMember;
-import org.eevolution.model.X_C_ProjectMemberType;
 
 /**
  *	Import BPartners from I_BPartner

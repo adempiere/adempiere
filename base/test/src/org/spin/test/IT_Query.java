@@ -17,7 +17,6 @@
  *****************************************************************************/
 package org.spin.test;
 
-import org.compiere.model.I_AD_Role;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.BeforeAll;
@@ -25,6 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.adempiere.core.domains.models.I_AD_Role;
 import org.adempiere.test.CommonGWSetup;
 
 /**

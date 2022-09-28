@@ -21,6 +21,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_PA_Achievement;
+import org.adempiere.core.domains.models.X_PA_Achievement;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 

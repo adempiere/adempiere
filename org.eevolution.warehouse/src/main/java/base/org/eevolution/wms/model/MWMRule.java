@@ -28,10 +28,11 @@
  **********************************************************************/
 package org.eevolution.wms.model;
 
+import org.adempiere.core.domains.models.X_WM_Rule;
+import org.compiere.util.CLogger;
+
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.CLogger;
 
 /**
  * Class Model Warehouse Management Rule

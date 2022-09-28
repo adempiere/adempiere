@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.Adempiere;
 import org.compiere.model.*;
 import org.compiere.util.*;

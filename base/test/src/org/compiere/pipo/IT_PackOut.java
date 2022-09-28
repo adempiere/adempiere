@@ -17,13 +17,13 @@ package org.compiere.pipo;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
 import org.adempiere.pipo.IDFinder;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MPackageExp;
 import org.compiere.model.MProcess;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.process.ProcessInfo;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

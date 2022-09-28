@@ -36,6 +36,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_EXP_ProcessorParameter;
+import org.adempiere.core.domains.models.X_EXP_Processor;
+import org.adempiere.core.domains.models.X_EXP_ProcessorParameter;
 import org.compiere.util.CLogger;
 import org.compiere.util.Util;
 

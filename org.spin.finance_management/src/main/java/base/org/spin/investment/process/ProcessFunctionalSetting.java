@@ -18,11 +18,12 @@
 package org.spin.investment.process;
 
 import java.util.List;
+
+import org.adempiere.core.domains.models.I_FM_Agreement;
 import org.compiere.model.Query;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
-import org.spin.investment.model.I_FM_Agreement;
 import org.spin.investment.model.MFMAgreement;
 import org.spin.investment.util.FinancialSetting;
 

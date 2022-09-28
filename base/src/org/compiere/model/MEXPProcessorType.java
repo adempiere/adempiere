@@ -32,6 +32,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_EXP_Processor_Type;
 import org.adempiere.process.rpl.IExportProcessorDefinition;
 import org.compiere.util.CLogger;
 

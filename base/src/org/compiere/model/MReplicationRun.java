@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Replication_Run;
+
 /**
  * 	Replication Run Model
  *

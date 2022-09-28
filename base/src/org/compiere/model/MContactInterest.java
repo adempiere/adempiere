@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_R_ContactInterest;
+import org.adempiere.core.domains.models.X_R_ContactInterest;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
  

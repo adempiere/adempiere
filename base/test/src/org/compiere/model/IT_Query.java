@@ -28,6 +28,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.adempiere.core.domains.models.X_AD_Element;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.util.DB;

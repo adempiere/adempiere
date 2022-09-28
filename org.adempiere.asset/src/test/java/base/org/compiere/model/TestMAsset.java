@@ -15,13 +15,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Activated;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Depreciated;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Disposed;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_New;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Preservation;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Retired;
-import static org.compiere.FA.model.X_A_Asset.A_ASSET_STATUS_Sold;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Activated;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Depreciated;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Disposed;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_New;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Preservation;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Retired;
+import static org.adempiere.core.domains.models.X_A_Asset.A_ASSET_STATUS_Sold;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,8 +36,8 @@ import java.sql.Timestamp;
 import java.util.stream.Stream;
 
 import org.adempiere.test.CommonUnitTestSetup;
-import org.compiere.FA.model.MAsset;
-import org.compiere.FA.model.MAssetGroup;
+import org.compiere.asset.model.MAsset;
+import org.compiere.asset.model.MAssetGroup;
 import org.compiere.util.CLogger;
 import org.compiere.util.TimeUtil;
 import org.junit.jupiter.api.Test;

@@ -14,6 +14,7 @@ package org.compiere.model;
 
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.adempiere.model.GridTabWrapper;
 
 /**

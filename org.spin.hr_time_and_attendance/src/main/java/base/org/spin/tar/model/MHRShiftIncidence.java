@@ -23,7 +23,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.core.api.I_HR_ShiftIncidence;
+import org.adempiere.core.domains.models.I_HR_ShiftIncidence;
+import org.adempiere.core.domains.models.X_HR_ShiftIncidence;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
