@@ -1,11 +1,9 @@
-<project name="Adempiere Build Travis" default="build" basedir=".">
+<project name="Adempiere Build" default="build" basedir=".">
     <description>
-        Building ADempiere
-        by
-        Yamel Senih
-        http://www.erpya.com
-		Victor Perez victor.perez@e-evolution.com
-		http://www.e-evolution.com
+        Building ADempiere, by
+        Yamel Senih (http://www.erpya.com)
+		Victor Perez (victor.perez@e-evolution.com, http://www.e-evolution.com)
+		Mario Calderon (mario.calderon@westfalia-it.com, http://westfalia-it.com)
     </description>
 
   <property environment="env" />
@@ -26,10 +24,14 @@
   <property name="myDBcopyTemplate" location="adempiere/Adempiere/utils/myDBcopyTemplate.sh"/>
   <property name="myDBcopy" location="adempiere/Adempiere/utils/myDBcopy.sh"/>
 
-  <target name="build">
-        <echo message="Building ADempiere"/>
+  <target name="build" description="Step 1: Create installation artifacts">
+  	<echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
+  	<echo message="Build finished"/>
+  	<antcall target="deploy"/>
+  </target>
 	
+  <target name="deploy" description="Step 2: Deploy ADempiere prior to installation">
 	<echo message="Deploy ADempiere"/>
 	<chmod dir="${AD_directory}" perm="ugo+rx" includes="**/*.sh"/>
 	<chmod dir="${AD_directory}/data" perm="ugo+rx" includes="**/*.dmp"/>
@@ -37,7 +39,7 @@
 	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
 
 	<echo message="Java Home : ${env.JAVA_HOME}"/>
-	<echo message="Adempiere Home : ${env.ADEMPIERE_HOME}"/>
+	<echo message="ADempiere Home : ${env.ADEMPIERE_HOME}"/>
 	<echo message="Copy AdempiereEnvTemplate.properties to AdempiereEnv.properties"/>
 	<copy file="${AdempierePropertiesFrom}" tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
 	<replaceregexp file="${AdempierePropertiesTo}" match="ADEMPIERE_HOME=/opt/Adempiere" replace="ADEMPIERE_HOME=${env.ADEMPIERE_HOME}" byline="true"/>
@@ -46,7 +48,12 @@
 	<filter filtersfile="${AdempierePropertiesTo}" />
 	<echo message="Generate myEnvironment.sh"/>
 	<copy file="${myEnvironmentTemplate}" tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
+	<echo message="Deploy finished"/>
+  	<antcall target="silent-setup"/>
+  </target>
 
+  <target name="silent-setup" description="Step 3: Run SilentSetup">
+	<echo message="Install ADempiere"/>
 	<java dir="${env.ADEMPIERE_HOME}" classname="org.compiere.install.SilentSetup" fork="true">
 	  <arg value="ALL"/>
 	  <jvmarg value="--add-opens"/>
@@ -65,6 +72,7 @@
 		  <pathelement path="${java.class.path}"/>
 	  </classpath>
 	</java>
+	<echo message="Install ADempiere finished"/>
 	<tstamp>
 	  <format property="current.time" pattern="dd/MM/yyyy hh:mm:ss"/>
 	</tstamp>
@@ -72,25 +80,52 @@
 	<echo message="Copy myDBcopyTemplate to myDBcopy"/>
   	<copy file="${myDBcopyTemplate}"
 			tofile="${myDBcopy}" filtering="yes" overwrite="yes" />
+  	<antcall target="import-database-seed"/>
+  </target>
 
-  	<echo message="Run Import Adempiere"/>
+  <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
+  <!-- Target will not be executed if called as follows: -Dnodbrestore=true                       -->
+  <target name="import-database-seed" description="Step 4: Run Import ADempiere: import seed" unless="${nodbrestore}">
+  	<echo message="Run Import ADempiere"/>
   	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>
   	</exec>
-<!-- Skip Restore to avoid importing seed twice
-  	<echo message="Run DB Restore Adempiere"/>
+	<echo message="Import seed finished"/>
+  	<!-- <antcall target="restore-database-seed"/> Skip Restore because database was already restored -->
+  	<antcall target="import-xml-files"/>
+  </target>
+  	
+  <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
+  <!-- Target will NOT be executed if called as follows: -Dnodbrestore=true                       -->
+  <!-- Skip Restore because database was already restored
+  <target name="restore-database-seed" description="Step 5: Run DB Restore ADempiere: restore seed" unless="${nodbrestore}">
+  	<echo message="Run DB Restore ADempiere"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_DBRestore}"/>
   	</exec>
--->
-	<echo message="Run Migrate XML"/>
+	<echo message="Restore seed finished"/>
+  	<antcall target="import-xml-files"/>
+  </target>
+  -->
+  	
+  <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
+  <!-- Target will not be executed if called as follows: -Dnodbrestore=true                       -->
+  <target name="import-xml-files" description="Step 5: Run Migrate XML: load and apply all migration xml files" unless="${nodbrestore}">
+  	<echo message="Run Migrate XML"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
-
-	<echo message="Run Export Database"/>
+	<echo message="Run Migrate XML finished"/>
+  	<antcall target="export-database"/>
+  </target>
+  	
+  <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
+  <!-- Target will not be executed if called as follows: -Dnodbrestore=true                       -->
+  <target name="export-database" description="Step 6: Export restored and migrated database" unless="${nodbrestore}">
+  	<echo message="Run Export Database"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ExportReference}"/>
   	</exec>
+	<echo message="Run Export Database finished"/>
   </target>
 </project>

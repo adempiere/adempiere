@@ -1,0 +1,37 @@
+name: 'ADempiere Build'
+description: 'ADempiere is built and installed. Database seed is generated only if a nigration xml file was modified'
+author: 'Mario Calderon, marcalwestf'
+inputs:
+  nodbrestore:  # id of input
+    description: 'true-> no restore of DB; false-> DB will be restored'
+    required: true
+    default: "true"
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        echo $ACTION_BUILD_DIR
+        echo $GITHUB_REF
+        echo $GITHUB_HEAD_REF
+        echo $GITHUB_BASE_REF
+        echo ${{ github.ref }}
+        echo "Current ant version: $(ant -version)"
+        echo "Installing ant version 1.10.10"
+        wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+        tar -xzf apache-ant-1.10.10-bin.tar.gz
+        export ANT_HOME=`pwd`/apache-ant-1.10.10
+        export PATH=${ANT_HOME}/bin:$PATH
+        export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
+        echo $ANT_HOME
+        echo $PATH
+        echo $(ant -version)name: Build, install and restore
+      
+        echo $ADEMPIERE_HOME
+        # ANT performs build & install. If parameter nodbrestore=false, it performs also a database restore.
+        ant build -Dnodbrestore=${{ inputs.nodbrestore }}
+      env:
+        ACTION_BUILD_DIR: ${{ github.action_path }}
+        POSTGRES_HOST: localhost
+        # The default PostgreSQL port
+        POSTGRES_PORT: "5432"
+      shell: bash
