@@ -26,18 +26,18 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BankAccount;
+import org.adempiere.core.domains.models.I_C_CashFlow;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Order;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_BankAccount;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MAging;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Util;
 import org.eevolution.cashflow.model.MCashFlow;
-import org.eevolution.model.I_C_CashFlow;
 
 /**
  * Cashflow Report

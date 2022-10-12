@@ -13,9 +13,11 @@
  * along with this program.	If not, see <https://www.gnu.org/licenses/>.            *
  ************************************************************************************/
 package org.spin.store.model.validator;
+import org.adempiere.core.domains.models.I_W_Basket;
+import org.adempiere.core.domains.models.I_W_BasketLine;
+import org.adempiere.core.domains.models.X_W_Basket;
+import org.adempiere.core.domains.models.X_W_BasketLine;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_W_Basket;
-import org.compiere.model.I_W_BasketLine;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeValue;
@@ -30,8 +32,6 @@ import org.compiere.model.MUserRoles;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.X_W_Basket;
-import org.compiere.model.X_W_BasketLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.spin.store.model.MWCategory;

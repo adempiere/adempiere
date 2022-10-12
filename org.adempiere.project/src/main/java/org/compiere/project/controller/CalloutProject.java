@@ -21,12 +21,12 @@ import java.math.RoundingMode;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.I_C_ProjectTask;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_C_ProjectPhase;
-import org.compiere.model.I_C_ProjectTask;
 import org.compiere.model.MProjectTypePhase;
 import org.compiere.model.MProjectTypeTask;
 import org.compiere.util.Env;

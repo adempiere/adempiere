@@ -38,12 +38,12 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.adempiere.core.domains.models.I_S_Resource;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
-import org.compiere.model.I_S_Resource;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -57,9 +57,9 @@ import org.eevolution.form.action.PopupAction;
 import org.eevolution.form.action.ZoomMenuAction;
 import org.eevolution.form.crp.CRPDatasetFactory;
 import org.eevolution.form.crp.CRPModel;
-import org.eevolution.model.MPPOrderNode;
+import org.eevolution.manufacturing.model.MPPOrderNode;
+import org.eevolution.manufacturing.tools.worker.SingleWorker;
 import org.eevolution.tools.swing.SwingTool;
-import org.eevolution.tools.worker.SingleWorker;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 

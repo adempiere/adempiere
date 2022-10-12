@@ -20,6 +20,9 @@ package org.spin.investment.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_FM_TransactionType_Acct;
+import org.adempiere.core.domains.models.X_FM_TransactionType;
+import org.adempiere.core.domains.models.X_FM_TransactionType_Acct;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;

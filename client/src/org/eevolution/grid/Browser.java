@@ -33,10 +33,10 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_View_Column;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.impexp.ArrayExcelExporter;
-import org.adempiere.model.I_AD_View_Column;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;

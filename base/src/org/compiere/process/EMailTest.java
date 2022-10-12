@@ -52,7 +52,7 @@ public class EMailTest extends SvrProcess
 	{
 		MClient client = MClient.get (getCtx(), p_AD_Client_ID);
 		log.info(client.toString());
-		
+
 		//	 Test Client Mail
 		String clientTest = client.testEMail();
 		addLog(0, null, null, client.getName() + ": " + clientTest);

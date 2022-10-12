@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="EE03" Name="Change model package for WMS" ReleaseNo="3.9.4" SeqNo="9770">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="U" Record_ID="50007" Table="AD_EntityType">
+        <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.eevolution.model">org.eevolution.wms.model</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

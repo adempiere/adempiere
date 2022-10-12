@@ -75,8 +75,8 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.eevolution.form.bom.RadioButtonTreeCellRenderer;
 import org.eevolution.form.bom.nodeUserObject;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.manufacturing.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductBOMLine;
 
 /**
  *	Drop BOM

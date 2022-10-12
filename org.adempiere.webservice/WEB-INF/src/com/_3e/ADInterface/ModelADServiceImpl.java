@@ -42,6 +42,9 @@ import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
+import org.adempiere.core.domains.models.X_AD_Reference;
+import org.adempiere.core.domains.models.X_WS_WebServiceMethod;
+import org.adempiere.core.domains.models.X_WS_WebService_Para;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.codehaus.xfire.fault.XFireFault;
 
@@ -57,9 +60,6 @@ import org.compiere.model.MWebServiceType;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Reference;
-import org.compiere.model.X_WS_WebServiceMethod;
-import org.compiere.model.X_WS_WebService_Para;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -87,7 +87,6 @@ import pl.x3E.adInterface.StandardResponse;
 import pl.x3E.adInterface.StandardResponseDocument;
 import pl.x3E.adInterface.WindowTabData;
 import pl.x3E.adInterface.WindowTabDataDocument;
-import pl.x3E.adInterface.ModelCRUD.Action.Enum;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -253,17 +252,30 @@ public class ModelADServiceImpl implements ModelADService {
 		return Integer.parseInt(string);
 	}
 
-	private Enum validateParameter(String parameterName, Enum action, Table table) throws XFireFault {
+	private ModelCRUD.Action.Enum validateParameter(String parameterName, ModelCRUD.Action.Enum action, Table table) throws XFireFault {
 		String string = null;
 		if (action == null)
 			string = validateParameter(parameterName, string);
 		else
 			string = validateParameter(parameterName, action.toString());
 		if (string == null)
-			return (Enum) table.forInt(-1);
+			return (ModelCRUD.Action.Enum) table.forInt(-1);
 		if (action != null && string.equals(action.toString()))
 			return action;
-		return (Enum) table.forString(string);
+		return (ModelCRUD.Action.Enum) table.forString(string);
+	}
+
+	private ModelCRUD.RetriveResultAs.Enum validateParameter(String parameterName, ModelCRUD.RetriveResultAs.Enum  retriveResultAs, Table table) throws XFireFault {
+		String string = null;
+		if (retriveResultAs == null)
+			string = validateParameter(parameterName, string);
+		else
+			string = validateParameter(parameterName, retriveResultAs.toString());
+		if (string == null)
+			return (ModelCRUD.RetriveResultAs.Enum) table.forInt(-1);
+		if (retriveResultAs != null && string.equals(retriveResultAs.toString()))
+			return retriveResultAs;
+		return (ModelCRUD.RetriveResultAs.Enum) table.forString(string);
 	}
 
 	private StandardResponseDocument rollbackAndSetError(Trx trx,
@@ -716,6 +728,7 @@ public class ModelADServiceImpl implements ModelADService {
 		modelCRUD.setTableName(validateParameter("TableName", modelCRUD.getTableName()));
 		modelCRUD.setRecordID(validateParameter("RecordID", modelCRUD.getRecordID()));
 		modelCRUD.setFilter(validateParameter("Filter", modelCRUD.getFilter()));
+		modelCRUD.setRetriveResultAs(validateParameter("RetriveResultAs",modelCRUD.getRetriveResultAs(),ModelCRUD.RetriveResultAs.Enum.table));
 		modelCRUD.setAction(validateParameter("Action", modelCRUD.getAction(), ModelCRUD.Action.Enum.table));
 	}
 
@@ -749,7 +762,7 @@ public class ModelADServiceImpl implements ModelADService {
     		return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Cannot create PO for " + tableName);
     	POInfo poInfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	DataRow dataRow = modelCRUD.getDataRow();
-    	for (DataField field : dataRow.getFieldList()) {
+    	for (DataField field : dataRow.getFieldArray()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
@@ -873,7 +886,7 @@ public class ModelADServiceImpl implements ModelADService {
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
 
     	DataRow dr = modelCRUD.getDataRow();
-    	for (DataField field : dr.getFieldList()) {
+    	for (DataField field : dr.getFieldArray()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
@@ -964,10 +977,19 @@ public class ModelADServiceImpl implements ModelADService {
 					}
 				}
 				dataField.setColumn(columnName);
-				if (record.get_Value(columnName) != null)
-					dataField.setVal(record.get_ValueAsString(columnName));
-				else
-					dataField.setVal(null);
+				if (modelCRUD.getRetriveResultAs() != null
+				 && modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+					if (record.get_Value(columnName) != null)
+						dataField.setLval(record.get_ValueAsString(columnName));
+					else
+						dataField.setLval(null);
+				} else if (modelCRUD.getRetriveResultAs() == null
+						|| modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT) {
+					if (record.get_Value(columnName) != null)
+						dataField.setVal(record.get_ValueAsString(columnName));
+					else
+						dataField.setVal(null);
+				}
 			}
     	}
 		windowTabData.setSuccess(true);
@@ -1017,7 +1039,7 @@ public class ModelADServiceImpl implements ModelADService {
 			records = (List<PO>) s_cache.get (key);
     	String sqlWhere = "";//"SELECT * FROM " + tableName;
     	//sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
-		for (DataField field : modelCRUD.getDataRow().getFieldList()) {
+		for (DataField field : modelCRUD.getDataRow().getFieldArray()) {
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
     			sqlWhere += (sqlWhere.equals("") ? "" : " AND ") + field.getColumn() + "=?";
     		} else {
@@ -1038,10 +1060,10 @@ public class ModelADServiceImpl implements ModelADService {
 		{
 			if (records == null){
 				Query query = new Query(ctx, poInfo.getTableName(), sqlWhere, null);
-				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldList().size()];
+				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldArray().length];
 				int p = 1;
 				int i=0;
-				for (DataField field : modelCRUD.getDataRow().getFieldList()){
+				for (DataField field : modelCRUD.getDataRow().getFieldArray()){
 					int index = poInfo.getColumnIndex(field.getColumn());
 					Class<?> clazz = poInfo.getColumnClass(index);
 					if (clazz == Integer.class)
@@ -1080,11 +1102,23 @@ public class ModelADServiceImpl implements ModelADService {
 							if (binaryData != null) {
 								String encodedBinaryData = Base64.getEncoder().encodeToString(binaryData);
 								dataField.setColumn(columnName);
-								dataField.setLval(encodedBinaryData);
+								if (modelCRUD.getRetriveResultAs() != null
+								&&	modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+									dataField.setLval(encodedBinaryData);
+								} else if (	modelCRUD.getRetriveResultAs() == null ||
+											modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT) {
+									dataField.setVal(encodedBinaryData);
+								}
 							}
 						} else {
 							dataField.setColumn(columnName);
-							dataField.setLval(record.get_ValueAsString(columnName));
+							if (modelCRUD.getRetriveResultAs() != null
+							&&	modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+								dataField.setLval(record.get_ValueAsString(columnName));
+							} else if (modelCRUD.getRetriveResultAs() == null
+									|| modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT){
+								dataField.setVal(record.get_ValueAsString(columnName));
+							}
 						}
 					}
 				}

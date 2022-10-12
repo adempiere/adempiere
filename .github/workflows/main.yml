@@ -1,20 +1,22 @@
 # This is a basic workflow to help you get started with Actions
-# This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+# This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A.
+# Modifications by Mario Calderon, Systemhaus Westfalia 
 
-name: ADempiere Build
+name: ADempiere Build With ANT
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
+  # Triggers the workflow on push or pull request events with prefix "bugfix/" or "feature/". 
+  # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
   push:
-   branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
   pull_request:
     branches: [ "master", "develop", "bugfix/*", "feature/*" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  create-seed:
+  # This workflow contains a single job called "build-all"
+  build-all:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
@@ -46,39 +48,100 @@ jobs:
         with:
             java-version: '11'
             java-package: jdk
-
-      # Build ADempiere with ant
-      - name: Build Adempiere ...
-        env:
-          ACTION_BUILD_DIR: ${{ github.action_path }}
-          POSTGRES_HOST: localhost
-          # The default PostgreSQL port
-          POSTGRES_PORT: 5432
+            
+      # Deploy Tomcat-Server 
+      - name: Deploy Tomcat ...
         run: |
-          echo $ACTION_BUILD_DIR
-          echo $GITHUB_REF
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_BASE_REF
-          echo ${{ github.ref }}
-          echo "Current ant version: $(ant -version)"
-          echo "Installing ant version 1.10.10"
-          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
-          tar -xzf apache-ant-1.10.10-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.10
-          export PATH=${ANT_HOME}/bin:$PATH
-          export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
-          echo $ANT_HOME
-          echo $PATH
-          echo $(ant -version)
-          echo $ADEMPIERE_HOME
-          ant build
+            echo  "Installing Tomcat version 9"
+            cd /opt
+            echo  "Download Tomcat version 9- version 9.0.65"
+            wget --no-check-certificate https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.65/bin/apache-tomcat-9.0.65.tar.gz
+            echo  "Extract Tomcat version 9"
+            tar -zxvf apache-tomcat-9.0.65.tar.gz
+            echo  "Rename to tomcat"
+            mv apache-tomcat-9.0.65 tomcat
+            echo  "Installing Tomcat version 9 FINISHED"
+
+      # Filter files to discern whether to run with or without database restore 
+      - name: Discern which files changed ...
+        uses: dorny/paths-filter@v2
+        id: changed-files
+        with:
+          filters: |
+            xml-files:
+              - 'migration/**/*.xml'
+
+      # Build ADempiere with ant, if there are changes in XML files
+      - name: Build Adempiere with database restore...
+        if: steps.changed-files.outputs.xml-files == 'true'
+        uses: ./.github/actions/adempiere-build
+        with:
+           nodbrestore: false
+ #       env:
+ #         ACTION_BUILD_DIR: ${{ github.action_path }}
+ #         POSTGRES_HOST: localhost
+ #         # The default PostgreSQL port
+ #         POSTGRES_PORT: 5432
+ #       run: |
+ #         echo $ACTION_BUILD_DIR
+ #         echo $GITHUB_REF
+ #         echo $GITHUB_HEAD_REF
+ #         echo $GITHUB_BASE_REF
+ #         echo ${{ github.ref }}
+ #         echo "Current ant version: $(ant -version)"
+ #         echo "Installing ant version 1.10.10"
+ #         wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+ #         tar -xzf apache-ant-1.10.10-bin.tar.gz
+ #         export ANT_HOME=`pwd`/apache-ant-1.10.10
+ #         export PATH=${ANT_HOME}/bin:$PATH
+ #         export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
+ #         echo $ANT_HOME
+ #         echo $PATH
+ #         echo $(ant -version)
+ #         echo $ADEMPIERE_HOME
+ #         # ANT performs build, install and database restore
+ #         ant build
+
+      # Build ADempiere with ant, if there are no changes in XML files
+      - name: Build Adempiere without database restore...
+        if: steps.changed-files.outputs.xml-files == 'false'
+        uses: ./.github/actions/adempiere-build
+        with:
+           nodbrestore: true
+ #       env:
+ #         ACTION_BUILD_DIR: ${{ github.action_path }}
+ #         POSTGRES_HOST: localhost
+ #         # The default PostgreSQL port
+ #         POSTGRES_PORT: 5432
+ #       run: |
+ #         echo $ACTION_BUILD_DIR
+ #         echo $GITHUB_REF
+ #         echo $GITHUB_HEAD_REF
+ #         echo $GITHUB_BASE_REF
+ #         echo ${{ github.ref }}
+ #         echo "Current ant version: $(ant -version)"
+ #         echo "Installing ant version 1.10.10"
+ #         wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+ #         tar -xzf apache-ant-1.10.10-bin.tar.gz
+ #         export ANT_HOME=`pwd`/apache-ant-1.10.10
+ #         export PATH=${ANT_HOME}/bin:$PATH
+ #         export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
+ #         echo $ANT_HOME
+ #         echo $PATH
+ #         echo $(ant -version)
+ #         echo $ADEMPIERE_HOME
+ #         # ANT performs only build & install. No database restore.
+ #         ant build -Dnodbrestore=true
+
       - name: Upload Binary Files
         uses: actions/upload-artifact@v2
         with:
             name: adempiere-binary-files
             path: adempiere/install/
+
       - name: Upload Seed
         uses: actions/upload-artifact@v2
+        if: steps.changed-files.outputs.xml-files == 'true'
         with:
             name: adempiere-postgresql-seed
             path: adempiere/Adempiere/data/Adempiere_pg.dmp

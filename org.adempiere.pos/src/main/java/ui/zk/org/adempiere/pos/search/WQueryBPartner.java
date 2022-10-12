@@ -20,7 +20,7 @@ import org.adempiere.pos.WPOS;
 import org.adempiere.pos.WPOSKeyboard;
 import org.adempiere.pos.WPOSTextField;
 import org.adempiere.pos.grid.WPOSBPartner;
-import org.adempiere.pos.service.POSQueryListener;
+import org.adempiere.pos.services.POSQueryListener;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;

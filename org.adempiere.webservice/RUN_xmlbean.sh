@@ -1,7 +1,7 @@
 #	This script rebuilds ADInterface
 #
 
-AD_SRC=../globalqss/adempiere355a/
+AD_SRC=/Users/e-Evolution/Develop/ADempiere/394IO
 BASEDIR=.
 
 #check java home
@@ -15,13 +15,13 @@ else
 fi
 
 # check jdk
-if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
-   echo "** Need full Java SDK **"
-   exit
-fi
+#if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
+#   echo "** Need full Java SDK **"
+#   exit
+#fi
 
 #classpath
-export ANT_CLASSPATH=$CLASSPATH:$AD_SRC/tools/lib/ant.jar:$AD_SRC/tools/lib/ant-launcher.jar:$AD_SRC/tools/lib/ant-commons-net.jar:$JAVA_HOME/lib/tools.jar
+export ANT_CLASSPATH=$CLASSPATH:$AD_SRC/tools/lib/ant/apache-ant-1.10.10/lib/ant.jar:$AD_SRC/tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar:$AD_SRC/tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar:$JAVA_HOME/lib/tools.jar
 
 export ANT_OPTS="-Xms128m -Xmx512m"
 export VERBOSITY=$1  #  -verbose or -debug

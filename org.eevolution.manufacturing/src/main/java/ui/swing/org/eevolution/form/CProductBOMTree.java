@@ -16,7 +16,7 @@
 
 package org.eevolution.form;
 
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
 
 /**
  * Product BOM Tree is based on PPProductBOM.

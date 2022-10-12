@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;

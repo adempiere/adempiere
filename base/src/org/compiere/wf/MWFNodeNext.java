@@ -20,9 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WF_NodeNext;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_NodeNext;
 import org.compiere.process.DocAction;
 
 /**

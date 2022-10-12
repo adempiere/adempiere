@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_User_Roles;
+import org.adempiere.core.domains.models.X_AD_User_Roles;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
 

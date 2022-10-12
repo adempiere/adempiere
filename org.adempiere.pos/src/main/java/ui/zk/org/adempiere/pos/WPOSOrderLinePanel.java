@@ -21,8 +21,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.math.BigDecimal;
 
-import org.adempiere.pos.service.POSOrderLineTableHandle;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSOrderLineTableHandle;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;

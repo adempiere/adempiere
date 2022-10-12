@@ -22,8 +22,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_Conversion_Rate;
 import org.compiere.model.MConversionRate;
-import org.compiere.model.X_I_Conversion_Rate;
 import org.compiere.util.DB;
 
 /**

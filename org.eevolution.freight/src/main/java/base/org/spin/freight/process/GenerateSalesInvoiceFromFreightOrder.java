@@ -23,7 +23,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.compiere.model.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_DD_Freight;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MFreightCategory;
 import org.compiere.model.MInvoice;
@@ -33,8 +34,7 @@ import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.I_DD_Freight;
-import org.eevolution.model.MDDFreightLine;
+import org.eevolution.distribution.model.MDDFreightLine;
 
 /** 
  * 	Generated Process for (Generate Sales Invoice from Freight Order)

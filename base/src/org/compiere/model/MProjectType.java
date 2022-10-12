@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_ProjectType;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 

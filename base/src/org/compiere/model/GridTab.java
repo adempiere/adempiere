@@ -38,6 +38,8 @@ import java.util.logging.Level;
 import javax.script.ScriptEngine;
 import javax.swing.event.EventListenerList;
 
+import org.adempiere.core.domains.models.X_AD_PInstance_Log;
+import org.adempiere.core.domains.models.X_C_BPartner_Location;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

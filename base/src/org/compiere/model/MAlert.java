@@ -22,6 +22,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.TreeSet;
 
+import org.adempiere.core.domains.models.I_AD_AlertRecipient;
+import org.adempiere.core.domains.models.I_AD_AlertRule;
+import org.adempiere.core.domains.models.X_AD_Alert;
+
 /**
  *	Alert Model
  *	

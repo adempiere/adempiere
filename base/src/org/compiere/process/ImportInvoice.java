@@ -23,9 +23,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_I_Invoice;
+import org.adempiere.core.domains.models.X_I_Invoice;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
-import org.compiere.model.I_I_Invoice;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MInvoice;
@@ -33,7 +34,6 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLocation;
 import org.compiere.model.MUser;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.X_I_Invoice;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

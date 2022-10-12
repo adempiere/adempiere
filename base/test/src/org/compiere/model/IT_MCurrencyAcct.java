@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.stream.IntStream;
 
+import org.adempiere.core.domains.models.X_C_Currency;
 import org.adempiere.test.CommonGWSetup;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;

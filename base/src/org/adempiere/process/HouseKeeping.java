@@ -38,9 +38,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_HouseKeeping;
 import org.adempiere.model.GenericPO;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_HouseKeeping;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereSystemError;

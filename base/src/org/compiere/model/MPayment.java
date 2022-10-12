@@ -29,6 +29,12 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_BankStatementLine;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.X_C_BPartner;
+import org.adempiere.core.domains.models.X_C_DocType;
+import org.adempiere.core.domains.models.X_C_Order;
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.*;
@@ -2453,8 +2459,7 @@ public final class MPayment extends X_C_Payment
 	private int getC_BankStatementLine_ID() {
 		String sql = "SELECT bsl.C_BankStatementLine_ID FROM C_BankStatementLine bsl WHERE bsl.C_Payment_ID=? "
 				+ "AND EXISTS(SELECT 1 FROM C_BankStatement bs "
-				+ "					WHERE bs.C_BankStatement_ID = bsl.C_BankStatement_ID "
-				+ "					AND bs.DocStatus IN('CO', 'CL'))";
+				+ "					WHERE bs.C_BankStatement_ID = bsl.C_BankStatement_ID )";
 		return DB.getSQLValue(get_TrxName(), sql, getC_Payment_ID());
 	}	//	getC_BankStatementLine_ID
 

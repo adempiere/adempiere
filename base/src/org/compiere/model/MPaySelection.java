@@ -25,6 +25,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_PaySelection;
+import org.adempiere.core.domains.models.I_C_PaySelectionLine;
+import org.adempiere.core.domains.models.X_C_PaySelection;
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;

@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_FM_FunctionalSetting;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Util;

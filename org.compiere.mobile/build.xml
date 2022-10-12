@@ -33,7 +33,7 @@
 	    	<include name="*.jar"/>
 	    </fileset>
 
-	    <pathelement location="${Adempiere.dir}/../tools/lib/servlet-api.jar"/>
+	    <pathelement location="${Adempiere.dir}/../tools/lib/javax.servlet-api-4.0.1.jar"/>
 	    <fileset dir="${basedir}/WEB-INF/lib">
 	    	<include name="*.jar"/>
 	    </fileset>

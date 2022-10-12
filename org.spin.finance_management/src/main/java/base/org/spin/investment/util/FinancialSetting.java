@@ -23,12 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.I_FM_Batch;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.spin.investment.model.I_FM_Batch;
 import org.spin.investment.model.MFMAccount;
 import org.spin.investment.model.MFMAccountProduct;
 import org.spin.investment.model.MFMAgreement;

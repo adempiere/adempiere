@@ -32,7 +32,7 @@ import org.compiere.model.MProjectTask;
 import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.project.service.ProjectProcessorService;
+import org.compiere.project.services.ProjectProcessorService;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -216,8 +216,7 @@ public class ProjectProcessor extends AdempiereServer
 			notifier.addRecipient(queued.getAD_User_ID());
 			if(m_PO != null) {
 				notifier
-					.withTableId(m_PO.get_Table_ID())
-					.withRecordId(m_PO.get_ID());
+					.withEntity(m_PO);
 			}
 			//	Add to queue
 			notifier.addToQueue();

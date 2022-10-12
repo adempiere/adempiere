@@ -26,13 +26,13 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Client;
+import org.adempiere.core.domains.models.I_M_DiscountSchema;
+import org.adempiere.core.domains.models.I_M_ForecastLine;
+import org.adempiere.core.domains.models.I_M_PriceList_Version;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
-import org.compiere.model.I_AD_Client;
-import org.compiere.model.I_M_DiscountSchema;
-import org.compiere.model.I_M_ForecastLine;
-import org.compiere.model.I_M_PriceList_Version;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MDiscountSchema;
@@ -46,7 +46,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * A process to change the dates in GardenWorld for all existing transactions to

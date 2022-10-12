@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_FM_Product;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 /**

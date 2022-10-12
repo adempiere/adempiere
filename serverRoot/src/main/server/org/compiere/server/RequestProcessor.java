@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.compiere.model.I_R_Request;
+import org.adempiere.core.domains.models.I_R_Request;
 import org.compiere.model.MChangeRequest;
 import org.compiere.model.MClient;
 import org.compiere.model.MGroup;

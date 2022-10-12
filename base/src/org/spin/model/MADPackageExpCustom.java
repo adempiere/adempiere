@@ -24,6 +24,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Custom;
 import org.adempiere.pipo.handler.GenericPOHandler;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;

@@ -35,8 +35,9 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.X_AD_WF_Activity;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MColumn;
@@ -55,7 +56,6 @@ import org.compiere.model.MUser;
 import org.compiere.model.MUserRoles;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
@@ -1225,8 +1225,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 							+ (doc.getProcessMsg() != null ? doc.getProcessMsg() + Env.NL : "") 
 							+ (getTextMsg() != null ? getTextMsg() : ""))
 					.withDescription(Msg.getMsg(getCtx(), "NotApproved") + ": " + doc.getDocumentNo())
-					.withTableId(m_po.get_Table_ID())
-					.withRecordId(m_po.get_ID());
+					.withEntity(m_po);
 				//	Add to queue
 				notifier.addToQueue();
 			}
@@ -1578,8 +1577,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				.withText(message)
 				.addAttachment(pdf)
 				.withDescription(subject)
-				.withTableId(m_po.get_Table_ID())
-				.withRecordId(m_po.get_ID());
+				.withEntity(m_po);
 			//	For user
 			if (userId != 0) {
 				notifier.addRecipient(userId);

@@ -28,6 +28,9 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.I_M_PriceList;
+import org.adempiere.core.domains.models.I_M_RequisitionLine;
+import org.adempiere.core.domains.models.X_M_Requisition;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;

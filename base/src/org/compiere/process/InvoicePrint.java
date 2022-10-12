@@ -22,13 +22,13 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_Invoice;
 import org.compiere.model.MClient;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MMailText;
 import org.compiere.model.MQuery;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
-import org.compiere.model.X_C_Invoice;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.ServerReportCtl;
@@ -313,8 +313,7 @@ public class InvoicePrint extends SvrProcess
 						.withText(message)
 						.addAttachment(attachment)
 						.withDescription(subject)
-						.withTableId(MInvoice.Table_ID)
-						.withRecordId(invoiceId);
+						.withEntity(MInvoice.Table_ID, invoiceId);
 					//	Add to queue
 					notifier.addToQueue();
 					count++;

@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_AcctSchema;
+import org.adempiere.core.domains.models.X_C_AcctSchema;
 import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;

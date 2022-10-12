@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_BankAccount;
+import org.adempiere.core.domains.models.X_C_BankAccount;
+import org.adempiere.core.domains.models.X_C_BankAccountDoc;
 import org.adempiere.exceptions.AdempiereException;
 import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CCache;

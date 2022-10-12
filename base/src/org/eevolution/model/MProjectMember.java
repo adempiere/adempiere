@@ -16,6 +16,7 @@
 
 package org.eevolution.model;
 
+import org.adempiere.core.domains.models.X_C_ProjectMember;
 import org.compiere.model.MProject;
 import org.compiere.model.MUser;
 import org.compiere.model.Query;

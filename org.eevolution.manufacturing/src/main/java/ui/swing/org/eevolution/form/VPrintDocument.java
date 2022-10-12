@@ -35,7 +35,7 @@ import org.compiere.print.Viewer;
 import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_Cost;
 import org.adempiere.engine.CostComponent;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

@@ -1,0 +1,119 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xdoclint:none', '-quiet')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(
+        dir: '../tools/lib', 
+        include: [
+        'swingx-1.6.jar', 
+		'jnlp.jar',
+        'icepdf-viewer-6.2.2.jar'
+        ]
+    )
+    // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+    implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.2'
+    // https://mvnrepository.com/artifact/com.jgoodies/looks
+	implementation group: 'com.jgoodies', name: 'looks', version: '2.0.4'
+    // https://mvnrepository.com/artifact/org.jfree/jfreechart
+	implementation group: 'org.jfree', name: 'jfreechart', version: '1.0.14'
+    // https://mvnrepository.com/artifact/io.vavr/vavr
+    implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout
+    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.1'
+    // https://mvnrepository.com/artifact/org.beanshell/bsh
+    implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
+    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    api 'io.github.adempiere:request:3.9.4-develop-1.0'
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+signing {
+    sign configurations.archives
+}
+
+def entityType = 'D'
+version = "3.9.4-develop-1.0"
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Client",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
+                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'swing'
+            version
+           	from components.java
+           	pom {
+                name = 'Swing'
+                description = 'Swing UI and related libraries.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}

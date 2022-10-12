@@ -21,6 +21,12 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Memo;
+import org.adempiere.core.domains.models.I_C_UOM_Conversion;
+import org.adempiere.core.domains.models.I_M_CostDetail;
+import org.adempiere.core.domains.models.I_M_ProductDownload;
+import org.adempiere.core.domains.models.X_I_Product;
+import org.adempiere.core.domains.models.X_M_Product;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -506,9 +512,11 @@ public class MProduct extends X_M_Product
 		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
 		if (pc.getA_Asset_Group_ID() == 0)
 			return false;
-		//MAssetGroup.get(getCtx(), pc.getA_Asset_Group_ID());
-		//return ag.isOneAssetPerUOM();
-		return  pc.getA_Asset_Group().isOneAssetPerUOM();
+		PO assetGroup = MTable.get(getCtx(), "A_Asset_Group").getPO(pc.getA_Asset_Group_ID(), get_TrxName());
+		if(assetGroup != null) {
+			return assetGroup.get_ValueAsBoolean("IsOneAssetPerUOM");
+		}
+		return false;
 	}	//	isOneAssetPerUOM
 	
 	/**

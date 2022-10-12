@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.math.*;
 import java.sql.*;
 import java.util.*;
+
+import org.adempiere.core.domains.models.X_T_CombinedAging;
 import org.compiere.util.*;
 
 /**

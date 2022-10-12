@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_CommissionLine;
+import org.adempiere.core.domains.models.X_C_Commission;
 import org.compiere.util.DB;
 
 /**

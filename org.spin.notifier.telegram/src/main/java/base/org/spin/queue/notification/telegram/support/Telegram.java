@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.spin.model.MADAppRegistration;
 import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.notification.model.MADNotificationQueue;
@@ -158,8 +158,7 @@ public class Telegram implements INotification {
 						"\n" + 
 						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
 				.addRecipient("-537126434", MADNotificationRecipient.MESSAGETYPE_Confirmation)
-				.withTableId(MClient.Table_ID)
-				.withRecordId(1000000)
+				.withEntity(MClient.Table_ID, 1000000)
 				.withDescription("Hello by Notes")
 				.addToQueue();
 		});

@@ -21,8 +21,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_Ref_List;
-import org.compiere.model.I_R_MailText;
+import org.adempiere.core.domains.models.I_AD_Ref_List;
+import org.adempiere.core.domains.models.I_R_MailText;
+import org.adempiere.core.domains.models.X_R_NoticeTemplate;
 import org.compiere.model.MMailText;
 import org.compiere.model.MRefList;
 import org.compiere.model.PO;

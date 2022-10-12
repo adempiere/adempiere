@@ -27,6 +27,9 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_AcctSchema;
+import org.adempiere.core.domains.models.X_C_AcctSchema_Default;
+import org.adempiere.core.domains.models.X_C_AcctSchema_GL;
 import org.compiere.impexp.ImpFormat;
 import org.compiere.process.DocumentTypeVerify;
 import org.compiere.process.ProcessInfo;

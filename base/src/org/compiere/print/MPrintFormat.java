@@ -27,10 +27,10 @@ import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
+import org.adempiere.core.domains.models.X_AD_PrintFormat;
 import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
-import org.compiere.model.X_AD_PrintFormat;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.CPreparedStatement;

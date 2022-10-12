@@ -19,6 +19,8 @@ package org.spin.queue.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Queue;
+
 public class MADQueue extends X_AD_Queue {
 
 	/**

@@ -25,6 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.I_C_ProjectTask;
+import org.adempiere.core.domains.models.X_C_ProjectLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

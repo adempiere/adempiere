@@ -19,6 +19,7 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_User_Authentication;
 import org.compiere.util.Env;
 
 /**

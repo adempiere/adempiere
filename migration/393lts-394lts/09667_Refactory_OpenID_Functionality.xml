@@ -167,12 +167,12 @@
     </Step>
     <Step SeqNo="330" StepType="AD">
       <PO AD_Table_ID="54542" Action="U" Record_ID="50026" Table="AD_AppSupport">
-        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GitHubAuthentication">org.spin.authentication.service.provider.GitHubAuthentication</Data>
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GitHubAuthentication">org.spin.authentication.services.provider.GitHubAuthentication</Data>
       </PO>
     </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="54542" Action="U" Record_ID="50027" Table="AD_AppSupport">
-        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GoogleAuthentication">org.spin.authentication.service.provider.GoogleAuthentication</Data>
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GoogleAuthentication">org.spin.authentication.services.provider.GoogleAuthentication</Data>
       </PO>
     </Step>
   </Migration>

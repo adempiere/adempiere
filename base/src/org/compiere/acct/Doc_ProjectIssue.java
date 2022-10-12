@@ -23,7 +23,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.model.I_C_ProjectIssue;
+import org.adempiere.core.domains.models.I_C_ProjectIssue;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MProduct;

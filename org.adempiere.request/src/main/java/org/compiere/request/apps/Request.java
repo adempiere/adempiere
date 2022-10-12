@@ -16,20 +16,20 @@
 
 package org.compiere.request.apps;
 
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_Campaign;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.I_C_Project;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_RMA;
+import org.adempiere.core.domains.models.I_R_Request;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_A_Asset;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Order;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_Payment;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_RMA;
-import org.compiere.model.I_R_Request;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;

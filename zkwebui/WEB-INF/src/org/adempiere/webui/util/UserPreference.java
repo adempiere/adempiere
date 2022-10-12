@@ -17,7 +17,7 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import org.compiere.model.I_AD_Preference;
+import org.adempiere.core.domains.models.I_AD_Preference;
 import org.compiere.model.MPreference;
 import org.compiere.model.Query;
 import org.compiere.util.Env;

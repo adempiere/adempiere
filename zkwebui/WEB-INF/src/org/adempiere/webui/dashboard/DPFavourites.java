@@ -17,6 +17,7 @@ import java.util.Enumeration;
 
 import org.adempiere.exceptions.DBException;
 import org.adempiere.webui.component.ToolBarButton;
+import org.adempiere.webui.panel.MenuPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.FDialog;
@@ -84,7 +85,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		img.addEventListener(Events.ON_DROP, this);
 		//
         
-        favContent.setDroppable(FAVOURITE_DROPPABLE); 
+		favContent.setDroppable(MenuPanel.MENU_ITEM_DRAGGABLE_TYPE);
         favContent.addEventListener(Events.ON_DROP, this);
 	}
 	

@@ -43,6 +43,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.I_AD_Attachment;
+import org.adempiere.core.domains.models.X_AD_Attachment;
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
 import org.spin.util.AttachmentUtil;

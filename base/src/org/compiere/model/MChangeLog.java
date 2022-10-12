@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_ChangeLog;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 

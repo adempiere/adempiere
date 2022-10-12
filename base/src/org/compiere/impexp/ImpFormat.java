@@ -28,11 +28,11 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_ImpFormat;
+import org.adempiere.core.domains.models.X_AD_ImpFormat;
+import org.adempiere.core.domains.models.X_I_GLJournal;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.util.AbstractBatchImport;
-import org.compiere.model.I_AD_ImpFormat;
-import org.compiere.model.X_AD_ImpFormat;
-import org.compiere.model.X_I_GLJournal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

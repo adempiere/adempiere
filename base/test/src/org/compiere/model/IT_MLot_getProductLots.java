@@ -15,7 +15,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import static org.compiere.model.X_M_AttributeSet.MANDATORYTYPE_NotMandatory;
+import static org.adempiere.core.domains.models.X_M_AttributeSet.MANDATORYTYPE_NotMandatory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
