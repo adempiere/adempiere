@@ -677,16 +677,13 @@ $CATALINA_HOME/bin/shutdown.sh
 		<copy file="${basedir}/lib/adempiereWebCM.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ROOT.war"/>
 		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
 
-		<!--Setting the ADempiere Shared Libraries -->
-		<delete dir="${CATALINA_BASE}/shared/lib"/>
-		<mkdir dir="${CATALINA_BASE}/shared/lib"/>
+		<!--Setting the ADempiere Libraries -->
 		<delete dir="${CATALINA_BASE}/lib"/>
 		<mkdir dir="${CATALINA_BASE}/lib"/>
 		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${CATALINA_BASE}/lib/AdempiereSLib.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${CATALINA_BASE}/shared/lib/Adempiere.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${CATALINA_BASE}/shared/lib/adempiereRoot.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${CATALINA_BASE}/shared/lib/adempiereApps.jar" overwrite="true"/>
-		<replaceregexp file="${CATALINA_BASE}/conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.base}/shared/lib","${catalina.base}/shared/lib/*.jar"' byline="true"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${CATALINA_BASE}/lib/Adempiere.jar" overwrite="true"/>
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${CATALINA_BASE}/lib/adempiereRoot.jar" overwrite="true"/>
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${CATALINA_BASE}/lib/adempiereApps.jar" overwrite="true"/>
 		<replaceregexp file="${CATALINA_BASE}/conf/catalina.properties" match="xom-\*.jar" replace='xom-\*.jar,\\\\${line.separator}Adempiere.jar,\\\\${line.separator}adempiereRoot.jar,\\\\${line.separator}AdempiereSLib.jar,\\\\${line.separator}adempiereApps.jar,\\\\${line.separator}javax.mail.jar' byline="true"/>
 		<!--Setting the Connection Pool-->
 
