@@ -394,7 +394,7 @@
         <Data AD_Column_ID="6488" Column="EntityType" oldValue="D">CRM</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="800" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="800" StepType="SQL">
       <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement' WHERE ModelValidationClass = 'org.compiere.model.SalesMgmtValidator';</SQLStatement>
       <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.model.SalesMgmtValidator' WHERE ModelValidationClass = 'org.compiere.crm.model.validator.CustomerRelationshipManagement';</RollbackStatement>
     </Step>
