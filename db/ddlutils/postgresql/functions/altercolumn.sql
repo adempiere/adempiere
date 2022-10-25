@@ -1,4 +1,6 @@
-create or replace function altercolumn(tablename name, columnname name, datatype name,
+DROP TABLE t_alter_column;
+DROP FUNCTION altercolumn(tablename name, columnname name, datatype name,nullclause varchar, defaultclause varchar);
+CREATE OR REPLACE FUNCTION altercolumn(tablename name, columnname name, datatype name,
 nullclause varchar, defaultclause varchar) returns void as $$
 declare
    command text;
@@ -50,54 +52,42 @@ begin
 		    viewname[i] := v.relname;
 		end loop;
 		if i > 0 then
-		   begin
-		     for j in 1 .. i loop
-		        command := 'drop view ' || viewname[j];
-		        execute command;
-		        dropviews[j] := viewname[j];
-		     end loop;
-                     exception
-                        when others then
-                          i := array_upper(dropviews, 1);
-                          if i > 0 then
-                             for j in 1 .. i loop
-                                command := 'create or replace view ' || dropviews[j] || ' as ' || viewtext[j];
-		                execute command;
-                             end loop;
-                          end if;
-                          raise exception 'Failed to recreate dependent view';
-                   end;
+          command := 'SELECT deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
+          raise notice ' Execute : % ' , command;
+          execute command;
+		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
+		  raise notice ' Execute : % ' , command;
+		  execute command;
 		end if;
-		command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
-		execute command;
-                i := array_upper(dropviews, 1);
-		if i > 0 then
-		   for j in 1 .. i loop
-		     command := 'create or replace view ' || dropviews[j] || ' as ' || viewtext[j];
-		     execute command;
-		   end loop;
-		end if;
-        end if;
+	end if;
    end if;
    
    if defaultclause is not null then
        if lower(defaultclause) = 'null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop default ';
        else
-	  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set default ''' || defaultclause || '''';
+	  	  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set default ''' || defaultclause || '''';
        end if;
+	   raise notice ' Execute : % ' , command;
        execute command;
    end if;
    
    if nullclause is not null then
       if lower(nullclause) = 'not null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set not null';
+		  raise notice ' Execute : % ' , command;
           execute command;
       elsif lower(nullclause) = 'null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop not null';
+		  raise notice ' Execute : % ' , command;
           execute command;
       end if;
    end if;
+    if i > 0 then
+        command := 'SELECT deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
+		raise notice ' Execute : % ' , command;
+        execute command;
+    end if;
 end;
 $$ language plpgsql;
 
