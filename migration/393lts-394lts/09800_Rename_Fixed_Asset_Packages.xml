@@ -6300,7 +6300,7 @@
         <Data AD_Column_ID="97944" Column="AccountingClassname" oldValue="org.compiere.acct.Doc_AssetSplit">org.compiere.asset.acct.Doc_AssetSplit</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="12410" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="12410" StepType="SQL">
       <Comments>Remove bad column</Comments>
       <SQLStatement>ALTER TABLE A_Asset_Split DROP COLUMN A_Asset_Acct_ID;</SQLStatement>
     </Step>

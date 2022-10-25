@@ -36,7 +36,7 @@
         <Data AD_Column_ID="97367" Column="Classname" oldValue="org.spin.setup.SpinContributionTestSetup">org.spin.investment.setup.InvestmentAndLoan</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="80" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
       <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.investment.model.validator.LoanManagement' WHERE ModelValidationClass = 'org.spin.model.LoanManagementModelValidator';</SQLStatement>
       <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.model.LoanManagementModelValidator' WHERE ModelValidationClass = 'org.spin.investment.model.validator.LoanManagement';</RollbackStatement>
     </Step>
