@@ -17,14 +17,17 @@ on:
 jobs:
   # This workflow contains a single job called "build-all"
   build-all:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # The type of runner that the job will run on. 
+    # For Linux, only ubuntu is supported.
+    # Taking a specific version number to avoid side effects.
+    runs-on: ubuntu-22.04
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres
+        # Ubuntu 22.04 seems to support only Postgres 14.5
+        image: postgres:14.5
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
