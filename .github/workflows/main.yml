@@ -18,13 +18,16 @@ jobs:
   # This workflow contains a single job called "build-all"
   build-all:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # For Linux, only Ubuntu is supported.
+    # Taking a specific version number to avoid side effects.
+    runs-on: ubuntu-22.04
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres
+        # Ubuntu 22.04 supports only Postgres 14.5
+        image: postgres:14.5
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
@@ -40,11 +43,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
       # Ensure a compatible version of java is used
       - name: Setup Java JDK
-        uses: actions/setup-java@v1.4.3
+        uses: actions/setup-java@v3
         with:
             java-version: '11'
             java-package: jdk
@@ -134,13 +137,13 @@ jobs:
  #         ant build -Dnodbrestore=true
 
       - name: Upload Binary Files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
             name: adempiere-binary-files
             path: adempiere/install/
 
       - name: Upload Seed
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: steps.changed-files.outputs.xml-files == 'true'
         with:
             name: adempiere-postgresql-seed
