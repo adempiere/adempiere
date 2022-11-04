@@ -49,8 +49,9 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3
         with:
-            java-version: '11'
-            java-package: jdk
+            # For available options: see https://github.com/actions/setup-java#supported-distributions
+            distribution: 'temurin'
+            java-version: '11.0'
             
       # Deploy Tomcat-Server 
       - name: Deploy Tomcat ...
