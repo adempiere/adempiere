@@ -12,22 +12,29 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
+  * ***************************************************************************
+  */
 
 package org.eevolution.services
-
+import org.adempiere.core.domains.models.*
 import org.compiere.model.*
 import org.eevolution.dsl.*
 
-/**
- * Currency Service
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 29/02/16
- */
+/** Currency Service
+  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 29/02/16
+  */
 trait CurrencyService {
-  def getCurrencyByCode (code : String) (implicit context : Context, transaction : Transaction) : Currency = {
+  def getCurrencyByCode(
+      code: String
+  )(implicit context: Context, transaction: Transaction): Currency = {
     val whereClause = new StringBuilder()
     whereClause.append(I_C_Currency.COLUMNNAME_ISO_Code).append("=?")
-    val currency : Currency = new Query(context, I_C_Currency.Table_Name, whereClause.toString(), transaction.getTrxName)
+    val currency: Currency = new Query(
+      context,
+      I_C_Currency.Table_Name,
+      whereClause.toString(),
+      transaction.getTrxName
+    )
       .setParameters(code)
       .first()
     currency
