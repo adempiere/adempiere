@@ -25,7 +25,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.swing.Box;
 import javax.swing.JDialog;
@@ -42,6 +44,7 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
+import org.compiere.model.MLot;
 import org.compiere.model.MRole;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
@@ -63,7 +66,7 @@ import org.compiere.util.Msg;
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
  */
-public class InfoPAttribute extends CDialog
+public class  InfoPAttribute extends CDialog
 {
 	/**
 	 * 
@@ -351,38 +354,11 @@ public class InfoPAttribute extends CDialog
 	 */
 	private void initLotSelection()
 	{
-		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
-		list.add(new KeyNamePair(-1, ""));
-		
-		String whereAttributeSet;
-		if (p_M_AttributeSet_ID > 0)
-			whereAttributeSet = "AND M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
-		else
-			whereAttributeSet = "";
-		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' " + whereAttributeSet + " ORDER BY 2",
-			"M_Lot", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//	Create List
-		KeyNamePair[] items = new KeyNamePair[list.size()];
-		list.toArray(items);
-		lotSelection = new VComboBox(items);
+		List<KeyNamePair> keyNamePairLotList = MLot.getByAttributeSetId(Env.getCtx(), p_M_AttributeSet_ID, null)
+				.stream()
+				.map(lot -> new KeyNamePair(lot.getM_Lot_ID(), lot.getName()))
+				.collect(Collectors.toList());
+		lotSelection = new VComboBox(keyNamePairLotList.toArray());
 	}	//	initLotSelection
 
 

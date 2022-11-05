@@ -11,7 +11,7 @@
         <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.spin.model">org.spin.store.model</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="30" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="30" StepType="SQL">
       <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.model.validator.VueStoreFront';</SQLStatement>
       <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.spin.model.validator.VueStoreFront' WHERE ModelValidationClass = 'org.spin.store.model.validator.VueStoreFront';</RollbackStatement>
     </Step>

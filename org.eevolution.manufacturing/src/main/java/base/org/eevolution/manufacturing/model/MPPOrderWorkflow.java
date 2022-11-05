@@ -585,6 +585,9 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	 */
 	public void closeActivities(MPPOrderNode activity, Timestamp movementDate, boolean milestone)
 	{
+		if (activity == null)
+			return;
+		
 		if (activity.getPP_Order_Workflow_ID() != get_ID())
 		{
 			throw new AdempiereException("Activity and Order Workflow not matching"

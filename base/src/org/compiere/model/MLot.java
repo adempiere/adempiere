@@ -47,6 +47,27 @@ public class MLot extends X_M_Lot
 	private static CLogger		s_log = CLogger.getCLogger(MLot.class);
 
 	/**
+	 * Get By Attribute Set Id
+	 * @param ctx
+	 * @param attributeSetId
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MLot> getByAttributeSetId(Properties ctx , int attributeSetId, String trxName) {
+		StringBuilder whereClause = new StringBuilder();
+		ArrayList<Object> parameters = new ArrayList<>();
+		if (attributeSetId > 0 ) {
+			whereClause.append("M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID=? )");
+			parameters.add(attributeSetId);
+		}
+		return new Query(ctx, Table_Name, whereClause.toString(), trxName)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(parameters)
+				.setOrderBy("Name")
+				.list();
+	}
+	/**
 	 * 	Get Lots for Product
 	 *	@param ctx context
 	 *	@param M_Product_ID product
