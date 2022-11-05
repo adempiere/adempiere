@@ -12,24 +12,32 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
+  * ***************************************************************************
+  */
 
 package org.eevolution.services
 
+import org.adempiere.core.domains.models.*
 import org.compiere.model.*
 import org.eevolution.dsl
 import org.eevolution.dsl.*
 
-/**
- *  Price List Schema Service
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 01/03/16
- */
+/**  Price List Schema Service
+  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 01/03/16
+  */
 trait PriceListSchemaService {
-  def getPriceListSchemaByName (name : String) (implicit context : Context, transaction : Transaction) : dsl.DiscountSchema = {
+  def getPriceListSchemaByName(
+      name: String
+  )(implicit context: Context, transaction: Transaction): dsl.DiscountSchema = {
     val whereClause = new StringBuilder()
     whereClause.append(I_M_DiscountSchema.COLUMNNAME_Name).append("=?")
-    val priceListSchema : dsl.DiscountSchema= new Query(context, I_M_DiscountSchema.Table_Name, whereClause.toString(), transaction.getTrxName)
-        .setClient_ID()
+    val priceListSchema: dsl.DiscountSchema = new Query(
+      context,
+      I_M_DiscountSchema.Table_Name,
+      whereClause.toString(),
+      transaction.getTrxName
+    )
+      .setClient_ID()
       .setParameters(name)
       .first()
     priceListSchema
