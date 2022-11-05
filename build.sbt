@@ -25,8 +25,11 @@ scalaVersion := "3.2.1"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
+
+val sourceDirectoryTest = "org.adempiere.test"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/394"
 val adempiereProperties =
-  "-DPropertyFile=/Users/e-Evolution/Develop/ADempiere/394/install/build/Adempiere/Adempiere.properties"
+  "-DPropertyFile=" + sourceAdempiere + "/install/build/Adempiere/Adempiere.properties"
 /*scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
@@ -53,9 +56,6 @@ assembly / test := {}
 
 assembly / assemblyOption := (assembly / assemblyOption).value
   .copy(includeScala = true, includeDependency = false)
-
-val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/394"
 
 /** Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "server"
   * Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "servlet"
