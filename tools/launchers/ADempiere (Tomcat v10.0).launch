@@ -212,5 +212,4 @@
     <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk11"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="start"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=/opt/Development/ADempiere_Properties/adempiere.properties&#10;-Dcatalina.base=&quot;/opt/Development/workspace-all/workspace-jdk-11/.metadata/.plugins/org.eclipse.wst.server.core/tmp0&quot; -Dcatalina.home=&quot;/opt/Development/ADempiere_Deployment/apache-tomcat-10.0.13&quot; -Dwtp.deploy=&quot;/opt/Development/workspace-all/workspace-jdk-11/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps&quot; --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED"/>
-    <stringAttribute key="server-id" value="ADempiere (Tomcat v10.0)"/>
 </launchConfiguration>
