@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Queue: Add System Queue Functionality" ReleaseNo="3.9.4" SeqNo="8260">
+  <Migration EntityType="D" Name="Add System Queue Functionality" ReleaseNo="3.9.4" SeqNo="8260">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54843" Table="AD_Table">
         <Data AD_Column_ID="546" Column="Updated">2021-05-28 11:52:47.454</Data>

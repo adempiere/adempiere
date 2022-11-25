@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Enlarge length for Description on Order and Invoice" ReleaseNo="3.9.4" SeqNo="9240">
+  <Migration EntityType="D" Name="Enlarge Description on Order and Invoice" ReleaseNo="3.9.4" SeqNo="9240">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="3782" Table="AD_Column">
         <Data AD_Column_ID="118" Column="FieldLength" oldValue="255">16000</Data>

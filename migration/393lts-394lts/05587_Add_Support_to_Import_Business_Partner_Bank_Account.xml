@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Support to Import Business Partner Bank Account" ReleaseNo="3.9.4" SeqNo="5575">
+  <Migration EntityType="D" Name="Add Support to Import Business Partner Bank Account" ReleaseNo="3.9.4" SeqNo="5587">
     <Comments>See https://github.com/adempiere/adempiere/pull/2963</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="95536" Table="AD_Column">

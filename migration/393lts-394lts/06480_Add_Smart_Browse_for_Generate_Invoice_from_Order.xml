@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Smart Browse for Generate Invoice from Order" ReleaseNo="3.9.4" SeqNo="6480">
+  <Migration EntityType="D" Name="Add Smart Browse for Invoice Generation from Order" ReleaseNo="3.9.4" SeqNo="6480">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50192" Table="AD_View">
         <Data AD_Column_ID="58068" Column="IsActive">true</Data>

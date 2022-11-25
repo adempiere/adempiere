@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA34" Name="Telegram: Add Setup for Telegram Notifier" ReleaseNo="3.9.4" SeqNo="9560">
+  <Migration EntityType="D" Name="Telegram: Add Setup for Telegram Notifier" ReleaseNo="3.9.4" SeqNo="9560">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54786" Action="I" Record_ID="50044" Table="AD_SetupDefinition">
         <Data AD_Column_ID="97377" Column="UUID">a720457e-27cb-4dea-b64e-c6f0d5ae6c04</Data>

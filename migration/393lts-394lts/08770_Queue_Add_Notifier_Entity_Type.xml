@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Queue: Add Notification Entity Type" ReleaseNo="3.9.4" SeqNo="8770">
+  <Migration EntityType="D" Name="Add Queue Notification Entity Type" ReleaseNo="3.9.4" SeqNo="8770">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="882" Action="I" Record_ID="50116" Table="AD_EntityType">
         <Data AD_Column_ID="15607" Column="Processing">false</Data>

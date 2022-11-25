@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#3737 Add tax functionality to the requisition" ReleaseNo="3.9.4" SeqNo="9370">
+  <Migration EntityType="D" Name="#3737 Add Requisition Tax Functionality" ReleaseNo="3.9.4" SeqNo="9370">
     <Comments>https://github.com/adempiere/adempiere/issues/3737</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="99750" Table="AD_Column">

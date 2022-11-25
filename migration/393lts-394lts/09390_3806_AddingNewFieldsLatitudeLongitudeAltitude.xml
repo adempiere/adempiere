@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding new fields Latitude and Longitude" ReleaseNo="3.9.4" SeqNo="9390">
+  <Migration EntityType="D" Name="New Fields for Latitude and Longitude" ReleaseNo="3.9.4" SeqNo="9390">
     <Comments>https://github.com/adempiere/adempiere/issues/3806</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="62023" Table="AD_Element">

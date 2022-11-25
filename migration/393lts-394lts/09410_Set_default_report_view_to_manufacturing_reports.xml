@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Set default report view to manufacturing reports" ReleaseNo="3.9.4" SeqNo="9410">
+  <Migration EntityType="D" Name="Set Manufacturing Report Default Report View" ReleaseNo="3.9.4" SeqNo="9410">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53006" Table="AD_Process">
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isOldNull="true">53007</Data>

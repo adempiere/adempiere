@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Change package name for distribution and entity type" ReleaseNo="3.9.4" SeqNo="9830">
+  <Migration EntityType="D" Name="Change package name for Distribution and Entity Type" ReleaseNo="3.9.4" SeqNo="9830">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53955" Table="AD_Process">
         <Data AD_Column_ID="6485" Column="EntityType" oldValue="EE03">EE12</Data>

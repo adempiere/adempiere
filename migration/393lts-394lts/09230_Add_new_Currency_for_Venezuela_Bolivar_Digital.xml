@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add new Currency for Venezuela Bolivar Digital" ReleaseNo="3.9.4" SeqNo="9230">
+  <Migration EntityType="D" Name="Add new Currency for Venezuela: Bolivar Digital" ReleaseNo="3.9.4" SeqNo="9230">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="141" Action="I" Record_ID="50003" Table="C_Currency">
         <Data AD_Column_ID="789" Column="AD_Client_ID">0</Data>

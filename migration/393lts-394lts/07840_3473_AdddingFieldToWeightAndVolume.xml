@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Addding field to calculating Weight and Volume" ReleaseNo="3.9.4" SeqNo="7840">
+  <Migration EntityType="D" Name="Add Field for Weight and Volume Calculation" ReleaseNo="3.9.4" SeqNo="7840">
     <Comments>https://github.com/adempiere/adempiere/issues/3473</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="79919" Table="AD_Field">

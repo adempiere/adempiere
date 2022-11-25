@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA23" Name="Notification: Add Response handler for Notification" ReleaseNo="3.9.4" SeqNo="9520">
+  <Migration EntityType="D" Name="Notification: Add Response handler for Notification" ReleaseNo="3.9.4" SeqNo="9520">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54884" Table="AD_Table">
         <Data AD_Column_ID="84425" Column="UUID">c9509ba4-109a-4608-a91b-d6504304ba43</Data>

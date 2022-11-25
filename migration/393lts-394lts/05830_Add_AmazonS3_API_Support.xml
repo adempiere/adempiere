@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add AmazonS3 API support" ReleaseNo="3.9.4" SeqNo="5830">
+  <Migration EntityType="D" Name="Add Amazon S3 API support" ReleaseNo="3.9.4" SeqNo="5830">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54542" Action="I" Record_ID="50012" Table="AD_AppSupport">
         <Data AD_Column_ID="91310" Column="UUID">c5ab522b-0645-4aba-b242-dac5662d36c7</Data>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Filter values for Price List Create" ReleaseNo="3.9.4" SeqNo="7050">
+  <Migration EntityType="D" Name="Add Filter values for Price List Creation" ReleaseNo="3.9.4" SeqNo="7050">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="58010" Table="AD_Process_Para">
         <Data AD_Column_ID="2820" Column="Updated">2020-11-30 15:35:42.22</Data>

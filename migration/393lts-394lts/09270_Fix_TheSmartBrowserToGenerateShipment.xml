@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Does not show the Outbound orders picked pending" ReleaseNo="3.9.4" SeqNo="9270">
+  <Migration EntityType="D" Name="Display Outbound  picked pending orders" ReleaseNo="3.9.4" SeqNo="9270">
     <Comments>https://github.com/adempiere/adempiere/issues/3647</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
       <SQLStatement>DROP VIEW RV_WM_InOutBoundLine;
