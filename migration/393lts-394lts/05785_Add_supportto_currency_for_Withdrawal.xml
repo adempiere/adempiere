@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add support to currency for Withdrawal" ReleaseNo="3.9.4" SeqNo="5785">
+  <Migration EntityType="D" Name="Add support to POS Withdrawal Currency" ReleaseNo="3.9.4" SeqNo="5785">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="120" Action="U" Record_ID="54045" Table="AD_Menu_Trl">
         <Data AD_Column_ID="248" Column="Description" isOldNull="true">Permite Retiros de Puntos de Venta</Data>

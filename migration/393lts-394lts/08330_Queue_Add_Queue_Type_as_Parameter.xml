@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Queue: Add Queue Type as Parameter" ReleaseNo="3.9.4" SeqNo="8330">
+  <Migration EntityType="D" Name="Add Queue Type as Parameter" ReleaseNo="3.9.4" SeqNo="8330">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="58391" Table="AD_Process_Para">
         <Data AD_Column_ID="2820" Column="Updated">2021-06-01 15:58:50.828</Data>

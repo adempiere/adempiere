@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Rename Fixed Asset Packages" ReleaseNo="3.9.4" SeqNo="9805">
+  <Migration EntityType="D" Name="Rename Fixed Asset Packages 1" ReleaseNo="3.9.4" SeqNo="9805">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="55954" Table="AD_Column">
         <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.FA.model.CalloutAsset.asset">org.compiere.asset.controller.CalloutAsset.asset</Data>

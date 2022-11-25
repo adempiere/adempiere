@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add document Type for Bank Transfer" ReleaseNo="3.9.4" SeqNo="6460">
+  <Migration EntityType="D" Name="Add Bank Transfer Document Type" ReleaseNo="3.9.4" SeqNo="6460">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="57772" Table="AD_Process_Para">
         <Data AD_Column_ID="2820" Column="Updated">2020-08-12 16:48:59.208</Data>

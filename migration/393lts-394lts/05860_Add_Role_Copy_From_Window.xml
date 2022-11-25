@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add Role Copy From Window" ReleaseNo="3.9.4" SeqNo="5860">
+  <Migration EntityType="D" Name="Add Role Copy From Window" ReleaseNo="3.9.4" SeqNo="5860">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50181" Table="AD_View">
         <Data AD_Column_ID="58070" Column="Updated">2020-07-01 22:04:06.529</Data>

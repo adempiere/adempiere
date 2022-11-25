@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Increase Business Partner Name and Name 2" ReleaseNo="3.9.4" SeqNo="6497">
+  <Migration EntityType="D" Name="Increase Length of Business Partner Name and Name 2" ReleaseNo="3.9.4" SeqNo="6497">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="2902" Table="AD_Column">
         <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">255</Data>

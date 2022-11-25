@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add User Authentication Entity" ReleaseNo="3.9.4" SeqNo="9630">
+  <Migration EntityType="D" Name="Add User Authentication Entity" ReleaseNo="3.9.4" SeqNo="9630">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="I" Record_ID="54897" Table="AD_Table">
         <Data AD_Column_ID="92544" Column="NameOldValue" isNewNull="true"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="6450">
+  <Migration EntityType="D" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="6450">
   <!--
       /******************************************************************************
       * Product: Adempiere ERP &amp; CRM Smart Business Solution                   *

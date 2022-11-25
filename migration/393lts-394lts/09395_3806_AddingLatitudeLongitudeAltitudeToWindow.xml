@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding  Latitude, Longitude and Altitude to Window" ReleaseNo="3.9.4" SeqNo="9395">
+  <Migration EntityType="D" Name="Add  Latitude, Longitude and Altitude to Window" ReleaseNo="3.9.4" SeqNo="9395">
     <Comments>https://github.com/adempiere/adempiere/issues/3806</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="102143" Table="AD_Field">

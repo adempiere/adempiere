@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add support for Outllook email configuration" ReleaseNo="3.9.4" SeqNo="9375">
+  <Migration EntityType="D" Name="Outlook email configuration Support" ReleaseNo="3.9.4" SeqNo="9375">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="1000000" Table="AD_Ref_List">
         <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA23" Name="Notification: Add Account ID for Updates" ReleaseNo="3.9.4" SeqNo="9530">
+  <Migration EntityType="D" Name="Notification: Add Account ID for Updates" ReleaseNo="3.9.4" SeqNo="9530">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61952" Table="AD_Element">
         <Data AD_Column_ID="84316" Column="UUID">064696e5-173e-4391-905d-6120205e5088</Data>

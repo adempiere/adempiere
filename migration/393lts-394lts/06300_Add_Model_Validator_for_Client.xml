@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Model Validator for Client" ReleaseNo="3.9.4" SeqNo="6300">
+  <Migration EntityType="D" Name="Add Client Model Validator" ReleaseNo="3.9.4" SeqNo="6300">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="53014" Table="AD_Table">
         <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
