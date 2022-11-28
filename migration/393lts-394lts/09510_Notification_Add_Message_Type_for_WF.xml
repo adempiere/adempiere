@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA23" Name="Notification: Add Message Type for WF" ReleaseNo="3.9.4" SeqNo="9510">
+  <Migration EntityType="D" Name="Notification: Add Message Type for WF" ReleaseNo="3.9.4" SeqNo="9510">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55639" Table="AD_Ref_List">
         <Data AD_Column_ID="200" Column="Value">WAP</Data>

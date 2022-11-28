@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Fixed document flag for tables" ReleaseNo="3.9.4" SeqNo="5610">
+  <Migration EntityType="D" Name="Fixed document flag for tables" ReleaseNo="3.9.4" SeqNo="5610">
     <Comments>See: https://github.com/adempiere/adempiere/pull/3041</Comments>
     <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
       <Comments>Update all tables</Comments>

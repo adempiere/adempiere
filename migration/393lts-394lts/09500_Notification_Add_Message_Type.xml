@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA23" Name="Notification: Add Message Type" ReleaseNo="3.9.4" SeqNo="9500">
+  <Migration EntityType="D" Name="Notification: Add Message Type" ReleaseNo="3.9.4" SeqNo="9500">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="54280" Table="AD_Reference">
         <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>

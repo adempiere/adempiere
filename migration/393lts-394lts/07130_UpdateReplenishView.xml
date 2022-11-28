@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="7130">
+  <Migration EntityType="D" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="7130">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 

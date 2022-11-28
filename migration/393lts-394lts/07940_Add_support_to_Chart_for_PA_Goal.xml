@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add support to Chart for PA Goal" ReleaseNo="3.9.4" SeqNo="7940">
+  <Migration EntityType="D" Name="Add support to PA Goal Chart" ReleaseNo="3.9.4" SeqNo="7940">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="99008" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>

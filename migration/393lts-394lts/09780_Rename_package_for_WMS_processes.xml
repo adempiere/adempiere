@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="EE03" Name="Rename package for WMS processes" ReleaseNo="3.9.4" SeqNo="9780">
+  <Migration EntityType="D" Name="Rename package for WMS processes" ReleaseNo="3.9.4" SeqNo="9780">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="U" Record_ID="53186" Table="AD_Process">
         <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>

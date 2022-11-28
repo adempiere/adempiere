@@ -12,27 +12,35 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
+  * ***************************************************************************
+  */
 
 package org.eevolution.services
 
-
+import org.adempiere.core.domains.models.*
 import org.compiere.model.*
 import org.eevolution.dsl.*
 import scala.jdk.CollectionConverters.*
 
-/**
- *  Payment Service
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16.
- */
+/**  Payment Service
+  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16.
+  */
 trait PaymentService {
 
-  def getOrderPayments(order : Order) : List[Payment] = {
+  def getOrderPayments(order: Order): List[Payment] = {
     val whereClause = new StringBuilder()
     whereClause.append(I_C_Payment.COLUMNNAME_C_Order_ID).append("=?")
-    val payments = new Query(order.getCtx(), I_C_Payment.Table_Name, whereClause.toString(), order.get_TrxName())
-      .setClient_ID().setParameters(order.get_ID().asInstanceOf[Object])
-      .list().asScala.toList
+    val payments = new Query(
+      order.getCtx(),
+      I_C_Payment.Table_Name,
+      whereClause.toString(),
+      order.get_TrxName()
+    )
+      .setClient_ID()
+      .setParameters(order.get_ID().asInstanceOf[Object])
+      .list()
+      .asScala
+      .toList
     payments
   }
 }

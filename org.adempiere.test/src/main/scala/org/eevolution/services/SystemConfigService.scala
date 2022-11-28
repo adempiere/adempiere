@@ -12,24 +12,34 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
+  * ***************************************************************************
+  */
 
 package org.eevolution.services
 
 import java.util.Properties
 
+import org.adempiere.core.domains.models.*
 import org.compiere.model.*
 import org.eevolution.dsl.*
 
-/**
- * SysConfigService
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16
- */
+/** SysConfigService
+  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16
+  */
 trait SystemConfigService {
-  def getSystemConfig(context: Properties, name : String, trxName : String ) : SystemConfig = {
+  def getSystemConfig(
+      context: Properties,
+      name: String,
+      trxName: String
+  ): SystemConfig = {
     val whereClause = new StringBuilder()
     whereClause.append(I_AD_SysConfig.COLUMNNAME_Name).append("=?")
-    val systemConfig = new Query(context, I_AD_SysConfig.Table_Name, whereClause.toString(), trxName)
+    val systemConfig = new Query(
+      context,
+      I_AD_SysConfig.Table_Name,
+      whereClause.toString(),
+      trxName
+    )
       .setParameters(name)
       .first()
     systemConfig

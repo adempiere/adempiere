@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA34" Name="Telegram: Add Implementation for Telegram" ReleaseNo="3.9.4" SeqNo="9550">
+  <Migration EntityType="D" Name="Telegram: Add Implementation for Telegram" ReleaseNo="3.9.4" SeqNo="9550">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54542" Action="I" Record_ID="50020" Table="AD_AppSupport">
         <Data AD_Column_ID="91312" Column="Value">Telegram-Custom-Sender</Data>

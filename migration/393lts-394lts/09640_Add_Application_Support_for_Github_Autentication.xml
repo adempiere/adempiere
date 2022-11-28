@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add Application Support for Github Authentication" ReleaseNo="3.9.4" SeqNo="9640">
+  <Migration EntityType="D" Name="Add Application Support for Github Authentication" ReleaseNo="3.9.4" SeqNo="9640">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54542" Action="I" Record_ID="50026" Table="AD_AppSupport">
         <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50026</Data>

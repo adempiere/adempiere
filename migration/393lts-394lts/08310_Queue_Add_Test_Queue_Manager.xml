@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Queue: Add Test Queue Manager" ReleaseNo="3.9.4" SeqNo="8310">
+  <Migration EntityType="D" Name="Add Test Queue Manager" ReleaseNo="3.9.4" SeqNo="8310">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55612" Table="AD_Ref_List">
         <Data AD_Column_ID="563" Column="IsActive">true</Data>

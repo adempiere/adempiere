@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add OpenID Connect Application Type" ReleaseNo="3.9.4" SeqNo="9620">
+  <Migration EntityType="D" Name="Add OpenID Connect Application Type" ReleaseNo="3.9.4" SeqNo="9620">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55686" Table="AD_Ref_List">
         <Data AD_Column_ID="84390" Column="UUID">b4720f59-77cb-4053-9a28-250cb13f55d6</Data>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Configure Centralized ID Management Process" ReleaseNo="3.9.4" SeqNo="9730">
+  <Migration EntityType="D" Name="Configure Centralized ID Management Process" ReleaseNo="3.9.4" SeqNo="9735">
     <Comments>Add process to Configure Centralized ID Management. See https://github.com/adempiere/adempiere/issues/3910</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54621" Table="AD_Process">

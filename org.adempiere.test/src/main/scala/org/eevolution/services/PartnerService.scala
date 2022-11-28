@@ -12,33 +12,42 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
+  * ***************************************************************************
+  */
 
 package org.eevolution.services
 
 import java.util.{ArrayList, List}
 
+import org.adempiere.core.domains.models.*
 import org.compiere.model.*
 import org.eevolution.dsl.*
 
-/**
-  * Business Partner Service
- *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 02/03/13.
- */
+/** Business Partner Service
+  *  eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 02/03/13.
+  */
 trait PartnerService {
 
-   def getPartnerByValue (value : String) (implicit context : Context, transaction : Transaction) : Partner = {
-     val whereClause: StringBuilder = new StringBuilder()
-     val parameters:  List[Object] with Object = new ArrayList[Object]()
+  def getPartnerByValue(
+      value: String
+  )(implicit context: Context, transaction: Transaction): Partner = {
+    val whereClause: StringBuilder = new StringBuilder()
+    val parameters: List[Object] with Object = new ArrayList[Object]()
 
-     if (value != null) {
-       whereClause.append(I_C_BPartner.COLUMNNAME_Value).append("=?")
-       parameters.add(value)
-     }
+    if (value != null) {
+      whereClause.append(I_C_BPartner.COLUMNNAME_Value).append("=?")
+      parameters.add(value)
+    }
 
-     val partner : Partner =  new Query(context, I_C_BPartner.Table_Name, whereClause.toString(), transaction.getTrxName)
-       .setClient_ID()
-       .setParameters(parameters).first()
-     partner
-   }
+    val partner: Partner = new Query(
+      context,
+      I_C_BPartner.Table_Name,
+      whereClause.toString(),
+      transaction.getTrxName
+    )
+      .setClient_ID()
+      .setParameters(parameters)
+      .first()
+    partner
+  }
 }

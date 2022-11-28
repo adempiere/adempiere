@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Queue: Change Parameters type for Flush Queue Process" ReleaseNo="3.9.4" SeqNo="8270">
+  <Migration EntityType="D" Name="Change Parameters type for Flush Queue Process" ReleaseNo="3.9.4" SeqNo="8270">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="61755" Table="AD_Element">
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="29">11</Data>

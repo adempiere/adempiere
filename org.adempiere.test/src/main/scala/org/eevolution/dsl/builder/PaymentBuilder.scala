@@ -12,65 +12,112 @@
   * For the text or an alternative of this public license, you may reach us    *
   * Copyright (C) 2003-2016 e-Evolution,SC. All Rights Reserved.               *
   * Contributor(s): Victor Perez www.e-evolution.com                           *
-  * ****************************************************************************/
-
+  * ***************************************************************************
+  */
 
 package org.eevolution.dsl.builder
 
-import org.compiere.model.{MDocType, X_C_DocType}
+import org.compiere.model.*
+import org.adempiere.core.domains.models.*
 import org.compiere.process.DocAction
 import org.eevolution.dsl
 import org.eevolution.dsl._
 
-/**
-  * Payment Builder allows create a payment using a DSL
+/** Payment Builder allows create a payment using a DSL
   * So an Type-safe Builder Pattern si implemented
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 15/01/16.
   */
 object PaymentBuilder {
 
-  def apply(context: Context , trxName : String): Builder[Mandatory, Mandatory, Mandatory, Mandatory, Optional, Mandatory, Mandatory, Mandatory, Mandatory, Optional, Optional, Optional, Optional, Optional] = {
-      new Builder[Mandatory, Mandatory, Mandatory, Mandatory, Optional , Mandatory , Mandatory, Mandatory, Mandatory, Optional, Optional , Optional , Optional , Optional](context: Context , trxName : String)
-    }
+  def apply(context: Context, trxName: String): Builder[
+    Mandatory,
+    Mandatory,
+    Mandatory,
+    Mandatory,
+    Optional,
+    Mandatory,
+    Mandatory,
+    Mandatory,
+    Mandatory,
+    Optional,
+    Optional,
+    Optional,
+    Optional,
+    Optional
+  ] = {
+    new Builder[
+      Mandatory,
+      Mandatory,
+      Mandatory,
+      Mandatory,
+      Optional,
+      Mandatory,
+      Mandatory,
+      Mandatory,
+      Mandatory,
+      Optional,
+      Optional,
+      Optional,
+      Optional,
+      Optional
+    ](context: Context, trxName: String)
+  }
 
   case class Builder[
-    WithOrganizationTracking <: Optional,
-    WithPartnerTracking <: Optional,
-    WithBankAccountTracking <: Optional ,
-    WithDateTrxTracking <: Optional ,
-    WithDateAccountTracking <: Optional ,  // Once
-    WithBaseDocumentTypeTracking <: Optional ,
-    WithCurrencyTracking <: Optional ,
-    WithTenderType <: Optional ,
-    WithPayAmt <: Optional,
-    WithWriteOffAmount <: Optional,   // Once
-    WithDiscountAmount  <: Optional,   // Once
-    WithOrderTracking <: Optional ,        // Once
-    WithInvoiceTracking <: Optional,       // Once
-    WithPrePayment <: Optional       // Once
+      WithOrganizationTracking <: Optional,
+      WithPartnerTracking <: Optional,
+      WithBankAccountTracking <: Optional,
+      WithDateTrxTracking <: Optional,
+      WithDateAccountTracking <: Optional, // Once
+      WithBaseDocumentTypeTracking <: Optional,
+      WithCurrencyTracking <: Optional,
+      WithTenderType <: Optional,
+      WithPayAmt <: Optional,
+      WithWriteOffAmount <: Optional, // Once
+      WithDiscountAmount <: Optional, // Once
+      WithOrderTracking <: Optional, // Once
+      WithInvoiceTracking <: Optional, // Once
+      WithPrePayment <: Optional // Once
   ](
-       context: Context,
-       trxName : String,
-       organization: Option[Organization] = None,
-       partner: Option[Partner] = None,
-       bankAccount: Option[BankAccount] = None,
-       dateTrx: Option[Date] = None,
-       dateAccount: Option[Date] = None,
-       order: Option[Order] = None,
-       invoice: Option[Invoice] = None,
-       baseDocumentType: Option[String] = None,
-       currency :  Option[Currency] =  None ,
-       tenderType : Option[String] = None ,
-       payAmount :  Option[Amount] =  None,
-       writeOffAmount :  Option[Amount] = Some(0) ,
-       discountAmount :  Option[Amount] = Some(0) ,
-       isPrePayment  : Option[YesNo]  = Some(false)
-     ) {
+      context: Context,
+      trxName: String,
+      organization: Option[Organization] = None,
+      partner: Option[Partner] = None,
+      bankAccount: Option[BankAccount] = None,
+      dateTrx: Option[Date] = None,
+      dateAccount: Option[Date] = None,
+      order: Option[Order] = None,
+      invoice: Option[Invoice] = None,
+      baseDocumentType: Option[String] = None,
+      currency: Option[Currency] = None,
+      tenderType: Option[String] = None,
+      payAmount: Option[Amount] = None,
+      writeOffAmount: Option[Amount] = Some(0),
+      discountAmount: Option[Amount] = Some(0),
+      isPrePayment: Option[YesNo] = Some(false)
+  ) {
 
     type IsOnce[T] = =:=[T, Once]
     type IsMandatory[T] = =:=[T, Mandatory]
 
-    def withOrganization[Organization <: WithOrganizationTracking : IsMandatory](o: dsl.Organization): Builder[Once, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withOrganization[Organization <: WithOrganizationTracking: IsMandatory](
+        o: dsl.Organization
+    ): Builder[
+      Once,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         Once,
         WithPartnerTracking,
@@ -85,9 +132,27 @@ object PaymentBuilder {
         WithDiscountAmount,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](organization = Some(o))
+        WithPrePayment
+      ](organization = Some(o))
 
-    def withPartner[Partner <: WithPartnerTracking : IsMandatory](p: dsl.Partner): Builder[WithOrganizationTracking, Once, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withPartner[Partner <: WithPartnerTracking: IsMandatory](
+        p: dsl.Partner
+    ): Builder[
+      WithOrganizationTracking,
+      Once,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         Once,
@@ -102,9 +167,27 @@ object PaymentBuilder {
         WithDiscountAmount,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](partner = Some(p))
+        WithPrePayment
+      ](partner = Some(p))
 
-    def withBankAccount[BankAccount <: WithBankAccountTracking : IsMandatory](ba: dsl.BankAccount): Builder[WithOrganizationTracking, WithPartnerTracking, Once, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withBankAccount[BankAccount <: WithBankAccountTracking: IsMandatory](
+        ba: dsl.BankAccount
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      Once,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -120,9 +203,26 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         WithPrePayment
-        ](bankAccount = Some(ba))
+      ](bankAccount = Some(ba))
 
-    def withDateTrx[DateTrx <: WithDateTrxTracking : IsMandatory](dt: Date): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, Once, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withDateTrx[DateTrx <: WithDateTrxTracking: IsMandatory](
+        dt: Date
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      Once,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -138,9 +238,26 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         WithPrePayment
-        ](dateTrx = Some(dt))
+      ](dateTrx = Some(dt))
 
-    def withDateAccount[DateAccount <: WithDateAccountTracking : IsMandatory](da: Date): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, Once, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withDateAccount[DateAccount <: WithDateAccountTracking: IsMandatory](
+        da: Date
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      Once,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -156,8 +273,25 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         WithPrePayment
-        ](dateAccount = Some(da))
-    def withBaseDocumentType[BaseDocument <: WithBaseDocumentTypeTracking : IsMandatory](bdt: String): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, Once, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+      ](dateAccount = Some(da))
+    def withBaseDocumentType[
+        BaseDocument <: WithBaseDocumentTypeTracking: IsMandatory
+    ](bdt: String): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      Once,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -172,9 +306,27 @@ object PaymentBuilder {
         WithDiscountAmount,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](baseDocumentType = Some(bdt))
+        WithPrePayment
+      ](baseDocumentType = Some(bdt))
 
-    def withCurrency[Currency <: WithCurrencyTracking : IsMandatory](c: dsl.Currency): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, Once, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withCurrency[Currency <: WithCurrencyTracking: IsMandatory](
+        c: dsl.Currency
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      Once,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -190,9 +342,26 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         WithPrePayment
-        ](currency = Some(c))
+      ](currency = Some(c))
 
-    def withTenderType[TenderType <: WithTenderType : IsMandatory](tt: String): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, Once, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withTenderType[TenderType <: WithTenderType: IsMandatory](
+        tt: String
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      Once,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -207,10 +376,25 @@ object PaymentBuilder {
         WithDiscountAmount,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](tenderType = Some(tt))
+        WithPrePayment
+      ](tenderType = Some(tt))
 
-
-    def withPayAmount[PayAmt <: WithPayAmt : IsMandatory](pa: Amount): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, Once, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withPayAmount[PayAmt <: WithPayAmt: IsMandatory](pa: Amount): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      Once,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -226,10 +410,26 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         WithPrePayment
-        ](payAmount = Some(pa))
+      ](payAmount = Some(pa))
 
-
-    def withWriteOffAmount[WriteOffAmount <: WithWriteOffAmount : IsMandatory](wa: Amount): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, Once, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withWriteOffAmount[WriteOffAmount <: WithWriteOffAmount: IsMandatory](
+        wa: Amount
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      Once,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -244,10 +444,27 @@ object PaymentBuilder {
         WithDiscountAmount,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](writeOffAmount = Some(wa))
+        WithPrePayment
+      ](writeOffAmount = Some(wa))
 
-
-    def withDiscountAmount[DiscountAmount <: WithDiscountAmount : IsMandatory](da: Amount): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, Once, WithOrderTracking, WithInvoiceTracking, WithPrePayment] =
+    def withDiscountAmount[DiscountAmount <: WithDiscountAmount: IsMandatory](
+        da: Amount
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      Once,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -262,9 +479,27 @@ object PaymentBuilder {
         Once,
         WithOrderTracking,
         WithInvoiceTracking,
-        WithPrePayment](discountAmount = Some(da))
+        WithPrePayment
+      ](discountAmount = Some(da))
 
-    def withOrder[Order <: WithOrderTracking : IsMandatory](o: dsl.Order): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, Once, WithInvoiceTracking, WithPrePayment] =
+    def withOrder[Order <: WithOrderTracking: IsMandatory](
+        o: dsl.Order
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      Once,
+      WithInvoiceTracking,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -279,9 +514,27 @@ object PaymentBuilder {
         WithDiscountAmount,
         Once,
         WithInvoiceTracking,
-        WithPrePayment](order = Some(o))
+        WithPrePayment
+      ](order = Some(o))
 
-    def withInvoice[Invoice <: WithInvoiceTracking : IsMandatory](i: dsl.Invoice): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, Once, WithPrePayment] =
+    def withInvoice[Invoice <: WithInvoiceTracking: IsMandatory](
+        i: dsl.Invoice
+    ): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      Once,
+      WithPrePayment
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -297,9 +550,24 @@ object PaymentBuilder {
         WithOrderTracking,
         Once,
         WithPrePayment
-        ](invoice = Some(i))
+      ](invoice = Some(i))
 
-    def asPrePayment[IsPrePayment <: WithPrePayment : IsMandatory](): Builder[WithOrganizationTracking, WithPartnerTracking, WithBankAccountTracking, WithDateTrxTracking, WithDateAccountTracking, WithBaseDocumentTypeTracking, WithCurrencyTracking, WithTenderType, WithPayAmt, WithWriteOffAmount, WithDiscountAmount, WithOrderTracking, WithInvoiceTracking, Once] =
+    def asPrePayment[IsPrePayment <: WithPrePayment: IsMandatory](): Builder[
+      WithOrganizationTracking,
+      WithPartnerTracking,
+      WithBankAccountTracking,
+      WithDateTrxTracking,
+      WithDateAccountTracking,
+      WithBaseDocumentTypeTracking,
+      WithCurrencyTracking,
+      WithTenderType,
+      WithPayAmt,
+      WithWriteOffAmount,
+      WithDiscountAmount,
+      WithOrderTracking,
+      WithInvoiceTracking,
+      Once
+    ] =
       copy[
         WithOrganizationTracking,
         WithPartnerTracking,
@@ -315,22 +583,22 @@ object PaymentBuilder {
         WithOrderTracking,
         WithInvoiceTracking,
         Once
-        ](isPrePayment = Some(true))
+      ](isPrePayment = Some(true))
 
     def build[
-    Organization <: WithOrganizationTracking : IsOnce,
-    Partner <: WithPartnerTracking : IsOnce,
-    BankAccount <: WithBankAccountTracking : IsOnce,
-    DateTrx <: WithDateTrxTracking : IsOnce,
-    DateAccount <: WithDateAccountTracking : IsOnce,
-    BaseDocument <: WithBaseDocumentTypeTracking : IsOnce,
-    Currency <: WithCurrencyTracking : IsOnce,
-    TenderType <: WithTenderType : IsOnce,
-    PayAmt <: WithPayAmt : IsOnce,
-    WriteOffAmount <: WithWriteOffAmount : IsOnce,
-    DiscountAmount <: WithDiscountAmount : IsOnce,
-    Order <: WithOrderTracking : IsOnce,
-    Invoice <: WithInvoiceTracking : IsOnce
+        Organization <: WithOrganizationTracking: IsOnce,
+        Partner <: WithPartnerTracking: IsOnce,
+        BankAccount <: WithBankAccountTracking: IsOnce,
+        DateTrx <: WithDateTrxTracking: IsOnce,
+        DateAccount <: WithDateAccountTracking: IsOnce,
+        BaseDocument <: WithBaseDocumentTypeTracking: IsOnce,
+        Currency <: WithCurrencyTracking: IsOnce,
+        TenderType <: WithTenderType: IsOnce,
+        PayAmt <: WithPayAmt: IsOnce,
+        WriteOffAmount <: WithWriteOffAmount: IsOnce,
+        DiscountAmount <: WithDiscountAmount: IsOnce,
+        Order <: WithOrderTracking: IsOnce,
+        Invoice <: WithInvoiceTracking: IsOnce
     ](): Payment = {
 
       var payment = new Payment(context, 0, trxName)
@@ -343,9 +611,7 @@ object PaymentBuilder {
         val documentTypeId = MDocType.getDocType(baseDocumentType.get)
         payment.setC_DocType_ID(documentTypeId)
         payment.setIsReceipt(true)
-      }
-      else if(X_C_DocType.DOCBASETYPE_APPayment == baseDocumentType.get)
-      {
+      } else if (X_C_DocType.DOCBASETYPE_APPayment == baseDocumentType.get) {
         val documentTypeId = MDocType.getDocType(baseDocumentType.get)
         payment.setC_DocType_ID(documentTypeId)
         payment.setIsReceipt(false)

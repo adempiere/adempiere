@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add Collecting Agent Reference to Payment" ReleaseNo="3.9.4" SeqNo="6550">
+  <Migration EntityType="D" Name="Add Collecting Agent Reference to Payment" ReleaseNo="3.9.4" SeqNo="6550">
     <Comments>RV_PAYMENT</Comments>
     <Step SeqNo="7" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61514" Table="AD_Element">

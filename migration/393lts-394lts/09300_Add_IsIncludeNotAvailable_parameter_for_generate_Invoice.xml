@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add IsIncludeNotAvailable parameter for generate Invoice" ReleaseNo="3.9.4" SeqNo="9300">
+  <Migration EntityType="D" Name="Add IsIncludeNotAvailable parameter for generate Invoice" ReleaseNo="3.9.4" SeqNo="9300">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="58471" Table="AD_Process_Para">
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>

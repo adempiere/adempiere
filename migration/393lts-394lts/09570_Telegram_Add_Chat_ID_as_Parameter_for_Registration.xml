@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA34" Name="Telegram: Add Chat ID as Parameter for Registration" ReleaseNo="3.9.4" SeqNo="9570">
+  <Migration EntityType="D" Name="Telegram: Add Chat ID as Parameter for Registration" ReleaseNo="3.9.4" SeqNo="9570">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54544" Action="I" Record_ID="50024" Table="AD_AppSupport_Para">
         <Data AD_Column_ID="91386" Column="UUID">9deb6f5f-7236-4b23-9a1d-67b62b42eca5</Data>
