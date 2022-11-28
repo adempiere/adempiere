@@ -3,6 +3,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_QualityTest;
+
 public class MQualityTest extends X_M_QualityTest {
 
 	public MQualityTest(Properties ctx, int M_QualityTest_ID, String trxName) {

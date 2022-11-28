@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Fixed Return Quantity for Shipment Details report" ReleaseNo="3.9.4" SeqNo="5920">
+  <Migration EntityType="D" Name="Fixed Return Quantity for Shipment Details report" ReleaseNo="3.9.4" SeqNo="5920">
     <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_INOUTDETAILS
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 

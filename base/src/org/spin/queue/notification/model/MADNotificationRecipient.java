@@ -19,6 +19,8 @@ package org.spin.queue.notification.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_NotificationRecipient;
+
 /**
  * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  * Model class
@@ -47,6 +49,7 @@ public class MADNotificationRecipient extends X_AD_NotificationRecipient {
 		super(queue.getCtx(), 0, queue.get_TrxName());
 		setAD_NotificationQueue_ID(queue.getAD_NotificationQueue_ID());
 		setAD_Org_ID(queue.getAD_Org_ID());
+		setMessageType(queue.getMessageType());
 	}
 
 	@Override

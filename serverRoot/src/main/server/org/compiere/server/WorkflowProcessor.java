@@ -84,12 +84,22 @@ public class WorkflowProcessor extends AdempiereServer
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
-		Trx.run(trxName -> {
-			MWorkflowProcessorLog workflowProcessorLog = new MWorkflowProcessorLog(m_model, m_summary.toString(), trxName);
-			workflowProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			workflowProcessorLog.saveEx();
-		});
+		if (m_model.get_TrxName() == null) {
+			Trx.run(this::addWorkflowProcessorLog);
+		} else {
+			addWorkflowProcessorLog(m_model.get_TrxName());
+		}
 	}	//	doWork
+
+	/**
+	 * Add Workflow Processor Log
+	 * @param trxName
+	 */
+	private void addWorkflowProcessorLog(String trxName) {
+		MWorkflowProcessorLog workflowProcessorLog = new MWorkflowProcessorLog(m_model, m_summary.toString(), trxName);
+		workflowProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+		workflowProcessorLog.saveEx();
+	}
 
 	/**
 	 * 	Continue Workflow After Sleep
@@ -412,8 +422,7 @@ public class WorkflowProcessor extends AdempiereServer
 				.withText(subject)
 				.addAttachment(attachmentAsPDF.get())
 				.withDescription(message.get())
-				.withTableId(po.get_Table_ID())
-				.withRecordId(po.get_ID());
+				.withEntity(po);
 			list.forEach(userId -> notifier.addRecipient(userId));
 			notifier.addToQueue();
 		});
@@ -492,8 +501,7 @@ public class WorkflowProcessor extends AdempiereServer
 				.withText(subject)
 				.addAttachment(pdf)
 				.withDescription(message)
-				.withTableId(po.get_Table_ID())
-				.withRecordId(po.get_ID());
+				.withEntity(po);
 			//	Add all recipients
 			list.forEach(userId -> notifier.addRecipient(userId));
 			//	Add to queue

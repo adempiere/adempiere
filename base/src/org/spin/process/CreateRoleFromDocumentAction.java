@@ -20,12 +20,12 @@ package org.spin.process;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Document_Action_Access;
+import org.adempiere.core.domains.models.I_AD_Ref_List;
+import org.adempiere.core.domains.models.X_AD_Document_Action_Access;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Document_Action_Access;
-import org.compiere.model.I_AD_Ref_List;
 import org.compiere.model.MRefList;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Document_Action_Access;
 import org.compiere.process.DocAction;
 
 /** 

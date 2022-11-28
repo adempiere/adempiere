@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Setup Definition for client" ReleaseNo="3.9.4" SeqNo="7220">
+  <Migration EntityType="D" Name="Add Setup Definition for client" ReleaseNo="3.9.4" SeqNo="7230">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="105" Action="I" Record_ID="53745" Table="AD_Window">
         <Data AD_Column_ID="12457" Column="IsBetaFunctionality">false</Data>

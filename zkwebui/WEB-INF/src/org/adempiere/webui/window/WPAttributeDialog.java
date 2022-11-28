@@ -23,8 +23,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_M_MovementLine;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
@@ -56,7 +59,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSerNoCtl;
 import org.compiere.model.MWindow;
-import org.compiere.model.X_M_MovementLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -327,22 +329,14 @@ public class WPAttributeDialog extends Window implements EventListener
 			row.appendChild(label);
 			row.appendChild(fieldLotString);
 			fieldLotString.setText (m_masi.getLot());
-			//	M_Lot_ID
-		//	int AD_Column_ID = 9771;	//	M_AttributeSetInstance.M_Lot_ID
-		//	fieldLot = new VLookup ("M_Lot_ID", false,false, true, 
-		//		MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir));
-			String sql = "SELECT M_Lot_ID, Name "
-				+ "FROM M_Lot l "
-				+ "WHERE EXISTS (SELECT M_Product_ID FROM M_Product p "
-					+ "WHERE p.M_AttributeSet_ID=" + m_masi.getM_AttributeSet_ID()
-					+ " AND p.M_Product_ID=l.M_Product_ID)";
+
+			List<KeyNamePair> keyNamePairLotList = MLot.getByAttributeSetId(Env.getCtx(), m_masi.getM_AttributeSet_ID(), m_masi.get_TrxName())
+					.stream()
+					.map(lot -> new KeyNamePair(lot.getM_Lot_ID(), lot.getName()))
+					.collect(Collectors.toList());
 			fieldLot = new Listbox();
 			fieldLot.setMold("select");
-			KeyNamePair[] keyNamePairs = DB.getKeyNamePairs(sql, true);
-			for (KeyNamePair pair : keyNamePairs) {
-				fieldLot.appendItem(pair.getName(), pair.getKey());
-			}
-						
+			keyNamePairLotList.forEach(lot -> fieldLot.appendItem(lot.getName(), lot.getKey()));
 			label = new Label (Util.cleanAmp(Msg.translate(Env.getCtx(), "M_Lot_ID")));
 			row = new Row();
 			row.setParent(rows);

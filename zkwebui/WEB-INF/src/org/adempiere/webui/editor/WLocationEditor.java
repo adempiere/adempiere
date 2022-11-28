@@ -64,8 +64,8 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
     private static CLogger log = CLogger.getCLogger(WLocationEditor.class);
-    private MLocationLookup     m_Location;
-    private MLocation           m_value;
+    private MLocationLookup locationLookup;
+    private MLocation location;
 
 	private WEditorPopupMenu popupMenu;
     
@@ -75,15 +75,15 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
      * @param mandatory     mandatory
      * @param isReadOnly    read only
      * @param isUpdateable  updateable
-     * @param mLocation     location model
+     * @param locationLookup     location model
     **/
     public WLocationEditor(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
-            MLocationLookup mLocation)
+            MLocationLookup locationLookup)
     {
         super(new Locationbox(), "Address","",mandatory,isReadOnly,isUpdateable);
        
         setColumnName(columnName);
-        m_Location = mLocation;
+        this.locationLookup = locationLookup;
         init();
     }
 
@@ -93,7 +93,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
      */
     public WLocationEditor(GridField gridField) {
 		super(new Locationbox(), gridField);
-		m_Location = (MLocationLookup)gridField.getLookup();
+		locationLookup = (MLocationLookup)gridField.getLookup();
         init();
 	}
 
@@ -117,9 +117,9 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     @Override
     public Object getValue()
     {
-        if (m_value == null)
+        if (location == null)
             return null;
-        return Integer.valueOf(m_value.getC_Location_ID());
+        return location.getC_Location_ID();
     }
 
     @Override
@@ -127,16 +127,17 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     {
         if (value == null)
         {
-            m_value = null;
+            location = null;
             getComponent().setText(null);
         }
         else
         {
-            m_value = m_Location.getLocation(value, null);
-            if (m_value == null)
+            int locationId = (Integer)value;
+            location = new MLocation(Env.getCtx(), locationId , null);
+            if (location == null)
                 getComponent().setText("<" + value + ">");
             else
-                getComponent().setText(m_value.toString());
+                getComponent().setText(location.toString());
         }
     }
     
@@ -161,9 +162,9 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
      */
     public int getC_Location_ID()
     {
-        if (m_value == null)
+        if (location == null)
             return 0;
-        return m_value.getC_Location_ID();
+        return location.getC_Location_ID();
     }   
     
     /**
@@ -181,16 +182,10 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         //
         if ("onClick".equals(event.getName()))
         {
+            location = new MLocation(Env.getCtx(), getC_Location_ID() , null);
         	if( ((Button)event.getTarget()).getName().equals("bUrl") )
         	{
-        		String location = "";
-        		if (!getComponent().getText().isEmpty()) {
-        			location = getComponent().getText().replace(" ", "+");
-        		}
-        		else if(m_value != null) {
-        			location = m_value.toString().replace(" ", "+");
-        		}
-                String urlString = MLocation.LOCATION_MAPS_URL_PREFIX + location;
+                String urlString = MLocation.getMapUrl(location);
                 String message = null;
                 try {
                     //Executions.getCurrent().sendRedirect(urlString, "_blank");
@@ -204,22 +199,11 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         	}
             else if( ((Button)event.getTarget()).getName().equals("bRouteUrl") )
             {
-                String location = "";
-                if (!getComponent().getText().isEmpty()) {
-                    location = getComponent().getText().replace(" ", "+");;
-                }
-                else if(m_value != null) {
-                    location = m_value.toString().replace(" ", "+");
-                }
-
                 int orgId = Env.getAD_Org_ID(Env.getCtx());
                 if (orgId != 0){
                     MOrgInfo orgInfo = 	MOrgInfo.get(Env.getCtx(), orgId,null);
                     MLocation orgLocation = new MLocation(Env.getCtx(),orgInfo.getC_Location_ID(),null);
-
-                    String urlString = MLocation.LOCATION_MAPS_ROUTE_PREFIX +
-                            MLocation.LOCATION_MAPS_SOURCE_ADDRESS + orgLocation.getMapsLocation() + //org
-                            MLocation.LOCATION_MAPS_DESTINATION_ADDRESS + location; //partner
+                    String urlString = MLocation.getRouteUrl(orgLocation , location);
                     String message = null;
                     try {
                         Env.startBrowser(urlString+"&output=embed");
@@ -233,24 +217,24 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
             }
         	else
         	{	
-	            log.config( "actionPerformed - " + m_value);
-	            WLocationDialog ld = new WLocationDialog(Msg.getMsg(Env.getCtx(), "Location"), m_value);
+	            log.config( "actionPerformed - " + location);
+	            WLocationDialog ld = new WLocationDialog(Msg.getMsg(Env.getCtx(), "Location"), location);
 	            ld.setVisible(true);
 	            AEnv.showWindow(ld);
-	            m_value = ld.getValue();
+	            location = ld.getValue();
 	            //
 	           if (!ld.isChanged())
 	                return;
-	    
+
 	            //  Data Binding
-	            int C_Location_ID = 0;
-	            if (m_value != null)
-	                C_Location_ID = m_value.getC_Location_ID();
-	            Integer ii = Integer.valueOf(C_Location_ID);
+	            int locationId = 0;
+	            if (location != null)
+	                locationId = location.getC_Location_ID();
+	            Integer ii = locationId;
 	            //  force Change - user does not realize that embedded object is already saved.
 	            ValueChangeEvent valuechange = new ValueChangeEvent(this,getColumnName(),null,null);
 	            fireValueChange(valuechange);   //  resets m_mLocation
-	            if (C_Location_ID != 0)
+	            if (locationId != 0)
 	            {
 	                ValueChangeEvent vc = new ValueChangeEvent(this,getColumnName(),null,ii);
 	                fireValueChange(vc);

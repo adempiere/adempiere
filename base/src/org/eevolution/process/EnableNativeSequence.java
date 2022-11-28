@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Table;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
 import org.compiere.model.MPInstance;
@@ -29,7 +30,6 @@ import org.compiere.model.MSequence;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Table;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;

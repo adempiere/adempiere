@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fixed error with product price for product" ReleaseNo="3.9.4" SeqNo="9360">
+  <Migration EntityType="D" Name="Fix Product Price error" ReleaseNo="3.9.4" SeqNo="9360">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="101444" Table="AD_Field">
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>

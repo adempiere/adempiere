@@ -22,12 +22,12 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MColumn;
 import org.compiere.model.MDocBaseType;
 import org.compiere.model.MDocType;
 import org.compiere.model.MTable;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -113,7 +113,7 @@ public class DocFactory {
 	 * @return
 	 * @throws AdempiereUserError
 	 */
-	public Doc get() throws AdempiereUserError {
+	public Doc get() {
 		Doc doc = null;
 		
 		if (accountingSchemes != null) {
@@ -188,8 +188,7 @@ public class DocFactory {
 	 * @return
 	 * @throws AdempiereUserError
 	 */
-	private Doc getByResultSet () throws AdempiereUserError
-	{
+	private Doc getByResultSet () {
 		Doc doc = null;
 		
 		AtomicReference<String> className = new AtomicReference<String>(null);
@@ -279,7 +278,7 @@ public class DocFactory {
 		catch (Exception e)
 		{
 			s_log.log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
-			throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
+			throw new AdempiereException("Doc Class invalid: " + className + " (" + e.toString() + ")");
 		}
 		
 		if (doc == null)

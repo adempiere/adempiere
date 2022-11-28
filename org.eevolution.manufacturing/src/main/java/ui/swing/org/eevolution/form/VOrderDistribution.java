@@ -36,7 +36,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MDDOrder;
+import org.eevolution.distribution.model.MDDOrder;
 
 /**
  *	Create Movement from Distribution Order

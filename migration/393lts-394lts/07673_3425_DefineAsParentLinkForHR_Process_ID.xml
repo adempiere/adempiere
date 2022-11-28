@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Define as parent link for HR_Process_ID in HR_M" ReleaseNo="3.9.4" SeqNo="7673">
+    <Comments>https://github.com/adempiere/adempiere/issues/3425</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55033" Table="AD_Column">
+        <Data AD_Column_ID="120" Column="IsParent" oldValue="false">true</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">HR_Process_ID</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

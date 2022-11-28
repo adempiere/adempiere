@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Requisition;
+import org.adempiere.core.domains.models.I_M_RequisitionLine;
+import org.adempiere.core.domains.models.X_M_RequisitionLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

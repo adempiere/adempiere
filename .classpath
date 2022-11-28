@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" path="org.eevolution.distribution/src/main/java/base"/>
 	<classpathentry kind="src" output="base/test/build" path="base/test/src">
 		<attributes>
 			<attribute name="test" value="true"/>
@@ -68,7 +69,6 @@
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.eevolution.freight/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
-	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/base"/>
@@ -76,6 +76,10 @@
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.store/src/main/java"/>
+	<classpathentry kind="src" path="org.compiere.mobile/WEB-INF/src"/>
+	<classpathentry kind="src" path="org.spin.notifier.telegram/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.notifier.discord/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.authentication/src/main/java/base"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-11">
 		<attributes>
 			<attribute name="module" value="true"/>
@@ -261,8 +265,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-io.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ooxml-schemas-1.3.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -276,7 +278,6 @@
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xfire-all-1.2.6.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/jackson-databind-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/mockito-inline-3.6.0.jar" sourcepath="tools/lib/junit/mockito-inline-3.6.0-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:platform:/resource/adempiere/tools/lib/junit/mockito-inline-3.6.0-javadoc.jar!/"/>
@@ -314,8 +315,6 @@
 	<classpathentry kind="lib" path="tools/lib/httpclient-win-4.5.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
-	<classpathentry kind="lib" path="tools/lib/jna-4.4.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
@@ -357,11 +356,9 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/httpclient-4.5.10.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-4.4.12.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-nio-4.4.12.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/jackson-core-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-cbor-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-smile-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-yaml-2.10.4.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/jna-5.5.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
@@ -415,8 +412,6 @@
 	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
@@ -427,5 +422,28 @@
 	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/vavr-1.0.0-alpha-4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/OpenForecast-0.5.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/legacy/financial-support-legacy-1.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/annotations-23.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/jackson-annotations-2.13.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/jackson-core-2.13.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/jackson-databind-2.13.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/JDA-5.0.0-alpha.11.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/jsr305-3.0.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/kotlin-stdlib-1.4.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/kotlin-stdlib-common-1.4.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/nv-websocket-client-2.14.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/okhttp-4.9.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/okio-jvm-2.8.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/opus-java-1.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/opus-java-api-1.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/opus-java-natives-1.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/discord/trove4j-3.0.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/telegrambots-6.0.1-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/accessors-smart-2.4.8.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/content-type-2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/json-smart-2.4.8.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/nimbus-jose-jwt-9.22.jar"/>
+	<classpathentry kind="lib" path="tools/lib/openid/oauth2-oidc-sdk-9.35.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

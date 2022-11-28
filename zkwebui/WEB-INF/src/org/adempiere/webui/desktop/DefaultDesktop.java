@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.desktop;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.X_PA_DashboardContent;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -31,12 +33,10 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.util.UserPreference;
-import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

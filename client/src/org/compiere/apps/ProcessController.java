@@ -24,9 +24,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.controller.SmallViewController;
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.X_AD_ReportView;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.GridField;
-import org.compiere.model.I_AD_Process;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPInstance;
@@ -36,7 +37,6 @@ import org.compiere.model.MProcessPara;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_ReportView;
 import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
@@ -806,8 +806,12 @@ public abstract class ProcessController extends SmallViewController {
 			return;
 		}
 		List<Integer> keys = new ArrayList<Integer>();
-		for(int key : getProcessInfo().getIDs()) {
-			keys.add(key);
+		int[] keysAsarray = getProcessInfo().getIDs();
+		if(keysAsarray != null
+				&& keysAsarray.length > 0) {
+			for(int key : keysAsarray) {
+				keys.add(key);
+			}
 		}
 		//	
 		String tableName = getProcessInfo().getResultTableName();

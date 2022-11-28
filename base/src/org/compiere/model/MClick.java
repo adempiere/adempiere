@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_W_Click;
 import org.compiere.Adempiere;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

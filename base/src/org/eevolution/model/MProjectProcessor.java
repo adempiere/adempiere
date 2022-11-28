@@ -16,6 +16,7 @@
 
 package org.eevolution.model;
 
+import org.adempiere.core.domains.models.X_C_ProjectProcessor;
 import org.compiere.model.AdempiereProcessor;
 import org.compiere.model.AdempiereProcessorLog;
 import org.compiere.model.MClient;

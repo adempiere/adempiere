@@ -16,8 +16,8 @@ package org.adempiere.webui;
 
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.ADWindow;
-import org.compiere.apps.Request;
 import org.compiere.model.MQuery;
+import org.compiere.request.apps.Request;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

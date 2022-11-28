@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_CashBook;
+import org.adempiere.core.domains.models.X_C_CashBook;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 

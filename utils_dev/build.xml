@@ -34,10 +34,10 @@
 		<ant inheritAll="false" dir="org.compiere.mobile"/>
 		<ant inheritAll="false" dir="migration"/>
 		<ant inheritAll="false" dir="org.eevolution.cashflow"/>
+		<ant inheritAll="false" dir="org.eevolution.distribution"/>
 		<ant inheritAll="false" dir="org.eevolution.manufacturing"/>
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse"/>
-		<ant inheritAll="false" dir="org.eevolution.fleet"/>
 		<ant inheritAll="false" dir="org.eevolution.freight"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 		<ant inheritAll="false" dir="org.adempiere.pos"/>
@@ -46,6 +46,9 @@
 		<ant inheritAll="false" dir="org.spin.loan_management"/>
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance"/>
 		<ant inheritAll="false" dir="org.spin.store"/>
+		<ant inheritAll="false" dir="org.spin.notifier.telegram"/>
+		<ant inheritAll="false" dir="org.spin.notifier.discord"/>
+		<ant inheritAll="false" dir="org.spin.authentication"/>
 	</target>
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -75,7 +78,7 @@
 		<ant inheritAll="false" dir="org.eevolution.hr_and_payroll" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.warehouse" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.freight" target="clean"/>
-		<ant inheritAll="false" dir="org.eevolution.fleet" target="clean"/>
+		<ant inheritAll="false" dir="org.eevolution.distribution" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
 		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.production" target="clean"/>
@@ -83,6 +86,9 @@
 		<ant inheritAll="false" dir="org.spin.loan_management" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.store" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.notifier.telegram" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.notifier.discord" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.authentication" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

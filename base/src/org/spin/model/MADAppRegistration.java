@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.I_AD_AppRegistration_Para;
+import org.adempiere.core.domains.models.X_AD_AppRegistration;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -117,7 +119,7 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	 */
 	public static List<MADAppRegistration> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MADAppRegistration> definitionList;
-		if (resetCache || definitionCacheIds.size() > 0 ) {
+		if (resetCache || definitionCacheIds.size() == 0 ) {
 			definitionList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setOrderBy(COLUMNNAME_Value)
 					.list();

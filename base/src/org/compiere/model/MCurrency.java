@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Currency;
+import org.adempiere.core.domains.models.X_C_Currency;
 import org.compiere.util.CCache;
 
 /**

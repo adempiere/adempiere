@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.X_HR_Movement;
+import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
-import org.eevolution.model.X_HR_Movement;
-import org.eevolution.model.X_HR_Process;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payroll Movement)
@@ -65,7 +65,7 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 			X_HR_Movement payrollMovement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
 			Optional<X_HR_Process> mybePayrollProcess = Optional.ofNullable(payrollProcessMap.get(payrollMovement.getHR_Process_ID()));
 			X_HR_Process payrollProcess = mybePayrollProcess.orElseGet(() -> {
-				X_HR_Process processFromMovement = (X_HR_Process) payrollMovement.getHR_Process();
+				X_HR_Process processFromMovement = new X_HR_Process(getCtx(), payrollMovement.getHR_Process_ID(), get_TrxName());
 				payrollProcessMap.put(payrollMovement.getHR_Process_ID(), processFromMovement);
 				return processFromMovement;
 			});

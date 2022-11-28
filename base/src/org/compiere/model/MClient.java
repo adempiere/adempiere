@@ -30,6 +30,10 @@ import java.util.logging.Level;
 
 import javax.mail.internet.InternetAddress;
 
+import org.adempiere.core.domains.models.I_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Tree;
+import org.adempiere.core.domains.models.X_AD_UserMail;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.CCache;
@@ -486,36 +490,7 @@ public class MClient extends X_AD_Client
 	 */
 	public String testEMail()
 	{
-		if (getRequestEMail() == null || getRequestEMail().length() == 0)
-			return "No Request EMail for " + getName();
-		//
-		EMail email = createEMail (getRequestEMail(),
-			"Adempiere EMail Test", 
-			"Adempiere EMail Test: " + toString());
-		if (email == null)
-			return "Could not create EMail: " + getName();
-		try
-		{
-			String msg = email.send();
-			if (EMail.SENT_OK.equals (msg))
-			{
-				log.info("Sent Test EMail to " + getRequestEMail());
-				return "OK";
-			}
-			else
-			{
-				log.warning("Could NOT send Test EMail from "
-					+ getSMTPHost() + ": " + getRequestEMail()
-					+ " (" + getRequestUser()
-					+ ") to " + getRequestEMail() + ": " + msg);
-				return msg;
-			}
-		}
-		catch (Exception ex)
-		{
-			log.severe(getName() + " - " + ex.getLocalizedMessage());
-			return ex.getLocalizedMessage();
-		}
+		return EMail.validateMailDelivery(getCtx(), getRequestEMail(), getRequestUserPW(), getAD_EMailConfig_ID(), getName());
 	}	//	testEMail
 	
 	/**

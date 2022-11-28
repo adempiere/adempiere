@@ -25,6 +25,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.X_C_BankStatementLine;
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

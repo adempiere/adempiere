@@ -16,9 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import io.vavr.control.Option;
+
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
+
+import org.adempiere.core.domains.models.X_C_BPartner_Location;
 
 
 /**
@@ -157,7 +163,22 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		return sb.toString ();
 	}	//	toString
 
-	
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return true if can be saved
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success) {
+
+		setLatitudeAndLongitude();
+
+		if (!success || newRecord)
+			return success;
+
+		return true;
+	}
+
 	/**************************************************************************
 	 * 	Before Save.
 	 * 	- Set Name
@@ -207,7 +228,34 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		setName (m_uniqueName);
 		return true;
 	}	//	beforeSave
-	
+
+	/**
+	 * Set Latitude And Longitude
+	 */
+	public void setLatitudeAndLongitude() {
+		if (getC_Location_ID() <= 0)
+			return;
+
+		Option<String> maybeMapUrl = Option.of(getMapURL());
+		maybeMapUrl
+				.filter(mapUrl -> mapUrl != null && mapUrl.contains("?q="))
+				.map(mapUrl -> {
+					String locationInfo = mapUrl.substring(mapUrl.indexOf("?q=") + 3);
+					StringTokenizer tokenizer = new StringTokenizer(locationInfo, ",");
+					String latitude = tokenizer.nextToken();
+					String longitude = tokenizer.nextToken();
+					Integer longitudeCheck = longitude.indexOf("&");
+					if (longitudeCheck <= 0) {
+						longitudeCheck = longitude.length();
+					}
+					MLocation location = new MLocation(getCtx(), getC_Location_ID(), get_TrxName());
+						location.setLatitude(new BigDecimal(latitude));
+						location.setLongitude(new BigDecimal(longitude.substring(0, longitudeCheck)));
+						location.saveEx();
+					return location;
+				});
+	}
+
 	/**
 	 * 	Make name Unique
 	 * 	@param address address
@@ -220,7 +268,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		//	0 - City
 		if (m_unique >= 0 || m_uniqueName.length() == 0)
 		{
-			String xx = address.getCity(); 
+			String xx = address.getCity();
 			if (xx != null && xx.length() > 0)
 				m_uniqueName = xx;
 		}

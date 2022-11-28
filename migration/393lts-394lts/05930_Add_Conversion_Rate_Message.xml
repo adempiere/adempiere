@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Conversion Rate Message" ReleaseNo="3.9.4" SeqNo="5910">
+  <Migration EntityType="D" Name="Add Conversion Rate Message" ReleaseNo="3.9.4" SeqNo="5930">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53660" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>

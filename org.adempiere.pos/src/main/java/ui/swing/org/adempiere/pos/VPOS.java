@@ -42,9 +42,9 @@ import javax.swing.Timer;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.POSPanelInterface;
-import org.adempiere.pos.service.POSScalesPanelInterface;
+import org.adempiere.pos.services.CPOS;
+import org.adempiere.pos.services.POSPanelInterface;
+import org.adempiere.pos.services.POSScalesPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.Waiting;

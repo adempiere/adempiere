@@ -18,12 +18,12 @@ package org.compiere.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.adempiere.core.domains.models.X_M_BOM.BOMTYPE_CurrentActive;
+import static org.adempiere.core.domains.models.X_M_BOM.BOMTYPE_Make_To_Kit;
+import static org.adempiere.core.domains.models.X_M_BOM.BOMTYPE_Make_To_Order;
+import static org.adempiere.core.domains.models.X_M_BOM.BOMUSE_Engineering;
+import static org.adempiere.core.domains.models.X_M_BOM.BOMUSE_Master;
 import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
-import static org.compiere.model.X_M_BOM.BOMTYPE_CurrentActive;
-import static org.compiere.model.X_M_BOM.BOMTYPE_Make_To_Order;
-import static org.compiere.model.X_M_BOM.BOMTYPE_Make_To_Kit;
-import static org.compiere.model.X_M_BOM.BOMUSE_Master;
-import static org.compiere.model.X_M_BOM.BOMUSE_Engineering;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;

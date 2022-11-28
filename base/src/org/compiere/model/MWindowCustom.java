@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_TabCustom;
+import org.adempiere.core.domains.models.X_AD_WindowCustom;
 import org.compiere.util.Util;
 
 /**

@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_DiscountSchemaBreak;
+
 
 /**
  *	Discount Break Schema (Model)
@@ -63,18 +65,17 @@ public class MDiscountSchemaBreak extends X_M_DiscountSchemaBreak
 	
 	/**
 	 * 	Criteria apply
-	 *	@param Value amt or qty
-	 *	@param M_Product_ID product
-	 *	@param M_Product_Category_ID category
+	 *	@param value amt or qty
+	 *	@param productId product
+	 *	@param productCategoryId category
 	 *	@return true if criteria met
 	 */
-	public boolean applies (BigDecimal Value, int M_Product_ID, int M_Product_Category_ID)
-	{
+	public boolean applies (BigDecimal value, int productId, int productCategoryId) {
 		if (!isActive())
 			return false;
 		
 		//	below break value
-		if (Value.compareTo(getBreakValue()) < 0)
+		if (value.compareTo(getBreakValue()) < 0)
 			return false;
 		
 		//	No Product / Category 
@@ -83,15 +84,16 @@ public class MDiscountSchemaBreak extends X_M_DiscountSchemaBreak
 			return true;
 		
 		//	Product
-		if (getM_Product_ID() == M_Product_ID)
+		if (getM_Product_ID() == productId)
 			return true;
 		
 		//	Category
-		if (M_Product_Category_ID != 0)
-			return getM_Product_Category_ID() == M_Product_Category_ID;
+		if (productCategoryId != 0
+				&& getM_Product_Category_ID() == productCategoryId)
+			return true;
 
 		//	Look up Category of Product
-		return MProductCategory.isCategory(getM_Product_Category_ID(), M_Product_ID);
+		return MProductCategory.isCategory(getM_Product_Category_ID(), productId);
 	}	//	applies
 	
 	@Override

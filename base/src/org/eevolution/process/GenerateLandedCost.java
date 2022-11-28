@@ -21,7 +21,8 @@ package org.eevolution.process;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-import org.compiere.model.I_M_InOutLine;
+
+import org.adempiere.core.domains.models.I_M_InOutLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MLandedCost;

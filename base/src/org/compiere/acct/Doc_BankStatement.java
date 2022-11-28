@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import org.compiere.model.I_C_BankStatement;
+import org.adempiere.core.domains.models.I_C_BankStatement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MBankAccount;

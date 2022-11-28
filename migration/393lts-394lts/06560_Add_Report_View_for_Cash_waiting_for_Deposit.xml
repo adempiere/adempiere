@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Report View for Cash waiting for Deposit" ReleaseNo="3.9.4" SeqNo="6560">
+  <Migration EntityType="D" Name="Add Cash Waiting for Deposit Report View" ReleaseNo="3.9.4" SeqNo="6560">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="361" Action="I" Record_ID="53332" Table="AD_ReportView">
         <Data AD_Column_ID="4388" Column="Created">2020-10-29 11:29:41.472</Data>

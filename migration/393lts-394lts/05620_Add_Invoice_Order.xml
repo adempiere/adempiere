@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Invoice Order as Sub Type for orders" ReleaseNo="3.9.3" SeqNo="5620">
+  <Migration EntityType="D" Name="Add Invoice Order as Sub Type for orders" ReleaseNo="3.9.4" SeqNo="5620">
     <Comments>See: https://github.com/adempiere/adempiere/pull/3042</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55447" Table="AD_Ref_List">

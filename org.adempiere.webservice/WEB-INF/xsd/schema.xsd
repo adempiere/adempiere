@@ -167,7 +167,6 @@
    	</xsd:sequence>
    </xsd:complexType>
 
-
    <xsd:complexType name="DataRow">
    	<xsd:sequence>
    		<xsd:element name="field" type="tns:DataField" minOccurs="0" maxOccurs="unbounded"/>
@@ -461,6 +460,14 @@
      <xsd:element name="TableName" type="xsd:string"/>
      <xsd:element name="RecordID" type="xsd:int"/>
      <xsd:element name="Filter" type="xsd:string"/>
+	 <xsd:element name="RetriveResultAs">
+	   <xsd:simpleType>
+		   <xsd:restriction base="xsd:string">
+			   <xsd:enumeration value="Attribute"></xsd:enumeration>
+			   <xsd:enumeration value="Element"></xsd:enumeration>
+		   </xsd:restriction>
+	   </xsd:simpleType>
+	 </xsd:element>
      <xsd:element name="Action">
      	<xsd:simpleType>
      		<xsd:restriction base="xsd:string">

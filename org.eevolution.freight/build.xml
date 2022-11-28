@@ -65,6 +65,8 @@
     <!-- Transfer liberoWM.jar -->
     <copy file="${dist}/lib/FreightManagement.jar" todir="${env.ADEMPIERE_HOME}/packages/FreightManagement/lib"/>
     <copy file="${dist}/lib/FreightManagement.jar" todir="../packages/"/>
+  	<copy file="../tools/lib/legacy/freight-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/FreightManagement/lib" />
+  	<copy file="../tools/lib/legacy/freight-support-legacy-1.0.0.jar" todir="../packages/" />
 
   </target>
 

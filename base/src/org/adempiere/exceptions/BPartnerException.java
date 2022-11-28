@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.exceptions;
 
-import org.compiere.model.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner;
 
 /**
  * Thrown when an exception related to a BPartner happened.

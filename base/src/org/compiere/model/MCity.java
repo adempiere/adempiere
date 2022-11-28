@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Comparator;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_City;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 

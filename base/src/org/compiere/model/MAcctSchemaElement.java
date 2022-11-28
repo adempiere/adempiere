@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_AcctSchema_Element;
+import org.adempiere.core.domains.models.I_C_ValidCombination;
+import org.adempiere.core.domains.models.X_C_AcctSchema_Element;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

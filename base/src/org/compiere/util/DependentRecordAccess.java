@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-import org.compiere.model.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;

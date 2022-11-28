@@ -21,10 +21,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Role;
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_ASP_Level;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Role;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.MWindowCustom;

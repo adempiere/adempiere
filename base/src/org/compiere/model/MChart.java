@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Chart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.CategoryAxis;

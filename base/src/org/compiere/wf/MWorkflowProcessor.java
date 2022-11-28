@@ -21,10 +21,10 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WorkflowProcessor;
 import org.compiere.model.AdempiereProcessor;
 import org.compiere.model.AdempiereProcessorLog;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WorkflowProcessor;
 import org.compiere.util.DB;
 
 

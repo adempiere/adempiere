@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_ChartDatasource;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

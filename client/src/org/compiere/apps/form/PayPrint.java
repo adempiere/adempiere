@@ -25,12 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_BankAccountDoc;
+import org.compiere.model.MBankAccount;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_BankAccountDoc;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -217,5 +218,17 @@ public class PayPrint {
 				+ "				LEFT JOIN C_Payment p ON(p.C_Payment_ID = psc.C_Payment_ID) "
 				+ "				WHERE psc.C_PaySelection_ID = C_PaySelection.C_PaySelection_ID "
 				+ "				AND (psc.C_Payment_ID IS NULL OR p.DocStatus NOT IN('CO', 'CL')))";
+	}
+	
+	/**
+	 * Set Next Sequence for Bank Account Document 
+	 * @param paymentRule
+	 * @param lastDocumentNo
+	 */
+	protected void setBankAccountNextSequence(String paymentRule, int lastDocumentNo) {
+		if (bankAccountId > 0) { 
+			MBankAccount bankAccount = MBankAccount.get(Env.getCtx(), bankAccountId);
+			bankAccount.setDocumentCurrentNext(paymentRule, lastDocumentNo);
+		}
 	}
 }

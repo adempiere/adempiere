@@ -20,7 +20,7 @@ package org.spin.process;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.compiere.model.I_AD_Session;
+import org.adempiere.core.domains.models.I_AD_Session;
 import org.compiere.model.MSession;
 import org.compiere.model.Query;
 

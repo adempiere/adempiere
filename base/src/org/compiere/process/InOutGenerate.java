@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.compiere.model.I_C_Order;
+import org.adempiere.core.domains.models.I_C_Order;
 import org.compiere.model.MClient;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;

@@ -23,13 +23,13 @@
 
 package org.adempiere.webui.window;
 
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.NewPassPanel;
 import org.adempiere.webui.panel.PassResetPanel;
 import org.adempiere.webui.panel.RolePanel;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.model.I_AD_User;
 import org.compiere.model.MUser;
 import org.compiere.model.M_Element;
 import org.compiere.util.Env;
@@ -96,6 +96,17 @@ public class LoginWindow extends FWindow implements EventListener
     public void loginOk(String userName, String password)
     {
         pnlRole = new RolePanel(ctx, this, userName, password);
+        this.getChildren().clear();
+        this.appendChild(pnlRole);
+    }
+    
+    /**
+     * Login with MUser
+     * @param user
+     */
+    public void loginOk(MUser user)
+    {
+        pnlRole = new RolePanel(ctx, this, user);
         this.getChildren().clear();
         this.appendChild(pnlRole);
     }
@@ -186,6 +197,13 @@ public class LoginWindow extends FWindow implements EventListener
 		pnlRole.changeRole(ctx);
 	}
 
+	public void externalAuthentication(Locale locale, Properties ctx, MUser user) {
+		getDesktop().getSession().setAttribute(Attributes.PREFERRED_LOCALE, locale);
+		Locales.setThreadLocal(locale);
+		new Login(ctx);
+		loginOk(user);
+		getDesktop().getSession().setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+	}
 	public String getTypedPassword()
     {
         if (pnlLogin != null)

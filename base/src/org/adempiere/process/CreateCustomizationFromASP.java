@@ -19,10 +19,10 @@ package org.adempiere.process;
 
 import java.util.Enumeration;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.I_ASP_Level;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
-import org.compiere.model.I_AD_Menu;
-import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MBrowseCustom;
 import org.compiere.model.MBrowseFieldCustom;
 import org.compiere.model.MClientInfo;

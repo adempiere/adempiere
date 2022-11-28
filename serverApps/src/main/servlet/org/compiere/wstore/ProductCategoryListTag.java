@@ -23,8 +23,8 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import org.apache.ecs.xhtml.option;
-import org.apache.ecs.xhtml.select;
+import org.adempiere.legacy.apache.ecs.xhtml.option;
+import org.adempiere.legacy.apache.ecs.xhtml.select;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

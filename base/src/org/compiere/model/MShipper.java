@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Shipper;
+import org.adempiere.core.domains.models.X_M_Shipper;
 import org.compiere.util.Env;
 
 

@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_InvoiceBatch;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

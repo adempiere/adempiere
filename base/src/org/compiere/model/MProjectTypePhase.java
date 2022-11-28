@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_Phase;
 import org.compiere.util.Env;
 
 /**

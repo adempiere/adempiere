@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_NotificationRecipient;
+import org.adempiere.core.domains.models.I_AD_NotificationUpdates;
+import org.adempiere.core.domains.models.X_AD_NotificationQueue;
 import org.compiere.model.Query;
 import org.spin.queue.model.MADQueue;
 
@@ -58,7 +61,20 @@ public class MADNotificationQueue extends X_AD_NotificationQueue {
 	 * @return
 	 */
 	public List<MADNotificationRecipient> getRecipients() {
-		return new Query(getCtx(), I_AD_NotificationRecipient.Table_Name, I_AD_NotificationRecipient.COLUMNNAME_AD_NotificationQueue_ID + " = ?", get_TrxName())
+		return new Query(getCtx(), I_AD_NotificationRecipient.Table_Name,
+				I_AD_NotificationRecipient.COLUMNNAME_AD_NotificationQueue_ID + " = ?", get_TrxName())
+				.setParameters(getAD_NotificationQueue_ID())
+				.setOnlyActiveRecords(true)
+				.list();
+	}
+	
+	/**
+	 * Get updates of notification
+	 * @return
+	 */
+	public List<MADNotificationUpdates> getUpdates() {
+		return new Query(getCtx(), I_AD_NotificationUpdates.Table_Name,
+				I_AD_NotificationUpdates.COLUMNNAME_AD_NotificationQueue_ID + " = ?", get_TrxName())
 				.setParameters(getAD_NotificationQueue_ID())
 				.setOnlyActiveRecords(true)
 				.list();
@@ -71,7 +87,10 @@ public class MADNotificationQueue extends X_AD_NotificationQueue {
 	 * @param transactionName
 	 * @return
 	 */
-	public static List<MADNotificationQueue> getNotificationsFromQueue(Properties context, int queueId, String transactionName) {
+	public static List<MADNotificationQueue> getNotificationsFromQueue(
+			Properties context,
+			int queueId,
+			String transactionName) {
 		return new Query(context, Table_Name, COLUMNNAME_AD_Queue_ID + " = ?", transactionName)
 				.setParameters(queueId)
 				.list();

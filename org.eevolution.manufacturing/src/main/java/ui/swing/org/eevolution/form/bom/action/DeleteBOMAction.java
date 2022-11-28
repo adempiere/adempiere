@@ -22,8 +22,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.eevolution.form.action.PopupAction;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
 
 /**
  *  @author Victor Perez, e-Evolution, S.C.

@@ -22,9 +22,10 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_PrintForm;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.X_AD_PrintForm;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_PrintForm;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MMailText;
@@ -33,7 +34,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MUser;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_PrintForm;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.Env;
@@ -159,8 +159,7 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 			.withUserId(getAD_User_ID())
 			.withText(message)
 			.withDescription(mailText.getMailHeader())
-			.withTableId(MPayment.Table_ID)
-			.withRecordId(payment.getC_Payment_ID());
+			.withEntity(payment);
 		if(businessPartnerBankAccountContact != null) {
 			notifier.addRecipient(businessPartnerBankAccountContact.getAD_User_ID());
 		} else if(!Util.isEmpty(businessPartnerBankAccountMail)) {

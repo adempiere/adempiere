@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_M_MatchInv;
+import org.adempiere.core.domains.models.X_M_MatchInv;
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.CLogger;

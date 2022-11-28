@@ -33,13 +33,15 @@ import io.vavr.Tuple3;
 import io.vavr.Tuple4;
 import io.vavr.collection.List;
 import io.vavr.control.Try;
+
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_AD_User_Roles;
+import org.adempiere.core.domains.models.I_M_Warehouse;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_AD_User_Roles;
-import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MColumn;
 import org.compiere.model.MCountry;
 import org.compiere.model.MPreference;
@@ -473,6 +475,98 @@ public class Login
 		return retValue;
 	}	//	getRoles
 
+	/**
+	 * Get User Roles from MUser
+	 * @param userLogin
+	 * @return
+	 */
+	public KeyNamePair[] getRoles (MUser userLogin) {
+		long start = System.currentTimeMillis();
+		String app_user = userLogin.getValue();
+		
+		if (getAuthenticatedUserId() == null )
+			authenticatedUserId = userLogin.get_ID();
+		
+		//	Fail authentication
+		if(getAuthenticatedUserId() == -1) {
+			return null;
+		}
+
+		KeyNamePair[] retValue = null;
+		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
+		//	Validate if exist column
+		//	Support to old compatibility
+		int isDefaultId = MColumn.getColumn_ID(I_AD_User_Roles.Table_Name, I_AD_User_Roles.COLUMNNAME_IsDefault);
+		String orderBy = "";
+		if(isDefaultId > 0) {
+			orderBy = "COALESCE(ur.IsDefault,'N') Desc,";
+		}
+		//
+		StringBuilder sql = new StringBuilder("SELECT u.AD_User_ID, r.AD_Role_ID,r.Name,")
+			.append(" u.ConnectionProfile ")
+			.append("FROM AD_User u")
+			.append(" INNER JOIN AD_User_Roles ur ON (u.AD_User_ID=ur.AD_User_ID AND ur.IsActive = 'Y' )")
+			.append(" INNER JOIN AD_Role r ON (ur.AD_Role_ID=r.AD_Role_ID AND r.IsActive = 'Y' ) ")
+			.append( "WHERE u.AD_User_ID = ?")         
+			.append(" AND u.IsActive = ? ")
+			.append(" AND EXISTS (SELECT 1 FROM AD_Client c "
+					+ "WHERE u.AD_Client_ID=c.AD_Client_ID AND c.IsActive = ? )");
+		sql.append(" ORDER BY ").append(orderBy).append("r.Name");  // #1935 Show the default role, if defined, first
+		List<Object> parameters = List.of(authenticatedUserId,true,true);
+		Try<Void> tryRoles =  DB.runResultSetFunction.apply(null , sql.toString() , parameters , resultSet -> {
+			List<Tuple4<Integer, Integer, String, String>> roles = new ResultSetIterable<>(resultSet, row -> {
+				return Tuple.of(
+						row.getInt("AD_User_ID"),
+						row.getInt("AD_Role_ID"),
+						row.getString("Name"),
+						row.getString("ConnectionProfile"));
+			}).toList();
+			roles.forEach(user -> {
+				Env.setContext(m_ctx, "#AD_User_Name", app_user);
+				Env.setContext(m_ctx, "#AD_User_ID", user._1);
+				Env.setContext(m_ctx, "#SalesRep_ID", user._1);
+
+				if (Ini.isClient())
+				{
+					if (MSystem.isSwingRememberUserAllowed())
+						Ini.setProperty(Ini.P_UID, app_user);
+					else
+						Ini.setProperty(Ini.P_UID, "");
+
+					m_connectionProfile = user._4;		//	User Based
+					if (m_connectionProfile != null)
+					{
+						CConnection cc = CConnection.get();
+						if (!cc.getConnectionProfile().equals(m_connectionProfile))
+						{
+							cc.setConnectionProfile(m_connectionProfile);
+							Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
+							Ini.saveProperties(false);
+						}
+					}
+				}
+
+				int AD_Role_ID = user._2;
+				if (AD_Role_ID == 0)
+					Env.setContext(m_ctx, "#SysAdmin", "Y");
+				String Name =user._3;
+				KeyNamePair keyNamePair = new KeyNamePair(AD_Role_ID, Name);
+				list.add(keyNamePair);
+			});
+		}).onFailure(throwable -> {
+			log.log(Level.SEVERE, sql.toString(), throwable);
+			log.saveError("DBLogin", throwable);
+		});
+
+		if (tryRoles.isFailure())
+			return null;
+
+		retValue = new KeyNamePair[list.size()];
+		list.toArray(retValue);
+		long ms = System.currentTimeMillis () - start;
+		log.fine("User=" + app_user + " - roles #" + retValue.length +  " Start : " + start + " Time  : " + ms);
+		return retValue;
+	}	//	getRoles
 	
 	/**************************************************************************
 	 *  Load Clients.
@@ -824,10 +918,10 @@ public class Login
 		Env.setContext(m_ctx, "#ShowAdvanced", Ini.getProperty(Ini.P_SHOW_ADVANCED));
 
 		AtomicReference<String> retValue = new AtomicReference<>("");
-		int AD_Client_ID = Env.getContextAsInt(m_ctx, "#AD_Client_ID");
-		int AD_Org_ID =  org.getKey();
-		int AD_User_ID =  Env.getContextAsInt(m_ctx, "#AD_User_ID");
-		int AD_Role_ID =  Env.getContextAsInt(m_ctx, "#AD_Role_ID");
+		int clientId = Env.getContextAsInt(m_ctx, "#AD_Client_ID");
+		int organizationId =  org.getKey();
+		int userId =  Env.getContextAsInt(m_ctx, "#AD_User_ID");
+		int roleId =  Env.getContextAsInt(m_ctx, "#AD_Role_ID");
 
 		//	Other Settings
 		Env.setContext(m_ctx, "#YYYY", "Y");
@@ -838,7 +932,7 @@ public class Login
 			+ "FROM C_AcctSchema a, AD_ClientInfo c "
 			+ "WHERE a.C_AcctSchema_ID=c.C_AcctSchema1_ID "
 			+ "AND c.AD_Client_ID=?";
-			List<Object> parameters = List.of(AD_Client_ID);
+			List<Object> parameters = List.of(clientId);
 			Try<Void> tryAcctSchema =  DB.runResultSetFunction.apply(null , sql , parameters, resultSet -> {
 			List<Tuple3<Integer , Integer , String >> acctSchemas = new ResultSetIterable<>(resultSet ,  row -> {
 				return Tuple.of(
@@ -849,7 +943,7 @@ public class Login
 			}).toList();
 			if (acctSchemas.isEmpty()) {
 				//  No Warning for System
-				if (AD_Role_ID != 0)
+				if (roleId != 0)
 					retValue.set("NoValidAcctInfo");
 			} else {
 				//	Accounting Info
@@ -859,17 +953,16 @@ public class Login
 					Env.setContext(m_ctx, "$C_Currency_ID", acctSchema._2);
 					Env.setContext(m_ctx, "$HasAlias",acctSchema._3);
 					//Define AcctSchema , Currency, HasAlias for Multi AcctSchema
-					MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
+					MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), clientId);
 					if(clientAcctSchemes != null && clientAcctSchemes.length > 1) {
 						acctSchemaId = List.of(clientAcctSchemes)
-								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(AD_Org_ID))
+								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(organizationId))
 								.map(accountSchema -> {
-									//C_AcctSchema_ID = as.getC_AcctSchema_ID();
 									Env.setContext(m_ctx, "$C_AcctSchema_ID", accountSchema.getC_AcctSchema_ID());
 									Env.setContext(m_ctx, "$C_Currency_ID", accountSchema.getC_Currency_ID());
 									Env.setContext(m_ctx, "$HasAlias", accountSchema.isHasAlias());
 									return accountSchema.getC_AcctSchema_ID();
-								}).get();
+								}).getOrElse(MClientInfo.get(Env.getCtx(), clientId).getC_AcctSchema1_ID());
 					}
 					//	Accounting Elements
 					List<MAcctSchemaElement> acctSchemaElements = List.ofAll(new Query(m_ctx , MAcctSchemaElement.Table_Name , " C_AcctSchema_ID = ?" , null)

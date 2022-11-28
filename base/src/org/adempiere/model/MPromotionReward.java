@@ -16,7 +16,7 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_M_PromotionReward;
+import org.adempiere.core.domains.models.X_M_PromotionReward;
 
 /**
  *

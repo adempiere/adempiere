@@ -22,6 +22,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.StringTokenizer;
+
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.X_R_MailText;
 import org.compiere.util.CCache;
 import org.compiere.util.Util;
 

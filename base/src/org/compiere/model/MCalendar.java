@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_NonBusinessDay;
+import org.adempiere.core.domains.models.X_C_Calendar;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

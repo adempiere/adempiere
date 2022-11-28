@@ -514,7 +514,6 @@ public class DB_MariaDB implements AdempiereDatabase {
 				config.setPassword(connection.getDbPwd());
 				config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
 				config.setIdleTimeout(0);
-				config.setKeepaliveTime(30000);
 				config.setMinimumIdle(15);
 				config.setMaximumPoolSize(150);
 				config.setPoolName("AdempiereDS");
@@ -524,7 +523,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 				datasourceLongRunning = new HikariDataSource(config);;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				Optional<String> maybeApplicationType = Optional.ofNullable(Ini.getApplicationType());
+				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
 				datasourceLongRunning = maybeApplicationType
 						.map(applicationType -> {
 							if ("wildfly".equals(applicationType)) {
@@ -603,7 +602,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 				datasourceShortRunning = cpds;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				Optional<String> maybeApplicationType = Optional.ofNullable(Ini.getApplicationType());
+				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
 				datasourceShortRunning = maybeApplicationType
 						.map(applicationType -> {
 							if ("wildfly".equals(applicationType)) {

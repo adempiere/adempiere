@@ -35,7 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import org.adempiere.plaf.AdempierePLAF;
-import org.adempiere.pos.service.ProductInfo;
+import org.adempiere.pos.services.ProductInfo;
 import org.compiere.model.MPOSKey;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;

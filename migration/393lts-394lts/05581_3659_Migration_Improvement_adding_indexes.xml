@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Migration Improvement adding indexes #3656" ReleaseNo="3.9.4" SeqNo="5581">
+    <Comments>https://github.com/adempiere/adempiere/issues/3656</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE INDEX ad_column_columnname             on ad_column(columnname) ;
+CREATE INDEX ad_field_AD_COLUMN_id            on ad_field(AD_COLUMN_id) ;
+CREATE INDEX ad_element_columnname            on ad_element(columnname) ;
+CREATE INDEX ad_migrationdata_IDX01           on ad_migrationdata(ad_migrationstep_id,isactive);
+CREATE INDEX ad_migrationstep_ad_migration_id on ad_migrationstep(ad_migration_id);
+CREATE INDEX ad_migrationstep_statuscode      on ad_migrationstep(statuscode) ;
+CREATE INDEX ad_migrationdata_ad_migrationstep_id on ad_migrationdata (ad_migrationstep_id) ;</SQLStatement>
+      <RollbackStatement>DROP INDEX ad_column_columnname             ;
+DROP INDEX ad_field_AD_COLUMN_id            ;
+DROP INDEX ad_element_columnname            ;
+DROP INDEX ad_migrationdata_IDX01           ;
+DROP INDEX ad_migrationstep_ad_migration_id ;
+DROP INDEX ad_migrationstep_statuscode      ;
+DROP INDEX ad_migrationdata_ad_migrationstep_id ;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

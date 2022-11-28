@@ -24,6 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_AttributeSet;
+import org.adempiere.core.domains.models.X_M_AttributeSetExclude;
+import org.adempiere.core.domains.models.X_M_LotCtlExclude;
+import org.adempiere.core.domains.models.X_M_SerNoCtlExclude;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;

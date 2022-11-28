@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_AD_ModelValidator;
+import org.adempiere.core.domains.models.X_AD_ModelValidator;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;

@@ -17,6 +17,7 @@
 
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_R_StandardRequestType;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

@@ -27,9 +27,10 @@ import java.util.logging.Level;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.Collect;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -42,7 +43,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.X_C_Payment;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;

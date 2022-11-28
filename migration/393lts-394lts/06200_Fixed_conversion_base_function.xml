@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Fixed conversion base function" ReleaseNo="3.9.4" SeqNo="6200">
+  <Migration EntityType="D" Name="Fixed conversion base function" ReleaseNo="3.9.4" SeqNo="6200">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>create or replace FUNCTION currencyBase
 (

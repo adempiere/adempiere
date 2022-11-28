@@ -205,13 +205,13 @@
 	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement/lib"/>
 	  <copy file="../zkpackages/FreightManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FreightManagementZk.jar"/>
 
-	  <mkdir dir="${build.dir}/Adempiere/packages/FleetManagement"/>
-	  <mkdir dir="${build.dir}/Adempiere/packages/FleetManagement/lib"/>
-	  <copy file="../packages/FleetManagement.jar" tofile="${build.dir}/Adempiere/packages/FleetManagement/lib/FleetManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/DistributionManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/DistributionManagement/lib"/>
+	  <copy file="../packages/DistributionManagement.jar" tofile="${build.dir}/Adempiere/packages/DistributionManagement/lib/DistributionManagement.jar"/>
 
-	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement"/>
-	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement/lib"/>
-	  <copy file="../zkpackages/FleetManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FleetManagement/lib/FleetManagementZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/DistributionManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/DistributionManagement/lib"/>
+	  <copy file="../zkpackages/DistributionManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/DistributionManagement/lib/DistributionManagementZk.jar"/>
 
 	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
 	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
@@ -249,6 +249,18 @@
 	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration"/>
 	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration/lib"/>
 	  <copy file="../packages/StoreIntegration.jar" tofile="${build.dir}/Adempiere/packages/StoreIntegration/lib/StoreIntegration.jar"/>
+  	  
+  	  <mkdir dir="${build.dir}/Adempiere/packages/TelegramNotifier"/>
+      <mkdir dir="${build.dir}/Adempiere/packages/TelegramNotifier/lib"/>
+  	  <copy file="../packages/TelegramNotifier.jar" tofile="${build.dir}/Adempiere/packages/TelegramNotifier/lib/TelegramNotifier.jar"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/DiscordNotifier/lib"/>
+  	  <copy file="../packages/DiscordNotifier.jar" tofile="${build.dir}/Adempiere/packages/DiscordNotifier/lib/DiscordNotifier.jar"/>
+  	  
+  	  <!-- Open ID Connect Authentication-->
+  	  <mkdir dir="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication"/>
+  	  <mkdir dir="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication/lib"/>
+  	  <copy file="../packages/OpenIDConnectAuthentication.jar" tofile="${build.dir}/Adempiere/packages/OpenIDConnectAuthentication/lib/OpenIDConnectAuthentication.jar"/>
 	  
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 

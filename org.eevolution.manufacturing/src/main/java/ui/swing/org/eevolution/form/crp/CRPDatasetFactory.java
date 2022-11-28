@@ -35,10 +35,10 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderNode;
-import org.eevolution.model.MPPOrderWorkflow;
-import org.eevolution.model.reasoner.CRPReasoner;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrderNode;
+import org.eevolution.manufacturing.model.MPPOrderWorkflow;
+import org.eevolution.manufacturing.model.reasoner.CRPReasoner;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 

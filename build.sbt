@@ -1,5 +1,4 @@
-/**
-  * Copyright (C) 2003-2017, e-Evolution Consultants S.A. , http://www.e-evolution.com
+/** Copyright (C) 2003-2017, e-Evolution Consultants S.A. , http://www.e-evolution.com
   * This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU Affero General Public License as published by
   * the Free Software Foundation, either version 3 of the License, or
@@ -19,15 +18,18 @@ name := "org.adempiere.server"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.4-SNAPSHOT",
-  scalaVersion := "3.1.1"
+  scalaVersion := "3.2.1"
 )
 
-scalaVersion := "3.1.1"
+scalaVersion := "3.2.1"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
+
+val sourceDirectoryTest = "org.adempiere.test"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/394"
 val adempiereProperties =
-  "-DPropertyFile=/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/Adempiere.properties"
+  "-DPropertyFile=" + sourceAdempiere + "/install/build/Adempiere/Adempiere.properties"
 /*scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
@@ -55,14 +57,11 @@ assembly / test := {}
 assembly / assemblyOption := (assembly / assemblyOption).value
   .copy(includeScala = true, includeDependency = false)
 
-val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/developEE"
+/** Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "server"
+  * Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "servlet"
+  */
 
-/**
-Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "server"
-Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "servlet"
-**/
-//Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
+Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
 
 Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
 Test / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
@@ -128,7 +127,7 @@ Tomcat / javaOptions ++= Seq(
 
 Tomcat / containerArgs := Seq(
   "--context-xml",
-  "/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/tomcat/conf/context.xml",
+  sourceAdempiere + "/install/build/Adempiere/tomcat/conf/context.xml",
   "--enable-naming",
   "--access-log",
   "--access-log-pattern",
@@ -140,7 +139,7 @@ Tomcat / containerArgs := Seq(
 
 enablePlugins(JettyPlugin)
 Jetty / containerLibs := Seq(
-  "org.eclipse.jetty" % "jetty-runner" % "10.0.6" intransitive ()
+  "org.eclipse.jetty" % "jetty-runner" % "10.0.12" intransitive ()
 )
 Jetty / containerMain := "org.eclipse.jetty.runner.Runner"
 //containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
@@ -157,7 +156,11 @@ Jetty / javaOptions ++= Seq(
 
 Jetty / containerArgs := Seq(
   "--config",
-  "/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/jetty/jetty-ds.xml"
+  sourceAdempiere + "/install/build/Adempiere/jetty/jetty-ds.xml",
+  "--jar",
+  sourceAdempiere + "/tools/lib/HikariCP-5.0.1.jar",
+  "--jar",
+  sourceAdempiere + "/tools/lib/postgresql.jar"
 )
 
 containerPort := 9090
@@ -195,10 +198,12 @@ webappPostProcess := {
       webappDir / "WEB-INF" / "lib"
     )
 
-    /**IO.copyDirectory(
-      baseDirectory.value / "serverRoot" / "src" / "web",
-      webappDir
-    )**/
+    /** IO.copyDirectory(
+      *      baseDirectory.value / "serverRoot" / "src" / "web",
+      *      webappDir
+      *    )*
+      */
+
     IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
     IO.copyDirectory(
       baseDirectory.value / "packages",

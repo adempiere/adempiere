@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add ID for Product Price" ReleaseNo="3.9.4" SeqNo="7000">
+  <Migration EntityType="D" Name="Add Product Price ID" ReleaseNo="3.9.4" SeqNo="7000">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="54252" Table="AD_Reference">
         <Data AD_Column_ID="556" Column="Updated">2020-11-23 09:08:53.117</Data>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename Cashflow Package" ReleaseNo="3.9.4" SeqNo="9645">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53521" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CashFlowProcessing">org.eevolution.cashflow.process.CashFlowProcessing</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53165" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CashFlow">org.eevolution.cashflow.process.CashFlow</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="56992" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.eevolution.model.CalloutCashFlow.DueDate&#10;&#9;&#9;&#9;&#9;">org.eevolution.cashflow.controller.CalloutCashFlow.DueDate</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="56989" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.eevolution.model.CalloutCashFlow.DueDate&#10;&#9;&#9;&#9;&#9;">org.eevolution.cashflow.controllerl.CalloutCashFlow.DueDate</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="882" Action="U" Record_ID="50021" Table="AD_EntityType">
+        <Data AD_Column_ID="15605" Column="ModelPackage" oldValue="org.eevolution.model">org.eevolution.cashflow.model</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

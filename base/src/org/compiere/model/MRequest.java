@@ -16,6 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.I_C_ProjectTask;
+import org.adempiere.core.domains.models.I_R_RequestAction;
+import org.adempiere.core.domains.models.I_R_RequestUpdate;
+import org.adempiere.core.domains.models.X_C_BP_Group;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
@@ -1163,8 +1169,8 @@ public class MRequest extends X_R_Request
 				.withText(message)
 				.addAttachment(pdf)
 				.withDescription(subject)
-				.withTableId(MRequest.Table_ID)
-				.withRecordId(getR_Request_ID());
+				.withEntity(this)
+			;
 			//	Add recipients
 			recipients.forEach(recipientId -> notifier.addRecipient(recipientId));
 			//	Add to queue

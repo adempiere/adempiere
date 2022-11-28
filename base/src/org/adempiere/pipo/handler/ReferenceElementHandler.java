@@ -21,13 +21,13 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_Ref_List;
+import org.adempiere.core.domains.models.I_AD_Ref_Table;
+import org.adempiere.core.domains.models.X_AD_Ref_List;
+import org.adempiere.core.domains.models.X_AD_Ref_Table;
+import org.adempiere.core.domains.models.X_AD_Reference;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Ref_List;
-import org.compiere.model.I_AD_Ref_Table;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Ref_List;
-import org.compiere.model.X_AD_Ref_Table;
-import org.compiere.model.X_AD_Reference;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 

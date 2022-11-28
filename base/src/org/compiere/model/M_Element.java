@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_Element;
+import org.adempiere.core.domains.models.X_AD_Column;
+import org.adempiere.core.domains.models.X_AD_Element;
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;

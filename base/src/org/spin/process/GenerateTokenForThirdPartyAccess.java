@@ -20,11 +20,11 @@ package org.spin.process;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_Role;
+import org.adempiere.core.domains.models.I_AD_Token;
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_Role;
-import org.compiere.model.I_AD_User;
 import org.compiere.model.Query;
-import org.spin.model.I_AD_Token;
 import org.spin.model.MADToken;
 import org.spin.model.MADTokenDefinition;
 import org.spin.util.TokenGeneratorHandler;

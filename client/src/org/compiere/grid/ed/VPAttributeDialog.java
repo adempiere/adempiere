@@ -31,12 +31,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.core.domains.models.X_M_MovementLine;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
@@ -57,7 +60,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSerNoCtl;
 import org.compiere.model.MWindow;
-import org.compiere.model.X_M_MovementLine;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -145,17 +147,17 @@ public class VPAttributeDialog extends CDialog
 			+ ", M_Product_ID=" + M_Product_ID
 			+ ", C_BPartner_ID=" + C_BPartner_ID
 			+ ", ProductW=" + productWindow + ", Column=" + AD_Column_ID);
-		m_WindowNo = Env.createWindowNo (this);
-		m_M_AttributeSetInstance_ID = M_AttributeSetInstance_ID;
-		m_M_Product_ID = M_Product_ID;
-		m_C_BPartner_ID = C_BPartner_ID;
-		m_productWindow = productWindow;
-		m_AD_Column_ID = AD_Column_ID;
-		m_WindowNoParent = WindowNo;
+		windowNo = Env.createWindowNo (this);
+		attributeSetInstanceId = M_AttributeSetInstance_ID;
+		productId = M_Product_ID;
+		partnerId = C_BPartner_ID;
+		this.productWindow = productWindow;
+		columnId = AD_Column_ID;
+		windowNoParent = WindowNo;
 		m_readWrite = readWrite;
 
 		//get columnName from ad_column
- 	 	m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", m_AD_Column_ID);
+ 	 	m_columnName = DB.getSQLValueString(null, "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID = ?", columnId);
  	 	if (m_columnName == null || m_columnName.trim().length() == 0)
  	 	{
  	 		//fallback
@@ -179,25 +181,25 @@ public class VPAttributeDialog extends CDialog
 		AEnv.showCenterWindow(frame, this);
 	}	//	VPAttributeDialog
 
-	private int						m_WindowNo;
-	private MAttributeSetInstance	m_masi;
-	private int 					m_M_AttributeSetInstance_ID;
-	private int 					m_M_Locator_ID;
-	private String					m_M_AttributeSetInstanceName;
-	private int 					m_M_Product_ID;
-	private int						m_C_BPartner_ID;
-	private int						m_AD_Column_ID;
-	private int						m_WindowNoParent;
+	private int 					windowNo;
+	private MAttributeSetInstance 	attributeSetInstance;
+	private int 					attributeSetInstanceId;
+	private int 					locatorId;
+	private String 					attributeSetInstanceName;
+	private int 					productId;
+	private int 					partnerId;
+	private int 					columnId;
+	private int 					windowNoParent;
 	/**	Enter Product Attributes		*/
-	private boolean					m_productWindow = false;
+	private boolean 				productWindow = false;
 	/**	Change							*/
-	private boolean					m_changed = false;
+	private boolean 				changed = false;
 	
 	private CLogger					log = CLogger.getCLogger(getClass());
 	/** Row Counter					*/
-	private int						m_row = 0;
+	private int 					row = 0;
 	/** List of Editors				*/
-	private ArrayList<CEditor>		m_editors = new ArrayList<CEditor>();
+	private ArrayList<CEditor> 		editors = new ArrayList<CEditor>();
 	/** Length of Instance value (40)	*/
 	private static final int		INSTANCE_VALUE_LENGTH = 40;
 
@@ -247,20 +249,20 @@ public class VPAttributeDialog extends CDialog
 	 */
 	private boolean initAttributes ()
 	{
-		if (m_M_Product_ID == 0 && !m_productWindow)
+		if (productId == 0 && !productWindow)
 			return false;
 		
 		MAttributeSet as = null;
 		
-		if (m_M_Product_ID != 0)
+		if (productId != 0)
 		{
 			//	Get Model
-			m_product = MProduct.get(Env.getCtx(), m_M_Product_ID);
+			m_product = MProduct.get(Env.getCtx(), productId);
 			if (m_product.getM_AttributeSetInstance_ID() > 0)
 			{
 				m_productASI = true;
 				//  The product has an instance associated with it.
-				if (m_M_AttributeSetInstance_ID != m_product.getM_AttributeSetInstance_ID())
+				if (attributeSetInstanceId != m_product.getM_AttributeSetInstance_ID())
 				{
 					log.fine("Different ASI than what is specified on Product!");
 				}
@@ -268,24 +270,24 @@ public class VPAttributeDialog extends CDialog
 			else 
 			{
 				// Only show product attributes when in the product window.
-				m_productASI = m_productWindow;				
+				m_productASI = productWindow;
 			}
-			m_masi = MAttributeSetInstance.get(Env.getCtx(), m_M_AttributeSetInstance_ID, m_M_Product_ID);
-			if (m_masi == null)
+			attributeSetInstance = MAttributeSetInstance.get(Env.getCtx(), attributeSetInstanceId, productId);
+			if (attributeSetInstance == null)
 			{
-				log.severe ("No Model for M_AttributeSetInstance_ID=" + m_M_AttributeSetInstance_ID + ", M_Product_ID=" + m_M_Product_ID);
+				log.severe ("No Model for M_AttributeSetInstance_ID=" + attributeSetInstanceId + ", M_Product_ID=" + productId);
 				return false;
 			}
-			Env.setContext(Env.getCtx(), m_WindowNo, "M_AttributeSet_ID", m_masi.getM_AttributeSet_ID());
+			Env.setContext(Env.getCtx(), windowNo, "M_AttributeSet_ID", attributeSetInstance.getM_AttributeSet_ID());
 			
 			//	Get Attribute Set
-			as = m_masi.getMAttributeSet();
+			as = attributeSetInstance.getMAttributeSet();
 		}
 		else 
 		{
-			int M_AttributeSet_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "M_AttributeSet_ID");
-			m_masi = new MAttributeSetInstance (Env.getCtx(), 0, M_AttributeSet_ID, null);
-			as = m_masi.getMAttributeSet();
+			int M_AttributeSet_ID = Env.getContextAsInt(Env.getCtx(), windowNoParent, "M_AttributeSet_ID");
+			attributeSetInstance = new MAttributeSetInstance (Env.getCtx(), 0, M_AttributeSet_ID, null);
+			as = attributeSetInstance.getMAttributeSet();
 		}
 		
 		//	Product has no Attribute Set
@@ -299,17 +301,17 @@ public class VPAttributeDialog extends CDialog
 		//  Product attributes can be shown in any window but are read/write only in the product
 		//  window.  Instance attributes are shown in any window but the product window and are
 		//  always read/write.  The two are exclusive and can't co-exist.  
-		if (!m_productWindow || !m_productASI)	//	Set Instance Attributes and dialog controls
+		if (!productWindow || !m_productASI)	//	Set Instance Attributes and dialog controls
 		{
 			if (!m_productASI)  // Instance attributes possible.  Set up controls.
 			{
 				//	New/Edit - Selection
-				if (m_M_AttributeSetInstance_ID == 0)		//	new
+				if (attributeSetInstanceId == 0)		//	new
 					cbNewEdit.setText(Msg.getMsg(Env.getCtx(), "NewRecord"));
 				else
 					cbNewEdit.setText(Msg.getMsg(Env.getCtx(), "EditRecord"));
 				cbNewEdit.addActionListener(this);
-				centerPanel.add(cbNewEdit, new ALayoutConstraint(m_row++,0));
+				centerPanel.add(cbNewEdit, new ALayoutConstraint(row++,0));
 				bSelect.setText(Msg.getMsg(Env.getCtx(), "SelectExisting"));
 				bSelect.addActionListener(this);
 				centerPanel.add(bSelect, null);
@@ -329,36 +331,31 @@ public class VPAttributeDialog extends CDialog
 		MAttribute[] attributes = as.getMAttributes (false);  // False = product attribute instances
                         log.fine ("Product Attributes=" + attributes.length);
                         for (int i = 0; i < attributes.length; i++)
-                                addAttributeLine (attributes[i], true, !m_productWindow);
+                                addAttributeLine (attributes[i], true, !productWindow);
                 }
 		//	Lot
-		if ((!m_productWindow || !m_productASI) && as.isLot())
+		if ((!productWindow || !m_productASI) && as.isLot())
 		{
 			CLabel label = new CLabel (Msg.translate(Env.getCtx(), "Lot"));
 			label.setLabelFor (fieldLotString);
-			centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+			centerPanel.add(label, new ALayoutConstraint(row++,0));
 			centerPanel.add(fieldLotString, null);
-			fieldLotString.setText (m_masi.getLot());
-			//	M_Lot_ID
-		//	int AD_Column_ID = 9771;	//	M_AttributeSetInstance.M_Lot_ID
-		//	fieldLot = new VLookup ("M_Lot_ID", false,false, true, 
-		//		MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.TableDir));
-			String sql = "SELECT M_Lot_ID, Name "
-				+ "FROM M_Lot l "
-				+ "WHERE EXISTS (SELECT M_Product_ID FROM M_Product p "
-					+ "WHERE p.M_AttributeSet_ID=" + m_masi.getM_AttributeSet_ID()
-					+ " AND p.M_Product_ID=l.M_Product_ID)";
-			fieldLot = new CComboBox(DB.getKeyNamePairs(sql, true));
+			fieldLotString.setText (attributeSetInstance.getLot());
+			List<KeyNamePair> keyNamePairLotList = MLot.getByAttributeSetId(Env.getCtx(), attributeSetInstance.getM_AttributeSet_ID(), attributeSetInstance.get_TrxName())
+					.stream()
+					.map(lot -> new KeyNamePair(lot.getM_Lot_ID(), lot.getName()))
+					.collect(Collectors.toList());
+			fieldLot = new CComboBox(keyNamePairLotList.toArray());
 			label = new CLabel (Msg.translate(Env.getCtx(), "M_Lot_ID"));
 			label.setLabelFor (fieldLot);
-			centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+			centerPanel.add(label, new ALayoutConstraint(row++,0));
 			centerPanel.add(fieldLot, null);
-			if (m_masi.getM_Lot_ID() != 0)
+			if (attributeSetInstance.getM_Lot_ID() != 0)
 			{
 				for (int i = 1; i < fieldLot.getItemCount(); i++)
 				{
 					KeyNamePair pp = (KeyNamePair)fieldLot.getItemAt(i);
-					if (pp.getKey() == m_masi.getM_Lot_ID())
+					if (pp.getKey() == attributeSetInstance.getM_Lot_ID())
 					{
 						fieldLot.setSelectedIndex(i);
 						fieldLotString.setEditable(false);
@@ -368,11 +365,11 @@ public class VPAttributeDialog extends CDialog
 			}
 			fieldLot.addActionListener(this);
 			//	New Lot Button
-			if (m_masi.getMAttributeSet().getM_LotCtl_ID() != 0 && m_readWrite)
+			if (attributeSetInstance.getMAttributeSet().getM_LotCtl_ID() != 0 && m_readWrite)
 			{
 				if (MRole.getDefault().isTableAccess(MLot.Table_ID, false)
 					&& MRole.getDefault().isTableAccess(MLotCtl.Table_ID, false)
-					&& !m_masi.isExcludeLot(m_AD_Column_ID, Env.isSOTrx(Env.getCtx(), m_WindowNoParent)))
+					&& !attributeSetInstance.isExcludeLot(columnId, Env.isSOTrx(Env.getCtx(), windowNoParent)))
 				{
 					centerPanel.add(bLot, null);
 					bLot.addActionListener(this);
@@ -386,18 +383,18 @@ public class VPAttributeDialog extends CDialog
 		}	//	Lot
 
 		//	SerNo
-		if ((!m_productWindow || !m_productASI) && as.isSerNo())
+		if ((!productWindow || !m_productASI) && as.isSerNo())
 		{
 			CLabel label = new CLabel (Msg.translate(Env.getCtx(), "SerNo"));
 			label.setLabelFor(fieldSerNo);
-			fieldSerNo.setText(m_masi.getSerNo());
-			centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+			fieldSerNo.setText(attributeSetInstance.getSerNo());
+			centerPanel.add(label, new ALayoutConstraint(row++,0));
 			centerPanel.add(fieldSerNo, null);
 			//	New SerNo Button
-			if (m_masi.getMAttributeSet().getM_SerNoCtl_ID() != 0 && m_readWrite)
+			if (attributeSetInstance.getMAttributeSet().getM_SerNoCtl_ID() != 0 && m_readWrite)
 			{
 				if (MRole.getDefault().isTableAccess(MSerNoCtl.Table_ID, false)
-					&& !m_masi.isExcludeSerNo(m_AD_Column_ID, Env.isSOTrx(Env.getCtx(), m_WindowNoParent)))
+					&& !attributeSetInstance.isExcludeSerNo(columnId, Env.isSOTrx(Env.getCtx(), windowNoParent)))
 				{
 					centerPanel.add(bSerNo, null);
 					bSerNo.addActionListener(this);
@@ -406,37 +403,37 @@ public class VPAttributeDialog extends CDialog
 		}	//	SerNo
 
 		//	GuaranteeDate
-		if ((!m_productWindow || !m_productASI) && as.isGuaranteeDate())
+		if ((!productWindow || !m_productASI) && as.isGuaranteeDate())
 		{
 			CLabel label = new CLabel (Msg.translate(Env.getCtx(), "GuaranteeDate"));
 			label.setLabelFor(fieldGuaranteeDate);
-			if (m_M_AttributeSetInstance_ID == 0)
-				fieldGuaranteeDate.setValue(m_masi.getGuaranteeDate(true));
+			if (attributeSetInstanceId == 0)
+				fieldGuaranteeDate.setValue(attributeSetInstance.getGuaranteeDate(true));
 			else
-				fieldGuaranteeDate.setValue(m_masi.getGuaranteeDate());
-			centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+				fieldGuaranteeDate.setValue(attributeSetInstance.getGuaranteeDate());
+			centerPanel.add(label, new ALayoutConstraint(row++,0));
 			centerPanel.add(fieldGuaranteeDate, null);
 		}	//	GuaranteeDate
 
-		if (m_row == 0)
+		if (row == 0)
 		{
-			ADialog.error(m_WindowNo, this, "PAttributeNoInfo");
+			ADialog.error(windowNo, this, "PAttributeNoInfo");
 			//return false;
 		}
 
 		//	New/Edit Window
-		if ((!m_productWindow || !m_productASI) && m_AD_Column_ID != 0 && m_readWrite)
+		if ((!productWindow || !m_productASI) && columnId != 0 && m_readWrite)
 		{
-			cbNewEdit.setSelected(m_M_AttributeSetInstance_ID == 0);
+			cbNewEdit.setSelected(attributeSetInstanceId == 0);
 			cmd_newEdit();
 		}
 
 		//	Attribute Set Instance Description
 		CLabel label = new CLabel (Msg.translate(Env.getCtx(), "Description"));
 		label.setLabelFor(fieldDescription);
-		fieldDescription.setText(m_masi.getDescription());
+		fieldDescription.setText(attributeSetInstance.getDescription());
 		fieldDescription.setEditable(false);
-		centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+		centerPanel.add(label, new ALayoutConstraint(row++,0));
 		centerPanel.add(fieldDescription, null);
 
 		//	Window usually to wide (??)
@@ -460,9 +457,9 @@ public class VPAttributeDialog extends CDialog
 			label.setFont(new Font(label.getFont().getFontName(), Font.BOLD, label.getFont().getSize()));
 		if (attribute.getDescription() != null)
 			label.setToolTipText(attribute.getDescription());
-		centerPanel.add(label, new ALayoutConstraint(m_row++,0));
+		centerPanel.add(label, new ALayoutConstraint(row++,0));
 		//
-		MAttributeInstance instance = attribute.getMAttributeInstance (m_M_AttributeSetInstance_ID);
+		MAttributeInstance instance = attribute.getMAttributeInstance (attributeSetInstanceId);
 		if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attribute.getAttributeValueType()))
 		{
 			MAttributeValue[] values = attribute.getMAttributeValues();	//	optional = null
@@ -491,7 +488,7 @@ public class VPAttributeDialog extends CDialog
 			if (readOnly)
 				editor.setEnabled(false);
 			else
-				m_editors.add (editor);
+				editors.add (editor);
 		}
 		else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attribute.getAttributeValueType()))
 		{
@@ -506,7 +503,7 @@ public class VPAttributeDialog extends CDialog
 			if (readOnly)
 				editor.setEnabled(false);
 			else
-				m_editors.add (editor);
+				editors.add (editor);
 		}
 		else	//	Text Field
 		{
@@ -519,7 +516,7 @@ public class VPAttributeDialog extends CDialog
 			if (readOnly)
 				editor.setEnabled(false);
 			else
-				m_editors.add (editor);
+				editors.add (editor);
 		}
 	}	//	addAttributeLine
 
@@ -529,12 +526,12 @@ public class VPAttributeDialog extends CDialog
 	public void dispose()
 	{
 		removeAll();
-		Env.clearWinContext(m_WindowNo);
+		Env.clearWinContext(windowNo);
 		//
-		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, m_columnName, 
-			String.valueOf(m_M_AttributeSetInstance_ID));
-		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "M_Locator_ID", 
-			String.valueOf(m_M_Locator_ID));
+		Env.setContext(Env.getCtx(), windowNo, Env.TAB_INFO, m_columnName,
+			String.valueOf(attributeSetInstanceId));
+		Env.setContext(Env.getCtx(), windowNo, Env.TAB_INFO, "M_Locator_ID",
+			String.valueOf(locatorId));
 		//
 		super.dispose();
 	}	//	dispose
@@ -564,30 +561,30 @@ public class VPAttributeDialog extends CDialog
 			{
 				fieldLotString.setText(pp.getName());
 				fieldLotString.setEditable(false);
-				m_masi.setM_Lot_ID(pp.getKey());
+				attributeSetInstance.setM_Lot_ID(pp.getKey());
 			}
 			else
 			{
 				fieldLotString.setEditable(true);
-				m_masi.setM_Lot_ID(0);
+				attributeSetInstance.setM_Lot_ID(0);
 			}
 		}
 		//	Create New Lot
 		else if (e.getSource() == bLot)
 		{
-			KeyNamePair pp = m_masi.createLot(m_M_Product_ID);
+			KeyNamePair pp = attributeSetInstance.createLot(productId);
 			if (pp != null)
 			{
 				fieldLot.addItem(pp);
 				fieldLot.setSelectedItem(pp);				
-				fieldLotString.setText (m_masi.getLot());
+				fieldLotString.setText (attributeSetInstance.getLot());
 				fieldLotString.setEditable(false);
 			}
 		}
 		//	Create New SerNo
 		else if (e.getSource() == bSerNo)
 		{
-			fieldSerNo.setText(m_masi.getSerNo(true));
+			fieldSerNo.setText(attributeSetInstance.getSerNo(true));
 		}
 		
 		//	OK
@@ -599,11 +596,11 @@ public class VPAttributeDialog extends CDialog
 		//	Cancel
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
-			if (m_productWindow || !m_productASI)
+			if (productWindow || !m_productASI)
 			{
-				m_changed = m_M_AttributeSetInstance_ID != 0;
-				m_M_AttributeSetInstance_ID = 0;
-				m_M_Locator_ID = 0;
+				changed = attributeSetInstanceId != 0;
+				attributeSetInstanceId = 0;
+				locatorId = 0;
 			}
 			dispose();
 		}
@@ -624,9 +621,9 @@ public class VPAttributeDialog extends CDialog
 	{
 		log.config("");
 		
-		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "M_Warehouse_ID");
+		int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), windowNoParent, "M_Warehouse_ID");
 		
-		int C_DocType_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, "C_DocType_ID");
+		int C_DocType_ID = Env.getContextAsInt(Env.getCtx(), windowNoParent, "C_DocType_ID");
 		if (C_DocType_ID > 0) {
 			MDocType doctype = new MDocType (Env.getCtx(), C_DocType_ID, null);
 			String docbase = doctype.getDocBaseType();
@@ -639,7 +636,7 @@ public class VPAttributeDialog extends CDialog
 		// teo_sarca [ 1564520 ] Inventory Move: can't select existing attributes
 		// Trifon - Always read Locator from Context. There are too many windows to read explicitly one by one.
 		int M_Locator_ID = 0;
-		M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
+		M_Locator_ID = Env.getContextAsInt(Env.getCtx(), windowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
 		
 		String title = "";
 		//	Get Text
@@ -651,7 +648,7 @@ public class VPAttributeDialog extends CDialog
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_M_Product_ID);
+			pstmt.setInt(1, productId);
 			pstmt.setInt(2, M_Locator_ID <= 0 ? M_Warehouse_ID : M_Locator_ID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -670,27 +667,27 @@ public class VPAttributeDialog extends CDialog
 		}
 		//		
 		PAttributeInstance pai = new PAttributeInstance(this, title, 
-			M_Warehouse_ID, M_Locator_ID, m_M_Product_ID, m_C_BPartner_ID);
+			M_Warehouse_ID, M_Locator_ID, productId, partnerId);
 		//
-		if (m_M_AttributeSetInstance_ID != pai.getM_AttributeSetInstance_ID() ||
-				!(m_M_AttributeSetInstance_ID == 0 && pai.getM_AttributeSetInstance_ID() == -1))
+		if (attributeSetInstanceId != pai.getM_AttributeSetInstance_ID() ||
+				!(attributeSetInstanceId == 0 && pai.getM_AttributeSetInstance_ID() == -1))
 		{
-			m_changed = true;
+			changed = true;
 			//
 			if (pai.getM_AttributeSetInstance_ID() != -1)
 			{
-				m_M_AttributeSetInstance_ID = pai.getM_AttributeSetInstance_ID();
-				m_M_AttributeSetInstanceName = pai.getM_AttributeSetInstanceName();
-				m_M_Locator_ID = pai.getM_Locator_ID();
+				attributeSetInstanceId = pai.getM_AttributeSetInstance_ID();
+				attributeSetInstanceName = pai.getM_AttributeSetInstanceName();
+				locatorId = pai.getM_Locator_ID();
 			}
 			else
 			{
-				m_M_AttributeSetInstance_ID = 0;
-				m_M_AttributeSetInstanceName = "";
+				attributeSetInstanceId = 0;
+				attributeSetInstanceName = "";
 				// Leave the locator alone
 			}
 		}
-		return m_changed;
+		return changed;
 	}	//	cmd_select
 
 	/**
@@ -699,9 +696,9 @@ public class VPAttributeDialog extends CDialog
 	private void cmd_newEdit()
 	{
 		boolean rw = cbNewEdit.isSelected();
-		log.config("R/W=" + rw + " " + m_masi);
+		log.config("R/W=" + rw + " " + attributeSetInstance);
 		//
-		fieldLotString.setEditable(rw && m_masi.getM_Lot_ID()==0);
+		fieldLotString.setEditable(rw && attributeSetInstance.getM_Lot_ID()==0);
 		if (fieldLot != null)
 			fieldLot.setReadWrite(rw);
 		bLot.setReadWrite(rw);
@@ -709,9 +706,9 @@ public class VPAttributeDialog extends CDialog
 		bSerNo.setReadWrite(rw);
 		fieldGuaranteeDate.setReadWrite(rw);
 		//
-		for (int i = 0; i < m_editors.size(); i++)
+		for (int i = 0; i < editors.size(); i++)
 		{
-			CEditor editor = (CEditor)m_editors.get(i);
+			CEditor editor = (CEditor) editors.get(i);
 			editor.setReadWrite(rw);
 		}	
 	}	//	cmd_newEdit
@@ -757,67 +754,67 @@ public class VPAttributeDialog extends CDialog
 			return true;
 		
 		log.info("");
-		MAttributeSet as = m_masi.getMAttributeSet();
+		MAttributeSet as = attributeSetInstance.getMAttributeSet();
 		if (as == null)
 			return true;
 		//
-		m_changed = false;
+		changed = false;
 		String mandatory = "";
-		if ((!m_productWindow || !m_productASI) && as.isLot())
+		if ((!productWindow || !m_productASI) && as.isLot())
 		{
 			log.fine("Lot=" + fieldLotString.getText ());
 			String text = fieldLotString.getText();
-			m_masi.setLot (text);
+			attributeSetInstance.setLot (text);
 			if (as.isLotMandatory() && (text == null || text.length() == 0))
 				mandatory += " - " + Msg.translate(Env.getCtx(), "Lot");
-			m_changed = true;
+			changed = true;
 		}	//	Lot
-		if ((!m_productWindow || !m_productASI) && as.isSerNo())
+		if ((!productWindow || !m_productASI) && as.isSerNo())
 		{
 			log.fine("SerNo=" + fieldSerNo.getText());
 			String text = fieldSerNo.getText();
-			m_masi.setSerNo(text);
+			attributeSetInstance.setSerNo(text);
 			if (as.isSerNoMandatory() && (text == null || text.length() == 0))
 				mandatory += " - " + Msg.translate(Env.getCtx(), "SerNo");
-			m_changed = true;
+			changed = true;
 		}	//	SerNo
-		if ((!m_productWindow || !m_productASI) && as.isGuaranteeDate())
+		if ((!productWindow || !m_productASI) && as.isGuaranteeDate())
 		{
 			log.fine("GuaranteeDate=" + fieldGuaranteeDate.getValue());
 			Timestamp ts = (Timestamp)fieldGuaranteeDate.getValue();
-			m_masi.setGuaranteeDate(ts);
+			attributeSetInstance.setGuaranteeDate(ts);
 			if (as.isGuaranteeDateMandatory() && ts == null)
 				mandatory += " - " + Msg.translate(Env.getCtx(), "GuaranteeDate");
-			m_changed = true;
+			changed = true;
 		}	//	GuaranteeDate
 
 		//	***	Save Attributes ***
 		//	New Instance
-		if (m_changed || m_masi.getM_AttributeSetInstance_ID() == 0)
+		if (changed || attributeSetInstance.getM_AttributeSetInstance_ID() == 0)
 		{
-			m_masi.save ();
-			m_M_AttributeSetInstance_ID = m_masi.getM_AttributeSetInstance_ID ();
-			m_M_AttributeSetInstanceName = m_masi.getDescription();
+			attributeSetInstance.save ();
+			attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID ();
+			attributeSetInstanceName = attributeSetInstance.getDescription();
 		}
 
 		//  Save attributes
-		if (m_M_AttributeSetInstance_ID > 0 && m_readWrite) {
+		if (attributeSetInstanceId > 0 && m_readWrite) {
 			//	Save Instance Attributes
 			MAttribute[] attributes = as.getMAttributes(!m_productASI);
 			for (int i = 0; i < attributes.length; i++)
 			{
 				if (MAttribute.ATTRIBUTEVALUETYPE_List.equals(attributes[i].getAttributeValueType()))
 				{
-					CComboBox editor = (CComboBox)m_editors.get(i);
+					CComboBox editor = (CComboBox) editors.get(i);
 					MAttributeValue value = (MAttributeValue)editor.getSelectedItem();
 					log.fine(attributes[i].getName() + "=" + value);
 					if (attributes[i].isMandatory() && value == null)
 						mandatory += " - " + attributes[i].getName();
-					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+					attributes[i].setMAttributeInstance(attributeSetInstanceId, value);
 				}
 				else if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
 				{
-					VNumber editor = (VNumber)m_editors.get(i);
+					VNumber editor = (VNumber) editors.get(i);
 					BigDecimal value = (BigDecimal)editor.getValue();
 					log.fine(attributes[i].getName() + "=" + value);
 					if (attributes[i].isMandatory() && value == null)
@@ -825,33 +822,33 @@ public class VPAttributeDialog extends CDialog
 					//setMAttributeInstance doesn't work without decimal point
 					if (value != null && value.scale() == 0)
 						value = value.setScale(1, RoundingMode.HALF_UP);
-					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+					attributes[i].setMAttributeInstance(attributeSetInstanceId, value);
 				}
 				else
 				{
-					VString editor = (VString)m_editors.get(i);
+					VString editor = (VString) editors.get(i);
 					String value = editor.getText();
 					log.fine(attributes[i].getName() + "=" + value);
 					if (attributes[i].isMandatory() && (value == null || value.length() == 0))
 						mandatory += " - " + attributes[i].getName();
-					attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
+					attributes[i].setMAttributeInstance(attributeSetInstanceId, value);
 				}
 			}
-			m_changed = true;			
+			changed = true;
 		}	//	for all attributes
 		
 		//	Save Model
-		if (m_changed)
+		if (changed)
 		{
-			m_masi.setDescription ();
-			m_masi.save ();
+			attributeSetInstance.setDescription ();
+			attributeSetInstance.save ();
 		}
-		m_M_AttributeSetInstance_ID = m_masi.getM_AttributeSetInstance_ID ();
-		m_M_AttributeSetInstanceName = m_masi.getDescription();
+		attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID ();
+		attributeSetInstanceName = attributeSetInstance.getDescription();
 		//
 		if (mandatory.length() > 0)
 		{
-			ADialog.error(m_WindowNo, this, "FillMandatory", mandatory);
+			ADialog.error(windowNo, this, "FillMandatory", mandatory);
 			return false;
 		}
 		return true;
@@ -864,7 +861,7 @@ public class VPAttributeDialog extends CDialog
 	 */
 	public int getM_AttributeSetInstance_ID()
 	{
-		return m_M_AttributeSetInstance_ID;
+		return attributeSetInstanceId;
 	}	//	getM_AttributeSetInstance_ID
 
 	/**
@@ -873,7 +870,7 @@ public class VPAttributeDialog extends CDialog
 	 */
 	public String getM_AttributeSetInstanceName()
 	{
-		return m_M_AttributeSetInstanceName;
+		return attributeSetInstanceName;
 	}	//	getM_AttributeSetInstanceName
 	
 	/**
@@ -882,7 +879,7 @@ public class VPAttributeDialog extends CDialog
 	 */
 	public int getM_Locator_ID()
 	{
-		return m_M_Locator_ID; 
+		return locatorId;
 	}
 
 	/**
@@ -891,7 +888,7 @@ public class VPAttributeDialog extends CDialog
 	 */
 	public boolean isChanged()
 	{
-		return m_changed;
+		return changed;
 	}	//	isChanged
 
 } //	VPAttributeDialog

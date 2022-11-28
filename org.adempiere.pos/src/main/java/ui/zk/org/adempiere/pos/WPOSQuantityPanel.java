@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Grid;

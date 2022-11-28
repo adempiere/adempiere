@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_InOutLine;
+import org.adempiere.core.domains.models.I_M_Transaction;
+import org.adempiere.core.domains.models.X_M_Transaction;
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.util.Env;

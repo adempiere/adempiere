@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding new fields Latitude and Longitude" ReleaseNo="3.9.4" SeqNo="9390">
+  <Migration EntityType="D" Name="New Fields for Latitude and Longitude" ReleaseNo="3.9.4" SeqNo="9390">
     <Comments>https://github.com/adempiere/adempiere/issues/3806</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="62023" Table="AD_Element">
@@ -29,6 +29,16 @@
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2646" Column="Name">Altitud</Data>
+        <Data AD_Column_ID="2647" Column="Description">La altitud es una medida de distancia, generalmente en dirección vertical o "hacia arriba", entre un dato de referencia y un punto u objeto.</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">62023</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Altitud</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="99938" Table="AD_Column">
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
@@ -81,7 +91,16 @@
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="30" StepType="AD">
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="99938" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">99938</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="84310" Column="UUID">c5a6b01d-d1e3-43ad-8b63-d93a6187a0d7</Data>
+        <Data AD_Column_ID="12957" Column="Name">Altitud</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="62021" Table="AD_Element">
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">22</Data>
         <Data AD_Column_ID="2600" Column="Updated">2022-04-25 18:59:24.88</Data>
@@ -107,7 +126,17 @@
         <Data AD_Column_ID="84316" Column="UUID">4b76d8c7-f8f2-4bd4-87c9-0118738218a0</Data>
       </PO>
     </Step>
-    <Step SeqNo="40" StepType="AD">
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2649" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2647" Column="Description">La latitud es una coordenada geográfica que especifica la posición norte-sur de un punto en la superficie de la Tierra.</Data>
+        <Data AD_Column_ID="2646" Column="Name">Latitud</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">62021</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Latitud</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="99936" Table="AD_Column">
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">62021</Data>
@@ -160,7 +189,16 @@
         <Data AD_Column_ID="114" Column="AD_Table_ID">162</Data>
       </PO>
     </Step>
-    <Step SeqNo="50" StepType="AD">
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="99936" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">99936</Data>
+        <Data AD_Column_ID="84310" Column="UUID">8ebf3005-b7db-4584-bccc-6a6448e74bab</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12957" Column="Name">Latitud</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="62022" Table="AD_Element">
         <Data AD_Column_ID="2600" Column="Updated">2022-04-25 18:59:26.249</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -186,7 +224,17 @@
         <Data AD_Column_ID="84316" Column="UUID">f2e0252f-4893-4297-b1f5-006fc65d7d69</Data>
       </PO>
     </Step>
-    <Step SeqNo="60" StepType="AD">
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2649" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2647" Column="Description">La longitud es un concepto métrico definible para entidades geométricas sobre las que se ha definido una distancia. Más concretamente, dado un segmento, curva o línea fina, se puede definir su longitud a partir de la noción de distancia</Data>
+        <Data AD_Column_ID="2646" Column="Name">Longitud</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">62022</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Longitud</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="99937" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">Longitude  is a geographic coordinate that specifies the east–west position of a point on the Earth's surface, or the surface of a celestial body</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -239,55 +287,7 @@
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="80" StepType="AD">
-      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2646" Column="Name">Altitud</Data>
-        <Data AD_Column_ID="2647" Column="Description">La altitud es una medida de distancia, generalmente en dirección vertical o "hacia arriba", entre un dato de referencia y un punto u objeto.</Data>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID">62023</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">Altitud</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="100" StepType="AD">
-      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2649" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="2647" Column="Description">La latitud es una coordenada geográfica que especifica la posición norte-sur de un punto en la superficie de la Tierra.</Data>
-        <Data AD_Column_ID="2646" Column="Name">Latitud</Data>
-        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID">62021</Data>
-        <Data AD_Column_ID="4300" Column="PrintName">Latitud</Data>
-      </PO>
-    </Step>
     <Step SeqNo="120" StepType="AD">
-      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2639" Column="AD_Client_ID" isNewNull="true"/>
-        <Data AD_Column_ID="4300" Column="PrintName" isNewNull="true"/>
-        <Data AD_Column_ID="2637" Column="AD_Element_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2649" Column="IsTranslated" isNewNull="true"/>
-        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="2646" Column="Name" isNewNull="true"/>
-      </PO>
-    </Step>
-    <Step SeqNo="130" StepType="AD">
-      <PO AD_Table_ID="752" Action="I" Record_ID="99938" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">99938</Data>
-        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="84310" Column="UUID">c5a6b01d-d1e3-43ad-8b63-d93a6187a0d7</Data>
-        <Data AD_Column_ID="12957" Column="Name">Altitud</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="140" StepType="AD">
-      <PO AD_Table_ID="752" Action="I" Record_ID="99936" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">99936</Data>
-        <Data AD_Column_ID="84310" Column="UUID">8ebf3005-b7db-4584-bccc-6a6448e74bab</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="12957" Column="Name">Latitud</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="150" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="99937" Table="AD_Column_Trl">
         <Data AD_Column_ID="12955" Column="AD_Column_ID">99937</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
