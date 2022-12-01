@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Application Support to Login With Microsoft Azure" ReleaseNo="3.9.4" SeqNo="9890">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50031" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">1f04542a-4d0c-4ed7-a4df-5b8cd7601d12</Data>
+        <Data AD_Column_ID="91312" Column="Value">Microsoft Azure Authentication</Data>
+        <Data AD_Column_ID="91313" Column="Name">Microsoft Azure Authentication</Data>
+        <Data AD_Column_ID="91314" Column="Description">https://portal.azure.com/</Data>
+        <Data AD_Column_ID="91315" Column="Help">Microsoft Azure Authentication</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.authentication.services.provider.MicrosoftAuthentication</Data>
+        <Data AD_Column_ID="91306" Column="Created">2022-12-01 11:21:32.331</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2022-12-01 11:21:32.331</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">OIA</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50031</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50057" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">eb4acaab-cb61-42cd-b76e-71960ef3cc62</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50031</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">REDIRECT_URL</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-12-01 11:22:01.489</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-12-01 11:22:01.489</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50057</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">http://localhost/webui</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50058" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">8284ef16-c878-44ef-b9b9-34d2009f9b1c</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50031</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_ID</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-12-01 11:25:37.736</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-12-01 11:25:37.736</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50058</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client identifier&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50059" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">8f30200c-3596-4c64-8efb-b96efb723381</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50031</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_SECRET</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-12-01 11:25:50.508</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-12-01 11:25:50.508</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50059</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client Secret&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50060" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">ef9a07c7-74d0-47d0-a766-575a163b8521</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91393" Column="Description">https://learn.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-protocols</Data>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50031</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">ISSUER</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2022-12-01 11:48:06.091</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2022-12-01 11:48:06.091</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50060</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;issuer&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
