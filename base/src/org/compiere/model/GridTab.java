@@ -2404,7 +2404,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @return current row
 	 */
 	public void setCurrentRow(int row){
-			setCurrentRow(row, false);
+			setCurrentRow(row, true);
 	}
 
 
