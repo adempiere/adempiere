@@ -32,7 +32,6 @@ import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 
 
@@ -215,10 +214,15 @@ public class ProcessBuilder {
     private void run (String trxName)
     {
         Runnable processCtl;
+        Trx transaction = null;
+        if(trxName != null
+        		&& trxName.length() > 0) {
+        	transaction = Trx.get(trxName, false);
+        }
         if (windowNo == 0)
-            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo, processInfo, Trx.get(trxName, false));
+            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo, processInfo, transaction);
         else
-            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo, processInfo, Trx.get(trxName, false));
+            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo, processInfo, transaction);
 
         processCtl.run();
     }
@@ -297,15 +301,10 @@ public class ProcessBuilder {
      */
     public ProcessInfo execute(String trxName) throws AdempiereException {
         try {
-
-            Trx.run(trxName, new TrxRunnable() {
-                public void run(String trxName) {
-                    generateProcessInfo(trxName);
-                    thisBuilder.run(trxName);
-                    if (processInfo.isError())
-                        throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
-                }
-            });
+        	generateProcessInfo(trxName);
+            thisBuilder.run(trxName);
+            if (processInfo.isError())
+                throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
 
         } catch (AdempiereException e) {
             if (processInfo.isError())
