@@ -48,9 +48,7 @@ public class ZkContextProvider implements ContextProvider {
 					.make()
 					.load(ZkContextProvider.class.getClassLoader())
 					.getLoaded()).newInstance();
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException e) {
 			throw new RuntimeException(e);
 		}
 	}
