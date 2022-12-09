@@ -25,6 +25,7 @@
     <pathelement path="${classpath}"/>
     <pathelement path="${jar.path}/CCTools.jar"/>
     <pathelement path="../base/Base.jar"/>
+  	<pathelement path="../JasperReports/CompiereJasper.jar"/>
   	<pathelement path="../org.adempiere.asset/FixedAssetManagement.jar"/>
     <pathelement path="../lib/customization.jar"/>
     <pathelement path="../lib/patches.jar"/>
@@ -33,7 +34,10 @@
     <pathelement path="../extend/Extend.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
   	<pathelement path="../tools/lib/swinglabs-0.8.0.jar"/>  	
-  	<pathelement path="../tools/lib/lablib-checkboxtree-3.3.jar"/>  	
+  	<pathelement path="../tools/lib/lablib-checkboxtree-3.3.jar"/>
+  	<pathelement path="../JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+  	<pathelement path="../tools/lib/postgresql.jar"/>
+  	<pathelement path="../lib/oracle.jar"/>
   </path>
 
 
