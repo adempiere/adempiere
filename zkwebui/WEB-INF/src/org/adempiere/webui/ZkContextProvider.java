@@ -16,23 +16,43 @@
  *****************************************************************************/
 package org.adempiere.webui;
 
-import java.util.Properties;
-
-import net.sf.cglib.proxy.Enhancer;
-
+import net.bytebuddy.implementation.InvocationHandlerAdapter;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.ContextProvider;
+
+import java.util.Properties;
+
+import static net.bytebuddy.matcher.ElementMatchers.any;
+
+
 
 /**
  * 
  * @author Low Heng Sin
+ * @author Victor Perez Juarez . victor.perez@e-evolution.com e-Evolution
+ * #4021 [Bug Report] Replace obsolete library cglib.jar not compatible with JDK 11 or > https://github.com/adempiere/adempiere/issues/4021
  *
  */
 public class ZkContextProvider implements ContextProvider {
 
-	private final static ServerContextCallback callback = new ServerContextCallback();
-	private final static Properties context = (Properties) Enhancer.create(Properties.class, callback);
-	
+	private final static  ServerContextCallback callback = new ServerContextCallback();
+
+	private final static Properties context;
+
+	static {
+		try {
+			context = (new net.bytebuddy.ByteBuddy()
+					.subclass(java.util.Properties.class)
+					.method(any())
+					.intercept(InvocationHandlerAdapter.of(callback))
+					.make()
+					.load(ZkContextProvider.class.getClassLoader())
+					.getLoaded()).newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * Get server context proxy
 	 */

@@ -58,6 +58,7 @@ import org.zkoss.zul.event.ZulEvents;
  * @author e-Evolution , victor.perez@e-evolution.com
  *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
  *    <li>New ADempiere 3.8.0 ZK Theme Light  https://adempiere.atlassian.net/browse/ADEMPIERE-320 
+ *    <li>[Bug Report] Quick Entry not working when the icon is pushed #4023 https://github.com/adempiere/adempiere/issues/4023</>
  *
  */
 public class GridPanel extends Borderlayout implements EventListener
@@ -123,7 +124,7 @@ public class GridPanel extends Borderlayout implements EventListener
 
     // The following fields require package or protected level of
     // visibility for testing
-    Grid listbox = new Grid();
+	Grid listbox;
     GridTabRowRenderer renderer;
     AbstractADWindowPanel windowPanel;
     
@@ -148,7 +149,16 @@ public class GridPanel extends Borderlayout implements EventListener
 	public GridPanel(int windowNo)
 	{
 		this.windowNo = windowNo;
-				
+		listbox = new Grid();
+		
+		listbox.addEventListener(Events.ON_FOCUS, this);
+		listbox.setOddRowSclass(null);
+		south = new South();
+		this.appendChild(south);
+
+		center = new Center();
+		center.appendChild(listbox);
+		this.appendChild(center);
 	}
 
 	/**
@@ -157,23 +167,12 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void init(GridTab gridTab)
 	{
+		if (init && !gridTab.isQuickEntry()) return;
+		
 	    if (pageSize < 0)
 	        pageSize = getSysConfigPageSizeOrDefault(100);
         modeless = getSysConfigModelessOrDefault(false);
-        
-	    if (init && !gridTab.isQuickEntry()) return; 
-
-	    listbox.addEventListener(Events.ON_FOCUS, this);
-        listbox.setOddRowSclass(null);
-        
-        south = new South();
-        this.appendChild(south);
-
-        center = new Center();
-        center.appendChild(listbox);
-        this.appendChild(center);
-
-	    
+		
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
 

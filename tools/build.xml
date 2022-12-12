@@ -335,8 +335,7 @@
 			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- CGLib -->
-			<zipfileset src="lib/cglib.jar">
+			<zipfileset src="lib/byte-buddy-1.12.19.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
