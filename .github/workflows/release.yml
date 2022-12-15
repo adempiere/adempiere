@@ -81,3 +81,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN_ACCESS }}
         with:
           args: 'adempiere/Adempiere/data/Adempiere_pg.dmp'
+      - name: Upload Compressed Seed (Database)
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_ACCESS }}
+        with:
+          args: 'adempiere/Adempiere/data/Adempiere_pg.jar'
