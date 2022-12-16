@@ -20,13 +20,13 @@ jobs:
     # The type of runner that the job will run on
     # For Linux, only Ubuntu is supported.
     # Taking a specific version number to avoid side effects.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        # Ubuntu 22.04 supports only Postgres 14.5
+        # Ubuntu lates with last version of postgresql
         image: postgres:15
         # Provide the password for postgres
         env:
