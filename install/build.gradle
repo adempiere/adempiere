@@ -10,16 +10,14 @@ repositories {
     mavenCentral()
 }
 
-if (JavaVersion.current().isJava8Compatible()) {
-    allprojects {
-        tasks.withType(Javadoc) {
-            options.addStringOption('Xdoclint:none', '-quiet')
-        }
+allprojects {
+	tasks.withType(Javadoc) {
+    	options.addStringOption('Xdoclint:none', '-quiet')
     }
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
+    api project(path: ':base')
 }
 
 sourceSets {
@@ -44,7 +42,7 @@ java {
 
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
     manifest {
