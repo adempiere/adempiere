@@ -925,12 +925,12 @@ $CATALINA_HOME/bin/shutdown.sh
 			userid="guest"
 			password="">
 			<fileset  dir="${env.ADEMPIERE_HOME}">
-				<include name="**/Adempiere_393.zip"/>
+				<include name="**/Adempiere_394.zip"/>
 			</fileset>
 		</ftp>
 
 		<!-- unzip and overwrite them and delete the downloaded directory -->
-		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_393.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
+		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_394.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
 		<delete dir="${env.ADEMPIERE_HOME}/Disk 1"/>
 
 		<echo message="======================Setup adempiere==============================" />
