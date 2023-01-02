@@ -424,6 +424,7 @@ public class MSetup
 		rp.saveEx();
 		
 		log.info("fini");
+		m_trx.commit();
 		return true;
 	}   //  createClient
 
@@ -523,6 +524,7 @@ public class MSetup
 			m_trx.close();
 			return false;
 		}
+		m_trx.commit();
 		//  Info
 		m_info.append(Msg.translate(m_lang, "C_AcctSchema_ID")).append("=").append(m_as.getName()).append("\n");
 
