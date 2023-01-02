@@ -117,7 +117,7 @@ public class AttachmentUtil {
 	 * @return
 	 */
 	public boolean isValidForClient(int clientId) {
-		MClientInfo clientInfo = MClientInfo.get(context, clientId);
+		MClientInfo clientInfo = MClientInfo.get(context, clientId, transactionName);
 		return clientInfo.getFileHandler_ID() > 0;
 	}
 	
@@ -541,7 +541,7 @@ public class AttachmentUtil {
 	 * @return
 	 */
 	private MADAppRegistration getFileHandlerFromClient() {
-		MClientInfo clientInfo = MClientInfo.get(context, clientId);
+		MClientInfo clientInfo = MClientInfo.get(context, clientId, transactionName);
 		fileHandlerId = clientInfo.getFileHandler_ID();
 		return MADAppRegistration.getById(context, fileHandlerId, transactionName);
 	}

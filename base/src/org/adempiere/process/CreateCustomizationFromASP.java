@@ -72,7 +72,7 @@ public class CreateCustomizationFromASP extends CreateCustomizationFromASPAbstra
 	
 	@Override
 	protected String doIt() throws Exception {
-		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID());
+		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID(), get_TrxName());
 		int AD_Tree_ID = clientInfo.getAD_Tree_Menu_ID();
 		MTree thisTree = new MTree (getCtx(), AD_Tree_ID, true, true, null, get_TrxName());
 		MTreeNode node;

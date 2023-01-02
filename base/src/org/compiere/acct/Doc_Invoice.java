@@ -904,7 +904,7 @@ public class Doc_Invoice extends Doc
 	 */
 	private void updateProductPO (MAcctSchema as)
 	{
-		MClientInfo ci = MClientInfo.get(getCtx(), as.getAD_Client_ID());
+		MClientInfo ci = MClientInfo.get(getCtx(), as.getAD_Client_ID(), getTrxName());
 		if (ci.getC_AcctSchema1_ID() != as.getC_AcctSchema_ID())
 			return;
 		
