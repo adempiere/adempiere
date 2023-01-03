@@ -23,7 +23,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zweb.jar" sourcepath="WEB-INF/lib/zweb-sources.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry kind="lib" path="/tools/lib/javaee.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.18.jar"/>
