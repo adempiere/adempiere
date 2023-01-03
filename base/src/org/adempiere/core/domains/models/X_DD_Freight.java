@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_Freight (Properties ctx, int DD_Freight_ID, String trxName)
@@ -205,6 +207,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateOrdered);
 	}
 
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Driver)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Driver.Table_Name)
+			.getPO(getDD_Driver_ID(), get_TrxName());	}
+
 	/** Set Driver.
 		@param DD_Driver_ID Driver	  */
 	public void setDD_Driver_ID (int DD_Driver_ID)
@@ -245,6 +252,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Order.Table_Name)
+			.getPO(getDD_Order_ID(), get_TrxName());	}
+
 	/** Set Distribution Order.
 		@param DD_Order_ID Distribution Order	  */
 	public void setDD_Order_ID (int DD_Order_ID)
@@ -264,6 +276,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Vehicle)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Vehicle.Table_Name)
+			.getPO(getDD_Vehicle_ID(), get_TrxName());	}
 
 	/** Set Vehicle.
 		@param DD_Vehicle_ID Vehicle	  */
@@ -419,6 +436,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
+	public org.adempiere.core.domains.models.I_FM_Account getFM_Account() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Account)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Account.Table_Name)
+			.getPO(getFM_Account_ID(), get_TrxName());	}
+
 	/** Set Financial Account.
 		@param FM_Account_ID Financial Account	  */
 	public void setFM_Account_ID (int FM_Account_ID)
@@ -438,6 +460,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_FM_Agreement getFM_Agreement() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Agreement)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Agreement.Table_Name)
+			.getPO(getFM_Agreement_ID(), get_TrxName());	}
 
 	/** Set Agreement.
 		@param FM_Agreement_ID Agreement	  */
@@ -676,6 +703,11 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	public org.adempiere.core.domains.models.I_WM_InOutBound getWM_InOutBound() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_InOutBound)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_InOutBound.Table_Name)
+			.getPO(getWM_InOutBound_ID(), get_TrxName());	}
 
 	/** Set In & Out Bound Order.
 		@param WM_InOutBound_ID In & Out Bound Order	  */

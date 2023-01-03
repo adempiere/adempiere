@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Package
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_Package extends PO implements I_M_Package, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200804L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_Package (Properties ctx, int M_Package_ID, String trxName)
@@ -45,11 +45,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
       super (ctx, M_Package_ID, trxName);
       /** if (M_Package_ID == 0)
         {
-			setC_DocType_ID (0);
-			setDateDoc (new Timestamp( System.currentTimeMillis() ));
-// @#Date@
-			setDeliveryViaRule (null);
-// P
 			setDocAction (null);
 // CO
 			setDocStatus (null);
@@ -520,34 +515,6 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		return false;
 	}
 
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
-			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
-
-	/** Set Freight Category.
-		@param M_FreightCategory_ID 
-		Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
-	{
-		if (M_FreightCategory_ID < 1) 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
-	}
-
-	/** Get Freight Category.
-		@return Category of the Freight
-	  */
-	public int getM_FreightCategory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Freight.Table_Name)
@@ -571,6 +538,34 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 	public int getM_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
+
+	/** Set Freight Category.
+		@param M_FreightCategory_ID 
+		Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
+	{
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+	}
+
+	/** Get Freight Category.
+		@return Category of the Freight
+	  */
+	public int getM_FreightCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -867,6 +862,34 @@ public class X_M_Package extends PO implements I_M_Package, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_W_Basket getW_Basket() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_W_Basket)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_Basket.Table_Name)
+			.getPO(getW_Basket_ID(), get_TrxName());	}
+
+	/** Set Basket.
+		@param W_Basket_ID 
+		Web Basket
+	  */
+	public void setW_Basket_ID (int W_Basket_ID)
+	{
+		if (W_Basket_ID < 1) 
+			set_Value (COLUMNNAME_W_Basket_ID, null);
+		else 
+			set_Value (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
+	}
+
+	/** Get Basket.
+		@return Web Basket
+	  */
+	public int getW_Basket_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Basket_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Weight.

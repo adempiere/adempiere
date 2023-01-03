@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_T_Report extends PO implements I_T_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -76,34 +76,6 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_AD_PInstance)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PInstance.Table_Name)
-			.getPO(getAD_PInstance_ID(), get_TrxName());	}
-
-	/** Set Process Instance.
-		@param AD_PInstance_ID 
-		Instance of the process
-	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID)
-	{
-		if (AD_PInstance_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
-	}
-
-	/** Get Process Instance.
-		@return Instance of the process
-	  */
-	public int getAD_PInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** AccountType AD_Reference_ID=117 */
 	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
 	/** Asset = A */
@@ -134,6 +106,34 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	public String getAccountType () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountType);
+	}
+
+	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_PInstance)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PInstance.Table_Name)
+			.getPO(getAD_PInstance_ID(), get_TrxName());	}
+
+	/** Set Process Instance.
+		@param AD_PInstance_ID 
+		Instance of the process
+	  */
+	public void setAD_PInstance_ID (int AD_PInstance_ID)
+	{
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+	}
+
+	/** Get Process Instance.
+		@return Instance of the process
+	  */
+	public int getAD_PInstance_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.adempiere.core.domains.models.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
@@ -397,6 +397,91 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	public BigDecimal getCol_20 () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_20);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Col_21.
+		@param Col_21 Col_21	  */
+	public void setCol_21 (BigDecimal Col_21)
+	{
+		set_ValueNoCheck (COLUMNNAME_Col_21, Col_21);
+	}
+
+	/** Get Col_21.
+		@return Col_21	  */
+	public BigDecimal getCol_21 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_21);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Col_22.
+		@param Col_22 Col_22	  */
+	public void setCol_22 (BigDecimal Col_22)
+	{
+		set_ValueNoCheck (COLUMNNAME_Col_22, Col_22);
+	}
+
+	/** Get Col_22.
+		@return Col_22	  */
+	public BigDecimal getCol_22 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_22);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Col_23.
+		@param Col_23 Col_23	  */
+	public void setCol_23 (BigDecimal Col_23)
+	{
+		set_ValueNoCheck (COLUMNNAME_Col_23, Col_23);
+	}
+
+	/** Get Col_23.
+		@return Col_23	  */
+	public BigDecimal getCol_23 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_23);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Col_24.
+		@param Col_24 Col_24	  */
+	public void setCol_24 (BigDecimal Col_24)
+	{
+		set_ValueNoCheck (COLUMNNAME_Col_24, Col_24);
+	}
+
+	/** Get Col_24.
+		@return Col_24	  */
+	public BigDecimal getCol_24 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_24);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Col_25.
+		@param Col_25 Col_25	  */
+	public void setCol_25 (BigDecimal Col_25)
+	{
+		set_ValueNoCheck (COLUMNNAME_Col_25, Col_25);
+	}
+
+	/** Get Col_25.
+		@return Col_25	  */
+	public BigDecimal getCol_25 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Col_25);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

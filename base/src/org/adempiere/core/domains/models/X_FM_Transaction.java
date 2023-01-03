@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FM_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_FM_Transaction (Properties ctx, int FM_Transaction_ID, String trxName)
@@ -260,6 +262,11 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
 	}
 
+	public org.adempiere.core.domains.models.I_DD_Freight getDD_Freight() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Freight.Table_Name)
+			.getPO(getDD_Freight_ID(), get_TrxName());	}
+
 	/** Set Order Freight.
 		@param DD_Freight_ID Order Freight	  */
 	public void setDD_Freight_ID (int DD_Freight_ID)
@@ -297,6 +304,11 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public org.adempiere.core.domains.models.I_FM_Account getFM_Account() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Account)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Account.Table_Name)
+			.getPO(getFM_Account_ID(), get_TrxName());	}
+
 	/** Set Financial Account.
 		@param FM_Account_ID Financial Account	  */
 	public void setFM_Account_ID (int FM_Account_ID)
@@ -325,6 +337,11 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getFM_Account_ID()));
     }
 
+	public org.adempiere.core.domains.models.I_FM_Amortization getFM_Amortization() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Amortization)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Amortization.Table_Name)
+			.getPO(getFM_Amortization_ID(), get_TrxName());	}
+
 	/** Set Loan Amortization.
 		@param FM_Amortization_ID Loan Amortization	  */
 	public void setFM_Amortization_ID (int FM_Amortization_ID)
@@ -344,6 +361,11 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_FM_Batch getFM_Batch() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Batch)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Batch.Table_Name)
+			.getPO(getFM_Batch_ID(), get_TrxName());	}
 
 	/** Set Financial Transaction Batch.
 		@param FM_Batch_ID Financial Transaction Batch	  */
@@ -384,6 +406,11 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_FM_TransactionType getFM_TransactionType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_TransactionType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_TransactionType.Table_Name)
+			.getPO(getFM_TransactionType_ID(), get_TrxName());	}
 
 	/** Set Financial Transaction Type.
 		@param FM_TransactionType_ID Financial Transaction Type	  */

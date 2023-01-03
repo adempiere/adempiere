@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Contract
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Contract (Properties ctx, int HR_Contract_ID, String trxName)
@@ -159,6 +161,11 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept getDailySalary() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getDailySalary_ID(), get_TrxName());	}
+
 	/** Set Daily Salary (Concept).
 		@param DailySalary_ID 
 		Reference to concept used for daily salary
@@ -218,6 +225,11 @@ public class X_HR_Contract extends PO implements I_HR_Contract, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Concept getMonthlySalary() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getMonthlySalary_ID(), get_TrxName());	}
 
 	/** Set Monthly Salary (Concept).
 		@param MonthlySalary_ID 

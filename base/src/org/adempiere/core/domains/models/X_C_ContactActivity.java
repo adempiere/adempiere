@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ContactActivity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_ContactActivity extends PO implements I_C_ContactActivity, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220521L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_ContactActivity (Properties ctx, int C_ContactActivity_ID, String trxName)
@@ -129,6 +131,31 @@ public class X_C_ContactActivity extends PO implements I_C_ContactActivity, I_Pe
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_Opportunity getC_Opportunity() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_Opportunity)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Opportunity.Table_Name)
+			.getPO(getC_Opportunity_ID(), get_TrxName());	}
+
+	/** Set Sales Opportunity.
+		@param C_Opportunity_ID Sales Opportunity	  */
+	public void setC_Opportunity_ID (int C_Opportunity_ID)
+	{
+		if (C_Opportunity_ID < 1) 
+			set_Value (COLUMNNAME_C_Opportunity_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Opportunity_ID, Integer.valueOf(C_Opportunity_ID));
+	}
+
+	/** Get Sales Opportunity.
+		@return Sales Opportunity	  */
+	public int getC_Opportunity_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Opportunity_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Comments.
 		@param Comments 
 		Comments or additional information
@@ -172,26 +199,6 @@ public class X_C_ContactActivity extends PO implements I_C_ContactActivity, I_Pe
 	public String getContactActivityType () 
 	{
 		return (String)get_Value(COLUMNNAME_ContactActivityType);
-	}
-
-	/** Set Sales Opportunity.
-		@param C_Opportunity_ID Sales Opportunity	  */
-	public void setC_Opportunity_ID (int C_Opportunity_ID)
-	{
-		if (C_Opportunity_ID < 1) 
-			set_Value (COLUMNNAME_C_Opportunity_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Opportunity_ID, Integer.valueOf(C_Opportunity_ID));
-	}
-
-	/** Get Sales Opportunity.
-		@return Sales Opportunity	  */
-	public int getC_Opportunity_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Opportunity_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.

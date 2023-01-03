@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_Freight extends PO implements I_M_Freight, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_Freight (Properties ctx, int M_Freight_ID, String trxName)
@@ -48,8 +48,8 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         {
 			setC_Currency_ID (0);
 			setFreightAmt (Env.ZERO);
-			setM_FreightCategory_ID (0);
 			setM_Freight_ID (0);
+			setM_FreightCategory_ID (0);
 			setM_Shipper_ID (0);
 			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
@@ -187,6 +187,29 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return bd;
 	}
 
+	/** Set Freight.
+		@param M_Freight_ID 
+		Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID)
+	{
+		if (M_Freight_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
+	}
+
+	/** Get Freight.
+		@return Freight Rate
+	  */
+	public int getM_Freight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
@@ -210,29 +233,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	public int getM_FreightCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Freight.
-		@param M_Freight_ID 
-		Freight Rate
-	  */
-	public void setM_Freight_ID (int M_Freight_ID)
-	{
-		if (M_Freight_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
-	}
-
-	/** Get Freight.
-		@return Freight Rate
-	  */
-	public int getM_Freight_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

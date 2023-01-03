@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_TransportUnit
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_TransportUnit (Properties ctx, int DD_TransportUnit_ID, String trxName)
@@ -80,6 +82,11 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -175,6 +182,11 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 		return (String)get_Value(COLUMNNAME_CopyFrom);
 	}
 
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_CompatibilityGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_CompatibilityGroup.Table_Name)
+			.getPO(getDD_CompatibilityGroup_ID(), get_TrxName());	}
+
 	/** Set Transport Compatibility Group.
 		@param DD_CompatibilityGroup_ID Transport Compatibility Group	  */
 	public void setDD_CompatibilityGroup_ID (int DD_CompatibilityGroup_ID)
@@ -214,6 +226,11 @@ public class X_DD_TransportUnit extends PO implements I_DD_TransportUnit, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_TransportUnitType getDD_TransportUnitType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_TransportUnitType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_TransportUnitType.Table_Name)
+			.getPO(getDD_TransportUnitType_ID(), get_TrxName());	}
 
 	/** Set Transport Unit Type.
 		@param DD_TransportUnitType_ID Transport Unit Type	  */

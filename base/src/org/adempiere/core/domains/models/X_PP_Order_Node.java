@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -43,10 +46,10 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
       super (ctx, PP_Order_Node_ID, trxName);
       /** if (PP_Order_Node_ID == 0)
         {
-			setAD_WF_Node_ID (0);
-			setAD_Workflow_ID (0);
 			setAction (null);
 // Z
+			setAD_WF_Node_ID (0);
+			setAD_Workflow_ID (0);
 			setCost (Env.ZERO);
 			setEntityType (null);
 // U
@@ -96,6 +99,54 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Smart View = Q */
+	public static final String ACTION_SmartView = "Q";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
+	}
 
 	public org.adempiere.core.domains.models.I_AD_Column getAD_Column() throws RuntimeException
     {
@@ -375,54 +426,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Smart View = Q */
-	public static final String ACTION_SmartView = "Q";
-	/** Smart Browse = S */
-	public static final String ACTION_SmartBrowse = "S";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Attribute Name.
@@ -1315,23 +1318,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (String)get_Value(COLUMNNAME_SubflowExecution);
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	/** Set Units by Cycles.
 		@param UnitsCycles 
 		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
@@ -1350,6 +1336,23 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Valid from.
@@ -1491,26 +1494,6 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Y Position.
-		@param YPosition 
-		Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public void setYPosition (int YPosition)
-	{
-		set_Value (COLUMNNAME_YPosition, Integer.valueOf(YPosition));
-	}
-
-	/** Get Y Position.
-		@return Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public int getYPosition () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Yield %.
 		@param Yield 
 		The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
@@ -1526,6 +1509,26 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	public int getYield () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Yield);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Y Position.
+		@param YPosition 
+		Absolute Y (vertical) position in 1/72 of an inch
+	  */
+	public void setYPosition (int YPosition)
+	{
+		set_Value (COLUMNNAME_YPosition, Integer.valueOf(YPosition));
+	}
+
+	/** Get Y Position.
+		@return Absolute Y (vertical) position in 1/72 of an inch
+	  */
+	public int getYPosition () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_YPosition);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

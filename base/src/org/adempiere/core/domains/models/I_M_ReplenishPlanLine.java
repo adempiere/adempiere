@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ReplenishPlanLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_ReplenishPlanLine 
 {
@@ -76,6 +76,8 @@ public interface I_M_ReplenishPlanLine
 	  * Order
 	  */
 	public int getC_Order_ID();
+
+	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -171,6 +173,7 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public int getM_Product_Category_ID();
 
+	public org.adempiere.core.domains.models.I_M_Product_Category getM_Product_Category() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -185,6 +188,8 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public int getM_Product_ID();
 
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 
@@ -198,14 +203,7 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public int getM_Production_ID();
 
-    /** Column name M_ReplenishPlanLine_ID */
-    public static final String COLUMNNAME_M_ReplenishPlanLine_ID = "M_ReplenishPlanLine_ID";
-
-	/** Set M_ReplenishPlanLine ID	  */
-	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID);
-
-	/** Get M_ReplenishPlanLine ID	  */
-	public int getM_ReplenishPlanLine_ID();
+	public org.adempiere.core.domains.models.I_M_Production getM_Production() throws RuntimeException;
 
     /** Column name M_ReplenishPlan_ID */
     public static final String COLUMNNAME_M_ReplenishPlan_ID = "M_ReplenishPlan_ID";
@@ -215,6 +213,17 @@ public interface I_M_ReplenishPlanLine
 
 	/** Get M_ReplenishPlan ID	  */
 	public int getM_ReplenishPlan_ID();
+
+	public org.adempiere.core.domains.models.I_M_ReplenishPlan getM_ReplenishPlan() throws RuntimeException;
+
+    /** Column name M_ReplenishPlanLine_ID */
+    public static final String COLUMNNAME_M_ReplenishPlanLine_ID = "M_ReplenishPlanLine_ID";
+
+	/** Set M_ReplenishPlanLine ID	  */
+	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID);
+
+	/** Get M_ReplenishPlanLine ID	  */
+	public int getM_ReplenishPlanLine_ID();
 
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
@@ -229,6 +238,8 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public int getM_Requisition_ID();
 
+	public org.adempiere.core.domains.models.I_M_Requisition getM_Requisition() throws RuntimeException;
+
     /** Column name OrderInfo */
     public static final String COLUMNNAME_OrderInfo = "OrderInfo";
 
@@ -237,6 +248,15 @@ public interface I_M_ReplenishPlanLine
 
 	/** Get Order Info	  */
 	public String getOrderInfo();
+
+    /** Column name ProductionInfo */
+    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
+
+	/** Set Production Info	  */
+	public void setProductionInfo (String ProductionInfo);
+
+	/** Get Production Info	  */
+	public String getProductionInfo();
 
     /** Column name ProductName */
     public static final String COLUMNNAME_ProductName = "ProductName";
@@ -251,15 +271,6 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public String getProductName();
 
-    /** Column name ProductionInfo */
-    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
-
-	/** Set Production Info	  */
-	public void setProductionInfo (String ProductionInfo);
-
-	/** Get Production Info	  */
-	public String getProductionInfo();
-
     /** Column name RecordType */
     public static final String COLUMNNAME_RecordType = "RecordType";
 
@@ -268,19 +279,6 @@ public interface I_M_ReplenishPlanLine
 
 	/** Get RecordType	  */
 	public String getRecordType();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -297,6 +295,19 @@ public interface I_M_ReplenishPlanLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Week1 */
     public static final String COLUMNNAME_Week1 = "Week1";

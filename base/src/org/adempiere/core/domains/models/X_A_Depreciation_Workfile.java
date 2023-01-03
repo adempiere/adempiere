@@ -22,22 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Depreciation_Workfile;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Workfile, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Workfile (Properties ctx, int A_Depreciation_Workfile_ID, String trxName)
@@ -164,6 +165,11 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -404,6 +410,11 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_FundingMode getA_FundingMode() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_FundingMode)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_FundingMode.Table_Name)
+			.getPO(getA_FundingMode_ID(), get_TrxName());	}
+
 	/** Set Asset Funding Mode.
 		@param A_FundingMode_ID Asset Funding Mode	  */
 	public void setA_FundingMode_ID (int A_FundingMode_ID)
@@ -578,23 +589,6 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set Asset Depreciation Date.
-		@param AssetDepreciationDate 
-		Date of last depreciation
-	  */
-	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate)
-	{
-		set_Value (COLUMNNAME_AssetDepreciationDate, AssetDepreciationDate);
-	}
-
-	/** Get Asset Depreciation Date.
-		@return Date of last depreciation
-	  */
-	public Timestamp getAssetDepreciationDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_AssetDepreciationDate);
-	}
-
 	/** A_Tip_Finantare AD_Reference_ID=53361 */
 	public static final int A_TIP_FINANTARE_AD_Reference_ID=53361;
 	/** Cofinantare = C */
@@ -653,6 +647,23 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Asset Depreciation Date.
+		@param AssetDepreciationDate 
+		Date of last depreciation
+	  */
+	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate)
+	{
+		set_Value (COLUMNNAME_AssetDepreciationDate, AssetDepreciationDate);
+	}
+
+	/** Get Asset Depreciation Date.
+		@return Date of last depreciation
+	  */
+	public Timestamp getAssetDepreciationDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_AssetDepreciationDate);
 	}
 
 	/** Set Account Date.

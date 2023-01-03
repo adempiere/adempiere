@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_LeaveAssign
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_LeaveAssign 
 {
@@ -126,6 +126,8 @@ public interface I_HR_LeaveAssign
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
+
     /** Column name HR_LeaveAssign_ID */
     public static final String COLUMNNAME_HR_LeaveAssign_ID = "HR_LeaveAssign_ID";
 
@@ -151,6 +153,8 @@ public interface I_HR_LeaveAssign
 	  * Leave Type for an Employee
 	  */
 	public int getHR_LeaveType_ID();
+
+	public org.adempiere.core.domains.models.I_HR_LeaveType getHR_LeaveType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

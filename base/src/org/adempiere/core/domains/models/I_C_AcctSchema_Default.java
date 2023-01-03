@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema_Default
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_AcctSchema_Default 
 {
@@ -94,21 +94,6 @@ public interface I_C_AcctSchema_Default
 
 	public I_C_ValidCombination getB_Expense_A() throws RuntimeException;
 
-    /** Column name B_InTransit_Acct */
-    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
-
-	/** Set Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct);
-
-	/** Get Bank In Transit.
-	  * Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct();
-
-	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException;
-
     /** Column name B_InterestExp_Acct */
     public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
 
@@ -138,6 +123,21 @@ public interface I_C_AcctSchema_Default
 	public int getB_InterestRev_Acct();
 
 	public I_C_ValidCombination getB_InterestRev_A() throws RuntimeException;
+
+    /** Column name B_InTransit_Acct */
+    public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
+
+	/** Set Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct);
+
+	/** Get Bank In Transit.
+	  * Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct();
+
+	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException;
 
     /** Column name B_PaymentSelect_Acct */
     public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
@@ -244,6 +244,66 @@ public interface I_C_AcctSchema_Default
 
 	public I_C_ValidCombination getB_Unidentified_A() throws RuntimeException;
 
+    /** Column name C_AcctSchema_ID */
+    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
+
+	/** Set Accounting Schema.
+	  * Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
+
+	/** Get Accounting Schema.
+	  * Rules for accounting
+	  */
+	public int getC_AcctSchema_ID();
+
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+
+    /** Column name C_Prepayment_Acct */
+    public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
+
+	/** Set Customer Prepayment.
+	  * Account for customer prepayments
+	  */
+	public void setC_Prepayment_Acct (int C_Prepayment_Acct);
+
+	/** Get Customer Prepayment.
+	  * Account for customer prepayments
+	  */
+	public int getC_Prepayment_Acct();
+
+	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
+
+    /** Column name C_Receivable_Acct */
+    public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
+
+	/** Set Customer Receivables.
+	  * Account for Customer Receivables
+	  */
+	public void setC_Receivable_Acct (int C_Receivable_Acct);
+
+	/** Get Customer Receivables.
+	  * Account for Customer Receivables
+	  */
+	public int getC_Receivable_Acct();
+
+	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException;
+
+    /** Column name C_Receivable_Services_Acct */
+    public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
+
+	/** Set Receivable Services.
+	  * Customer Accounts Receivables Services Account
+	  */
+	public void setC_Receivable_Services_Acct (int C_Receivable_Services_Acct);
+
+	/** Get Receivable Services.
+	  * Customer Accounts Receivables Services Account
+	  */
+	public int getC_Receivable_Services_Acct();
+
+	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
+
     /** Column name CB_Asset_Acct */
     public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 
@@ -318,66 +378,6 @@ public interface I_C_AcctSchema_Default
 	public int getCB_Receipt_Acct();
 
 	public I_C_ValidCombination getCB_Receipt_A() throws RuntimeException;
-
-    /** Column name C_AcctSchema_ID */
-    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
-
-	/** Set Accounting Schema.
-	  * Rules for accounting
-	  */
-	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
-
-	/** Get Accounting Schema.
-	  * Rules for accounting
-	  */
-	public int getC_AcctSchema_ID();
-
-	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
-
-    /** Column name C_Prepayment_Acct */
-    public static final String COLUMNNAME_C_Prepayment_Acct = "C_Prepayment_Acct";
-
-	/** Set Customer Prepayment.
-	  * Account for customer prepayments
-	  */
-	public void setC_Prepayment_Acct (int C_Prepayment_Acct);
-
-	/** Get Customer Prepayment.
-	  * Account for customer prepayments
-	  */
-	public int getC_Prepayment_Acct();
-
-	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
-
-    /** Column name C_Receivable_Acct */
-    public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
-
-	/** Set Customer Receivables.
-	  * Account for Customer Receivables
-	  */
-	public void setC_Receivable_Acct (int C_Receivable_Acct);
-
-	/** Get Customer Receivables.
-	  * Account for Customer Receivables
-	  */
-	public int getC_Receivable_Acct();
-
-	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException;
-
-    /** Column name C_Receivable_Services_Acct */
-    public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
-
-	/** Set Receivable Services.
-	  * Customer Accounts Receivables Services Account
-	  */
-	public void setC_Receivable_Services_Acct (int C_Receivable_Services_Acct);
-
-	/** Get Receivable Services.
-	  * Customer Accounts Receivables Services Account
-	  */
-	public int getC_Receivable_Services_Acct();
-
-	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
 
     /** Column name Ch_Expense_Acct */
     public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
@@ -512,36 +512,6 @@ public interface I_C_AcctSchema_Default
 	public int getNotInvoicedRevenue_Acct();
 
 	public I_C_ValidCombination getNotInvoicedRevenue_A() throws RuntimeException;
-
-    /** Column name PJ_Asset_Acct */
-    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
-
-	/** Set Project Asset.
-	  * Project Asset Account
-	  */
-	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
-
-	/** Get Project Asset.
-	  * Project Asset Account
-	  */
-	public int getPJ_Asset_Acct();
-
-	public I_C_ValidCombination getPJ_Asset_A() throws RuntimeException;
-
-    /** Column name PJ_WIP_Acct */
-    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
-
-	/** Set Work In Progress.
-	  * Account for Work in Progress
-	  */
-	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
-
-	/** Get Work In Progress.
-	  * Account for Work in Progress
-	  */
-	public int getPJ_WIP_Acct();
-
-	public I_C_ValidCombination getPJ_WIP_A() throws RuntimeException;
 
     /** Column name P_Asset_Acct */
     public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
@@ -918,6 +888,36 @@ public interface I_C_AcctSchema_Default
 
 	public I_C_ValidCombination getPayDiscount_Rev_A() throws RuntimeException;
 
+    /** Column name PJ_Asset_Acct */
+    public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
+
+	/** Set Project Asset.
+	  * Project Asset Account
+	  */
+	public void setPJ_Asset_Acct (int PJ_Asset_Acct);
+
+	/** Get Project Asset.
+	  * Project Asset Account
+	  */
+	public int getPJ_Asset_Acct();
+
+	public I_C_ValidCombination getPJ_Asset_A() throws RuntimeException;
+
+    /** Column name PJ_WIP_Acct */
+    public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
+
+	/** Set Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public void setPJ_WIP_Acct (int PJ_WIP_Acct);
+
+	/** Get Work In Progress.
+	  * Account for Work in Progress
+	  */
+	public int getPJ_WIP_Acct();
+
+	public I_C_ValidCombination getPJ_WIP_A() throws RuntimeException;
+
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 
@@ -1032,19 +1032,6 @@ public interface I_C_AcctSchema_Default
 
 	public I_C_ValidCombination getT_Receivables_A() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnEarnedRevenue_Acct */
     public static final String COLUMNNAME_UnEarnedRevenue_Acct = "UnEarnedRevenue_Acct";
 
@@ -1105,6 +1092,19 @@ public interface I_C_AcctSchema_Default
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name V_Liability_Acct */
     public static final String COLUMNNAME_V_Liability_Acct = "V_Liability_Acct";

@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Section
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_WM_Section 
 {
@@ -161,6 +161,8 @@ public interface I_WM_Section
 	  */
 	public int getWM_Area_ID();
 
+	public org.adempiere.core.domains.models.I_WM_Area getWM_Area() throws RuntimeException;
+
     /** Column name WM_Section_ID */
     public static final String COLUMNNAME_WM_Section_ID = "WM_Section_ID";
 
@@ -182,4 +184,6 @@ public interface I_WM_Section
 
 	/** Get Warehouse Section Type	  */
 	public int getWM_Section_Type_ID();
+
+	public org.adempiere.core.domains.models.I_WM_Section_Type getWM_Section_Type() throws RuntimeException;
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_Attribute
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_I_HR_Attribute 
 {
@@ -42,6 +43,15 @@ public interface I_I_HR_Attribute
 
     /** Load Meta Data */
 
+    /** Column name ActivityValue */
+    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
+
+	/** Set Activity Value	  */
+	public void setActivityValue (String ActivityValue);
+
+	/** Get Activity Value	  */
+	public String getActivityValue();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -49,6 +59,19 @@ public interface I_I_HR_Attribute
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -65,19 +88,6 @@ public interface I_I_HR_Attribute
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_Rule_ID */
     public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
 
@@ -88,15 +98,6 @@ public interface I_I_HR_Attribute
 	public int getAD_Rule_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Rule getAD_Rule() throws RuntimeException;
-
-    /** Column name ActivityValue */
-    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
-
-	/** Set Activity Value	  */
-	public void setActivityValue (String ActivityValue);
-
-	/** Get Activity Value	  */
-	public String getActivityValue();
 
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
@@ -365,6 +366,8 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Attribute_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Attribute getHR_Attribute() throws RuntimeException;
+
     /** Column name HR_CareerLevel_ID */
     public static final String COLUMNNAME_HR_CareerLevel_ID = "HR_CareerLevel_ID";
 
@@ -377,6 +380,8 @@ public interface I_I_HR_Attribute
 	  * The Career Level for this position
 	  */
 	public int getHR_CareerLevel_ID();
+
+	public org.adempiere.core.domains.models.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException;
 
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
@@ -391,6 +396,8 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_Contract_ID */
     public static final String COLUMNNAME_HR_Contract_ID = "HR_Contract_ID";
 
@@ -399,6 +406,8 @@ public interface I_I_HR_Attribute
 
 	/** Get Payroll Contract	  */
 	public int getHR_Contract_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Contract getHR_Contract() throws RuntimeException;
 
     /** Column name HR_Degree_ID */
     public static final String COLUMNNAME_HR_Degree_ID = "HR_Degree_ID";
@@ -413,7 +422,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Degree_ID();
 
-	// public org.eevolution.model.I_HR_Degree getHR_Degree() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Degree getHR_Degree() throws RuntimeException;
 
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
@@ -424,7 +433,7 @@ public interface I_I_HR_Attribute
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
-	// public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_Designation_ID */
     public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
@@ -439,7 +448,18 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Designation_ID();
 
-	// public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException;
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
@@ -454,18 +474,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_EmployeeType_ID();
 
-	// public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
-
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
-	// public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
 
     /** Column name HR_Grade_ID */
     public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
@@ -480,7 +489,18 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Grade_ID();
 
-	// public org.eevolution.model.I_HR_Grade getHR_Grade() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Grade getHR_Grade() throws RuntimeException;
+
+    /** Column name HR_Job_ID */
+    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+
+	/** Set Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID);
+
+	/** Get Payroll Job	  */
+	public int getHR_Job_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_JobEducation_ID */
     public static final String COLUMNNAME_HR_JobEducation_ID = "HR_JobEducation_ID";
@@ -495,7 +515,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_JobEducation_ID();
 
-	// public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
 
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
@@ -510,18 +530,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_JobType_ID();
 
-	// public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
-
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
-
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
-
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
-
-	// public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_JobType getHR_JobType() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
@@ -532,7 +541,7 @@ public interface I_I_HR_Attribute
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
-	// public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name HR_Race_ID */
     public static final String COLUMNNAME_HR_Race_ID = "HR_Race_ID";
@@ -547,7 +556,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_Race_ID();
 
-	// public org.eevolution.model.I_HR_Race getHR_Race() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_Race getHR_Race() throws RuntimeException;
 
     /** Column name HR_SalaryRange_ID */
     public static final String COLUMNNAME_HR_SalaryRange_ID = "HR_SalaryRange_ID";
@@ -562,7 +571,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_SalaryRange_ID();
 
-	// public org.eevolution.model.I_HR_SalaryRange getHR_SalaryRange() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_SalaryRange getHR_SalaryRange() throws RuntimeException;
 
     /** Column name HR_SalaryStructure_ID */
     public static final String COLUMNNAME_HR_SalaryStructure_ID = "HR_SalaryStructure_ID";
@@ -577,7 +586,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_SalaryStructure_ID();
 
-	// public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
 
     /** Column name HR_ShiftGroup_ID */
     public static final String COLUMNNAME_HR_ShiftGroup_ID = "HR_ShiftGroup_ID";
@@ -592,7 +601,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_ShiftGroup_ID();
 
-	// public org.eevolution.model.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException;
 
     /** Column name HR_SkillType_ID */
     public static final String COLUMNNAME_HR_SkillType_ID = "HR_SkillType_ID";
@@ -607,7 +616,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_SkillType_ID();
 
-	// public org.eevolution.model.I_HR_SkillType getHR_SkillType() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_SkillType getHR_SkillType() throws RuntimeException;
 
     /** Column name HR_WorkGroup_ID */
     public static final String COLUMNNAME_HR_WorkGroup_ID = "HR_WorkGroup_ID";
@@ -622,7 +631,7 @@ public interface I_I_HR_Attribute
 	  */
 	public int getHR_WorkGroup_ID();
 
-	// public org.eevolution.model.I_HR_WorkGroup getHR_WorkGroup() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_HR_WorkGroup getHR_WorkGroup() throws RuntimeException;
 
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
@@ -920,19 +929,6 @@ public interface I_I_HR_Attribute
 	  */
 	public String getTextMsg();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -948,6 +944,19 @@ public interface I_I_HR_Attribute
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

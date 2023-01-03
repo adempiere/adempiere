@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_Product_BOM (Properties ctx, int M_Product_BOM_ID, String trxName)
@@ -49,9 +49,9 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 // 1
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_Product_BOM WHERE M_Product_ID=@M_Product_ID@
-			setM_ProductBOM_ID (0);
 			setM_Product_BOM_ID (0);
 			setM_Product_ID (0);
+			setM_ProductBOM_ID (0);
         } */
     }
 
@@ -264,42 +264,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_M_Product getM_ProductBOM() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
-			.getPO(getM_ProductBOM_ID(), get_TrxName());	}
-
-	/** Set BOM Product.
-		@param M_ProductBOM_ID 
-		Bill of Material Component Product
-	  */
-	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
-	{
-		if (M_ProductBOM_ID < 1) 
-			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
-	}
-
-	/** Get BOM Product.
-		@return Bill of Material Component Product
-	  */
-	public int getM_ProductBOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductBOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
-    }
-
 	/** Set BOM Line.
 		@param M_Product_BOM_ID BOM Line	  */
 	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
@@ -347,6 +311,42 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_M_Product getM_ProductBOM() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
+			.getPO(getM_ProductBOM_ID(), get_TrxName());	}
+
+	/** Set BOM Product.
+		@param M_ProductBOM_ID 
+		Bill of Material Component Product
+	  */
+	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
+	{
+		if (M_ProductBOM_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
+	}
+
+	/** Get BOM Product.
+		@return Bill of Material Component Product
+	  */
+	public int getM_ProductBOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductBOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
+    }
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 

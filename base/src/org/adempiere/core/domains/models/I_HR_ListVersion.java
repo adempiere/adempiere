@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ListVersion
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_ListVersion 
 {
@@ -93,6 +93,17 @@ public interface I_HR_ListVersion
 	  */
 	public String getDescription();
 
+    /** Column name HR_List_ID */
+    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
+
+	/** Set Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID);
+
+	/** Get Payroll List	  */
+	public int getHR_List_ID();
+
+	public org.adempiere.core.domains.models.I_HR_List getHR_List() throws RuntimeException;
+
     /** Column name HR_ListBase_ID */
     public static final String COLUMNNAME_HR_ListBase_ID = "HR_ListBase_ID";
 
@@ -102,14 +113,7 @@ public interface I_HR_ListVersion
 	/** Get Payroll List Base	  */
 	public int getHR_ListBase_ID();
 
-    /** Column name HR_List_ID */
-    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
-
-	/** Set Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID);
-
-	/** Get Payroll List	  */
-	public int getHR_List_ID();
+	public org.adempiere.core.domains.models.I_HR_List getHR_ListBase() throws RuntimeException;
 
     /** Column name HR_ListVersion_ID */
     public static final String COLUMNNAME_HR_ListVersion_ID = "HR_ListVersion_ID";

@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_OrderLine (Properties ctx, int DD_OrderLine_ID, String trxName)
@@ -204,26 +206,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
@@ -336,6 +318,26 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Confirmed Quantity.
+		@param ConfirmedQty 
+		Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty)
+	{
+		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+	}
+
+	/** Get Confirmed Quantity.
+		@return Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Date Delivered.
 		@param DateDelivered 
 		Date when the product was delivered
@@ -386,6 +388,11 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
+
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Order.Table_Name)
+			.getPO(getDD_Order_ID(), get_TrxName());	}
 
 	/** Set Distribution Order.
 		@param DD_Order_ID Distribution Order	  */
@@ -636,34 +643,6 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
-			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
-
-	/** Set Freight Category.
-		@param M_FreightCategory_ID 
-		Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
-	{
-		if (M_FreightCategory_ID < 1) 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
-	}
-
-	/** Get Freight Category.
-		@return Category of the Freight
-	  */
-	public int getM_FreightCategory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Freight.Table_Name)
@@ -687,6 +666,34 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public int getM_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
+
+	/** Set Freight Category.
+		@param M_FreightCategory_ID 
+		Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
+	{
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+	}
+
+	/** Get Freight Category.
+		@return Category of the Freight
+	  */
+	public int getM_FreightCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1110,6 +1117,11 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_InOutBoundLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */

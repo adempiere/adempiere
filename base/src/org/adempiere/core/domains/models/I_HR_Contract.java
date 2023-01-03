@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Contract
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Contract 
 {
@@ -138,6 +138,8 @@ public interface I_HR_Contract
 	  */
 	public int getDailySalary_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getDailySalary() throws RuntimeException;
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -185,6 +187,8 @@ public interface I_HR_Contract
 	  * Reference to concept used for monthly salary
 	  */
 	public int getMonthlySalary_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Concept getMonthlySalary() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

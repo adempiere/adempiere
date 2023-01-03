@@ -22,20 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_ShiftIncidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_ShiftIncidence (Properties ctx, int HR_ShiftIncidence_ID, String trxName)
@@ -246,6 +248,11 @@ public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Pe
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getHR_Concept_ID(), get_TrxName());	}
+
 	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
@@ -291,6 +298,11 @@ public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_WorkShift getHR_WorkShift() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_WorkShift)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_WorkShift.Table_Name)
+			.getPO(getHR_WorkShift_ID(), get_TrxName());	}
 
 	/** Set Work Shift.
 		@param HR_WorkShift_ID 

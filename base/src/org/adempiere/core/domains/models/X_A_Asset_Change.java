@@ -22,24 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Change;
-import org.adempiere.core.domains.models.I_C_Location;
-import org.adempiere.core.domains.models.I_C_ValidCombination;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Change
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Change (Properties ctx, int A_Asset_Change_ID, String trxName)
@@ -210,6 +209,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers
@@ -270,6 +274,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Spread)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Spread.Table_Name)
+			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
+
 	/** Set Spread Type.
 		@param A_Asset_Spread_Type Spread Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type)
@@ -308,6 +317,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Method)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Calc_Type(), get_TrxName());	}
 
 	/** Set Calculation Type.
 		@param A_Depreciation_Calc_Type Calculation Type	  */
@@ -363,6 +377,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Table_Header.Table_Name)
+			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
 	/** Set A_Depreciation_Table_Header_ID.
 		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
@@ -489,33 +508,10 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
+	public org.adempiere.core.domains.models.I_A_Asset getA_Parent_Asset() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Parent_Asset_ID(), get_TrxName());	}
 
 	/** Set Parent Asset.
 		@param A_Parent_Asset_ID Parent Asset	  */
@@ -835,6 +831,34 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set AssetAccumDepreciationAmt.
 		@param AssetAccumDepreciationAmt AssetAccumDepreciationAmt	  */
 	public void setAssetAccumDepreciationAmt (BigDecimal AssetAccumDepreciationAmt)
@@ -1044,6 +1068,62 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
+	/** Set Address.
+		@param C_Location_ID 
+		Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID)
+	{
+		if (C_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+	}
+
+	/** Get Address.
+		@return Location or Address
+	  */
+	public int getC_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set ChangeAmt.
 		@param ChangeAmt ChangeAmt	  */
 	public void setChangeAmt (BigDecimal ChangeAmt)
@@ -1120,33 +1200,10 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (String)get_Value(COLUMNNAME_ChangeType);
 	}
 
-	public I_C_Location getC_Location() throws RuntimeException
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getConventionT() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
-			.getPO(getC_Location_ID(), get_TrxName());	}
-
-	/** Set Address.
-		@param C_Location_ID 
-		Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID)
-	{
-		if (C_Location_ID < 1) 
-			set_Value (COLUMNNAME_C_Location_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
-	}
-
-	/** Get Address.
-		@return Location or Address
-	  */
-	public int getC_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Convention)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Convention.Table_Name)
+			.getPO(getConventionType(), get_TrxName());	}
 
 	/** Set ConventionType.
 		@param ConventionType ConventionType	  */
@@ -1160,34 +1217,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public int getConventionType () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ConventionType);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1209,6 +1238,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation getDepreciationT() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation.Table_Name)
+			.getPO(getDepreciationType(), get_TrxName());	}
 
 	/** Set DepreciationType.
 		@param DepreciationType DepreciationType	  */

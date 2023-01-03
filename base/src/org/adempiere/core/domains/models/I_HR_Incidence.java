@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Incidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Incidence 
 {
@@ -210,6 +210,8 @@ public interface I_HR_Incidence
 	/** Get Attendance Batch	  */
 	public int getHR_AttendanceBatch_ID();
 
+	public org.adempiere.core.domains.models.I_HR_AttendanceBatch getHR_AttendanceBatch() throws RuntimeException;
+
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
@@ -223,6 +225,8 @@ public interface I_HR_Incidence
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_Employee_ID */
     public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
 
@@ -231,6 +235,8 @@ public interface I_HR_Incidence
 
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Incidence_ID */
     public static final String COLUMNNAME_HR_Incidence_ID = "HR_Incidence_ID";
@@ -253,6 +259,8 @@ public interface I_HR_Incidence
 	  * Shift Incidence Configuration
 	  */
 	public int getHR_ShiftIncidence_ID();
+
+	public org.adempiere.core.domains.models.I_HR_ShiftIncidence getHR_ShiftIncidence() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -328,19 +336,6 @@ public interface I_HR_Incidence
 	  */
 	public BigDecimal getQty();
 
-    /** Column name ServiceDate */
-    public static final String COLUMNNAME_ServiceDate = "ServiceDate";
-
-	/** Set Service date.
-	  * Date service was provided
-	  */
-	public void setServiceDate (Timestamp ServiceDate);
-
-	/** Get Service date.
-	  * Date service was provided
-	  */
-	public Timestamp getServiceDate();
-
     /** Column name S_TimeExpense_ID */
     public static final String COLUMNNAME_S_TimeExpense_ID = "S_TimeExpense_ID";
 
@@ -370,6 +365,19 @@ public interface I_HR_Incidence
 	public int getS_TimeExpenseLine_ID();
 
 	public org.adempiere.core.domains.models.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException;
+
+    /** Column name ServiceDate */
+    public static final String COLUMNNAME_ServiceDate = "ServiceDate";
+
+	/** Set Service date.
+	  * Date service was provided
+	  */
+	public void setServiceDate (Timestamp ServiceDate);
+
+	/** Get Service date.
+	  * Date service was provided
+	  */
+	public Timestamp getServiceDate();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

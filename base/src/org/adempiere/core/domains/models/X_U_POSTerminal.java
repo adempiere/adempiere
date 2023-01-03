@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.model.POInfo;
 
 /** Generated Model for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_U_POSTerminal (Properties ctx, int U_POSTerminal_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
         {
 			setAutoLock (false);
 // N
-			setC_CashBPartner_ID (0);
 			setC_CashBook_ID (0);
+			setC_CashBPartner_ID (0);
 			setCashBookTransferType (null);
 			setU_POSTerminal_ID (0);
         } */
@@ -104,34 +104,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return false;
 	}
 
-	public org.adempiere.core.domains.models.I_C_BPartner getC_CashBPartner() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_CashBPartner_ID(), get_TrxName());	}
-
-	/** Set Cash BPartner.
-		@param C_CashBPartner_ID 
-		BPartner to be used for Cash transactions
-	  */
-	public void setC_CashBPartner_ID (int C_CashBPartner_ID)
-	{
-		if (C_CashBPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_CashBPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
-	}
-
-	/** Get Cash BPartner.
-		@return BPartner to be used for Cash transactions
-	  */
-	public int getC_CashBPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_CashBook getC_CashBook() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_CashBook)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_CashBook.Table_Name)
@@ -160,6 +132,34 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_BPartner getC_CashBPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_CashBPartner_ID(), get_TrxName());	}
+
+	/** Set Cash BPartner.
+		@param C_CashBPartner_ID 
+		BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID)
+	{
+		if (C_CashBPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
+	}
+
+	/** Get Cash BPartner.
+		@return BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_C_BPartner getC_TemplateBPartner() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
@@ -183,6 +183,34 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public int getC_TemplateBPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TemplateBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BankAccount getCard_BankAccount() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BankAccount)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BankAccount.Table_Name)
+			.getPO(getCard_BankAccount_ID(), get_TrxName());	}
+
+	/** Set Card Bank Account.
+		@param Card_BankAccount_ID 
+		Bank Account on which card transactions will be processed
+	  */
+	public void setCard_BankAccount_ID (int Card_BankAccount_ID)
+	{
+		if (Card_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_Card_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_Card_BankAccount_ID, Integer.valueOf(Card_BankAccount_ID));
+	}
+
+	/** Get Card Bank Account.
+		@return Bank Account on which card transactions will be processed
+	  */
+	public int getCard_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Card_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -265,34 +293,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CardTransferType);
 	}
 
-	public org.adempiere.core.domains.models.I_C_BankAccount getCard_BankAccount() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BankAccount)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BankAccount.Table_Name)
-			.getPO(getCard_BankAccount_ID(), get_TrxName());	}
-
-	/** Set Card Bank Account.
-		@param Card_BankAccount_ID 
-		Bank Account on which card transactions will be processed
-	  */
-	public void setCard_BankAccount_ID (int Card_BankAccount_ID)
-	{
-		if (Card_BankAccount_ID < 1) 
-			set_Value (COLUMNNAME_Card_BankAccount_ID, null);
-		else 
-			set_Value (COLUMNNAME_Card_BankAccount_ID, Integer.valueOf(Card_BankAccount_ID));
-	}
-
-	/** Get Card Bank Account.
-		@return Bank Account on which card transactions will be processed
-	  */
-	public int getCard_BankAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Card_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** CashBookTransferType AD_Reference_ID=52002 */
 	public static final int CASHBOOKTRANSFERTYPE_AD_Reference_ID=52002;
 	/** Bank Account = B */
@@ -368,6 +368,34 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public int getCashTransferCashBook_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CashTransferCashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BankAccount getCheck_BankAccount() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BankAccount)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BankAccount.Table_Name)
+			.getPO(getCheck_BankAccount_ID(), get_TrxName());	}
+
+	/** Set Check Bank Account.
+		@param Check_BankAccount_ID 
+		Bank Account to be used for processing Check transactions
+	  */
+	public void setCheck_BankAccount_ID (int Check_BankAccount_ID)
+	{
+		if (Check_BankAccount_ID < 1) 
+			set_Value (COLUMNNAME_Check_BankAccount_ID, null);
+		else 
+			set_Value (COLUMNNAME_Check_BankAccount_ID, Integer.valueOf(Check_BankAccount_ID));
+	}
+
+	/** Get Check Bank Account.
+		@return Bank Account to be used for processing Check transactions
+	  */
+	public int getCheck_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Check_BankAccount_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -450,34 +478,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CheckTransferType);
 	}
 
-	public org.adempiere.core.domains.models.I_C_BankAccount getCheck_BankAccount() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BankAccount)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BankAccount.Table_Name)
-			.getPO(getCheck_BankAccount_ID(), get_TrxName());	}
-
-	/** Set Check Bank Account.
-		@param Check_BankAccount_ID 
-		Bank Account to be used for processing Check transactions
-	  */
-	public void setCheck_BankAccount_ID (int Check_BankAccount_ID)
-	{
-		if (Check_BankAccount_ID < 1) 
-			set_Value (COLUMNNAME_Check_BankAccount_ID, null);
-		else 
-			set_Value (COLUMNNAME_Check_BankAccount_ID, Integer.valueOf(Check_BankAccount_ID));
-	}
-
-	/** Get Check Bank Account.
-		@return Bank Account to be used for processing Check transactions
-	  */
-	public int getCheck_BankAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Check_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -529,26 +529,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_LastLockTime);
 	}
 
-	/** Set Lock Time.
-		@param LockTime 
-		Time in minutes the terminal should be kept in a locked state.
-	  */
-	public void setLockTime (int LockTime)
-	{
-		set_Value (COLUMNNAME_LockTime, Integer.valueOf(LockTime));
-	}
-
-	/** Get Lock Time.
-		@return Time in minutes the terminal should be kept in a locked state.
-	  */
-	public int getLockTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_LockTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Locked.
 		@param Locked 
 		Whether the terminal is locked
@@ -571,6 +551,26 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Lock Time.
+		@param LockTime 
+		Time in minutes the terminal should be kept in a locked state.
+	  */
+	public void setLockTime (int LockTime)
+	{
+		set_Value (COLUMNNAME_LockTime, Integer.valueOf(LockTime));
+	}
+
+	/** Get Lock Time.
+		@return Time in minutes the terminal should be kept in a locked state.
+	  */
+	public int getLockTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LockTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
@@ -663,31 +663,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_PrinterName);
 	}
 
-	public org.adempiere.core.domains.models.I_M_PriceList getSO_PriceList() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_PriceList)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_PriceList.Table_Name)
-			.getPO(getSO_PriceList_ID(), get_TrxName());	}
-
-	/** Set Sales Pricelist.
-		@param SO_PriceList_ID Sales Pricelist	  */
-	public void setSO_PriceList_ID (int SO_PriceList_ID)
-	{
-		if (SO_PriceList_ID < 1) 
-			set_Value (COLUMNNAME_SO_PriceList_ID, null);
-		else 
-			set_Value (COLUMNNAME_SO_PriceList_ID, Integer.valueOf(SO_PriceList_ID));
-	}
-
-	/** Get Sales Pricelist.
-		@return Sales Pricelist	  */
-	public int getSO_PriceList_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SO_PriceList_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
@@ -716,21 +691,29 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
+	public org.adempiere.core.domains.models.I_M_PriceList getSO_PriceList() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_PriceList)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_PriceList.Table_Name)
+			.getPO(getSO_PriceList_ID(), get_TrxName());	}
+
+	/** Set Sales Pricelist.
+		@param SO_PriceList_ID Sales Pricelist	  */
+	public void setSO_PriceList_ID (int SO_PriceList_ID)
 	{
-		set_Value (COLUMNNAME_UUID, UUID);
+		if (SO_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_SO_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_SO_PriceList_ID, Integer.valueOf(SO_PriceList_ID));
 	}
 
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
+	/** Get Sales Pricelist.
+		@return Sales Pricelist	  */
+	public int getSO_PriceList_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_UUID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_SO_PriceList_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set POS Terminal.
@@ -768,6 +751,23 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public Timestamp getUnlockingTime () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_UnlockingTime);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Area
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_WM_Area 
 {
@@ -188,4 +188,6 @@ public interface I_WM_Area
 	  * Warehouse Area Type allow grouping the Warehouse Area for Type
 	  */
 	public int getWM_Area_Type_ID();
+
+	public org.adempiere.core.domains.models.I_WM_Area_Type getWM_Area_Type() throws RuntimeException;
 }

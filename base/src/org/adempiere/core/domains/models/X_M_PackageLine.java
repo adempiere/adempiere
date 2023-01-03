@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200804L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_PackageLine (Properties ctx, int M_PackageLine_ID, String trxName)
@@ -330,6 +330,34 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_W_BasketLine getW_BasketLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_W_BasketLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_W_BasketLine.Table_Name)
+			.getPO(getW_BasketLine_ID(), get_TrxName());	}
+
+	/** Set Basket Line.
+		@param W_BasketLine_ID 
+		Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID)
+	{
+		if (W_BasketLine_ID < 1) 
+			set_Value (COLUMNNAME_W_BasketLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
+	}
+
+	/** Get Basket Line.
+		@return Web Basket Line
+	  */
+	public int getW_BasketLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_BasketLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Weight.

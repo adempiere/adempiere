@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_SalaryStructureLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructureLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_SalaryStructureLine (Properties ctx, int HR_SalaryStructureLine_ID, String trxName)
@@ -98,6 +100,11 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getHR_Concept_ID(), get_TrxName());	}
+
 	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
@@ -120,6 +127,11 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_SalaryStructure)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_SalaryStructure.Table_Name)
+			.getPO(getHR_SalaryStructure_ID(), get_TrxName());	}
 
 	/** Set Salary Structure.
 		@param HR_SalaryStructure_ID 

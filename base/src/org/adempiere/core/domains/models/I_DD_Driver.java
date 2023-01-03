@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Driver
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_Driver 
 {
@@ -152,6 +152,8 @@ public interface I_DD_Driver
 	/** Get License Types Assignment	  */
 	public int getDD_LicenseAssignment_ID();
 
+	public org.adempiere.core.domains.models.I_DD_LicenseAssignment getDD_LicenseAssignment() throws RuntimeException;
+
     /** Column name DD_RequirementAssignment_ID */
     public static final String COLUMNNAME_DD_RequirementAssignment_ID = "DD_RequirementAssignment_ID";
 
@@ -160,6 +162,8 @@ public interface I_DD_Driver
 
 	/** Get Transport Requirement Assignment	  */
 	public int getDD_RequirementAssignment_ID();
+
+	public org.adempiere.core.domains.models.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException;
 
     /** Column name DriverStatus */
     public static final String COLUMNNAME_DriverStatus = "DriverStatus";

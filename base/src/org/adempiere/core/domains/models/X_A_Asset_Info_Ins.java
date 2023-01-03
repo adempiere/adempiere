@@ -22,22 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Info_Ins;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Ins (Properties ctx, int A_Asset_Info_Ins_ID, String trxName)
@@ -146,20 +147,6 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		return bd;
 	}
 
-	/** Set Insurance Company.
-		@param A_Insurance_Co Insurance Company	  */
-	public void setA_Insurance_Co (String A_Insurance_Co)
-	{
-		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
-	}
-
-	/** Get Insurance Company.
-		@return Insurance Company	  */
-	public String getA_Insurance_Co () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
-	}
-
 	/** Set Asset Insurance Value.
 		@param A_Ins_Value Asset Insurance Value	  */
 	public void setA_Ins_Value (BigDecimal A_Ins_Value)
@@ -175,6 +162,20 @@ public class X_A_Asset_Info_Ins extends PO implements I_A_Asset_Info_Ins, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Insurance Company.
+		@param A_Insurance_Co Insurance Company	  */
+	public void setA_Insurance_Co (String A_Insurance_Co)
+	{
+		set_Value (COLUMNNAME_A_Insurance_Co, A_Insurance_Co);
+	}
+
+	/** Get Insurance Company.
+		@return Insurance Company	  */
+	public String getA_Insurance_Co () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Insurance_Co);
 	}
 
 	/** Set Asset Policy No.

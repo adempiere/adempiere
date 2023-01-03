@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
@@ -77,34 +77,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Account City.
 		@param A_City 
@@ -284,6 +256,58 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** BankAccountType AD_Reference_ID=216 */
+	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
+	/** Checking = C */
+	public static final String BANKACCOUNTTYPE_Checking = "C";
+	/** Savings = S */
+	public static final String BANKACCOUNTTYPE_Savings = "S";
+	/** Set Bank Account Type.
+		@param BankAccountType 
+		Bank Account Type
+	  */
+	public void setBankAccountType (String BankAccountType)
+	{
+
+		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+	}
+
+	/** Get Bank Account Type.
+		@return Bank Account Type
+	  */
+	public String getBankAccountType () 
+	{
+		return (String)get_Value(COLUMNNAME_BankAccountType);
+	}
+
 	/** BPBankAcctUse AD_Reference_ID=393 */
 	public static final int BPBANKACCTUSE_AD_Reference_ID=393;
 	/** None = N */
@@ -312,28 +336,32 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_BPBankAcctUse);
 	}
 
-	/** BankAccountType AD_Reference_ID=216 */
-	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
-	/** Checking = C */
-	public static final String BANKACCOUNTTYPE_Checking = "C";
-	/** Savings = S */
-	public static final String BANKACCOUNTTYPE_Savings = "S";
-	/** Set Bank Account Type.
-		@param BankAccountType 
-		Bank Account Type
-	  */
-	public void setBankAccountType (String BankAccountType)
-	{
+	public org.adempiere.core.domains.models.I_C_Bank getC_Bank() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_Bank)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+	/** Set Bank.
+		@param C_Bank_ID 
+		Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID)
+	{
+		if (C_Bank_ID < 1) 
+			set_Value (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
 	}
 
-	/** Get Bank Account Type.
-		@return Bank Account Type
+	/** Get Bank.
+		@return Bank
 	  */
-	public String getBankAccountType () 
+	public int getC_Bank_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_BankAccountType);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Partner Bank Account.
@@ -382,34 +410,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_Bank getC_Bank() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_Bank)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Bank.Table_Name)
-			.getPO(getC_Bank_ID(), get_TrxName());	}
-
-	/** Set Bank.
-		@param C_Bank_ID 
-		Bank
-	  */
-	public void setC_Bank_ID (int C_Bank_ID)
-	{
-		if (C_Bank_ID < 1) 
-			set_Value (COLUMNNAME_C_Bank_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
-	}
-
-	/** Get Bank.
-		@return Bank
-	  */
-	public int getC_Bank_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

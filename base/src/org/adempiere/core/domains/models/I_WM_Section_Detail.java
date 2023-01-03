@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Section_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_WM_Section_Detail 
 {
@@ -162,4 +162,6 @@ public interface I_WM_Section_Detail
 	  * The Warehouse Section is an grouping of Locators with similar features.
 	  */
 	public int getWM_Section_ID();
+
+	public org.adempiere.core.domains.models.I_WM_Section getWM_Section() throws RuntimeException;
 }

@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Interview
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Interview 
 {
@@ -134,6 +134,8 @@ public interface I_HR_Interview
 	  * Job Application
 	  */
 	public int getHR_JobApplication_ID();
+
+	public org.adempiere.core.domains.models.I_HR_JobApplication getHR_JobApplication() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

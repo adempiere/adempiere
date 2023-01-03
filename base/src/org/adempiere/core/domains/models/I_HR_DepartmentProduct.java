@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_DepartmentProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_DepartmentProduct 
 {
@@ -140,6 +140,8 @@ public interface I_HR_DepartmentProduct
 
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_DepartmentProduct_ID */
     public static final String COLUMNNAME_HR_DepartmentProduct_ID = "HR_DepartmentProduct_ID";

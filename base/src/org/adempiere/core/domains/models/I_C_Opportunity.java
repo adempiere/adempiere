@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Opportunity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_C_Opportunity 
 {
@@ -124,6 +124,60 @@ public interface I_C_Opportunity
 
 	public org.adempiere.core.domains.models.I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_Opportunity_ID */
+    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
+
+	/** Set Sales Opportunity	  */
+	public void setC_Opportunity_ID (int C_Opportunity_ID);
+
+	/** Get Sales Opportunity	  */
+	public int getC_Opportunity_ID();
+
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesStage_ID */
+    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
+
+	/** Set Sales Stage.
+	  * Stages of the sales process
+	  */
+	public void setC_SalesStage_ID (int C_SalesStage_ID);
+
+	/** Get Sales Stage.
+	  * Stages of the sales process
+	  */
+	public int getC_SalesStage_ID();
+
+	public org.adempiere.core.domains.models.I_C_SalesStage getC_SalesStage() throws RuntimeException;
+
     /** Column name CloseDate */
     public static final String COLUMNNAME_CloseDate = "CloseDate";
 
@@ -150,30 +204,6 @@ public interface I_C_Opportunity
 	  */
 	public String getComments();
 
-    /** Column name C_Opportunity_ID */
-    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
-
-	/** Set Sales Opportunity	  */
-	public void setC_Opportunity_ID (int C_Opportunity_ID);
-
-	/** Get Sales Opportunity	  */
-	public int getC_Opportunity_ID();
-
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
-
-	/** Set Order.
-	  * Order
-	  */
-	public void setC_Order_ID (int C_Order_ID);
-
-	/** Get Order.
-	  * Order
-	  */
-	public int getC_Order_ID();
-
-	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
-
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
 
@@ -186,21 +216,6 @@ public interface I_C_Opportunity
 	  * Cost information
 	  */
 	public BigDecimal getCost();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -217,19 +232,6 @@ public interface I_C_Opportunity
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesStage_ID */
-    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
-
-	/** Set Sales Stage.
-	  * Stages of the sales process
-	  */
-	public void setC_SalesStage_ID (int C_SalesStage_ID);
-
-	/** Get Sales Stage.
-	  * Stages of the sales process
-	  */
-	public int getC_SalesStage_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

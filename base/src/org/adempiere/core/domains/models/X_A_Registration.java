@@ -21,21 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Registration;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Registration extends PO implements I_A_Registration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Registration (Properties ctx, int A_Registration_ID, String trxName)
@@ -80,6 +81,11 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers
@@ -98,6 +104,29 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Registration.
+		@param A_Registration_ID 
+		User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID)
+	{
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+	}
+
+	/** Get Registration.
+		@return User Asset Registration
+	  */
+	public int getA_Registration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -126,29 +155,6 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Registration.
-		@param A_Registration_ID 
-		User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID)
-	{
-		if (A_Registration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
-	}
-
-	/** Get Registration.
-		@return User Asset Registration
-	  */
-	public int getA_Registration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

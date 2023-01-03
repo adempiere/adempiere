@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
@@ -45,8 +47,8 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
         {
 			setC_BPartner_ID (0);
 			setDiscountAmt (Env.ZERO);
-			setHR_PaySelectionCheck_ID (0);
 			setHR_PaySelection_ID (0);
+			setHR_PaySelectionCheck_ID (0);
 			setIsGeneratedDraft (false);
 // N
 			setIsPrinted (false);
@@ -87,34 +89,6 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_BP_BankAccount)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_BankAccount.Table_Name)
@@ -138,6 +112,34 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	public int getC_BP_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -216,25 +218,10 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	/** Set Payroll Pay Selection Check ID.
-		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
-	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
-	{
-		if (HR_PaySelectionCheck_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionCheck_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionCheck_ID, Integer.valueOf(HR_PaySelectionCheck_ID));
-	}
-
-	/** Get Payroll Pay Selection Check ID.
-		@return Payroll Pay Selection Check ID	  */
-	public int getHR_PaySelectionCheck_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_PaySelection getHR_PaySelection() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_PaySelection)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_PaySelection.Table_Name)
+			.getPO(getHR_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payroll Payment Selection ID.
 		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
@@ -251,6 +238,26 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll Pay Selection Check ID.
+		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
+	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
+	{
+		if (HR_PaySelectionCheck_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionCheck_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionCheck_ID, Integer.valueOf(HR_PaySelectionCheck_ID));
+	}
+
+	/** Get Payroll Pay Selection Check ID.
+		@return Payroll Pay Selection Check ID	  */
+	public int getHR_PaySelectionCheck_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

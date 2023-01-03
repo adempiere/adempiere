@@ -22,24 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset;
-import org.adempiere.core.domains.models.I_C_Location;
-import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
-import org.adempiere.core.domains.models.I_M_Locator;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset (Properties ctx, int A_Asset_ID, String trxName)
@@ -127,6 +125,11 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Asset_Action);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Class getA_Asset_Class() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Class)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Class.Table_Name)
+			.getPO(getA_Asset_Class_ID(), get_TrxName());	}
+
 	/** Set Asset class.
 		@param A_Asset_Class_ID Asset class	  */
 	public void setA_Asset_Class_ID (int A_Asset_Class_ID)
@@ -160,6 +163,11 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
 
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
@@ -221,6 +229,11 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Split getA_Asset_Split() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Split)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Split.Table_Name)
+			.getPO(getA_Asset_Split_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset Split Document.
 		@param A_Asset_Split_ID Fixed Asset Split Document	  */
 	public void setA_Asset_Split_ID (int A_Asset_Split_ID)
@@ -272,19 +285,10 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Asset_Status);
 	}
 
-	/** Set Asset Type.
-		@param A_AssetType Asset Type	  */
-	public void setA_AssetType (String A_AssetType)
-	{
-		set_Value (COLUMNNAME_A_AssetType, A_AssetType);
-	}
-
-	/** Get Asset Type.
-		@return Asset Type	  */
-	public String getA_AssetType () 
-	{
-		return (String)get_Value(COLUMNNAME_A_AssetType);
-	}
+	public org.adempiere.core.domains.models.I_A_Asset_Type getA_Asset_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Type.Table_Name)
+			.getPO(getA_Asset_Type_ID(), get_TrxName());	}
 
 	/** Set Asset Type.
 		@param A_Asset_Type_ID Asset Type	  */
@@ -306,33 +310,24 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
+	/** Set Asset Type.
+		@param A_AssetType Asset Type	  */
+	public void setA_AssetType (String A_AssetType)
+	{
+		set_Value (COLUMNNAME_A_AssetType, A_AssetType);
+	}
+
+	/** Get Asset Type.
+		@return Asset Type	  */
+	public String getA_AssetType () 
+	{
+		return (String)get_Value(COLUMNNAME_A_AssetType);
+	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Parent_Asset() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Parent_Asset_ID(), get_TrxName());	}
 
 	/** Set Parent Asset.
 		@param A_Parent_Asset_ID Parent Asset	  */
@@ -389,6 +384,34 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Activation Date.
@@ -993,40 +1016,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	/** Set Manufactured Year.
-		@param ManufacturedYear Manufactured Year	  */
-	public void setManufacturedYear (int ManufacturedYear)
-	{
-		set_Value (COLUMNNAME_ManufacturedYear, Integer.valueOf(ManufacturedYear));
-	}
-
-	/** Get Manufactured Year.
-		@return Manufactured Year	  */
-	public int getManufacturedYear () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturedYear);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
-	}
-
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
@@ -1137,6 +1126,40 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Manufactured Year.
+		@param ManufacturedYear Manufactured Year	  */
+	public void setManufacturedYear (int ManufacturedYear)
+	{
+		set_Value (COLUMNNAME_ManufacturedYear, Integer.valueOf(ManufacturedYear));
+	}
+
+	/** Get Manufactured Year.
+		@return Manufactured Year	  */
+	public int getManufacturedYear () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ManufacturedYear);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Name.

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Package
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_M_Package 
 {
@@ -320,21 +320,6 @@ public interface I_M_Package
 	  */
 	public boolean isInvoiced();
 
-    /** Column name M_FreightCategory_ID */
-    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
-
-	/** Set Freight Category.
-	  * Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
-
-	/** Get Freight Category.
-	  * Category of the Freight
-	  */
-	public int getM_FreightCategory_ID();
-
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
-
     /** Column name M_Freight_ID */
     public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
 
@@ -349,6 +334,21 @@ public interface I_M_Package
 	public int getM_Freight_ID();
 
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_FreightCategory_ID */
+    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
+
+	/** Set Freight Category.
+	  * Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
+
+	/** Get Freight Category.
+	  * Category of the Freight
+	  */
+	public int getM_FreightCategory_ID();
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
@@ -536,6 +536,21 @@ public interface I_M_Package
 	  * Volume of a product
 	  */
 	public BigDecimal getVolume();
+
+    /** Column name W_Basket_ID */
+    public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
+
+	/** Set Basket.
+	  * Web Basket
+	  */
+	public void setW_Basket_ID (int W_Basket_ID);
+
+	/** Get Basket.
+	  * Web Basket
+	  */
+	public int getW_Basket_ID();
+
+	public org.adempiere.core.domains.models.I_W_Basket getW_Basket() throws RuntimeException;
 
     /** Column name Weight */
     public static final String COLUMNNAME_Weight = "Weight";

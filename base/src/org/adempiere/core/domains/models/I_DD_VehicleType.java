@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_VehicleType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_VehicleType 
 {
@@ -98,6 +98,8 @@ public interface I_DD_VehicleType
 	/** Get Transport Compatibility Group	  */
 	public int getDD_CompatibilityGroup_ID();
 
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException;
+
     /** Column name DD_VehicleGroup_ID */
     public static final String COLUMNNAME_DD_VehicleGroup_ID = "DD_VehicleGroup_ID";
 
@@ -106,6 +108,8 @@ public interface I_DD_VehicleType
 
 	/** Get Vehicle Group	  */
 	public int getDD_VehicleGroup_ID();
+
+	public org.adempiere.core.domains.models.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException;
 
     /** Column name DD_VehicleType_ID */
     public static final String COLUMNNAME_DD_VehicleType_ID = "DD_VehicleType_ID";

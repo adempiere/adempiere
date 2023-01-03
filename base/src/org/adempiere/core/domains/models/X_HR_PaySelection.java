@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)
@@ -168,6 +170,11 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Process getHR_Process() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Process)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Process.Table_Name)
+			.getPO(getHR_Process_ID(), get_TrxName());	}
 
 	/** Set Payroll Process.
 		@param HR_Process_ID Payroll Process	  */

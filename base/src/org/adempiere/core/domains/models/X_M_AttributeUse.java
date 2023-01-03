@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeUse
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_AttributeUse (Properties ctx, int M_AttributeUse_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
       super (ctx, M_AttributeUse_ID, trxName);
       /** if (M_AttributeUse_ID == 0)
         {
-			setM_AttributeSet_ID (0);
 			setM_Attribute_ID (0);
+			setM_AttributeSet_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_AttributeUse WHERE M_AttributeSet_ID=@M_AttributeSet_ID@
         } */
@@ -77,6 +77,34 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_M_Attribute getM_Attribute() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_Attribute)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Attribute.Table_Name)
+			.getPO(getM_Attribute_ID(), get_TrxName());	}
+
+	/** Set Attribute.
+		@param M_Attribute_ID 
+		Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID)
+	{
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+	}
+
+	/** Get Attribute.
+		@return Product Attribute
+	  */
+	public int getM_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.adempiere.core.domains.models.I_M_AttributeSet getM_AttributeSet() throws RuntimeException
     {
@@ -113,34 +141,6 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSet_ID()));
     }
-
-	public org.adempiere.core.domains.models.I_M_Attribute getM_Attribute() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_Attribute)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Attribute.Table_Name)
-			.getPO(getM_Attribute_ID(), get_TrxName());	}
-
-	/** Set Attribute.
-		@param M_Attribute_ID 
-		Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID)
-	{
-		if (M_Attribute_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
-	}
-
-	/** Get Attribute.
-		@return Product Attribute
-	  */
-	public int getM_Attribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Sequence.
 		@param SeqNo 

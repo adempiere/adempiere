@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_AttendanceBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_AttendanceBatch (Properties ctx, int HR_AttendanceBatch_ID, String trxName)
@@ -314,6 +316,11 @@ public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
@@ -333,6 +340,11 @@ public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_ShiftSchedule getHR_ShiftSchedule() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_ShiftSchedule)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_ShiftSchedule.Table_Name)
+			.getPO(getHR_ShiftSchedule_ID(), get_TrxName());	}
 
 	/** Set Shift Schedule.
 		@param HR_ShiftSchedule_ID 
@@ -356,6 +368,11 @@ public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_WorkShift getHR_WorkShift() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_WorkShift)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_WorkShift.Table_Name)
+			.getPO(getHR_WorkShift_ID(), get_TrxName());	}
 
 	/** Set Work Shift.
 		@param HR_WorkShift_ID 

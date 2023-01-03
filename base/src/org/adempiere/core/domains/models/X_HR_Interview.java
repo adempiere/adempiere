@@ -21,19 +21,21 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_Interview
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Interview extends PO implements I_HR_Interview, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Interview (Properties ctx, int HR_Interview_ID, String trxName)
@@ -150,6 +152,11 @@ public class X_HR_Interview extends PO implements I_HR_Interview, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_JobApplication getHR_JobApplication() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobApplication)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobApplication.Table_Name)
+			.getPO(getHR_JobApplication_ID(), get_TrxName());	}
 
 	/** Set Job Application.
 		@param HR_JobApplication_ID 

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_InOutConfirm (Properties ctx, int M_InOutConfirm_ID, String trxName)
@@ -55,8 +55,8 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 			setIsCancelled (false);
 			setIsInDispute (false);
 // N
-			setM_InOutConfirm_ID (0);
 			setM_InOut_ID (0);
+			setM_InOutConfirm_ID (0);
 			setProcessed (false);
         } */
     }
@@ -137,6 +137,23 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Confirmation No.
+		@param ConfirmationNo 
+		Confirmation Number
+	  */
+	public void setConfirmationNo (String ConfirmationNo)
+	{
+		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
+	}
+
+	/** Get Confirmation No.
+		@return Confirmation Number
+	  */
+	public String getConfirmationNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ConfirmationNo);
+	}
+
 	/** ConfirmType AD_Reference_ID=320 */
 	public static final int CONFIRMTYPE_AD_Reference_ID=320;
 	/** Vendor Confirmation = XV */
@@ -165,23 +182,6 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	public String getConfirmType () 
 	{
 		return (String)get_Value(COLUMNNAME_ConfirmType);
-	}
-
-	/** Set Confirmation No.
-		@param ConfirmationNo 
-		Confirmation Number
-	  */
-	public void setConfirmationNo (String ConfirmationNo)
-	{
-		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
-	}
-
-	/** Get Confirmation No.
-		@return Confirmation Number
-	  */
-	public String getConfirmationNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ConfirmationNo);
 	}
 
 	/** Set Create Package.
@@ -404,29 +404,6 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return false;
 	}
 
-	/** Set Ship/Receipt Confirmation.
-		@param M_InOutConfirm_ID 
-		Material Shipment or Receipt Confirmation
-	  */
-	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
-	{
-		if (M_InOutConfirm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
-	}
-
-	/** Get Ship/Receipt Confirmation.
-		@return Material Shipment or Receipt Confirmation
-	  */
-	public int getM_InOutConfirm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutConfirm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_InOut)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOut.Table_Name)
@@ -450,6 +427,29 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	public int getM_InOut_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Ship/Receipt Confirmation.
+		@param M_InOutConfirm_ID 
+		Material Shipment or Receipt Confirmation
+	  */
+	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
+	{
+		if (M_InOutConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
+	}
+
+	/** Get Ship/Receipt Confirmation.
+		@return Material Shipment or Receipt Confirmation
+	  */
+	public int getM_InOutConfirm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutConfirm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

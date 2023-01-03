@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ShiftIncidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_ShiftIncidence 
 {
@@ -195,6 +195,8 @@ public interface I_HR_ShiftIncidence
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_ShiftIncidence_ID */
     public static final String COLUMNNAME_HR_ShiftIncidence_ID = "HR_ShiftIncidence_ID";
 
@@ -220,6 +222,8 @@ public interface I_HR_ShiftIncidence
 	  * Work Shift
 	  */
 	public int getHR_WorkShift_ID();
+
+	public org.adempiere.core.domains.models.I_HR_WorkShift getHR_WorkShift() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

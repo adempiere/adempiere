@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -79,6 +79,38 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
 
 	public org.adempiere.core.domains.models.I_AD_Browse getAD_Browse() throws RuntimeException
     {
@@ -131,38 +163,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Column No.
@@ -351,6 +351,27 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** onevent AD_Reference_ID=53574 */
+	public static final int ONEVENT_AD_Reference_ID=53574;
+	/** onClick = onClick */
+	public static final String ONEVENT_OnClick = "onClick";
+	/** onDoubleClick = onDoubleClick */
+	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
+	/** Set onevent.
+		@param onevent onevent	  */
+	public void setonevent (String onevent)
+	{
+
+		set_Value (COLUMNNAME_onevent, onevent);
+	}
+
+	/** Get onevent.
+		@return onevent	  */
+	public String getonevent () 
+	{
+		return (String)get_Value(COLUMNNAME_onevent);
+	}
+
 	/** Set Dashboard Content.
 		@param PA_DashboardContent_ID Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
@@ -523,26 +544,5 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public String getZulFilePath () 
 	{
 		return (String)get_Value(COLUMNNAME_ZulFilePath);
-	}
-
-	/** onevent AD_Reference_ID=53574 */
-	public static final int ONEVENT_AD_Reference_ID=53574;
-	/** onClick = onClick */
-	public static final String ONEVENT_OnClick = "onClick";
-	/** onDoubleClick = onDoubleClick */
-	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
-	/** Set onevent.
-		@param onevent onevent	  */
-	public void setonevent (String onevent)
-	{
-
-		set_Value (COLUMNNAME_onevent, onevent);
-	}
-
-	/** Get onevent.
-		@return onevent	  */
-	public String getonevent () 
-	{
-		return (String)get_Value(COLUMNNAME_onevent);
 	}
 }

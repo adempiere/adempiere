@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Depreciation_Workfile 
 {
@@ -86,6 +86,8 @@ public interface I_A_Depreciation_Workfile
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_Asset_Life_Current_Year */
     public static final String COLUMNNAME_A_Asset_Life_Current_Year = "A_Asset_Life_Current_Year";
@@ -168,14 +170,6 @@ public interface I_A_Depreciation_Workfile
 	/** Get Current Period	  */
 	public int getA_Current_Period();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
@@ -188,19 +182,6 @@ public interface I_A_Depreciation_Workfile
 	  * Fixed Asset Balances
 	  */
 	public int getA_Depreciation_Workfile_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Expense_SL */
     public static final String COLUMNNAME_A_Expense_SL = "A_Expense_SL";
@@ -228,6 +209,8 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Asset Funding Mode	  */
 	public int getA_FundingMode_ID();
+
+	public org.adempiere.core.domains.models.I_A_FundingMode getA_FundingMode() throws RuntimeException;
 
     /** Column name A_Life_Period */
     public static final String COLUMNNAME_A_Life_Period = "A_Life_Period";
@@ -314,19 +297,6 @@ public interface I_A_Depreciation_Workfile
 	/** Get Asset Salvage Value	  */
 	public BigDecimal getA_Salvage_Value();
 
-    /** Column name AssetDepreciationDate */
-    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
-
-	/** Set Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
-
-	/** Get Asset Depreciation Date.
-	  * Date of last depreciation
-	  */
-	public Timestamp getAssetDepreciationDate();
-
     /** Column name A_Tip_Finantare */
     public static final String COLUMNNAME_A_Tip_Finantare = "A_Tip_Finantare";
 
@@ -357,6 +327,40 @@ public interface I_A_Depreciation_Workfile
 
 	/** Get Third contribution	  */
 	public BigDecimal getA_Valoare_Tert();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AssetDepreciationDate */
+    public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
+
+	/** Set Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate);
+
+	/** Get Asset Depreciation Date.
+	  * Date of last depreciation
+	  */
+	public Timestamp getAssetDepreciationDate();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

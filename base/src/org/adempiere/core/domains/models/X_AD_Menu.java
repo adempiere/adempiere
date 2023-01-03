@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Menu
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_AD_Menu (Properties ctx, int AD_Menu_ID, String trxName)
@@ -81,6 +81,42 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Action AD_Reference_ID=104 */
+	public static final int ACTION_AD_Reference_ID=104;
+	/** Window = W */
+	public static final String ACTION_Window = "W";
+	/** Task = T */
+	public static final String ACTION_Task = "T";
+	/** WorkFlow = F */
+	public static final String ACTION_WorkFlow = "F";
+	/** Process = P */
+	public static final String ACTION_Process = "P";
+	/** Report = R */
+	public static final String ACTION_Report = "R";
+	/** Form = X */
+	public static final String ACTION_Form = "X";
+	/** Workbench = B */
+	public static final String ACTION_Workbench = "B";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
+	}
 
 	public org.adempiere.core.domains.models.I_AD_Browse getAD_Browse() throws RuntimeException
     {
@@ -296,42 +332,6 @@ public class X_AD_Menu extends PO implements I_AD_Menu, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Action AD_Reference_ID=104 */
-	public static final int ACTION_AD_Reference_ID=104;
-	/** Window = W */
-	public static final String ACTION_Window = "W";
-	/** Task = T */
-	public static final String ACTION_Task = "T";
-	/** WorkFlow = F */
-	public static final String ACTION_WorkFlow = "F";
-	/** Process = P */
-	public static final String ACTION_Process = "P";
-	/** Report = R */
-	public static final String ACTION_Report = "R";
-	/** Form = X */
-	public static final String ACTION_Form = "X";
-	/** Workbench = B */
-	public static final String ACTION_Workbench = "B";
-	/** Smart Browse = S */
-	public static final String ACTION_SmartBrowse = "S";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Description.

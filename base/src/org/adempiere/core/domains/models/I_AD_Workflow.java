@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_AD_Workflow 
 {
@@ -42,6 +42,19 @@ public interface I_AD_Workflow
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -109,6 +122,19 @@ public interface I_AD_Workflow
 
 	public org.adempiere.core.domains.models.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
@@ -123,32 +149,6 @@ public interface I_AD_Workflow
 	public int getAD_WorkflowProcessor_ID();
 
 	public org.adempiere.core.domains.models.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
-
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -205,19 +205,6 @@ public interface I_AD_Workflow
 	  */
 	public String getDescription();
 
-    /** Column name DocValueLogic */
-    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
-
-	/** Set Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public void setDocValueLogic (String DocValueLogic);
-
-	/** Get Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public String getDocValueLogic();
-
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -230,6 +217,19 @@ public interface I_AD_Workflow
 	  * Document sequence number of the document
 	  */
 	public String getDocumentNo();
+
+    /** Column name DocValueLogic */
+    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
+
+	/** Set Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public void setDocValueLogic (String DocValueLogic);
+
+	/** Get Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public String getDocValueLogic();
 
     /** Column name Duration */
     public static final String COLUMNNAME_Duration = "Duration";
@@ -470,19 +470,6 @@ public interface I_AD_Workflow
 	  */
 	public int getSetupTime();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
@@ -512,6 +499,28 @@ public interface I_AD_Workflow
 	  */
 	public int getUpdatedBy();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name ValidateWorkflow */
+    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
+
+	/** Set Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow);
+
+	/** Get Validate Workflow	  */
+	public String getValidateWorkflow();
+
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 
@@ -537,15 +546,6 @@ public interface I_AD_Workflow
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
-
-    /** Column name ValidateWorkflow */
-    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
-
-	/** Set Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow);
-
-	/** Get Validate Workflow	  */
-	public String getValidateWorkflow();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

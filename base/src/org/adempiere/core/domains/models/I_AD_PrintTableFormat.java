@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_AD_PrintTableFormat 
 {
@@ -160,6 +160,21 @@ public interface I_AD_PrintTableFormat
 	  */
 	public String getFooterRight();
 
+    /** Column name Funct_PrintFont_ID */
+    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
+
+	/** Set Function Font.
+	  * Function row Font
+	  */
+	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
+
+	/** Get Function Font.
+	  * Function row Font
+	  */
+	public int getFunct_PrintFont_ID();
+
+	public org.adempiere.core.domains.models.I_AD_PrintFont getFunct_PrintFont() throws RuntimeException;
+
     /** Column name FunctBG_PrintColor_ID */
     public static final String COLUMNNAME_FunctBG_PrintColor_ID = "FunctBG_PrintColor_ID";
 
@@ -190,20 +205,20 @@ public interface I_AD_PrintTableFormat
 
 	public org.adempiere.core.domains.models.I_AD_PrintColor getFunctFG_PrintColor() throws RuntimeException;
 
-    /** Column name Funct_PrintFont_ID */
-    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
+    /** Column name Hdr_PrintFont_ID */
+    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
 
-	/** Set Function Font.
-	  * Function row Font
+	/** Set Header Row Font.
+	  * Header row Font
 	  */
-	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
 
-	/** Get Function Font.
-	  * Function row Font
+	/** Get Header Row Font.
+	  * Header row Font
 	  */
-	public int getFunct_PrintFont_ID();
+	public int getHdr_PrintFont_ID();
 
-	public org.adempiere.core.domains.models.I_AD_PrintFont getFunct_PrintFont() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_AD_PrintFont getHdr_PrintFont() throws RuntimeException;
 
     /** Column name HdrLine_PrintColor_ID */
     public static final String COLUMNNAME_HdrLine_PrintColor_ID = "HdrLine_PrintColor_ID";
@@ -275,21 +290,6 @@ public interface I_AD_PrintTableFormat
 	public int getHdrTextFG_PrintColor_ID();
 
 	public org.adempiere.core.domains.models.I_AD_PrintColor getHdrTextFG_PrintColor() throws RuntimeException;
-
-    /** Column name Hdr_PrintFont_ID */
-    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
-
-	/** Set Header Row Font.
-	  * Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
-
-	/** Get Header Row Font.
-	  * Header row Font
-	  */
-	public int getHdr_PrintFont_ID();
-
-	public org.adempiere.core.domains.models.I_AD_PrintFont getHdr_PrintFont() throws RuntimeException;
 
     /** Column name HeaderCenter */
     public static final String COLUMNNAME_HeaderCenter = "HeaderCenter";
@@ -408,19 +408,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPaintBoundaryLines();
 
-    /** Column name IsPaintHLines */
-    public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
-
-	/** Set Paint Horizontal Lines.
-	  * Paint horizontal lines
-	  */
-	public void setIsPaintHLines (boolean IsPaintHLines);
-
-	/** Get Paint Horizontal Lines.
-	  * Paint horizontal lines
-	  */
-	public boolean isPaintHLines();
-
     /** Column name IsPaintHeaderLines */
     public static final String COLUMNNAME_IsPaintHeaderLines = "IsPaintHeaderLines";
 
@@ -433,6 +420,19 @@ public interface I_AD_PrintTableFormat
 	  * Paint Lines over/under the Header Line 
 	  */
 	public boolean isPaintHeaderLines();
+
+    /** Column name IsPaintHLines */
+    public static final String COLUMNNAME_IsPaintHLines = "IsPaintHLines";
+
+	/** Set Paint Horizontal Lines.
+	  * Paint horizontal lines
+	  */
+	public void setIsPaintHLines (boolean IsPaintHLines);
+
+	/** Get Paint Horizontal Lines.
+	  * Paint horizontal lines
+	  */
+	public boolean isPaintHLines();
 
     /** Column name IsPaintVLines */
     public static final String COLUMNNAME_IsPaintVLines = "IsPaintVLines";
@@ -460,6 +460,21 @@ public interface I_AD_PrintTableFormat
 	  */
 	public boolean isPrintFunctionSymbols();
 
+    /** Column name Line_PrintColor_ID */
+    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
+
+	/** Set Line Color.
+	  * Table line color
+	  */
+	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
+
+	/** Get Line Color.
+	  * Table line color
+	  */
+	public int getLine_PrintColor_ID();
+
+	public org.adempiere.core.domains.models.I_AD_PrintColor getLine_PrintColor() throws RuntimeException;
+
     /** Column name LineStroke */
     public static final String COLUMNNAME_LineStroke = "LineStroke";
 
@@ -486,21 +501,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public String getLineStrokeType();
 
-    /** Column name Line_PrintColor_ID */
-    public static final String COLUMNNAME_Line_PrintColor_ID = "Line_PrintColor_ID";
-
-	/** Set Line Color.
-	  * Table line color
-	  */
-	public void setLine_PrintColor_ID (int Line_PrintColor_ID);
-
-	/** Get Line Color.
-	  * Table line color
-	  */
-	public int getLine_PrintColor_ID();
-
-	public org.adempiere.core.domains.models.I_AD_PrintColor getLine_PrintColor() throws RuntimeException;
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -513,19 +513,6 @@ public interface I_AD_PrintTableFormat
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -542,4 +529,17 @@ public interface I_AD_PrintTableFormat
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

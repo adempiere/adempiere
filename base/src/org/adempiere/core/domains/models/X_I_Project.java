@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Project extends PO implements I_I_Project, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Project (Properties ctx, int I_Project_ID, String trxName)
@@ -74,6 +77,20 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Activity Value.
+		@param ActivityValue Activity Value	  */
+	public void setActivityValue (String ActivityValue)
+	{
+		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
+	}
+
+	/** Get Activity Value.
+		@return Activity Value	  */
+	public String getActivityValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ActivityValue);
+	}
 
 	public org.adempiere.core.domains.models.I_AD_Color getAD_Color() throws RuntimeException
     {
@@ -159,20 +176,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Activity Value.
-		@param ActivityValue Activity Value	  */
-	public void setActivityValue (String ActivityValue)
-	{
-		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
-	}
-
-	/** Get Activity Value.
-		@return Activity Value	  */
-	public String getActivityValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ActivityValue);
-	}
-
 	/** Set Address 1.
 		@param Address1 
 		Address line 1 for this location
@@ -241,6 +244,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
 
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue)
+	{
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+	}
+
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
+	  */
+	public String getBPartnerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
+	}
+
 	/** Set BP Name.
 		@param BPName BP Name	  */
 	public void setBPName (String BPName)
@@ -272,23 +292,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_BPValue);
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
 	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Activity)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Activity.Table_Name)
@@ -312,34 +315,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public int getC_Activity_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartnerSR() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
-
-	/** Set BPartner (Agent).
-		@param C_BPartnerSR_ID 
-		Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
-	{
-		if (C_BPartnerSR_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
-	}
-
-	/** Get BPartner (Agent).
-		@return Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -396,6 +371,34 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public int getC_BPartner_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartnerSR() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerSR_ID(), get_TrxName());	}
+
+	/** Set BPartner (Agent).
+		@param C_BPartnerSR_ID 
+		Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID)
+	{
+		if (C_BPartnerSR_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartnerSR_ID, Integer.valueOf(C_BPartnerSR_ID));
+	}
+
+	/** Get BPartner (Agent).
+		@return Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerSR_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -480,6 +483,34 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public int getC_PaymentTerm_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -620,34 +651,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public int getC_ProjectType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1005,23 +1008,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
@@ -1195,6 +1181,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return false;
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
 	/** Set Summary Level.
 		@param IsSummary 
 		This is a summary entity
@@ -1343,23 +1346,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
-	/** Set Order Reference.
-		@param POReference 
-		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public void setPOReference (String POReference)
-	{
-		set_Value (COLUMNNAME_POReference, POReference);
-	}
-
-	/** Get Order Reference.
-		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
-	  */
-	public String getPOReference () 
-	{
-		return (String)get_Value(COLUMNNAME_POReference);
-	}
-
 	/** Set Phone.
 		@param Phone 
 		Identifies a telephone number
@@ -1454,6 +1440,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return bd;
 	}
 
+	/** Set Order Reference.
+		@param POReference 
+		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public void setPOReference (String POReference)
+	{
+		set_Value (COLUMNNAME_POReference, POReference);
+	}
+
+	/** Get Order Reference.
+		@return Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
+	  */
+	public String getPOReference () 
+	{
+		return (String)get_Value(COLUMNNAME_POReference);
+	}
+
 	/** Set ZIP.
 		@param Postal 
 		Postal code
@@ -1544,36 +1547,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** ProjInvoiceRule AD_Reference_ID=383 */
-	public static final int PROJINVOICERULE_AD_Reference_ID=383;
-	/** None = - */
-	public static final String PROJINVOICERULE_None = "-";
-	/** Committed Amount = C */
-	public static final String PROJINVOICERULE_CommittedAmount = "C";
-	/** Time&Material max Comitted = c */
-	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
-	/** Time&Material = T */
-	public static final String PROJINVOICERULE_TimeMaterial = "T";
-	/** Product  Quantity = P */
-	public static final String PROJINVOICERULE_ProductQuantity = "P";
-	/** Set Invoice Rule.
-		@param ProjInvoiceRule 
-		Invoice Rule for the project
-	  */
-	public void setProjInvoiceRule (String ProjInvoiceRule)
-	{
-
-		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
-	}
-
-	/** Get Invoice Rule.
-		@return Invoice Rule for the project
-	  */
-	public String getProjInvoiceRule () 
-	{
-		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
 	}
 
 	/** Set Project Balance.
@@ -1735,6 +1708,36 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProjectTypeValue);
 	}
 
+	/** ProjInvoiceRule AD_Reference_ID=383 */
+	public static final int PROJINVOICERULE_AD_Reference_ID=383;
+	/** None = - */
+	public static final String PROJINVOICERULE_None = "-";
+	/** Committed Amount = C */
+	public static final String PROJINVOICERULE_CommittedAmount = "C";
+	/** Time&Material max Comitted = c */
+	public static final String PROJINVOICERULE_TimeMaterialMaxComitted = "c";
+	/** Time&Material = T */
+	public static final String PROJINVOICERULE_TimeMaterial = "T";
+	/** Product  Quantity = P */
+	public static final String PROJINVOICERULE_ProductQuantity = "P";
+	/** Set Invoice Rule.
+		@param ProjInvoiceRule 
+		Invoice Rule for the project
+	  */
+	public void setProjInvoiceRule (String ProjInvoiceRule)
+	{
+
+		set_Value (COLUMNNAME_ProjInvoiceRule, ProjInvoiceRule);
+	}
+
+	/** Get Invoice Rule.
+		@return Invoice Rule for the project
+	  */
+	public String getProjInvoiceRule () 
+	{
+		return (String)get_Value(COLUMNNAME_ProjInvoiceRule);
+	}
+
 	/** Set Region.
 		@param RegionName 
 		Name of the Region
@@ -1809,23 +1812,6 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public String getTitle () 
 	{
 		return (String)get_Value(COLUMNNAME_Title);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getUser1() throws RuntimeException
@@ -2035,6 +2021,23 @@ public class X_I_Project extends PO implements I_I_Project, I_Persistent
 	public String getUserValue4 () 
 	{
 		return (String)get_Value(COLUMNNAME_UserValue4);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

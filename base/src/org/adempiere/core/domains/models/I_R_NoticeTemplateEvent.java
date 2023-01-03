@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_NoticeTemplateEvent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_R_NoticeTemplateEvent 
 {
@@ -120,15 +121,6 @@ public interface I_R_NoticeTemplateEvent
 
 	public org.adempiere.core.domains.models.I_R_MailText getR_MailText() throws RuntimeException;
 
-    /** Column name R_NoticeTemplateEvent_ID */
-    public static final String COLUMNNAME_R_NoticeTemplateEvent_ID = "R_NoticeTemplateEvent_ID";
-
-	/** Set Notice Template by Event	  */
-	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID);
-
-	/** Get Notice Template by Event	  */
-	public int getR_NoticeTemplateEvent_ID();
-
     /** Column name R_NoticeTemplate_ID */
     public static final String COLUMNNAME_R_NoticeTemplate_ID = "R_NoticeTemplate_ID";
 
@@ -144,18 +136,14 @@ public interface I_R_NoticeTemplateEvent
 
 	public org.adempiere.core.domains.models.I_R_NoticeTemplate getR_NoticeTemplate() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name R_NoticeTemplateEvent_ID */
+    public static final String COLUMNNAME_R_NoticeTemplateEvent_ID = "R_NoticeTemplateEvent_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
+	/** Set Notice Template by Event	  */
+	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
+	/** Get Notice Template by Event	  */
+	public int getR_NoticeTemplateEvent_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -172,4 +160,17 @@ public interface I_R_NoticeTemplateEvent
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

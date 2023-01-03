@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FM_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_FM_Product 
 {
@@ -131,6 +132,15 @@ public interface I_FM_Product
 
 	public org.adempiere.core.domains.models.I_FM_Dunning getFM_Dunning() throws RuntimeException;
 
+    /** Column name FM_Product_ID */
+    public static final String COLUMNNAME_FM_Product_ID = "FM_Product_ID";
+
+	/** Set Financial Product	  */
+	public void setFM_Product_ID (int FM_Product_ID);
+
+	/** Get Financial Product	  */
+	public int getFM_Product_ID();
+
     /** Column name FM_ProductCategory_ID */
     public static final String COLUMNNAME_FM_ProductCategory_ID = "FM_ProductCategory_ID";
 
@@ -141,15 +151,6 @@ public interface I_FM_Product
 	public int getFM_ProductCategory_ID();
 
 	public org.adempiere.core.domains.models.I_FM_ProductCategory getFM_ProductCategory() throws RuntimeException;
-
-    /** Column name FM_Product_ID */
-    public static final String COLUMNNAME_FM_Product_ID = "FM_Product_ID";
-
-	/** Set Financial Product	  */
-	public void setFM_Product_ID (int FM_Product_ID);
-
-	/** Get Financial Product	  */
-	public int getFM_Product_ID();
 
     /** Column name FM_Rate_ID */
     public static final String COLUMNNAME_FM_Rate_ID = "FM_Rate_ID";
@@ -201,6 +202,21 @@ public interface I_FM_Product
 	  */
 	public boolean isDueFixed();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name MaxCapitalAmt */
     public static final String COLUMNNAME_MaxCapitalAmt = "MaxCapitalAmt";
 
@@ -236,21 +252,6 @@ public interface I_FM_Product
 
 	/** Get Min Fees Quantity	  */
 	public BigDecimal getMinFeesQty();
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
