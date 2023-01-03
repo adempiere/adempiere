@@ -427,7 +427,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	{
 		if (log.isLoggable(Level.INFO))
 			log.info("unlockIt - " + toString());
-		setProcessing(false);
 		return true;
 	}
 
@@ -673,7 +672,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 
 		reversal.closeIt();
-		reversal.setProcessing(false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
 		reversal.saveEx(get_TrxName());
@@ -706,10 +704,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		to.setDocStatus(DOCSTATUS_Drafted); // Draft
 		to.setDocAction(DOCACTION_Complete);
 		to.setMovementDate(reversalDate);
-		to.setIsComplete("N");
 		to.setIsCreated(true);
 		to.setPosted(false);
-		to.setProcessing(false);
 		to.setProcessed(false);
 		to.setReversal(true);
 		to.setProductionQty(getProductionQty().negate());

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_ProjectTask 
 {
@@ -51,6 +51,19 @@ public interface I_C_ProjectTask
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +78,6 @@ public interface I_C_ProjectTask
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -135,21 +135,6 @@ public interface I_C_ProjectTask
 
 	public org.adempiere.core.domains.models.I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name C_OrderPO_ID */
-    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
-
-	/** Set Purchase Order.
-	  * Purchase Order
-	  */
-	public void setC_OrderPO_ID (int C_OrderPO_ID);
-
-	/** Get Purchase Order.
-	  * Purchase Order
-	  */
-	public int getC_OrderPO_ID();
-
-	public org.adempiere.core.domains.models.I_C_Order getC_OrderPO() throws RuntimeException;
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -164,6 +149,21 @@ public interface I_C_ProjectTask
 	public int getC_Order_ID();
 
 	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
+
+    /** Column name C_OrderPO_ID */
+    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
+
+	/** Set Purchase Order.
+	  * Purchase Order
+	  */
+	public void setC_OrderPO_ID (int C_OrderPO_ID);
+
+	/** Get Purchase Order.
+	  * Purchase Order
+	  */
+	public int getC_OrderPO_ID();
+
+	public org.adempiere.core.domains.models.I_C_Order getC_OrderPO() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -195,6 +195,19 @@ public interface I_C_ProjectTask
 
 	public org.adempiere.core.domains.models.I_C_ProjectStatus getC_ProjectStatus() throws RuntimeException;
 
+    /** Column name C_ProjectTask_ID */
+    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
+
+	/** Set Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
+
+	/** Get Project Task.
+	  * Actual Project Task in a Phase
+	  */
+	public int getC_ProjectTask_ID();
+
     /** Column name C_ProjectTaskCategory_ID */
     public static final String COLUMNNAME_C_ProjectTaskCategory_ID = "C_ProjectTaskCategory_ID";
 
@@ -209,19 +222,6 @@ public interface I_C_ProjectTask
 	public int getC_ProjectTaskCategory_ID();
 
 	public org.adempiere.core.domains.models.I_C_ProjectTaskCategory getC_ProjectTaskCategory() throws RuntimeException;
-
-    /** Column name C_ProjectTask_ID */
-    public static final String COLUMNNAME_C_ProjectTask_ID = "C_ProjectTask_ID";
-
-	/** Set Project Task.
-	  * Actual Project Task in a Phase
-	  */
-	public void setC_ProjectTask_ID (int C_ProjectTask_ID);
-
-	/** Get Project Task.
-	  * Actual Project Task in a Phase
-	  */
-	public int getC_ProjectTask_ID();
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -627,6 +627,32 @@ public interface I_C_ProjectTask
 	  */
 	public String getName();
 
+    /** Column name PercentageCompleted */
+    public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
+
+	/** Set Percentage completed.
+	  * Percentage completed
+	  */
+	public void setPercentageCompleted (BigDecimal PercentageCompleted);
+
+	/** Get Percentage completed.
+	  * Percentage completed
+	  */
+	public BigDecimal getPercentageCompleted();
+
+    /** Column name PlannedAmt */
+    public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
+
+	/** Set Planned Amount.
+	  * Planned amount for this project
+	  */
+	public void setPlannedAmt (BigDecimal PlannedAmt);
+
+	/** Get Planned Amount.
+	  * Planned amount for this project
+	  */
+	public BigDecimal getPlannedAmt();
+
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
@@ -656,32 +682,6 @@ public interface I_C_ProjectTask
 	public int getPP_Product_BOM_ID();
 
 	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
-    /** Column name PercentageCompleted */
-    public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
-
-	/** Set Percentage completed.
-	  * Percentage completed
-	  */
-	public void setPercentageCompleted (BigDecimal PercentageCompleted);
-
-	/** Get Percentage completed.
-	  * Percentage completed
-	  */
-	public BigDecimal getPercentageCompleted();
-
-    /** Column name PlannedAmt */
-    public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
-
-	/** Set Planned Amount.
-	  * Planned amount for this project
-	  */
-	public void setPlannedAmt (BigDecimal PlannedAmt);
-
-	/** Get Planned Amount.
-	  * Planned amount for this project
-	  */
-	public BigDecimal getPlannedAmt();
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -778,19 +778,6 @@ public interface I_C_ProjectTask
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -866,6 +853,19 @@ public interface I_C_ProjectTask
 	public int getUser4_ID();
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Vendor_ID */
     public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";

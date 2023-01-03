@@ -22,23 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Depreciation_Exp;
-import org.adempiere.core.domains.models.I_C_ValidCombination;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Exp (Properties ctx, int A_Depreciation_Exp_ID, String trxName)
@@ -184,6 +184,11 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Addition getA_Asset_Addition() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Addition)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Addition.Table_Name)
+			.getPO(getA_Asset_Addition_ID(), get_TrxName());	}
+
 	/** Set Asset Addition.
 		@param A_Asset_Addition_ID Asset Addition	  */
 	public void setA_Asset_Addition_ID (int A_Asset_Addition_ID)
@@ -241,6 +246,11 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Disposed getA_Asset_Disposed() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Disposed)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Disposed.Table_Name)
+			.getPO(getA_Asset_Disposed_ID(), get_TrxName());	}
+
 	/** Set Asset Disposed.
 		@param A_Asset_Disposed_ID Asset Disposed	  */
 	public void setA_Asset_Disposed_ID (int A_Asset_Disposed_ID)
@@ -260,6 +270,11 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -317,6 +332,11 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Entry getA_Depreciation_Entry() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Entry)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Entry.Table_Name)
+			.getPO(getA_Depreciation_Entry_ID(), get_TrxName());	}
 
 	/** Set Depreciation Entry.
 		@param A_Depreciation_Entry_ID Depreciation Entry	  */

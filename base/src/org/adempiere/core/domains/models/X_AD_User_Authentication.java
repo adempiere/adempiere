@@ -20,19 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for AD_User_Authentication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_AD_User_Authentication extends PO implements I_AD_User_Authentication, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220518L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_AD_User_Authentication (Properties ctx, int AD_User_Authentication_ID, String trxName)
@@ -72,6 +74,20 @@ public class X_AD_User_Authentication extends PO implements I_AD_User_Authentica
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Access Token.
+		@param AccessToken Access Token	  */
+	public void setAccessToken (String AccessToken)
+	{
+		set_Value (COLUMNNAME_AccessToken, AccessToken);
+	}
+
+	/** Get Access Token.
+		@return Access Token	  */
+	public String getAccessToken () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessToken);
+	}
 
 	public org.adempiere.core.domains.models.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException
     {
@@ -147,20 +163,6 @@ public class X_AD_User_Authentication extends PO implements I_AD_User_Authentica
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Access Token.
-		@param AccessToken Access Token	  */
-	public void setAccessToken (String AccessToken)
-	{
-		set_Value (COLUMNNAME_AccessToken, AccessToken);
-	}
-
-	/** Get Access Token.
-		@return Access Token	  */
-	public String getAccessToken () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessToken);
 	}
 
 	/** Set Refresh Token.

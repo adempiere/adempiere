@@ -20,7 +20,6 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +27,14 @@ import org.compiere.model.POInfo;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220608L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -76,9 +75,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_EMailConfig getAD_EMailConfig() throws RuntimeException
     {
-		return (I_AD_EMailConfig)MTable.get(getCtx(), I_AD_EMailConfig.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_EMailConfig)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_EMailConfig.Table_Name)
 			.getPO(getAD_EMailConfig_ID(), get_TrxName());	}
 
 	/** Set EMail Configuration.
@@ -101,9 +100,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_OrgType getAD_OrgType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_OrgType getAD_OrgType() throws RuntimeException
     {
-		return (I_AD_OrgType)MTable.get(getCtx(), I_AD_OrgType.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_OrgType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_OrgType.Table_Name)
 			.getPO(getAD_OrgType_ID(), get_TrxName());	}
 
 	/** Set Organization Type.
@@ -129,9 +128,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Calendar getC_Calendar() throws RuntimeException
     {
-		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Calendar)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Calendar.Table_Name)
 			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
@@ -208,9 +207,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
 			.getPO(getDropShip_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Drop Ship Warehouse.
@@ -324,9 +323,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
 			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
@@ -352,9 +351,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException
+	public org.adempiere.core.domains.models.I_PA_Goal getPA_Goal() throws RuntimeException
     {
-		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+		return (org.adempiere.core.domains.models.I_PA_Goal)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_Goal.Table_Name)
 			.getPO(getPA_Goal_ID(), get_TrxName());	}
 
 	/** Set Goal.
@@ -380,9 +379,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Org getParent_Org() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_Org getParent_Org() throws RuntimeException
     {
-		return (I_AD_Org)MTable.get(getCtx(), I_AD_Org.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_Org)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Org.Table_Name)
 			.getPO(getParent_Org_ID(), get_TrxName());	}
 
 	/** Set Parent Organization.
@@ -476,9 +475,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_RequestUserPW);
 	}
 
-	public I_AD_User getSupervisor() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_User getSupervisor() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
 			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
@@ -521,9 +520,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_TaxID);
 	}
 
-	public I_C_Bank getTransferBank() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Bank getTransferBank() throws RuntimeException
     {
-		return (I_C_Bank)MTable.get(getCtx(), I_C_Bank.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_Bank)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Bank.Table_Name)
 			.getPO(getTransferBank_ID(), get_TrxName());	}
 
 	/** Set Bank for transfers.
@@ -549,9 +548,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getTransferCashBook() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_CashBook getTransferCashBook() throws RuntimeException
     {
-		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_CashBook)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_CashBook.Table_Name)
 			.getPO(getTransferCashBook_ID(), get_TrxName());	}
 
 	/** Set CashBook for transfers.
@@ -574,9 +573,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getUnidentifiedAPDocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getUnidentifiedAPDocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getUnidentifiedAPDocType_ID(), get_TrxName());	}
 
 	/** Set Unidentified Document Type (AP).
@@ -599,9 +598,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getUnidentifiedARDocType() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_DocType getUnidentifiedARDocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_DocType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_DocType.Table_Name)
 			.getPO(getUnidentifiedARDocType_ID(), get_TrxName());	}
 
 	/** Set Unidentified Document Type (AR).
@@ -624,9 +623,9 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getUnidentifiedBPartner() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_BPartner getUnidentifiedBPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
 			.getPO(getUnidentifiedBPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner (Unidentified Payments).

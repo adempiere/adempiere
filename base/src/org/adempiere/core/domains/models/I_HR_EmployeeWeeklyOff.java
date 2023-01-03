@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_EmployeeWeeklyOff
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_EmployeeWeeklyOff 
 {
@@ -116,6 +116,8 @@ public interface I_HR_EmployeeWeeklyOff
 
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_EmployeeWeeklyOff_ID */
     public static final String COLUMNNAME_HR_EmployeeWeeklyOff_ID = "HR_EmployeeWeeklyOff_ID";

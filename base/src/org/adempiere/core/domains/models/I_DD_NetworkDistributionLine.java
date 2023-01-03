@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_NetworkDistributionLine 
 {
@@ -92,6 +92,8 @@ public interface I_DD_NetworkDistributionLine
 	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
 	  */
 	public int getDD_NetworkDistribution_ID();
+
+	public org.adempiere.core.domains.models.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
 
     /** Column name DD_NetworkDistributionLine_ID */
     public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";

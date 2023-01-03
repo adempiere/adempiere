@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_JobOpening
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_JobOpening (Properties ctx, int HR_JobOpening_ID, String trxName)
@@ -323,6 +325,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
+	public org.adempiere.core.domains.models.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_CareerLevel)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_CareerLevel.Table_Name)
+			.getPO(getHR_CareerLevel_ID(), get_TrxName());	}
+
 	/** Set Career Level.
 		@param HR_CareerLevel_ID 
 		The Career Level for this position
@@ -346,6 +353,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Department)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
+
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
@@ -365,6 +377,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Designation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Designation.Table_Name)
+			.getPO(getHR_Designation_ID(), get_TrxName());	}
 
 	/** Set Designation.
 		@param HR_Designation_ID 
@@ -388,6 +405,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_JobEducation getHR_JobEducation() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobEducation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobEducation.Table_Name)
+			.getPO(getHR_JobEducation_ID(), get_TrxName());	}
 
 	/** Set Job Education.
 		@param HR_JobEducation_ID 
@@ -435,6 +457,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_JobType getHR_JobType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobType.Table_Name)
+			.getPO(getHR_JobType_ID(), get_TrxName());	}
+
 	/** Set Job Type.
 		@param HR_JobType_ID 
 		The Job Type for a Job Openings
@@ -457,6 +484,11 @@ public class X_HR_JobOpening extends PO implements I_HR_JobOpening, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_SalaryRange getHR_SalaryRange() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_SalaryRange)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_SalaryRange.Table_Name)
+			.getPO(getHR_SalaryRange_ID(), get_TrxName());	}
 
 	/** Set Salary Range.
 		@param HR_SalaryRange_ID 

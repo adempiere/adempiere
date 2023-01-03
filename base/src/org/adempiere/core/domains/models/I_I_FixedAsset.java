@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_FixedAsset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_I_FixedAsset 
 {
@@ -70,6 +70,8 @@ public interface I_I_FixedAsset
 	/** Get Asset class	  */
 	public int getA_Asset_Class_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Class getA_Asset_Class() throws RuntimeException;
+
     /** Column name A_Asset_Class_Value */
     public static final String COLUMNNAME_A_Asset_Class_Value = "A_Asset_Class_Value";
 
@@ -105,6 +107,8 @@ public interface I_I_FixedAsset
 	  */
 	public int getA_Asset_Group_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
     /** Column name A_Asset_Group_Value */
     public static final String COLUMNNAME_A_Asset_Group_Value = "A_Asset_Group_Value";
 
@@ -127,6 +131,8 @@ public interface I_I_FixedAsset
 	  */
 	public int getA_Asset_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_Asset_Type_ID */
     public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
 
@@ -135,6 +141,8 @@ public interface I_I_FixedAsset
 
 	/** Get Asset Type	  */
 	public int getA_Asset_Type_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset_Type getA_Asset_Type() throws RuntimeException;
 
     /** Column name A_Asset_Type_Value */
     public static final String COLUMNNAME_A_Asset_Type_Value = "A_Asset_Type_Value";
@@ -153,6 +161,24 @@ public interface I_I_FixedAsset
 
 	/** Get Current Period	  */
 	public int getA_Current_Period();
+
+    /** Column name A_Remaining_Period */
+    public static final String COLUMNNAME_A_Remaining_Period = "A_Remaining_Period";
+
+	/** Set Remaining Period	  */
+	public void setA_Remaining_Period (int A_Remaining_Period);
+
+	/** Get Remaining Period	  */
+	public int getA_Remaining_Period();
+
+    /** Column name A_Salvage_Value */
+    public static final String COLUMNNAME_A_Salvage_Value = "A_Salvage_Value";
+
+	/** Set Asset Salvage Value	  */
+	public void setA_Salvage_Value (BigDecimal A_Salvage_Value);
+
+	/** Get Asset Salvage Value	  */
+	public BigDecimal getA_Salvage_Value();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -174,24 +200,6 @@ public interface I_I_FixedAsset
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Remaining_Period */
-    public static final String COLUMNNAME_A_Remaining_Period = "A_Remaining_Period";
-
-	/** Set Remaining Period	  */
-	public void setA_Remaining_Period (int A_Remaining_Period);
-
-	/** Get Remaining Period	  */
-	public int getA_Remaining_Period();
-
-    /** Column name A_Salvage_Value */
-    public static final String COLUMNNAME_A_Salvage_Value = "A_Salvage_Value";
-
-	/** Set Asset Salvage Value	  */
-	public void setA_Salvage_Value (BigDecimal A_Salvage_Value);
-
-	/** Get Asset Salvage Value	  */
-	public BigDecimal getA_Salvage_Value();
 
     /** Column name AssetDepreciationDate */
     public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
@@ -284,6 +292,21 @@ public interface I_I_FixedAsset
 	/** Get City Value	  */
 	public String getC_City_Value();
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -299,21 +322,6 @@ public interface I_I_FixedAsset
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

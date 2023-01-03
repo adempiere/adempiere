@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionLine (Properties ctx, int HR_PaySelectionLine_ID, String trxName)
@@ -144,6 +146,11 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Movement getHR_Movement() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Movement)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Movement.Table_Name)
+			.getPO(getHR_Movement_ID(), get_TrxName());	}
+
 	/** Set Payroll Movement.
 		@param HR_Movement_ID Payroll Movement	  */
 	public void setHR_Movement_ID (int HR_Movement_ID)
@@ -164,25 +171,10 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 		return ii.intValue();
 	}
 
-	/** Set Payroll Pay Selection Check ID.
-		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
-	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
-	{
-		if (HR_PaySelectionCheck_ID < 1) 
-			set_Value (COLUMNNAME_HR_PaySelectionCheck_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_PaySelectionCheck_ID, Integer.valueOf(HR_PaySelectionCheck_ID));
-	}
-
-	/** Get Payroll Pay Selection Check ID.
-		@return Payroll Pay Selection Check ID	  */
-	public int getHR_PaySelectionCheck_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_PaySelection getHR_PaySelection() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_PaySelection)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_PaySelection.Table_Name)
+			.getPO(getHR_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payroll Payment Selection ID.
 		@param HR_PaySelection_ID Payroll Payment Selection ID	  */
@@ -199,6 +191,31 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_HR_PaySelectionCheck getHR_PaySelectionCheck() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_PaySelectionCheck)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_PaySelectionCheck.Table_Name)
+			.getPO(getHR_PaySelectionCheck_ID(), get_TrxName());	}
+
+	/** Set Payroll Pay Selection Check ID.
+		@param HR_PaySelectionCheck_ID Payroll Pay Selection Check ID	  */
+	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID)
+	{
+		if (HR_PaySelectionCheck_ID < 1) 
+			set_Value (COLUMNNAME_HR_PaySelectionCheck_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_PaySelectionCheck_ID, Integer.valueOf(HR_PaySelectionCheck_ID));
+	}
+
+	/** Get Payroll Pay Selection Check ID.
+		@return Payroll Pay Selection Check ID	  */
+	public int getHR_PaySelectionCheck_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionCheck_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Vehicle
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_Vehicle 
 {
@@ -55,6 +55,8 @@ public interface I_DD_Vehicle
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -150,6 +152,8 @@ public interface I_DD_Vehicle
 	/** Get Transport Compatibility Group	  */
 	public int getDD_CompatibilityGroup_ID();
 
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException;
+
     /** Column name DD_DriverAssignment_ID */
     public static final String COLUMNNAME_DD_DriverAssignment_ID = "DD_DriverAssignment_ID";
 
@@ -158,6 +162,8 @@ public interface I_DD_Vehicle
 
 	/** Get Driver Assignment	  */
 	public int getDD_DriverAssignment_ID();
+
+	public org.adempiere.core.domains.models.I_DD_DriverAssignment getDD_DriverAssignment() throws RuntimeException;
 
     /** Column name DD_LicenseAssignment_ID */
     public static final String COLUMNNAME_DD_LicenseAssignment_ID = "DD_LicenseAssignment_ID";
@@ -168,6 +174,8 @@ public interface I_DD_Vehicle
 	/** Get License Types Assignment	  */
 	public int getDD_LicenseAssignment_ID();
 
+	public org.adempiere.core.domains.models.I_DD_LicenseAssignment getDD_LicenseAssignment() throws RuntimeException;
+
     /** Column name DD_RequirementAssignment_ID */
     public static final String COLUMNNAME_DD_RequirementAssignment_ID = "DD_RequirementAssignment_ID";
 
@@ -177,14 +185,7 @@ public interface I_DD_Vehicle
 	/** Get Transport Requirement Assignment	  */
 	public int getDD_RequirementAssignment_ID();
 
-    /** Column name DD_VehicleGroup_ID */
-    public static final String COLUMNNAME_DD_VehicleGroup_ID = "DD_VehicleGroup_ID";
-
-	/** Set Vehicle Group	  */
-	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID);
-
-	/** Get Vehicle Group	  */
-	public int getDD_VehicleGroup_ID();
+	public org.adempiere.core.domains.models.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException;
 
     /** Column name DD_Vehicle_ID */
     public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
@@ -195,6 +196,17 @@ public interface I_DD_Vehicle
 	/** Get Vehicle	  */
 	public int getDD_Vehicle_ID();
 
+    /** Column name DD_VehicleGroup_ID */
+    public static final String COLUMNNAME_DD_VehicleGroup_ID = "DD_VehicleGroup_ID";
+
+	/** Set Vehicle Group	  */
+	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID);
+
+	/** Get Vehicle Group	  */
+	public int getDD_VehicleGroup_ID();
+
+	public org.adempiere.core.domains.models.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException;
+
     /** Column name DD_VehicleType_ID */
     public static final String COLUMNNAME_DD_VehicleType_ID = "DD_VehicleType_ID";
 
@@ -203,6 +215,8 @@ public interface I_DD_Vehicle
 
 	/** Get Vehicle Type	  */
 	public int getDD_VehicleType_ID();
+
+	public org.adempiere.core.domains.models.I_DD_VehicleType getDD_VehicleType() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

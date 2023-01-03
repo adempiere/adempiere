@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListVersion
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_ListVersion (Properties ctx, int HR_ListVersion_ID, String trxName)
@@ -95,25 +97,10 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Payroll List Base.
-		@param HR_ListBase_ID Payroll List Base	  */
-	public void setHR_ListBase_ID (int HR_ListBase_ID)
-	{
-		if (HR_ListBase_ID < 1) 
-			set_Value (COLUMNNAME_HR_ListBase_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_ListBase_ID, Integer.valueOf(HR_ListBase_ID));
-	}
-
-	/** Get Payroll List Base.
-		@return Payroll List Base	  */
-	public int getHR_ListBase_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListBase_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_List getHR_List() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_List)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_List.Table_Name)
+			.getPO(getHR_List_ID(), get_TrxName());	}
 
 	/** Set Payroll List.
 		@param HR_List_ID Payroll List	  */
@@ -130,6 +117,31 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	public int getHR_List_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_HR_List getHR_ListBase() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_List)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_List.Table_Name)
+			.getPO(getHR_ListBase_ID(), get_TrxName());	}
+
+	/** Set Payroll List Base.
+		@param HR_ListBase_ID Payroll List Base	  */
+	public void setHR_ListBase_ID (int HR_ListBase_ID)
+	{
+		if (HR_ListBase_ID < 1) 
+			set_Value (COLUMNNAME_HR_ListBase_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_ListBase_ID, Integer.valueOf(HR_ListBase_ID));
+	}
+
+	/** Get Payroll List Base.
+		@return Payroll List Base	  */
+	public int getHR_ListBase_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ListBase_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

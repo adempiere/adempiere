@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_RequirementAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAssignment, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_RequirementAssignment (Properties ctx, int DD_RequirementAssignment_ID, String trxName)
@@ -73,6 +75,11 @@ public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAs
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Driver)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Driver.Table_Name)
+			.getPO(getDD_Driver_ID(), get_TrxName());	}
+
 	/** Set Driver.
 		@param DD_Driver_ID Driver	  */
 	public void setDD_Driver_ID (int DD_Driver_ID)
@@ -88,6 +95,31 @@ public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAs
 	public int getDD_Driver_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Driver_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_DD_Requirement getDD_Requirement() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Requirement)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Requirement.Table_Name)
+			.getPO(getDD_Requirement_ID(), get_TrxName());	}
+
+	/** Set Transport Requirement.
+		@param DD_Requirement_ID Transport Requirement	  */
+	public void setDD_Requirement_ID (int DD_Requirement_ID)
+	{
+		if (DD_Requirement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, Integer.valueOf(DD_Requirement_ID));
+	}
+
+	/** Get Transport Requirement.
+		@return Transport Requirement	  */
+	public int getDD_Requirement_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Requirement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -113,25 +145,10 @@ public class X_DD_RequirementAssignment extends PO implements I_DD_RequirementAs
 		return ii.intValue();
 	}
 
-	/** Set Transport Requirement.
-		@param DD_Requirement_ID Transport Requirement	  */
-	public void setDD_Requirement_ID (int DD_Requirement_ID)
-	{
-		if (DD_Requirement_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, Integer.valueOf(DD_Requirement_ID));
-	}
-
-	/** Get Transport Requirement.
-		@return Transport Requirement	  */
-	public int getDD_Requirement_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Requirement_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Vehicle)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Vehicle.Table_Name)
+			.getPO(getDD_Vehicle_ID(), get_TrxName());	}
 
 	/** Set Vehicle.
 		@param DD_Vehicle_ID Vehicle	  */

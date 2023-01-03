@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,20 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for T_OpenItemToDate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_T_OpenItemToDate (Properties ctx, int T_OpenItemToDate_ID, String trxName)
@@ -124,6 +127,146 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 	public int getC_Activity_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Activity_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BP_AccountType getC_BP_AccountType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BP_AccountType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_AccountType.Table_Name)
+			.getPO(getC_BP_AccountType_ID(), get_TrxName());	}
+
+	/** Set Account Type.
+		@param C_BP_AccountType_ID 
+		Account Type classification for Business Partner
+	  */
+	public void setC_BP_AccountType_ID (int C_BP_AccountType_ID)
+	{
+		if (C_BP_AccountType_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_AccountType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_AccountType_ID, Integer.valueOf(C_BP_AccountType_ID));
+	}
+
+	/** Get Account Type.
+		@return Account Type classification for Business Partner
+	  */
+	public int getC_BP_AccountType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_AccountType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BP_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BP_IndustryType getC_BP_IndustryType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BP_IndustryType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_IndustryType.Table_Name)
+			.getPO(getC_BP_IndustryType_ID(), get_TrxName());	}
+
+	/** Set Industry Type.
+		@param C_BP_IndustryType_ID 
+		Business Partner Industry Type or classification
+	  */
+	public void setC_BP_IndustryType_ID (int C_BP_IndustryType_ID)
+	{
+		if (C_BP_IndustryType_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_IndustryType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_IndustryType_ID, Integer.valueOf(C_BP_IndustryType_ID));
+	}
+
+	/** Get Industry Type.
+		@return Business Partner Industry Type or classification
+	  */
+	public int getC_BP_IndustryType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_IndustryType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BP_SalesGroup getC_BP_SalesGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BP_SalesGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_SalesGroup.Table_Name)
+			.getPO(getC_BP_SalesGroup_ID(), get_TrxName());	}
+
+	/** Set Sales Group.
+		@param C_BP_SalesGroup_ID 
+		Sales Group
+	  */
+	public void setC_BP_SalesGroup_ID (int C_BP_SalesGroup_ID)
+	{
+		if (C_BP_SalesGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_SalesGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_SalesGroup_ID, Integer.valueOf(C_BP_SalesGroup_ID));
+	}
+
+	/** Get Sales Group.
+		@return Sales Group
+	  */
+	public int getC_BP_SalesGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_SalesGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BP_Segment getC_BP_Segment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BP_Segment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Segment.Table_Name)
+			.getPO(getC_BP_Segment_ID(), get_TrxName());	}
+
+	/** Set Segment.
+		@param C_BP_Segment_ID 
+		Business Partner Segment
+	  */
+	public void setC_BP_Segment_ID (int C_BP_Segment_ID)
+	{
+		if (C_BP_Segment_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Segment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Segment_ID, Integer.valueOf(C_BP_Segment_ID));
+	}
+
+	/** Get Segment.
+		@return Business Partner Segment
+	  */
+	public int getC_BP_Segment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Segment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -269,34 +412,6 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoicePaySchedule.Table_Name)
-			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
-
-	/** Set Invoice Payment Schedule.
-		@param C_InvoicePaySchedule_ID 
-		Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
-	{
-		if (C_InvoicePaySchedule_ID < 1) 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
-	}
-
-	/** Get Invoice Payment Schedule.
-		@return Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Invoice)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Invoice.Table_Name)
@@ -320,6 +435,34 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 	public int getC_Invoice_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_InvoicePaySchedule)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_InvoicePaySchedule.Table_Name)
+			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
+
+	/** Set Invoice Payment Schedule.
+		@param C_InvoicePaySchedule_ID 
+		Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID)
+	{
+		if (C_InvoicePaySchedule_ID < 1) 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_InvoicePaySchedule_ID, Integer.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	/** Get Invoice Payment Schedule.
+		@return Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoicePaySchedule_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -404,6 +547,34 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 	public int getC_Project_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_SalesRegion)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -647,6 +818,34 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 		return false;
 	}
 
+	public org.adempiere.core.domains.models.I_M_PriceList getM_PriceList() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_PriceList)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
+
+	/** Set Price List.
+		@param M_PriceList_ID 
+		Unique identifier of a Price List
+	  */
+	public void setM_PriceList_ID (int M_PriceList_ID)
+	{
+		if (M_PriceList_ID < 1) 
+			set_Value (COLUMNNAME_M_PriceList_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_PriceList_ID, Integer.valueOf(M_PriceList_ID));
+	}
+
+	/** Get Price List.
+		@return Unique identifier of a Price List
+	  */
+	public int getM_PriceList_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Net Days.
 		@param NetDays 
 		Net Days in which payment is due
@@ -702,6 +901,34 @@ public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
+
+	/** Set Sales Representative.
+		@param SalesRep_ID 
+		Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID)
+	{
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+	}
+
+	/** Get Sales Representative.
+		@return Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.

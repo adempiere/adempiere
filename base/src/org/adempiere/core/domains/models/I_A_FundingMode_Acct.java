@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_FundingMode_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_FundingMode_Acct 
 {
@@ -42,6 +42,28 @@ public interface I_A_FundingMode_Acct
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name A_FundingMode_Acct */
+    public static final String COLUMNNAME_A_FundingMode_Acct = "A_FundingMode_Acct";
+
+	/** Set Funding Mode Account	  */
+	public void setA_FundingMode_Acct (int A_FundingMode_Acct);
+
+	/** Get Funding Mode Account	  */
+	public int getA_FundingMode_Acct();
+
+	public I_C_ValidCombination getA_FundingMode_A() throws RuntimeException;
+
+    /** Column name A_FundingMode_ID */
+    public static final String COLUMNNAME_A_FundingMode_ID = "A_FundingMode_ID";
+
+	/** Set Asset Funding Mode	  */
+	public void setA_FundingMode_ID (int A_FundingMode_ID);
+
+	/** Get Asset Funding Mode	  */
+	public int getA_FundingMode_ID();
+
+	public org.adempiere.core.domains.models.I_A_FundingMode getA_FundingMode() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -63,26 +85,6 @@ public interface I_A_FundingMode_Acct
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_FundingMode_Acct */
-    public static final String COLUMNNAME_A_FundingMode_Acct = "A_FundingMode_Acct";
-
-	/** Set Funding Mode Account	  */
-	public void setA_FundingMode_Acct (int A_FundingMode_Acct);
-
-	/** Get Funding Mode Account	  */
-	public int getA_FundingMode_Acct();
-
-	public I_C_ValidCombination getA_FundingMode_A() throws RuntimeException;
-
-    /** Column name A_FundingMode_ID */
-    public static final String COLUMNNAME_A_FundingMode_ID = "A_FundingMode_ID";
-
-	/** Set Asset Funding Mode	  */
-	public void setA_FundingMode_ID (int A_FundingMode_ID);
-
-	/** Get Asset Funding Mode	  */
-	public int getA_FundingMode_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

@@ -20,20 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_HR_ProcessReportTemplate;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_ProcessReportTemplate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReportTemplate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
@@ -120,6 +121,11 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public org.adempiere.core.domains.models.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_ProcessReport)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_ProcessReport.Table_Name)
+			.getPO(getHR_ProcessReport_ID(), get_TrxName());	}
 
 	/** Set Payroll Process Report.
 		@param HR_ProcessReport_ID Payroll Process Report	  */

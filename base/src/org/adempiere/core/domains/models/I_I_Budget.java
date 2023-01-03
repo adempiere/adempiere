@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Budget
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_I_Budget 
 {
@@ -43,42 +43,6 @@ public interface I_I_Budget
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -92,18 +56,7 @@ public interface I_I_Budget
 	  */
 	public int getA_Asset_ID();
 
-    /** Column name AccountValue */
-    public static final String COLUMNNAME_AccountValue = "AccountValue";
-
-	/** Set Account Key.
-	  * Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue);
-
-	/** Get Account Key.
-	  * Key of Account Element
-	  */
-	public String getAccountValue();
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name Account_ID */
     public static final String COLUMNNAME_Account_ID = "Account_ID";
@@ -119,6 +72,19 @@ public interface I_I_Budget
 	public int getAccount_ID();
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException;
+
+    /** Column name AccountValue */
+    public static final String COLUMNNAME_AccountValue = "AccountValue";
+
+	/** Set Account Key.
+	  * Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue);
+
+	/** Get Account Key.
+	  * Key of Account Element
+	  */
+	public String getAccountValue();
 
     /** Column name AcctSchemaName */
     public static final String COLUMNNAME_AcctSchemaName = "AcctSchemaName";
@@ -142,6 +108,42 @@ public interface I_I_Budget
 	/** Get Activity Value	  */
 	public String getActivityValue();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
+
     /** Column name AssetValue */
     public static final String COLUMNNAME_AssetValue = "AssetValue";
 
@@ -150,19 +152,6 @@ public interface I_I_Budget
 
 	/** Get Asset Value	  */
 	public String getAssetValue();
-
-    /** Column name BPartnerValue */
-    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
-
-	/** Set Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue);
-
-	/** Get Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public String getBPartnerValue();
 
     /** Column name BatchDocumentNo */
     public static final String COLUMNNAME_BatchDocumentNo = "BatchDocumentNo";
@@ -176,6 +165,19 @@ public interface I_I_Budget
 	  * Document Number of the Batch
 	  */
 	public String getBatchDocumentNo();
+
+    /** Column name BPartnerValue */
+    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
+
+	/** Set Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue);
+
+	/** Get Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public String getBPartnerValue();
 
     /** Column name BudgetCode */
     public static final String COLUMNNAME_BudgetCode = "BudgetCode";
@@ -376,6 +378,21 @@ public interface I_I_Budget
 
 	public org.adempiere.core.domains.models.I_GL_Budget getGL_Budget() throws RuntimeException;
 
+    /** Column name GL_Journal_ID */
+    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
+
+	/** Set Journal.
+	  * General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID);
+
+	/** Get Journal.
+	  * General Ledger Journal
+	  */
+	public int getGL_Journal_ID();
+
+	public org.adempiere.core.domains.models.I_GL_Journal getGL_Journal() throws RuntimeException;
+
     /** Column name GL_JournalBatch_ID */
     public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
 
@@ -405,21 +422,6 @@ public interface I_I_Budget
 	public int getGL_JournalLine_ID();
 
 	public org.adempiere.core.domains.models.I_GL_JournalLine getGL_JournalLine() throws RuntimeException;
-
-    /** Column name GL_Journal_ID */
-    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
-
-	/** Set Journal.
-	  * General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID);
-
-	/** Get Journal.
-	  * General Ledger Journal
-	  */
-	public int getGL_Journal_ID();
-
-	public org.adempiere.core.domains.models.I_GL_Journal getGL_Journal() throws RuntimeException;
 
     /** Column name I_Budget_ID */
     public static final String COLUMNNAME_I_Budget_ID = "I_Budget_ID";
@@ -511,6 +513,24 @@ public interface I_I_Budget
 	/** Get Month_0_Qty	  */
 	public BigDecimal getMonth_0_Qty();
 
+    /** Column name Month_1_Amt */
+    public static final String COLUMNNAME_Month_1_Amt = "Month_1_Amt";
+
+	/** Set Month_1_Amt	  */
+	public void setMonth_1_Amt (BigDecimal Month_1_Amt);
+
+	/** Get Month_1_Amt	  */
+	public BigDecimal getMonth_1_Amt();
+
+    /** Column name Month_1_Qty */
+    public static final String COLUMNNAME_Month_1_Qty = "Month_1_Qty";
+
+	/** Set Month_1_Qty	  */
+	public void setMonth_1_Qty (BigDecimal Month_1_Qty);
+
+	/** Get Month_1_Qty	  */
+	public BigDecimal getMonth_1_Qty();
+
     /** Column name Month_10_Amt */
     public static final String COLUMNNAME_Month_10_Amt = "Month_10_Amt";
 
@@ -546,24 +566,6 @@ public interface I_I_Budget
 
 	/** Get Month_11_Qty	  */
 	public BigDecimal getMonth_11_Qty();
-
-    /** Column name Month_1_Amt */
-    public static final String COLUMNNAME_Month_1_Amt = "Month_1_Amt";
-
-	/** Set Month_1_Amt	  */
-	public void setMonth_1_Amt (BigDecimal Month_1_Amt);
-
-	/** Get Month_1_Amt	  */
-	public BigDecimal getMonth_1_Amt();
-
-    /** Column name Month_1_Qty */
-    public static final String COLUMNNAME_Month_1_Qty = "Month_1_Qty";
-
-	/** Set Month_1_Qty	  */
-	public void setMonth_1_Qty (BigDecimal Month_1_Qty);
-
-	/** Get Month_1_Qty	  */
-	public BigDecimal getMonth_1_Qty();
 
     /** Column name Month_2_Amt */
     public static final String COLUMNNAME_Month_2_Amt = "Month_2_Amt";
@@ -805,19 +807,6 @@ public interface I_I_Budget
 	  */
 	public String getSubAcctValue();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -997,4 +986,17 @@ public interface I_I_Budget
 	  * User value defined list element #3
 	  */
 	public String getUserValue4();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

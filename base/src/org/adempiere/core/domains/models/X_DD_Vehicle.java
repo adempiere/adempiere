@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_Vehicle
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_Vehicle (Properties ctx, int DD_Vehicle_ID, String trxName)
@@ -80,6 +82,11 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -178,6 +185,11 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return (String)get_Value(COLUMNNAME_CreateFrom);
 	}
 
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_CompatibilityGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_CompatibilityGroup.Table_Name)
+			.getPO(getDD_CompatibilityGroup_ID(), get_TrxName());	}
+
 	/** Set Transport Compatibility Group.
 		@param DD_CompatibilityGroup_ID Transport Compatibility Group	  */
 	public void setDD_CompatibilityGroup_ID (int DD_CompatibilityGroup_ID)
@@ -198,6 +210,11 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_DriverAssignment getDD_DriverAssignment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_DriverAssignment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_DriverAssignment.Table_Name)
+			.getPO(getDD_DriverAssignment_ID(), get_TrxName());	}
+
 	/** Set Driver Assignment.
 		@param DD_DriverAssignment_ID Driver Assignment	  */
 	public void setDD_DriverAssignment_ID (int DD_DriverAssignment_ID)
@@ -213,6 +230,11 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_LicenseAssignment getDD_LicenseAssignment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_LicenseAssignment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_LicenseAssignment.Table_Name)
+			.getPO(getDD_LicenseAssignment_ID(), get_TrxName());	}
 
 	/** Set License Types Assignment.
 		@param DD_LicenseAssignment_ID License Types Assignment	  */
@@ -230,6 +252,11 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_RequirementAssignment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_RequirementAssignment.Table_Name)
+			.getPO(getDD_RequirementAssignment_ID(), get_TrxName());	}
+
 	/** Set Transport Requirement Assignment.
 		@param DD_RequirementAssignment_ID Transport Requirement Assignment	  */
 	public void setDD_RequirementAssignment_ID (int DD_RequirementAssignment_ID)
@@ -241,26 +268,6 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 	public int getDD_RequirementAssignment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_RequirementAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Vehicle Group.
-		@param DD_VehicleGroup_ID Vehicle Group	  */
-	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID)
-	{
-		if (DD_VehicleGroup_ID < 1) 
-			set_Value (COLUMNNAME_DD_VehicleGroup_ID, null);
-		else 
-			set_Value (COLUMNNAME_DD_VehicleGroup_ID, Integer.valueOf(DD_VehicleGroup_ID));
-	}
-
-	/** Get Vehicle Group.
-		@return Vehicle Group	  */
-	public int getDD_VehicleGroup_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -285,6 +292,36 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_VehicleGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_VehicleGroup.Table_Name)
+			.getPO(getDD_VehicleGroup_ID(), get_TrxName());	}
+
+	/** Set Vehicle Group.
+		@param DD_VehicleGroup_ID Vehicle Group	  */
+	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID)
+	{
+		if (DD_VehicleGroup_ID < 1) 
+			set_Value (COLUMNNAME_DD_VehicleGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_VehicleGroup_ID, Integer.valueOf(DD_VehicleGroup_ID));
+	}
+
+	/** Get Vehicle Group.
+		@return Vehicle Group	  */
+	public int getDD_VehicleGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_DD_VehicleType getDD_VehicleType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_VehicleType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_VehicleType.Table_Name)
+			.getPO(getDD_VehicleType_ID(), get_TrxName());	}
 
 	/** Set Vehicle Type.
 		@param DD_VehicleType_ID Vehicle Type	  */

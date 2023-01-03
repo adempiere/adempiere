@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Definition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_WM_Definition 
 {
@@ -64,21 +64,6 @@ public interface I_WM_Definition
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -93,6 +78,21 @@ public interface I_WM_Definition
 	public int getC_BP_Group_ID();
 
 	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
@@ -295,6 +295,8 @@ public interface I_WM_Definition
 	  */
 	public int getWM_Area_Type_ID();
 
+	public org.adempiere.core.domains.models.I_WM_Area_Type getWM_Area_Type() throws RuntimeException;
+
     /** Column name WM_Definition_ID */
     public static final String COLUMNNAME_WM_Definition_ID = "WM_Definition_ID";
 
@@ -313,6 +315,8 @@ public interface I_WM_Definition
 	/** Get Warehouse Section Type	  */
 	public int getWM_Section_Type_ID();
 
+	public org.adempiere.core.domains.models.I_WM_Section_Type getWM_Section_Type() throws RuntimeException;
+
     /** Column name WM_Strategy_ID */
     public static final String COLUMNNAME_WM_Strategy_ID = "WM_Strategy_ID";
 
@@ -321,4 +325,6 @@ public interface I_WM_Definition
 
 	/** Get Warehouse Managamet Strategy	  */
 	public int getWM_Strategy_ID();
+
+	public org.adempiere.core.domains.models.I_WM_Strategy getWM_Strategy() throws RuntimeException;
 }

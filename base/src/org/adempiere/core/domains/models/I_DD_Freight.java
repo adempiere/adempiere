@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_Freight 
 {
@@ -160,6 +160,8 @@ public interface I_DD_Freight
 	/** Get Driver	  */
 	public int getDD_Driver_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException;
+
     /** Column name DD_Freight_ID */
     public static final String COLUMNNAME_DD_Freight_ID = "DD_Freight_ID";
 
@@ -178,6 +180,8 @@ public interface I_DD_Freight
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException;
+
     /** Column name DD_Vehicle_ID */
     public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
 
@@ -186,6 +190,8 @@ public interface I_DD_Freight
 
 	/** Get Vehicle	  */
 	public int getDD_Vehicle_ID();
+
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -248,6 +254,8 @@ public interface I_DD_Freight
 	/** Get Financial Account	  */
 	public int getFM_Account_ID();
 
+	public org.adempiere.core.domains.models.I_FM_Account getFM_Account() throws RuntimeException;
+
     /** Column name FM_Agreement_ID */
     public static final String COLUMNNAME_FM_Agreement_ID = "FM_Agreement_ID";
 
@@ -256,6 +264,8 @@ public interface I_DD_Freight
 
 	/** Get Agreement	  */
 	public int getFM_Agreement_ID();
+
+	public org.adempiere.core.domains.models.I_FM_Agreement getFM_Agreement() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -413,4 +423,6 @@ public interface I_DD_Freight
 
 	/** Get In & Out Bound Order	  */
 	public int getWM_InOutBound_ID();
+
+	public org.adempiere.core.domains.models.I_WM_InOutBound getWM_InOutBound() throws RuntimeException;
 }

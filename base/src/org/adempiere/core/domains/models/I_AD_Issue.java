@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_AD_Issue 
 {
@@ -42,6 +42,21 @@ public interface I_AD_Issue
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -122,19 +137,6 @@ public interface I_AD_Issue
 
 	public org.adempiere.core.domains.models.I_AD_Window getAD_Window() throws RuntimeException;
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 
@@ -164,19 +166,6 @@ public interface I_AD_Issue
 	  */
 	public int getCreatedBy();
 
-    /** Column name DBAddress */
-    public static final String COLUMNNAME_DBAddress = "DBAddress";
-
-	/** Set DB Address.
-	  * JDBC URL of the database server
-	  */
-	public void setDBAddress (String DBAddress);
-
-	/** Get DB Address.
-	  * JDBC URL of the database server
-	  */
-	public String getDBAddress();
-
     /** Column name DatabaseInfo */
     public static final String COLUMNNAME_DatabaseInfo = "DatabaseInfo";
 
@@ -189,6 +178,19 @@ public interface I_AD_Issue
 	  * Database Information
 	  */
 	public String getDatabaseInfo();
+
+    /** Column name DBAddress */
+    public static final String COLUMNNAME_DBAddress = "DBAddress";
+
+	/** Set DB Address.
+	  * JDBC URL of the database server
+	  */
+	public void setDBAddress (String DBAddress);
+
+	/** Get DB Address.
+	  * JDBC URL of the database server
+	  */
+	public String getDBAddress();
 
     /** Column name ErrorTrace */
     public static final String COLUMNNAME_ErrorTrace = "ErrorTrace";
@@ -229,19 +231,6 @@ public interface I_AD_Issue
 	  */
 	public String getIsReproducible();
 
-    /** Column name IsVanillaSystem */
-    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
-
-	/** Set Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public void setIsVanillaSystem (String IsVanillaSystem);
-
-	/** Get Vanilla System.
-	  * The system was NOT compiled from Source - i.e. standard distribution
-	  */
-	public String getIsVanillaSystem();
-
     /** Column name IssueSource */
     public static final String COLUMNNAME_IssueSource = "IssueSource";
 
@@ -267,6 +256,19 @@ public interface I_AD_Issue
 	  * Issue Summary
 	  */
 	public String getIssueSummary();
+
+    /** Column name IsVanillaSystem */
+    public static final String COLUMNNAME_IsVanillaSystem = "IsVanillaSystem";
+
+	/** Set Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public void setIsVanillaSystem (String IsVanillaSystem);
+
+	/** Get Vanilla System.
+	  * The system was NOT compiled from Source - i.e. standard distribution
+	  */
+	public String getIsVanillaSystem();
 
     /** Column name JavaInfo */
     public static final String COLUMNNAME_JavaInfo = "JavaInfo";
@@ -625,19 +627,6 @@ public interface I_AD_Issue
 	  */
 	public String getSystemStatus();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -666,6 +655,19 @@ public interface I_AD_Issue
 	  * Email of the responsible for the System
 	  */
 	public String getUserName();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Version */
     public static final String COLUMNNAME_Version = "Version";

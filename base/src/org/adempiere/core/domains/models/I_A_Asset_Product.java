@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Product 
 {
@@ -56,6 +56,8 @@ public interface I_A_Asset_Product
 	  */
 	public int getA_Asset_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_Asset_Product_ID */
     public static final String COLUMNNAME_A_Asset_Product_ID = "A_Asset_Product_ID";
 
@@ -64,6 +66,19 @@ public interface I_A_Asset_Product
 
 	/** Get Asset Product	  */
 	public int getA_Asset_Product_ID();
+
+    /** Column name A_QTY_Current */
+    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
+
+	/** Set Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current);
+
+	/** Get Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
+	public BigDecimal getA_QTY_Current();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -85,19 +100,6 @@ public interface I_A_Asset_Product
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_QTY_Current */
-    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
-
-	/** Set Fixed Asset Current Qty.
-	  * Fixed Asset Current Quantity
-	  */
-	public void setA_QTY_Current (BigDecimal A_QTY_Current);
-
-	/** Get Fixed Asset Current Qty.
-	  * Fixed Asset Current Quantity
-	  */
-	public BigDecimal getA_QTY_Current();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_TabCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_AD_TabCustom 
 {
@@ -109,15 +109,6 @@ public interface I_AD_TabCustom
 
 	public org.adempiere.core.domains.models.I_AD_Process getAD_Process() throws RuntimeException;
 
-    /** Column name AD_TabCustom_ID */
-    public static final String COLUMNNAME_AD_TabCustom_ID = "AD_TabCustom_ID";
-
-	/** Set Custom Tab	  */
-	public void setAD_TabCustom_ID (int AD_TabCustom_ID);
-
-	/** Get Custom Tab	  */
-	public int getAD_TabCustom_ID();
-
     /** Column name AD_Tab_ID */
     public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
 
@@ -132,6 +123,15 @@ public interface I_AD_TabCustom
 	public int getAD_Tab_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Tab getAD_Tab() throws RuntimeException;
+
+    /** Column name AD_TabCustom_ID */
+    public static final String COLUMNNAME_AD_TabCustom_ID = "AD_TabCustom_ID";
+
+	/** Set Custom Tab	  */
+	public void setAD_TabCustom_ID (int AD_TabCustom_ID);
+
+	/** Get Custom Tab	  */
+	public int getAD_TabCustom_ID();
 
     /** Column name AD_WindowCustom_ID */
     public static final String COLUMNNAME_AD_WindowCustom_ID = "AD_WindowCustom_ID";
@@ -344,19 +344,6 @@ public interface I_AD_TabCustom
 	  */
 	public int getTabLevel();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -372,6 +359,19 @@ public interface I_AD_TabCustom
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WhereClause */
     public static final String COLUMNNAME_WhereClause = "WhereClause";

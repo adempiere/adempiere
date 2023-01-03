@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_W_Click extends PO implements I_W_Click, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_W_Click (Properties ctx, int W_Click_ID, String trxName)
@@ -76,6 +76,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
       return sb.toString();
     }
 
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
+	}
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -97,23 +114,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.
@@ -233,6 +233,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return (String)get_Value(COLUMNNAME_TargetURL);
 	}
 
+	/** Set User Agent.
+		@param UserAgent 
+		Browser Used
+	  */
+	public void setUserAgent (String UserAgent)
+	{
+		set_Value (COLUMNNAME_UserAgent, UserAgent);
+	}
+
+	/** Get User Agent.
+		@return Browser Used
+	  */
+	public String getUserAgent () 
+	{
+		return (String)get_Value(COLUMNNAME_UserAgent);
+	}
+
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -250,21 +267,27 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	/** Set User Agent.
-		@param UserAgent 
-		Browser Used
+	/** Set Web Click.
+		@param W_Click_ID 
+		Individual Web Click
 	  */
-	public void setUserAgent (String UserAgent)
+	public void setW_Click_ID (int W_Click_ID)
 	{
-		set_Value (COLUMNNAME_UserAgent, UserAgent);
+		if (W_Click_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
 	}
 
-	/** Get User Agent.
-		@return Browser Used
+	/** Get Web Click.
+		@return Individual Web Click
 	  */
-	public String getUserAgent () 
+	public int getW_Click_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_UserAgent);
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Click_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.adempiere.core.domains.models.I_W_ClickCount getW_ClickCount() throws RuntimeException
@@ -290,29 +313,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	public int getW_ClickCount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_ClickCount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Web Click.
-		@param W_Click_ID 
-		Individual Web Click
-	  */
-	public void setW_Click_ID (int W_Click_ID)
-	{
-		if (W_Click_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_Click_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
-	}
-
-	/** Get Web Click.
-		@return Individual Web Click
-	  */
-	public int getW_Click_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_Click_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

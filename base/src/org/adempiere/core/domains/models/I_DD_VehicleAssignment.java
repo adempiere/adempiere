@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_VehicleAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_VehicleAssignment 
 {
@@ -80,15 +80,6 @@ public interface I_DD_VehicleAssignment
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_VehicleAssignment_ID */
-    public static final String COLUMNNAME_DD_VehicleAssignment_ID = "DD_VehicleAssignment_ID";
-
-	/** Set Vehicle Assignment ID	  */
-	public void setDD_VehicleAssignment_ID (int DD_VehicleAssignment_ID);
-
-	/** Get Vehicle Assignment ID	  */
-	public int getDD_VehicleAssignment_ID();
-
     /** Column name DD_Vehicle_ID */
     public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
 
@@ -97,6 +88,17 @@ public interface I_DD_VehicleAssignment
 
 	/** Get Vehicle	  */
 	public int getDD_Vehicle_ID();
+
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException;
+
+    /** Column name DD_VehicleAssignment_ID */
+    public static final String COLUMNNAME_DD_VehicleAssignment_ID = "DD_VehicleAssignment_ID";
+
+	/** Set Vehicle Assignment ID	  */
+	public void setDD_VehicleAssignment_ID (int DD_VehicleAssignment_ID);
+
+	/** Get Vehicle Assignment ID	  */
+	public int getDD_VehicleAssignment_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

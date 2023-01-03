@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,27 +12,30 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastRun
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PP_ForecastRun (Properties ctx, int PP_ForecastRun_ID, String trxName)
@@ -122,6 +125,34 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
+	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
+
+	/** Set Warehouse.
+		@param M_Warehouse_ID 
+		Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	{
+		if (M_Warehouse_ID < 0) 
+			set_Value (COLUMNNAME_M_Warehouse_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+	}
+
+	/** Get Warehouse.
+		@return Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_M_Warehouse getM_WarehouseSource() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
@@ -150,29 +181,21 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_M_Warehouse getM_Warehouse() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_Warehouse)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Warehouse.Table_Name)
-			.getPO(getM_Warehouse_ID(), get_TrxName());	}
-
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
+	/** Set Periods of History.
+		@param PeriodHistory 
+		Number Period of History
 	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
+	public void setPeriodHistory (int PeriodHistory)
 	{
-		if (M_Warehouse_ID < 0) 
-			set_Value (COLUMNNAME_M_Warehouse_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
+		set_Value (COLUMNNAME_PeriodHistory, Integer.valueOf(PeriodHistory));
 	}
 
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
+	/** Get Periods of History.
+		@return Number Period of History
 	  */
-	public int getM_Warehouse_ID () 
+	public int getPeriodHistory () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodHistory);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -305,26 +328,6 @@ public class X_PP_ForecastRun extends PO implements I_PP_ForecastRun, I_Persiste
 	public int getPP_PeriodDefinition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_PeriodDefinition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Periods of History.
-		@param PeriodHistory 
-		Number Period of History
-	  */
-	public void setPeriodHistory (int PeriodHistory)
-	{
-		set_Value (COLUMNNAME_PeriodHistory, Integer.valueOf(PeriodHistory));
-	}
-
-	/** Get Periods of History.
-		@return Number Period of History
-	  */
-	public int getPeriodHistory () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodHistory);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

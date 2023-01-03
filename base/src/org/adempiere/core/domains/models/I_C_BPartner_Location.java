@@ -19,13 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_C_BPartner_Location 
 {
@@ -217,18 +216,7 @@ public interface I_C_BPartner_Location
 	  */
 	public int getHR_Relationship_ID();
 
-    /** Column name ISDN */
-    public static final String COLUMNNAME_ISDN = "ISDN";
-
-	/** Set ISDN.
-	  * ISDN or modem line
-	  */
-	public void setISDN (String ISDN);
-
-	/** Get ISDN.
-	  * ISDN or modem line
-	  */
-	public String getISDN();
+	public org.adempiere.core.domains.models.I_HR_Relationship getHR_Relationship() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -282,6 +270,19 @@ public interface I_C_BPartner_Location
 	  */
 	public boolean isDefaultShipping();
 
+    /** Column name ISDN */
+    public static final String COLUMNNAME_ISDN = "ISDN";
+
+	/** Set ISDN.
+	  * ISDN or modem line
+	  */
+	public void setISDN (String ISDN);
+
+	/** Get ISDN.
+	  * ISDN or modem line
+	  */
+	public String getISDN();
+
     /** Column name IsPayFrom */
     public static final String COLUMNNAME_IsPayFrom = "IsPayFrom";
 
@@ -325,12 +326,12 @@ public interface I_C_BPartner_Location
     public static final String COLUMNNAME_MapURL = "MapURL";
 
 	/** Set Map URL.
-	  * Location Map URL.
+	  * Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location
 	  */
 	public void setMapURL (String MapURL);
 
 	/** Get Map URL.
-	  * Location Map URL.
+	  * Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location
 	  */
 	public String getMapURL();
 
@@ -386,19 +387,6 @@ public interface I_C_BPartner_Location
 	  */
 	public String getPhone2();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -414,4 +402,17 @@ public interface I_C_BPartner_Location
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

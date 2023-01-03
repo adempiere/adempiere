@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_JobApplication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_JobApplication 
 {
@@ -92,19 +92,6 @@ public interface I_HR_JobApplication
 
 	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name City */
-    public static final String COLUMNNAME_City = "City";
-
-	/** Set City.
-	  * Identifies a City
-	  */
-	public void setCity (String City);
-
-	/** Get City.
-	  * Identifies a City
-	  */
-	public String getCity();
-
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -119,6 +106,19 @@ public interface I_HR_JobApplication
 	public int getC_Location_ID();
 
 	public I_C_Location getC_Location() throws RuntimeException;
+
+    /** Column name City */
+    public static final String COLUMNNAME_City = "City";
+
+	/** Set City.
+	  * Identifies a City
+	  */
+	public void setCity (String City);
+
+	/** Get City.
+	  * Identifies a City
+	  */
+	public String getCity();
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -227,6 +227,8 @@ public interface I_HR_JobApplication
 	  */
 	public int getHR_Designation_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException;
+
     /** Column name HR_JobApplication_ID */
     public static final String COLUMNNAME_HR_JobApplication_ID = "HR_JobApplication_ID";
 
@@ -252,6 +254,8 @@ public interface I_HR_JobApplication
 	  * Job Openings for Recruitment Management
 	  */
 	public int getHR_JobOpening_ID();
+
+	public org.adempiere.core.domains.models.I_HR_JobOpening getHR_JobOpening() throws RuntimeException;
 
     /** Column name IdentityProof */
     public static final String COLUMNNAME_IdentityProof = "IdentityProof";

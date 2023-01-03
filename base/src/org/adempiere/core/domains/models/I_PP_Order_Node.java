@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_PP_Order_Node 
 {
@@ -41,6 +42,19 @@ public interface I_PP_Order_Node
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -212,19 +226,6 @@ public interface I_PP_Order_Node
 	public int getAD_Workflow_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Workflow getAD_Workflow() throws RuntimeException;
-
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
@@ -758,19 +759,6 @@ public interface I_PP_Order_Node
 	  */
 	public String getSubflowExecution();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
@@ -799,6 +787,19 @@ public interface I_PP_Order_Node
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -893,19 +894,6 @@ public interface I_PP_Order_Node
 	  */
 	public int getXPosition();
 
-    /** Column name YPosition */
-    public static final String COLUMNNAME_YPosition = "YPosition";
-
-	/** Set Y Position.
-	  * Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public void setYPosition (int YPosition);
-
-	/** Get Y Position.
-	  * Absolute Y (vertical) position in 1/72 of an inch
-	  */
-	public int getYPosition();
-
     /** Column name Yield */
     public static final String COLUMNNAME_Yield = "Yield";
 
@@ -918,4 +906,17 @@ public interface I_PP_Order_Node
 	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
 	  */
 	public int getYield();
+
+    /** Column name YPosition */
+    public static final String COLUMNNAME_YPosition = "YPosition";
+
+	/** Set Y Position.
+	  * Absolute Y (vertical) position in 1/72 of an inch
+	  */
+	public void setYPosition (int YPosition);
+
+	/** Get Y Position.
+	  * Absolute Y (vertical) position in 1/72 of an inch
+	  */
+	public int getYPosition();
 }

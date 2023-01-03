@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_EmployeeInsurance
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_EmployeeInsurance 
 {
@@ -182,6 +182,8 @@ public interface I_HR_EmployeeInsurance
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
+
     /** Column name HR_EmployeeInsurance_ID */
     public static final String COLUMNNAME_HR_EmployeeInsurance_ID = "HR_EmployeeInsurance_ID";
 
@@ -208,6 +210,8 @@ public interface I_HR_EmployeeInsurance
 	  */
 	public int getHR_InsuranceType_ID();
 
+	public org.adempiere.core.domains.models.I_HR_InsuranceType getHR_InsuranceType() throws RuntimeException;
+
     /** Column name HR_Period_ID */
     public static final String COLUMNNAME_HR_Period_ID = "HR_Period_ID";
 
@@ -216,6 +220,8 @@ public interface I_HR_EmployeeInsurance
 
 	/** Get Payroll Period	  */
 	public int getHR_Period_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Period getHR_Period() throws RuntimeException;
 
     /** Column name InsurancePlan */
     public static final String COLUMNNAME_InsurancePlan = "InsurancePlan";

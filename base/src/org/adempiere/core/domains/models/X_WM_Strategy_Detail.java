@@ -20,20 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_WM_Strategy_Detail;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for WM_Strategy_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_Strategy_Detail (Properties ctx, int WM_Strategy_Detail_ID, String trxName)
@@ -110,6 +111,11 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	public org.adempiere.core.domains.models.I_WM_Rule getWM_Rule() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Rule)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Rule.Table_Name)
+			.getPO(getWM_Rule_ID(), get_TrxName());	}
+
 	/** Set Inbound & Outbound Rule.
 		@param WM_Rule_ID Inbound & Outbound Rule	  */
 	public void setWM_Rule_ID (int WM_Rule_ID)
@@ -149,6 +155,11 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_WM_Strategy getWM_Strategy() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Strategy)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Strategy.Table_Name)
+			.getPO(getWM_Strategy_ID(), get_TrxName());	}
 
 	/** Set Warehouse Managamet Strategy.
 		@param WM_Strategy_ID Warehouse Managamet Strategy	  */

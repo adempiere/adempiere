@@ -22,23 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Acct;
-import org.adempiere.core.domains.models.I_C_ValidCombination;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Acct (Properties ctx, int A_Asset_Acct_ID, String trxName)
@@ -165,6 +165,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Acct_ID()));
     }
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers
@@ -187,6 +192,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Spread)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Spread.Table_Name)
+			.getPO(getA_Asset_Spread_ID(), get_TrxName());	}
 
 	/** Set A_Asset_Spread_ID.
 		@param A_Asset_Spread_ID A_Asset_Spread_ID	  */
@@ -230,6 +240,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getA_Depreciation_Conv_F() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Convention)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Convention.Table_Name)
+			.getPO(getA_Depreciation_Conv_F_ID(), get_TrxName());	}
+
 	/** Set Depreciation Convention (fiscal).
 		@param A_Depreciation_Conv_F_ID Depreciation Convention (fiscal)	  */
 	public void setA_Depreciation_Conv_F_ID (int A_Depreciation_Conv_F_ID)
@@ -249,6 +264,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Convention)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Convention.Table_Name)
+			.getPO(getA_Depreciation_Conv_ID(), get_TrxName());	}
 
 	/** Set Convention Type.
 		@param A_Depreciation_Conv_ID Convention Type	  */
@@ -270,6 +290,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation getA_Depreciation_F() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation.Table_Name)
+			.getPO(getA_Depreciation_F_ID(), get_TrxName());	}
+
 	/** Set Depreciation (fiscal).
 		@param A_Depreciation_F_ID Depreciation (fiscal)	  */
 	public void setA_Depreciation_F_ID (int A_Depreciation_F_ID)
@@ -289,6 +314,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation getA_Depreciation() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation.Table_Name)
+			.getPO(getA_Depreciation_ID(), get_TrxName());	}
 
 	/** Set Depreciation.
 		@param A_Depreciation_ID Depreciation	  */
@@ -348,6 +378,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Method_F() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Method)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Method_F_ID(), get_TrxName());	}
+
 	/** Set Depreciation Method (fiscal).
 		@param A_Depreciation_Method_F_ID Depreciation Method (fiscal)	  */
 	public void setA_Depreciation_Method_F_ID (int A_Depreciation_Method_F_ID)
@@ -368,6 +403,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Method)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Method_ID(), get_TrxName());	}
+
 	/** Set Depreciation Method.
 		@param A_Depreciation_Method_ID Depreciation Method	  */
 	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID)
@@ -387,6 +427,11 @@ public class X_A_Asset_Acct extends PO implements I_A_Asset_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Table_Header.Table_Name)
+			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
 	/** Set A_Depreciation_Table_Header_ID.
 		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */

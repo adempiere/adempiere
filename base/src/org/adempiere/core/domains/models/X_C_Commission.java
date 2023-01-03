@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -29,14 +29,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_Commission extends PO implements I_C_Commission, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220321L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_Commission (Properties ctx, int C_Commission_ID, String trxName)
@@ -142,6 +142,29 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Commission.
+		@param C_Commission_ID 
+		Commission
+	  */
+	public void setC_Commission_ID (int C_Commission_ID)
+	{
+		if (C_Commission_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
+	}
+
+	/** Get Commission.
+		@return Commission
+	  */
+	public int getC_Commission_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_CommissionGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_CommissionGroup.Table_Name)
@@ -190,29 +213,6 @@ public class X_C_Commission extends PO implements I_C_Commission, I_Persistent
 	public int getC_CommissionType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Commission.
-		@param C_Commission_ID 
-		Commission
-	  */
-	public void setC_Commission_ID (int C_Commission_ID)
-	{
-		if (C_Commission_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Commission_ID, Integer.valueOf(C_Commission_ID));
-	}
-
-	/** Get Commission.
-		@return Commission
-	  */
-	public int getC_Commission_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_CM_ChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)
@@ -43,11 +43,11 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
       super (ctx, CM_ChatEntry_ID, trxName);
       /** if (CM_ChatEntry_ID == 0)
         {
-			setCM_ChatEntry_ID (0);
-			setCM_Chat_ID (0);
 			setCharacterData (null);
 			setChatEntryType (null);
 // N
+			setCM_Chat_ID (0);
+			setCM_ChatEntry_ID (0);
 			setConfidentialType (null);
         } */
     }
@@ -108,6 +108,108 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Character Data.
+		@param CharacterData 
+		Long Character Field
+	  */
+	public void setCharacterData (String CharacterData)
+	{
+		set_ValueNoCheck (COLUMNNAME_CharacterData, CharacterData);
+	}
+
+	/** Get Character Data.
+		@return Long Character Field
+	  */
+	public String getCharacterData () 
+	{
+		return (String)get_Value(COLUMNNAME_CharacterData);
+	}
+
+	/** ChatEntryType AD_Reference_ID=398 */
+	public static final int CHATENTRYTYPE_AD_Reference_ID=398;
+	/** Wiki = W */
+	public static final String CHATENTRYTYPE_Wiki = "W";
+	/** Note (flat) = N */
+	public static final String CHATENTRYTYPE_NoteFlat = "N";
+	/** Forum (threaded) = F */
+	public static final String CHATENTRYTYPE_ForumThreaded = "F";
+	/** Set Chat Entry Type.
+		@param ChatEntryType 
+		Type of Chat/Forum Entry
+	  */
+	public void setChatEntryType (String ChatEntryType)
+	{
+
+		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
+	}
+
+	/** Get Chat Entry Type.
+		@return Type of Chat/Forum Entry
+	  */
+	public String getChatEntryType () 
+	{
+		return (String)get_Value(COLUMNNAME_ChatEntryType);
+	}
+
+	public org.adempiere.core.domains.models.I_CM_Chat getCM_Chat() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_CM_Chat)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_Chat.Table_Name)
+			.getPO(getCM_Chat_ID(), get_TrxName());	}
+
+	/** Set Chat.
+		@param CM_Chat_ID 
+		Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID)
+	{
+		if (CM_Chat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+	}
+
+	/** Get Chat.
+		@return Chat or discussion thread
+	  */
+	public int getCM_Chat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Chat Entry.
+		@param CM_ChatEntry_ID 
+		Individual Chat / Discussion Entry
+	  */
+	public void setCM_ChatEntry_ID (int CM_ChatEntry_ID)
+	{
+		if (CM_ChatEntry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, Integer.valueOf(CM_ChatEntry_ID));
+	}
+
+	/** Get Chat Entry.
+		@return Individual Chat / Discussion Entry
+	  */
+	public int getCM_ChatEntry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
+    }
+
 	public org.adempiere.core.domains.models.I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_CM_ChatEntry)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_ChatEntry.Table_Name)
@@ -162,108 +264,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Chat Entry.
-		@param CM_ChatEntry_ID 
-		Individual Chat / Discussion Entry
-	  */
-	public void setCM_ChatEntry_ID (int CM_ChatEntry_ID)
-	{
-		if (CM_ChatEntry_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_ChatEntry_ID, Integer.valueOf(CM_ChatEntry_ID));
-	}
-
-	/** Get Chat Entry.
-		@return Individual Chat / Discussion Entry
-	  */
-	public int getCM_ChatEntry_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntry_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
-    }
-
-	public org.adempiere.core.domains.models.I_CM_Chat getCM_Chat() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_CM_Chat)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_Chat.Table_Name)
-			.getPO(getCM_Chat_ID(), get_TrxName());	}
-
-	/** Set Chat.
-		@param CM_Chat_ID 
-		Chat or discussion thread
-	  */
-	public void setCM_Chat_ID (int CM_Chat_ID)
-	{
-		if (CM_Chat_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
-	}
-
-	/** Get Chat.
-		@return Chat or discussion thread
-	  */
-	public int getCM_Chat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Character Data.
-		@param CharacterData 
-		Long Character Field
-	  */
-	public void setCharacterData (String CharacterData)
-	{
-		set_ValueNoCheck (COLUMNNAME_CharacterData, CharacterData);
-	}
-
-	/** Get Character Data.
-		@return Long Character Field
-	  */
-	public String getCharacterData () 
-	{
-		return (String)get_Value(COLUMNNAME_CharacterData);
-	}
-
-	/** ChatEntryType AD_Reference_ID=398 */
-	public static final int CHATENTRYTYPE_AD_Reference_ID=398;
-	/** Wiki = W */
-	public static final String CHATENTRYTYPE_Wiki = "W";
-	/** Note (flat) = N */
-	public static final String CHATENTRYTYPE_NoteFlat = "N";
-	/** Forum (threaded) = F */
-	public static final String CHATENTRYTYPE_ForumThreaded = "F";
-	/** Set Chat Entry Type.
-		@param ChatEntryType 
-		Type of Chat/Forum Entry
-	  */
-	public void setChatEntryType (String ChatEntryType)
-	{
-
-		set_Value (COLUMNNAME_ChatEntryType, ChatEntryType);
-	}
-
-	/** Get Chat Entry Type.
-		@return Type of Chat/Forum Entry
-	  */
-	public String getChatEntryType () 
-	{
-		return (String)get_Value(COLUMNNAME_ChatEntryType);
 	}
 
 	/** ConfidentialType AD_Reference_ID=340 */

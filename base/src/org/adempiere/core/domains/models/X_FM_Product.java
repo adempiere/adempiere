@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FM_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_FM_Product extends PO implements I_FM_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220507L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_FM_Product (Properties ctx, int FM_Product_ID, String trxName)
@@ -42,8 +45,8 @@ public class X_FM_Product extends PO implements I_FM_Product, I_Persistent
       super (ctx, FM_Product_ID, trxName);
       /** if (FM_Product_ID == 0)
         {
-			setFM_ProductCategory_ID (0);
 			setFM_Product_ID (0);
+			setFM_ProductCategory_ID (0);
 			setM_Product_ID (0);
 			setName (null);
 			setValue (null);
@@ -184,6 +187,26 @@ public class X_FM_Product extends PO implements I_FM_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Financial Product.
+		@param FM_Product_ID Financial Product	  */
+	public void setFM_Product_ID (int FM_Product_ID)
+	{
+		if (FM_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FM_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FM_Product_ID, Integer.valueOf(FM_Product_ID));
+	}
+
+	/** Get Financial Product.
+		@return Financial Product	  */
+	public int getFM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_FM_ProductCategory getFM_ProductCategory() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_FM_ProductCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_ProductCategory.Table_Name)
@@ -204,26 +227,6 @@ public class X_FM_Product extends PO implements I_FM_Product, I_Persistent
 	public int getFM_ProductCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FM_ProductCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Financial Product.
-		@param FM_Product_ID Financial Product	  */
-	public void setFM_Product_ID (int FM_Product_ID)
-	{
-		if (FM_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FM_Product_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FM_Product_ID, Integer.valueOf(FM_Product_ID));
-	}
-
-	/** Get Financial Product.
-		@return Financial Product	  */
-	public int getFM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Product_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -298,6 +301,34 @@ public class X_FM_Product extends PO implements I_FM_Product, I_Persistent
 		return false;
 	}
 
+	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Max Capital Amount.
 		@param MaxCapitalAmt Max Capital Amount	  */
 	public void setMaxCapitalAmt (BigDecimal MaxCapitalAmt)
@@ -364,34 +395,6 @@ public class X_FM_Product extends PO implements I_FM_Product, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Name.

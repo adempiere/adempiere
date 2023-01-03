@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_DriverAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_DriverAssignment extends PO implements I_DD_DriverAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_DriverAssignment (Properties ctx, int DD_DriverAssignment_ID, String trxName)
@@ -73,25 +75,10 @@ public class X_DD_DriverAssignment extends PO implements I_DD_DriverAssignment, 
       return sb.toString();
     }
 
-	/** Set Driver Assignment.
-		@param DD_DriverAssignment_ID Driver Assignment	  */
-	public void setDD_DriverAssignment_ID (int DD_DriverAssignment_ID)
-	{
-		if (DD_DriverAssignment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_DriverAssignment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_DriverAssignment_ID, Integer.valueOf(DD_DriverAssignment_ID));
-	}
-
-	/** Get Driver Assignment.
-		@return Driver Assignment	  */
-	public int getDD_DriverAssignment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_DriverAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Driver)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Driver.Table_Name)
+			.getPO(getDD_Driver_ID(), get_TrxName());	}
 
 	/** Set Driver.
 		@param DD_Driver_ID Driver	  */
@@ -112,6 +99,31 @@ public class X_DD_DriverAssignment extends PO implements I_DD_DriverAssignment, 
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Driver Assignment.
+		@param DD_DriverAssignment_ID Driver Assignment	  */
+	public void setDD_DriverAssignment_ID (int DD_DriverAssignment_ID)
+	{
+		if (DD_DriverAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_DriverAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_DriverAssignment_ID, Integer.valueOf(DD_DriverAssignment_ID));
+	}
+
+	/** Get Driver Assignment.
+		@return Driver Assignment	  */
+	public int getDD_DriverAssignment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_DriverAssignment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Vehicle)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Vehicle.Table_Name)
+			.getPO(getDD_Vehicle_ID(), get_TrxName());	}
 
 	/** Set Vehicle.
 		@param DD_Vehicle_ID Vehicle	  */

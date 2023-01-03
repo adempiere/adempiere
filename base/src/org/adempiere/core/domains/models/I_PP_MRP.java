@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_PP_MRP 
 {
@@ -270,6 +270,8 @@ public interface I_PP_MRP
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException;
+
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
 
@@ -278,6 +280,8 @@ public interface I_PP_MRP
 
 	/** Get Distribution Order Line	  */
 	public int getDD_OrderLine_ID();
+
+	public org.adempiere.core.domains.models.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

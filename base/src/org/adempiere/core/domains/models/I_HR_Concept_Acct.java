@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Concept_Acct 
 {
@@ -132,6 +132,8 @@ public interface I_HR_Concept_Acct
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_Expense_Acct */
     public static final String COLUMNNAME_HR_Expense_Acct = "HR_Expense_Acct";
 
@@ -151,6 +153,8 @@ public interface I_HR_Concept_Acct
 
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name HR_Revenue_Acct */
     public static final String COLUMNNAME_HR_Revenue_Acct = "HR_Revenue_Acct";

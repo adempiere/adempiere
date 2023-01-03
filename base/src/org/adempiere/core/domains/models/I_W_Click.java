@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_W_Click 
 {
@@ -42,6 +42,19 @@ public interface I_W_Click
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AcceptLanguage */
+    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
+
+	/** Set Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage);
+
+	/** Get Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public String getAcceptLanguage();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -76,19 +89,6 @@ public interface I_W_Click
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
-
-    /** Column name AcceptLanguage */
-    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
-
-	/** Set Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage);
-
-	/** Get Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public String getAcceptLanguage();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -197,19 +197,6 @@ public interface I_W_Click
 	  */
 	public String getTargetURL();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -239,6 +226,32 @@ public interface I_W_Click
 	  */
 	public String getUserAgent();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name W_Click_ID */
+    public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";
+
+	/** Set Web Click.
+	  * Individual Web Click
+	  */
+	public void setW_Click_ID (int W_Click_ID);
+
+	/** Get Web Click.
+	  * Individual Web Click
+	  */
+	public int getW_Click_ID();
+
     /** Column name W_ClickCount_ID */
     public static final String COLUMNNAME_W_ClickCount_ID = "W_ClickCount_ID";
 
@@ -253,17 +266,4 @@ public interface I_W_Click
 	public int getW_ClickCount_ID();
 
 	public org.adempiere.core.domains.models.I_W_ClickCount getW_ClickCount() throws RuntimeException;
-
-    /** Column name W_Click_ID */
-    public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";
-
-	/** Set Web Click.
-	  * Individual Web Click
-	  */
-	public void setW_Click_ID (int W_Click_ID);
-
-	/** Get Web Click.
-	  * Individual Web Click
-	  */
-	public int getW_Click_ID();
 }
