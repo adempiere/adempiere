@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Synchronize DB version and date version on seed with code" ReleaseNo="3.9.3" SeqNo="9900">
+  <Migration EntityType="D" Name="Synchronize DB version and date version on seed with code" ReleaseNo="3.9.4" SeqNo="9900">
     <Comments>ADempiere Release 3.9.4</Comments>
     <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <Comments>Set release no and version correctly</Comments>
