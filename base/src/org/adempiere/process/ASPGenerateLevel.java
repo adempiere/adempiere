@@ -104,7 +104,7 @@ public class ASPGenerateLevel extends ASPGenerateLevelAbstract {
 			+ ", IsGenerateFields=" + isGenerateFields()
 			);
 		
-		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID());
+		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID(), get_TrxName());
 		int AD_Tree_ID = clientInfo.getAD_Tree_Menu_ID();
 		//	Yamel Senih [ 9223372036854775807 ]
 		//	Change Constructor

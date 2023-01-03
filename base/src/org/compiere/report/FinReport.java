@@ -1882,7 +1882,7 @@ public class FinReport extends FinReportAbstract {
 
                     if (printFormatItemName.equalsIgnoreCase("@Logo@")) {
                         Optional.ofNullable(Optional.ofNullable(MImage.get(Env.getCtx(), maybeOrgInfo.get().getLogo_ID()))
-                                        .orElse(MImage.get(Env.getCtx(), MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx())).getLogoReport_ID())))
+                                        .orElse(MImage.get(Env.getCtx(), MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx()), get_TrxName()).getLogoReport_ID())))
                                 .ifPresent(image -> {
                                     byte[] imageData = image.getData();
                                     MAttachment attachment = printFormatItem.createAttachment();
