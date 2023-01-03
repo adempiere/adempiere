@@ -27,7 +27,7 @@ jobs:
       postgres:
         # Docker Hub image
         # Ubuntu lates with last version of postgresql
-        image: postgres:15
+        image: postgres:14.6
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres

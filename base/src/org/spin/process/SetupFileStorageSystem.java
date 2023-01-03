@@ -54,7 +54,7 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 		migrateArchive();
 		//	Set App Registration to Client Info
 		if(errors.get() == 0) {
-			MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID());
+			MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID() , get_TrxName());
 			clientInfo.setFileHandler_ID(getFileHandlerId());
 			clientInfo.saveEx();
 		}
