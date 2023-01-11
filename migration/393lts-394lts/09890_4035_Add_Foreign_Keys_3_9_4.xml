@@ -28,9 +28,9 @@ ALTER TABLE AD_NotificationQueue ADD CONSTRAINT ADAppRegistration_ADNotificati F
 ALTER TABLE AD_NotificationQueue ADD CONSTRAINT ADAppSupport_ADNotificationQue FOREIGN KEY (AD_AppSupport_ID) REFERENCES AD_AppSupport DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE AD_NotificationQueue ADD CONSTRAINT ADQueue_ADNotificationQueue FOREIGN KEY (AD_Queue_ID) REFERENCES AD_Queue DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE AD_NotificationQueue ADD CONSTRAINT ADUser_ADNotificationQueue FOREIGN KEY (AD_User_ID) REFERENCES AD_User DEFERRABLE INITIALLY DEFERRED;
-ALTER TABLE AD_NotificationRecipient ADD CONSTRAINT ADNotificationQueue_ADNotifica FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE AD_NotificationRecipient ADD CONSTRAINT ADNotificationQueue_NotiRecipi FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE AD_NotificationRecipient ADD CONSTRAINT ADUser_ADNotificationRecipient FOREIGN KEY (AD_User_ID) REFERENCES AD_User DEFERRABLE INITIALLY DEFERRED;
-ALTER TABLE AD_NotificationUpdates ADD CONSTRAINT ADNotificationQueue_ADNotifica FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE AD_NotificationUpdates ADD CONSTRAINT ADNotificationQueue_NotiUpdate FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE AD_NotificationUpdates ADD CONSTRAINT ADNotificationRecipient_ADNoti FOREIGN KEY (AD_NotificationRecipient_ID) REFERENCES AD_NotificationRecipient DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE AD_OrgInfo ADD CONSTRAINT ADEMailConfig_ADOrgInfo FOREIGN KEY (AD_EMailConfig_ID) REFERENCES AD_EMailConfig DEFERRABLE INITIALLY DEFERRED;
 
@@ -175,9 +175,9 @@ ALTER TABLE AD_NotificationQueue ADD (CONSTRAINT ADAppRegistration_ADNotificati 
 ALTER TABLE AD_NotificationQueue ADD (CONSTRAINT ADAppSupport_ADNotificationQue FOREIGN KEY (AD_AppSupport_ID) REFERENCES AD_AppSupport);
 ALTER TABLE AD_NotificationQueue ADD (CONSTRAINT ADQueue_ADNotificationQueue FOREIGN KEY (AD_Queue_ID) REFERENCES AD_Queue);
 ALTER TABLE AD_NotificationQueue ADD (CONSTRAINT ADUser_ADNotificationQueue FOREIGN KEY (AD_User_ID) REFERENCES AD_User);
-ALTER TABLE AD_NotificationRecipient ADD (CONSTRAINT ADNotificationQueue_ADNotifica FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue);
+ALTER TABLE AD_NotificationRecipient ADD (CONSTRAINT ADNotificationQueue_NotiRecipi FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue);
 ALTER TABLE AD_NotificationRecipient ADD (CONSTRAINT ADUser_ADNotificationRecipient FOREIGN KEY (AD_User_ID) REFERENCES AD_User);
-ALTER TABLE AD_NotificationUpdates ADD (CONSTRAINT ADNotificationQueue_ADNotifica FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue);
+ALTER TABLE AD_NotificationUpdates ADD (CONSTRAINT ADNotificationQueue_NotiUpdate FOREIGN KEY (AD_NotificationQueue_ID) REFERENCES AD_NotificationQueue);
 ALTER TABLE AD_NotificationUpdates ADD (CONSTRAINT ADNotificationRecipient_ADNoti FOREIGN KEY (AD_NotificationRecipient_ID) REFERENCES AD_NotificationRecipient);
 ALTER TABLE AD_OrgInfo ADD (CONSTRAINT ADEMailConfig_ADOrgInfo FOREIGN KEY (AD_EMailConfig_ID) REFERENCES AD_EMailConfig);
 
