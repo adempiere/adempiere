@@ -25,7 +25,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 import java.util.logging.Level;
+
 
 import org.adempiere.core.domains.models.X_AD_Workflow;
 import org.adempiere.exceptions.AdempiereException;
@@ -707,6 +709,7 @@ public class MWorkflow extends X_AD_Workflow
 		MWFProcess workflowProcess = null;
 		Trx workflowProcessTransaction = null;
 		Savepoint savepoint = null;
+		Function<ProcessInfo,Boolean> isWorkflowEngineTransaction = pi -> pi.getTransactionName() == null;
 		try {
 			workflowProcess = new MWFProcess (this, processInfo, null);
 			// Check if exits activities actives if this way then Other Process Active
@@ -718,9 +721,11 @@ public class MWorkflow extends X_AD_Workflow
 			} else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())) {
 				workflowProcess.lockDocument();
 			}
-			if (processInfo.getTransactionName() == null)
+			if (isWorkflowEngineTransaction.apply(processInfo)) {
+				//Create new transaction
 				workflowProcessTransaction = Trx.get(Trx.createTrxName("WFP"), true);
-			else {
+			} else {
+				//Use the transaction from process info
 				workflowProcessTransaction = Trx.get(processInfo.getTransactionName(), false);
 				savepoint = workflowProcessTransaction.setSavepoint(null);
 			}
@@ -730,24 +735,28 @@ public class MWorkflow extends X_AD_Workflow
 			processInfo.setSummary(Msg.getMsg(getCtx(), "Processing"));
 			workflowProcess.startWork(workflowProcessTransaction);
 			//Check if transaction is management by the process info or workflow engine
-			if (workflowProcessTransaction != null) {
-				if (processInfo.getTransactionName() == null)
-					workflowProcessTransaction.commit(true);
-				else
-					workflowProcessTransaction.releaseSavepoint(savepoint);
+			if (isWorkflowEngineTransaction.apply(processInfo)) {
+				//Commit the Workflow Engine Transaction
+				assert workflowProcessTransaction != null;
+				workflowProcessTransaction.commit(true);
+			} else {
+				//Commit save point using the Process Info Transaction
+				assert workflowProcessTransaction != null;
+				workflowProcessTransaction.releaseSavepoint(savepoint);
 			}
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
 				workflowProcess.unlockDocument();
 		} catch (Exception e) {
-			if (workflowProcessTransaction != null) {
-				if (processInfo.getTransactionName() == null)
-					workflowProcessTransaction.rollback();
-				else {
-					try {
-						workflowProcessTransaction.rollback(savepoint);
-					} catch (SQLException sqlException) {
-						throw new AdempiereException(sqlException.getMessage());
-					}
+			if (isWorkflowEngineTransaction.apply(processInfo)) {
+				assert workflowProcessTransaction != null;
+				workflowProcessTransaction.rollback();
+			}
+			else {
+				try {
+					assert workflowProcessTransaction != null;
+					workflowProcessTransaction.rollback(savepoint);
+				} catch (SQLException sqlException) {
+					throw new AdempiereException(sqlException.getMessage());
 				}
 			}
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
@@ -755,8 +764,10 @@ public class MWorkflow extends X_AD_Workflow
 			workflowProcess = null;
 		} finally {
 			//Check if transaction is management by the process info or workflow engine
-			if (workflowProcessTransaction != null && processInfo.getTransactionName() == null)
+			if (isWorkflowEngineTransaction.apply(processInfo)) {
+				assert workflowProcessTransaction != null;
 				workflowProcessTransaction.close();
+			}
 		}
 		return workflowProcess;
 	}	//	MWFProcess
@@ -790,6 +801,7 @@ public class MWorkflow extends X_AD_Workflow
 		Thread.yield();
 		StateEngine state = process.getState();
 		int loops = 0;
+
 		while (!state.isClosed() && !state.isSuspended())
 		{
 			if (loops > MAXLOOPS)
