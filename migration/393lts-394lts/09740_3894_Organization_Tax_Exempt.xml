@@ -15,7 +15,7 @@
         <Data AD_Column_ID="50193" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="50196" Column="Value">N</Data>
         <Data AD_Column_ID="50197" Column="Description">Validate exempt taxes based on organization</Data>
-        <Data AD_Column_ID="53270" Column="EntityType">U</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
         <Data AD_Column_ID="84421" Column="UUID">48c0c232-b05c-4ec3-806f-4c144537513b</Data>
       </PO>
     </Step>
