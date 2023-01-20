@@ -68,9 +68,9 @@ public final class Adempiere
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
 	static public String	MAIN_VERSION	= "Release 3.9.4";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2023-01-01";
+	static public String	DATE_VERSION	= "2023-01-24";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2023-01-01";
+	static public String	DB_VERSION		= "2023-01-24";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
@@ -187,13 +187,14 @@ public final class Adempiere
 		if (s_ImplementationVendor != null)
 			return;
 
-		Package adempierePackage = Package.getPackage("org.compiere");
-		s_ImplementationVendor = adempierePackage.getImplementationVendor();
-		s_ImplementationVersion = adempierePackage.getImplementationVersion();
-		if (s_ImplementationVendor == null)
-		{
-			s_ImplementationVendor = "Supported by ADempiere community";
-			s_ImplementationVersion = "ADempiere";
+		Package adempierePackage = Package.getPackage("org.adempiere");
+		if (adempierePackage != null) {
+			s_ImplementationVendor = adempierePackage.getImplementationVendor();
+			s_ImplementationVersion = adempierePackage.getImplementationVersion();
+			if (s_ImplementationVendor == null) {
+				s_ImplementationVendor = "Supported by ADempiere community";
+				s_ImplementationVersion = "ADempiere";
+			}
 		}
 	}	//	setPackageInfo
 
