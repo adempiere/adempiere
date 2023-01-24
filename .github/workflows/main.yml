@@ -19,14 +19,14 @@ jobs:
   build-all:
     # The type of runner that the job will run on
     # For Linux, only Ubuntu is supported.
-    # Taking a specific version number to avoid side effects.
+    # Taking the last version.
     runs-on: ubuntu-latest
     # Service containers to run with `container-job`
     services:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        # Ubuntu lates with last version of postgresql
+        # Take the specific latest Postgres version that runs with latest Ubuntu version.
         image: postgres:14.6
         # Provide the password for postgres
         env:
@@ -67,6 +67,7 @@ jobs:
             echo  "Installing Tomcat version 9 FINISHED"
 
       # Filter files to discern whether to run with or without database restore 
+      # Restore due when following files are modified: migration xml files, Github action files and utils scripts.
       - name: Discern which files changed ...
         uses: dorny/paths-filter@v2
         id: changed-files
@@ -74,6 +75,9 @@ jobs:
           filters: |
             xml-files:
               - 'migration/**/*.xml'
+              - '.github/workflows/*.yml'
+              - 'build.xml'
+              - 'utils/RUN*.*'
 
       # Build ADempiere with ant, if there are changes in XML files
       - name: Build Adempiere with database restore...

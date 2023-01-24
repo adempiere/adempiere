@@ -2,7 +2,7 @@
 
 echo	ADempiere Database Import
 
-echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/Adempiere_pg.dmp 
+echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp 
 
 if [ $# -le 2 ] 
   then
@@ -42,9 +42,9 @@ echo -------------------------------------
 echo Import Adempiere_pg.dmp
 echo -------------------------------------
 psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -c "drop schema sqlj cascade"
-ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE $2 SET search_path TO adempiere, pg_catalog"
+ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE $2 SET search_path TO $ADEMPIERE_DB_NAME, pg_catalog"
 psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -c "$ADEMPIERE_ALTER_ROLE_SQL"
-psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -f $ADEMPIERE_HOME/data/Adempiere_pg.dmp
+psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -f $ADEMPIERE_HOME/data/ExpDat.dmp
 
 PGPASSWORD=
 export PGPASSWORD
