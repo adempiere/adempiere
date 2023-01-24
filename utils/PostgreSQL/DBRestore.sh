@@ -2,7 +2,7 @@
 
 echo	ADempiere Database Import
 
-echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp
+echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp 
 
 if [ $# -le 2 ] 
   then
