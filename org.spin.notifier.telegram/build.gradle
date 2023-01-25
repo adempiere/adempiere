@@ -1,0 +1,105 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+allprojects {
+    tasks.withType(Javadoc) {
+    	options.addStringOption('Xdoclint:none', '-quiet')
+   	}
+}
+
+dependencies {
+	api project(path: ':base')
+    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    api 'org.telegram:telegrambots:6.0.1'	
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src/main/java/base']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
+
+def entityType = 'D'
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Project Management",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'telegram-notifier'
+            version
+           	from components.java
+           	pom {
+                name = 'Telegram Notifier'
+                description = 'A library for send notifications by telegram from ADempiere.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}

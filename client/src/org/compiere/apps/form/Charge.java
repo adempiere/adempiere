@@ -28,7 +28,6 @@ import org.compiere.model.MElementValue;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 
 /**
@@ -94,7 +93,7 @@ public class Charge
 				line.add(rs.getString(2));          //  1-Value
 				line.add(rs.getString(3));          //  2-Name
 				boolean isExpenseType = rs.getString(4).equals("E");
-				line.add(new Boolean(isExpenseType));   //  3-Expense
+				line.add(Boolean.valueOf(isExpenseType));   //  3-Expense
 				data.add(line);
 			}
 			rs.close();

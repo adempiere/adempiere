@@ -24,6 +24,7 @@ import java.text.DateFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_AttributeSetInstance;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -281,7 +282,7 @@ public class MAttributeSetInstance extends X_M_AttributeSetInstance
 		int M_LotCtl_ID = getMAttributeSet().getM_LotCtl_ID();
 		if (M_LotCtl_ID != 0)
 		{
-			MLotCtl ctl = new MLotCtl (getCtx(), M_LotCtl_ID, null);
+			MLotCtl ctl = new MLotCtl (getCtx(), M_LotCtl_ID, get_TrxName());
 			MLot lot = ctl.createLot(M_Product_ID);
 			setM_Lot_ID (lot.getM_Lot_ID());
 			setLot (lot.getName());

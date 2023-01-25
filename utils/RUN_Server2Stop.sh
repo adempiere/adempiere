@@ -8,21 +8,39 @@ fi
 . ./myEnvironment.sh Server
 echo Adempiere Server Stop - $ADEMPIERE_HOME \($ADEMPIERE_DB_NAME\)
 
-JBOSS_LIB=$JBOSS_HOME/lib
-export JBOSS_LIB
-JBOSS_SERVERLIB=$JBOSS_HOME/server/adempiere/lib
-export JBOSS_SERVERLIB
-JBOSS_CLASSPATH=$ADEMPIERE_HOME/lib/jboss.jar:$JBOSS_LIB/jboss-system.jar:
-export JBOSS_CLASSPATH
-
-if [ $ADEMPIERE_APPS_TYPE = "jboss" ]
+if [ $ADEMPIERE_APPS_TYPE = "wildfly" ]
 then
-    echo sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
-    sh $JBOSS_HOME/bin/shutdown.sh --server=jnp://$ADEMPIERE_APPS_SERVER:$ADEMPIERE_JNP_PORT --shutdown
+   if test -f "$WILDFLY_HOME/wildfly.pid"
+    then
+      export JBOSS_HOME=
+      echo sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command=:shutdown
+      sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command=:shutdown
+      rm $WILDFLY_HOME/wildfly.pid
+   fi
 fi
 
 if [ $ADEMPIERE_APPS_TYPE = "tomcat" ]
 then
-    echo sh ../tomcat/bin/shutdown.sh
-    sh ../tomcat/bin/shutdown.sh
+   if test -f "$CATALINA_BASE/tomcat.pid"
+   then
+      echo sh $CATALINA_BASE/bin/shutdown.sh
+      sh $CATALINA_BASE/bin/shutdown.sh
+   fi
+fi
+
+if [ $ADEMPIERE_APPS_TYPE = "jetty" ]
+then
+    if test -z  "$JETTY_HOME"
+      then
+        echo "JETTY_HOME not defined"
+      else
+        export JETTY_BASE=$ADEMPIERE_HOME/jetty
+        echo "Jetty Home directory : ${JETTY_HOME}"
+        echo "Jetty Base directory : ${JETTY_BASE}"
+        if test -f "$JETTY_BASE/jetty.pid"
+          then
+            $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar stop.port=7777 stop.key=$ADEMPIERE_KEYSTOREPASS --stop
+            rm $JETTY_BASE/jetty.pid
+        fi
+    fi
 fi

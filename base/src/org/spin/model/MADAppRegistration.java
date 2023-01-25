@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.I_AD_AppRegistration_Para;
+import org.adempiere.core.domains.models.X_AD_AppRegistration;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -117,7 +119,7 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	 */
 	public static List<MADAppRegistration> getAll(Properties ctx, boolean resetCache, String trxName) {
 		List<MADAppRegistration> definitionList;
-		if (resetCache || definitionCacheIds.size() > 0 ) {
+		if (resetCache || definitionCacheIds.size() == 0 ) {
 			definitionList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setOrderBy(COLUMNNAME_Value)
 					.list();
@@ -132,6 +134,14 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 				.map(activity -> activity.getValue())
 				.collect(Collectors.toList());
 		return  definitionList;
+	}
+	
+	/**
+	 * Reset cache for values
+	 */
+	public static void resetCache() {
+		definitionCacheIds.clear();
+		definitionCacheValues.clear();
 	}
 	
 	/**
@@ -195,7 +205,18 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		}
 		return super.afterSave(newRecord, success);
 	}
-
+	
+	/**
+	 * get All Parameters for App Registration
+	 * @return
+	 */
+	public Map<String, MADAppRegistrationPara> getAllParameters(){
+		if (parameters== null)
+			loadParameters();
+		
+		return parameters;
+	}
+	
 	@Override
 	public String toString() {
 		return "MADAppRegistration [getAD_AppRegistration_ID()=" + getAD_AppRegistration_ID() + ", getName()=" + getName() 

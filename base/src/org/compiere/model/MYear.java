@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -27,6 +26,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_Year;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.process.DocumentTypeVerify;
 import org.compiere.process.SvrProcess;
@@ -61,7 +61,7 @@ public class MYear extends X_C_Year
 		if (year > 0)
 		return new Query(ctx , MYear.Table_Name , MYear.COLUMNNAME_FiscalYear + "=?" , trxName)
 				.setClient_ID()
-				.setParameters(new Integer(year).toString())
+				.setParameters(Integer.valueOf(year).toString())
 				.first();
 		else
 			return null;

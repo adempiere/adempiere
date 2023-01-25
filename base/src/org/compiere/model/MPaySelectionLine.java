@@ -23,14 +23,18 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_HR_Movement;
+import org.adempiere.core.domains.models.X_C_PaySelectionLine;
+import org.adempiere.core.domains.models.X_HR_Employee;
+import org.adempiere.core.domains.models.X_HR_Movement;
+import org.adempiere.core.domains.models.X_HR_Payroll;
+import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.X_HR_Employee;
-import org.eevolution.model.X_HR_Movement;
-import org.eevolution.model.X_HR_Payroll;
 
 /**
  *	Payment Selection Line Model
@@ -129,6 +133,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setIsSOTrx(isSOTrx);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoive
@@ -155,6 +163,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoice
@@ -182,21 +193,36 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(order.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(order.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setOrder
 	
 	/**
-	 * Set Payroll Movement Info
-	 * @param movementId
-	 * @param payAmt
+	 * Based on movement
+	 * @param movement
+	 * @param sourceAmount
+	 * @param convertedAmount
 	 */
-	public void setHRMovement(int movementId, BigDecimal payAmt) {
-		setHR_Movement_ID(movementId);
-		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
+	public void setHRMovement(I_HR_Movement movement, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		X_HR_Process payrollProcess = new X_HR_Process(getCtx(), movement.getHR_Process_ID(), get_TrxName());
+		setHRMovement(movement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount);
+	}
+	
+	/**
+	 * Set Payroll Movement Info
+	 * @param movement
+	 * @param conversionTypeId
+	 * @param sourceAmount
+	 * @param convertedAmount
+	 */
+	public void setHRMovement(I_HR_Movement movement, int conversionTypeId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		setHR_Movement_ID(movement.getHR_Movement_ID());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
-		X_HR_Employee employee = (X_HR_Employee) movement.getHR_Employee();
+		X_HR_Employee employee = new X_HR_Employee(getCtx(), movement.getHR_Employee_ID(), get_TrxName());
 		if(employee != null 
 				&& employee.getPaymentRule() != null) {
 			setPaymentRule(employee.getPaymentRule());
@@ -204,24 +230,27 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		//	From Payroll
 		if(getPaymentRule() == null) {
 			X_HR_Payroll payroll = new X_HR_Payroll(getCtx(), movement.getHR_Payroll_ID(), get_TableName());
-			if(payroll.getPaymentRule() != null)
+			if(payroll.getPaymentRule() != null) {
 				setPaymentRule(payroll.getPaymentRule());
+			}
 		}
 		//	From BPartner
 		if(getPaymentRule() == null) {
 			MBPartner partner = MBPartner.get(getCtx(), movement.getC_BPartner_ID());
-			if(partner.getPaymentRulePO() != null)
+			if(partner.getPaymentRulePO() != null) {
 				setPaymentRule(partner.getPaymentRulePO());
+			}
 		}
 		//	Default
 		if(getPaymentRule() == null) {
 			setPaymentRule(X_C_PaySelectionLine.PAYMENTRULE_Check);
 		}
-		//	
+		//	Get Conversion Type
 		setIsSOTrx(false);
-		setAmtSource(payAmt);
-		setOpenAmt(payAmt);
-		setPayAmt (payAmt);
+		setAmtSource(sourceAmount);
+		setOpenAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
+		setPayAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
+		setC_ConversionType_ID(conversionTypeId);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setHRMovement
@@ -311,8 +340,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 * @return
 	 */
 	public X_HR_Movement getHRMovement() {
-		if (movement == null)
+		if (movement == null) {
 			movement = new X_HR_Movement(getCtx(), getHR_Movement_ID(), get_TrxName());
+		}
 		return movement;
 	}	//	getHRMovement
 	

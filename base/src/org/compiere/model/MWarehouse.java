@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Locator;
+import org.adempiere.core.domains.models.X_M_Warehouse;
 import org.compiere.util.CCache;
 
 /**
@@ -58,7 +60,7 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse get (Properties ctx, int M_Warehouse_ID, String trxName)
 	{
-		Integer key = new Integer(M_Warehouse_ID);
+		Integer key = Integer.valueOf(M_Warehouse_ID);
 		MWarehouse retValue = (MWarehouse)s_cache.get(key);
 		if (retValue != null)
 			return retValue;

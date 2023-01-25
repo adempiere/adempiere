@@ -31,7 +31,7 @@ import java.util.logging.Level;
 
 import javax.swing.JComboBox;
 
-import org.compiere.model.I_AD_Column;
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MFactAcct;
@@ -219,7 +219,7 @@ class AcctViewerData
 				//
 				ValueNamePair pp = new ValueNamePair(tableName, name);
 				cb.addItem(pp);
-				tableInfo.put (tableName, new Integer(id));
+				tableInfo.put(tableName, Integer.valueOf(id));
 				if (id == AD_Table_ID)
 					select = pp;
 			}

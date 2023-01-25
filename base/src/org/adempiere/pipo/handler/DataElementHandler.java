@@ -30,6 +30,7 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.IDFinder;
@@ -37,7 +38,6 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
@@ -201,8 +201,8 @@ public class DataElementHandler extends AbstractElementHandler {
 				genericPO.setIsDirectLoad(true);
 				// Set defaults.
 				//TODO: get defaults from configuration
-				HashMap defaults = new HashMap();
-				HashMap thisDefault = (HashMap)defaults.get(d_tablename);
+				HashMap<Object, Object> defaults = new HashMap<Object, Object>();
+				HashMap<?, ?> thisDefault = (HashMap<?, ?>) defaults.get(d_tablename);
 				if (thisDefault != null) {
 					Iterator iter = thisDefault.values().iterator();
 					ArrayList thisValue = null;
@@ -213,7 +213,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						else if (((String)(thisValue.get(2))).equals("Integer"))
 							genericPO.set_ValueOfColumn((String)thisValue.get(0), Integer.valueOf((String)thisValue.get(1)));
 						else if (((String)(thisValue.get(2))).equals("Boolean"))
-							genericPO.set_ValueOfColumn((String)thisValue.get(0), new Boolean(((String)thisValue.get(1)).equals("true") ? true : false));
+							genericPO.set_ValueOfColumn((String) thisValue.get(0), Boolean.valueOf((String) thisValue.get(1)));
 					}
 				}
 			}
@@ -274,7 +274,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						genericPO.set_ValueOfColumn(atts.getValue("name").toString(), Integer.valueOf(atts.getValue("value")));
 					}	
 					else if (atts.getValue("class").equals("Boolean")) {
-						genericPO.set_ValueOfColumn(atts.getValue("name"), new Boolean(atts.getValue("value").equals("true") ? true : false));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), Boolean.valueOf(atts.getValue("value")));
 					}
 					else if (atts.getValue("class").equals("Date") || atts.getValue("class").equals("Date+Time")
 							|| atts.getValue("class").equals("Time")) {
@@ -284,11 +284,11 @@ public class DataElementHandler extends AbstractElementHandler {
 					if (atts.getValue("lookupname") != null && !"".equals(atts.getValue("lookupname"))) {
 						// globalqss - bring support from XML2AD to lookupname
 						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
-						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), Integer.valueOf(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
 					} else if (atts.getValue("lookupvalue") != null && !"".equals(atts.getValue("lookupvalue"))) {
 						// globalqss - bring support from XML2AD to lookupvalue
 						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
-						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyValue(ctx, m_tablename, atts.getValue("lookupvalue"))));
+						genericPO.set_ValueOfColumn(atts.getValue("name"), Integer.valueOf(getIDbyValue(ctx, m_tablename, atts.getValue("lookupvalue"))));
 					}
 
 				}

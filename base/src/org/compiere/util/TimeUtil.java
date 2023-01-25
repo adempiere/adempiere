@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.compiere.model.MCalendar;
 
@@ -126,6 +129,7 @@ public class TimeUtil
 		cal.set(Calendar.MILLISECOND, 0);
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	getNextDay
+
 
 	/**
 	 * 	Get last date in month
@@ -244,7 +248,7 @@ public class TimeUtil
 		//	On same day
 		if (calStart.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)
 			&& calStart.get(Calendar.MONTH) == calEnd.get(Calendar.MONTH)
-			&& calStart.get(Calendar.DAY_OF_MONTH) == calEnd.get(Calendar.DAY_OF_YEAR))
+			&& calStart.get(Calendar.DAY_OF_MONTH) == calEnd.get(Calendar.DAY_OF_MONTH))
 		{
 			if ((!OnSaturday && dayStart == Calendar.SATURDAY)
 				|| (!OnSunday && dayStart == Calendar.SUNDAY)
@@ -1037,6 +1041,8 @@ public class TimeUtil
 	public static final String DURATIONUNIT_Year = "Y";
 	/** Month = M */
 	public static final String DURATIONUNIT_Month = "M";
+	/** week = W */
+	public static final String DURATIONUNIT_Week = "W";
 	/** Day = D */
 	public static final String DURATIONUNIT_Day = "D";
 	/** hour = h */
@@ -1083,6 +1089,10 @@ public class TimeUtil
 			calendar.add(Calendar.HOUR_OF_DAY, duration);
 		else if (DURATIONUNIT_Month.equals(durationUnit))
 			calendar.add(Calendar.MONTH, duration);
+		else if (DURATIONUNIT_Week.equals(durationUnit))
+			calendar.add(Calendar.WEEK_OF_MONTH, duration);
+		else if (DURATIONUNIT_Year.equals(durationUnit))
+			calendar.add(Calendar.YEAR, duration);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
 	
@@ -1350,4 +1360,35 @@ public class TimeUtil
         //	Value
         return weeks;
 	}
+	
+	/**
+	 * Get the year (GMT) as an int.
+	 * @param date a Timestamp. Not null.
+	 * @return year as an int
+	 */
+    public static int getYearFromTimestamp(Timestamp date) {
+
+        Timestamp time = requireNonNull(date);
+        Calendar todayCal = Calendar.getInstance();
+        todayCal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        todayCal.setTimeInMillis(time.getTime());
+        return todayCal.get(Calendar.YEAR);
+
+    }
+	
+	/**
+	 * Return a BigDecimal representing the time in milliseconds 2 seconds 
+	 * prior to the current database time (not the system time). Useful for
+	 * limiting processes that may conflict with current operations.
+	 * @return BigDecimal representing time in milliseconds
+	 */
+    public static BigDecimal getTwoSecondsPriorToCurrentTimeInMillis() {
+
+        Timestamp ts = DB.getCurrentTimeFromDatabase();
+        long ms = ts.getTime() - (2 * 1000);
+        ts = new Timestamp(ms);
+        long mili = ts.getTime();
+        return new BigDecimal(Long.toString(mili));
+    }
+
 }	//	TimeUtil

@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_ReportView;
 import org.compiere.util.CCache;
 
 /**
@@ -53,7 +54,7 @@ public class MReportView extends X_AD_ReportView {
 		if (reportViewId <= 0) {
 			return null;
 		}
-		Integer key = new Integer (reportViewId);
+		Integer key = Integer.valueOf(reportViewId);
 		MReportView retValue = (MReportView) cache.get (key);
 		if (retValue != null) {
 			return retValue;

@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Process;
+import org.adempiere.core.domains.models.I_AD_Process_Para;
+import org.adempiere.core.domains.models.X_AD_Process;
 import org.adempiere.util.ProcessUtil;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
@@ -76,7 +79,7 @@ public class MProcess extends X_AD_Process
 	 */
 	public static MProcess get (Properties ctx, int AD_Process_ID)
 	{
-		Integer key = new Integer (AD_Process_ID);
+		Integer key = Integer.valueOf(AD_Process_ID);
 		MProcess retValue = (MProcess) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -194,7 +197,7 @@ public class MProcess extends X_AD_Process
 	 */
 	public List<MProcessPara> getASPParameters() {
 		MClient client = MClient.get(Env.getCtx());
-		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID();
+		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID() + "|" + Env.getAD_Language(getCtx());
 		List<MProcessPara> retValue = cacheASPParameters.get (key);
 		if (retValue != null)
 			return retValue;

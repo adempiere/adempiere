@@ -65,7 +65,6 @@ public class ApplyMigrationScripts extends SvrProcess {
 				if (tmpSql.length() > 0) {
 					log.info("Executing script " + rs.getString(3));
 					execOk = executeScript(tmpSql.toString(), rs.getString(3));
-					System.out.println();
 				}
 			} catch (SQLException e) {
 				execOk = false;

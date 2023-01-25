@@ -394,7 +394,7 @@ public class WLocatorDialog extends Window implements EventListener
 		m_AD_Org_ID = 0;
 
 		String SQL = "SELECT M_Warehouse_ID, Value, Name, Separator, AD_Client_ID, AD_Org_ID "
-			+ "FROM M_Warehouse WHERE M_Warehouse_ID=?";
+			+ "FROM M_Warehouse WHERE IsActive = 'Y' AND M_Warehouse_ID=?";
 		
 		try
 		{
@@ -511,7 +511,7 @@ public class WLocatorDialog extends Window implements EventListener
 		MLocator l = (MLocator) listitem.getValue();
 		
 		if (l != null && l.getM_Locator_ID() != 0)
-			return new Integer (l.getM_Locator_ID());
+			return Integer.valueOf(l.getM_Locator_ID());
 		
 		return null;
 	} // getValue

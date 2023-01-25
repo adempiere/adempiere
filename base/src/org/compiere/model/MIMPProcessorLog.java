@@ -31,6 +31,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_IMP_ProcessorLog;
+
 
 /**
  * @author Trifon Trifonov
@@ -47,7 +49,7 @@ public class MIMPProcessorLog
 	/**
 	 * 
 	 * @param ctx
-	 * @param EXP_ReplicationProcessorLog_ID
+	 * @param IMP_ProcessorLog_ID
 	 * @param trxName
 	 */
 	public MIMPProcessorLog(Properties ctx,	int IMP_ProcessorLog_ID, String trxName) {
@@ -69,10 +71,11 @@ public class MIMPProcessorLog
 	 * 
 	 * @param parent
 	 * @param summary
+	 * @param trxName
 	 */
-	public MIMPProcessorLog (MIMPProcessor parent, String summary)
+	public MIMPProcessorLog (MIMPProcessor parent, String summary, String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setIMP_Processor_ID(parent.getIMP_Processor_ID());
 		setSummary(summary);

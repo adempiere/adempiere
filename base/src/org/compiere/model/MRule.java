@@ -26,6 +26,8 @@ import java.util.Properties;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.adempiere.core.domains.models.I_AD_Rule;
+import org.adempiere.core.domains.models.X_AD_Rule;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
@@ -62,7 +64,7 @@ public class MRule extends X_AD_Rule
 	 */
 	public static MRule get (Properties ctx, int AD_Rule_ID)
 	{
-		Integer key = new Integer (AD_Rule_ID);
+		Integer key = Integer.valueOf(AD_Rule_ID);
 		MRule retValue = (MRule) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -98,7 +100,7 @@ public class MRule extends X_AD_Rule
 		
 		if (retValue != null)
 		{
-			Integer key = new Integer (retValue.getAD_Rule_ID());
+			Integer key = Integer.valueOf(retValue.getAD_Rule_ID());
 			s_cache.put (key, retValue);
 		}
 		return retValue;
@@ -170,6 +172,10 @@ public class MRule extends X_AD_Rule
 				log.saveError("Error", Msg.getMsg(getCtx(), "WrongScriptValue"));
 				return false;
 			}
+		}
+		if(is_ValueChanged(COLUMNNAME_Script)
+				|| is_ValueChanged(COLUMNNAME_EntityType)) {
+			setIsRuleClassGenerated(false);
 		}
 		return true;
 	}	//	beforeSave

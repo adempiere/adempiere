@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_CashBook;
+import org.adempiere.core.domains.models.X_C_CashBook;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 
@@ -57,7 +59,7 @@ public class MCashBook extends X_C_CashBook
 	 */
 	public static MCashBook get(Properties ctx, int C_CashBook_ID, String trxName)
 	{
-		Integer key = new Integer (C_CashBook_ID);
+		Integer key = Integer.valueOf(C_CashBook_ID);
 		MCashBook retValue = (MCashBook) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -93,7 +95,7 @@ public class MCashBook extends X_C_CashBook
 		.first();
 		if (retValue!=null)
 			{
-				Integer key = new Integer (retValue.getC_CashBook_ID());
+			Integer key = Integer.valueOf(retValue.getC_CashBook_ID());
 				s_cache.put (key, retValue);
 			}
 		return retValue;

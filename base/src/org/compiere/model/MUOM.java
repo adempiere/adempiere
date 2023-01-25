@@ -17,11 +17,13 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_UOM;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -216,7 +218,7 @@ public class MUOM extends X_C_UOM
 		if (!stdPrecision)
 			precision = getCostingPrecision();
 		if (qty.scale() > precision)
-			return qty.setScale(getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			return qty.setScale(getStdPrecision(), RoundingMode.HALF_UP);
 		return qty;
 	}	//	round
 

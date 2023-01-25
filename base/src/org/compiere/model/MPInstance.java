@@ -28,6 +28,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_PInstance_Para;
+import org.adempiere.core.domains.models.X_AD_PInstance;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -245,7 +247,7 @@ public class MPInstance extends X_AD_PInstance
 			log.info("Set to 0 from " + Record_ID);
 			Record_ID = 0;
 		}
-		set_ValueNoCheck ("Record_ID", new Integer(Record_ID));
+		set_ValueNoCheck("Record_ID", Integer.valueOf(Record_ID));
 	}	//	setRecord_ID
 
 	/**

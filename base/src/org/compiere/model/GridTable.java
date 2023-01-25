@@ -651,6 +651,7 @@ public class GridTable extends AbstractTableModel
 		m_open = true;
 		//
 		m_changed = false;
+		m_newRow = -1;
 		m_rowChanged = -1;
 		m_inserting = false;
 		return true;
@@ -897,6 +898,9 @@ public class GridTable extends AbstractTableModel
 		Object[] changedRow = m_rowChanged >= 0 ? getDataAtRow(m_rowChanged) : null;
 
 		GridField field = getField (col);
+
+		MSort currentRow = m_currentRow >= 0 && m_currentRow < m_sort.size() ? (MSort)m_sort.get(m_currentRow) : null;
+
 		//	RowIDs are not sorted
 		if (field.getDisplayType() == DisplayType.RowID)
 			return;
@@ -948,12 +952,15 @@ public class GridTable extends AbstractTableModel
 			for (int i = 0; i < m_sort.size(); i++)
 			{
 				m_sort.get(i).data = null;
+
+				if (currentRow != null && m_sort.get(i) == currentRow)
+					m_currentRow = i;
 			}
 		}
+		//  Info detected by MTab.dataStatusChanged
+		fireDataStatusIEvent("Sorted", "#" + m_sort.size());
 		//	update UI
 		fireTableDataChanged();
-		//  Info detected by MTab.dataStatusChanged and current row set to 0
-		fireDataStatusIEvent("Sorted", "#" + m_sort.size());
 	}	//	sort
 
 	/**
@@ -1230,8 +1237,8 @@ public class GridTable extends AbstractTableModel
 
 		//  Save old value
 		m_oldValue = new Object[3];
-		m_oldValue[0] = new Integer(row);
-		m_oldValue[1] = new Integer(col);
+		m_oldValue[0] = Integer.valueOf(row);
+		m_oldValue[1] = Integer.valueOf(col);
 		m_oldValue[2] = oldValue;
 
 		//	Set Data item
@@ -1845,7 +1852,7 @@ public class GridTable extends AbstractTableModel
 								if (dd instanceof Integer)
 									iii = (Integer)dd;
 								else
-									iii = new Integer(dd.toString());
+									iii = Integer.valueOf(dd.toString());
 								if (encrypted)
 									iii = (Integer)encrypt(iii);
 								if (manualUpdate)
@@ -2452,6 +2459,8 @@ public class GridTable extends AbstractTableModel
 
 	/**	LOB Info				*/
 	private ArrayList<PO_LOB>	m_lobInfo = null;
+
+	private int m_currentRow = -1;
 
 	/**
 	 * 	Reset LOB info
@@ -3167,7 +3176,7 @@ public class GridTable extends AbstractTableModel
 							|| columnName.equals("AD_Key") || columnName.equals("AD_Display"))) 
 					|| columnName.endsWith("atedBy"))
 				{
-					rowData[j] = new Integer(rs.getInt(j+1));	//	Integer
+					rowData[j] = Integer.valueOf(rs.getInt(j + 1));	//	Integer
 					if (rs.wasNull())
 						rowData[j] = null;
 				}
@@ -3186,7 +3195,7 @@ public class GridTable extends AbstractTableModel
 					String str = rs.getString(j+1);
 					if (field.isEncryptedColumn())
 						str = (String)decrypt(str);
-					rowData[j] = new Boolean ("Y".equals(str));	//	Boolean
+					rowData[j] = Boolean.valueOf("Y".equals(str));	//	Boolean
 				}
 				//	LOB
 				else if (DisplayType.isLOB(displayType))
@@ -3304,6 +3313,8 @@ public class GridTable extends AbstractTableModel
 	{
 		DataStatusEvent e = createDSE();
 		e.setInfo(AD_Message, info, false,false);
+		if (AD_Message.equals("Sorted"))
+			e.setCurrentRow(m_currentRow);
 		fireDataStatusChanged (e);
 	}   //  fireDataStatusEvent
 
@@ -3828,4 +3839,11 @@ public class GridTable extends AbstractTableModel
 		return true;
 	}
 
+	/**
+	 * set current row of gridtable container (gridtab). use in sort to create dse event with new current row (after sort) data
+	 * @param m_currentRow
+	 */
+	protected void setCurrentRow(int m_currentRow) {
+		this.m_currentRow = m_currentRow;
+	}
 }

@@ -36,6 +36,7 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.X_AD_Table;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -43,6 +44,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
+import org.compiere.util.TimeUtil;
 import org.spin.util.ASPUtil;
 
 /**
@@ -616,14 +618,14 @@ public class GridField
 			&& (m_vo.ColumnName.equals("AD_Client_ID") || m_vo.ColumnName.equals("AD_Org_ID")))
 		{
 			log.fine("[SystemAccess] " + m_vo.ColumnName + "=0");
-			return new Integer(0);
+			return Integer.valueOf(0);
 		}
 		//	Set Org to System, if Client access
 		else if (X_AD_Table.ACCESSLEVEL_SystemPlusClient.equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, GridTab.CTX_AccessLevel))
 			&& m_vo.ColumnName.equals("AD_Org_ID"))
 		{
 			log.fine("[ClientAccess] " + m_vo.ColumnName + "=0");
-			return new Integer(0);
+			return Integer.valueOf(0);
 		}
 
 		/**
@@ -785,17 +787,17 @@ public class GridField
 					int ii = Integer.parseInt(value);
 					if (ii < 0)
 						return null;
-					return new Integer(ii);
+					return Integer.valueOf(ii);
 				}
 				catch (Exception e)
 				{
 					log.warning("Cannot parse: " + value + " - " + e.getMessage());
 				}
-				return new Integer(0);
+				return Integer.valueOf(0);
 			}
 			//	Integer
 			if (m_vo.displayType == DisplayType.Integer)
-				return new Integer(value);
+				return Integer.valueOf(value);
 			
 			//	Number
 			if (DisplayType.isNumeric(m_vo.displayType))
@@ -811,6 +813,10 @@ public class GridField
 				} catch (java.text.ParseException e) {
 					date = DisplayType.getDateFormat_JDBC().parse (value);
 				}
+				if(DisplayType.Date == m_vo.displayType) {
+					return TimeUtil.getDay(date.getTime());
+				}
+				//	Default
 				return new Timestamp (date.getTime());
 			}
 			
@@ -1577,7 +1583,7 @@ public class GridField
 				|| (DisplayType.isID(dt) && getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(newValue);
-				setValue (new Integer(i), inserting);
+				setValue(Integer.valueOf(i), inserting);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

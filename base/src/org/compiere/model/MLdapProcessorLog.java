@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_LdapProcessorLog;
+
 
 /**
  *	LDAP Server Log
@@ -66,10 +68,11 @@ public class MLdapProcessorLog extends X_AD_LdapProcessorLog implements Adempier
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 *	@param summary summary
+	 *  @param trxName transaction name
 	 */
-	public MLdapProcessorLog(MLdapProcessor parent, String summary)
+	public MLdapProcessorLog(MLdapProcessor parent, String summary, String trxName)
 	{
-		this (parent.getCtx (), 0, null);
+		this (parent.getCtx (), 0, trxName);
 		setClientOrg (parent);
 		setAD_LdapProcessor_ID (parent.getAD_LdapProcessor_ID());
 		setSummary (summary);

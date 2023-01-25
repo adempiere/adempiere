@@ -261,8 +261,6 @@ public abstract class AbstractExportFormat {
 			//	for all rows (-1 = header row)
 			for (int row = startAt; row < printData.getRowCount(); row++)
 			{
-				if ( row != startAt )
-					writer.write(Env.NL);
 				StringBuffer sb = new StringBuffer();
 				if (row != -1)
 					printData.setRowIndex(row);
@@ -284,7 +282,7 @@ public abstract class AbstractExportFormat {
 							createCSVvalue (sb, delimiter,
 									printFormat.getItem(col).getPrintName(language));
 						} else {
-							Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							Object obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 							if (!item.isDisplayed(printData))
 								obj = null;
 
@@ -312,7 +310,7 @@ public abstract class AbstractExportFormat {
 												+ ") - AD_Column_ID=" + AD_Column_ID + " - " + item);
 									}
 									MQuery query = new MQuery (format.getAD_Table_ID());
-									query.addRestriction(item.getColumnName(), MQuery.EQUAL, new Integer(Record_ID));
+									query.addRestriction(item.getColumnName(), MQuery.EQUAL, Integer.valueOf(Record_ID));
 									format.setTranslationViewQuery(query);
 									log.fine(query.toString());
 									//

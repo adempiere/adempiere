@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_C_CommissionType;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.compiere.util.CCache;

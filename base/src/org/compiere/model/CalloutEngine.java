@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -102,9 +103,9 @@ public class CalloutEngine implements Callout
 		{
 			Object[] args = null;
 			if (argLength == 6)
-				args = new Object[] {ctx, new Integer(WindowNo), mTab, mField, value, oldValue};
+				args = new Object[] {ctx, Integer.valueOf(WindowNo), mTab, mField, value, oldValue};
 			else
-				args = new Object[] {ctx, new Integer(WindowNo), mTab, mField, value}; 
+				args = new Object[] {ctx, Integer.valueOf(WindowNo), mTab, mField, value}; 
 			retValue = (String)method.invoke(this, args);
 		}
 		catch (Exception e)
@@ -253,7 +254,7 @@ public class CalloutEngine implements Callout
 		BigDecimal one = new BigDecimal(1.0);
 
 		if (rate1.doubleValue() != 0.0)	//	no divide by zero
-			rate2 = one.divide(rate1, 12, BigDecimal.ROUND_HALF_UP);
+			rate2 = one.divide(rate1, MathContext.DECIMAL128);
 		//
 		if (mField.getColumnName().equals("MultiplyRate"))
 			mTab.setValue("DivideRate", rate2);

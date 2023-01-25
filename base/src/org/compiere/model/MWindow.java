@@ -24,9 +24,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Tab;
+import org.adempiere.core.domains.models.I_AD_WF_Node;
+import org.adempiere.core.domains.models.X_AD_Window;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.wf.MWFNode;
 
 /**
@@ -120,7 +124,7 @@ public class MWindow extends X_AD_Window
 	 */
 	public List<MTab> getASPTabs() {
 		MClient client = MClient.get(getCtx());
-		String key = getAD_Window_ID() + "|" + client.getAD_Client_ID();
+		String key = getAD_Window_ID() + "|" + client.getAD_Client_ID() + "|" + Env.getAD_Language(getCtx());
 		List<MTab> retValue = cacheASPTabs.get (key);
 		if (retValue != null) {
 			return retValue;
@@ -243,7 +247,7 @@ public class MWindow extends X_AD_Window
 	 *	@return MProcess
 	 */
 	public static MWindow get (Properties ctx, int windowId) {
-		Integer key = new Integer (windowId);
+		Integer key = Integer.valueOf(windowId);
 		MWindow retValue = (MWindow) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

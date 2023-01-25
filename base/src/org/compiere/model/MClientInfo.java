@@ -16,15 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_ClientInfo;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -41,64 +38,36 @@ public class MClientInfo extends X_AD_ClientInfo
 	private static final long serialVersionUID = 4861006368856890116L;
 
 
+	/**
+	 * 	Get Client Info
+	 * 	@param ctx context
+	 * 	@param clientId id
+	 * 	@return Client Info
+	 */
+	public static MClientInfo get (Properties ctx, int clientId){
+
+		Integer key = clientId;
+		MClientInfo clientInfo = s_cache.get(key);
+		if (clientInfo != null)
+			return clientInfo;
+
+		clientInfo = get(ctx, clientId, null);
+		s_cache.put (key, clientInfo);
+		return clientInfo;
+	}
 
 	/**
 	 * 	Get Client Info
 	 * 	@param ctx context
-	 * 	@param AD_Client_ID id
+	 * 	@param clientId id
+	 *  @param trxName Transaction Name
 	 * 	@return Client Info
 	 */
-	public static MClientInfo get (Properties ctx, int AD_Client_ID)
-	{
-		return get(ctx, AD_Client_ID, null);
-	}	//	get
-	
-	/**
-	 * 	Get Client Info
-	 * 	@param ctx context
-	 * 	@param AD_Client_ID id
-	 * 	@param trxName optional trx
-	 * 	@return Client Info
-	 */
-	public static MClientInfo get (Properties ctx, int AD_Client_ID, String trxName)
-	{
-		Integer key = new Integer (AD_Client_ID);
-		MClientInfo info = (MClientInfo)s_cache.get(key);
-		if (info != null)
-			return info;
-		//
-		String sql = "SELECT * FROM AD_ClientInfo WHERE AD_Client_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				info = new MClientInfo (ctx, rs, null);
-				if (trxName == null)
-					s_cache.put (key, info);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
-		//
-		return info;
+	public static MClientInfo get (Properties ctx, int clientId, String trxName) {
+		MClientInfo clientInfo = new Query(ctx , MClientInfo.Table_Name , "AD_Client_ID=?" , trxName)
+				.setParameters(clientId)
+				.first();
+		return clientInfo;
 	}	//	get
 	
 	/**
@@ -108,7 +77,7 @@ public class MClientInfo extends X_AD_ClientInfo
 	 */
 	public static MClientInfo get (Properties ctx)
 	{
-		return get (ctx, Env.getAD_Client_ID(ctx), null);
+		return get (ctx, Env.getAD_Client_ID(ctx));
 	}	//	get
 
 	/**	Cache						*/

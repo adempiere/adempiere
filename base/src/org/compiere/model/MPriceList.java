@@ -22,6 +22,9 @@ import java.util.Iterator;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_PriceList_Version;
+import org.adempiere.core.domains.models.X_I_PriceList;
+import org.adempiere.core.domains.models.X_M_PriceList;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -71,7 +74,7 @@ public class MPriceList extends X_M_PriceList
 	 */
 	public static MPriceList get (Properties ctx, int M_PriceList_ID, String trxName)
 	{
-		Integer key = new Integer (M_PriceList_ID);
+		Integer key = Integer.valueOf(M_PriceList_ID);
 		MPriceList retValue = (MPriceList)s_cache.get(key);
 		if (retValue == null)
 		{
@@ -287,7 +290,7 @@ public class MPriceList extends X_M_PriceList
 		if (m_precision == null)
 		{
 			MCurrency c = MCurrency.get(getCtx(), getC_Currency_ID());
-			m_precision = new Integer (c.getStdPrecision());
+			m_precision = Integer.valueOf(c.getStdPrecision());
 		}
 		return m_precision.intValue();
 	}	//	getStandardPrecision

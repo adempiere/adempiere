@@ -20,15 +20,17 @@ package org.adempiere.pos;
 import java.awt.Event;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.swing.KeyStroke;
 
+import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.adempiere.pos.service.Collect;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.Collect;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -41,7 +43,6 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
-import org.compiere.model.X_C_Payment;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -461,7 +462,7 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		//
 		//m_PayAmt= m_PayAmt.add(getPrePayAmt());
 		balance = getBalance(posPanel.getOpenAmt());
-		balance = balance.setScale(2, BigDecimal.ROUND_HALF_UP);
+		balance = balance.setScale(2, RoundingMode.HALF_UP);
 		String currencyISO_Code = posPanel.getCurSymbol();
 		//	Change View
 		//fGrandTotal.setText(currencyISO_Code +" "+ m_Format.format(posPanel.getGrandTotal()));

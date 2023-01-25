@@ -2,7 +2,6 @@ package org.compiere.minigrid;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import org.compiere.model.PO;
 

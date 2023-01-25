@@ -13,196 +13,160 @@
  *****************************************************************************/
 package org.adempiere.webui.dashboard;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import org.adempiere.webui.AdempiereWebUI;
 import org.adempiere.webui.desktop.IDesktop;
-import org.adempiere.webui.session.ServerContext;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.DesktopUnavailableException;
+import org.zkoss.zk.ui.Execution;
+
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
 /**
- *
  * @author hengsin
  * @author Cristina Ghita, www.arhipac.ro BF [2871741] Error at start
  * @see https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2871741&group_id=176962
  */
-public class DashboardRunnable implements Runnable, Serializable
-{
-	
-	private static final long serialVersionUID = 5995227773511788894L;
-	
-	private Desktop desktop;
-	private boolean stop = false;
-	private List<DashboardPanel> dashboardPanels;
-	private IDesktop appDesktop;
-	private Locale locale;
+public class DashboardRunnable implements Runnable, Serializable {
 
-	private static final CLogger logger = CLogger.getCLogger(DashboardRunnable.class);
+    private static final long serialVersionUID = 5995227773511788894L;
+    private Thread worker;
+    private final int interval = MSysConfig.getIntValue(ZK_DASHBOARD_REFRESH_INTERVAL, 60000);
+    private final AtomicBoolean running = new AtomicBoolean(false);
+    private final AtomicBoolean stopped = new AtomicBoolean(false);
+    private WeakReference<Desktop> desktopReference;
+    private WeakReference<IDesktop> applicationDesktopReference;
+    private List<DashboardPanel> dashboardPanels = new ArrayList<>();
+    private Locale locale;
 
-	private final static String ZK_DASHBOARD_REFRESH_INTERVAL = "ZK_DASHBOARD_REFRESH_INTERVAL";
+    private static final CLogger logger = CLogger.getCLogger(DashboardRunnable.class);
+    private final static String ZK_DASHBOARD_REFRESH_INTERVAL = "ZK_DASHBOARD_REFRESH_INTERVAL";
 
-	/**
-	 *
-	 * @param desktop zk desktop interface
-	 * @param appDesktop adempiere desktop interface
-	 */
-	public DashboardRunnable(Desktop desktop, IDesktop appDesktop) {
-		this.desktop = desktop;
-		this.appDesktop = appDesktop;
+    /**
+     * @param desktop zk desktop interface
+     * @param desktop adempiere desktop interface
+     */
+    public DashboardRunnable(Desktop desktop, IDesktop applicationDesktop) {
+        this.desktopReference = new WeakReference<>(desktop);
+        this.applicationDesktopReference = new WeakReference<>(applicationDesktop);
 
-		dashboardPanels = new ArrayList<DashboardPanel>();
-		locale = Locales.getCurrent();
-	}
+        dashboardPanels = new ArrayList<>();
+        locale = Locales.getCurrent();
+    }
 
-	public DashboardRunnable(DashboardRunnable tmp, Desktop desktop,
-			IDesktop appDesktop) {
-		this(desktop, appDesktop);
-		this.dashboardPanels = tmp.dashboardPanels;
-	}
+    public DashboardRunnable(DashboardRunnable tmp, Desktop desktop, IDesktop applicationDesktop) {
+        this(desktop, applicationDesktop);
+        this.dashboardPanels = tmp.dashboardPanels;
+    }
 
-	public void run()
-	{
-		// default Update every one minutes
-		int interval = MSysConfig.getIntValue(ZK_DASHBOARD_REFRESH_INTERVAL, 60000);
-		int cumulativeFailure = 0;
-		while(!stop) {
-			try {
-				Thread.sleep(interval);
-			} catch (InterruptedException e1) {
-				if (stop) break;
-			}
+    public void start() {
+        worker = new Thread(this);
+        worker.setDaemon(true);
+        worker.start();
+    }
 
-			if (desktop.isAlive()) {
-				Locales.setThreadLocal(locale);
-				try {
-					refreshDashboard();
-					cumulativeFailure = 0;
-				} catch (DesktopUnavailableException de) {
-					cumulativeFailure++;
-				} catch (Exception e) {
-					logger.log(Level.INFO, e.getLocalizedMessage(), (e.getCause() != null ? e.getCause() : e));
-					cumulativeFailure++;
-				}
-				if (cumulativeFailure > 3)
-					break;
-			} else {
-				logger.log(Level.INFO, "Desktop destroy, will kill session.");
-				killSession();
-				break;
-			}
-		}
-	}
+    public void stop() {
+        running.set(false);
+    }
 
-	private void killSession() {
-		if (desktop.getSession() != null && desktop.getSession().getNativeSession() != null)
-		{
-			//differentiate between real destroy and refresh
-			try
-			{
-				Thread.sleep(90000);
-			}
-			catch (InterruptedException e)
-			{
-				try
-				{
-					desktop.getSession().getAttributes().clear();
-					desktop.getSession().invalidate();
-				}
-				catch (Exception e1) {}
-				return;
-			}
+    public void interrupt() {
+        running.set(false);
+        worker.interrupt();
+    }
 
-			try
-			{
-				Object sessionObj = desktop.getSession().getAttribute(AdempiereWebUI.ZK_DESKTOP_SESSION_KEY);
-				if (sessionObj != null && sessionObj instanceof Desktop)
-				{
-					Desktop sessionDesktop = (Desktop) sessionObj;
+    public boolean isRunning() {
+        return running.get();
+    }
 
-					//don't destroy session if it have been attached to another desktop ( refresh will do that )
-					if (sessionDesktop == desktop)
-					{
-						desktop.getSession().getAttributes().clear();
-						desktop.getSession().invalidate();
-					}
-				}
-				else
-				{
-					desktop.getSession().getAttributes().clear();
-					desktop.getSession().invalidate();
-				}
-			}
-			catch (Exception e1) {}
-		}
-	}
-	
-	/**
-	 * Refresh dashboard content
-	 */
-	public void refreshDashboard()
-	{
+    public boolean isStopped() {
+        return stopped.get();
+    }
 
-		ServerPushTemplate template = new ServerPushTemplate(desktop);
-    	for(int i = 0; i < dashboardPanels.size(); i++)
-    	{
-    		//make sure context is correct
-    		Properties ctx = (Properties)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
-    		if (ctx != null)
-    		{
-    			ServerContext serverContext = ServerContext.getCurrentInstance();
-    			if (serverContext == null) {
-    				serverContext = ServerContext.newInstance();	        	
-    				serverContext.putAll(ctx);
-    			} else {
-    				String id = ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID);
-    				if (id == null || !id.equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
-    					serverContext.clear();
-    					serverContext.putAll(ctx);
-    				}
-    			}
-    		}
-    		dashboardPanels.get(i).refresh(template);
-    	}
 
-    	//make sure context is correct
-    	Properties ctx = (Properties)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
-    	if (ctx != null)
-    	{
-    		ServerContext serverContext = ServerContext.getCurrentInstance();
-    		if (serverContext == null) {
-    			serverContext = ServerContext.newInstance();	        	
-    			serverContext.putAll(ctx);
-    		} else {
-    			String id = ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID);
-				if (id == null || !id.equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
-					serverContext.clear();
-					serverContext.putAll(ctx);
-				}
-    		}
-    	}
-    	appDesktop.onServerPush(template);
-	}
+    public void run() {
+        running.set(true);
+        stopped.set(false);
+        // default Update every one minutes
+        while (running.get()) {
+            try {
+                Thread.sleep(interval);
+            } catch (InterruptedException interruptedException) {
+                logger.log(Level.INFO, "Thread was interrupted ..." + interruptedException.getMessage());
+                break;
+            }
 
-	public void stop() {
-		stop = true;
-	}
+            getApplicationDesktop().flatMap(applicationDesktop -> getDesktop()).ifPresent(desktop -> {
+                Locales.setThreadLocal(locale);
+                try {
+                    refreshDashboard();
+                } catch (Exception exception) {
+                    logger.log(Level.INFO, "Refresh Dashboard stop execution ..." + exception.getMessage());
+                    running.set(false);
+                }
+            });
+        }
+        cleanup();
+        stopped.set(true);
+    }
 
-	/**
-	 * Add DashboardPanel to the auto refresh list
-	 * @param dashboardPanel
-	 */
-	public void add(DashboardPanel dashboardPanel) {
-		dashboardPanels.add(dashboardPanel);
-	}
+    /**
+     * Refresh dashboard content
+     */
+    public void refreshDashboard() {
+        getApplicationDesktop().ifPresent(applicationDesktop ->
+                getDesktop().ifPresent(desktop -> {
+                    ServerPushTemplate template = new ServerPushTemplate(desktop);
+                    Optional<Execution> maybeExecution = Optional.ofNullable(desktop.getExecution());
+                    maybeExecution.ifPresent(execution -> {
+                        SessionContextListener.setContextForSession(execution);
+                        dashboardPanels.forEach(dashboardPanel -> dashboardPanel.refresh(template));
+                    });
+                    applicationDesktop.onServerPush(template);
+                }));
+    }
+
+    /**
+     * Add DashboardPanel to the auto refresh list
+     *
+     * @param dashboardPanel
+     */
+    public void add(DashboardPanel dashboardPanel) {
+        dashboardPanels.add(dashboardPanel);
+    }
+
+    private Optional<Desktop> getDesktop() {
+        return Optional.ofNullable(desktopReference.get());
+    }
+
+    private Optional<IDesktop> getApplicationDesktop() {
+        return Optional.ofNullable(applicationDesktopReference.get());
+    }
+
+    public void cleanup() {
+        dashboardPanels.forEach(dashboardPanel ->  dashboardPanel.getAttributes().clear());
+        dashboardPanels.clear();
+        if (desktopReference != null) {
+            Desktop desktop = desktopReference.get();
+            desktopReference.clear();
+        }
+
+        if (applicationDesktopReference != null) {
+            IDesktop desktopExecution = applicationDesktopReference.get();
+            applicationDesktopReference.clear();
+            desktopExecution = null;
+        }
+
+        dashboardPanels = null;
+        desktopReference = null;
+        applicationDesktopReference = null;
+    }
 }

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.model.I_AD_Browse_Field;
+import org.adempiere.core.domains.models.I_AD_Browse_Field;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.webui.component.ListHead;
@@ -252,7 +252,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
         //  is the column RW?
         if (column == 0 
         		|| (isSelected
-        				&& m_readWriteColumn.contains(new Integer(column)))) {
+				&& m_readWriteColumn.contains(Integer.valueOf(column)))) {
         	return true;
         }
         //	Default
@@ -343,7 +343,7 @@ public class WBrowserTable extends Listbox implements IBrowserTable, TableValueC
 	 */
 	public void setColumnReadOnly (int index, boolean readOnly)
 	{
-		Integer indexObject = new Integer(index);
+		Integer indexObject = Integer.valueOf(index);
 
 		//  Column is ReadWrite
 		if (m_readWriteColumn.contains(indexObject))

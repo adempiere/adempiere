@@ -20,9 +20,9 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_Field;
+import org.adempiere.core.domains.models.I_AD_Window;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Field;
-import org.compiere.model.I_AD_Window;
 import org.compiere.model.MField;
 import org.compiere.model.MTab;
 import org.compiere.model.MWindow;

@@ -17,27 +17,23 @@
 
 package org.adempiere.webui.session;
 
-import java.io.IOException;
-import java.util.logging.Level;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.adempiere.webui.ZkContextProvider;
 import org.adempiere.webui.window.ZkJRViewerProvider;
 import org.adempiere.webui.window.ZkReportViewerProvider;
 import org.compiere.Adempiere;
+import org.compiere.jr.report.ReportStarter;
 import org.compiere.print.ReportCtl;
-import org.compiere.report.ReportStarter;
-import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 
 /**
  * 
@@ -51,7 +47,12 @@ public class WebUIServlet extends DHtmlLayoutServlet
 	 * 
 	 */
 	private static final long serialVersionUID = 261899419681731L;
-	
+    private ZkContextProvider contextProvider =  new ZkContextProvider();
+
+    private int serviceCounter = 0;
+    private Object lock = new Object();
+    private boolean shuttingDown;
+
 	/** Logger for the class * */
     private static final CLogger logger;
 
@@ -60,24 +61,21 @@ public class WebUIServlet extends DHtmlLayoutServlet
         logger = CLogger.getCLogger(WebUIServlet.class); 
     }
 
+
     public void init(ServletConfig servletConfig) throws ServletException
     {
-        super.init(servletConfig);
-
-        /** Initialise context for the current thread*/
-        ServerContext.newInstance();
-        Env.setContextProvider(new ZkContextProvider());
-        
         /**
          * Start ADempiere
          */
+        super.init(servletConfig);
+
+        /** Initialise context for the current thread*/
+        ServerContext.getCurrentInstance();
+        Env.setContextProvider(contextProvider);
         boolean started = Adempiere.startup(false);
         if(!started)
-        {
             throw new ServletException("Could not start ADempiere");
-        }
-        
-        // hengsin: temporary solution for problem with zk client
+
         Ini.setProperty(Ini.P_ADEMPIERESYS, false);
         ReportCtl.setReportViewerProvider(new ZkReportViewerProvider());
         ReportStarter.setReportViewerProvider(new ZkJRViewerProvider());
@@ -87,37 +85,77 @@ public class WebUIServlet extends DHtmlLayoutServlet
          */
     }
 
-    protected void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException
-    {
-        super.doGet(request, response);
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        enteringServiceMethod();
+        try {
+            super.service(request, response);
+        } finally {
+            leavingServiceMethod();
+        }
     }
 
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException
-    {
-        
-        super.doPost(request, response);
-    }
-
-    public void service(ServletRequest request, ServletResponse response)
-            throws ServletException, IOException
-    {
-        super.service(request, response);
-    }
-
-    public ServletConfig getServletConfig()
-    {
-        return super.getServletConfig();
-    }
-
-    public String getServletInfo()
-    {
-        return super.getServletInfo();
-    }
-
+    @Override
     public void destroy()
     {
-        super.destroy();
+        synchronized(lock) {
+            /* Check to see whether there are still service methods running,
+             * and if there are, tell them to stop. */
+            if (numServices() > 0) {
+                setShuttingDown(true);
+            }
+
+            /* Wait for the all the service methods to stop.  */
+            while(numServices() > 0) {
+                try {
+                    wait();
+                } catch (InterruptedException exception) {
+                    throw new RuntimeException(exception.toString());
+                }
+            }
+        }
+
+        try {
+            //Get Context for Current Thread and Remove
+            SessionManager.getSessionCache().values().forEach(httpSession -> {
+                logger.info( "Session " + httpSession.getId() + " Logout ...");
+                SessionManager.clearSession(httpSession.getId());
+                SessionManager.cleanSessionBackground(httpSession.getId());
+                SessionManager.removeSession(httpSession.getId());
+                logger.info("Session " + httpSession.getId() + " Destroyed");
+            });
+            contextProvider = null;
+            ServerContext.dispose();
+        } catch (Exception exception) {
+            throw new RuntimeException(exception.toString());
+        } finally {
+            super.destroy();
+        }
+    }
+
+    //Access methods for serviceCounter
+    protected void enteringServiceMethod() {
+        synchronized(lock) {
+            serviceCounter++;
+        }
+    }
+    protected void leavingServiceMethod() {
+        synchronized(lock) {
+            serviceCounter--;
+            if (serviceCounter == 0 && isShuttingDown())
+                notifyAll();
+        }
+    }
+    protected int numServices() {
+        synchronized(lock) {
+            return serviceCounter;
+        }
+    }
+
+    //Access methods for shuttingDown
+    protected void setShuttingDown(boolean flag) {
+        shuttingDown = flag;
+    }
+    protected boolean isShuttingDown() {
+        return shuttingDown;
     }
 }

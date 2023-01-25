@@ -22,25 +22,24 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.core.domains.models.I_AD_PrintForm;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.X_AD_PrintForm;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_AD_PrintForm;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
 import org.compiere.model.MMailText;
 import org.compiere.model.MPayment;
 import org.compiere.model.MQuery;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_PrintForm;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /** 
  * 	Generated Process for (Remittance Advice Send Mail)
@@ -126,36 +125,13 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 			MBPartner businessPartner = (MBPartner) payment.getC_BPartner();
 			Optional<MUser> optionalUser = Arrays.asList(businessPartner.getContacts(false))
 				.stream()
-				.filter(contact -> !Util.isEmpty(contact.getEMail()))
-				.filter(contact -> !Util.isEmpty(contact.getNotificationType()) 
-						&& (contact.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMail) 
-								|| contact.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMailPlusNotice)))
+				.filter(contact -> contact.isActive())
 				.findFirst();
 			//	
 			if(optionalUser.isPresent()) {
 				businessPartnerBankAccountContact = optionalUser.get();
 				businessPartnerBankAccountMail = businessPartnerBankAccountContact.getEMail();
 			}
-		}
-		if(Util.isEmpty(businessPartnerBankAccountMail)) {
-			addLog(payment.getC_Payment_ID(), payment.getDateTrx(), null, "@EMail@ @NotFound@ @C_Payment_ID@: " + payment.getDocumentNo());
-			return false;
-		}
-		//	Set to mail
-		EMail email = null;
-		MClient client = MClient.get (getCtx());
-		if (getAD_User_ID() != 0) {
-			MUser from = MUser.get(getCtx(), getAD_User_ID());
-			email = client.createEMail(from, businessPartnerBankAccountMail, null, null, mailText.isHtml());
-		}
-		if(email == null) {
-			addLog(payment.getC_Payment_ID(), null, null, "@RequestActionEMailNoFrom@: " + businessPartnerBankAccountMail);
-			return false;
-		}
-		//	
-		if (!email.isValid()) {
-			addLog(payment.getC_Payment_ID(), null, null, "@RequestActionEMailNoTo@: " + businessPartnerBankAccountMail);
-			return false;
 		}
 		//	
 		File paymentReport = getPDF(payment);
@@ -170,26 +146,34 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 		}
 		mailText.setBPartner((MBPartner)payment.getC_BPartner());
 		String message = mailText.getMailText(true);
-		if (mailText.isHtml()) {
-			email.setMessageHTML(mailText.getMailHeader(), message);
-		} else {
-			email.setSubject (mailText.getMailHeader());
-			email.setMessageText (message);
-		}
 		//	
 		log.fine(businessPartnerBankAccountMail + " - " + paymentReport);
-		email.addAttachment(paymentReport);
-		//
-		String msg = email.send();
+		//	Get instance for notifier
+		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(get_TrxName());
+		//	Send notification to queue
+		notifier
+			.clearMessage()
+			.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+			.withUserId(getAD_User_ID())
+			.withText(message)
+			.withDescription(mailText.getMailHeader())
+			.withEntity(payment);
 		if(businessPartnerBankAccountContact != null) {
-			MUserMail userMail = new MUserMail(mailText, businessPartnerBankAccountContact.getAD_User_ID(), email);
-			userMail.saveEx();
-		}
-		//	
-		if (!msg.equals(EMail.SENT_OK)) {
-			addLog (payment.getC_Payment_ID(), null, null, "@RequestActionEMailError@: " + msg);
+			notifier.addRecipient(businessPartnerBankAccountContact.getAD_User_ID());
+		} else if(!Util.isEmpty(businessPartnerBankAccountMail)) {
+			notifier.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+				.addRecipient(businessPartnerBankAccountMail);
+		} else {
+			addLog(payment.getC_Payment_ID(), null, null, "@RequestActionEMailNoTo@");
 			return false;
 		}
+		//	Attachment
+		notifier.addAttachment(paymentReport);
+		//	Add to queue
+		notifier.addToQueue();
+		addLog (payment.getC_Payment_ID(), null, null, "@MessageAddedToQueue@");
 		//	
 		return true;
 	}
@@ -203,7 +187,7 @@ public class PaySelectionSendRemittance extends PaySelectionSendRemittanceAbstra
 		//	
 		MPrintFormat format = MPrintFormat.get (getCtx(), printForm.getRemittance_PrintFormat_ID(), false);
 		MQuery query = new MQuery("C_PaySelection_Remittance_v");
-		query.addRestriction(I_C_Payment.COLUMNNAME_C_Payment_ID, MQuery.EQUAL, new Integer(payment.getC_Payment_ID()));
+		query.addRestriction(I_C_Payment.COLUMNNAME_C_Payment_ID, MQuery.EQUAL, Integer.valueOf(payment.getC_Payment_ID()));
 		//	Engine
 		PrintInfo info = new PrintInfo(payment.getDocumentNo(), payment.get_Table_ID(), payment.getC_Payment_ID(), payment.getC_BPartner_ID());
 		info.setDescription(payment.getDocumentInfo());

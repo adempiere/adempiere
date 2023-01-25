@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_TreeNodeCMC;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -156,11 +157,11 @@ public class MTree_NodeCMC extends X_AD_TreeNodeCMC
 	
 	/**
 	 * 	setParent_ID overwrite as Tree's need to allow 0 parents
-	 *	@see org.compiere.model.X_AD_TreeNodeCMC#setParent_ID(int)
+	 *	@see org.adempiere.core.domains.models.X_AD_TreeNodeCMC#setParent_ID(int)
 	 *	@param Parent_ID
 	 */
 	public void setParent_ID (int Parent_ID)
 	{
-		set_Value ("Parent_ID", new Integer(Parent_ID));
+		set_Value("Parent_ID", Integer.valueOf(Parent_ID));
 	}
 }	//	MTree_NodeCMC

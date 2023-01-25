@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_RfQ;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
@@ -50,7 +51,7 @@ public class MRfQ extends X_C_RfQ
 	 */
 	public static MRfQ get (Properties ctx, int C_RfQ_ID, String trxName)
 	{
-		Integer key = new Integer (C_RfQ_ID);
+		Integer key = Integer.valueOf(C_RfQ_ID);
 		MRfQ retValue = (MRfQ) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

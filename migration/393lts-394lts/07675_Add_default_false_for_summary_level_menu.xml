@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add default false for summary level menu" ReleaseNo="3.9.4" SeqNo="7675">
+    <Step DBType="ALL" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE AD_Menu SET IsCentrallyMaintained = 'N' WHERE IsSummary = 'Y' AND AD_Client_ID = 0</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

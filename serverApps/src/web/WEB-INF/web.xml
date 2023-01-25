@@ -32,12 +32,12 @@
 		<servlet-name>WAccount</servlet-name>
 		<servlet-class>org.compiere.www.WAccount</servlet-class>
 	</servlet>
-	<servlet>
+	<!--servlet>
 		<display-name>Adempiere Counter</display-name>
 		<servlet-name>WCounter</servlet-name>
 		<servlet-class>org.compiere.wstore.Counter</servlet-class>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet-->
 	<servlet>
 		<display-name>Adempiere Field Update</display-name>
 		<servlet-name>WFieldUpdate</servlet-name>
@@ -135,11 +135,11 @@
 		<servlet-name>WWorkflow</servlet-name>
 		<servlet-class>org.compiere.www.WWorkflow</servlet-class>
 	</servlet>
-	<servlet>
+	<!--servlet>
 		<display-name>Adempiere History</display-name>
 		<servlet-name>WHistory</servlet-name>
 		<servlet-class>org.compiere.www.WHistory</servlet-class>
-	</servlet>
+	</servlet-->
 	<servlet>
 		<display-name>Adempiere FindAdv</display-name>
 		<servlet-name>WFindAdv</servlet-name>
@@ -149,10 +149,10 @@
 		<servlet-name>WAccount</servlet-name>
 		<url-pattern>/WAccount</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>WCounter</servlet-name>
 		<url-pattern>/WCounter</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	<servlet-mapping>
 		<servlet-name>WFieldUpdate</servlet-name>
 		<url-pattern>/WFieldUpdate</url-pattern>
@@ -190,7 +190,7 @@
 		<url-pattern>/WValuePreference</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
-		<servlet-name>WZoom</servlet-name>
+	<servlet-name>WZoom</servlet-name>
 		<url-pattern>/WZoom</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -225,10 +225,10 @@
 		<servlet-name>WWorkflow</servlet-name>
 		<url-pattern>/WWorkflow</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>WHistory</servlet-name>
 		<url-pattern>/WHistory</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	<servlet-mapping>
 		<servlet-name>WFindAdv</servlet-name>
 		<url-pattern>/WFindAdv</url-pattern>
@@ -239,4 +239,19 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+
+	<resource-ref>
+		<description>Adempiere Connection Pool</description>
+		<res-ref-name>java/AdempiereDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<resource-ref>
+		<description>Adempiere Short Running Connection Pool</description>
+		<res-ref-name>java/AdempiereSRDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
 </web-app>

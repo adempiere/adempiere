@@ -15,13 +15,16 @@
 package org.adempiere.pdf;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
 
 import org.compiere.util.Language;
 
@@ -51,14 +54,35 @@ import io.konik.harness.exception.InvoiceAppendError;
  * @see https://github.com/adempiere/adempiere/issues/1567
  * @author eugen.hanussek@klst.com https://github.com/homebeaver
  */
-@Named
-@Singleton
+//@Named
+//@Singleton
 public class IText7Document implements FileAppender  {
 
     private final static String ICC_URL = "images/sRGBColorSpaceProfile.icm"; // from pdfa/src/test/resources
     private final static String DEFAULT_TITLE = "PDF/A-3 by klst.com";
     private boolean debugMode = false;
     
+    // wg. AEnv
+    public static void mergePdf(List<File> pdfList, File outFile) throws IOException, FileNotFoundException {
+    	try {
+    		PdfWriter writer = new PdfWriter(outFile);
+    		PdfDocument pdftarget = new PdfDocument(writer);
+    		PdfMerger merger = new PdfMerger(pdftarget);
+        	for (File f : pdfList) {
+        		PdfReader reader = new PdfReader(f); // throws FileNotFoundException, IOException
+        		PdfDocument pdforigin = new PdfDocument(reader);
+        		int fromPage = 1;
+        		merger.merge(pdforigin, fromPage, pdforigin.getNumberOfPages());
+        		pdforigin.close();  		
+        	}
+        	pdftarget.close();
+    	} catch (FileNotFoundException e) {
+    		throw e;
+    	} catch (IOException e) {
+    		throw e;
+    	}
+    }
+
     /**
      * sets WriterProperties debugMode
      * @param debugMode

@@ -48,7 +48,8 @@
 		description="compile the source ">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac encoding="UTF-8" srcdir="${src}" sourcepath="${base}"
-			destdir="${build}">
+				destdir="${build}"
+				includeantruntime="false">
 			<classpath refid="lib.class.path" />
 		</javac>
 
@@ -71,6 +72,10 @@
 		<copy file="${dist}/lib/FinanceManagement.jar"
 			todir="${env.ADEMPIERE_HOME}/packages/FinanceManagement/lib" />
 		<copy file="${dist}/lib/FinanceManagement.jar"
+			todir="../packages/" />
+		<copy file="../tools/lib/legacy/financial-support-legacy-1.0.0.jar"
+			todir="${env.ADEMPIERE_HOME}/packages/FinanceManagement/lib" />
+		<copy file="../tools/lib/legacy/financial-support-legacy-1.0.0.jar"
 			todir="../packages/" />
 
 	</target>

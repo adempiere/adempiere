@@ -38,6 +38,8 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
+import org.adempiere.core.domains.models.X_AD_Issue;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.compiere.Adempiere;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -88,14 +90,13 @@ public class MIssue extends X_AD_Issue
 	@SuppressWarnings("unchecked")
 	public static MIssue create (Properties ctx, String hexInput)
 	{
-		HashMap hmIn = null;
+		HashMap<String, String> hmIn = null;
 		try		//	encode in report
 		{
 			byte[] byteArray = Secure.convertHexString(hexInput);	
 			ByteArrayInputStream bIn = new ByteArrayInputStream(byteArray);
 			ObjectInputStream oIn = new ObjectInputStream(bIn);
-			hmIn = (HashMap)oIn.readObject();
-		
+			hmIn = (HashMap<String, String>) oIn.readObject();
 		}
 		catch (Exception e) 
 		{
@@ -103,7 +104,7 @@ public class MIssue extends X_AD_Issue
 			return null;
 		}
 
-		MIssue issue = new MIssue(ctx, (HashMap<String,String>)hmIn);
+		MIssue issue = new MIssue(ctx, (HashMap<String,String>) hmIn);
 		return issue;
 	}	//	create
 	
@@ -422,7 +423,7 @@ public class MIssue extends X_AD_Issue
 		if (getRecord_ID() == 1)	//	new
 		{
 			parameter.append("ISSUE=");
-			HashMap htOut = get_HashMap();
+			HashMap<String,String> htOut = get_HashMap();
 			try		//	deserializing in create
 			{
 				ByteArrayOutputStream bOut = new ByteArrayOutputStream();

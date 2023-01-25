@@ -21,7 +21,7 @@ package org.compiere.process;
 
 import java.math.BigDecimal;
 
-import org.compiere.model.I_AD_Role_Included;
+import org.adempiere.core.domains.models.I_AD_Role_Included;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

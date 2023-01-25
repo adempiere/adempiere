@@ -228,8 +228,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		}
 
 		//  is the column read/write?
-		if (m_readWriteColumn.contains(new Integer(column)))
-		{
+		if (m_readWriteColumn.contains(Integer.valueOf(column))) {
 			return true;
 		}
 
@@ -321,7 +320,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void setColumnReadOnly (int index, boolean readOnly)
 	{
-		Integer indexObject = new Integer(index);
+		Integer indexObject = Integer.valueOf(index);
 
 		//  Column is ReadWrite
 		if (m_readWriteColumn.contains(indexObject))
@@ -637,7 +636,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 					}	
 					else if (columnClass == Boolean.class)
 					{
-						data = rs.getString(rsColIndex) == null ?  new Boolean(false) : new Boolean(rs.getString(rsColIndex).equals("Y"));
+						data = rs.getString(rsColIndex) == null ? Boolean.FALSE : Boolean.valueOf(rs.getString(rsColIndex).equals("Y"));
 					}
 					else if (columnClass == Timestamp.class)
 					{
@@ -653,7 +652,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 					}
 					else if (columnClass == Integer.class)
 					{
-						data = new Integer(rs.getInt(rsColIndex));
+						data = Integer.valueOf(rs.getInt(rsColIndex));
 					}
 					else if (columnClass == KeyNamePair.class)
 					{

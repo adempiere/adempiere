@@ -18,8 +18,11 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.adempiere.core.domains.models.X_C_DocType;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -303,7 +306,7 @@ public class MDocType extends X_C_DocType
 	{
 		/*if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);*/
-		return true;
+		return validDocBaseType();
 	}	//	beforeSave
 	
 	/**
@@ -354,4 +357,27 @@ public class MDocType extends X_C_DocType
 		return success;
 	} 	//	afterDelete
 	
+	/**
+	 * Validate Document Base Type
+	 * @return
+	 */
+	private boolean validDocBaseType() {
+		AtomicReference<Boolean> valid = new AtomicReference<>(true);
+		Optional<MTable> maybeTable= Optional.ofNullable(MTable.get(Env.getCtx(), MDocBaseType.Table_Name)) ;
+		maybeTable.ifPresent(table ->{
+			if (getC_DocBaseType_ID()==0) {
+				Optional<MDocBaseType> maybeDocBaseType = Optional.ofNullable(MDocBaseType.get(getDocBaseType(), get_TrxName()));
+				maybeDocBaseType.ifPresent(docBaseType ->{
+					setC_DocBaseType_ID(docBaseType.get_ID());
+				});
+				
+			}
+			Optional.ofNullable(MDocBaseType.get(getC_DocBaseType_ID(), get_TrxName())).ifPresent(documentBaseType -> {
+				if (!documentBaseType.getDocBaseType().equals(getDocBaseType())) {
+					valid.set(false);
+				}
+			});
+		});
+		return valid.get();
+	}
 }	//	MDocType

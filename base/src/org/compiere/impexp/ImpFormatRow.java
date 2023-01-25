@@ -18,14 +18,15 @@
 package org.compiere.impexp;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_ImpFormat_Row;
 import org.compiere.model.Callout;
-import org.compiere.model.X_AD_ImpFormat_Row;
 import org.compiere.util.CLogger;
 
 /**
@@ -500,7 +501,7 @@ public final class ImpFormatRow
 			return "0";
 		BigDecimal bd = new BigDecimal(sb.toString());
 		if (m_divideBy100)					//	assumed two decimal scale
-			bd = bd.divide(new BigDecimal(100.0), 2, BigDecimal.ROUND_HALF_UP);
+			bd = bd.divide(new BigDecimal(100.0), 2, RoundingMode.HALF_UP);
 		return bd.toString();
 	}	//	parseNumber
 

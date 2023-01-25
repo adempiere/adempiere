@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_BrowseFieldCustom;
+import org.adempiere.core.domains.models.X_AD_BrowseCustom;
 import org.adempiere.model.MBrowse;
 import org.compiere.util.Util;
 
@@ -53,7 +55,7 @@ public class MBrowseCustom extends X_AD_BrowseCustom {
 	 */
 	public List<MBrowseFieldCustom> getFields() {
 		//	Get
-		return new Query(getCtx(), I_AD_BrowseFieldCustom.Table_Name, COLUMNNAME_AD_BrowseCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_BrowseFieldCustom.Table_Name, COLUMNNAME_AD_BrowseCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_BrowseCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();

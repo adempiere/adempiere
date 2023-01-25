@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_PA_SLA_Criteria;
 import org.compiere.sla.SLACriteria;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.CCache;
@@ -50,7 +51,7 @@ public class MSLACriteria extends X_PA_SLA_Criteria
 	 */
 	public static MSLACriteria get (Properties ctx, int PA_SLA_Criteria_ID, String trxName)
 	{
-		Integer key = new Integer (PA_SLA_Criteria_ID);
+		Integer key = Integer.valueOf(PA_SLA_Criteria_ID);
 		MSLACriteria retValue = (MSLACriteria) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

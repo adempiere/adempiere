@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename base package of Freight" ReleaseNo="3.9.4" SeqNo="9680">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54430" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.CreateFreightOrderFromPackage">org.spin.freight.process.CreateFreightOrderFromPackage</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54428" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GenerateAPInvoiceFromFreightOrder">org.spin.freight.process.GenerateAPInvoiceFromFreightOrder</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54161" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GenerateFreightOrderFromOutbound">org.spin.freight.process.GenerateFreightOrderFromOutbound</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54427" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.GenerateSalesInvoiceFromFreightOrder">org.spin.freight.process.GenerateSalesInvoiceFromFreightOrder</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="50" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.model.FreightModelValidator' WHERE ModelValidationClass = 'org.eevolution.freight.model.validator.Freight';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.freight.model.validator.Freight' WHERE ModelValidationClass = 'org.eevolution.model.FreightModelValidator';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

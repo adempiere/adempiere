@@ -1,59 +1,46 @@
 package org.adempiere.model;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import io.vavr.collection.List;
+import org.compiere.model.MRole;
+import org.compiere.model.MTable;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.ResultSetIterable;
+
 import java.util.ArrayList;
 import java.util.Properties;
 
-import org.compiere.model.MTable;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-
 public class MDocumentStatus {
+
+	private static CLogger log = CLogger.getCLogger(MDocumentStatus.class);
 
 	/**
 	 * 	Get User Goals
 	 *	@param ctx context
-	 *	@param AD_User_ID user
-	 * @param AD_Role_ID 
+	 *	@param userId user
+	 * @param roleId 
 	 *	@return array of goals
 	 */
-	public static IDocumentStatus[] getDocumentStatusIndicators(Properties ctx, int AD_User_ID, int AD_Role_ID)
+	public static IDocumentStatus[] getDocumentStatusIndicators(Properties ctx, int userId, int roleId)
 	{
-		if (AD_User_ID < 0)
+		if (userId < 0)
 			return new IDocumentStatus[0];
 		
 		ArrayList<IDocumentStatus> list = new ArrayList<IDocumentStatus>();
-		String sql = "SELECT * FROM PA_DocumentStatus g "
-			+ "WHERE IsActive='Y'"
-			+ " AND AD_Client_ID=?"		//	#1
+		final String sql = "SELECT * FROM PA_DocumentStatus g "
+			+ "WHERE IsActive = ? "
 			+ " AND ((AD_User_ID IS NULL OR AD_User_ID=?) AND " //#2
 				+ " ( AD_Role_ID IS NULL OR AD_Role_ID=?)) "	//	#3)
 			+ "ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			pstmt.setInt (2, AD_User_ID);
-			pstmt.setInt (3, AD_Role_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				GenericPO indicator = new GenericPO(IDocumentStatus.Table_Name, ctx, rs);
-				list.add (POWrapper.create(indicator, IDocumentStatus.class));
-			}
-		}
-		catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+
+		String sqlAccess = MRole.getDefault().addAccessSQL(sql, "g", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		DB.runResultSetFunction.apply(null , sqlAccess , List.of("Y",userId,roleId) , resultSet -> {
+			new ResultSetIterable<>(resultSet, row -> {
+				GenericPO indicator = new GenericPO(IDocumentStatus.Table_Name, ctx, row);
+				return POWrapper.create(indicator, IDocumentStatus.class);
+			}).forEach(documentStatus -> list.add(documentStatus));
+		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 		IDocumentStatus[] retValue = new IDocumentStatus[list.size ()];
 		list.toArray (retValue);
 		return retValue;
@@ -66,7 +53,8 @@ public class MDocumentStatus {
 		String where = getWhereClause(documentStatus);
 		if (where != null && where.trim().length() > 0)
 			sql.append(" WHERE " ).append(where);
-		return DB.getSQLValue(null, sql.toString());
+		String parsedSql = MRole.getDefault().addAccessSQL(sql.toString(), tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		return DB.getSQLValue(null, parsedSql.toString());
 	}
 
 	public static String getWhereClause(IDocumentStatus documentStatus) {

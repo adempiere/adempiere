@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Process_Para;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -48,7 +49,7 @@ public class MProcessPara extends X_AD_Process_Para
 	 */
 	public static MProcessPara get (Properties ctx, int AD_Process_Para_ID)
 	{
-		Integer key = new Integer (AD_Process_Para_ID);
+		Integer key = Integer.valueOf(AD_Process_Para_ID);
 		MProcessPara retValue = (MProcessPara)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

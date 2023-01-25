@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.awt.Color;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -26,6 +27,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_PA_Goal;
+import org.adempiere.core.domains.models.X_PA_Goal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -407,7 +410,7 @@ public class MGoal extends X_PA_Goal
 		BigDecimal MeasureActual = getMeasureActual();
 		BigDecimal GoalPerformance = Env.ZERO;
 		if (MeasureTarget.signum() != 0)
-			GoalPerformance = MeasureActual.divide(MeasureTarget, 6, BigDecimal.ROUND_HALF_UP);
+			GoalPerformance = MeasureActual.divide(MeasureTarget, 6, RoundingMode.HALF_UP);
 		super.setGoalPerformance (GoalPerformance);
 		m_color = null;
 	}	//	setGoalPerformance
@@ -530,7 +533,7 @@ public class MGoal extends X_PA_Goal
 	//		setMeasureDisplay(getMeasureScope());
 		
 		//	Measure required if nor Summary
-		if (!isSummary() && getPA_Measure_ID() == 0)
+		if (!isSummary() && getPA_Measure_ID() == 0 && getAD_Chart_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.getElement(getCtx(), "PA_Measure_ID"));
 			return false;

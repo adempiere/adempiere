@@ -47,6 +47,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.compiere.server.ReplicationProcessor;
 import org.compiere.util.CLogger;
 import org.compiere.model.MIMPProcessorLog;
+import org.compiere.util.Trx;
 import org.w3c.dom.Document;
 
 /**
@@ -236,16 +237,20 @@ public class TopicListener implements MessageListener {
 
 		conn.start();
 		log.finest("Waiting for JMS messages...");
-		if (replicationProcessor !=null)
-		{	
-			MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!");
-			StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
-				.append(", subscriptionName = ").append( subscriptionName )
-			;
-			pLog.setReference( logReference.toString() );
-			boolean resultSave = pLog.save();
-			log.finest("Result Save = " + resultSave);
+		if (replicationProcessor !=null) {
+			Trx.run(this::addProcessorLog);
 		}
+	}
+
+	private void addProcessorLog(String trxName){
+		MIMPProcessorLog processorLog = new MIMPProcessorLog(
+				replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!" , trxName
+		);
+		StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
+				.append(", subscriptionName = ").append( subscriptionName );
+		processorLog.setReference( logReference.toString() );
+		processorLog.saveEx();
+		log.finest("Result Save Ok");
 	}
 	
 	/**
@@ -270,14 +275,14 @@ public class TopicListener implements MessageListener {
 				log.finest("Message processed ...");
 				
 				if (replicationProcessor != null) {
-					MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Imported Document!");
+					MIMPProcessorLog processorLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Imported Document!" , trxName);
 					//pLog.setReference("topicName = " + topicName );
 					if (text.length() > 2000 ) {
-						pLog.setTextMsg( text.substring(0, 1999) );
+						processorLog.setTextMsg( text.substring(0, 1999) );
 					} else {
-						pLog.setTextMsg( text);
+						processorLog.setTextMsg( text);
 					}
-					pLog.saveEx();
+					processorLog.saveEx();
 				}
 				session.commit();
 			} catch (Exception e) {

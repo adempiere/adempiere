@@ -22,9 +22,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.adempiere.core.domains.models.X_AD_PrintFormatItem;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -146,7 +147,6 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 			return printFormatItem;
 
 		printFormatItem = new Query(ctx , Table_Name , COLUMNNAME_AD_PrintFormatItem_ID + "=?" , trxName)
-				.setClient_ID()
 				.setParameters(printFormatItemId)
 				.first();
 		if (printFormatItem != null && printFormatItem.get_ID() > 0) {
@@ -427,7 +427,7 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 	public String getColumnName()
 	{
 		if (m_columnName == null)	//	Get Column Name from AD_Column not index
-			m_columnName = getColumnName (new Integer(getAD_Column_ID()));
+			m_columnName = getColumnName(Integer.valueOf(getAD_Column_ID()));
 		return m_columnName;
 	}	//	getColumnName
 

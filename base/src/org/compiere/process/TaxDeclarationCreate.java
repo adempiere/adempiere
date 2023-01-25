@@ -29,21 +29,18 @@ import org.compiere.model.MTaxDeclarationLine;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.DB;
 
+
 /**
  * 	Create Tax Declaration
  *	
  *  @author Jorg Janke
  *  @version $Id: TaxDeclarationCreate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
-public class TaxDeclarationCreate extends SvrProcess
+public class TaxDeclarationCreate extends TaxDeclarationCreateAbstract
 {
+		
 	/**	Tax Declaration			*/
-	private int 				p_C_TaxDeclaration_ID = 0;
-	/** Delete Old Lines		*/
-	private boolean				p_DeleteOld = true;
-	
-	/**	Tax Declaration			*/
-	private MTaxDeclaration 	m_td = null;
+	private MTaxDeclaration 	taxDeclaration = null;
 	/** TDLines					*/
 	private int					m_noLines = 0;
 	/** TDAccts					*/
@@ -54,18 +51,7 @@ public class TaxDeclarationCreate extends SvrProcess
 	 */
 	protected void prepare ()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("DeleteOld"))
-				p_DeleteOld = "Y".equals(para[i].getParameter());
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_C_TaxDeclaration_ID = getRecord_ID();
+		super.prepare();
 	}	//	prepare
 
 	
@@ -76,38 +62,44 @@ public class TaxDeclarationCreate extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("C_TaxDeclaration_ID=" + p_C_TaxDeclaration_ID);
-		m_td = new MTaxDeclaration (getCtx(), p_C_TaxDeclaration_ID, get_TrxName());
-		if (m_td.get_ID() == 0)
-			throw new AdempiereSystemError("@NotFound@ @C_TaxDeclaration_ID@ = " + p_C_TaxDeclaration_ID);
+		log.info("C_TaxDeclaration_ID=" + getRecord_ID());
+		taxDeclaration= new MTaxDeclaration (getCtx(), getRecord_ID(), get_TrxName());
+		if (taxDeclaration.get_ID() == 0)
+			throw new AdempiereSystemError("@NotFound@ @C_TaxDeclaration_ID@ = " + getRecord_ID());
 		
-		if (p_DeleteOld)
+		if (isDeleteOld())
 		{
 			//	Delete old
 			String sql = "DELETE C_TaxDeclarationLine WHERE C_TaxDeclaration_ID=?";
-			int no = DB.executeUpdate(sql, p_C_TaxDeclaration_ID, false, get_TrxName());
+			int no = DB.executeUpdate(sql, taxDeclaration.getC_TaxDeclaration_ID(), false, get_TrxName());
 			if (no != 0)
 				log.config("Delete Line #" + no);
 			sql = "DELETE C_TaxDeclarationAcct WHERE C_TaxDeclaration_ID=?";
-			no = DB.executeUpdate(sql, p_C_TaxDeclaration_ID, false, get_TrxName());
+			no = DB.executeUpdate(sql, taxDeclaration.getC_TaxDeclaration_ID(), false, get_TrxName());
 			if (no != 0)
 				log.config("Delete Acct #" + no);
 		}
 
 		//	Get Invoices
-		String sql = "SELECT * FROM C_Invoice i "
-			+ "WHERE TRUNC(i.DateInvoiced, 'DD') >= ? AND TRUNC(i.DateInvoiced, 'DD') <= ? "
-			+ " AND Processed='Y'"
-			+ " AND NOT EXISTS (SELECT * FROM C_TaxDeclarationLine tdl "
-				+ "WHERE i.C_Invoice_ID=tdl.C_Invoice_ID)";
+		StringBuffer sqlCreate = new StringBuffer("SELECT * FROM C_Invoice i ");
+		
+		if (isUseDateAcct())
+			sqlCreate.append(" WHERE TRUNC(i.DateAcct, 'DD') >= ? AND TRUNC(i.DateAcct, 'DD') <= ? ");
+		else
+			sqlCreate.append(" WHERE TRUNC(i.DateInvoiced, 'DD') >= ? AND TRUNC(i.DateInvoiced, 'DD') <= ? ");
+		sqlCreate.append(" AND Processed = 'Y' ");
+		if (isOnlyPosted())
+			sqlCreate.append(" AND i.Posted = 'Y' ");
+		sqlCreate.append(" AND NOT EXISTS (SELECT * FROM C_TaxDeclarationLine tdl "
+				+ "WHERE i.C_Invoice_ID=tdl.C_Invoice_ID)");			
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int noInvoices = 0;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setTimestamp(1, m_td.getDateFrom());
-			pstmt.setTimestamp(2, m_td.getDateTo());
+			pstmt = DB.prepareStatement (sqlCreate.toString(), get_TrxName());
+			pstmt.setTimestamp(1, taxDeclaration.getDateFrom());
+			pstmt.setTimestamp(2, taxDeclaration.getDateTo());
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
@@ -117,7 +109,7 @@ public class TaxDeclarationCreate extends SvrProcess
 		}
 		catch (Exception e)
 		{
-			log.log (Level.SEVERE, sql, e);
+			log.log (Level.SEVERE, sqlCreate.toString(), e);
 		}
 		finally
 		{
@@ -157,7 +149,7 @@ public class TaxDeclarationCreate extends SvrProcess
 		{
 			MInvoiceTax tLine = taxes[i];
 			//
-			MTaxDeclarationLine tdl = new MTaxDeclarationLine (m_td, invoice, tLine);
+			MTaxDeclarationLine tdl = new MTaxDeclarationLine (taxDeclaration, invoice, tLine);
 			tdl.setLine((m_noLines+1) * 10);
 			if (tdl.save())
 				m_noLines++;
@@ -177,7 +169,7 @@ public class TaxDeclarationCreate extends SvrProcess
 			while (rs.next ())
 			{
 				MFactAcct fact = new MFactAcct(getCtx(), rs, null);	//	no lock
-				MTaxDeclarationAcct tda = new MTaxDeclarationAcct (m_td, fact);
+				MTaxDeclarationAcct tda = new MTaxDeclarationAcct (taxDeclaration, fact);
 				tda.setLine((m_noAccts+1) * 10);
 				if (tda.save())
 					m_noAccts++;

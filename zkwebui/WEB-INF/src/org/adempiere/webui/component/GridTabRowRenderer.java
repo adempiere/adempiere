@@ -12,15 +12,6 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
@@ -33,7 +24,7 @@ import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.NamePair;
 import org.spin.util.FieldCondition;
 import org.spin.util.FieldDefinition;
@@ -56,6 +47,15 @@ import org.zkoss.zul.RendererCtrl;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.RowRendererExt;
+
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Row renderer for GridTab grid.
@@ -96,7 +96,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private static final String DIVSTYLE = "border: none; width: 100%; height: 100%;";
 
 	private GridField[] gridField;
-	private int totalColumns = -1;	
+	private int totalColumns = -1;
+
+	private final Language language = Language.getLoginLanguage();
+	private final DecimalFormat numberFormat = DisplayType.getNumberFormat(DisplayType.Number, language);
+	private final SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, language);
+
 	/**
 	 *
 	 * @param gridTab
@@ -217,14 +222,13 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			else
 				return "";
     	}
-    	else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
+    	else if (DisplayType.isDate(gridField.getDisplayType()))
     	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))
     	{
-    		return DisplayType.getNumberFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx())).format(value);
+    		return numberFormat.format(value);
     	}
     	else if (DisplayType.Button == gridField.getDisplayType())
     	{
@@ -274,7 +278,47 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			label.setDynamicProperty("title", "");
 	}
 
+    /**
+     * Returns the index of the row across all pages if pagination 
+     * is active. For example if the row is the 4th row on the 
+     * page and there are 100 rows per page and this is the third
+     * page, the actual row index will be 2 * 100 + 3, considering
+     * zero-based indexes for the page and row.
+     * @param indexInThisPage
+     */
+	protected int getRowIndexAcrossAllPages(int indexInThisPage) {
+    
+	    int rowIndex = indexInThisPage;
+    	if (paging != null && paging.getPageSize() > 0) 
+    	    rowIndex = (paging.getActivePage() * paging.getPageSize()) 
+    	                + indexInThisPage;
+        return rowIndex;
+    
+    }
+
 	/**
+	 * Returns the index of the row in the current page or -1 if the
+	 * row is not in the current page range. If paging is not active
+	 * or the page size is zero, the parameter value is returned.
+	 * @param rowIndexAcrossAllPages
+	 * @return 
+	 */
+    protected int getRowIndexInPage(int rowIndexAcrossAllPages) {
+    
+        int pgIndex = -1;
+        int page = 0;
+        if(paging != null && paging.getPageSize() > 0) {
+            page = rowIndexAcrossAllPages / paging.getPageSize();
+            if (page == paging.getActivePage())
+                pgIndex = rowIndexAcrossAllPages >= 0 ? 
+                        rowIndexAcrossAllPages % paging.getPageSize() : 0;
+        } else 
+            pgIndex = rowIndexAcrossAllPages;
+        return pgIndex;
+    
+    }
+
+    /**
 	 *
 	 * @return active editor list
 	 */
@@ -354,10 +398,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		currentValues = (Object[])data;
 		
 		int columnCount = gridTab.getTableModel().getColumnCount();
-		int rowIndex = row.getParent().getChildren().indexOf(row);
-		if (paging != null && paging.getPageSize() > 0) {
-			rowIndex = (paging.getActivePage() * paging.getPageSize()) + rowIndex;
-		}
+		int indexInThisPage = row.getParent().getChildren().indexOf(row);
+		int rowIndex = getRowIndexAcrossAllPages(indexInThisPage);
 		 //	FR [ 1697 ] 
 		 HashMap<String, Object> columnValues = new  HashMap<String, Object>();
 		
@@ -420,11 +462,10 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			row.appendChild(div);
 			GridTableListModel model = (GridTableListModel) grid.getModel();
 			model.setEditing(false);
-			
 			totalColumns=colIndex;
-			if (rowIndex == gridTab.getCurrentRow()) {
-				setCurrentRow(row);
-			}
+		}
+		if (rowIndex == gridTab.getCurrentRow()) {
+			setCurrentRow(row);
 		}
 		row.addEventListener(Events.ON_OK, rowListener);
 		row.invalidate();
@@ -731,11 +772,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	 * @return
 	 */
 	public boolean setCurrentColumn(int col) {
-		int pgIndex;
-		if(paging != null)
-			pgIndex = currentRowIndex >= 0 ? currentRowIndex % paging.getPageSize() : 0;
-		else
-			pgIndex = currentRowIndex;
+	    int pgIndex = getRowIndexInPage(currentRowIndex);
+		
 		if(grid != null) {
 			org.zkoss.zul.Row row = (org.zkoss.zul.Row) grid.getRows().getChildren().get(pgIndex);
 			currentRow.setStyle("");
@@ -787,21 +825,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		return currentDiv;
 	}
 	
-	public void setCurrentCell(int row) {
-		int pgIndex = currentRowIndex;
-		if(paging != null) 
-			pgIndex = row >= 0 ? row % paging.getPageSize() : 0;
-			
-		if (row != currentRowIndex || pgIndex != currentRowIndex)
-		{
-			if (grid.getRows().getChildren().size() <= 0)
-			{
-				currentColumn = -1;
-				return;
-			}
-			
-			gridTab.setCurrentRow(row);
-			
+	/**
+	 * Sets the 
+	 * @param rowIndexInPage
+	 */
+	public void setCurrentRowOnPage(int rowIndexInPage) {
+	    
+	    int currentRowInPage = getRowIndexInPage(currentRowIndex);
+	    
+        if (rowIndexInPage != currentRowInPage && rowIndexInPage != -1)
+		{			
+			gridTab.setCurrentRow(getRowIndexAcrossAllPages(rowIndexInPage));
 			currentRowIndex = gridTab.getCurrentRow();
 		}
 

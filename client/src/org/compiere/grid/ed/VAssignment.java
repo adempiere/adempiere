@@ -414,7 +414,7 @@ public class VAssignment extends JComponent
 		//	Set Value
 		if (ma != null && ma.getS_ResourceAssignment_ID() != 0)
 		{
-			setValue(new Integer(ma.getS_ResourceAssignment_ID()));
+			setValue(Integer.valueOf(ma.getS_ResourceAssignment_ID()));
 			try
 			{
 				fireVetoableChange(this.getName(), new Object(), getValue());

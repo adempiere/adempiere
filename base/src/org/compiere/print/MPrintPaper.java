@@ -24,9 +24,9 @@ import javax.print.attribute.Size2DSyntax;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
 
+import org.adempiere.core.domains.models.X_AD_PrintPaper;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_PrintPaper;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -62,7 +62,7 @@ public class MPrintPaper extends X_AD_PrintPaper
 	 */
 	static public MPrintPaper get (int AD_PrintPaper_ID)
 	{
-		Integer key = new Integer(AD_PrintPaper_ID);
+		Integer key = Integer.valueOf(AD_PrintPaper_ID);
 		MPrintPaper pp = (MPrintPaper)s_papers.get(key);
 		if (pp == null)
 		{

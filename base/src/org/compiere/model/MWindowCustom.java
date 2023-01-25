@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_TabCustom;
+import org.adempiere.core.domains.models.X_AD_WindowCustom;
 import org.compiere.util.Util;
 
 /**
@@ -50,7 +52,7 @@ public class MWindowCustom extends X_AD_WindowCustom {
 	 */
 	public List<MTabCustom> getTabs() {
 		//	Get
-		return new Query(getCtx(), I_AD_TabCustom.Table_Name, COLUMNNAME_AD_WindowCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_TabCustom.Table_Name, COLUMNNAME_AD_WindowCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_WindowCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
@@ -67,12 +69,6 @@ public class MWindowCustom extends X_AD_WindowCustom {
 				MTabCustom customTab = new MTabCustom(this);
 				customTab.setAD_Tab_ID(tab.getAD_Tab_ID());
 				customTab.saveEx();
-				//	For fields
-				Arrays.asList(tab.getFields(true, get_TrxName())).forEach(field -> {
-					MFieldCustom customField = new MFieldCustom(customTab);
-					customField.setField(field);
-					customField.saveEx();
-				});
 			});
 		}
 		return true;

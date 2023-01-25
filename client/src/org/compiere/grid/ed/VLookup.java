@@ -47,6 +47,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
+import org.adempiere.core.domains.models.I_PP_Product_BOMLine;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
@@ -79,7 +80,6 @@ import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.I_PP_Product_BOMLine;
 
 /**
  *  Lookup Visual Field.
@@ -1264,7 +1264,7 @@ public class VLookup extends JComponent
 		log.fine(m_columnName + " - Unique ID=" + id);
 		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
 		resetTabInfo();
-		actionCombo (new Integer(id));          //  data binding
+		actionCombo(Integer.valueOf(id));          //  data binding
 		//
 		// Don't request focus if value was solved - teo_sarca [ 2552901 ]
 		if (id <= 0)
@@ -1558,9 +1558,9 @@ public class VLookup extends JComponent
 			&& result == BPartner_ID)	//	the same
 			return;
 		//  Maybe new BPartner - put in cache
-		m_lookup.getDirect(new Integer(result), false, true);
+		m_lookup.getDirect(Integer.valueOf(result), false, true);
 
-		actionCombo (new Integer(result));      //  data binding
+		actionCombo(Integer.valueOf(result));      //  data binding
 	}	//	actionBPartner
 
 	/**

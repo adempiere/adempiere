@@ -7,22 +7,23 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.adempiere.model.I_AD_Browse;
-import org.adempiere.model.I_AD_Browse_Field;
-import org.adempiere.model.I_AD_View_Column;
-import org.adempiere.model.I_AD_View_Definition;
+
+import org.adempiere.core.domains.models.I_AD_Browse;
+import org.adempiere.core.domains.models.I_AD_Browse_Field;
+import org.adempiere.core.domains.models.I_AD_Tab;
+import org.adempiere.core.domains.models.I_AD_Table;
+import org.adempiere.core.domains.models.I_AD_View_Column;
+import org.adempiere.core.domains.models.I_AD_View_Definition;
+import org.adempiere.core.domains.models.X_AD_Browse;
+import org.adempiere.core.domains.models.X_AD_Browse_Field;
+import org.adempiere.core.domains.models.X_AD_View_Definition;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.MViewDefinition;
-import org.adempiere.model.X_AD_Browse;
-import org.adempiere.model.X_AD_Browse_Field;
-import org.adempiere.model.X_AD_View_Definition;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.util.ServerPushTemplate;
-import org.compiere.model.I_AD_Tab;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MQuery;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTab;
@@ -473,7 +474,7 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 						labelList[i - a] = new Label(" ");	
 				} else if (name.equalsIgnoreCase("numeric")) {
 						if ( rs.getString(i) != null )
-							labelList[i - a] = new Label(new Integer(rs.getInt(i)).toString());
+							labelList[i - a] = new Label(Integer.valueOf(rs.getInt(i)).toString());
 						else
 							labelList[i - a] = new Label(" ");
 				} else if (name.equalsIgnoreCase("bpchar")) {
@@ -520,13 +521,13 @@ public class DynamicDashBoard extends DashboardPanel implements EventListener
 	public void onEvent(Event event) throws Exception {
 		Component comp = event.getTarget();
 		Row row = (Row) comp;
-		int recordId = new Integer(row.getId());
+		int recordId = Integer.valueOf(row.getId());
 		MQuery query = new MQuery();
 		query.setZoomValue(recordId);
 		query.setZoomTableName(zoomTableName);
 		query.setZoomColumnName(zoomTableColumnName);
 		query.setRecordCount(1);
-		query.addRestriction(zoomTableColumnName,MQuery.EQUAL, new Integer(recordId));
+		query.addRestriction(zoomTableColumnName,MQuery.EQUAL, Integer.valueOf(recordId));
 		AEnv.zoom(zoomWindowId, query);
 	}
 

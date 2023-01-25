@@ -17,7 +17,7 @@
 
 package org.compiere.process;
 
-
+import java.math.BigDecimal;
 
 /** Generated Process for (Role Access Update)
  *  @author ADempiere (generated) 
@@ -37,12 +37,12 @@ public abstract class RoleAccessUpdateAbstract extends SvrProcess {
 	/**	Parameter Value for Client	*/
 	private int clientId;
 	/**	Parameter Value for Role	*/
-	private int roleId;
+	private BigDecimal roleId;
 
 	@Override
 	protected void prepare() {
 		clientId = getParameterAsInt(AD_CLIENT_ID);
-		roleId = getParameterAsInt(AD_ROLE_ID);
+		roleId = (BigDecimal) getParameter(AD_ROLE_ID);
 	}
 
 	/**	 Getter Parameter Value for Client	*/
@@ -57,12 +57,14 @@ public abstract class RoleAccessUpdateAbstract extends SvrProcess {
 
 	/**	 Getter Parameter Value for Role	*/
 	protected int getRoleId() {
-		return roleId;
+	    if (roleId == null)
+	        return -1;
+		return roleId.intValue();
 	}
 
 	/**	 Setter Parameter Value for Role	*/
 	protected void setRoleId(int roleId) {
-		this.roleId = roleId;
+		this.roleId = BigDecimal.valueOf(roleId);
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

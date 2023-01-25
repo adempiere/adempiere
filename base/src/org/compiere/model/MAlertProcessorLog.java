@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_AlertProcessorLog;
+
 
 /**
  *	Alert Log
@@ -60,10 +62,11 @@ public class MAlertProcessorLog extends X_AD_AlertProcessorLog
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 *	@param summary summary
+	 *  @param trxName transaction name
 	 */
-	public MAlertProcessorLog (MAlertProcessor parent, String summary)
+	public MAlertProcessorLog (MAlertProcessor parent, String summary , String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setAD_AlertProcessor_ID(parent.getAD_AlertProcessor_ID());
 		setSummary(summary);

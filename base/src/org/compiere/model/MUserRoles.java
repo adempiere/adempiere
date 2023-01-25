@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_AD_User_Roles;
+import org.adempiere.core.domains.models.X_AD_User_Roles;
 import org.compiere.util.CLogger;
 import org.compiere.util.Msg;
 
@@ -122,7 +124,7 @@ public class MUserRoles extends X_AD_User_Roles
 	 */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		set_ValueNoCheck ("AD_User_ID", new Integer(AD_User_ID));
+		set_ValueNoCheck("AD_User_ID", Integer.valueOf(AD_User_ID));
 	}	//	setAD_User_ID
 	
 	/** 
@@ -132,7 +134,7 @@ public class MUserRoles extends X_AD_User_Roles
 	 **/
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		set_ValueNoCheck ("AD_Role_ID", new Integer(AD_Role_ID));
+		set_ValueNoCheck("AD_Role_ID", Integer.valueOf(AD_Role_ID));
 	}	//	setAD_Role_ID
 
 	/**

@@ -27,16 +27,29 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.I_AD_Record_Access;
+import org.adempiere.core.domains.models.X_AD_Dashboard_Access;
+import org.adempiere.core.domains.models.X_AD_PInstance_Log;
+import org.adempiere.core.domains.models.X_AD_Role;
+import org.adempiere.core.domains.models.X_AD_Role_Included;
+import org.adempiere.core.domains.models.X_AD_Table;
+import org.adempiere.core.domains.models.X_AD_Table_Access;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DependentRecordAccess;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -116,26 +129,23 @@ public final class MRole extends X_AD_Role
 	/**
 	 * 	Get Role for User
 	 * 	@param ctx context
-	 * 	@param AD_Role_ID role
-	 * 	@param AD_User_ID user
+	 * 	@param roleId role
+	 * 	@param userId user
 	 * 	@param reload if true forces load
 	 *	@return role
 	 */
-	public static MRole get (Properties ctx, int AD_Role_ID, int AD_User_ID, boolean reload)
+	public static MRole get (Properties ctx, int roleId, int userId, boolean reload)
 	{
-		s_log.info("AD_Role_ID=" + AD_Role_ID + ", AD_User_ID=" + AD_User_ID + ", reload=" + reload);
-		String key = AD_Role_ID + "_" + AD_User_ID;
-		MRole role = (MRole)s_roles.get (key);
+		s_log.info("AD_Role_ID=" + roleId + ", AD_User_ID=" + userId + ", reload=" + reload);
+		String key = roleId + "_" + userId;
+		MRole role = s_roles.get (key);
 		if (role == null || reload)
 		{
-			role = new MRole (ctx, AD_Role_ID, null);
+			role = new Query(ctx, MRole.Table_Name , "AD_Role_ID=?", null)
+					.setParameters(roleId)
+					.first();
 			s_roles.put (key, role);
-			if (AD_Role_ID == 0)
-			{
-				String trxName = null;
-				role.load(trxName);			//	special Handling
-			}
-			role.setAD_User_ID(AD_User_ID);
+			role.setAD_User_ID(userId);
 			role.loadAccess(reload);
 			s_log.info(role.toString());
 		}
@@ -146,12 +156,12 @@ public final class MRole extends X_AD_Role
 	 * 	Get Role (cached).
 	 * 	Did not set user - so no access loaded
 	 * 	@param ctx context
-	 * 	@param AD_Role_ID role
+	 * 	@param roleId role
 	 *	@return role
 	 */
-	public static MRole get (Properties ctx, int AD_Role_ID)
+	public static MRole get (Properties ctx, int roleId)
 	{
-		return get(ctx, AD_Role_ID, Env.getAD_User_ID(ctx), false); // metas-2009_0021_AP1_G94 - we need to use this method because we need to load/reload all accesses
+		return get(ctx, roleId, Env.getAD_User_ID(ctx), false); // metas-2009_0021_AP1_G94 - we need to use this method because we need to load/reload all accesses
 		/* metas-2009_0021_AP1_G94
 		String key = String.valueOf(AD_Role_ID);
 		MRole role = (MRole)s_roles.get (key);
@@ -176,30 +186,10 @@ public final class MRole extends X_AD_Role
 	 */
 	public static MRole[] getOfClient (Properties ctx)
 	{
-		String sql = "SELECT * FROM AD_Role WHERE AD_Client_ID=?";
-		ArrayList<MRole> list = new ArrayList<MRole> ();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRole(ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MRole[] retValue = new MRole[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return new Query(ctx, MRole.Table_Name, "AD_Client_ID=?", null)
+				.setParameters(Env.getAD_Client_ID(ctx))
+				.<MRole>list()
+				.toArray(MRole[]::new);
 	}	//	getOfClient
 	
 	/**
@@ -210,31 +200,9 @@ public final class MRole extends X_AD_Role
 	 */
 	public static MRole[] getOf (Properties ctx, String whereClause)
 	{
-		String sql = "SELECT * FROM AD_Role";
-		if (whereClause != null && whereClause.length() > 0)
-			sql += " WHERE " + whereClause;
-		ArrayList<MRole> list = new ArrayList<MRole> ();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRole(ctx, rs, null));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MRole[] retValue = new MRole[list.size ()];
-		list.toArray (retValue);
-		return retValue;
+		return new Query(ctx, MRole.Table_Name , whereClause , null)
+				.<MRole>list()
+				.toArray(MRole[]::new);
 	}	//	getOf
 		
 	/** Role/User Cache			*/
@@ -255,7 +223,9 @@ public final class MRole extends X_AD_Role
 	public static final int			SUPERUSER_USER_ID = 100;
 	/**	The AD_User_ID of the System Administrator	*/
 	public static final int			SYSTEM_USER_ID = 0;
-	
+	/**Default constants for Record Access	*/
+	private static final String		INCLUDE = "_Include";
+	private static final String		EXCLUDE = "_Exclude";
 	private static final String ROLE_KEY = "org.compiere.model.DefaultRole";
 	
 	
@@ -479,6 +449,15 @@ public final class MRole extends X_AD_Role
 				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
 				+ "FROM PA_DashboardContent b "
 				+ "WHERE AccessLevel IN ";
+		
+		String sqlASPAccess = "INSERT INTO ASP_Level_Access "
+				+ "(ASP_Level_ID, AD_Role_ID,"
+				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
+				+ "SELECT l.ASP_Level_ID, " + getAD_Role_ID() + ","
+						+ getAD_Client_ID() + "," + getAD_Org_ID() + ", l.IsActive, SysDate," 
+						+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
+				+ "FROM ASP_Level l "
+				+ "WHERE l.IsActive = 'Y'";
 
 
 		/**
@@ -528,6 +507,8 @@ public final class MRole extends X_AD_Role
 		int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
 		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
 		int dashboard = DB.executeUpdate(sqlDashboard + roleAccessLevel, get_TrxName());
+		int aSPLevelDel = DB.executeUpdate("DELETE FROM ASP_Level_Access" + whereDel, get_TrxName());
+		int aSPLevel = DB.executeUpdate(sqlASPAccess, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
@@ -536,6 +517,7 @@ public final class MRole extends X_AD_Role
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
 			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact
 			+ ", PA_DashboardContent_ID=" + dashboardDel + "+" + dashboard
+			+ ", ASP_Level_ID=" + aSPLevel + "+" + aSPLevelDel
 			);
 		
 		loadAccess(true);
@@ -545,7 +527,8 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact
-			+ " -  @PA_DashboardContent_ID@ #"+ dashboard;
+			+ " -  @PA_DashboardContent_ID@ #"+ dashboard
+			+ " -  @ASP_Level_ID@ #"+ aSPLevel;
 	}	//	createAccessRecords
 
 	/**
@@ -561,6 +544,7 @@ public final class MRole extends X_AD_Role
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
 		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
+		int aSPLevelDel = DB.executeUpdate("DELETE FROM ASP_Level_Access" + whereDel, get_TrxName());
 
 		log.fine("AD_Window_Access=" + winDel
 			+ ", AD_Process_Access=" + procDel
@@ -568,7 +552,8 @@ public final class MRole extends X_AD_Role
 			+ ", AD_Browse_Access=" + browseDel
 			+ ", AD_Workflow_Access=" + wfDel
 			+ ", AD_Document_Action_Access=" + docactDel
-			+ ", AD_Dashboard_Access=" + dashboardDel);
+			+ ", AD_Dashboard_Access=" + dashboardDel
+			+ ", ASP_Level_Access=" + aSPLevelDel);
 	}
 	
 	/**
@@ -640,6 +625,8 @@ public final class MRole extends X_AD_Role
 	private MRecordAccess[]			m_recordAccess = null;
 	/** List of Dependent Record Access		*/
 	private MRecordAccess[]			m_recordDependentAccess = null;
+	/**	Dependent Record Access Tables	*/
+	private DependentRecordAccess 	recordAccessTableDefinition = null;
 	
 	/**	Table Data Access Level	*/
 	private HashMap<Integer,String>		m_tableAccessLevel = null;
@@ -662,8 +649,6 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_formAccess = null;
 	/**	Smart Browse Access				*/
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
-	/**	Info Windows			*/
-	private HashMap<Integer, Boolean>	m_infoAccess = null;
 	/**	DashBoard Browse Access				*/
 	private HashMap<Integer,Boolean>	m_dashboardAccess = null;
 	
@@ -749,29 +734,16 @@ public final class MRole extends X_AD_Role
 	 */
 	private void loadOrgAccessUser(ArrayList<OrgAccess> list)
 	{
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_User_OrgAccess "
-			+ "WHERE AD_User_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_User_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MUserOrgAccess oa = new MUserOrgAccess(getCtx(), rs, get_TrxName()); 
-				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		List<MUserOrgAccess> userOrgAccesses = new Query(getCtx(), MUserOrgAccess.Table_Name, "AD_User_ID=?", null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_User_ID())
+				.list();
+
+		userOrgAccesses.forEach(userOrgAccess -> loadOrgAccessAdd(
+				list,
+				new OrgAccess(userOrgAccess.getAD_Client_ID(), userOrgAccess.getAD_Org_ID(), userOrgAccess.isReadOnly())
+				)
+		);
 	}	//	loadOrgAccessRole
 
 	/**
@@ -780,29 +752,15 @@ public final class MRole extends X_AD_Role
 	 */
 	private void loadOrgAccessRole(ArrayList<OrgAccess> list)
 	{
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Role_OrgAccess "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MRoleOrgAccess oa = new MRoleOrgAccess(getCtx(), rs, get_TrxName()); 
-				loadOrgAccessAdd (list, new OrgAccess(oa.getAD_Client_ID(), oa.getAD_Org_ID(), oa.isReadOnly()));
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		List<MRoleOrgAccess> roleOrgAccesses = new Query(getCtx(), MRoleOrgAccess.Table_Name , "AD_Role_ID=? ", null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.list();
+
+		roleOrgAccesses.forEach(roleOrgAccess -> loadOrgAccessAdd (
+				list,
+				new OrgAccess(roleOrgAccess.getAD_Client_ID(), roleOrgAccess.getAD_Org_ID(), roleOrgAccess.isReadOnly()))
+		);
 	}	//	loadOrgAccessRole
 	
 	/**
@@ -863,30 +821,14 @@ public final class MRole extends X_AD_Role
 	{
 		if (m_tableAccess != null && !reload)
 			return;
-		ArrayList<MTableAccess> list = new ArrayList<MTableAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Table_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MTableAccess(getCtx(), rs, get_TrxName())); 
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
-		m_tableAccess = new MTableAccess[list.size()];
-		list.toArray(m_tableAccess); 
-		log.fine("#" + m_tableAccess.length); 
+
+		m_tableAccess = new Query(getCtx(), MTableAccess.Table_Name , "AD_Role_ID=?" , null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.<MTableAccess>list()
+				.toArray(MTableAccess[]::new);
+
+		log.fine("#" + m_tableAccess.length);
 	}	//	loadTableAccess
 
 	/**
@@ -912,7 +854,7 @@ public final class MRole extends X_AD_Role
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				Integer ii = new Integer(rs.getInt(1));
+				Integer ii = Integer.valueOf(rs.getInt(1));
 				m_tableAccessLevel.put(ii, rs.getString(2));
 				String tableName = rs.getString(3); 
 				m_tableName.put(tableName, ii);
@@ -935,6 +877,7 @@ public final class MRole extends X_AD_Role
 		finally
 		{
 			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("#" + m_tableAccessLevel.size()); 
 	}	//	loadTableAccessLevel
@@ -964,71 +907,46 @@ public final class MRole extends X_AD_Role
 	{
 		if (m_columnAccess != null && !reload)
 			return;
-		ArrayList<MColumnAccess> list = new ArrayList<MColumnAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Column_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y'";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MColumnAccess(getCtx(), rs, get_TrxName())); 
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
-		m_columnAccess = new MColumnAccess[list.size()];
-		list.toArray(m_columnAccess); 
-		log.fine("#" + m_columnAccess.length); 
+
+		m_columnAccess = new Query(getCtx() , MColumnAccess.Table_Name , "AD_Role_ID=?" , null)
+				.setOnlyActiveRecords(true)
+				.setParameters(getAD_Role_ID())
+				.<MColumnAccess>list()
+				.toArray(MColumnAccess[]::new);
+
+		log.fine("#" + m_columnAccess.length);
 	}	//	loadColumnAccess
 	
 	/**
 	 * 	Load Record Access
 	 *	@param reload reload
 	 */
-	private void loadRecordAccess(boolean reload)
-	{
+	private void loadRecordAccess(boolean reload) {
 		if (!(reload || m_recordAccess == null || m_recordDependentAccess == null))
 			return;
 		ArrayList<MRecordAccess> list = new ArrayList<MRecordAccess>();
 		ArrayList<MRecordAccess> dependent = new ArrayList<MRecordAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Record_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y' ORDER BY AD_Table_ID";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MRecordAccess ra = new MRecordAccess(getCtx(), rs, get_TrxName());
-				list.add(ra);
-				if (ra.isDependentEntities())
-					dependent.add(ra);
-			} 
+		String whereClause = "AD_Role_ID=?";
+		if(MColumn.getColumn_ID("AD_Record_Access", "AD_User_ID") != 0) {
+			whereClause = "(AD_Role_ID=? OR AD_User_ID = " + m_AD_User_ID + ")";
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		//	Add standard access
+		new Query(getCtx(), I_AD_Record_Access.Table_Name, whereClause, get_TrxName())
+			.setParameters(getAD_Role_ID())
+			.setOnlyActiveRecords(true)
+			.setOrderBy(I_AD_Record_Access.COLUMNNAME_AD_Table_ID)
+			.<MRecordAccess>list()
+			.forEach(access -> {
+				list.add(access);
+				if (access.isDependentEntities()) {
+					dependent.add(access);
+				}
+			});	
 		m_recordAccess = new MRecordAccess[list.size()];
 		list.toArray(m_recordAccess);
 		m_recordDependentAccess = new MRecordAccess[dependent.size()];
 		dependent.toArray(m_recordDependentAccess);
+		recordAccessTableDefinition = new DependentRecordAccess(getCtx());
 		log.fine("#" + m_recordAccess.length + " - Dependent #" + m_recordDependentAccess.length); 
 	}	//	loadRecordAccess
 
@@ -1388,7 +1306,7 @@ public final class MRole extends X_AD_Role
 		//	AccessLevel
 		//		1 = Org - 2 = Client - 4 = System
 		//		3 = Org+Client - 6 = Client+System - 7 = All
-		String roleAccessLevel = (String)m_tableAccessLevel.get(new Integer(AD_Table_ID));
+		String roleAccessLevel = (String) m_tableAccessLevel.get(Integer.valueOf(AD_Table_ID));
 		if (roleAccessLevel == null)
 		{
 			log.fine("NO - No AccessLevel - AD_Table_ID=" + AD_Table_ID);
@@ -1590,7 +1508,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_windowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_windowAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1599,6 +1517,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			//
 			log.fine("#" + m_windowAccess.size());
@@ -1688,7 +1607,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_processAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_processAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1697,6 +1616,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_processAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1763,7 +1683,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_taskAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_taskAccess.put(rs.getInt(1), "Y".equals(rs.getString(2)));
 			}
 			catch (Exception e)
 			{
@@ -1772,6 +1692,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_taskAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1839,7 +1760,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_formAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_formAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1848,6 +1769,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_formAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
@@ -1927,7 +1849,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_browseAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_browseAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -1936,6 +1858,7 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null ; pstmt = null;
 			}
 		}	//	reload
 		
@@ -2012,7 +1935,7 @@ public final class MRole extends X_AD_Role
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
-					m_workflowAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
+					m_workflowAccess.put(Integer.valueOf(rs.getInt(1)), Boolean.valueOf("Y".equals(rs.getString(2))));
 			}
 			catch (Exception e)
 			{
@@ -2021,11 +1944,11 @@ public final class MRole extends X_AD_Role
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 			mergeIncludedAccess("m_workflowAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
-		Boolean retValue = m_workflowAccess.get(AD_Workflow_ID);
-		return retValue;
+		return m_workflowAccess.get(AD_Workflow_ID);
 	}	//	getTaskAccess
 
 	/**
@@ -2036,32 +1959,17 @@ public final class MRole extends X_AD_Role
 	public Boolean getDashboardAccess (int PA_DashboardContent_ID) {
 		if (m_dashboardAccess == null)
 		{
-			m_dashboardAccess = new HashMap<Integer, Boolean>(50);
-			
-			
-			String sql = "SELECT PA_DashboardContent_ID, IsActive FROM AD_Dashboard_Access WHERE AD_Role_ID=? AND IsActive='Y'" ;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getAD_Role_ID());
-				rs = pstmt.executeQuery();
-				while (rs.next())
-					m_dashboardAccess.put(new Integer(rs.getInt(1)), new Boolean("Y".equals(rs.getString(2))));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-			}
+			m_dashboardAccess = new HashMap<>(50);
+
+			List<X_AD_Dashboard_Access> dashboardAccessList = new Query(getCtx() , X_AD_Dashboard_Access.Table_Name , "AD_Role_ID=? " , null )
+					.setOnlyActiveRecords(true)
+					.setParameters(getAD_Role_ID())
+					.list();
+
+			dashboardAccessList.forEach(dashboardAccess -> m_dashboardAccess.put(dashboardAccess.getPA_DashboardContent_ID() , dashboardAccess.isActive()));
 			mergeIncludedAccess("m_dashboardAccess"); // Load included accesses - metas-2009_0021_AP1_G94
 		}	//	reload
-		Boolean retValue = m_dashboardAccess.get(PA_DashboardContent_ID) == null ? false : m_dashboardAccess.get(PA_DashboardContent_ID);
-		return retValue;
+		return m_dashboardAccess.get(PA_DashboardContent_ID) != null && m_dashboardAccess.get(PA_DashboardContent_ID);
 	}	//	getProcessAccess
 	
 	/*************************************************************************
@@ -2143,8 +2051,10 @@ public final class MRole extends X_AD_Role
 			String TableName = ti[i].getTableName();
 			
 			//[ 1644310 ] Rev. 1292 hangs on start
-			if (TableName.toUpperCase().endsWith("_TRL")) continue;
-			if (isView(TableName)) continue;
+			if (TableName.toUpperCase().endsWith("_TRL")) 
+				continue;
+			if (isView(TableName)) 
+				continue;
 			
 			int AD_Table_ID = getAD_Table_ID (TableName);
 			//	Data Table Access
@@ -2170,7 +2080,8 @@ public final class MRole extends X_AD_Role
 				keyColumnName += ".";
 			}
 			//keyColumnName += TableName + "_ID";	//	derived from table
-			if (getIdColumnName(TableName) == null) continue;
+			if (getIdColumnName(TableName) == null) 
+				continue;
 			keyColumnName += getIdColumnName(TableName); 
 	
 			//log.fine("addAccessSQL - " + TableName + "(" + AD_Table_ID + ") " + keyColumnName);
@@ -2189,6 +2100,7 @@ public final class MRole extends X_AD_Role
 		String whereColumnName = null;
 		ArrayList<Integer> includes = new ArrayList<Integer>();
 		ArrayList<Integer> excludes = new ArrayList<Integer>();
+		Map<String, List<Integer>> foreignAccess = new HashMap<>();
 		for (int i = 0; i < m_recordDependentAccess.length; i++)
 		{
 			String columnName = m_recordDependentAccess[i].getKeyColumnName
@@ -2205,48 +2117,184 @@ public final class MRole extends X_AD_Role
 				 MColumn column = table.getColumn(columnName);
 				 if (column == null || column.isVirtualColumn() || !column.isActive())
 					 continue;
-			} else {
-				int posColumn = mainSql.indexOf(columnName);
-				if (posColumn == -1)
-					continue;
-				//	we found the column name - make sure it's a column name
-				char charCheck = mainSql.charAt(posColumn-1);	//	before
-				if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
-					continue;
-				charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
-				if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
-					continue;
+			} else {				
+				if(!recordAccessTableDefinition.isMatchedForTable(MTable.getTableName(getCtx(), m_recordDependentAccess[i].getAD_Table_ID()), tableName)) {
+					//	Find whole word for SQL instead approximation
+					int posColumn = getIndexOfColumn(mainSql, columnName);
+					if (posColumn == -1)
+						continue;
+					//	we found the column name - make sure it's a column name
+					char charCheck = mainSql.charAt(posColumn-1);	//	before
+					if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
+						continue;
+					charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
+					if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
+						continue;
+				} else {
+					String key = m_recordDependentAccess[i].getAD_Table_ID() + (m_recordDependentAccess[i].isExclude()? EXCLUDE: INCLUDE);
+					List<Integer> currentRecords = foreignAccess.get(key);
+					if(currentRecords == null) {
+						currentRecords = new ArrayList<>();
+					}
+					currentRecords.add(m_recordDependentAccess[i].getRecord_ID());
+					foreignAccess.put(key, currentRecords);
+				}
 			}
-			//	
-			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
-				retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
-				//	Yamel Senih
-				//	Initialize values when table is changed
-				includes = new ArrayList<Integer>();
-				excludes = new ArrayList<Integer>();
-				//	End Yamel Senih
+			//	All based on reference of column
+			if(foreignAccess.isEmpty()) {
+				if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
+					retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+					//	Yamel Senih
+					//	Initialize values when table is changed
+					includes = new ArrayList<Integer>();
+					excludes = new ArrayList<Integer>();
+					//	End Yamel Senih
+				}
+				
+				AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
+				//	*** we found the column in the main query
+				if (m_recordDependentAccess[i].isExclude())
+				{
+					excludes.add(m_recordDependentAccess[i].getRecord_ID());
+					log.fine("Exclude " + columnName + " - " + m_recordDependentAccess[i]);
+				}
+				else if (!rw || !m_recordDependentAccess[i].isReadOnly())
+				{
+					includes.add(m_recordDependentAccess[i].getRecord_ID());
+					log.fine("Include " + columnName + " - " + m_recordDependentAccess[i]);
+				}
+				whereColumnName = getDependentRecordWhereColumn (mainSql, columnName);
 			}
-			
-			AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
-			//	*** we found the column in the main query
-			if (m_recordDependentAccess[i].isExclude())
-			{
-				excludes.add(m_recordDependentAccess[i].getRecord_ID());
-				log.fine("Exclude " + columnName + " - " + m_recordDependentAccess[i]);
-			}
-			else if (!rw || !m_recordDependentAccess[i].isReadOnly())
-			{
-				includes.add(m_recordDependentAccess[i].getRecord_ID());
-				log.fine("Include " + columnName + " - " + m_recordDependentAccess[i]);
-			}
-			whereColumnName = getDependentRecordWhereColumn (mainSql, columnName);
 		}	//	for all dependent records
 		retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+		retSQL.append(getDependentAccessOfForeignTables(tableName, foreignAccess));
 		//
 		retSQL.append(orderBy);
 		log.finest(retSQL.toString());
 		return retSQL.toString();
 	}	//	addAccessSQL
+	
+	/**
+	 * Get Access based on references of tables
+	 * @param mainTableName
+	 * @param foreignAccess
+	 * @return
+	 */
+	private String getDependentAccessOfForeignTables(String mainTableName, 
+			Map<String, List<Integer>> foreignAccess) {
+		if(foreignAccess.isEmpty()) {
+			return "";
+		}
+		//	
+		StringBuffer where = new StringBuffer();
+		foreignAccess.keySet().forEach(tableKey -> {
+			int tableId = Integer.parseInt(tableKey.replace(EXCLUDE, "").replace(INCLUDE, ""));
+			List<Integer> foreignColumnAccess = recordAccessTableDefinition.getColumnIds(MTable.getTableName(getCtx(), tableId), mainTableName);
+			if(foreignColumnAccess != null
+					&& foreignColumnAccess.size() > 0) {
+				List<Integer> include = tableKey.contains(INCLUDE)? foreignAccess.get(tableKey): new ArrayList<>();
+				List<Integer> exclude = tableKey.contains(EXCLUDE)? foreignAccess.get(tableKey): new ArrayList<>();
+				foreignColumnAccess.forEach(columnId -> {
+					where.append(getDependentAccessBasedOnForeignTables(mainTableName, columnId, tableId, include, exclude));
+				});
+			}
+		});
+		//	Return where
+		return where.toString();
+	}
+	
+	/**
+	 * 	Get Dependent Access 
+	 *	@param columnId column
+	 *	@param referencedTableId
+	 *	@param includes ids to include
+	 *	@param excludes ids to exclude
+	 *	@return where clause starting with AND or ""
+	 */
+	private String getDependentAccessBasedOnForeignTables(String tableName, int columnId, int referencedTableId, List<Integer> includes, List<Integer> excludes) {
+		//	
+		if (includes.size() == 0 && excludes.size() == 0)
+			return "";
+		if (includes.size() != 0 && excludes.size() != 0)
+			log.warning("Mixing Include and Excluse rules - Will not return values");
+		//	
+		MColumn column = MColumn.get(getCtx(), columnId);
+		MTable table = null;
+		if(DisplayType.isLookup(column.getAD_Reference_ID()) && column.getAD_Reference_Value_ID() > 0) {
+			MRefTable referenceToTable = MRefTable.getById(getCtx(), column.getAD_Reference_Value_ID());
+			table = MTable.get(getCtx(), referenceToTable.getAD_Table_ID());
+		} else {
+			table = MTable.get(getCtx(), column.getColumnName().replaceAll("_ID", ""));
+		}
+		//	Reference
+		MTable referencedTable = MTable.get(getCtx(), referencedTableId);
+		MColumn referencedColumn = referencedTable.getColumn(referencedTable.getTableName() + "_ID");
+		if(referencedColumn == null
+				|| table == null) {
+			return "";
+		}
+		//	Get names
+		String referencedColumnName = tableName + "." +  column.getColumnName();
+		String sourceColumnName = table.getTableName() + "." + referencedColumn.getColumnName();
+		String sourceTableName = table.getTableName();
+		boolean isExclude = excludes.size() > 0;
+		//	Get Match clause for it
+		String matchClause = getMatchClause(referencedColumnName, sourceTableName, sourceColumnName, isExclude? excludes: includes);
+		//	
+		StringBuffer where = new StringBuffer(" AND (").append(referencedColumnName).append(" IS NULL OR ");
+		if(isExclude) {
+			where.append(" NOT ");
+		}
+		where.append(matchClause);
+		where.append(")");
+		log.finest(where.toString());
+		return where.toString();
+	}	//	getDependentAccess
+	
+	/**
+	 * Get Match clause for reference
+	 * @param referencedColumnName
+	 * @param sourceColumnName
+	 * @param ids
+	 * @return
+	 */
+	private String getMatchClause(String referencedColumnName, String sourceTableName, String sourceColumnName, List<Integer> ids) {
+		String uniqAlias = UUID.randomUUID().toString().replaceAll("-", "").replaceAll("[0-9]", "").toLowerCase().substring(0, 4);
+		String sourceIdColumn = uniqAlias + "." + sourceTableName + "_ID";
+		sourceColumnName = sourceColumnName.replace(sourceTableName + ".", uniqAlias + ".");
+		StringBuffer whereClause = new StringBuffer("EXISTS(SELECT 1 FROM " + sourceTableName + " AS " + uniqAlias + " WHERE " + sourceIdColumn + " = " + referencedColumnName + " AND ");
+		if (ids.size() == 1) {
+			whereClause.append(sourceColumnName).append("=").append(ids.get(0));
+		} else if (ids.size() > 1) {
+			whereClause.append(sourceColumnName).append(" IN (");
+			StringBuffer inClause = new StringBuffer();
+			ids.forEach(id -> {
+				if(inClause.length() > 0) {
+					inClause.append(", ");
+				}
+				inClause.append(id);
+;			});
+			whereClause.append(inClause).append(")");
+		}
+		//	
+		whereClause.append(")");
+		return whereClause.toString();
+	}
+	
+	/**
+	 * Get Index of column from SQL finding with whole word
+	 * @param sql
+	 * @param columnName
+	 * @return
+	 */
+	private int getIndexOfColumn(String sql, String columnName) {
+		Matcher matcher = Pattern.compile("\\b" + columnName + "\\b").matcher(sql);
+		while (matcher.find()) {
+		    return matcher.start();
+		}
+		//	it not found
+		return -1;
+	}
 
 	/**
 	 * 	Get Dependent Access 
@@ -2264,10 +2312,11 @@ public final class MRole extends X_AD_Role
 			log.warning("Mixing Include and Excluse rules - Will not return values");
 		
 		StringBuffer where = new StringBuffer(" AND ");
-		if (includes.size() == 1)
-			where.append(whereColumnName).append("=").append(includes.get(0));
-		else if (includes.size() > 1)
-		{
+		if (includes.size() == 1) {
+			where.append("(" + whereColumnName + " IS NULL OR ");
+			where.append(whereColumnName).append("=").append(includes.get(0)).append(")");
+		} else if (includes.size() > 1) {
+			where.append("(").append(whereColumnName).append(" IS NULL OR "); // @Trifon
 			where.append(whereColumnName).append(" IN (");
 			for (int ii = 0; ii < includes.size(); ii++)
 			{
@@ -2275,6 +2324,7 @@ public final class MRole extends X_AD_Role
 					where.append(",");
 				where.append(includes.get(ii));
 			}
+			where.append(")");
 			where.append(")");
 		}
 		else if (excludes.size() == 1)
@@ -2311,7 +2361,7 @@ public final class MRole extends X_AD_Role
 	private String getDependentRecordWhereColumn (String mainSql, String columnName)
 	{
 		String retValue = columnName;	//	if nothing else found
-		int index = mainSql.indexOf(columnName);
+		int index = getIndexOfColumn(mainSql, columnName);
 		if (index == -1)
 			return retValue;
 		//	see if there are table synonym

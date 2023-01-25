@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Product_Category_Acct;
+import org.adempiere.core.domains.models.X_M_CostElement;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -157,7 +159,7 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement get (Properties ctx, int M_CostElement_ID)
 	{
-		Integer key = new Integer (M_CostElement_ID);
+		Integer key = Integer.valueOf(M_CostElement_ID);
 		MCostElement retValue = (MCostElement) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

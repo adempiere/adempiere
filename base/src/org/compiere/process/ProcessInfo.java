@@ -19,6 +19,7 @@ package org.compiere.process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
@@ -623,7 +624,7 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setAD_Client_ID (int clientId)
 	{
-		this.clientId = new Integer (clientId);
+		this.clientId = Integer.valueOf(clientId);
 	}
 	/**
 	 * Method getAD_Client_ID
@@ -640,7 +641,7 @@ public class ProcessInfo implements Serializable
 	 * @param userId int
 	 */
 	public void setAD_User_ID(int userId) {
-		this.userId = new Integer(userId);
+		this.userId = Integer.valueOf(userId);
 	}
 
 	/**
@@ -700,6 +701,7 @@ public class ProcessInfo implements Serializable
 	public void setSelectionKeys(List<Integer> selection) {
 		keySelection = selection;
 		setIsSelection(selection != null && selection.size() > 0);
+		saveSelection();
 	}
 	
 	/**
@@ -716,13 +718,50 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setSelectionValues(LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection) {
 		this.selection = selection;
-		setIsSelection(selection != null && selection.size() > 0);
+		setIsSelection(selection != null && selection.size() > 0 
+				|| getSelectionKeys() != null && getSelectionKeys().size() > 0);
 		//	fill key
 		if(selection != null) {
-			keySelection = new ArrayList<Integer>();
+			List<Integer> keySelection = new ArrayList<Integer>();
 			for(Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
 				keySelection.add(records.getKey());
 			}
+			//	Set selections
+			if(getSelectionKeys() == null
+					|| getSelectionKeys().size() ==0) {
+				setSelectionKeys(keySelection);
+			}
+		}
+		//	Save it for DB
+		saveSelectionValues();
+	}
+	
+	/**
+	 * Save selection when process is called with selection
+	 */
+	private void saveSelection() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				DB.createT_Selection(getAD_PInstance_ID(), getSelectionKeys(), getTransactionName());
+			} 
+		}
+	}
+	
+	/**
+	 * Save selection values when process is called with selection values or from browser
+	 */
+	private void saveSelectionValues() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				if(getSelectionValues() != null) {
+					//	Create Selection for SB
+					DB.createT_Selection_Browse(getAD_PInstance_ID(), getSelectionValues(), getTransactionName());
+				}
+			} 
 		}
 	}
 
@@ -924,6 +963,10 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setReportAsFile(File reportAsFile) {
 		this.reportAsFile = reportAsFile;
+		if(reportAsFile != null
+				&& reportAsFile.getName().lastIndexOf(".pdf") > 0) {
+			pdfReportFile = reportAsFile;
+		}
 	}
 	
 	/**
@@ -976,7 +1019,7 @@ public class ProcessInfo implements Serializable
 	//metas: c.ghita@metas.ro
 	public void setAD_Org_ID (int orgId)
 	{
-		this.orgId = new Integer (orgId);
+		this.orgId = Integer.valueOf(orgId);
 	}
 // metas: end
 

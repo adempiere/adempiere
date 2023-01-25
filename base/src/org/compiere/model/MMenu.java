@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.X_AD_Menu;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -119,8 +121,13 @@ public class MMenu extends X_AD_Menu
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Reset info
-		if (isSummary() && getAction() != null)
-			setAction(null);
+		if (isSummary()) {
+			if(getAction() != null) {
+				setAction(null);
+			}
+			//	For Centrally Maintained
+			setIsCentrallyMaintained(false);
+		}
 		String action = getAction();
 		if (action == null)
 			action = "";
@@ -142,38 +149,6 @@ public class MMenu extends X_AD_Menu
 			setAD_Process_ID(0);
 		return true;
 	}	//	beforeSave
-	
-	
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
-	//	Yamel Senih [ 9223372036854775807 ]
-	//	Change to PO
-//	protected boolean afterSave (boolean newRecord, boolean success)
-//	{
-//		if (newRecord)
-//			insert_Tree(MTree.TREETYPE_Menu);
-//		return success;
-//	}	//	afterSave
-	//	End Yamel Senih
-
-	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
-	 */
-	//	Yamel Senih [ 9223372036854775807 ]
-	//	Change to PO
-//	protected boolean afterDelete (boolean success)
-//	{
-//		if (success)
-//			delete_Tree(MTree.TREETYPE_Menu);
-//		return success;
-//	}	//	afterDelete
-	//	End Yamel Senih
 	
 	/**
 	 *  FR [ 1966326 ]

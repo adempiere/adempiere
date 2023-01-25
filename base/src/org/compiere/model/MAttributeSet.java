@@ -24,6 +24,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_AttributeSet;
+import org.adempiere.core.domains.models.X_M_AttributeSetExclude;
+import org.adempiere.core.domains.models.X_M_LotCtlExclude;
+import org.adempiere.core.domains.models.X_M_SerNoCtlExclude;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;
@@ -86,11 +90,24 @@ public class MAttributeSet extends X_M_AttributeSet
 	 */
 	public static MAttributeSet get (Properties ctx, int M_AttributeSet_ID)
 	{
-		Integer key = new Integer (M_AttributeSet_ID);
+	    return get(ctx, M_AttributeSet_ID, null);
+	}
+	
+   /**
+     *  Get MAttributeSet from Cache
+     *  @param ctx context
+     *  @param M_AttributeSet_ID id
+     *  @param trxName the Transaction name
+     *  @return MAttributeSet
+     */
+    public static MAttributeSet get (Properties ctx, int M_AttributeSet_ID, String trxName)
+    {
+
+		Integer key = Integer.valueOf(M_AttributeSet_ID);
 		MAttributeSet retValue = (MAttributeSet) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MAttributeSet (ctx, M_AttributeSet_ID, null);
+		retValue = new MAttributeSet (ctx, M_AttributeSet_ID, trxName);
 		if (retValue.get_ID () != 0)
 			s_cache.put (key, retValue);
 		return retValue;

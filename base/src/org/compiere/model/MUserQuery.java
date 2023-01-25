@@ -25,6 +25,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
+import org.adempiere.core.domains.models.X_AD_UserQuery;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -343,7 +344,7 @@ public class MUserQuery extends X_AD_UserQuery
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -399,7 +400,7 @@ public class MUserQuery extends X_AD_UserQuery
 				if (in instanceof Integer)
 					return in;
 				int i = Integer.parseInt(in.toString());
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

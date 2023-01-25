@@ -1,63 +1,29 @@
 
 function Calc()
 {
-	this.validate = validate;
+	this.validateDown = validateDown;
 	this.clear = clear;
 	this.clearAll = clearAll;
 	this.evaluate = evaluate;
 	this.append = append;
-	this.percentage = percentage
+	this.appendOnCursor = appendOnCursor;
 
-	function validate(displayTextId, calcTextId, integral, separatorKey, e)
+	function validateDown(displayTextId, calcTextId, integral, separatorKey, e, processDotKeypad)
 	{
 	     var key;
-
 	     if(window.event)
 	          key = e.keyCode; //IE
 	     else
 	          key = e.which;   //Firefox
-
-	     if(key == 13 || key == 61) // Enter, =
+	     // console.log("validateDown: " + displayTextId + " / " + calcTextId + " / " + integral + " / " + separatorKey + " / " + key + " / " + processDotKeypad);
+	     if (key == 13 || key == 61) // Enter
 	     {
-	     	evaluate(displayTextId, calcTextId);
-	        return false;
+	     	evaluate(displayTextId, calcTextId, String.fromCharCode(separatorKey));
 	     }
-	     
-	     else if (key == 0) // control, delete, ...
+	     else if (processDotKeypad && (key == 108 || key == 110 || key == 188 || key == 190 || key == 194))
 	     {
-	     	return true;
-	     }
-	     else if (key == 8) // backspace
-	     {
-	     	return true;
-	     }
-	     else if (key == 37) // %
-	     {
-	     	return true;
-	     }
-	     else if (key >= 17 && key <= 20) // Control
-	     {
-	     	return true;
-	     }
-	     else if (key == 32) // space
-	     {
-	     	return true;
-	     }
-	     else if (key >= 48 && key <= 57) // 0 - 9
-	     {
-	     	return true;
-	     }
-	     else if (key == 42 || key == 43 || key == 45 || key == 47) //*, +, -, /
-	     {
-	     	return true;
-	     }
-	     else if ( key == separatorKey && !integral)
-	     {
-	     	return true;
-	     }
-	     else
-	     {
-	     	return false;
+	    	appendOnCursor(calcTextId, String.fromCharCode(separatorKey));
+	     	e.stop;
 	     }
 	}
 
@@ -90,50 +56,30 @@ function Calc()
 		}
 
 	}
-	
-	function percentage(displayTextId, calcTextId, separator)
-	{
-		try
-		{
-			var calcText = document.getElementById(calcTextId);
-			var value = calcText.value + " / 100";
-			if (separator != '.')
-			{
-				var re = new RegExp("[" + separator + "]");
-				value = value.replace(re,'.');
-			}
-			var result = "" + eval(value);
-			if (separator != '.')
-			{
-				result = result.replace(/\./, separator);
-			}
-			calcText.value = result;
 
-			var displayText = document.getElementById(displayTextId);
-
-			if (!displayText.readOnly && calcText.value != 'undefined')
-			{
-				displayText.value = calcText.value;
-				setTimeout("document.getElementById('" + displayTextId + "').focus()", 100);
-			}
-		}
-	   	catch (err)
-	   	{
-	   	}
-	}
-	
-	
 	function evaluate(displayTextId, calcTextId, separator)
 	{
+		// console.log("evaluate: " + displayTextId + " / " + calcTextId + " / " + separator);
+		var newValue = "error";
 		try
 		{
 			var calcText = document.getElementById(calcTextId);
+			
 			var value = calcText.value;
 			if (separator != '.')
 			{
-				var re = new RegExp("[" + separator + "]");
+				var re = new RegExp("[" + separator + "]", "g");
 				value = value.replace(re,'.');
 			}
+			value = value
+				.replace(/[^1234567890+-/*%() ]/g, '')            // sanitize
+				.replace(/[%]/g, '/100 ')                         // percentage
+					// now replace leading zeroes
+				.replace(/\b0+\b/g, 'z')                          // replace bare zeros with sentinel 
+				.replace(/[1-9\.]0+/g, m => m.replace(/0/g, 'z')) // save these too
+				.replace(/0/g, '')                                // throw away the rest of the zeros
+				.replace(/z/g, '0');                              // turn sentinels back to zeros
+			newValue = value;
 			var result = "" + eval(value);
 			if (separator != '.')
 			{
@@ -151,14 +97,26 @@ function Calc()
 		}
 	   	catch (err)
 	   	{
+			calcText.value = newValue;
 	   	}
 	}
 
 	function append(calcTextId, val)
 	{
+		
 		var calcText = document.getElementById(calcTextId);
 		calcText.value += val;
+		calcText.focus();
+	}
+
+	function appendOnCursor(calcTextId, val)
+	{
+		var calcText = document.getElementById(calcTextId);
+		var position = calcText.selectionStart;
+		var newValue = calcText.value.substring(0, position) + val + calcText.value.substring(position);
+		calcText.value = newValue;
+		calcText.setSelectionRange(position+1, position+1);
 	}
 }
 
-var calc = new Calc();
+window.calc = new Calc();

@@ -20,9 +20,9 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_RMA;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_M_RMA;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.util.DB;
@@ -100,7 +100,7 @@ public class CreateFromRMA extends CreateFromHelper {
             while (rs.next())
             {
                 Vector<Object> line = new Vector<Object>(7);
-                line.add(new Boolean(false));           //  0-Selection
+                line.add(Boolean.FALSE);           //  0-Selection
                 
                 KeyNamePair lineKNPair = new KeyNamePair(rs.getInt(1), rs.getString(2)); // 1-Line
                 line.add(lineKNPair);

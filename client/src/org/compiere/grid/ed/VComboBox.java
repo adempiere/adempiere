@@ -152,7 +152,7 @@ public class VComboBox extends CComboBox
 			{
 				if (((KeyNamePair) p).getID() == null)	//	-1 return null
 					return null;
-				return new Integer(((KeyNamePair)p).getID());
+				return Integer.valueOf(((KeyNamePair) p).getID());
 			}
 			else if (p instanceof ValueNamePair)
 			{
@@ -162,7 +162,7 @@ public class VComboBox extends CComboBox
 			}
 			else if (((NamePair) p).getID() == null)	//	-1 return null
 				return null;
-			return new Integer(((NamePair)p).getID());
+			return Integer.valueOf(((NamePair) p).getID());
 		}
 		return p;
 	}	//	getValue

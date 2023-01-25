@@ -56,7 +56,7 @@ public class ReportInfo
         to the main Report in case of subreports. Marco LOMBARDO
     */
     private JasperReport jasperReport;
-    private HashMap subReport = new HashMap();
+    private HashMap<String, String> subReport = new HashMap<String, String>();
     private boolean hasSubReport = false;
     private boolean hasError = false;
     private ArrayList errorMsg = new ArrayList();
@@ -209,8 +209,6 @@ public class ReportInfo
                hasError = true;
                log.saveError("Error", "The Report File not exists");
            }
-           rs.close();
-           pstmt.close();
         }
         catch (SQLException e)
         {
@@ -230,12 +228,8 @@ public class ReportInfo
         }
         finally
         {
-            try
-            {
-                if(rs != null) rs.close();
-                if(pstmt != null) pstmt.close();
-            }
-            catch(Exception ex){}
+            DB.close(rs, pstmt);
+            rs = null; pstmt = null;
         }        
         log.info("Get ReportDefinition-" + this.toString());
     }
@@ -377,7 +371,7 @@ public class ReportInfo
     /**
      * @return Returns the subReport.
      */
-    protected HashMap getSubReport()
+    protected HashMap<String, String> getSubReport()
     {
         return subReport;
     }

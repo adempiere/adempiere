@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_RfQLineQty;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -48,7 +49,7 @@ public class MRfQLineQty extends X_C_RfQLineQty
 	 */
 	public static MRfQLineQty get (Properties ctx, int C_RfQLineQty_ID, String trxName)
 	{
-		Integer key = new Integer (C_RfQLineQty_ID);
+		Integer key = Integer.valueOf(C_RfQLineQty_ID);
 		MRfQLineQty retValue = (MRfQLineQty) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -90,7 +91,7 @@ public class MRfQLineQty extends X_C_RfQLineQty
 	{
 		super(ctx, rs, trxName);
 		if (get_ID() > 0)
-			s_cache.put (new Integer (get_ID()), this);
+			s_cache.put(Integer.valueOf(get_ID()), this);
 	}	//	MRfQLineQty
 	
 	/**

@@ -16,9 +16,15 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import io.vavr.control.Option;
+
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
+
+import org.adempiere.core.domains.models.X_C_BPartner_Location;
 
 
 /**
@@ -51,14 +57,30 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	
 	/**
 	 * Get Locations for BPartner
+	 * @param ctx
+	 * @param C_BPartner_ID
+	 * @param trxName
+	 * @return
+	 */
+	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName){
+		return getForBPartner(ctx, C_BPartner_ID, null, trxName);
+	}
+	
+	/**
+	 * Get Locations for BPartner
 	 * @param ctx context
 	 * @param C_BPartner_ID bp
 	 * @param trxName
 	 * @return array of locations
 	 */
-	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName)
+	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID,String whereClause, String trxName)
 	{
-		List<MBPartnerLocation> list = new Query(ctx, Table_Name, "C_BPartner_ID=?", trxName)
+		String finalwhereClause = "C_BPartner_ID=?";
+		if (whereClause!=null
+				&& !whereClause.isEmpty()) 
+			finalwhereClause += " AND " + whereClause;
+		
+		List<MBPartnerLocation> list = new Query(ctx, Table_Name, finalwhereClause, trxName)
 			.setParameters(C_BPartner_ID)
 			.list();
 		MBPartnerLocation[] retValue = new MBPartnerLocation[list.size ()];
@@ -95,7 +117,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		this (bp.getCtx(), 0, bp.get_TrxName());
 		setClientOrg(bp);
 		//	may (still) be 0
-		set_ValueNoCheck ("C_BPartner_ID", new Integer(bp.getC_BPartner_ID()));
+		set_ValueNoCheck("C_BPartner_ID", Integer.valueOf(bp.getC_BPartner_ID()));
 	}	//	MBPartner_Location
 
 	/**
@@ -141,7 +163,22 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		return sb.toString ();
 	}	//	toString
 
-	
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return true if can be saved
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success) {
+
+		setLatitudeAndLongitude();
+
+		if (!success || newRecord)
+			return success;
+
+		return true;
+	}
+
 	/**************************************************************************
 	 * 	Before Save.
 	 * 	- Set Name
@@ -191,7 +228,34 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		setName (m_uniqueName);
 		return true;
 	}	//	beforeSave
-	
+
+	/**
+	 * Set Latitude And Longitude
+	 */
+	public void setLatitudeAndLongitude() {
+		if (getC_Location_ID() <= 0)
+			return;
+
+		Option<String> maybeMapUrl = Option.of(getMapURL());
+		maybeMapUrl
+				.filter(mapUrl -> mapUrl != null && mapUrl.contains("?q="))
+				.map(mapUrl -> {
+					String locationInfo = mapUrl.substring(mapUrl.indexOf("?q=") + 3);
+					StringTokenizer tokenizer = new StringTokenizer(locationInfo, ",");
+					String latitude = tokenizer.nextToken();
+					String longitude = tokenizer.nextToken();
+					Integer longitudeCheck = longitude.indexOf("&");
+					if (longitudeCheck <= 0) {
+						longitudeCheck = longitude.length();
+					}
+					MLocation location = new MLocation(getCtx(), getC_Location_ID(), get_TrxName());
+						location.setLatitude(new BigDecimal(latitude));
+						location.setLongitude(new BigDecimal(longitude.substring(0, longitudeCheck)));
+						location.saveEx();
+					return location;
+				});
+	}
+
 	/**
 	 * 	Make name Unique
 	 * 	@param address address
@@ -204,7 +268,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 		//	0 - City
 		if (m_unique >= 0 || m_uniqueName.length() == 0)
 		{
-			String xx = address.getCity(); 
+			String xx = address.getCity();
 			if (xx != null && xx.length() > 0)
 				m_uniqueName = xx;
 		}

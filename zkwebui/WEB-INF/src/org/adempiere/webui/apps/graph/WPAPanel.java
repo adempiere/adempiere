@@ -86,7 +86,7 @@ public class WPAPanel extends Panel implements EventListener
 			WPerformanceIndicator pi = (WPerformanceIndicator) e.getTarget();
 			log.info(pi.toString());
 			MGoal goal = pi.getGoal();
-			if (goal.getMeasure() != null)
+			if (goal.getMeasure() != null || goal.getAD_Chart_ID() > 0)
 				new WPerformanceDetail(goal);
 		}
 	}

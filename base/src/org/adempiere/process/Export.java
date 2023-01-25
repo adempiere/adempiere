@@ -40,13 +40,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.adempiere.core.domains.models.X_EXP_FormatLine;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
-import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
@@ -173,7 +173,7 @@ public class Export extends SvrProcess
 			if (rs.next())
 			{
 				HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
-				variableMap.put(TOTAL_SEGMENTS, new Integer(1));
+				variableMap.put(TOTAL_SEGMENTS, Integer.valueOf(1));
 				
 				Element rootElement = outDocument.createElement(exportFormat.getValue());
 				rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
@@ -399,11 +399,11 @@ public class Export extends SvrProcess
 		if (variableName != null && !"".equals(variableName) ) {
 			Integer var = variableMap.get(variableName);
 			if (var == null) {
-				var = new Integer(0);
+				var = Integer.valueOf(0);
 			}
 			int intValue = var.intValue();
 			intValue++;
-			variableMap.put(variableName, new Integer(intValue));
+			variableMap.put(variableName, Integer.valueOf(intValue));
 		}
 	}
 	

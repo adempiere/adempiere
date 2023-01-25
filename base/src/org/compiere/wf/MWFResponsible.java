@@ -19,8 +19,8 @@ package org.compiere.wf;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WF_Responsible;
 import org.compiere.model.MRole;
-import org.compiere.model.X_AD_WF_Responsible;
 import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 
@@ -47,7 +47,7 @@ public class MWFResponsible extends X_AD_WF_Responsible
 	 */
 	public static MWFResponsible get (Properties ctx, int AD_WF_Responsible_ID)
 	{
-		Integer key = new Integer (AD_WF_Responsible_ID);
+		Integer key = Integer.valueOf(AD_WF_Responsible_ID);
 		MWFResponsible retValue = (MWFResponsible) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

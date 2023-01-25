@@ -21,10 +21,16 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_DD_Order;
+import org.adempiere.core.domains.models.X_DD_OrderLine;
+import org.adempiere.core.domains.models.X_T_Replenish;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MClient;
 import org.compiere.model.MDocType;
 import org.compiere.model.MMovement;
@@ -38,7 +44,6 @@ import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
-import org.compiere.model.X_T_Replenish;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
@@ -46,8 +51,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ReplenishInterface;
 import org.compiere.util.Util;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MDDOrderLine;
 
 /**
  *	Replenishment Report
@@ -591,7 +594,7 @@ public class ReplenishReport extends ReplenishReportAbstract {
 		String info = "";
 		//
 		MClient client = null;
-		MDDOrder order = null;
+		X_DD_Order order = null;
 		int M_Warehouse_ID = 0;
 		int M_WarehouseSource_ID = 0;
 		MWarehouse whSource = null;
@@ -612,7 +615,7 @@ public class ReplenishReport extends ReplenishReportAbstract {
 				M_WarehouseSource_ID = replenish.getM_WarehouseSource_ID();
 				M_Warehouse_ID = replenish.getM_Warehouse_ID();
 				
-				order = new MDDOrder (getCtx(), 0, get_TrxName());
+				order = new X_DD_Order(getCtx(), 0, get_TrxName());
 				order.setC_DocType_ID(getDocTypeId());
 				order.setDescription(Msg.getMsg(getCtx(), "Replenishment")
 					+ ": " + whSource.getName() + "->" + wh.getName());
@@ -626,11 +629,11 @@ public class ReplenishReport extends ReplenishReportAbstract {
 					throw new AdempiereUserError("@C_BPartner_ID@ @AD_Org_ID@ @FillMandatory@ ");
 				MBPartner bp = new MBPartner(getCtx(),bPartnerId,get_TrxName());
 				// Set BPartner Link to Org
-				order.setBPartner(bp);
+				setBusinessPartner(order, bp);
 				order.setDateOrdered(new Timestamp(System.currentTimeMillis()));
-				order.setDeliveryRule(MDDOrder.DELIVERYRULE_Availability);
-				order.setDeliveryViaRule(MDDOrder.DELIVERYVIARULE_Delivery);
-				order.setPriorityRule(MDDOrder.PRIORITYRULE_Medium);
+				order.setDeliveryRule(MOrder.DELIVERYRULE_Availability);
+				order.setDeliveryViaRule(MOrder.DELIVERYVIARULE_Delivery);
+				order.setPriorityRule(MOrder.PRIORITYRULE_Medium);
 				order.setIsInDispute(false);
 				order.setIsApproved(false);
 				order.setIsDropShip(false);
@@ -646,13 +649,13 @@ public class ReplenishReport extends ReplenishReportAbstract {
 					if(whInTransit.isInTransit())	
 					order.setM_Warehouse_ID(whInTransit.getM_Warehouse_ID());
 				}
-				if (order.getM_Warehouse_ID()==0)
+				if (order.get_ValueAsInt("M_Warehouse_ID")==0)
 					throw new AdempiereUserError("@M_Warehouse_ID@ @InTransit@ @FillMandatory@ ");
 				
 				order.saveEx();
 				log.fine(order.toString());
 				noMoves++;
-				info += " - " + order.getDocumentNo();
+				info += " - " + order.get_ValueAsString("DocumentNo");
 			}
 		
 			//	To
@@ -661,11 +664,13 @@ public class ReplenishReport extends ReplenishReportAbstract {
 			if(M_LocatorTo_ID == 0 || M_Locator_ID==0)
 			throw new AdempiereUserError(Msg.translate(getCtx(), "M_Locator_ID")+" @FillMandatory@ ");
 			//	
-			MDDOrderLine line = new MDDOrderLine(order);
+			X_DD_OrderLine line = getDistributionOrderLineInstanceFromParent(order);
 			line.setM_Product_ID(replenish.getM_Product_ID());
-			line.setQty(replenish.getQtyToOrder());
-			if (replenish.getQtyToOrder().compareTo(replenish.getQtyToOrder()) != 0)
+			line.setQtyEntered(replenish.getQtyToOrder());
+			line.setQtyOrdered(replenish.getQtyToOrder());
+			if (replenish.getQtyToOrder().compareTo(replenish.getQtyToOrder()) != 0) {
 				line.setDescription("Total: " + replenish.getQtyToOrder());
+			}
 			line.setM_Locator_ID(M_Locator_ID);		//	from
 			line.setM_AttributeSetInstance_ID(0);
 			line.setM_LocatorTo_ID(M_LocatorTo_ID);					//	to
@@ -686,6 +691,76 @@ public class ReplenishReport extends ReplenishReportAbstract {
 	}	//	create Distribution Order
 
 	/**
+	 * Set Business Partner Reference
+	 * @param referenceToSet
+	 * @param bp
+	 */
+	private void setBusinessPartner(X_DD_Order referenceToSet, MBPartner bp) {
+		if (bp == null)
+			return;
+
+		referenceToSet.setC_BPartner_ID(bp.getC_BPartner_ID());
+		//	Defaults Payment Term
+		int ii = 0;
+		if (referenceToSet.isSOTrx())
+			ii = bp.getC_PaymentTerm_ID();
+		else
+			ii = bp.getPO_PaymentTerm_ID();
+		
+		//	Default Price List
+		if (referenceToSet.isSOTrx())
+			ii = bp.getM_PriceList_ID();
+		else
+			ii = bp.getPO_PriceList_ID();
+		//	Default Delivery/Via Rule
+		String ss = bp.getDeliveryRule();
+		if (ss != null)
+			referenceToSet.setDeliveryRule(ss);
+		ss = bp.getDeliveryViaRule();
+		if (ss != null)
+			referenceToSet.setDeliveryViaRule(ss);
+		//	Default Invoice/Payment Rule
+		ss = bp.getInvoiceRule();
+
+		if (referenceToSet.getSalesRep_ID() == 0)
+		{
+			ii = Env.getAD_User_ID(referenceToSet.getCtx());
+			if (ii != 0)
+				referenceToSet.setSalesRep_ID(ii);
+		}
+
+		List<MBPartnerLocation> partnerLocations = Arrays.asList(bp.getLocations(false));
+		// search the Ship To Location
+		MBPartnerLocation partnerLocation = partnerLocations.stream() 			// create steam
+				.filter( pl -> pl.isShipTo()).reduce((first , last ) -> last) 	// get of last Ship to location
+				.orElseGet(() -> partnerLocations.stream() 								// if not exist Ship to location else get first partner location
+							.findFirst()										// if not exist partner location then throw an exception
+							.orElseThrow(() -> new AdempiereException("@IsShipTo@ @NotFound@"))
+				);
+
+		referenceToSet.setC_BPartner_Location_ID(partnerLocation.getC_BPartner_Location_ID());
+		//	
+		Arrays.asList(bp.getContacts(false))
+				.stream()
+				.findFirst()
+				.ifPresent(user -> referenceToSet.setAD_User_ID(user.getAD_User_ID()));
+	}
+	
+	/**
+	 * Get Instance of Distribution Order Line from Distribution Order
+	 * @param distributionOrder
+	 * @return
+	 */
+	private X_DD_OrderLine getDistributionOrderLineInstanceFromParent(X_DD_Order distributionOrder) {
+		X_DD_OrderLine distributionOrderLine = new X_DD_OrderLine(distributionOrder.getCtx(), 0, distributionOrder.get_TrxName());
+		distributionOrderLine.setDD_Order_ID(distributionOrder.get_ID());
+		distributionOrderLine.setAD_Org_ID(distributionOrder.getAD_Org_ID());
+		distributionOrderLine.setDateOrdered(distributionOrder.getDateOrdered());
+		distributionOrderLine.setDatePromised(distributionOrder.getDatePromised());
+		return distributionOrderLine;
+	}
+	
+	/**
 	 * 	Get Replenish Records
 	 *	@return replenish
 	 */
@@ -696,7 +771,7 @@ public class ReplenishReport extends ReplenishReportAbstract {
 		//	For Standard Process
 		StringBuffer localWhere = new StringBuffer("AD_PInstance_ID=?");
 		if(!isMandatoryBusinessPartner) {
-			localWhere.append(" AND ").append(" AND C_BPartner_ID > 0");
+			localWhere.append(" AND ").append(" C_BPartner_ID > 0");
 		}
 		if (!Util.isEmpty(where)) {
 			localWhere.append(" AND ").append(where);

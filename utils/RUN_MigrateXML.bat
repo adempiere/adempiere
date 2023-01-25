@@ -17,6 +17,7 @@ REM Can be called with argument "clean" to mark the applied dictionary migration
 REM and delete the steps and data to reduce the database size.
 SET cleanMode=%1
 SET forceMode=%2
+SET migrationPath=%3
 
 REM change to directory in which this script resides
 SET DIR_SAV=%CD%
@@ -41,7 +42,7 @@ GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
 ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO JAVA_HOME e.g. "C:\Program Files\Java\jdk1.7.0_71"
+ECHO JAVA_HOME e.g. "C:\Program Files\Java\jdk11"
 ECHO When in doubt, please run RUN_Setup.bat
 SET sanityCheck=%errorNoEnvironment%
 :ENVOK
@@ -79,9 +80,12 @@ Echo.
 PAUSE
 
 Set JAVA=%JAVA_HOME%\bin\java
-SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
+SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 
-"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader %cleanMode% %forceMode%
+@SET JAVA_OPTS=-Xms512m -Xmx1g
+
+"%JAVA%" %JAVA_OPTS% -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% -DPropertyFile=%ADEMPIERE_HOME%\AdempiereEnv.properties org.adempiere.process.MigrationLoader %cleanMode% %forceMode% %migrationPath%
+
 SET result=%ERRORLEVEL% 
 
 IF NOT %result%==%errorSuccess% GOTO :SANE
@@ -99,7 +103,7 @@ CD "%DIR_SAV%"
 REM end of script
 ECHO.
 IF "%result%"=="" GOTO NORESULT
-IF %result%==0 GOTO NORESULT
+IF %result%==0    GOTO NORESULT
 ECHO terminated abnormally
 GOTO SKIPEND
 :NORESULT

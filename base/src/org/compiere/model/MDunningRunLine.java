@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_DunningLevel;
+import org.adempiere.core.domains.models.X_C_DunningRunLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

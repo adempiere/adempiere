@@ -17,7 +17,7 @@
 
 package org.adempiere.pos;
 
-import org.adempiere.pos.service.ProductInfo;
+import org.adempiere.pos.services.ProductInfo;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;

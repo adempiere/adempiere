@@ -24,10 +24,13 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Field;
+import org.adempiere.core.domains.models.X_AD_Tab;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Tab Model
@@ -242,7 +245,7 @@ public class MTab extends X_AD_Tab
 	 *	@return MProcess
 	 */
 	public static MTab get (Properties ctx, int tabId) {
-		Integer key = new Integer (tabId);
+		Integer key = Integer.valueOf(tabId);
 		MTab retValue = (MTab) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -258,7 +261,7 @@ public class MTab extends X_AD_Tab
 	 */
 	public List<MField> getASPFields() {
 		MClient client = MClient.get(getCtx());
-		String key = getAD_Tab_ID() + "|" + client.getAD_Client_ID();
+		String key = getAD_Tab_ID() + "|" + client.getAD_Client_ID() + "|" + Env.getAD_Language(getCtx());
 		List<MField> retValue = cacheASPFields.get (key);
 		if (retValue != null) {
 			return retValue;

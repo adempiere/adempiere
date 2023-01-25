@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.adempiere.core.domains.models.I_M_ProductionBatch;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MProductionBatch;
 import org.compiere.util.Env;
@@ -107,4 +108,10 @@ public class Doc_ProductionBatch extends Doc
 		
 		return facts;
 	} // createFacts
+	
+	public static String getDateAcctColumnName() {
+        
+         return I_M_ProductionBatch.COLUMNNAME_MovementDate;
+    }
+
 } // Doc_ProductionBatch

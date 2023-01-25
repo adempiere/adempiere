@@ -33,6 +33,9 @@ import org.compiere.util.Evaluator;
  *	Document Workflow Manager
  *	
  *  @author Jorg Janke
+ * 	@author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  *  @version $Id: DocWorkflowManager.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  */
 public class DocWorkflowManager implements DocWorkflowMgr
@@ -124,8 +127,9 @@ public class DocWorkflowManager implements DocWorkflowMgr
 				AD_Table_ID, document.get_ID());
 			pi.setAD_User_ID (Env.getAD_User_ID(document.getCtx()));
 			pi.setAD_Client_ID(document.getAD_Client_ID());
+			pi.setTransactionName(document.get_TrxName());
 			//
-			if (wf.start(pi, document.get_TrxName()) != null)
+			if (wf.start(pi) != null)
 			{
 				log.config(wf.getName());
 				m_noStarted++;

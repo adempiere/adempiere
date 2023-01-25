@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_C_POSKeyLayout;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 
@@ -46,7 +47,7 @@ public class MPOSKeyLayout extends X_C_POSKeyLayout
 	 */
 	public static MPOSKeyLayout get (Properties ctx, int C_POSKeyLayout_ID)
 	{
-		Integer key = new Integer (C_POSKeyLayout_ID);
+		Integer key = Integer.valueOf(C_POSKeyLayout_ID);
 		MPOSKeyLayout retValue = (MPOSKeyLayout) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

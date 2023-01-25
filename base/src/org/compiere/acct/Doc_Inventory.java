@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.adempiere.core.domains.models.I_M_Inventory;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
@@ -238,5 +239,11 @@ public class Doc_Inventory extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+
+	   public static String getDateAcctColumnName() {
+	        
+	        return I_M_Inventory.COLUMNNAME_MovementDate;
+	        
+	    }
 
 }   //  Doc_Inventory

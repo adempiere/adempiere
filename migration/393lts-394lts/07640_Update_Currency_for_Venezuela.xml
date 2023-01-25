@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Update Currency for Venezuela" ReleaseNo="3.9.4" SeqNo="7640">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="170" Action="U" Record_ID="339" Table="C_Country">
+        <Data AD_Column_ID="7049" Column="C_Currency_ID" oldValue="205">50001</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

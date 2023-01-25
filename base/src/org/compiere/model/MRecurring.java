@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_Recurring;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 

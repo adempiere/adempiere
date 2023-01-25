@@ -28,6 +28,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -38,6 +39,9 @@ import javax.print.attribute.standard.JobPriority;
 import javax.print.event.PrintServiceAttributeEvent;
 import javax.print.event.PrintServiceAttributeListener;
 
+import org.adempiere.core.domains.models.I_DD_Order;
+import org.adempiere.core.domains.models.I_HR_PaySelectionCheck;
+import org.adempiere.core.domains.models.X_PP_Order;
 import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MClient;
 import org.compiere.model.MDunningRunEntry;
@@ -58,9 +62,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
-import org.eevolution.model.MDDOrder;
-import org.eevolution.model.X_HR_PaySelectionCheck;
-import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
 import org.spin.util.ExportFormatCSV;
 import org.spin.util.ExportFormatHTML;
 import org.spin.util.ExportFormatPDF;
@@ -68,6 +69,8 @@ import org.spin.util.ExportFormatPS;
 import org.spin.util.ExportFormatXLS;
 import org.spin.util.ExportFormatXLSX;
 import org.spin.util.ExportFormatXML;
+import org.spin.util.ILayoutView;
+import org.spin.util.PrinterUtil;
 
 /**
  *	Report Engine.
@@ -104,6 +107,9 @@ import org.spin.util.ExportFormatXML;
  * 	@author Raul Capecce
  * 	    <li>FR [ 1305 ] Setting zoom glass to a dark theme resource</li>
  * 	    @see https://github.com/adempiere/adempiere/issues/1305
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com
+ * 	    <li>FR [ 3884 ] Shipment Detail report does not finish generating</li>
+ * 	    @see https://github.com/adempiere/adempiere/issues/3884
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -176,7 +182,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/**	Printer					*/
 	private String			m_printerName = Ini.getProperty(Ini.P_PRINTER);
 	/**	View					*/
-	private View			m_view = null;
+//	private View			m_view = null;
 	/** Transaction Name 		*/
 	protected String 			m_trxName = null;
 	/** Where filter */
@@ -189,6 +195,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private boolean m_summary = false;
 	//	FR [ 237 ]
 	private int 			m_AD_ReportView_ID = 0;
+	private ILayoutView layoutView;
 	
 	/**
 	 * Set Optional Report View
@@ -196,6 +203,10 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public void setAD_ReportView_ID(int p_AD_ReportView_ID) {
 		m_AD_ReportView_ID = p_AD_ReportView_ID;
+	}
+	
+	public void setLayoutView(ILayoutView layoutView) {
+		this.layoutView = layoutView;
 	}
 	
 	/**
@@ -228,8 +239,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 			m_layout.setPrintFormat(pf, false);
 			m_layout.setPrintData(m_printData, m_query, true);	//	format changes data
 		}
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	setPrintFormat
 	
 	/**
@@ -246,8 +257,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 		setPrintData();
 		if (m_layout != null)
 			m_layout.setPrintData(m_printData, m_query, true);
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	setQuery
 
 	/**
@@ -384,14 +395,22 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 * 	Get View Panel
 	 * 	@return view panel
 	 */
-	public View getView()
+	public boolean showView()
 	{
 		if (m_layout == null)
 			layout();
-		if (m_view == null)
-			m_view = new View (m_layout);
-		return m_view;
+		if (layoutView != null
+				&& !layoutView.isLoaded()) {
+			layoutView.loadView(m_layout);
+			return true;
+		}
+		return false;
 	}	//	getView
+	
+	
+	public boolean isDisplayable() {
+		return layoutView != null && layoutView.isDisplayable();
+	}
 	
 	/**************************************************************************
 	 * 	Print Report
@@ -488,8 +507,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	private PrinterJob getPrinterJob (String printerName)
 	{
 		if (printerName != null && printerName.length() > 0)
-			return CPrinter.getPrinterJob(printerName);
-		return CPrinter.getPrinterJob(m_printerName);
+			return PrinterUtil.getPrinterJob(printerName);
+		return PrinterUtil.getPrinterJob(m_printerName);
 	}	//	getPrinterJob
 
 	/**
@@ -501,8 +520,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		if (m_layout == null)
 			layout();
 		m_layout.pageSetupDialog(getPrinterJob(m_printerName));
-		if (m_view != null)
-			m_view.revalidate();
+		if (layoutView != null)
+			layoutView.reloadVew();
 	}	//	pageSetupDialog
 
 	/**
@@ -749,7 +768,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		//
 		int AD_Table_ID = 0;
 		int AD_ReportView_ID = 0;
-		String TableName = null;
+		String tableName = null;
 		String whereClause = "";
 		int AD_PrintFormat_ID = 0;
 		boolean IsForm = false;
@@ -784,7 +803,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				whereClause = Env.parseContext(ctx, 0, whereClause, false);
 				//
 				AD_Table_ID = rs.getInt(3);
-				TableName = rs.getString(4);			//	required for query
+				tableName = rs.getString(4);			//	required for query
 				AD_PrintFormat_ID = rs.getInt(5);		//	required
 				IsForm = "Y".equals(rs.getString(6));	//	required
 				Client_ID = rs.getInt(7);
@@ -817,7 +836,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				{
 					whereClause = "";
 					AD_Table_ID = rs.getInt(1);
-					TableName = rs.getString(2);			//	required for query
+					tableName = rs.getString(2);			//	required for query
 					AD_PrintFormat_ID = rs.getInt(3);		//	required
 					IsForm = "Y".equals(rs.getString(4));	//	required
 					Client_ID = AD_Client_ID;
@@ -841,26 +860,21 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 		//  Create Query from Parameters
 		MQuery query = null;
-		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
-				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
-		{
-			MTable table = MTable.get(ctx, AD_Table_ID);
+		MTable table = MTable.get(ctx, AD_Table_ID);
+		if (IsForm && pi.getRecord_ID() != 0) {	//	Not temporary table - teo_sarca, BF [ 2828886 ]
 			String columnKey = null;
 			if(table.isSingleKey())
 				columnKey = table.getKeyColumns()[0];
 			else 
-				columnKey = TableName + "_ID";
+				columnKey = tableName + "_ID";
 
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
-		else
-		{
-			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+		if(tableName.startsWith("T_")
+				|| Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent()
+				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
+			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
-		
-		//  Add to static where clause from ReportView
-		if (whereClause.length() != 0)
-			query.addRestriction(whereClause);
 
 		//	Get Print Format
 		MPrintFormat format = null;
@@ -892,7 +906,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		PrintInfo info = new PrintInfo (pi);
 		info.setAD_Table_ID(AD_Table_ID);
 		
-		query.setWindowNo(pi.getWindowNo());
+		if (query != null) {
+			query.setWindowNo(pi.getWindowNo());
+			//  Add to static where clause from ReportView
+			query.addRestriction(whereClause);
+		}
 
 		//	FR [ 295 ]
 		ReportEngine re = new ReportEngine(ctx, format, query, info, pi.getTransactionName());
@@ -929,7 +947,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
     public static final int     HR_REMITTANCE = 11;
 
 	public static final int     MOVEMENT = 12;
-	
 
 //	private static final String[]	DOC_TABLES = new String[] {
 //		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
@@ -950,7 +967,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_HR_PaySelectionCheck.Table_ID ,  X_HR_PaySelectionCheck.Table_ID , MMovement.Table_ID};
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, I_DD_Order.Table_ID , I_HR_PaySelectionCheck.Table_ID ,  I_HR_PaySelectionCheck.Table_ID , MMovement.Table_ID};
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.

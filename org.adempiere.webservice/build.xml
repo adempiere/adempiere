@@ -58,7 +58,7 @@
 
 	<target name="xmlbean" description="generate jar file from xmlbean xsd">
 	    <mkdir dir="${basedir}/temp"/>
-	    <xmlbean javasource="1.5" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar"
+	    <xmlbean javasource="11" schema="${basedir}/WEB-INF/xsd" destfile="${basedir}/WEB-INF/lib/generated_xmlbeans.jar"
 	             srcgendir="${basedir}/temp">
 	    	<classpath refid="compile.classpath"/>
 	    </xmlbean>
@@ -68,11 +68,12 @@
 
 	<target name="compile" depends="clean" description="Compile Java sources">
 	    <mkdir dir="${classes.dir}"/>
-	    <javac encoding="UTF-8" srcdir="WEB-INF/src"
+	    <javac target="11" encoding="UTF-8" srcdir="WEB-INF/src"
 	           destdir="${classes.dir}"
 	           debug="${compile.debug}"
 	     	   deprecation="${compile.deprecation}"
-	           optimize="${compile.optimize}">
+				optimize="${compile.optimize}"
+				includeantruntime="false">
 	        <classpath refid="compile.classpath"/>
 	    </javac>
 		<copy todir="${classes.dir}">

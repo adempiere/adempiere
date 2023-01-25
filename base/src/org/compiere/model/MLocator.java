@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_Locator;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -175,7 +176,7 @@ public class MLocator extends X_M_Locator
 	{
 		if (s_cache == null)
 			s_cache	= new CCache<Integer,MLocator>("M_Locator", 20);
-		Integer key = new Integer (M_Locator_ID);
+		Integer key = Integer.valueOf(M_Locator_ID);
 		MLocator retValue = (MLocator) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

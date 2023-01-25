@@ -113,6 +113,7 @@ public final class EMail implements Serializable
 	 */
 	public EMail (MClient client, int eMailConfigId, String from, String to, 
 		String subject, String message, boolean html) {
+		this.client = client;
 		ctx = client.getCtx();
 		isManual = false;
 		//	FR [ 402 ]
@@ -250,6 +251,8 @@ public final class EMail implements Serializable
 	private String				token = "";
 	/** Context - may be null		*/
 	private Properties			ctx;
+	/** Client						*/
+	private MClient				client;
 	/**	Is Manual					*/
 	private boolean				isManual = false;
 
@@ -531,10 +534,13 @@ public final class EMail implements Serializable
 		//
 		Properties props = System.getProperties();
 		//	For Debug
-		if (CLogMgt.isLevelFinest())
+		if (CLogMgt.isLevelFinest()) {
 			props.put("mail.debug", "true");
+		}
 		//	Set Host
 		props.put("mail.host", host);
+		props.put("mail.store.protocol", getStringProtocol());
+		props.put("mail.transport.protocol", getStringProtocol());
 		//	SMTP
 		if(protocol.equals(MEMailConfig.PROTOCOL_SMTP)) {
 			//	Timeout
@@ -547,16 +553,15 @@ public final class EMail implements Serializable
 			}
 			//	Set Port
 			props.put("mail.smtp.port", String.valueOf(getPort()));
-			//	
-			if (isSmtpAuthorization && auth != null)		//	createAuthenticator was called
+			//	createAuthenticator was called
+			if (isSmtpAuthorization && auth != null) {
 				props.put("mail.smtp.auth", "true");
-			props.put("mail.store.protocol", getStringProtocol());
-			props.put("mail.transport.protocol", getStringProtocol());
+			}
 			//	Encryption Type
 			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
 				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL)) {
 					props.put("mail.smtp.ssl.enable", "true");
-				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS)) {
+				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS) || getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_STARTTLS)) {
 					props.put("mail.smtp.starttls.enable", "true");
 				}
 				//	
@@ -581,19 +586,17 @@ public final class EMail implements Serializable
 			if(timeout > 0) {
 				props.put("mail.imap.connectiontimeout", String.valueOf(connectionTimeout));
 			}
-			//	
-			if (auth != null) {		//	createAuthenticator was called
+			//	createAuthenticator was called
+			if (auth != null) {
 				props.put("mail.imap.auth", "true");
 			}
 			//	Set Port
 			props.put("mail.imap.port", String.valueOf(getPort()));
-			props.put("mail.store.protocol", getStringProtocol());
-			props.put("mail.transport.protocol", getStringProtocol());
 			//	Encryption Type
 			if(!getAuthMechanism().equals(MEMailConfig.AUTHMECHANISM_OAuth)) {
 				if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_SSL)) {
 					props.put("mail.imap.ssl.enable", "true");
-				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS)) {
+				} else if(getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_TLS) || getEncryptionType().equals(MEMailConfig.ENCRYPTIONTYPE_STARTTLS)) {
 					props.put("mail.imap.starttls.enable", "true");
 				}
 				//	
@@ -625,7 +628,6 @@ public final class EMail implements Serializable
 		}
 		//	Validate Config
 		if(eMailConfigId == 0) {
-			MClient client = MClient.get(ctx);
 			eMailConfigId = client.getAD_EMailConfig_ID();
 		}
 		MEMailConfig eMailConfig = MEMailConfig.get(ctx, eMailConfigId);
@@ -1480,5 +1482,38 @@ public final class EMail implements Serializable
 		EMail email = new EMail(args[0], args[1], args[2], args[3], args[4], false);
 		email.send();
 	}   //  main
+
+	public static String validateMailDelivery(Properties ctx, String requestEMail, String requestPassword, int eMailConfigId, String name) {
+		if (requestEMail == null || requestEMail.length() == 0)
+			return "No Request EMail for " + name;
+		//
+		EMail email = new EMail(MClient.get(ctx), eMailConfigId, requestEMail, requestEMail,
+				"Adempiere EMail Test",
+				"Adempiere EMail Test", false);
+		email.createAuthenticator (requestEMail, requestPassword);
+
+		try
+		{
+			String returnMessage = email.send();
+			if (EMail.SENT_OK.equals (returnMessage))
+			{
+				log.info("Sent Test EMail to " + requestEMail);
+				return "OK";
+			}
+			else
+			{
+				MEMailConfig mailConfig = new MEMailConfig(ctx, eMailConfigId, null);
+				log.warning("Could NOT send Test EMail from "
+						+ mailConfig.getSMTPHost() + ": " + requestEMail
+						+ " to " + requestEMail + ": " + returnMessage);
+				return returnMessage;
+			}
+		}
+		catch (Exception ex)
+		{
+			log.severe(name + " - " + ex.getLocalizedMessage());
+			return ex.getLocalizedMessage();
+		}
+	}
 
 }	//	EMail

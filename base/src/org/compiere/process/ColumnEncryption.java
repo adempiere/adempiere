@@ -284,31 +284,35 @@ public class ColumnEncryption extends SvrProcess {
 
 		PreparedStatement selectStmt = null;
 		PreparedStatement updateStmt = null;
+		ResultSet rs = null;
+		try {
+			selectStmt = m_conn.prepareStatement(selectSql.toString(),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			updateStmt = m_conn.prepareStatement(updateSql.toString());
 
-		selectStmt = m_conn.prepareStatement(selectSql.toString(),
-				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-		updateStmt = m_conn.prepareStatement(updateSql.toString());
-
-		ResultSet rs = selectStmt.executeQuery();
-
-		for (recordsEncrypted = 0; rs.next(); ++recordsEncrypted) {
-			// Get the row id and column value
-			int id = rs.getInt(1);
-			String value = rs.getString(2);
-			// Encrypt the value
-			value = SecureEngine.encrypt(value);
-			// Update the row
-			updateStmt.setString(1, value);
-			updateStmt.setInt(2, id);
-			if (updateStmt.executeUpdate() != 1) {
-				log.warning("EncryptError: Table=" + tableName + ", ID=" + id);
-				throw new Exception();
+			rs = selectStmt.executeQuery();
+			for (recordsEncrypted = 0; rs.next(); ++recordsEncrypted) {
+				// Get the row id and column value
+				int id = rs.getInt(1);
+				String value = rs.getString(2);
+				// Encrypt the value
+				value = SecureEngine.encrypt(value);
+				// Update the row
+				updateStmt.setString(1, value);
+				updateStmt.setInt(2, id);
+				if (updateStmt.executeUpdate() != 1) {
+					log.warning("EncryptError: Table=" + tableName + ", ID=" + id);
+					throw new Exception();
+				}
 			}
+		} catch (Exception exception) {
+			log.severe(exception.toString());
+		} finally {
+			DB.close(rs , selectStmt);
+			DB.close(updateStmt);
+			rs = null; selectStmt = null;
+			updateStmt = null;
 		}
-
-		rs.close();
-		selectStmt.close();
-		updateStmt.close();
 
 		return recordsEncrypted;
 	} // encryptColumnContents
@@ -366,37 +370,39 @@ public class ColumnEncryption extends SvrProcess {
 		updateSql.append(" WHERE AD_Column_ID=" + columnID);
 
 		PreparedStatement selectStmt = null;
+		ResultSet rs = null;
+		try {
+			selectStmt = m_conn.prepareStatement(selectSql.toString(),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 
-		selectStmt = m_conn.prepareStatement(selectSql.toString(),
-				ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			selectStmt.setInt(1, columnID);
+			rs = selectStmt.executeQuery();
 
-		selectStmt.setInt(1, columnID);
-		ResultSet rs = selectStmt.executeQuery();
+			if (rs.next()) {
+				// Change the column size physically.
+				if (DB.executeUpdate(alterSql.toString(), false, m_trx
+						.getTrxName()) == -1) {
+					log.warning("EncryptError [ChangeFieldLength]: ColumnID="
+							+ columnID + ", NewLength=" + length);
+					throw new Exception();
+				}
 
-		if (rs.next()) {
-			// Change the column size physically.
-			if (DB.executeUpdate(alterSql.toString(), false, m_trx
-							.getTrxName()) == -1) {
-				log.warning("EncryptError [ChangeFieldLength]: ColumnID="
-						+ columnID + ", NewLength=" + length);
-				throw new Exception();
+				// Change the column size in AD.
+				if (DB.executeUpdate(updateSql.toString(), false, m_trx
+						.getTrxName()) == -1) {
+					log.warning("EncryptError [ChangeFieldLength]: ColumnID="
+							+ columnID + ", NewLength=" + length);
+					throw new Exception();
+				}
 			}
-
-			// Change the column size in AD.
-			if (DB.executeUpdate(updateSql.toString(), false, m_trx
-					.getTrxName()) == -1) {
-				log.warning("EncryptError [ChangeFieldLength]: ColumnID="
-						+ columnID + ", NewLength=" + length);
-				throw new Exception();
-			}
+		} catch (Exception exception) {
+			log.severe(exception.getMessage());
+		} finally {
+			DB.close(rs, selectStmt);
+			rs = null; selectStmt = null;
 		}
-
-		rs.close();
-		selectStmt.close();
-
 		// Update number of rows effected.
 		rowsEffected++;
-
 		return rowsEffected;
 	} // changeFieldLength
 

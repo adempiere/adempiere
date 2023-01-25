@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import javax.script.ScriptEngine;
 
 import org.adempiere.apps.graph.GraphColumn;
+import org.adempiere.core.domains.models.X_PA_Measure;
 import org.adempiere.util.MeasureInterface;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
@@ -64,7 +65,7 @@ public class MMeasure extends X_PA_Measure
 	 */
 	public static MMeasure get (Properties ctx, int PA_Measure_ID)
 	{
-		Integer key = new Integer (PA_Measure_ID);
+		Integer key = Integer.valueOf(PA_Measure_ID);
 		MMeasure retValue = (MMeasure)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

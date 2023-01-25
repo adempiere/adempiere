@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_M_CostQueue;
 import org.adempiere.engine.CostComponent;
 import org.adempiere.exceptions.CostInsufficientQtyException;
 import org.compiere.util.CLogMgt;
@@ -617,7 +619,7 @@ public class MCostQueue extends X_M_CostQueue
 		BigDecimal sumQty = getCurrentQty().add(qty);
 		if (sumQty.signum() != 0)
 		{
-			BigDecimal cost = sumAmt.divide(sumQty, precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal cost = sumAmt.divide(sumQty, precision, RoundingMode.HALF_UP);
 			setCurrentCostPrice(cost);
 		}
 		//

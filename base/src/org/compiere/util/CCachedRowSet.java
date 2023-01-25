@@ -32,22 +32,20 @@ import oracle.jdbc.rowset.OracleCachedRowSet;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.Database;
 
-import com.sun.rowset.CachedRowSetImpl;
-
-
 /**
  *	Adempiere Cached Row Set Implementation
  *	
  *  @author Jorg Janke
+ *  @author Marek Mosiewicz - porting to Oracle implementation of CachedRowSet for JDK 10 port
  *  @version $Id: CCachedRowSet.java,v 1.6 2006/07/30 00:54:36 jjanke Exp $
  */
-public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
+public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -233983261449861555L;
-
+	static CLogger log = CLogger.getCLogger (CCachedRowSet.class);
 
 	/**
 	 * 	Get Cached Row Set.
@@ -104,13 +102,21 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 	{
 		if (db.getName().equals(Database.DB_ORACLE))
 		{
-			Statement stmt = conn.createStatement
-				(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = stmt.executeQuery(sql);
-			OracleCachedRowSet crs = new OracleCachedRowSet();
-			crs.populate(rs);
-			rs.close();
-			stmt.close();
+			Statement stmt = null;
+			ResultSet rs = null;
+			OracleCachedRowSet crs = null;
+			try {
+				stmt = conn.createStatement
+						(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rs = stmt.executeQuery(sql);
+				crs = new OracleCachedRowSet();
+				crs.populate(rs);
+			} catch (Exception exception) {
+				log.severe(exception.getMessage());
+			} finally {
+				DB.close(rs , stmt);
+				rs = null; stmt = null;
+			}
 			return crs;
 		}
 		CachedRowSet crs = get();
@@ -186,12 +192,12 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 			System.out.println("OK 1");
 			get();
 			System.out.println("OK 1a");
-			new CachedRowSetImpl();
+			new CCachedRowSet();
 			System.out.println("OK 2");
 		}
-		catch (Exception e)
+		catch (Exception exception)
 		{
-			e.printStackTrace();
+			log.severe(exception.getMessage());
 		}
 	}	//	main
 	
@@ -257,8 +263,22 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 		}	
 	}
 
-    @Override
-    public void setTypeMap(Map map) {
-        super.setTypeMap(map);
-    }
+	@Override
+	public void setTypeMap(Map map) throws SQLException {
+		try {
+			super.setTypeMap((Map<String,Class>)map);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	@Override
+	public <T> T getObject(String name, Class<T> type) throws SQLException{
+		return null;
+	}
+	@Override
+	public <T> T getObject(int colIndex, Class<T> type) throws SQLException{
+		return null;
+	}
+
+
 }	//	CCachedRowSet

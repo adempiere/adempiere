@@ -15,7 +15,7 @@
 	<!-- set global properties for this build -->
 	<property name="src" value="src" />
 	<property name="build.dir" value="build" />
-	<property name="jboss.dir" value="../jboss" />
+	<property name="wildfly.dir" value="../wildfly" />
 	<property name="glassfish.dir" value="../glassfishfacet" />
 	<property name="dist.dir" value="../lib" />
 	<!--<property environment="env"/>-->
@@ -26,7 +26,7 @@
 		<pathelement path="${classpath}" />
 		<pathelement path="lib/jstl.jar" />
 		<pathelement path="lib/jsp-api.jar" />
-		<pathelement path="lib/servlet-api.jar" />
+		<pathelement path="lib/javax.servlet-api-4.0.1.jar" />
 		<pathelement path="lib/standard.jar" />
 	</path>
 
@@ -67,7 +67,7 @@
 	<!-- ============================================= -->
 	<target name="toolsCompile" depends="toolsInit" unless="jars.uptodate">
 		<!-- compile the java code from ${src} into ${build.dir}S -->
-		<javac target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+		<javac target="11" source="11" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on" includeantruntime="false">
 			<classpath refid="project.class.path" />
 		</javac>
 		<!-- copy all image & sound files from src to the build directory -->
@@ -92,13 +92,7 @@
 	<target name="toolsAppsServer" depends="toolsCompile" unless="jars.uptodate" description="Create JBoss Client jar">
 		<!-- Create jboss.jar file 	-->
 		<jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
-			<zipfileset src="${jboss.dir}/client/jboss-ejb3x.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="${jboss.dir}/client/jboss-ejb3-client.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="${jboss.dir}/client/jbossall-client.jar">
+			<zipfileset src="${wildfly.dir}/client/lib/jbossall-client-4.2.2.GA.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -116,7 +110,16 @@
 			<zipgroupfileset dir="${glassfish.dir}/lib" includes="*.jar">
 				<patternset refid="manifest.exclude" />
 			</zipgroupfileset>
-			<zipfileset src="lib/javaee.jar">
+			<zipfileset src="lib/javax.annotation-api-1.3.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/ejb-api-3.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.jms-api-2.0.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.servlet-api-4.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -215,10 +218,6 @@
 			<fileset dir="${build.dir}">
 				<include name="**/apache/ecs/**" />
 			</fileset>
-			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<!-- BeanShell -->
 			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
@@ -228,10 +227,10 @@
 			</zipfileset>
 			<!-- Groovy -->
 			<zipfileset src="lib/groovy-all-2.4.15.jar">
-				<patternset refid="manifest.exclude" />
+				<!--patternset refid="manifest.exclude" /-->
 			</zipfileset>
 			<zipfileset src="lib/groovy-engine.jar">
-				<patternset refid="manifest.exclude" />
+				<!--patternset refid="manifest.exclude" /-->
 			</zipfileset>
 			<!-- Groovy -->
 			<zipfileset src="lib/jython.jar">
@@ -257,7 +256,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.17.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
@@ -275,9 +280,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/iText-2.1.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/icepdf-core-6.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -316,11 +318,14 @@
 			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<!-- HikariCP connection pool -->
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="lib/slf4j-api-1.7.36.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/slf4j-simple-1.7.36.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
@@ -330,8 +335,7 @@
 			<zipfileset src="lib/poi-ooxml-3.17.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- CGLib -->
-			<zipfileset src="lib/cglib.jar">
+			<zipfileset src="lib/byte-buddy-1.12.19.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Open Forecast -->
@@ -356,30 +360,26 @@
 			<zipfileset src="../tools/lib/zxing-2.3.0.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<manifest>
-				<attribute name="Specification-Title" value="Adempiere Server Tools" />
-				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-Title" value="CSTools ${env.ADEMPIERE_VERSION}" />
-				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
-			</manifest>
-			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.2.2.jar">
+			<!-- javax.activation -->
+			<zipfileset src="lib/javax.activation-1.2.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-collections4-4.1.jar">
+			<!-- Mail -->
+			<zipfileset src="lib/mail.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- Commons -->
+			<zipfileset src="lib/commons-collections4-4.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-validator-1.6.jar">
+			<zipfileset src="lib/commons-validator-1.7.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.10/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
@@ -426,6 +426,82 @@
 			<zipfileset src="lib/fluent-hc-4.5.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/vavr-1.0.0-alpha-4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/annotations-23.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-annotations-2.13.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-core-2.13.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jackson-databind-2.13.2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/JDA-5.0.0-alpha.11.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/jsr305-3.0.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/kotlin-stdlib-1.4.10.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/kotlin-stdlib-common-1.4.10.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/nv-websocket-client-2.14.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/okhttp-4.9.3.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>			
+			<zipfileset src="lib/discord/okio-jvm-2.8.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-api-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/opus-java-natives-1.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/discord/trove4j-3.0.3.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>			
+			<zipfileset src="lib/telegrambots-6.0.1-jar-with-dependencies.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!--Open ID Connect Libraries -->
+			<zipfileset src="lib/openid/accessors-smart-2.4.8.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/content-type-2.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/json-smart-2.4.8.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/nimbus-jose-jwt-9.22.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/openid/oauth2-oidc-sdk-9.35.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<manifest>
+				<attribute name="Specification-Title" value="Adempiere Server Tools" />
+				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
+				<attribute name="Specification-Vendor" value="Adempiere, Inc." />
+				<attribute name="Implementation-Title" value="CSTools ${env.ADEMPIERE_VERSION}" />
+				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
+				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
+			</manifest>
 		</jar>
 
 	</target>
@@ -451,12 +527,12 @@
 			<fileset dir="${build.dir}">
 				<include name="it/**" />
 			</fileset>
-			<!-- Mail				-->
-			<zipfileset src="lib/mail.jar">
+			<!-- javax.activation -->
+			<zipfileset src="lib/javax.activation-1.2.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
+			<!-- Mail -->
+			<zipfileset src="lib/mail.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- BeanShell -->
@@ -480,7 +556,6 @@
 			<zipfileset src="lib/jython-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-
 			<!-- Payment Processors		-->
 			<zipfileset src="lib/Verisign.jar">
 				<patternset refid="manifest.exclude" />
@@ -498,7 +573,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.17.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
@@ -531,16 +612,13 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.10/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/iText-2.1.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/icepdf-core-6.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -575,11 +653,14 @@
 			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<!-- HikariCP connection pool -->
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="lib/slf4j-api-1.7.36.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/slf4j-simple-1.7.36.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
@@ -611,6 +692,25 @@
 			<zipfileset src="../tools/lib/zxing-2.3.0.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
+			<!-- Commons -->
+			<zipfileset src="lib/commons-collections4-4.4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-codec-1.6.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/commons-validator-1.7.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/ooxml-schemas-1.3.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/xmlbeans-2.6.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/vavr-1.0.0-alpha-4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Client Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
@@ -620,25 +720,6 @@
 				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
-			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.2.2.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/commons-collections4-4.1.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/commons-codec-1.6.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/commons-validator-1.6.jar">
-				<patternset refid="manifest.exclude"/>
-			</zipfileset>
-			<zipfileset src="lib/ooxml-schemas-1.3.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/xmlbeans-2.6.0.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 		</jar>
 
 	</target>

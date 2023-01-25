@@ -24,6 +24,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.swing.tree.TreeNode;
+
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MHierarchy;
 import org.compiere.model.MTree;
@@ -228,10 +230,10 @@ public class MReportTree {
 		//
 		StringBuffer result = null;
 		if (node != null && node.isSummary()) {
-			Enumeration<MTreeNode> en = node.preorderEnumeration();
+			Enumeration<TreeNode> en = node.preorderEnumeration();
 			StringBuffer sb = new StringBuffer ();
 			while (en.hasMoreElements()) {
-				MTreeNode treeNode = en.nextElement ();
+				MTreeNode treeNode = (MTreeNode) en.nextElement();
 				if (!treeNode.isSummary()) {
 					if (sb.length () > 0) {
 						sb.append (", ");
@@ -269,13 +271,13 @@ public class MReportTree {
 		//
 		if (node != null && node.isSummary())
 		{
-			Enumeration<MTreeNode> enumeration = node.preorderEnumeration();
+			Enumeration<TreeNode> enumeration = node.preorderEnumeration();
 			while (enumeration.hasMoreElements())
 			{
-				MTreeNode treeNode = (MTreeNode)enumeration.nextElement();
+				MTreeNode treeNode = (MTreeNode) enumeration.nextElement();
 				if (!treeNode.isSummary())
 				{
-					list.add(new Integer(treeNode.getNode_ID()));
+					list.add(Integer.valueOf(treeNode.getNode_ID()));
 					logger.finest("- " + treeNode);
 				}
 				else
@@ -283,7 +285,7 @@ public class MReportTree {
 			}
 		}
 		else	//	not found or not summary 
-			list.add(new Integer(ID));
+			list.add(Integer.valueOf(ID));
 		//
 		Integer[] retValue = new Integer[list.size()];
 		list.toArray(retValue);

@@ -141,7 +141,7 @@ public class DBObject_Table implements DBObjectInterface {
 
 			DBObject_Table_Column obj = new DBObject_Table_Column (parent, columnName, columnSequence);
 			obj.initializeDefinition(tableName, columnType, columnSize, columnPrecision, columnDefault, columnNullable);
-			contentMap.put(new Integer(columnSequence), obj);
+			contentMap.put(Integer.valueOf(columnSequence), obj);
 
 			counter++;
 		}

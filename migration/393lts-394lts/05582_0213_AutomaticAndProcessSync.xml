@@ -1,0 +1,2013 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#213 Automatic&amp;ProcessSyncing" ReleaseNo="3.9.4" SeqNo="5582">
+    <Comments>See https://github.com/adempiere/adempiere/issues/213
+and https://github.com/adempiere/adempiere/pull/2078</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="60934" Table="AD_Element">
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Requires Sync</Data>
+        <Data AD_Column_ID="2598" Column="Created">2019-03-07 06:53:32.575</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">RequiresSync</Data>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Requires Sync</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">60934</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2600" Column="Updated">2019-03-07 06:53:32.575</Data>
+        <Data AD_Column_ID="2604" Column="Description">A flag indicating that the associated column or table definition is not synchronized with the database.</Data>
+        <Data AD_Column_ID="2605" Column="Help">This field is set by the MColumn and MTable software when column and table records are created or changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2642" Column="Created">2019-03-07 06:53:50.324</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-03-07 06:53:50.324</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">60934</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2646" Column="Name">Requiere sinc</Data>
+        <Data AD_Column_ID="2647" Column="Description">Un indicador que indica que la definici&amp;#xF3;n de columna o tabla asociada no est&amp;#xE1; sincronizada con la base de datos.</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Requiere sinc</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2648" Column="Help">Este campo lo establece el software MColumn y MTable cuando se cambian la columna y la tabla de una manera que invalida la definici&amp;#xF3;n actual en la base de datos. Si el registro del Configurador del sistema para &amp;#x22;DATABASE_AUTO_SYNC&amp;#x22; no se establece en &amp;#x27;N&amp;#x27;, la columna o tabla se sincronizar&amp;#xE1; autom&amp;#xE1;ticamente cuando se modifique. De lo contrario, se puede usar el bot&amp;#xF3;n Sincronizar base de datos en la pesta&amp;#xF1;a Columna o el proceso Sincronizar base de datos en el men&amp;#xFA; Diccionario de la aplicaci&amp;#xF3;n.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="60935" Table="AD_Element">
+        <Data AD_Column_ID="2600" Column="Updated">2019-03-07 07:02:15.621</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2598" Column="Created">2019-03-07 07:02:15.621</Data>
+        <Data AD_Column_ID="2605" Column="Help">This field is set by the MColumn and MTable software when column and table is changed changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">60935</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">30</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">NameOldValue</Data>
+        <Data AD_Column_ID="2603" Column="Name">Name Old Value</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Name Old Value</Data>
+        <Data AD_Column_ID="2604" Column="Description">The old value of the column or table name.  Used to synchronize name changes with the database.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2642" Column="Created">2019-03-07 07:02:16.981</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-03-07 07:02:16.981</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="4300" Column="PrintName">Nombre valor anterior</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2647" Column="Description">El valor antiguo del nombre de la columna o tabla. Se utiliza para sincronizar los cambios de nombre con la base de datos.</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">60935</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2646" Column="Name">Nombre valor anterior</Data>
+        <Data AD_Column_ID="2648" Column="Help">Este campo lo establece el software MColumn y MTable cuando se cambian la columna y la tabla de una manera que invalida la definici&amp;#xF3;n actual en la base de datos. Si el registro del Configurador del sistema para &amp;#x22;DATABASE_AUTO_SYNC&amp;#x22; no se establece en &amp;#x27;N&amp;#x27;, la columna o tabla se sincronizar&amp;#xE1; autom&amp;#xE1;ticamente cuando se modifique. De lo contrario, se puede usar el bot&amp;#xF3;n Sincronizar base de datos en la pesta&amp;#xF1;a Columna o el proceso Sincronizar base de datos en el men&amp;#xFA; Diccionario de la aplicaci&amp;#xF3;n.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50153" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50190" Column="Created">2019-03-07 10:06:51.142</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2019-03-07 10:06:51.142</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50153</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="50195" Column="Name">DATABASE_AUTO_SYNC</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="50197" Column="Description">Automatically synchronize Table and Column changes with the database.  'N' means no automatic sync.  Not 'N' will automatically sync.</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="84421" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="50196" Column="Value">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54204" Table="AD_Process">
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created">2019-03-07 09:27:27.137</Data>
+        <Data AD_Column_ID="84383" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2807" Column="Updated">2019-03-07 09:27:27.137</Data>
+        <Data AD_Column_ID="2810" Column="Description">Synchronize all tables and columns with the database.</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name">Synchronize All Tables and Columns</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SynchronizeAllTablesAndColumns</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="2811" Column="Help">This process will synchronize all tables and columns that are new or have changes since the last synchronization was performed.  </Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="4023" Column="Value">SyncAllTablesAndColumns</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2852" Column="Name">Sincronizar todas tablas y columnas</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2019-03-07 09:28:00.57</Data>
+        <Data AD_Column_ID="2848" Column="Created">2019-03-07 09:28:00.57</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2853" Column="Description">Sincronizar todas las tablas y columnas con la base de datos</Data>
+        <Data AD_Column_ID="2854" Column="Help">Este campo lo establece el software MColumn y MTable cuando se cambian la columna y la tabla de una manera que invalida la definici&amp;#xF3;n actual en la base de datos. Si el registro del Este proceso sincronizar&amp;#xE1; todas las tablas y columnas que sean nuevas o tengan cambios desde la &amp;#xFA;ltima sincronizaci&amp;#xF3;n realizada.</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="84387" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54438" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="229" Column="Name">Synchronize Tables and Columns</Data>
+        <Data AD_Column_ID="599" Column="Created">2019-03-07 09:35:20.671</Data>
+        <Data AD_Column_ID="601" Column="Updated">2019-03-07 09:35:20.671</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="230" Column="Description">Synchronize all tables and columns with the database</Data>
+        <Data AD_Column_ID="232" Column="Action">P</Data>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54438</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="600" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="84344" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="54438" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="639" Column="Updated">2019-03-07 09:35:22.485</Data>
+        <Data AD_Column_ID="637" Column="Created">2019-03-07 09:35:22.485</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="247" Column="Name">Sincronizar tablas y columnas</Data>
+        <Data AD_Column_ID="248" Column="Description">Sincronizar todas las tablas y columnas con la base de datos</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54438</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="54438" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="84442" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2019-03-07 09:35:24.072</Data>
+        <Data AD_Column_ID="6151" Column="Created">2019-03-07 09:35:24.072</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54438</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54438" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">8</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54438">54438</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">153</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="141" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="141">141</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="8">9</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="589" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="589">589</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="9">10</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="216" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="10">11</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="216">216</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="300" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="300">300</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="11">12</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="140" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="140">140</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="12">13</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="295" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="295">295</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="13">14</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="142" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="142">142</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="14">15</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53012" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="15">16</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53012">53012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="143" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="143">143</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="16">17</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="201" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="201">201</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="17">18</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="176" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="18">19</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="176">176</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53228" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53228">53228</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="19">20</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53086" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53086">53086</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="20">21</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53227" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53227">53227</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="21">22</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="239" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="239">239</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="22">23</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="517" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="23">24</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="517">517</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54314" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="23">25</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54314">54314</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="499" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="499">499</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="24">26</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53221" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53221">53221</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="25">27</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53222" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="26">28</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53222">53222</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53089" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53089">53089</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="27">29</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53090" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53090">53090</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="28">30</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="50001" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="29">31</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53583" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-07 16:13:52.825</Data>
+        <Data AD_Column_ID="198" Column="MsgText">A virtual column can't be synchronized with the database.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-07 16:13:52.825</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: Cannot sync a virtual column</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53583</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-07 16:14:14.824</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-07 16:14:14.824</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Una columna virtual no se puede sincronizar con la base de datos.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53583</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53584" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-07 16:15:34.922</Data>
+        <Data AD_Column_ID="198" Column="MsgText">A view table cannot be synchronized with the database.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-07 16:15:34.922</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: Cannot sync a view</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53584</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-07 16:15:36.936</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-07 16:15:36.936</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Una tabla de vista no se puede sincronizar con la base de datos.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53584</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53585" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-07 16:17:22.302</Data>
+        <Data AD_Column_ID="198" Column="MsgText">There was an error during the synchronization.  A column with that name already exists in the database.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-07 16:17:22.302</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: Sync Error - a column with that name already exists</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53585</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-07 16:17:23.618</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-07 16:17:23.618</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Hubo un error durante la sincronizaci&amp;#xF3;n. Ya existe una columna con ese nombre en la base de datos.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53585</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53586" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-07 16:19:06.943</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The column changes did not create any SQL update. No changes were made.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-07 16:19:06.943</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: No SQL. No changes made</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53586</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-07 16:19:08.222</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-07 16:19:08.222</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Los cambios de columna no crearon ninguna actualizaci&amp;#xF3;n de SQL. No se hicieron cambios.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53586</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53587" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-07 16:21:05.535</Data>
+        <Data AD_Column_ID="198" Column="MsgText">An SQL Error occured. The column already exists in the database.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-07 16:21:05.535</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: Column already exists. Probably just added</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53587</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-07 16:21:06.872</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-07 16:21:06.872</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Se produjo un error de SQL. La columna ya existe en la base de datos.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53587</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53588" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-08 13:26:00.172</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Synchronization Error: Its not possible to rename the table. A table with the new name already exists in the database.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-08 13:26:00.172</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MTable: SyncErrorTableWithThatNameAlreadyExists</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53588</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-08 13:26:11.158</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-08 13:26:11.158</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Error de sincronizaci&amp;oacute;n: no es posible cambiar el nombre de la tabla. Ya existe una tabla con el nuevo nombre en la base de datos.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53588</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92541" Table="AD_Column">
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="112" Column="Description">A flag indicating that the associated column or table definition is not synchronized with the database.</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-03-07 07:07:52.952</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-03-07 07:07:52.952</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92541</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Requires Sync</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">'N'</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">RequiresSync</Data>
+        <Data AD_Column_ID="113" Column="Help">This field is set by the MColumn and MTable software when column and table records are created or changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">101</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60934</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92541" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-07 07:07:55.069</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-07 07:07:55.069</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92541</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="12957" Column="Name">Requiere sinc</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92542" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">The old value of the column or table name.  Used to synchronize name changes with the database.</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-03-07 07:13:23.61</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-03-07 07:13:23.61</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92542</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Name Old Value</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">NameOldValue</Data>
+        <Data AD_Column_ID="113" Column="Help">This field is set by the MColumn and MTable software when column and table is changed changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">101</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60935</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">30</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92542" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-07 07:13:25.495</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-07 07:13:25.495</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92542</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12957" Column="Name">Viejo Nombre Valor</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92543" Table="AD_Column">
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-03-07 07:14:31.04</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92543</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Requires Sync</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">'N'</Data>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="551" Column="Updated">2019-03-07 07:14:31.04</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">100</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60934</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">RequiresSync</Data>
+        <Data AD_Column_ID="112" Column="Description">A flag indicating that the associated column or table definition is not synchronized with the database.</Data>
+        <Data AD_Column_ID="113" Column="Help">This field is set by the MColumn and MTable software when column and table records are created or changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92543" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-07 07:14:32.755</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-07 07:14:32.755</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92543</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12957" Column="Name">Requiere sinc</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92544" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">The old value of the column or table name.  Used to synchronize name changes with the database.</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-03-07 07:15:23.312</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-03-07 07:15:23.312</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92544</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Name Old Value</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">NameOldValue</Data>
+        <Data AD_Column_ID="113" Column="Help">This field is set by the MColumn and MTable software when column and table is changed changed in a way that invalidates the current definition in the database.  If the System Configurator record for "DATABASE_AUTO_SYNC" is not set to 'N', the column or table will be automatically synced when changed.  Otherwise, the Synchronize Database button on the Column tab or the Synchronize Database process in the Application Dictionary menu can be used.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">100</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60935</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">30</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92544" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-07 07:15:25.087</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-07 07:15:25.087</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92544</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12957" Column="Name">Viejo Nombre Valor</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52676" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code">AD_Table.IsView != 'Y'</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52676</Data>
+        <Data AD_Column_ID="84460" Column="UUID">cd6c1afa-4c97-11e9-afc5-00ff97344bad</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-03-22 07:44:07.564</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-03-22 07:44:07.565</Data>
+        <Data AD_Column_ID="188" Column="Name">AD_Table No View</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56857" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Table</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2823" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Database Table provides the information of the table definition</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="84385" Column="UUID">f710a862-4c97-11e9-afd6-00ff97344bad</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52676</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">53290</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">126</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-03-22 07:45:17.187</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-03-22 07:45:17.187</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AD_Table_ID</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56857</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1100" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-03-22 07:45:19.618</Data>
+        <Data AD_Column_ID="2840" Column="Name">Table</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-03-22 07:45:19.618</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2841" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Database Table provides the information of the table definition</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84386" Column="UUID">f8032240-4c97-11e9-aff9-00ff97344bad</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56857</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1110" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name" oldValue="Table">Tabla</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56857">56857</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1120" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56857" Table="AD_Process_Para">
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1130" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56857" Table="AD_Process_Para">
+        <Data AD_Column_ID="2824" Column="Help" oldValue="The Database Table provides the information of the table definition">If selected, only the identified table and its columns will be synchronized. Otherwise, all tables will be synchronized with the database.</Data>
+        <Data AD_Column_ID="2823" Column="Description" oldValue="Database Table information">Select the table to synchronize with the database. Leave blank for all tables.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1140" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2841" Column="Description" oldValue="Database Table information">Seleccione la tabla para sincronizar con la base de datos. Dejar en blanco para todas las mesas.</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56857">56857</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1150" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="3743" Column="Help" oldValue="The Database Table provides the information of the table definition">Si se selecciona, solo la tabla identificada y sus columnas se sincronizar&amp;aacute;n. De lo contrario, todas las tablas se sincronizar&amp;aacute;n con la base de datos.</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56857">56857</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1160" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52677" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code">AD_Column.AD_Table_ID=@AD_Table_ID@ AND COALESCE(AD_Column.ColumnSQL,'')=''</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="189" Column="Description">Table must be previously defined. ColumnSQL must be blank.</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52677</Data>
+        <Data AD_Column_ID="84460" Column="UUID">e22f6dae-4c9a-11e9-9ad0-00ff97344bad</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-03-22 08:06:10.466</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-03-22 08:06:10.466</Data>
+        <Data AD_Column_ID="188" Column="Name">AD_Column in AD_Table, not virtual</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1170" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56858" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Column</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2823" Column="Description">Select the column of the table to synchronize. Leave blank for all columns.</Data>
+        <Data AD_Column_ID="2824" Column="Help">If selected, only the identified column and table will be synchronized.</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">AD_Table_ID&gt;0</Data>
+        <Data AD_Column_ID="84385" Column="UUID">5da2f37a-4c9b-11e9-ac39-00ff97344bad</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52677</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">3</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">104</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-03-22 08:09:38.328</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-03-22 08:09:38.328</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">AD_Column_ID</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56858</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1180" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name">Column</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-03-22 08:09:40.303</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2841" Column="Description">Select the column of the table to synchronize. Leave blank for all columns.</Data>
+        <Data AD_Column_ID="3743" Column="Help">If selected, only the identified column and table will be synchronized.</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84386" Column="UUID">5ea54c14-4c9b-11e9-ac5c-00ff97344bad</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-03-22 08:09:40.303</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56858</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name" oldValue="Column">Columna</Data>
+        <Data AD_Column_ID="2841" Column="Description" oldValue="Select the column of the table to synchronize. Leave blank for all columns.">Seleccione la columna de la tabla para sincronizar. Deje en blanco para todas las columnas.</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="3743" Column="Help" oldValue="If selected, only the identified column and table will be synchronized.">Si se selecciona, solo se sincronizar&amp;aacute;n la columna y la tabla identificadas.</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56858">56858</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56859" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Only known changes</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2823" Column="Description">Select to synchronize known changes in the Application Dictionary since the last synchronization. </Data>
+        <Data AD_Column_ID="2824" Column="Help">If deselected, the application dictionary definitions will be tested against the database to identify tables and columns that need to be synchronized.</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="84385" Column="UUID">b08e7d38-4c9c-11e9-ac6c-00ff97344bad</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-03-22 08:19:06.89</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-03-22 08:19:06.89</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">SyncObviousChanges</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">Y</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56859</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name">Only known changes</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-03-22 08:19:12.872</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2841" Column="Description">Select to synchronize known changes in the Application Dictionary since the last synchronization. </Data>
+        <Data AD_Column_ID="3743" Column="Help">If deselected, the application dictionary definitions will be tested against the database to identify tables and columns that need to be synchronized.</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84386" Column="UUID">b3ec5ad6-4c9c-11e9-ac8f-00ff97344bad</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-03-22 08:19:12.872</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56859</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name" oldValue="Only known changes">Solo cambios conocidos</Data>
+        <Data AD_Column_ID="2841" Column="Description" oldValue="Select to synchronize known changes in the Application Dictionary since the last synchronization. ">Seleccione esta opci&amp;oacute;n para sincronizar los cambios conocidos en el Diccionario de la aplicaci&amp;oacute;n desde la &amp;uacute;ltima sincronizaci&amp;oacute;n.</Data>
+        <Data AD_Column_ID="3743" Column="Help" oldValue="If deselected, the application dictionary definitions will be tested against the database to identify tables and columns that need to be synchronized.">Si no se selecciona, las definiciones del diccionario de la aplicaci&amp;oacute;n se comparar&amp;aacute;n con la base de datos para identificar tablas y columnas que deben sincronizarse.</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56859">56859</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56860" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Only report</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2823" Column="Description">Only report the expected changes. Do not apply the changes.</Data>
+        <Data AD_Column_ID="2824" Column="Help">Select to see the expected changes before they are applied.  No synchronization will be performed.</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="84385" Column="UUID">bd01e702-4c9d-11e9-9ae8-00ff97344bad</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54204</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-03-22 08:26:37.341</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-03-22 08:26:37.341</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">OnlyReport</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">N</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56860</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name">Only report</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-03-22 08:26:39.405</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2841" Column="Description">Only report the expected changes. Do not apply the changes.</Data>
+        <Data AD_Column_ID="3743" Column="Help">Select to see the expected changes before they are applied.  No synchronization will be performed.</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="84386" Column="UUID">be13f748-4c9d-11e9-9b0b-00ff97344bad</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-03-22 08:26:39.405</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56860</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <PO AD_Table_ID="286" Action="U" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2842" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="3743" Column="Help" oldValue="Select to see the expected changes before they are applied.  No synchronization will be performed.">Seleccione para ver los cambios esperados antes de que se apliquen. No se realizar&amp;aacute; ninguna sincronizaci&amp;oacute;n.</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID" oldValue="56860">56860</Data>
+        <Data AD_Column_ID="2840" Column="Name" oldValue="Only report">Solo reporta</Data>
+        <Data AD_Column_ID="2841" Column="Description" oldValue="Only report the expected changes. Do not apply the changes.">Solo reportar los cambios esperados. No aplique los cambios.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54204" Table="AD_Process">
+        <Data AD_Column_ID="2811" Column="Help" oldValue="This process will synchronize all tables and columns that are new or have changes since the last synchronization was performed.  ">This process will synchronize all tables and columns that are new or have changes since the last synchronization was performed.  You can select a specific table and column.  If the table and column are left blank, all tables and columns will be tested.  You can also limit the search to only known changes in the application dictionary since the last synchronization.  If all parameters are blank, a full test of every table and column will be performed.  This could take a while.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54204">54204</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54204">54204</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Este campo lo establece el software MColumn y MTable cuando se cambian la columna y la tabla de una manera que invalida la definici&amp;#xF3;n actual en la base de datos. Si el registro del Este proceso sincronizar&amp;#xE1; todas las tablas y columnas que sean nuevas o tengan cambios desde la &amp;#xFA;ltima sincronizaci&amp;#xF3;n realizada.">Este proceso sincronizar&amp;aacute; todas las tablas y columnas que sean nuevas o tengan cambios desde la &amp;uacute;ltima sincronizaci&amp;oacute;n realizada. Puede seleccionar una tabla y columna espec&amp;iacute;fica. Si la tabla y la columna se dejan en blanco, se probar&amp;aacute;n todas las tablas y columnas. Tambi&amp;eacute;n puede limitar la b&amp;uacute;squeda a solo los cambios conocidos en el diccionario de la aplicaci&amp;oacute;n desde la &amp;uacute;ltima sincronizaci&amp;oacute;n. Si todos los par&amp;aacute;metros est&amp;aacute;n en blanco, se realizar&amp;aacute; una prueba completa de cada tabla y columna. Esto podr&amp;iacute;a tomar un tiempo.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1300" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53598" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:09:08.938</Data>
+        <Data AD_Column_ID="198" Column="MsgText">An error occured during the database update. Manual intervention may be required.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:09:08.938</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: There was an error trying to sync the column</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53598</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">4d66cf08-4e68-11e9-96b3-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1310" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:09:10.971</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:09:10.971</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">An error occured during the database update. Manual intervention may be required.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53598</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">4e5c563a-4e68-11e9-96c4-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1320" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53598">53598</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="An error occured during the database update. Manual intervention may be required.">Se ha producido un error al intentar sincronizar la columna. Puede requerirse intervenci&amp;oacute;n manual.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1330" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53599" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:14:13.228</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The column is part of a key constraint but is not flagged as a key or parent link column in the application dictionary.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:14:13.228</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column is part of a key constraint but is not a key or parent link column</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53599</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">02ade1d0-4e69-11e9-96d3-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1340" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:14:14.491</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:14:14.491</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The column is part of a key constraint but is not flagged as a key or parent link column in the application dictionary.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53599</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">0345b73a-4e69-11e9-96e4-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1350" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53599">53599</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The column is part of a key constraint but is not flagged as a key or parent link column in the application dictionary.">La columna forma parte de una restricci&amp;oacute;n de clave, pero no est&amp;aacute; marcada como clave o columna de enlace principal en el diccionario de la aplicaci&amp;oacute;n.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1360" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53600" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:16:28.367</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The column does not exist in the database and will be added.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:16:28.367</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column does not exist and will be added</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53600</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">534259c8-4e69-11e9-96f8-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1370" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:16:29.623</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:16:29.623</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The column does not exist in the database and will be added.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53600</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">53d0e044-4e69-11e9-9709-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1380" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53600">53600</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The column does not exist in the database and will be added.">La columna no existe en la base de datos y se agregar&amp;aacute;.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1390" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53601" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:18:25.043</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The name of the column changed. The column in the database will be renamed to match.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:18:25.043</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column name changed</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53601</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">98d67f0a-4e69-11e9-9718-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1400" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:18:26.442</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:18:26.442</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The name of the column changed. The column in the database will be renamed to match.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53601</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">99724c28-4e69-11e9-9729-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1410" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The name of the column changed. The column in the database will be renamed to match.">El nombre de la columna cambi&amp;oacute;. La columna en la base de datos ser&amp;aacute; renombrada para que coincida.</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53601">53601</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1420" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53602" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:20:43.329</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The data type of the column changed.  The data type of the column in the database will be updated to match.  Note that this may cause errors if the column already has data and the data types are not compatible.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:20:43.329</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column data type changed</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53602</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">eb3a3f8e-4e69-11e9-973d-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1430" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:20:44.637</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:20:44.637</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The data type of the column changed.  The data type of the column in the database will be updated to match.  Note that this may cause errors if the column already has data and the data types are not compatible.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53602</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">ebd151a8-4e69-11e9-974e-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1440" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The data type of the column changed.  The data type of the column in the database will be updated to match.  Note that this may cause errors if the column already has data and the data types are not compatible.">El tipo de datos de la columna cambi&amp;oacute;. El tipo de datos de la columna en la base de datos se actualizar&amp;aacute; para que coincida. Tenga en cuenta que esto puede causar errores si la columna ya tiene datos y los tipos de datos no son compatibles.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53602">53602</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1450" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53603" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:22:42.433</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The mandatory flag of the column changed.  The database will be altered to match.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:22:42.433</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column Mandatory setting changed</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53603</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">3233513c-4e6a-11e9-9b12-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1460" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:22:43.667</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:22:43.667</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The mandatory flag of the column changed.  The database will be altered to match.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53603</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">32c3ac78-4e6a-11e9-9b23-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1470" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The mandatory flag of the column changed.  The database will be altered to match.">La bandera obligatoria de la columna cambi&amp;oacute;. La base de datos se modificar&amp;aacute; para que coincida.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53603">53603</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1480" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53604" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:24:52.714</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The default value of the column changed.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:24:52.714</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The column default value changed</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53604</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">7fd99efa-4e6a-11e9-9b32-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1490" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:24:53.879</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:24:53.879</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The default value of the column changed.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53604</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">80608438-4e6a-11e9-9b43-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1500" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53604">53604</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The default value of the column changed.">El valor predeterminado de la columna cambi&amp;oacute;.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1510" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53605" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:29:10.243</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The changes were successfully applied.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:29:10.243</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MColumn: The changes were successfully applied</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53605</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">1957dc54-4e6b-11e9-975d-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1520" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:29:11.523</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:29:11.523</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The changes were successfully applied.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53605</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">19f1ad98-4e6b-11e9-976e-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1530" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The changes were successfully applied.">Los cambios fueron aplicados con &amp;eacute;xito.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53605">53605</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1540" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53606" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 15:33:01.955</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Only results were reported. No changes were made.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 15:33:01.955</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SyncAllAbstract: OnlyReport</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53606</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">a3793a4a-4e6b-11e9-a063-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1550" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 15:33:03.281</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 15:33:03.281</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Only results were reported. No changes were made.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53606</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">a4152e78-4e6b-11e9-a074-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1560" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53606">53606</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Only results were reported. No changes were made.">S&amp;oacute;lo se informaron los resultados. No se hicieron cambios.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1570" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53602">53602</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1580" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53606" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="SyncAllAbstract: OnlyReport">SynchronizeAllTablesAndColumnsAbstract_OnlyReport</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1590" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53584" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: Cannot sync a view">MColumn_CannotSyncView</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">8ffcb0dc-4ea2-11e9-9ee1-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1600" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53583" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: Cannot sync a virtual column">MColumn_CannotSyncVirtualColumn</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">abda6e20-4ea2-11e9-a1d5-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1610" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53587" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: Column already exists. Probably just added">MColumn_ColumnAlreadyExists</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">c3a2e1f4-4ea2-11e9-802b-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1620" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53586" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: No SQL. No changes made">MColumn_NoSQLNoChangesMade</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">296f2e3e-4ea3-11e9-8031-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1630" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53585" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: Sync Error - a column with that name already exists">MColumn_SyncError_ColumnWithThatNameAlreadyExists</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">4faf754a-4ea3-11e9-872c-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1640" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53605" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The changes were successfully applied">MColumn_ChangesSuccessfullyApplied</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1650" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53602" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column data type changed">MColumn_ColumnDataTypeChanged</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1660" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53604" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column default value changed">MColumn_ColumnDefaultValueChanged</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1670" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53600" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column does not exist and will be added">MColumn_ColumnDoesNotExistAndWillBeAdded</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1680" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53599" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column is part of a key constraint but is not a key or parent link column">MColumn_ColumnPartOfKeyConstraintButIsNotAKeyOrParentLink</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1690" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53603" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column Mandatory setting changed">MColumn_ColumnMandatorySettingChanged</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1700" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53601" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: The column name changed">MColumn_ColumnNameChanged</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1710" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53598" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MColumn: There was an error trying to sync the column">MColumn_SyncError</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1720" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53588" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="MTable: SyncErrorTableWithThatNameAlreadyExists">MTable_SyncErrorTableWithThatNameAlreadyExists</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isOldNull="true">8ee16be6-4ea4-11e9-8738-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1730" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53607" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 22:22:17.663</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The primary key will be updated.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 22:22:17.663</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">MTable_WillUpdatePrimaryKey</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53607</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">cfd40b40-4ea4-11e9-873e-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1740" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 22:22:18.864</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 22:22:18.864</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">The primary key will be updated.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53607</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">d05a5434-4ea4-11e9-874f-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1750" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53607">53607</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="The primary key will be updated.">La clave principal se actualizar&amp;aacute;.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1760" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53608" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 22:25:07.9</Data>
+        <Data AD_Column_ID="198" Column="MsgText">There was an error synchronizing the table changes. Manual intervention may be required.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 22:25:07.9</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MTable_ErrorSynchronizingChanges</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53608</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">354e65ba-4ea5-11e9-a1e4-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1770" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 22:25:09.247</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 22:25:09.247</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">There was an error synchronizing the table changes. Manual intervention may be required.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53608</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">35e836fe-4ea5-11e9-a1f5-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1780" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53608">53608</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="There was an error synchronizing the table changes. Manual intervention may be required.">Se ha producido un error al sincronizar los cambios de la tabla. Puede requerirse intervenci&amp;oacute;n manual.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1790" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53609" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-24 22:27:27.771</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Cannot synchronize a table view.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-24 22:27:27.771</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">MTable_CannotSyncView</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53609</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">88a93410-4ea5-11e9-a209-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1800" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-24 22:27:29.697</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-24 22:27:29.697</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Cannot synchronize a table view.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53609</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">89ae72e4-4ea5-11e9-a21a-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1810" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Cannot synchronize a table view.">No se puede sincronizar una vista de tabla.</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53609">53609</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1820" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53610" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-25 08:23:10.703</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Success! No changes were required.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:23:10.703</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_NoChangesRequired</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53610</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">c12c93ce-4ef8-11e9-bd39-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1830" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-25 08:23:18.872</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-25 08:23:18.872</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Success! No changes were required.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53610</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">c5cb0c6c-4ef8-11e9-bd4a-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1840" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53610">53610</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Success! No changes were required.">&amp;iexcl;&amp;Eacute;xito! No se requirieron cambios.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1850" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53611" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-25 08:25:11.141</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Success! Changes to the database were made.  Refer to the log for details.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:25:11.141</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_ChangeMade</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53611</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">08debefe-4ef9-11e9-9de3-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1860" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-25 08:25:12.29</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-25 08:25:12.29</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Success! Changes to the database were made.  Refer to the log for details.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53611</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">096492c2-4ef9-11e9-9df4-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1870" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53611">53611</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Success! Changes to the database were made.  Refer to the log for details.">
+Output encoded/decoded text
+&amp;iexcl;&amp;Eacute;xito! Se hicieron cambios a la base de datos. Consulte el registro para m&amp;aacute;s detalles.
+</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1880" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53612" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-25 08:43:12.322</Data>
+        <Data AD_Column_ID="198" Column="MsgText">No changes necessary. Nothing to Report.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:43:12.322</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_NothingToReport</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53612</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">8d5fb41a-4efb-11e9-aec5-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1890" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-25 08:43:13.997</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-25 08:43:13.997</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">No changes necessary. Nothing to Report.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53612</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">8e24b4ae-4efb-11e9-aed6-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1900" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="No changes necessary. Nothing to Report.">No hay cambios necesarios. Nada que reportar.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53612">53612</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1910" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53612">53612</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1920" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53613" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-03-25 20:49:31.017</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Partial success.  Errors occurred on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-03-25 20:49:31.017</Data>
+        <Data AD_Column_ID="197" Column="MsgType">E</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_ChangeMadeWithError</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53613</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84346" Column="UUID">04579de8-4f61-11e9-8635-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1930" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-03-25 20:49:51.699</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-03-25 20:49:51.699</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Partial success.  Errors occurred on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53613</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84347" Column="UUID">1066093a-4f61-11e9-8646-00ff97344bad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1940" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Partial success.  Errors occured on one or more items. Please review the log for details.  Manual intervention may be required.">El &amp;eacute;xito parcial. Se produjeron errores en uno o m&amp;aacute;s elementos. Por favor revise el registro para m&amp;aacute;s detalles. Puede requerirse intervenci&amp;oacute;n manual.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53613">53613</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

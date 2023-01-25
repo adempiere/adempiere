@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Commission;
+import org.adempiere.core.domains.models.X_C_CommissionGroup;
+
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *  	<a href="https://github.com/adempiere/adempiere/issues/766">
@@ -68,6 +71,7 @@ public class MCommissionGroup extends X_C_CommissionGroup {
 		List<MCommission> list = new Query(getCtx(), I_C_Commission.Table_Name, whereClauseFinal, get_TrxName())
 										.setParameters(getC_CommissionGroup_ID())
 										.setOrderBy(I_C_Commission.COLUMNNAME_C_BPartner_ID)
+										.setOnlyActiveRecords(true)
 										.list();
 		return list;
 	}

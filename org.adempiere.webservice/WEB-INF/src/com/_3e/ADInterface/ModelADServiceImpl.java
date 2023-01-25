@@ -30,6 +30,7 @@
 package com._3e.ADInterface;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,8 +42,14 @@ import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
+import org.adempiere.core.domains.models.X_AD_Reference;
+import org.adempiere.core.domains.models.X_WS_WebServiceMethod;
+import org.adempiere.core.domains.models.X_WS_WebService_Para;
 import org.apache.xmlbeans.StringEnumAbstractBase.Table;
 import org.codehaus.xfire.fault.XFireFault;
+
+import java.util.Base64;
+
 import org.compiere.model.MColumn;
 import org.compiere.model.MRefTable;
 import org.compiere.model.MRole;
@@ -53,10 +60,6 @@ import org.compiere.model.MWebServiceType;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Reference;
-import org.compiere.model.X_WS_WebServiceMethod;
-import org.compiere.model.X_WS_WebService_Para;
-
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -84,7 +87,6 @@ import pl.x3E.adInterface.StandardResponse;
 import pl.x3E.adInterface.StandardResponseDocument;
 import pl.x3E.adInterface.WindowTabData;
 import pl.x3E.adInterface.WindowTabDataDocument;
-import pl.x3E.adInterface.ModelCRUD.Action.Enum;
 
 /*
  * ADEMPIERE/COMPIERE
@@ -100,8 +102,9 @@ import pl.x3E.adInterface.ModelCRUD.Action.Enum;
  * @author Víctor Perez, victor.perez@e-evolution.com, www.e-evolution.com , e-Evolution
  * <li>#2512 Problem with ADempiere web service when execute process for jasper report or ADempiere Report Engine
  * <li> https://github.com/adempiere/adempiere/issues/2512
+ * <li>#3892 [Feature Request] Add support the BinaryData for ADempiere Web Service<>
+ * <li> https://github.com/adempiere/adempiere/issues/3892
  */
-
 
 /**
  *
@@ -249,17 +252,30 @@ public class ModelADServiceImpl implements ModelADService {
 		return Integer.parseInt(string);
 	}
 
-	private Enum validateParameter(String parameterName, Enum action, Table table) throws XFireFault {
+	private ModelCRUD.Action.Enum validateParameter(String parameterName, ModelCRUD.Action.Enum action, Table table) throws XFireFault {
 		String string = null;
 		if (action == null)
 			string = validateParameter(parameterName, string);
 		else
 			string = validateParameter(parameterName, action.toString());
 		if (string == null)
-			return (Enum) table.forInt(-1);
+			return (ModelCRUD.Action.Enum) table.forInt(-1);
 		if (action != null && string.equals(action.toString()))
 			return action;
-		return (Enum) table.forString(string);
+		return (ModelCRUD.Action.Enum) table.forString(string);
+	}
+
+	private ModelCRUD.RetriveResultAs.Enum validateParameter(String parameterName, ModelCRUD.RetriveResultAs.Enum  retriveResultAs, Table table) throws XFireFault {
+		String string = null;
+		if (retriveResultAs == null)
+			string = validateParameter(parameterName, string);
+		else
+			string = validateParameter(parameterName, retriveResultAs.toString());
+		if (string == null)
+			return (ModelCRUD.RetriveResultAs.Enum) table.forInt(-1);
+		if (retriveResultAs != null && string.equals(retriveResultAs.toString()))
+			return retriveResultAs;
+		return (ModelCRUD.RetriveResultAs.Enum) table.forString(string);
 	}
 
 	private StandardResponseDocument rollbackAndSetError(Trx trx,
@@ -712,88 +728,78 @@ public class ModelADServiceImpl implements ModelADService {
 		modelCRUD.setTableName(validateParameter("TableName", modelCRUD.getTableName()));
 		modelCRUD.setRecordID(validateParameter("RecordID", modelCRUD.getRecordID()));
 		modelCRUD.setFilter(validateParameter("Filter", modelCRUD.getFilter()));
+		modelCRUD.setRetriveResultAs(validateParameter("RetriveResultAs",modelCRUD.getRetriveResultAs(),ModelCRUD.RetriveResultAs.Enum.table));
 		modelCRUD.setAction(validateParameter("Action", modelCRUD.getAction(), ModelCRUD.Action.Enum.table));
 	}
 
-	public StandardResponseDocument createData(ModelCRUDRequestDocument req)
+	public StandardResponseDocument createData(ModelCRUDRequestDocument modelCRUDRequestDocument)
 			throws XFireFault {
-    	StandardResponseDocument ret = StandardResponseDocument.Factory.newInstance();
-    	StandardResponse resp = ret.addNewStandardResponse();
-    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+    	StandardResponseDocument standardResponseDocument = StandardResponseDocument.Factory.newInstance();
+    	StandardResponse standardResponse = standardResponseDocument.addNewStandardResponse();
+    	ModelCRUD modelCRUD = modelCRUDRequestDocument.getModelCRUDRequest().getModelCRUD();
 		String serviceType = modelCRUD.getServiceType();
-    	
-    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String err = modelLogin(reqlogin, webServiceName, "createData", serviceType);
-    	if (err != null && err.length() > 0) {
-    		resp.setError(err);
-        	resp.setIsError(true);
-        	return ret;
+    	ADLoginRequest loginRequest = modelCRUDRequestDocument.getModelCRUDRequest().getADLoginRequest();
+    	String error = modelLogin(loginRequest, webServiceName, "createData", serviceType);
+    	if (error != null && error.length() > 0) {
+    		standardResponse.setError(error);
+        	standardResponse.setIsError(true);
+        	return standardResponseDocument;
     	}
-
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
-
     	String tableName = modelCRUD.getTableName();
-
     	Properties ctx = m_cs.getM_ctx();
-    	
     	// start a trx
     	String trxName = Trx.createTrxName("ws_modelCreateData");
 		Trx trx = Trx.get(trxName, false);
-    	
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
     	if (table == null)
-    		return rollbackAndSetError(trx, resp, ret, true, "No table " + tableName);
+    		return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "No table " + tableName);
     	
     	PO po = table.getPO(0, trxName);
     	if (po == null)
-    		return rollbackAndSetError(trx, resp, ret, true, "Cannot create PO for " + tableName);
-    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
-    	
-    	DataRow dr = modelCRUD.getDataRow();
-    	
-    	for (DataField field : dr.getFieldList()) {
+    		return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Cannot create PO for " + tableName);
+    	POInfo poInfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
+    	DataRow dataRow = modelCRUD.getDataRow();
+    	for (DataField field : dataRow.getFieldArray()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
 				if (idxcol < 0) {
 	    			// The column doesn't exist - it must exist as it's defined in security
-					return rollbackAndSetError(trx, resp, ret, true, "Web service type "
+					return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Web service type "
 							+ m_webservicetype.getValue() + ": input column "
 							+ field.getColumn() + " does not exist");
 				} else {
 					try {
-						setValueAccordingToClass(po, poinfo, field, idxcol);
+						setValueAccordingToClass(po, poInfo, field, idxcol);
 					}
 					catch (XFireFault e) {
 						log.log(Level.WARNING, "Error setting value", e);
-						return rollbackAndSetError(trx, resp, ret, true, "Web service type "
+						return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Web service type "
 								+ m_webservicetype.getValue() + ": input column "
 								+ field.getColumn() + " value could not be set: " + e.getLocalizedMessage());
 					}
 				}
     		} else {
-    			
-    			return rollbackAndSetError(trx, resp, ret, true, "Web service type "
+    			return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Web service type "
 						+ m_webservicetype.getValue() + ": input column "
 						+ field.getColumn() + " not allowed");
     		}
     	}
 
     	if (!po.save())
-    		return rollbackAndSetError(trx, resp, ret, true, "Cannot save record in " + tableName + ": " + CLogger.retrieveErrorString("no log message"));
+    		return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Cannot save record in " + tableName + ": " + CLogger.retrieveErrorString("no log message"));
 
-    	int recordID = po.get_ID();
-    	resp.setRecordID (recordID);
-
+    	int recordId = po.get_ID();
+    	standardResponse.setRecordID (recordId);
     	// close the trx
 		if (!trx.commit())
-    		return rollbackAndSetError(trx, resp, ret, true, "Cannot commit transaction after create record " + recordID + " in " + tableName);
+    		return rollbackAndSetError(trx, standardResponse, standardResponseDocument, true, "Cannot commit transaction after create record " + recordId + " in " + tableName);
 
 		trx.close();
-    	
-		return ret;
+		return standardResponseDocument;
 	} // createData
 
 	private void setValueAccordingToClass(PO po, POInfo poinfo,
@@ -805,9 +811,9 @@ public class ModelADServiceImpl implements ModelADService {
 			value = null;
 		} else if (columnClass == Boolean.class) {
 			if ("Y".equalsIgnoreCase(field.getVal()) || "true".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(true);
+				value = Boolean.TRUE;
 			else if ("N".equalsIgnoreCase(field.getVal()) || "false".equalsIgnoreCase(field.getVal()))
-				value = new Boolean(false);
+				value = Boolean.FALSE;
 			else
 				throw new XFireFault("Web service type "
 						+ m_webservicetype.getValue() + ": input column "
@@ -832,10 +838,7 @@ public class ModelADServiceImpl implements ModelADService {
 				throw new XFireFault(e.getClass().toString() + " " + e.getMessage() + " for " + field.getColumn(), e.getCause(), new QName("setValueAccordingToClass"));
 			}
 		} else if (columnClass == byte[].class) {
-			throw new XFireFault("Web service type "
-					+ m_webservicetype.getValue() + ": input column "
-					+ field.getColumn() + " LOB not supported",
-					new QName("setValueAccordingToClass"));
+			value =  Base64.getDecoder().decode(field.getVal());
 		} else  {
 			value = field.getVal();
 		}
@@ -883,7 +886,7 @@ public class ModelADServiceImpl implements ModelADService {
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
 
     	DataRow dr = modelCRUD.getDataRow();
-    	for (DataField field : dr.getFieldList()) {
+    	for (DataField field : dr.getFieldArray()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
@@ -923,28 +926,23 @@ public class ModelADServiceImpl implements ModelADService {
 		return ret;
 	} // updateData
 
-	public WindowTabDataDocument readData(ModelCRUDRequestDocument req)
-			throws XFireFault {
-		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
-		WindowTabData resp = ret.addNewWindowTabData();
-    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+	public WindowTabDataDocument readData(ModelCRUDRequestDocument modelCRUDRequestDocument) throws XFireFault {
+		WindowTabDataDocument windowTabDataDocument = WindowTabDataDocument.Factory.newInstance();
+		WindowTabData windowTabData = windowTabDataDocument.addNewWindowTabData();
+    	ModelCRUD modelCRUD = modelCRUDRequestDocument.getModelCRUDRequest().getModelCRUD();
 		String serviceType = modelCRUD.getServiceType();
-		int cnt = 0;
-    	
-    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String err = modelLogin(reqlogin, webServiceName, "readData", serviceType);
-    	if (err != null && err.length() > 0) {
-    		resp.setError(err);
-        	return ret;
+		int count = 0;
+    	ADLoginRequest loginRequest = modelCRUDRequestDocument.getModelCRUDRequest().getADLoginRequest();
+    	String error = modelLogin(loginRequest, webServiceName, "readData", serviceType);
+    	if (error != null && error.length() > 0) {
+    		windowTabData.setError(error);
+        	return windowTabDataDocument;
     	}
-
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
-
     	Properties ctx = m_cs.getM_ctx();
     	String tableName = modelCRUD.getTableName();
-    	int recordID = modelCRUD.getRecordID();
-
+    	int recordId = modelCRUD.getRecordID();
     	// get the PO for the tablename and record ID
     	MTable table = MTable.get(ctx, tableName);
     	if (table == null)
@@ -952,73 +950,76 @@ public class ModelADServiceImpl implements ModelADService {
 					+ m_webservicetype.getValue() + ": table "
 					+ tableName + " not found",
 					new QName("readData"));
-    	PO po = table.getPO(recordID, null);
-    	if (po == null) {
-    		resp.setSuccess(false);
-        	resp.setRowCount(cnt);
-        	resp.setNumRows(cnt);
-        	resp.setTotalRows(cnt);
-        	resp.setStartRow(0);
-    		return ret;
+    	PO record = table.getPO(recordId, null);
+    	if (record == null) {
+    		windowTabData.setSuccess(false);
+        	windowTabData.setRowCount(count);
+        	windowTabData.setNumRows(count);
+        	windowTabData.setTotalRows(count);
+        	windowTabData.setStartRow(0);
+    		return windowTabDataDocument;
     	}
-    	cnt = 1;
-    	
-    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
-
-    	DataSet ds = resp.addNewDataSet();
-		DataRow dr = ds.addNewDataRow();
-		for (int i = 0; i < poinfo.getColumnCount(); i++) {
-    		String columnName = poinfo.getColumnName(i);
+    	count = 1;
+    	POInfo poInfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
+    	DataSet dataSet = windowTabData.addNewDataSet();
+		DataRow dataRow = dataSet.addNewDataRow();
+		for (int i = 0; i < poInfo.getColumnCount(); i++) {
+    		String columnName = poInfo.getColumnName(i);
 			if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
-				DataField dfid = dr.addNewField();
-				dfid.setColumn(columnName);
-				if (po.get_Value(i) != null)
-					dfid.setVal(po.get_Value(i).toString());
-				else
-					dfid.setVal(null);
+				DataField dataField = dataRow.addNewField();
+				if (poInfo.getColumnClass(i) == byte[].class) {
+					dataField.setColumn(columnName);
+					byte[] binaryData = (byte[]) record.get_Value(columnName);
+					if (binaryData != null) {
+						String encodedBinaryData = Base64.getEncoder().encodeToString(binaryData);
+						dataField.setColumn(columnName);
+						dataField.setLval(encodedBinaryData);
+					}
+				}
+				dataField.setColumn(columnName);
+				if (modelCRUD.getRetriveResultAs() != null
+				 && modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+					if (record.get_Value(columnName) != null)
+						dataField.setLval(record.get_ValueAsString(columnName));
+					else
+						dataField.setLval(null);
+				} else if (modelCRUD.getRetriveResultAs() == null
+						|| modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT) {
+					if (record.get_Value(columnName) != null)
+						dataField.setVal(record.get_ValueAsString(columnName));
+					else
+						dataField.setVal(null);
+				}
 			}
     	}
-    	
-		resp.setSuccess(true);
-    	resp.setRowCount(cnt);
-    	resp.setNumRows(cnt);
-    	resp.setTotalRows(cnt);
-    	resp.setStartRow(1);
-
-		return ret;
+		windowTabData.setSuccess(true);
+    	windowTabData.setRowCount(count);
+    	windowTabData.setNumRows(count);
+    	windowTabData.setTotalRows(count);
+    	windowTabData.setStartRow(1);
+		return windowTabDataDocument;
 	}
 
-	public WindowTabDataDocument queryData(ModelCRUDRequestDocument req)
-			throws XFireFault {
-		WindowTabDataDocument ret = WindowTabDataDocument.Factory.newInstance();
-		WindowTabData resp = ret.addNewWindowTabData();
-    	ModelCRUD modelCRUD = req.getModelCRUDRequest().getModelCRUD();
+	public WindowTabDataDocument queryData(ModelCRUDRequestDocument modelCRUDRequestDocument) throws XFireFault {
+		WindowTabDataDocument windowTabDataDocument = WindowTabDataDocument.Factory.newInstance();
+		WindowTabData windowTabData = windowTabDataDocument.addNewWindowTabData();
+    	ModelCRUD modelCRUD = modelCRUDRequestDocument.getModelCRUDRequest().getModelCRUD();
 		String serviceType = modelCRUD.getServiceType();
-		
-		/** 2014-12-04 Carlos Parada Add Support for Paginate Records */ 
-
 		/** Current Page*/
-		int currentPage = req.getModelCRUDRequest().getModelCRUD().getPageNo();
-		
+		int currentPage = modelCRUDRequestDocument.getModelCRUDRequest().getModelCRUD().getPageNo();
 		/** Records per Page*/
-		int m_RecByPage  = MSysConfig.getIntValue("WS_RECORDS_BY_PAGE", 1);
-		
+		int recordsByPage  = MSysConfig.getIntValue("WS_RECORDS_BY_PAGE", 1);
 		/** Quantity Pages*/
 		int qtyPages =  0;
-		
 		log.info("Current Page " + currentPage);
-
-		/** 2014-12-04 Carlos Parada */ 
-		
-    	ADLoginRequest reqlogin = req.getModelCRUDRequest().getADLoginRequest();
-    	String err = modelLogin(reqlogin, webServiceName, "queryData", serviceType);
-    	if (err != null && err.length() > 0) {
-    		resp.setError(err);
-        	return ret;
+    	ADLoginRequest loginRequest = modelCRUDRequestDocument.getModelCRUDRequest().getADLoginRequest();
+    	String error = modelLogin(loginRequest, webServiceName, "queryData", serviceType);
+    	if (error != null && error.length() > 0) {
+    		windowTabData.setError(error);
+        	return windowTabDataDocument;
     	}
     	// Validate parameters vs service type
 		validateCRUD(modelCRUD);
-
     	Properties ctx = m_cs.getM_ctx();
     	String tableName = modelCRUD.getTableName();
     	// get the PO for the tablename and record ID
@@ -1029,18 +1030,16 @@ public class ModelADServiceImpl implements ModelADService {
 					+ tableName + " not found",
 					new QName("queryData"));
 
-		int roleid = reqlogin.getRoleID();
-		MRole role = new MRole(ctx, roleid, null);
+		int roleId = loginRequest.getRoleID();
+		MRole role = new MRole(ctx, roleId, null);
 		// 2014-12-04 Carlos Parada Replace ResultSet For Query  
 		List<PO> records = null ;
 		String key = m_cs.getM_AD_User_ID() + "_" + serviceType;
-		
 		if (currentPage != 0 )
 			records = (List<PO>) s_cache.get (key);
     	String sqlWhere = "";//"SELECT * FROM " + tableName;
-
     	//sqlquery = role.addAccessSQL(sqlquery, tableName, true, true);
-		for (DataField field : modelCRUD.getDataRow().getFieldList()) {
+		for (DataField field : modelCRUD.getDataRow().getFieldArray()) {
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
     			sqlWhere += (sqlWhere.equals("") ? "" : " AND ") + field.getColumn() + "=?";
     		} else {
@@ -1055,74 +1054,86 @@ public class ModelADServiceImpl implements ModelADService {
 			}
 			sqlWhere += modelCRUD.getFilter();
 		}
-		
-    	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
-    	int cnt = 0;
-
+    	POInfo poInfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
+    	int count = 0;
 		try
 		{
 			if (records == null){
-				Query query = new Query(ctx, poinfo.getTableName(), sqlWhere, null);
-				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldList().size()];
+				Query query = new Query(ctx, poInfo.getTableName(), sqlWhere, null);
+				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldArray().length];
 				int p = 1;
 				int i=0;
-				for (DataField field : modelCRUD.getDataRow().getFieldList()){
-					int index = poinfo.getColumnIndex(field.getColumn());
-					Class<?> c = poinfo.getColumnClass(index);
-					if (c == Integer.class)
+				for (DataField field : modelCRUD.getDataRow().getFieldArray()){
+					int index = poInfo.getColumnIndex(field.getColumn());
+					Class<?> clazz = poInfo.getColumnClass(index);
+					if (clazz == Integer.class)
 						parameters[i] = Integer.valueOf(field.getVal());
-					else if (c == Timestamp.class)
+					else if (clazz == Timestamp.class)
 						parameters[i] = Timestamp.valueOf(field.getVal());
-					else if (c == Boolean.class || c == String.class)
+					else if (clazz == Boolean.class || clazz == String.class)
 						parameters[i] =  field.getVal();
 					i++;
 				}
-
 				if (parameters.length > 0)
 					query.setParameters(parameters);
-				
+
 				records = query.setApplyAccessFilter(true).list();
-				
 			}
-			
 			// Angelo Dabala' (genied) must create just one DataSet, moved outside of the while loop
-			DataSet ds = resp.addNewDataSet();
-			
+			DataSet dataSet = windowTabData.addNewDataSet();
 			// Set Quantity of Pages
 			if (records.size() != 0)
-				qtyPages = new BigDecimal(records.size()).divide(new BigDecimal(m_RecByPage)).setScale(0, BigDecimal.ROUND_UP).intValue();
+				qtyPages = new BigDecimal(records.size()).divide(new BigDecimal(recordsByPage)).setScale(0, RoundingMode.UP).intValue();
 			
 			int begin= 0, end = 0;
-			begin = currentPage * m_RecByPage;
-			end = ( ((currentPage + 1 ) *  m_RecByPage) > records.size() ? records.size() : ((currentPage + 1 ) *  m_RecByPage) );
-			for (int j= begin; j < end ; j++){
-				PO record = records.get(j); 
-				cnt++;
-				DataRow dr = ds.addNewDataRow();
-				for (int i = 0; i < poinfo.getColumnCount(); i++) {
-		    		String columnName = poinfo.getColumnName(i);
+			begin = currentPage * recordsByPage;
+			end = ( ((currentPage + 1 ) *  recordsByPage) > records.size() ? records.size() : ((currentPage + 1 ) *  recordsByPage) );
+			for (int j = begin; j < end; j++) {
+				PO record = records.get(j);
+				count++;
+				DataRow dataRow = dataSet.addNewDataRow();
+				for (int i = 0; i < poInfo.getColumnCount(); i++) {
+					String columnName = poInfo.getColumnName(i);
 					if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
-						DataField dfid = dr.addNewField();
-						dfid.setColumn(columnName);
-						dfid.setLval(record.get_ValueAsString(columnName));
+						DataField dataField = dataRow.addNewField();
+						if (poInfo.getColumnClass(i) == byte[].class) {
+							dataField.setColumn(columnName);
+							byte[] binaryData = (byte[]) record.get_Value(columnName);
+							if (binaryData != null) {
+								String encodedBinaryData = Base64.getEncoder().encodeToString(binaryData);
+								dataField.setColumn(columnName);
+								if (modelCRUD.getRetriveResultAs() != null
+								&&	modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+									dataField.setLval(encodedBinaryData);
+								} else if (	modelCRUD.getRetriveResultAs() == null ||
+											modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT) {
+									dataField.setVal(encodedBinaryData);
+								}
+							}
+						} else {
+							dataField.setColumn(columnName);
+							if (modelCRUD.getRetriveResultAs() != null
+							&&	modelCRUD.getRetriveResultAs().intValue() == ModelCRUD.RetriveResultAs.INT_ATTRIBUTE) {
+								dataField.setLval(record.get_ValueAsString(columnName));
+							} else if (modelCRUD.getRetriveResultAs() == null
+									|| modelCRUD.getRetriveResultAs().intValue() == pl.x3E.adInterface.ModelCRUD.RetriveResultAs.INT_ELEMENT){
+								dataField.setVal(record.get_ValueAsString(columnName));
+							}
+						}
 					}
-		    	}
+				}
 			}
 			
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			// ignore this exception
-		}
-
-		resp.setSuccess(true);
-    	resp.setRowCount(cnt);
-    	resp.setNumRows(cnt);
-    	resp.setTotalRows(cnt);
-    	resp.setStartRow(1);
-    	resp.setQtyPages(qtyPages);
-		return ret;
+		windowTabData.setSuccess(true);
+    	windowTabData.setRowCount(count);
+    	windowTabData.setNumRows(count);
+    	windowTabData.setTotalRows(count);
+    	windowTabData.setStartRow(1);
+    	windowTabData.setQtyPages(qtyPages);
+		return windowTabDataDocument;
 	}
 
 }

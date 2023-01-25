@@ -3,7 +3,7 @@ package org.adempiere.pipo;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.compiere.model.I_AD_Element;
+import org.adempiere.core.domains.models.I_AD_Element;
 import org.compiere.model.PO;
 import org.xml.sax.helpers.AttributesImpl;
 

@@ -17,12 +17,13 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.core.domains.models.X_M_InOut;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
@@ -38,7 +39,6 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
 import org.compiere.model.ProductCost;
-import org.compiere.model.X_M_InOut;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -170,7 +170,7 @@ public class Doc_MatchPO extends Doc
 			}
 			poCost = poCost.multiply(rate);
 			if (poCost.scale() > as.getCostingPrecision())
-				poCost = poCost.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				poCost = poCost.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP);
 		}
 
 		//	Calculate PPV for standard costing
@@ -203,7 +203,7 @@ public class Doc_MatchPO extends Doc
             }
 	
 			//	Difference
-			BigDecimal difference = poCost.subtract(costs.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+			BigDecimal difference = poCost.subtract(costs.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP));
 			//	Nothing to post
 			if (difference.signum() == 0)
 			{

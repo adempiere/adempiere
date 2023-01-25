@@ -24,6 +24,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_K_Index;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
@@ -180,7 +181,7 @@ public class MIndex extends X_K_Index
 	{
 		if (thisText!=null) {
 			Hashtable keyHash = indexString(thisText);
-	        for (Enumeration e=keyHash.keys(); e.hasMoreElements();) {
+	        for (Enumeration<?> e = keyHash.keys(); e.hasMoreElements();) {
 	            String name = (String)e.nextElement();
 	            String value = (String)keyHash.get(name);
 	            MIndex thisIndex = new MIndex(ctx, 0, trxName);

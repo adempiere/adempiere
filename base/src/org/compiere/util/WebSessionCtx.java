@@ -116,7 +116,7 @@ public class WebSessionCtx implements Serializable
 		
 		//	Add Servlet Init Parameters (webStore/src/web/WEB-INF/web.xml)
 		ServletContext sc = session.getServletContext();
-		Enumeration en = sc.getInitParameterNames();
+		Enumeration<String> en = sc.getInitParameterNames();
 		while (en.hasMoreElements())
 		{
 			String key = (String)en.nextElement();
@@ -151,7 +151,7 @@ public class WebSessionCtx implements Serializable
 		
 		//	Add Servlet Init Parameters (webStore/src/web/WEB-INF/web.xml)
 		ServletContext sc = session.getServletContext();
-		Enumeration en = sc.getInitParameterNames();
+		Enumeration<String> en = sc.getInitParameterNames();
 		while (en.hasMoreElements())
 		{
 			String key = (String)en.nextElement();
@@ -266,7 +266,7 @@ public class WebSessionCtx implements Serializable
 		if (wstore == null)
 			return new Properties();
 		//
-		Integer key = new Integer (wstore.getW_Store_ID());
+		Integer key = Integer.valueOf(wstore.getW_Store_ID());
 		Properties newCtx = (Properties)s_cacheCtx.get(key);
 		
 		/**	Create New Context		*/
@@ -275,7 +275,7 @@ public class WebSessionCtx implements Serializable
 			log.info(wstore.getWebContext());
 			newCtx = new Properties();
 			//	copy explicitly
-			Enumeration e = ctx.keys();
+			Enumeration<Object> e = ctx.keys();
 			while (e.hasMoreElements())
 			{
 				String pKey = (String)e.nextElement();
@@ -351,7 +351,7 @@ public class WebSessionCtx implements Serializable
 			s_cacheCtx.put(key, newCtx);
 		}
 		//	return new Properties (pp);	seems not to work with JSP
-		Enumeration e = newCtx.keys();
+		Enumeration<Object> e = newCtx.keys();
 		while (e.hasMoreElements())
 		{
 			String pKey = (String)e.nextElement();

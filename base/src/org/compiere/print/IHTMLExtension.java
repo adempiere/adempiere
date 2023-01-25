@@ -13,8 +13,8 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import org.apache.ecs.ConcreteElement;
-import org.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.ConcreteElement;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
 
 /**
  * 

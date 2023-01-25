@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_Currency;
+import org.adempiere.core.domains.models.X_C_Currency;
 import org.compiere.util.CCache;
 
 /**
@@ -125,7 +127,7 @@ public class MCurrency extends X_C_Currency
 	public static MCurrency get (Properties ctx, int C_Currency_ID)
 	{
 		//	Try Cache
-		Integer key = new Integer(C_Currency_ID);
+		Integer key = Integer.valueOf(C_Currency_ID);
 		MCurrency retValue = (MCurrency)s_currencies.get(key);
 		if (retValue != null)
 			return retValue;

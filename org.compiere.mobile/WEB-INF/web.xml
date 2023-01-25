@@ -31,11 +31,11 @@
   	  <servlet-name>DisplayChart</servlet-name> 
       <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class> 
     </servlet>  
-	<servlet>
+	<!--servlet>
 		<display-name>Adempiere Account</display-name>
 		<servlet-name>WAccount</servlet-name>
 		<servlet-class>org.compiere.mobile.WAccount</servlet-class>
-	</servlet>
+	</servlet-->
 	<servlet>
 		<display-name>Login Dynamic Update</display-name>
 		<servlet-name>LoginDynUpdate</servlet-name>
@@ -77,16 +77,16 @@
 		<servlet-name>WReport</servlet-name>
 		<servlet-class>org.compiere.mobile.WReport</servlet-class>
 	</servlet>
-	<servlet>
+	<!--servlet>
 		<display-name>Adempiere Chat</display-name>
 		<servlet-name>WChat</servlet-name>
 		<servlet-class>org.compiere.mobile.WChat</servlet-class>
-	</servlet>
-	<servlet>
+	</servlet-->
+	<!--servlet>
 		<display-name>Adempiere Value Preference</display-name>
 		<servlet-name>WValuePreference</servlet-name>
 		<servlet-class>org.compiere.mobile.WValuePreference</servlet-class>
-	</servlet>
+	</servlet-->
 	<servlet>
 		<display-name>Adempiere Zoom</display-name>
 		<servlet-name>WZoom</servlet-name>
@@ -97,16 +97,16 @@
 		<servlet-name>WHelp</servlet-name>
 		<servlet-class>org.compiere.mobile.WHelp</servlet-class>
 	</servlet>
-	<servlet>
+	<!--servlet>
 		<display-name>Adempiere Attachment</display-name>
 		<servlet-name>WAttachment</servlet-name>
 		<servlet-class>org.compiere.mobile.WAttachment</servlet-class>
-	</servlet>
-	<servlet>
+	</servlet-->
+	<!--servlet>
 		<display-name>Web Requests</display-name>
 		<servlet-name>WRequest</servlet-name>
 		<servlet-class>org.compiere.wstore.RequestServlet</servlet-class>
-	</servlet>
+	</servlet-->
 	<servlet>
 		<display-name>Adempiere Start</display-name>
 		<servlet-name>WStart</servlet-name>
@@ -126,11 +126,11 @@
     <servlet-mapping>
       <servlet-name> DisplayChart </servlet-name> 
       <url-pattern>/DisplayChart</url-pattern> 
-    </servlet-mapping> 
-	<servlet-mapping>
+    </servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>WAccount</servlet-name>
 		<url-pattern>/WAccount</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	<servlet-mapping>
 		<servlet-name>LoginDynUpdate</servlet-name>
 		<url-pattern>/LoginDynUpdate</url-pattern>
@@ -163,14 +163,14 @@
 		<servlet-name>WReport</servlet-name>
 		<url-pattern>/WReport</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>WChat</servlet-name>
 		<url-pattern>/WChat</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
+	</servlet-mapping-->
+	<!--servlet-mapping>
 		<servlet-name>WValuePreference</servlet-name>
 		<url-pattern>/WValuePreference</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	<servlet-mapping>
 		<servlet-name>WZoom</servlet-name>
 		<url-pattern>/WZoom</url-pattern>
@@ -179,14 +179,14 @@
 		<servlet-name>WHelp</servlet-name>
 		<url-pattern>/WHelp</url-pattern>
 	</servlet-mapping>
-	<servlet-mapping>
+	<!--servlet-mapping>
 		<servlet-name>WAttachment</servlet-name>
 		<url-pattern>/WAttachment</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
+	</servlet-mapping-->
+	<!--servlet-mapping>
 		<servlet-name>WRequest</servlet-name>
 		<url-pattern>/WRequest</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping-->
 	<servlet-mapping>
 		<servlet-name>WWindow</servlet-name>
 		<url-pattern>/WWindow</url-pattern>
@@ -201,4 +201,19 @@
 	<welcome-file-list>
 		<welcome-file>WMenu</welcome-file>
 	</welcome-file-list>
+
+	<resource-ref>
+		<description>Adempiere Connection Pool</description>
+		<res-ref-name>java/AdempiereDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<resource-ref>
+		<description>Adempiere Short Running Connection Pool</description>
+		<res-ref-name>java/AdempiereSRDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
 </web-app>

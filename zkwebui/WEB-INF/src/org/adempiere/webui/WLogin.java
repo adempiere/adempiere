@@ -22,6 +22,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.LoginWindow;
+import org.compiere.model.MUser;
 import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -47,16 +48,12 @@ import org.zkoss.zul.Window;
  */
 public class WLogin extends AbstractUIPart
 {
-
-	private IWebClient app;
 	private Borderlayout layout;
 	private Window browserWarningWindow;
 	private LoginWindow loginWindow;
 
-    public WLogin(IWebClient app)
-    {
-        this.app = app;
-    }
+	public WLogin() {
+	}
 
     protected Component doCreatePart(Component parent)
     {
@@ -82,7 +79,7 @@ public class WLogin extends AbstractUIPart
         vb.setAlign("center");
         vb.setStyle("background-color: transparent;");
 
-        loginWindow = new LoginWindow(app);
+        loginWindow = new LoginWindow();
         loginWindow.setParent(vb);
 
         if (!AEnv.isBrowserSupported())
@@ -119,10 +116,10 @@ public class WLogin extends AbstractUIPart
 
         try {
 	        String left = ThemeManager.getLoginLeftPanel();
-	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(left);
+	        PageDefinition pageDefinition = Executions.getCurrent().getPageDefinition(left);
 	    	West west = new West();
 	    	west.setSclass(ITheme.LOGIN_WEST_PANEL_CLASS);
-	    	addContent(west, pageDefintion);
+	    	addContent(west, pageDefinition);
         } catch (Exception e){
         	//ignore page not found exception
         	if (e instanceof UiException) {
@@ -153,10 +150,10 @@ public class WLogin extends AbstractUIPart
 
         try {
 	        String bottom = ThemeManager.getLoginBottomPanel();
-	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(bottom);
+	        PageDefinition pageDefinition = Executions.getCurrent().getPageDefinition(bottom);
 	    	South south = new South();
 	    	south.setSclass(ITheme.LOGIN_SOUTH_PANEL_CLASS);
-	    	addContent(south, pageDefintion);
+	    	addContent(south, pageDefinition);
         } catch (Exception e) {
         	//ignore page not found exception
         	if (e instanceof UiException) {
@@ -176,13 +173,6 @@ public class WLogin extends AbstractUIPart
     	Executions.createComponents(page, parent, null);
     }
 
-	public void detach() {
-		layout.detach();
-		layout = null;
-		if (browserWarningWindow != null)
-			browserWarningWindow.detach();
-	}
-
 	public Component getComponent() {
 		return layout;
 	}
@@ -190,6 +180,17 @@ public class WLogin extends AbstractUIPart
 	public void changeRole(Locale locale, Properties properties) {
 		loginWindow.changeRole(locale, properties);
 	}
+	
+	/**
+	 * External Authentication
+	 * @param locale
+	 * @param properties
+	 * @param user
+	 */
+	public void externalAuthentication(Locale locale, Properties properties, MUser user) {
+		loginWindow.externalAuthentication(locale, properties, user);
+	}
+	
 
 	public String getTypedPassword()
 	{
@@ -199,5 +200,23 @@ public class WLogin extends AbstractUIPart
 	public void setTypedPassword(String password)
 	{
 		loginWindow.setTypedPassword(password);
+	}
+
+	public void cleanup() {
+		if (loginWindow != null) {
+			loginWindow.cleanup();
+			loginWindow = null;
+		}
+
+
+		if (browserWarningWindow != null) {
+			browserWarningWindow.detach();
+			browserWarningWindow = null;
+		}
+
+		if (layout != null) {
+			layout.detach();
+			layout = null;
+		}
 	}
 }

@@ -82,7 +82,7 @@ public class StatementProxy implements InvocationHandler {
 		} else if (name.equals("isClosed") && (args == null || args.length == 0)) {
 			return close;
 		} else if (name.equals("finalize") && (args == null || args.length == 0)) {
-			if (p_stmt != null && !close) 
+			if (p_stmt != null && !close)
 			{
 				this.close();
 			}
@@ -149,7 +149,8 @@ public class StatementProxy implements InvocationHandler {
 		try {
 	        if (p_stmt != null)
 	        {
-	            p_stmt.close();            
+	            DB.close(p_stmt);
+				p_stmt = null;
 	        }
 		} finally {
 			if (m_conn != null)
@@ -190,6 +191,7 @@ public class StatementProxy implements InvocationHandler {
 		finally
 		{
 			DB.close(rs);
+			rs = null;
 		}
 		return rowSet;
 	}	//	local_getRowSet

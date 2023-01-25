@@ -23,8 +23,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_PaymentTerm;
+import org.adempiere.core.domains.models.X_C_PaymentTerm;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MPaySchedule;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;

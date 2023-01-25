@@ -18,13 +18,13 @@
 package org.adempiere.webui.editor;
 
 import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_PP_Product_BOMLine;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.ValuePreference;
@@ -35,13 +35,10 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.grid.WBPartner;
 import org.adempiere.webui.panel.ADTabPanel;
-import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoPanelFactory;
 import org.adempiere.webui.panel.InfoProductPanel;
-import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.ADWindow;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
@@ -60,7 +57,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.I_PP_Product_BOMLine;
 import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
@@ -492,7 +488,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		}
 		log.fine(getColumnName() + " - Unique ID=" + id);
 
-		actionCombo(new Integer(id));          //  data binding
+		actionCombo(Integer.valueOf(id));          //  data binding
 		//m_text.requestFocus();
 	}	//	actionText
 
@@ -568,9 +564,9 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			return;
 		
 		//  Maybe new BPartner - put in cache
-		m_lookup.getDirect(new Integer(result), false, true);
-		setValue(new Integer(result));
-		actionCombo (new Integer(result));      //  data binding
+		m_lookup.getDirect(Integer.valueOf(result), false, true);
+		setValue(Integer.valueOf(result));
+		actionCombo(Integer.valueOf(result));      //  data binding
 		
 		//setValue(getValue());
 	}	//	actionBPartner

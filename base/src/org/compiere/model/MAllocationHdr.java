@@ -16,6 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.I_C_AllocationHdr;
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Payment;
+import org.adempiere.core.domains.models.X_C_AllocationHdr;
+import org.adempiere.core.domains.models.X_C_Invoice;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
@@ -28,6 +33,7 @@ import org.compiere.util.Msg;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -1099,7 +1105,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 						} else {
 								//	allocation as a percentage of the invoice
 								BigDecimal multiplier = invoice.getOpenAmt().signum() == 0 ? BigDecimal.ONE :
-									allocationAmount.divide(invoice.getOpenAmt(), 8, BigDecimal.ROUND_HALF_UP);
+									allocationAmount.divide(invoice.getOpenAmt(), 8, RoundingMode.HALF_UP);
 								//	Reduce Orig Invoice Accounted
 								invoiceAmountAccounted = invoiceAmountAccounted.multiply(multiplier);
 								//	Difference based on percentage of Orig Invoice
@@ -1110,7 +1116,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 								//	Round
 								int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
 								if (openBalanceDifference.scale() > precision)
-									openBalanceDifference = openBalanceDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
+									openBalanceDifference = openBalanceDifference.setScale(precision, RoundingMode.HALF_UP);
 						}
 					}
 
@@ -1152,7 +1158,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 						}
 						int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
 						if (newCreditAmount.scale() > precision)
-							newCreditAmount = newCreditAmount.setScale(precision, BigDecimal.ROUND_HALF_UP);
+							newCreditAmount = newCreditAmount.setScale(precision, RoundingMode.HALF_UP);
 
 						partner.setSO_CreditUsed(newCreditAmount);
 					}

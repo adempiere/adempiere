@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Org;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -202,7 +203,7 @@ public class MOrg extends X_AD_Org
 				getAD_Org_ID());
 			if (C_BPartner_ID < 0)	//	not found = -1
 				C_BPartner_ID = 0;
-			m_linkedBPartner = new Integer (C_BPartner_ID);
+			m_linkedBPartner = Integer.valueOf(C_BPartner_ID);
 		}
 		return m_linkedBPartner.intValue();
 	}	//	getLinkedC_BPartner_ID

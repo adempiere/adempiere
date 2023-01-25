@@ -131,7 +131,7 @@ public class DBObject_View implements DBObjectInterface {
 
 			DBObject_View_Definition obj = new DBObject_View_Definition (parent, viewName, counter);
 			obj.initializeDefinition(viewDefinition);
-			contentMap.put(new Integer(counter), obj);
+			contentMap.put(Integer.valueOf(counter), obj);
 
 			counter++;
 		}

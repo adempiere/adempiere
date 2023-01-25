@@ -18,7 +18,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.X_M_ProductionPlan;
+import org.adempiere.core.domains.models.X_M_ProductionPlan;
 
 /**
  * Contributed from Adaxa

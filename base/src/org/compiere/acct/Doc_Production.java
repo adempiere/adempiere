@@ -22,19 +22,19 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.X_M_Product;
+import org.adempiere.core.domains.models.X_M_Production;
+import org.adempiere.core.domains.models.X_M_ProductionLine;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
-import org.compiere.model.MInventory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProduction;
 import org.compiere.model.ProductCost;
-import org.compiere.model.X_M_Product;
-import org.compiere.model.X_M_Production;
-import org.compiere.model.X_M_ProductionLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -184,7 +184,7 @@ public class Doc_Production extends Doc
 				factLine = fact.createLine(line,  line.getAccount(ProductCost.ACCTTYPE_P_Asset, as), line.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
 						as.getC_Currency_ID() , totalCosts);
 				factLine.setM_Product_ID(line.getM_Product_ID());
-				factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+				factLine.setM_Locator_ID(line.getM_Locator_ID());
 				factLine.setDescription("");
 				factLine.saveEx();
 			}
@@ -223,7 +223,7 @@ public class Doc_Production extends Doc
 				}
 				factLine = fact.createLine(line, acct, acct,as.getC_Currency_ID() , totalCosts);
 				factLine.setM_Product_ID(line.getM_Product_ID());
-				factLine.setM_Locator_ID(line.getM_LocatorTo_ID());
+				factLine.setM_Locator_ID(line.getM_Locator_ID());
 				if (m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 				{
 					//	Set AmtAcctDr from Original Phys.Inventory
@@ -256,6 +256,12 @@ public class Doc_Production extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+	
+   public static String getDateAcctColumnName() {
+        
+         return I_M_Production.COLUMNNAME_MovementDate;
+    }
+
 
 	/**
 	 *  Create Facts (the accounting logic) for

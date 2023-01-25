@@ -443,13 +443,13 @@ public class DBObject {
 		// that is why we start checking those
 		
 		if (m_customizationLevel==null) {
-			m_customizationLevel = new Integer(s_parameters.CUSTOMNONE);
+			m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMNONE);
 			if (isCustomImplied())
-				m_customizationLevel = new Integer(s_parameters.CUSTOMIMPLIED);
+				m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMIMPLIED);
 			if (isCustomMarked())
-				m_customizationLevel = new Integer(s_parameters.CUSTOMMARKED);
+				m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMMARKED);
 			if (isCustomPrefixed())
-				m_customizationLevel = new Integer(s_parameters.CUSTOMPREFIXED);
+				m_customizationLevel = Integer.valueOf(s_parameters.CUSTOMPREFIXED);
 		}
 		
 		return m_customizationLevel;

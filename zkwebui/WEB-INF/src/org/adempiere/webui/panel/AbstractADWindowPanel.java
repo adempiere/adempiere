@@ -1131,7 +1131,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		else
 		{
-			newTabPanel.getGridTab().dataRefreshAll();
+			newTabPanel.getGridTab().dataRefreshAll(true,true);
 		}
 
 		currentTabIndex = newTabIndex;
@@ -1502,12 +1502,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (!autoSave()) {
         	return;
         }
-
         
+		MRole role = MRole.getDefault();
+		int maxRows = role.getMaxQueryRecords();
+		currentTab.query(m_onlyCurrentRows, 0, maxRows);
         newRecord = currentTab.dataNew(false);
         if (newRecord)
         {
-            //curTabPanel.dynamicDisplay(0);
             toolbar.getCurrentPanel().dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
@@ -1857,7 +1858,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (queryColumn.endsWith("_ID")) {
 				query = new MQuery(currentTab.getTableName());
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-						new Integer(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
+						Integer.valueOf(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
 						infoName, infoDisplay);
 			}
 			else
@@ -1892,7 +1893,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				if (link.endsWith("_ID"))
 					query.addRestriction(link, MQuery.EQUAL,
-						new Integer(Env.getContextAsInt(ctx, curWindowNo, link)));
+						Integer.valueOf(Env.getContextAsInt(ctx, curWindowNo, link)));
 				else
 					query.addRestriction(link, MQuery.EQUAL,
 						Env.getContext(ctx, curWindowNo, link));
@@ -1911,10 +1912,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			int record_ID = currentTab.getRecord_ID();
 			if (record_ID <= 0)
 				return;
-			//	
-			if(processAction == null) {
-				processAction = new WProcessAction(this);
-			}
+			// Is necessary reload for each record to apply the display rules
+			processAction = new WProcessAction(this);
 			processAction.openOption(toolbar.getEvent().getTarget());			
 		}
 	}

@@ -32,6 +32,10 @@ import java.util.logging.Level;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import org.adempiere.core.domains.models.I_AD_User;
+import org.adempiere.core.domains.models.X_AD_User;
+import org.adempiere.core.domains.models.X_AD_UserBPAccess;
+import org.adempiere.core.domains.models.X_C_BPartner;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -135,7 +139,7 @@ public class MUser extends X_AD_User
 	 */
 	public static MUser get (Properties ctx, int AD_User_ID)
 	{
-		Integer key = new Integer(AD_User_ID);
+		Integer key = Integer.valueOf(AD_User_ID);
 		MUser retValue = (MUser)s_cache.get(key);
 		if (retValue == null)
 		{
@@ -658,23 +662,37 @@ public class MUser extends X_AD_User
 	 * 	Get Notification via EMail
 	 *	@return true if email
 	 */
-	public boolean isNotificationEMail()
-	{
+	public boolean isNotificationEMail() {
 		String s = getNotificationType();
 		return s == null || NOTIFICATIONTYPE_EMail.equals(s)
-				|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s);
+				|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s)
+				|| NOTIFICATIONTYPE_EMailPlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s);
 	}	//	isNotificationEMail
 	
 	/**
 	 * 	Get Notification via Note
 	 *	@return true if note
 	 */
-	public boolean isNotificationNote()
-	{
+	public boolean isNotificationNote() {
 		String s = getNotificationType();
 		return s != null && (NOTIFICATIONTYPE_Notice.equals(s)
-							|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s));
+							|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s)
+							|| NOTIFICATIONTYPE_NoticePlusSocialMedia.equals(s)
+							|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s));
 	}	//	isNotificationNote
+
+	/**
+	 * Get notification via note
+	 * @return
+	 */
+	public boolean isNotificationSocialMedia() {
+		String s = getNotificationType();
+		return s != null && (NOTIFICATIONTYPE_SocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_EMailPlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_NoticePlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s));
+	}	//	isNotificationSocialMedia
 	
 	
 	/**************************************************************************

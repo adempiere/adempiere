@@ -21,10 +21,8 @@ import org.compiere.model.MMatchPO;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTransaction;
-import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
@@ -154,10 +152,11 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			currentCostPrice = accumulatedAmount.divide(
 					accumulatedQuantity.signum() != 0 ? accumulatedQuantity
 							: BigDecimal.ONE, accountSchema.getCostingPrecision(),
-					BigDecimal.ROUND_HALF_UP);
+					RoundingMode.HALF_UP
+			);
 			currentCostPriceLowerLevel = accumulatedAmountLowerLevel.divide(accumulatedQuantity
 					.signum() != 0 ? accumulatedQuantity : BigDecimal.ONE, accountSchema
-					.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+					.getCostingPrecision(), RoundingMode.HALF_UP);
 
 			if(adjustCost.add(adjustCostLowerLevel).signum() == 0)
 				return;
@@ -197,10 +196,10 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 								.multiply(movementQuantity));
 			} // Logic to calculate adjustment when inventory is negative
 			else if (quantityOnHand.add(movementQuantity).signum() < 0
-			&& getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP).signum() != 0
+			&& getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP).signum() != 0
 			&& costThisLevel.signum() == 0  )
 			{
-				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),  BigDecimal.ROUND_HALF_UP);
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 				adjustCost = currentCostPrice.multiply(movementQuantity).abs();
 			}
             // If period is not open then an adjustment cost is create based on quantity on hand of attribute instance
@@ -256,8 +255,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 			// Use the last current cost price for out transaction			
 			if (quantityOnHand.add(movementQuantity).signum() >= 0)
 			{
-				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				currentCostPrice = getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
+				currentCostPriceLowerLevel = getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 			} 
 			else
 			{
@@ -432,12 +431,25 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0)
+		return getNewCurrentCostPrice(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmount(cost).signum() != 0) {
 			return getNewAccumulatedAmount(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 	/**
@@ -489,12 +501,25 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode) {
-		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0)
+		return getNewCurrentCostPriceLowerLevel(cost, scale, RoundingMode.valueOf(roundingMode));
+	}
+	
+	/**
+	 * Average Invoice Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode) {
+		if (getNewAccumulatedQuantity(cost).signum() != 0 && getNewAccumulatedAmountLowerLevel(cost).signum() != 0) {
 			return getNewAccumulatedAmountLowerLevel(cost).divide(getNewAccumulatedQuantity(cost), scale, roundingMode);
-		else
-			return BigDecimal.ZERO;
+		}
+		
+		return BigDecimal.ZERO;
 	}
 
 
@@ -555,8 +580,8 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
     public void updateInventoryValue() {
         if (accumulatedQuantity.signum() != 0)
         {
-            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
-            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP));
+            dimension.setCurrentCostPrice(accumulatedAmount.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
+            dimension.setCurrentCostPriceLL(accumulatedAmountLowerLevel.divide(accumulatedQuantity, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
         }
         dimension.setCumulatedAmt(accumulatedAmount);
         dimension.setCumulatedAmtLL(accumulatedAmountLowerLevel);
@@ -627,153 +652,5 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
         else
             CostEngineFactory.getCostEngine(clientId).createCostDetail(
                     accountSchema, costType, costElement, transaction, transaction.getDocumentLine(), true);
-	}	
-	
-
-	public void createUpdateAverageCostDetail(MPPCostCollector costCollectorVariance,
-			BigDecimal costVarianceThisLevel, BigDecimal costVarianceLowLevel,
-			MProduct product,
-			MAcctSchema acctSchema, MCostType costType, MCostElement costElement) {
-
-		String whereClause = " exists (select 1 from pp_cost_collector pc" +
-				" where pc.pp_cost_collector_ID=m_transaction.pp_Cost_collector_ID and costcollectortype =? " +
-				" and pc.pp_order_ID=?)";
-		MTransaction mtrx =  new Query(costCollectorVariance.getCtx(), MTransaction.Table_Name, whereClause, costCollectorVariance.get_TrxName())
-		.setParameters(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt,costCollectorVariance.getPP_Order_ID())
-		.setOrderBy("M_Transaction_ID desc")
-		.first();
-
-		BigDecimal costThisLevel = Env.ZERO;
-		BigDecimal costLowLevel = Env.ZERO;
-		String costingLevel = MProduct.get(mtrx.getCtx(), mtrx.getM_Product_ID()).getCostingLevel(acctSchema, mtrx.getAD_Org_ID());
-		costCollectorVariance.set_ValueOfColumn("Cost", costVarianceThisLevel.compareTo(Env.ZERO) != 0 ? costVarianceThisLevel : costVarianceLowLevel);
-		costCollectorVariance.saveEx();
-		IDocumentLine model = costCollectorVariance;
-
-		MCost cost = MCost.validateCostForCostType(acctSchema, costType, costElement,product.getM_Product_ID(), 0, 0, 0, mtrx.get_TrxName());
-		final ICostingMethod method = CostingMethodFactory.get().getCostingMethod(costType.getCostingMethod());
-		method.setCostingMethod(acctSchema, mtrx, model, cost, costThisLevel, costLowLevel, model.isSOTrx());
-		method.process();
-	}
-
-	public BigDecimal getResourceActualCostRate(MPPCostCollector costCollector,
-			int resourceId, CostDimension costDimension, String trxName) {
-		if (resourceId <= 0)
-			return Env.ZERO;
-		final MProduct resourceProduct = MProduct.forS_Resource_ID(
-				Env.getCtx(), resourceId, null);
-		return getProductActualCostPrice(costCollector, resourceProduct,
-				MAcctSchema.get(Env.getCtx(), costDimension.getC_AcctSchema_ID()),
-				MCostElement.get(Env.getCtx(), costDimension.getM_CostElement_ID()),
-				trxName);
-	}
-	
-
-	public BigDecimal getProductActualCostPrice(MPPCostCollector costCollector, MProduct product, MAcctSchema acctSchema, MCostElement costElement, String trxName)
-	{
-		String CostingLevel = product.getCostingLevel(acctSchema);
-		// Org Element
-		int orgId = 0;
-		int warehouseId = 0;
-		if (product.getS_Resource_ID() != 0){
-			orgId = product.getS_Resource().getAD_Org_ID();
-			warehouseId = product.getS_Resource().getM_Warehouse_ID();
-		}
-			
-		else 
-		{
-			orgId = (costCollector == null)? costElement.getAD_Org_ID():costCollector.getAD_Org_ID();
-			warehouseId = (costCollector == null)? 0:costCollector.getM_Warehouse_ID();
-		}
-		int attributeSetInstanceId = (costCollector == null)? 0:costCollector.getM_AttributeSetInstance_ID();
-		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
-			orgId = 0;
-			attributeSetInstanceId = 0;
-			warehouseId = 0;
-		} 
-		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			attributeSetInstanceId = 0;
-		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-			orgId = 0;
-		CostDimension costDimension = new CostDimension(product,
-				acctSchema, acctSchema.getM_CostType_ID(),
-				orgId,
-				attributeSetInstanceId,
-				warehouseId, //warehouse
-				costElement.getM_CostElement_ID());
-		MCost cost = costDimension.toQuery(MCost.class, trxName).firstOnly();
-
-		if (cost == null)
-			return Env.ZERO;
-		BigDecimal price = cost.getCurrentCostPrice().add(
-                cost.getCurrentCostPriceLL());
-		return roundCost(price, acctSchema.getC_AcctSchema_ID());
-	}
-
-	protected BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
-		// Fix Cost Precision
-		int precision = MAcctSchema.get(Env.getCtx(), accountSchemaId)
-				.getCostingPrecision();
-		BigDecimal priceRounded = price;
-		if (priceRounded.scale() > precision) {
-			priceRounded = priceRounded.setScale(precision,
-					RoundingMode.HALF_UP);
-		}
-		return priceRounded;
-	}
-	
-
-	public BigDecimal getResourceFutureCostRate(MPPCostCollector costCollector,
-			int resourceId, CostDimension costDimension, String trxName) {
-		if (resourceId <= 0)
-			return Env.ZERO;
-		final MProduct resourceProduct = MProduct.forS_Resource_ID(
-				Env.getCtx(), resourceId, null);
-		return getProductFutureCostPrice(costCollector, resourceProduct,
-				MAcctSchema.get(Env.getCtx(), costDimension.getC_AcctSchema_ID()),
-				MCostElement.get(Env.getCtx(), costDimension.getM_CostElement_ID()),
-				trxName);
-	}
-	
-
-	public BigDecimal getProductFutureCostPrice(MPPCostCollector costCollector, MProduct product, MAcctSchema acctSchema, MCostElement costElement, String trxName)
-	{
-		String CostingLevel = product.getCostingLevel(acctSchema);
-		// Org Element
-		int orgId = 0;
-		int warehouseId = 0;
-		if (product.getS_Resource_ID() != 0){
-			orgId = product.getS_Resource().getAD_Org_ID();
-			warehouseId = product.getS_Resource().getM_Warehouse_ID();
-		}
-			
-		else 
-		{
-			orgId = (costCollector == null)? costElement.getAD_Org_ID():costCollector.getAD_Org_ID();
-			warehouseId = (costCollector == null)? 0:costCollector.getM_Warehouse_ID();
-		}
-		int attributeSetInstanceId = (costCollector == null)? 0:costCollector.getM_AttributeSetInstance_ID();
-		if (MAcctSchema.COSTINGLEVEL_Client.equals(CostingLevel)) {
-			orgId = 0;
-			attributeSetInstanceId = 0;
-			warehouseId = 0;
-		} 
-		else if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
-			attributeSetInstanceId = 0;
-		else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
-			orgId = 0;
-		CostDimension d = new CostDimension(product,
-				acctSchema, acctSchema.getM_CostType_ID(),
-				orgId,
-				attributeSetInstanceId,
-				warehouseId, //warehouse
-				costElement.getM_CostElement_ID());
-		MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
-
-		if (cost == null)
-			return Env.ZERO;
-		BigDecimal price = cost.getFutureCostPrice().add(
-                cost.getFutureCostPriceLL());
-		return roundCost(price, acctSchema.getC_AcctSchema_ID());
 	}
 }

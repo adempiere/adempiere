@@ -72,4 +72,19 @@
 	<welcome-file-list>
 		<welcome-file>adempiere.html</welcome-file>
 	</welcome-file-list>
+
+	<resource-ref>
+		<description>Adempiere Connection Pool</description>
+		<res-ref-name>java/AdempiereDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
+	<resource-ref>
+		<description>Adempiere Short Running Connection Pool</description>
+		<res-ref-name>java/AdempiereSRDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
 </web-app>

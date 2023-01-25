@@ -26,6 +26,9 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.adempiere.core.domains.models.X_CM_Container_Element;
+import org.adempiere.core.domains.models.X_CM_NewsChannel;
+import org.adempiere.core.domains.models.X_CM_TemplateTable;
 import org.compiere.Adempiere;
 import org.compiere.cm.HttpServletCM;
 import org.compiere.cm.cache.Chat;
@@ -44,9 +47,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.MTemplate;
 import org.compiere.model.MUser;
 import org.compiere.model.PO;
-import org.compiere.model.X_CM_Container_Element;
-import org.compiere.model.X_CM_NewsChannel;
-import org.compiere.model.X_CM_TemplateTable;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
 import org.compiere.util.WebInfo;
@@ -485,7 +485,7 @@ public class Generator
 		xmlCode.append ("  <request>\n");
 		xmlCode.append ("    <query_complete><![CDATA["
 			+ request.getQueryString () + "]]></query_complete>\n");
-		Enumeration e = request.getParameterNames ();
+		Enumeration<String> e = request.getParameterNames();
 		String tempArray[] = new String[255];
 		int j = 0;
 		while (e.hasMoreElements ())

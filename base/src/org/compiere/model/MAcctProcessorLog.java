@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_AcctProcessorLog;
+
 
 /**
  *	Accounting Processor Log
@@ -61,10 +63,11 @@ public class MAcctProcessorLog extends X_C_AcctProcessorLog
 	 * 	Parent Constructor
 	 *	@param parent parent
 	 *	@param summary summary
+	 *  @param trxName transaction name
 	 */
-	public MAcctProcessorLog (MAcctProcessor parent, String summary)
+	public MAcctProcessorLog (MAcctProcessor parent, String summary , String trxName)
 	{
-		this (parent.getCtx(), 0, parent.get_TrxName());
+		this (parent.getCtx(), 0, trxName);
 		setClientOrg(parent);
 		setC_AcctProcessor_ID(parent.getC_AcctProcessor_ID());
 		setSummary(summary);

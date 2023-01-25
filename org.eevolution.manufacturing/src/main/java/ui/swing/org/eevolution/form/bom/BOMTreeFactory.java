@@ -27,10 +27,10 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MResource;
 import org.compiere.model.PO;
 import org.compiere.util.Env;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.reasoner.StorageReasoner;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.reasoner.StorageReasoner;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
@@ -39,7 +39,7 @@ import org.eevolution.model.wrapper.BOMWrapper;
 public abstract class BOMTreeFactory implements BOMTreeModel {
 
 	protected JTree tree;
-	protected HashMap mapping;
+	protected HashMap<DefaultMutableTreeNode, String> mapping;
 	protected BOMMessenger msg;
 	
 	private StorageReasoner reasoner;
@@ -85,8 +85,7 @@ public abstract class BOMTreeFactory implements BOMTreeModel {
 	}
 	
 	protected DefaultMutableTreeNode buildStructure(PO po, StorageReasoner reasoner) {
-		
-		mapping = new HashMap();
+		mapping = new HashMap<DefaultMutableTreeNode, String>();
 
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode(po);
         mapping.put(root, getTreeNodeRepresentation(root));
@@ -113,8 +112,7 @@ public abstract class BOMTreeFactory implements BOMTreeModel {
         return root;
 	}
 	
-    protected DefaultMutableTreeNode getNode(BOMWrapper bom, BigDecimal qty, HashMap map) {
-    	
+    protected DefaultMutableTreeNode getNode(BOMWrapper bom, BigDecimal qty, HashMap<DefaultMutableTreeNode, String> map) {
         MProduct product = new MProduct(Env.getCtx(), bom.getM_Product_ID(),MProduct.Table_Name);
         
         DefaultMutableTreeNode parent = new DefaultMutableTreeNode(bom);;
@@ -145,8 +143,7 @@ public abstract class BOMTreeFactory implements BOMTreeModel {
         return parent;
     }
         
-    protected DefaultMutableTreeNode addLeafs(MProduct M_Product, BigDecimal qty, HashMap map) {   
-  
+    protected DefaultMutableTreeNode addLeafs(MProduct M_Product, BigDecimal qty, HashMap<DefaultMutableTreeNode, String> map) {
         int[] ids = getStorageReasoner().getPOIDs(BOMWrapper.tableName(type()), "Value = '"+M_Product.getValue()+"'", null);
 
         BOMWrapper bom = null;
@@ -198,8 +195,7 @@ public abstract class BOMTreeFactory implements BOMTreeModel {
  		return this.tree;
  	}
 
- 	public HashMap getNodeMapping() {
- 	 	
+	public HashMap<DefaultMutableTreeNode, String> getNodeMapping() {
  		return this.mapping;
  	}
 

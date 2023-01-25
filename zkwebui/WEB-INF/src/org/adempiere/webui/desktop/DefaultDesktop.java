@@ -1,22 +1,24 @@
 /******************************************************************************
  * Product: Posterita Ajax UI 												  *
  * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Copyright (C) 2008-2021 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
 package org.adempiere.webui.desktop;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.X_PA_DashboardContent;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -31,18 +33,17 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.util.UserPreference;
-import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
-import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
@@ -91,7 +92,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 	private Borderlayout layout;
 
-	private Thread dashboardThread;
+	private Portallayout portalLayout;
 
 	private DashboardRunnable dashboardRunnable;
 
@@ -106,10 +107,32 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     	super();
     }
 
+    DashboardRunnable createDashboardRunnable() {
+		return new DashboardRunnable(layout.getDesktop(), this);
+    }
+
+    HeaderPanel createHeaderPanel() {
+    
+        return new HeaderPanel();
+    
+    }
+
+    SidePanel createSidePanel() {
+    
+        return new SidePanel();
+    
+    }
+
+    UserPreference getUserPreference() {
+    
+        return SessionManager.getUserPreference();
+    
+    }
+
     protected Component doCreatePart(Component parent)
     {
-    	SidePanel pnlSide = new SidePanel();
-    	HeaderPanel pnlHead = new HeaderPanel();
+    	SidePanel pnlSide = createSidePanel();
+    	HeaderPanel pnlHead = createHeaderPanel();
 
         pnlSide.getMenuPanel().addMenuListener(this);
 
@@ -124,7 +147,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         else
         	layout.setPage(page);
 
-        dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
+        dashboardRunnable = createDashboardRunnable();
 
         North n = new North();
         n.setSplittable(true);
@@ -143,12 +166,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			@Override
 			public void onEvent(Event event) throws Exception {
 				OpenEvent oe = (OpenEvent) event;
-				UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+				UserPreference pref = getUserPreference();
 				pref.setProperty(UserPreference.P_MENU_COLLAPSED, !oe.isOpen());
 				pref.savePreference();
 			}
 		});
-        UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+        UserPreference pref = getUserPreference();
         boolean menuCollapsed= pref.isPropertyBool(UserPreference.P_MENU_COLLAPSED);
         w.setOpen(!menuCollapsed);
         pnlSide.setParent(w);
@@ -168,7 +191,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 		Tabpanel homeTab = new Tabpanel();
 		windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-		Portallayout portalLayout = new Portallayout();
+		portalLayout = createPortalLayout();
 		portalLayout.setWidth("100%");
 		portalLayout.setHeight("100%");
 		portalLayout.setStyle("position: absolute; overflow: auto");
@@ -184,28 +207,30 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 			int counter = 0;
 			String[] size = null;
-			String proportion = MSysConfig.getValue("ZK_DASHBOARD_COLUMN_WIDTH_PROPORTION", Env.getAD_Client_ID(Env.getCtx()));
+			String proportion = getSysConfigValue("ZK_DASHBOARD_COLUMN_WIDTH_PROPORTION");
 			if (!Util.isEmpty(proportion, true))
 				size = proportion.split(",");
 
-			noOfColumns = MDashboardContent.getForSessionColumnCount();
+			noOfColumns = getSessionColumnCount();
 			width = noOfColumns <= 0 ? 100 : 100 / noOfColumns;
-			for (final MDashboardContent dashboardContent : MDashboardContent.getForSession()) {
-				MRole role = MRole.getDefault(Env.getCtx(), false);
-				if (role.getDashboardAccess(dashboardContent.getPA_DashboardContent_ID())) {
-					int columnNo = dashboardContent.getColumnNo();
-					if (portalChildren == null || currentColumnNo != columnNo) {
-						String columnWidth = "" + width;
-						if (size != null && size.length > 0 && size.length > counter && !Util.isEmpty(size[counter], true))
-							columnWidth = size[counter];
-						portalChildren = new Portalchildren();
-						portalLayout.appendChild(portalChildren);
-						portalChildren.setWidth(columnWidth.trim() + "%");
-						portalChildren.setStyle("padding: 5px");
+			for (final MDashboardContent dashboardContent : getDashboardContent()) {
+				MRole role = getDefaultRole();
+				if (Boolean.FALSE.equals(role.getDashboardAccess(
+				        dashboardContent.getPA_DashboardContent_ID())))
+				    continue;
+				
+				int columnNo = dashboardContent.getColumnNo();
+				if (portalChildren == null || currentColumnNo != columnNo) {
+					String columnWidth = "" + width;
+					if (size != null && size.length > 0 && size.length > counter && !Util.isEmpty(size[counter], true))
+						columnWidth = size[counter];
+					portalChildren = new Portalchildren();
+					portalLayout.appendChild(portalChildren);
+					portalChildren.setWidth(columnWidth.trim() + "%");
+					portalChildren.setStyle("padding: 5px");
 
-						currentColumnNo = columnNo;
-						counter++;
-					}
+					currentColumnNo = columnNo;
+					counter++;
 				}
 
 
@@ -241,7 +266,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 							result.append(cssLine + "\n");
 						result.append("</style>");
 					} catch (IOException e1) {
-						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
+						getLogger().log(Level.SEVERE, e1.getLocalizedMessage(), e1);
 					} finally {
 						if (inputStreamReader != null) {
 							try {
@@ -304,7 +329,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 							}
 						}
 					} catch (Exception e) {
-						logger.log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
+						getLogger().log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
 					}
 				}
 
@@ -352,7 +377,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 							}
 						}
 					} catch (Exception e) {
-						logger.log(Level.WARNING, "Failed to create components. zul=" + url, e);
+						getLogger().log(Level.WARNING, "Failed to create components. zul=" + url, e);
 					}
 				}
 
@@ -360,7 +385,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 					panel.detach();
 			}
 		} catch (Exception e) {
-			logger.log(Level.WARNING, "Failed to create dashboard content", e);
+			getLogger().log(Level.WARNING, "Failed to create dashboard content", e);
 		} finally {
 		}
 		//
@@ -372,10 +397,32 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			portalLayout.getDesktop().enableServerPush(true);
 
 		dashboardRunnable.refreshDashboard();
-		dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-		dashboardThread.setDaemon(true);
-		dashboardThread.start();
+		dashboardRunnable.start();
 	}
+
+    Portallayout createPortalLayout() {
+        return new Portallayout();
+    }
+
+    CLogger getLogger() {
+        return logger;
+    }
+
+    MRole getDefaultRole() {
+        return MRole.getDefault(Env.getCtx(), false);
+    }
+
+    MDashboardContent[] getDashboardContent() {
+        return MDashboardContent.getForSession();
+    }
+
+    int getSessionColumnCount() {
+        return MDashboardContent.getForSessionColumnCount();
+    }
+
+    String getSysConfigValue(String sysConfigName) {
+        return MSysConfig.getValue(sysConfigName, Env.getAD_Client_ID(Env.getCtx()));
+    }
 
     public void onEvent(Event event)
     {
@@ -407,7 +454,6 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
     	noOfNotice = DPActivities.getNoticeCount();
     	noOfRequest = DPActivities.getRequestCount();
     	noOfWorkflow = DPActivities.getWorkflowCount();
-
     	template.execute(this);
 	}
 
@@ -419,16 +465,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 		if (this.page != page) {
 			layout.setPage(page);
 			this.page = page;
-			if (dashboardThread != null && dashboardThread.isAlive()) {
-				dashboardRunnable.stop();
-				dashboardThread.interrupt();
-
+		}
+		if (dashboardRunnable != null && dashboardRunnable.isRunning()) {
+				dashboardRunnable.interrupt();
 				DashboardRunnable tmp = dashboardRunnable;
 				dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop(), this);
-				dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-		        dashboardThread.setDaemon(true);
-		        dashboardThread.start();
-			}
+				dashboardRunnable.start();
 		}
 	}
 
@@ -441,9 +483,15 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	}
 
 	public void logout() {
-		if (dashboardThread != null && dashboardThread.isAlive()) {
-			dashboardRunnable.stop();
-			dashboardThread.interrupt();
+		if (dashboardRunnable != null && dashboardRunnable.isRunning()) {
+			dashboardRunnable.interrupt();
+			if (portalLayout != null) {
+				Desktop desktop = portalLayout.getDesktop();
+				if (desktop != null) {
+					desktop.enableServerPush(false);
+					portalLayout = null;
+				}
+			}
 		}
 	}
 

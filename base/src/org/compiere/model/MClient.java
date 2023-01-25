@@ -30,6 +30,10 @@ import java.util.logging.Level;
 
 import javax.mail.internet.InternetAddress;
 
+import org.adempiere.core.domains.models.I_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Client;
+import org.adempiere.core.domains.models.X_AD_Tree;
+import org.adempiere.core.domains.models.X_AD_UserMail;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.util.CCache;
@@ -70,7 +74,7 @@ public class MClient extends X_AD_Client
 	 */
 	public static MClient get (Properties ctx, int AD_Client_ID)
 	{
-		Integer key = new Integer (AD_Client_ID);
+		Integer key = Integer.valueOf(AD_Client_ID);
 		MClient client = (MClient)s_cache.get(key);
 		if (client != null)
 			return client;
@@ -89,7 +93,7 @@ public class MClient extends X_AD_Client
 		List<MClient> list = new Query(ctx,I_AD_Client.Table_Name,null,null)
 		.list();
 		for(MClient client:list ){
-			s_cache.put (new Integer (client.getAD_Client_ID()), client);
+			s_cache.put(Integer.valueOf(client.getAD_Client_ID()), client);
 		}
 		MClient[] retValue = new MClient[list.size ()];
 		list.toArray (retValue);
@@ -221,7 +225,7 @@ public class MClient extends X_AD_Client
 	public MClientInfo getInfo()
 	{
 		if (m_info == null)
-			m_info = MClientInfo.get (getCtx(), getAD_Client_ID(), get_TrxName());
+			m_info = MClientInfo.get (getCtx(), getAD_Client_ID() , get_TrxName());
 		return m_info;
 	}	//	getMClientInfo
 
@@ -463,7 +467,7 @@ public class MClient extends X_AD_Client
 		{
 			int C_AcctSchema_ID = m_info.getC_AcctSchema1_ID();
 			if (C_AcctSchema_ID != 0)
-				return MAcctSchema.get(getCtx(), C_AcctSchema_ID);
+				return MAcctSchema.get(getCtx(), C_AcctSchema_ID, get_TrxName());
 		}
 		return null;
 	}	//	getMClientInfo
@@ -486,46 +490,19 @@ public class MClient extends X_AD_Client
 	 */
 	public String testEMail()
 	{
-		if (getRequestEMail() == null || getRequestEMail().length() == 0)
-			return "No Request EMail for " + getName();
-		//
-		EMail email = createEMail (getRequestEMail(),
-			"Adempiere EMail Test", 
-			"Adempiere EMail Test: " + toString());
-		if (email == null)
-			return "Could not create EMail: " + getName();
-		try
-		{
-			String msg = email.send();
-			if (EMail.SENT_OK.equals (msg))
-			{
-				log.info("Sent Test EMail to " + getRequestEMail());
-				return "OK";
-			}
-			else
-			{
-				log.warning("Could NOT send Test EMail from "
-					+ getSMTPHost() + ": " + getRequestEMail()
-					+ " (" + getRequestUser()
-					+ ") to " + getRequestEMail() + ": " + msg);
-				return msg;
-			}
-		}
-		catch (Exception ex)
-		{
-			log.severe(getName() + " - " + ex.getLocalizedMessage());
-			return ex.getLocalizedMessage();
-		}
+		return EMail.validateMailDelivery(getCtx(), getRequestEMail(), getRequestUserPW(), getAD_EMailConfig_ID(), getName());
 	}	//	testEMail
 	
 	/**
 	 * 	Send EMail from Request User - with trace
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param AD_User_ID recipient
 	 *	@param subject subject
 	 *	@param message message
 	 *	@param attachment optional attachment
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMail (int AD_User_ID, 
 			String subject, String message, File attachment)
 	{
@@ -537,12 +514,14 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Send EMail from Request User - with trace
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param AD_User_ID recipient
 	 *	@param subject subject
 	 *	@param message message
 	 *	@param attachment optional collection of attachments
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMailAttachments (int AD_User_ID, 
 		String subject, String message, Collection<File> attachments)
 	{
@@ -551,6 +530,7 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Send EMail from Request User - with trace
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param AD_User_ID recipient
 	 *	@param subject subject
 	 *	@param message message
@@ -558,6 +538,7 @@ public class MClient extends X_AD_Client
 	 *  @param html
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMailAttachments (int AD_User_ID, 
 		String subject, String message, Collection<File> attachments, boolean html)
 	{
@@ -585,12 +566,14 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Send EMail from Request User - no trace
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param to recipient email address
 	 *	@param subject subject
 	 *	@param message message
 	 *	@param attachment optional attachment
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMail (String to, 
 		String subject, String message, File attachment)
 	{
@@ -599,6 +582,7 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Send EMail from Request User - no trace
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param to recipient email address
 	 *	@param subject subject
 	 *	@param message message
@@ -606,6 +590,7 @@ public class MClient extends X_AD_Client
 	 *  @param html
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMail (String to, 
 		String subject, String message, File attachment, boolean html)
 	{
@@ -639,6 +624,7 @@ public class MClient extends X_AD_Client
 
 	/**
 	 * 	Send EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from sender
 	 *	@param to recipient
 	 *	@param subject subject
@@ -646,6 +632,7 @@ public class MClient extends X_AD_Client
 	 *	@param attachment optional attachment
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMail (MUser from, MUser to, 
 		String subject, String message, File attachment)
 	{
@@ -654,6 +641,7 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Send EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from sender
 	 *	@param to recipient
 	 *	@param subject subject
@@ -662,6 +650,7 @@ public class MClient extends X_AD_Client
 	 *  @param isHtml
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEMail (MUser from, MUser to, 
 		String subject, String message, File attachment, boolean isHtml)
 	{
@@ -686,11 +675,13 @@ public class MClient extends X_AD_Client
 
 	/**
 	 * 	Send Email Now
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param from optional from user
 	 *	@param to to user
 	 *	@param email email
 	 *	@return true if sent
 	 */
+	@Deprecated
 	public boolean sendEmailNow(MUser from, MUser to, EMail email)
 	{
 		String msg = email.send();
@@ -738,11 +729,13 @@ public class MClient extends X_AD_Client
 
 	/************
 	 * 	Create EMail from Request User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param to recipient
 	 *	@param subject sunject
 	 *	@param message nessage
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (String to, 
 		String subject, String message)
 	{
@@ -751,12 +744,14 @@ public class MClient extends X_AD_Client
 	
 	/************
 	 * 	Create EMail from Request User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 *	@param to recipient
 	 *	@param subject sunject
 	 *	@param message nessage
 	 *  @param html
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (String to, 
 		String subject, String message, boolean html)
 	{
@@ -798,12 +793,14 @@ public class MClient extends X_AD_Client
 
 	/**
 	 * 	Create EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from optional sender
 	 *	@param to recipient
 	 *	@param subject sunject
 	 *	@param message nessage
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (MUser from, MUser to, 
 		String subject, String message)
 	{
@@ -812,6 +809,7 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Create EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from optional sender
 	 *	@param to recipient
 	 *	@param subject sunject
@@ -819,6 +817,7 @@ public class MClient extends X_AD_Client
 	 *  @param html
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (MUser from, MUser to, 
 		String subject, String message, boolean html)
 	{
@@ -837,12 +836,14 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Create EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from optional sender
 	 *	@param to recipient
 	 *	@param subject sunject
 	 *	@param message nessage
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (MUser from, String to, 
 		String subject, String message)
 	{
@@ -851,6 +852,7 @@ public class MClient extends X_AD_Client
 	
 	/**
 	 * 	Create EMail from User
+	 * 	Please use Notification Queue instead: QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 	 * 	@param from optional sender
 	 *	@param to recipient
 	 *	@param subject sunject
@@ -858,6 +860,7 @@ public class MClient extends X_AD_Client
 	 *  @param html
 	 *	@return EMail
 	 */
+	@Deprecated
 	public EMail createEMail (MUser from, String to, 
 		String subject, String message, boolean html)
 	{

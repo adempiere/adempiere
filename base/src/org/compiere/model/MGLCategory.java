@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_GL_Category;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -48,7 +49,7 @@ public class MGLCategory extends X_GL_Category
 	 */
 	public static MGLCategory get (Properties ctx, int GL_Category_ID)
 	{
-		Integer key = new Integer (GL_Category_ID);
+		Integer key = Integer.valueOf(GL_Category_ID);
 		MGLCategory retValue = (MGLCategory)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

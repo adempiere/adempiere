@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_InventoryLine;
+import org.adempiere.core.domains.models.X_M_Inventory;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentReversalEnabled;
@@ -64,7 +66,7 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 	 */
 	public static MInventory get (Properties ctx, int M_Inventory_ID)
 	{
-		Integer key = new Integer (M_Inventory_ID);
+		Integer key = Integer.valueOf(M_Inventory_ID);
 		MInventory retValue = (MInventory) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -783,6 +785,7 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 		if(dt.isCopyDocNoOnReversal()) {
 			reversal.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
 		}
+		reversal.setMovementDate(reversalDate);
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		reversal.setIsApproved (false);

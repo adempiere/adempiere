@@ -14,6 +14,7 @@
 package org.adempiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,11 +29,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.adempiere.core.domains.models.I_M_Promotion;
+import org.adempiere.core.domains.models.I_M_PromotionDistribution;
+import org.adempiere.core.domains.models.I_M_PromotionLine;
+import org.adempiere.core.domains.models.I_M_PromotionReward;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_M_Promotion;
-import org.compiere.model.I_M_PromotionDistribution;
-import org.compiere.model.I_M_PromotionLine;
-import org.compiere.model.I_M_PromotionReward;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MTable;
@@ -270,7 +271,7 @@ public class PromotionRule {
 									}
 									else {  // : Gift line
 										BigDecimal qtyreward = pr.getM_PromotionDistribution().getQty();
-										BigDecimal qtymodulo = ol.getQtyOrdered().divide(qtyreward,0);
+										BigDecimal qtymodulo = ol.getQtyOrdered().divide(qtyreward, RoundingMode.UP);
 										addGiftLine(order, ol, pr.getAmount(), pr.getQty().multiply(qtymodulo), pr.getC_Charge_ID(), pr.getM_Promotion());
 									} 
 								}
@@ -297,7 +298,7 @@ public class PromotionRule {
 		
 		MOrderLine nol;
 		if (discount.scale() > 2)
-			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+			discount = discount.setScale(2, RoundingMode.HALF_UP);
 		String description = promotion.getName();
 		if (ol != null)
 			description += (", " + ol.getName());
@@ -659,11 +660,11 @@ public class PromotionRule {
 			BigDecimal qty, int C_Charge_ID, I_M_Promotion promotion) throws Exception {
 		MOrderLine nol;
 		if (discount.scale() > 2)
-			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
+			discount = discount.setScale(2, RoundingMode.HALF_UP);
 		
 		// Calculate discount
 		BigDecimal actualPrice = ol.getPriceActual();
-		actualPrice = actualPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+		actualPrice = actualPrice.setScale(2, RoundingMode.HALF_UP);
 		BigDecimal multiplicator = Env.ONEHUNDRED.subtract(discount).divide(Env.ONEHUNDRED);
 		actualPrice = actualPrice.multiply(multiplicator);
 		

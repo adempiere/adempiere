@@ -23,6 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_U_POSTerminal;
 import org.compiere.util.CCache;
 
 /**
@@ -65,7 +66,7 @@ public class MPOSTerminal extends X_U_POSTerminal
      */
     public static MPOSTerminal get(Properties ctx, int U_POSTerminal_ID)
     {
-        Integer key = new Integer(U_POSTerminal_ID);
+        Integer key = Integer.valueOf(U_POSTerminal_ID);
         MPOSTerminal retValue = (MPOSTerminal)s_cache.get(key);
         if (retValue == null)
         {
@@ -133,7 +134,7 @@ public class MPOSTerminal extends X_U_POSTerminal
         
         if (success)
         {
-            s_cache.remove(new Integer(get_ID()));
+            s_cache.remove(Integer.valueOf(get_ID()));
         }
         
         return success;

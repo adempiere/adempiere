@@ -17,8 +17,12 @@
 package org.spin.model;
 
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.Properties;
+
+import org.adempiere.core.domains.models.X_AD_Token;
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MRole;
 
 /**
  * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpya.com
@@ -51,5 +55,16 @@ public class MADToken extends X_AD_Token {
 		}
 		//	Set
 		setAD_TokenDefinition_ID(definition.getAD_TokenDefinition_ID());
+	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if(newRecord
+				|| is_ValueChanged(COLUMNNAME_AD_Role_ID)) {
+			if(getAD_Role_ID() > 0) {
+				Optional.ofNullable(MRole.get(getCtx(), getAD_Role_ID())).ifPresent(role -> setClientOrg(role));
+			}
+		}
+		return super.beforeSave(newRecord);
 	}
 }

@@ -21,11 +21,11 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_ProcessCustom;
+import org.adempiere.core.domains.models.I_AD_ProcessParaCustom;
+import org.adempiere.core.domains.models.I_AD_Role;
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_ProcessCustom;
-import org.compiere.model.I_AD_ProcessParaCustom;
-import org.compiere.model.I_AD_Role;
-import org.compiere.model.I_AD_User;
 import org.compiere.model.MProcessParaCustom;
 import org.compiere.model.Query;
 import org.compiere.util.Env;

@@ -82,7 +82,7 @@ public class ReportProcessor
 		m_AD_Process_ID	= pi.getAD_Process_ID();
         m_Record_ID = pi.getRecord_ID();        
         //m_isPrint = pi.getIsPrint();
-        m_Param = new HashMap();        
+        m_Param = new HashMap<String, Object>();        
         m_ctx = ctx;
         m_pi = pi;
 	}   //  ReportServer
@@ -99,7 +99,7 @@ public class ReportProcessor
 			// add parameter
 			m_Param.putAll(reportInfo.getSubReport());
             addProcessParameters( m_AD_PInstance_ID, m_Param);
-            m_Param.put("RECORD_ID", new Integer( m_Record_ID));
+            m_Param.put("RECORD_ID", Integer.valueOf(m_Record_ID));
 	    // Marco LOMBARDO: REPORT_HOME used to express subreports path.
             m_Param.put("REPORT_HOME", REPORT_PATH__fix ); //System.getProperty("REPORT_HOME"));
         // End Marco LOMBARDO.
@@ -147,8 +147,8 @@ public class ReportProcessor
         MPInstancePara[] pinstancePara = pinstance.getParameters();
         
         m_Record_ID = pinstance.getRecord_ID();
-        params.put("AD_Client_ID",new Integer(pinstance.getAD_Client_ID()));
-        params.put("AD_Org_ID",new Integer(pinstance.getAD_Org_ID()));
+        params.put("AD_Client_ID", Integer.valueOf(pinstance.getAD_Client_ID()));
+        params.put("AD_Org_ID", Integer.valueOf(pinstance.getAD_Org_ID()));
         
         for(int i=0; i<pinstancePara.length; i++)
         {
@@ -261,7 +261,7 @@ public class ReportProcessor
     private int m_AD_Process_ID = 0;
     private int m_Record_ID = 0;
     private boolean m_isPrint = false;
-    private HashMap m_Param = null;
+    private HashMap<String, Object> m_Param = null;
     private Properties m_ctx = null;   
     private JasperPrint m_jasperPrint = null;
     private ProcessInfo m_pi = null;

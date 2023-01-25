@@ -193,7 +193,7 @@ public class ZipUtil
 	 * 	Get ZipEntries as Enumeration
 	 * 	@return entries
 	 */
-	public Enumeration entries()
+	public Enumeration<? extends ZipEntry> entries()
 	{
 		if (!isOpen())
 			return null;
@@ -277,7 +277,7 @@ public class ZipUtil
 		ZipEntry retValue = zu.getEntry(entryName);
 		if (retValue == null)
 		{
-			Enumeration e = zu.entries();
+			Enumeration<? extends ZipEntry> e = zu.entries();
 			while (e.hasMoreElements())
 			{
 				ZipEntry entry = (ZipEntry)e.nextElement();
@@ -399,7 +399,7 @@ public class ZipUtil
 			if (pathEntries[i].indexOf(jarFile) != -1)
 				return pathEntries[i];
 		}
-		path = System.getProperty("sun.boot.class.path");
+		path = System.getProperty("java.class.path");
 		pathEntries = path.split(System.getProperty("path.separator"));
 		for (int i = 0; i < pathEntries.length; i++)
 		{

@@ -18,15 +18,16 @@ package org.compiere.wf;
 
 import java.awt.Point;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_WF_Node;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_WF_Node;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -61,7 +62,7 @@ public class MWFNode extends X_AD_WF_Node
 	 */
 	public static MWFNode get (Properties ctx, int AD_WF_Node_ID)
 	{
-		Integer key = new Integer (AD_WF_Node_ID);
+		Integer key = Integer.valueOf(AD_WF_Node_ID);
 		MWFNode retValue = (MWFNode) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -104,7 +105,7 @@ public class MWFNode extends X_AD_WF_Node
 		}
 		//	Save to Cache
 		if (get_ID() != 0)
-			s_cache.put (new Integer(getAD_WF_Node_ID()), this);
+			s_cache.put (Integer.valueOf(getAD_WF_Node_ID()), this);
 	}	//	MWFNode
 
 	/**
@@ -308,7 +309,7 @@ public class MWFNode extends X_AD_WF_Node
 	
 	/**
 	 * 	Get Attribute Name
-	 *	@see org.compiere.model.X_AD_WF_Node#getAttributeName()
+	 *	@see org.adempiere.core.domains.models.X_AD_WF_Node#getAttributeName()
 	 *	@return Attribute Name
 	 */
 	public String getAttributeName ()
@@ -432,7 +433,7 @@ public class MWFNode extends X_AD_WF_Node
 			return 0;
 		//
 		BigDecimal change = new BigDecimal (seconds)
-			.divide(divide, BigDecimal.ROUND_DOWN)
+			.divide(divide, RoundingMode.DOWN)
 			.multiply(getDynPriorityChange());
 		return change.intValue();
 	}	//	calculateDynamicPriority

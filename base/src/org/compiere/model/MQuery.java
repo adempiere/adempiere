@@ -342,7 +342,7 @@ public class MQuery implements Serializable
 		MQuery query = new MQuery();
 		if (columnName.endsWith("_ID"))
 			query.setTableName(columnName.substring(0, columnName.length()-3));
-		query.addRestriction(columnName, EQUAL, new Integer(value));
+		query.addRestriction(columnName, EQUAL, Integer.valueOf(value));
 		query.setRecordCount(1);	//	guess
 		return query;
 	}	//	getEqualQuery
@@ -553,7 +553,7 @@ public class MQuery implements Serializable
 		int Code)
 	{
 		Restriction r = new Restriction (ColumnName, Operator,
-			new Integer(Code), null, null, true, 0);
+			Integer.valueOf(Code), null, null, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
@@ -1085,7 +1085,7 @@ class Restriction  implements Serializable
 		if (code instanceof Boolean)
 			Code = ((Boolean)code).booleanValue() ? "Y" : "N";
 		else if (code instanceof KeyNamePair)
-			Code = new Integer(((KeyNamePair)code).getKey());
+			Code = Integer.valueOf(((KeyNamePair) code).getKey());
 		else if (code instanceof ValueNamePair)
 			Code = ((ValueNamePair)code).getValue();
 		else

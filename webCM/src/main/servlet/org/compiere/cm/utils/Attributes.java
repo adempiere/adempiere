@@ -32,10 +32,10 @@ public class Attributes implements HttpSessionAttributeListener {
 			if (projectSessions.containsKey(project_id)) {
 				projectSessionCount= ((Integer)projectSessions.get(project_id)).intValue();
 				projectSessionCount++;
-				projectSessions.put(project_id,new Integer(projectSessionCount));
+				projectSessions.put(project_id, Integer.valueOf(projectSessionCount));
 			} else {
 				projectSessionCount = 1;
-				projectSessions.put(project_id,new Integer(projectSessionCount));
+				projectSessions.put(project_id, Integer.valueOf(projectSessionCount));
 			}
 		}
 	}
@@ -48,10 +48,10 @@ public class Attributes implements HttpSessionAttributeListener {
 			if (projectSessions.containsKey(project_id)) {
 				projectSessionCount= ((Integer)projectSessions.get(project_id)).intValue();
 				if (projectSessionCount>0) projectSessionCount--;
-				projectSessions.put(project_id,new Integer(projectSessionCount));
+				projectSessions.put(project_id, Integer.valueOf(projectSessionCount));
 			} else {
 				projectSessionCount = 0;
-				projectSessions.put(project_id,new Integer(projectSessionCount));
+				projectSessions.put(project_id, Integer.valueOf(projectSessionCount));
 			}
 		}
 	}

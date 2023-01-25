@@ -19,6 +19,7 @@
  */
 package org.compiere.model;
 
+import org.adempiere.core.domains.models.X_AD_TreeNodeU3;
 import org.compiere.util.CLogger;
 
 import java.sql.ResultSet;
@@ -98,6 +99,6 @@ public class MTree_NodeU3 extends X_AD_TreeNodeU3 {
      * @param parentId
      */
     public void setParent_ID(int parentId) {
-        set_Value("Parent_ID", new Integer(parentId));
+        set_Value("Parent_ID", Integer.valueOf(parentId));
     }
 }

@@ -55,9 +55,9 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPProductPlanning;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -457,7 +457,7 @@ public class WMRPDetailed extends MRPDetailed implements IFormController, EventL
 		WPAttributeInstance pai = new WPAttributeInstance(title, m_warehouse_id, 0, m_product_id, 0);
 		if(pai.getM_AttributeSetInstance_ID() != -1) {
 			fAttrSetInstance_ID.setLabel(pai.getM_AttributeSetInstanceName());
-			ASI_ID = new Integer(pai.getM_AttributeSetInstance_ID());
+			ASI_ID = Integer.valueOf(pai.getM_AttributeSetInstance_ID());
 		}
 		else {
 			ASI_ID = 0;

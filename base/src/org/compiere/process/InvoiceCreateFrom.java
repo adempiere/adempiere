@@ -17,7 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -72,7 +72,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 			throw new AdempiereException("@CreateFromType@ @NotFound@");
 
 		//	Loop
-		recordIds.stream().forEach( key -> {
+		recordIds.forEach(key -> {
 			// variable values
 			int productId = getSelectionAsInt(key, "CF_M_Product_ID");
 			int chargeId = getSelectionAsInt(key, "CF_C_Charge_ID");
@@ -94,7 +94,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 					invoiceLine.setM_Product_ID(product.getM_Product_ID(), uomId);
 					precision = product.getUOMPrecision();
 					if (product.getC_UOM_ID() != uomId) {
-						qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+						qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 						qtyInvoiced = MUOMConversion.convertProductFrom(Env.getCtx(), productId, uomId, qtyEntered);
 					}
 				}
@@ -102,7 +102,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 				invoiceLine.setC_Charge_ID(chargeId);
 			}
 
-			qtyEntered = qtyEntered.setScale(precision, BigDecimal.ROUND_HALF_DOWN);
+			qtyEntered = qtyEntered.setScale(precision, RoundingMode.HALF_DOWN);
 			if (qtyInvoiced == null)
 				qtyInvoiced = qtyEntered;
 
@@ -112,22 +112,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 				MOrderLine orderLine = new MOrderLine (getCtx(), key, get_TrxName());
 				//	Set reference
 				referenceId.set(orderLine.getC_Order_ID());
-				//	Set InOut
-				String whereClause = "EXISTS (SELECT 1 "
-						+ "FROM M_InOut io "
-						+ "WHERE io.M_InOut_ID = M_InOutLine.M_InOut_ID "
-						+ "AND io.DocStatus IN ('CO','CL'))";
-				MInOutLine[] inOutLines = MInOutLine.getOfOrderLine(Env.getCtx(), key, whereClause, get_TrxName());
-				log.fine ("Receipt Lines with OrderLine = #" + inOutLines.length);
-				final BigDecimal qty = qtyEntered;
-				MInOutLine inOutLine = Arrays.stream(inOutLines)
-						.filter(ioLine -> ioLine != null && ioLine.getQtyEntered().compareTo(qty) == 0)
-						.findFirst().orElseGet(() -> inOutLines.length > 0 ? inOutLines[0] : null);
-				//	Set From
-				if(inOutLine != null)
-					invoiceLine.setShipLine(inOutLine);
-				else
-					invoiceLine.setOrderLine(orderLine);
+				invoiceLine.setOrderLine(orderLine);
 			} else if(createFromType.equals(INVOICE)) {
 				MInvoiceLine fromLine = new MInvoiceLine(getCtx(), key, get_TrxName());
 				//	Set reference

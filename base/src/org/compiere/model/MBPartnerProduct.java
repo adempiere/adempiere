@@ -26,6 +26,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_BPartner_Product;
+
 
 public class MBPartnerProduct extends X_C_BPartner_Product
 {

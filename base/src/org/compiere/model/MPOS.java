@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.List;
+
+import org.adempiere.core.domains.models.X_C_POS;
 import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 
@@ -44,7 +46,7 @@ public class MPOS extends X_C_POS
 	 */
 	public static MPOS get (Properties ctx, int C_POS_ID)
 	{
-		Integer key = new Integer (C_POS_ID);
+		Integer key = Integer.valueOf(C_POS_ID);
 		MPOS retValue = (MPOS) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,6 +37,16 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.core.domains.models.I_AD_BrowseCustom;
+import org.adempiere.core.domains.models.I_AD_ModelValidator;
+import org.adempiere.core.domains.models.I_AD_Package_Exp;
+import org.adempiere.core.domains.models.I_AD_Package_Exp_Detail;
+import org.adempiere.core.domains.models.I_AD_ProcessCustom;
+import org.adempiere.core.domains.models.I_AD_WindowCustom;
+import org.adempiere.core.domains.models.I_ASP_Module;
+import org.adempiere.core.domains.models.X_AD_Element;
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
+import org.adempiere.core.domains.models.X_AD_Reference;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.handler.ASPModuleElementHandler;
 import org.adempiere.pipo.handler.AdElementHandler;
@@ -63,21 +75,13 @@ import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowCustomElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.compiere.model.I_AD_BrowseCustom;
-import org.compiere.model.I_AD_ModelValidator;
-import org.compiere.model.I_AD_Package_Exp;
-import org.compiere.model.I_AD_Package_Exp_Detail;
-import org.compiere.model.I_AD_ProcessCustom;
-import org.compiere.model.I_AD_WindowCustom;
-import org.compiere.model.I_ASP_Module;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.MPackageExp;
 import org.compiere.model.MPackageExpDetail;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Reference;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
@@ -168,7 +172,7 @@ public class PackOut extends PackOutAbstract {
 			packageDocStream = new FileOutputStream (file_document, false);		
 			StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
 			SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-			tf_document.setAttribute("indent-number", new Integer(4));
+			tf_document.setAttribute("indent-number", Integer.valueOf(4));
 			TransformerHandler packageDocument = tf_document.newTransformerHandler();		
 			Transformer serializer_document = packageDocument.getTransformer();		
 			serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
@@ -241,7 +245,7 @@ public class PackOut extends PackOutAbstract {
 			packOutDocStream = new FileOutputStream (file_menu, false);
 			StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
 			SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
-			tf_menu.setAttribute("indent-number", new Integer(4));
+			tf_menu.setAttribute("indent-number", Integer.valueOf(4));
 			TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		
 			Transformer serializer_menu = packOutDocument.getTransformer();		
 			serializer_menu.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
@@ -439,6 +443,45 @@ public class PackOut extends PackOutAbstract {
 		CreateZipFile.zipFolder(srcFolder, destZipFile, includesdir);		
 		CreateZipFile.tarFolder(srcFolder, destTarFile, includesdir);
 		CreateZipFile.gzipFile(destTarFile, destGZipFile);
+		
+		if (ProcessInfo.INTERFACE_TYPE_ZK.equals(this.getProcessInfo().getInterfaceType()))
+		{
+			// Force download of the file
+			String className = "org.zkoss.zul.Filedownload";
+			//Get Class
+			Class<?> Filedownload = null;
+			//use context classloader if available
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			if (classLoader == null)
+				classLoader = ProcessUtil.class.getClassLoader();
+			try
+			{
+				Filedownload = classLoader.loadClass(className);
+			}
+			catch (ClassNotFoundException ex)
+			{
+				log.log(Level.WARNING, className, ex);
+				throw new AdempiereException("Can't load the necessary class '" + className + "' to download the file. " + ex.getMessage());
+			}
+
+			Method save = null;
+			Object FileDownloader = Filedownload.newInstance();
+			File file = new File(packagename+".zip");			
+			try 
+			{
+				// Invoke the ZK Filedownload.save(file, contentType)
+				save = Filedownload.getMethod("save", java.io.File.class, java.lang.String.class);
+				save.invoke(FileDownloader, file, (String) null);
+			} 
+			catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) 
+			{
+				
+				log.log(Level.WARNING, "Can't download the file.", e);
+				throw new AdempiereException("Can't download the file. " + e.getMessage());
+				
+			}
+			
+		}
 		
 		//Clean .tar file up
 		destTarFile.delete();

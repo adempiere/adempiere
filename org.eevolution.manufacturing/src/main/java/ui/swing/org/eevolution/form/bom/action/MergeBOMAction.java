@@ -23,10 +23,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.compiere.util.Env;
 import org.eevolution.form.action.PopupAction;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.model.MPPProductBOM;
+import org.eevolution.manufacturing.model.MPPProductBOMLine;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
 
 /**
  * @author Victor Perez, e-Evolution, S.C.

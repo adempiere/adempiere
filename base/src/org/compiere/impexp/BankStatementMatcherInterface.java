@@ -16,8 +16,10 @@
  *****************************************************************************/
 package org.compiere.impexp;
 
+import java.util.List;
+
+import org.adempiere.core.domains.models.X_I_BankStatement;
 import org.compiere.model.MBankStatementLine;
-import org.compiere.model.X_I_BankStatement;
 
 /**
  *	Bank Statement Matcher Algorithm Interface
@@ -29,16 +31,20 @@ public interface BankStatementMatcherInterface
 	/**
 	 * 	Match Bank Statement Line
 	 *	@param bsl bank statement line
+	 *	@param includedPayments
+	 *	@param exludedPayments
 	 *	@return found matches or null
 	 */
-	public BankStatementMatchInfo findMatch (MBankStatementLine bsl);
+	public BankStatementMatchInfo findMatch (MBankStatementLine bsl, List<Integer> includedPayments, List<Integer> exludedPayments);
 
 
 	/**
 	 * 	Match Bank Statement Import Line
 	 *	@param ibs bank statement import line
+	 *	@param includedPayments
+	 *	@param exludedPayments
 	 *	@return found matches or null
 	 */
-	public BankStatementMatchInfo findMatch (X_I_BankStatement ibs);
+	public BankStatementMatchInfo findMatch (X_I_BankStatement ibs, List<Integer> includedPayments, List<Integer> exludedPayments);
 
 }

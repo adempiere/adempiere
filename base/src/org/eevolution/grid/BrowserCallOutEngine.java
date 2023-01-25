@@ -104,11 +104,11 @@ public class BrowserCallOutEngine extends CalloutEngine implements BrowserCallOu
 		try {
 			Object[] args = null;
 			if (argLength == 8)
-				args = new Object[] { ctx, new Integer(WindowNo), mRow, mField,
+				args = new Object[] { ctx, Integer.valueOf(WindowNo), mRow, mField,
 						value, oldValue, currentRow,  currentColumn};
 			//Carlos Parada Comment to Send Current row And column
 			/*else
-				args = new Object[] { ctx, new Integer(WindowNo), mRow, mField,
+				args = new Object[] { ctx, Integer.valueOf(WindowNo), mRow, mField,
 						value };*/
 			retValue = (String) method.invoke(this, args);
 		} catch (Exception e) {

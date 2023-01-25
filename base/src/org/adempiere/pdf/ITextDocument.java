@@ -24,10 +24,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+//import javax.inject.Named;
+//import javax.inject.Singleton;
 
-import org.adempiere.pdf.viewer.PDFViewerBean;
+//import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.compiere.util.CLogger;
 
 import com.itextpdf.awt.PdfGraphics2D;
@@ -44,28 +44,6 @@ import io.konik.harness.AppendParameter;
 import io.konik.harness.FileAppender;
 import io.konik.harness.FileExtractor;
 
-/* @see https://github.com/adempiere/adempiere/pull/1576
- * 
- * TODO:
- * wo werden com.lowagie.* Packages verwendet?
- *  org.adempiere.pdf.SmjPdfReport
- *  org.compiere.grid.VPanel
- *  org.adempiere.webui.apps.AEnv
- * wo wird iText-2.1.7.jar verwendet?
- *  adempiere.iml
- *  org.adempiere.pos/adempierePOS.iml
- *  ADempiere.launch
- *  serverRoot/Remote Debug Adempiere - serverRoot.launch
- *  JasperReports/build.xml
- *  org.adempierepos/buildPOSClient.xml
- *  tools/build.xml
- *  
- * TODO:
- *   add pom dependences
- *   add http://central.maven.org/maven2/io/konik/itext-carriage/0.8.0/itext-carriage-0.8.0.pom
- *   ...
- */
-
 /**
  * this class will replace the deprecated org.adempiere.pdf.Document which is a container for static methods
  * <p> 
@@ -76,8 +54,8 @@ import io.konik.harness.FileExtractor;
  * 
  * @author eugen.hanussek@klst.com https://github.com/homebeaver
  */
-@Named
-@Singleton
+//@Named
+//@Singleton
 public class ITextDocument implements FileExtractor, FileAppender  {
 	
 	private static CLogger log	= CLogger.getCLogger(ITextDocument.class);
@@ -160,9 +138,9 @@ public class ITextDocument implements FileExtractor, FileAppender  {
         return null;		
 	}
 	
-    public PDFViewerBean getViewer() {
-    	return new PDFViewerBean();
-    }
+//    public PDFViewerBean getViewer() {
+//    	return new PDFViewerBean();
+//    }
     
     public boolean isValid(Pageable layout) {
     	return true;
@@ -175,12 +153,12 @@ public class ITextDocument implements FileExtractor, FileAppender  {
 	// --------------------------------------------------------------------------
 	// interface implementations:
 	
-	@Override
+//	@Override
 	public byte[] extract(InputStream inpStream) {
 		return invoiceExtractor.extract(inpStream);
 	}
 
-	@Override
+//	@Override
 	public InputStream extractToStream(InputStream inpStream) {
 		return invoiceExtractor.extractToStream(inpStream);
 	}

@@ -20,6 +20,7 @@ package org.compiere.grid;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Event;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import net.miginfocom.layout.ConstraintParser;
 import net.miginfocom.layout.LayoutCallback;
 import net.miginfocom.swing.MigLayout;
 
+import org.adempiere.core.domains.models.X_AD_FieldGroup;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
 import org.compiere.grid.ed.VButton;
@@ -44,7 +46,6 @@ import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
-import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
@@ -55,8 +56,6 @@ import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
-
-import com.lowagie.text.Font;
 
 /**
  *  Single Row Panel.
@@ -441,7 +440,7 @@ public final class VPanel extends CTabbedPane
 		else // Label or null
 		{
 			CLabel label = new CLabel(fieldGroup, CLabel.LEADING);
-			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLDITALIC, AdempierePLAF.getFont_Label().getSize2D()));
+			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLD+Font.ITALIC, AdempierePLAF.getFont_Label().getSize2D()));
 			//	BR [ 359 ]
 			//	Show label completely
 			m_main.add(label, "newline, alignx leading, spanx, growx");
@@ -556,6 +555,9 @@ public final class VPanel extends CTabbedPane
 	{
 		if (text == null || text.length() == 0)
 			return 0;
+		if(text.trim().length()==0) { // text (aka translation for the field name) contains only whitespaces
+			return 0; // see https://github.com/adempiere/adempiere/issues/3124
+		}
 		String oText = text;
 		text = text.trim().toUpperCase();
 		char mnemonic = text.charAt(0);

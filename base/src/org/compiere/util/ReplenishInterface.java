@@ -18,8 +18,8 @@ package org.compiere.util;
 
 import java.math.BigDecimal;
 
+import org.adempiere.core.domains.models.X_T_Replenish;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.X_T_Replenish;
 
 /**
  * 	Custom Replenishment Interface

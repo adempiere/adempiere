@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.adempiere.exceptions.NoVendorForProductException;
-import org.apache.commons.collections.keyvalue.MultiKey;
+import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCharge;
 import org.compiere.model.MOrder;
@@ -396,9 +396,7 @@ public class RequisitionPOCreate extends RequisitionPOCreateAbstract
 
 		//	New Order - Different Vendor
 		if (purchaseOrder == null
-			|| purchaseOrder.getC_BPartner_ID() != partnerId
-			|| purchaseOrder.getDatePromised().compareTo(requisitionLine.getDateRequired()) != 0
-			)
+			|| purchaseOrder.getC_BPartner_ID() != partnerId)
 		{
 			newOrder(requisitionLine, partnerId);
 		}

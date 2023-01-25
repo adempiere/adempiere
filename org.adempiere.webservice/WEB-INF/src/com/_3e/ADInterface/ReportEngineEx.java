@@ -10,14 +10,14 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.apache.ecs.XhtmlDocument;
-import org.apache.ecs.xhtml.h1;
-import org.apache.ecs.xhtml.i;
-import org.apache.ecs.xhtml.style;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.th;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.XhtmlDocument;
+import org.adempiere.legacy.apache.ecs.xhtml.h1;
+import org.adempiere.legacy.apache.ecs.xhtml.i;
+import org.adempiere.legacy.apache.ecs.xhtml.style;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.th;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 import org.compiere.model.MOrg;
 import org.compiere.model.MQuery;
 import org.compiere.print.MPrintFormat;
@@ -132,7 +132,7 @@ public class ReportEngineEx { //extends  ReportEngine  {
 						{
 							td td = new td();
 							tr.addElement(td);
-							Object obj = m_printData.getNode(new Integer(item.getAD_Column_ID()));
+							Object obj = m_printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 							if (obj == null)
 								td.addElement("&nbsp;");
 							else if (obj instanceof PrintDataElement)

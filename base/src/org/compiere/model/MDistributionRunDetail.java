@@ -17,12 +17,14 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_T_DistributionRunDetail;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -127,13 +129,13 @@ public class MDistributionRunDetail extends X_T_DistributionRunDetail
 		BigDecimal min = getMinQty();
 		if (min.scale() > m_precision)
 		{
-			setMinQty(min.setScale(m_precision, BigDecimal.ROUND_HALF_UP));
+			setMinQty(min.setScale(m_precision, RoundingMode.HALF_UP));
 			dirty = true;
 		}
 		BigDecimal qty = getQty();
 		if (qty.scale() > m_precision)
 		{
-			setQty(qty.setScale(m_precision, BigDecimal.ROUND_HALF_UP));
+			setQty(qty.setScale(m_precision, RoundingMode.HALF_UP));
 			dirty = true;
 		}
 		if (dirty)
@@ -168,7 +170,7 @@ public class MDistributionRunDetail extends X_T_DistributionRunDetail
 	 */
 	public BigDecimal adjustQty (BigDecimal difference)
 	{
-		BigDecimal diff = difference.setScale(m_precision, BigDecimal.ROUND_HALF_UP);
+		BigDecimal diff = difference.setScale(m_precision, RoundingMode.HALF_UP);
 		BigDecimal qty = getQty();
 		BigDecimal max = getMinQty().subtract(qty);
 		BigDecimal remaining = Env.ZERO;

@@ -950,13 +950,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		PrintElement element = null;
 		if (ci.getLogoReport_ID() > 0) {
 			element = new ImageElement(ci.getLogoReport_ID(), false);
-		} else {
-			element = new ImageElement(org.compiere.Adempiere.getImageLogoSmall(true));	//	48x15
+			element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
+			element.setLocation(m_header.getLocation());
+			m_headerFooter.addElement(element);
 		}
-	//	element = new ImageElement(org.compiere.Adempiere.getImageLogo());	//	100x30
-		element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
-		element.setLocation(m_header.getLocation());
-		m_headerFooter.addElement(element);
 		//
 		MPrintTableFormat tf = m_format.getTableFormat();
 		Font font = tf.getPageHeader_Font();
@@ -1237,7 +1234,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		int AD_Column_ID = item.getAD_Column_ID();
 		if (log.isLoggable(Level.INFO)) log.info(formatChild + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
 		//
-		Object obj = data.getNode(new Integer(AD_Column_ID));
+		Object obj = data.getNode(Integer.valueOf(AD_Column_ID));
 		//	Object obj = data.getNode(item.getColumnName());	//	slower
 		if (obj == null)
 		{
@@ -1260,8 +1257,8 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							+ " - AD_Column_ID=" + AD_Column_ID + " - " + item);
 					return null;
 				}
-				int Record_ID = Integer.parseInt(recordString);
-				query.addRestriction(item.getColumnName(), MQuery.EQUAL, new Integer(Record_ID));
+				Integer Record_ID = Integer.valueOf(recordString);
+				query.addRestriction(item.getColumnName(), MQuery.EQUAL, Record_ID);
 			} catch (Exception e) {
 				data.dumpCurrentRow();
 				log.log(Level.SEVERE, "Invalid Record Key - " + recordString
@@ -1380,7 +1377,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		String FieldAlignmentType, boolean isForm)
 	{
 		//	Get Data
-		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = m_data.getNode(Integer.valueOf(item.getAD_Column_ID()));
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1496,7 +1493,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	private PrintElement createImageElement (MPrintFormatItem item, PrintData printData)
 	{
-		Object obj = printData.getNode(new Integer(item.getAD_Column_ID())); 
+		Object obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1535,7 +1532,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private PrintElement createBarcodeElement (MPrintFormatItem item, PrintData printData)
 	{
 		//	Get Data
-		Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1646,7 +1643,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			{
 				if (item.isNextLine() && item.getBelowColumn() != 0)
 				{
-					additionalLines.put(new Integer(col), new Integer(item.getBelowColumn()-1));
+					additionalLines.put(Integer.valueOf(col), Integer.valueOf(item.getBelowColumn() - 1));
 					if (!item.isSuppressNull())
 					{
 						item.setIsSuppressNull(true);	//	display size will be set to 0 in TableElement
@@ -1708,13 +1705,13 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			printData.setRowIndex(row);
 			if (printData.isFunctionRow())
 			{
-				functionRows.add(new Integer(row));
+				functionRows.add(Integer.valueOf(row));
 				rowColFont.put(new Point(row, TableElement.ALL), tf.getFunct_Font());
 				rowColColor.put(new Point(row, TableElement.ALL), tf.getFunctFG_Color());
 				rowColBackground.put(new Point(row, TableElement.ALL), tf.getFunctBG_Color());
 				if (printData.isPageBreak())
 				{
-					pageBreak.add(new Integer(row));
+					pageBreak.add(Integer.valueOf(row));
 					if (log.isLoggable(Level.FINER))
 						log.finer("PageBreak row=" + row);
 				}
@@ -1749,7 +1746,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			MReportLine rLine = printData.getMReportLine();
 			
 			if (rLine != null && "B".equals(rLine.getLineType()))
-				blankRows.add(new Integer(row));
+				blankRows.add(Integer.valueOf(row));
 			
 			//	for all columns
 			col = 0;
@@ -1775,7 +1772,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						{
 							Object obj = null;
 							if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-								obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+								obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 							if (obj == null)
 								;
 							else if (obj instanceof PrintDataElement)
@@ -1805,7 +1802,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					{
 						Object obj = null;
 						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)
@@ -1838,7 +1835,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					{
 						Object obj = null;
 						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							obj = printData.getNode(Integer.valueOf(item.getAD_Column_ID()));
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)

@@ -21,11 +21,17 @@ import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_ProductionLine;
+import org.adempiere.core.domains.models.X_M_Production;
+import org.adempiere.core.domains.models.X_PP_Product_BOM;
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.DocAction;
@@ -38,9 +44,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
-import org.eevolution.service.dsl.ProcessBuilder;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
  * Contributed from Adaxa
@@ -144,20 +148,20 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	/**
 	 * Process Document from Production Batch
 	 */
-	private String processFromBatch() {
+	private void processFromBatch() {
 		if(getParent() == null)
-			return "@M_ProductionBatch_ID@ @NotFound@";
+			throw new AdempiereException("@M_ProductionBatch_ID@ @NotFound@");
 		//	
 		if (parent.isProcessed()) {
 			if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Close))
-				return "@M_ProductionBatch_ID@ @closed@";
+				throw new AdempiereException("@M_ProductionBatch_ID@ @closed@");
 			else if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Void))
-				return "@M_ProductionBatch_ID@ @Voided@";
+				throw new AdempiereException("@M_ProductionBatch_ID@ @Voided@");
 			else if (parent.getDocStatus().equals(MProductionBatch.DOCACTION_Complete)
 					&& parent.getQtyCompleted().compareTo(parent.getTargetQty()) > 0)
-				return "@QtyCompleted@ > @TargetQty@";
+				throw new AdempiereException("@QtyCompleted@ > @TargetQty@");
 		} else {
-			return "@M_ProductionBatch_ID@ @Unprocessed@";//	TODO: Missing message translation
+			throw new AdempiereException("@M_ProductionBatch_ID@ @Unprocessed@");//	TODO: Missing message translation
 		}
 		
 		StringBuilder errors = new StringBuilder();
@@ -201,7 +205,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 		//	Validate error lines
 		if (errors.length() > 0) {
-			return errors.toString();
+			throw new AdempiereException(errors.toString());
 		}
 		//	
 		MMovement[] moves = parent.getMovements(true);
@@ -212,23 +216,14 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 		//	Validate error lines
 		if (errors.length() > 0) {
-			return errors.toString();
+			throw new AdempiereException(errors.toString());
 		}
 		//	Create Transaction
-		errors.append(createTransactionFromLines(lines));
-		if (errors.length() > 0) {
-			return errors.toString();
-		}
-		//	Validate error lines
-		if (errors.length() > 0) {
-			return errors.toString();
-		}
+		Arrays.asList(lines).forEach(productionLine -> createTransaction(productionLine));
 		//	Update Header
 		updateQtyHeader(false);
 		//	
 		parent.createComplementProduction();
-		//	
-		return null;
 	}
 	
 	/**
@@ -256,27 +251,93 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	private String processFromPlan() {
 		return null;
 	}
+
 	
 	/**
-	 * Create Transaction
-	 * @param lines
-	 * @return
+	 * Create transaction for lines
+	 * @param productionLine
 	 */
-	private String createTransactionFromLines(MProductionLine[] lines) {
-		StringBuilder errors = new StringBuilder();
-		String error = "";
-		for (MProductionLine pLine:lines) {
-			if (!pLine.createTransaction(pLine))				
-				error = "@M_Transaction_ID@ @no@ @Created@";
-			if (!Util.isEmpty(error)) {
-				errors.append(error);
-			} else {
-				pLine.setQtyReserved(pLine.getQtyReserved().add(pLine.getMovementQty()));
-				pLine.setProcessed(true);
-				pLine.saveEx(get_TrxName());
+	private void createTransaction (MProductionLine productionLine) {
+		MProduct product = productionLine.getProduct();
+		MLocator locator = MLocator.get(getCtx(), productionLine.getM_Locator_ID());
+		//	Qty & Type
+		String movementType = productionLine.isEndProduct()?MTransaction.MOVEMENTTYPE_ProductionPlus:MTransaction.MOVEMENTTYPE_Production_;
+		BigDecimal quantity = productionLine.getMovementQty();      
+		log.info("Line=" + productionLine.getLine() + " - Qty=" + productionLine.getMovementQty());
+		if (product != null && product.isStocked()) {
+			//Ignore the Material Policy when is Reverse Correction
+			if (product != null) {
+				if(getReversal_ID() == 0) {
+					checkMaterialPolicy(productionLine, movementType);
+				}
+				log.fine("Material Transaction");
+				MTransaction transaction = null; 
+				//If AttributeSetInstance = Zero then create new  AttributeSetInstance use Inventory Line MA else use current AttributeSetInstance
+				if (productionLine.getM_AttributeSetInstance_ID() == 0) {
+					MProductionLineMA[]  list = MProductionLineMA.get(getCtx(),
+							productionLine.getM_ProductionLine_ID(), get_TrxName());
+					for (MProductionLineMA ma:list) {
+						if (productionLine.getM_AttributeSetInstance_ID() !=0 && productionLine.getM_AttributeSetInstance_ID() != ma.getM_AttributeSetInstance_ID())
+							continue;
+						BigDecimal quantityMA = ma.getMovementQty();
+						//Parameters: ctx,M_Warehouse_ID, M_Locator_ID, M_Product_ID,M_AttributeSetInstance_ID, reservationAttributeSetInstance_ID,
+						//diffQtyOnHand, 	diffQtyReserved, diffQtyOrdered, trxName
+						if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
+								productionLine.getM_Locator_ID(),
+								productionLine.getM_Product_ID(), 
+								ma.getM_AttributeSetInstance_ID(), 0, 
+								quantityMA.negate(),Env.ZERO, Env.ZERO, get_TrxName())) {
+							throw new AdempiereException("@M_Transaction_ID@ @no@ @Created@");
+						}
+						//	Transaction
+						transaction = new MTransaction (getCtx(), productionLine.getAD_Org_ID(), movementType,
+								productionLine.getM_Locator_ID(), productionLine.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
+								quantityMA.negate(), productionLine.getParent().getMovementDate(), get_TrxName());
+						transaction.setM_ProductionLine_ID(productionLine.getM_ProductionLine_ID());
+						BigDecimal quantityReserved = productionLine.getMovementQty();
+						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), productionLine.getM_Product_ID(), getCtx(), get_TrxName());
+						pbLine.setQtyReserved(pbLine.getQtyReserved().add(quantityReserved));
+						pbLine.saveEx();
+						transaction.saveEx();
+					}	
+				}	
+				if (transaction == null) {
+					MAttributeSetInstance asi = null;
+					int reservationAttributeSetInstance_ID = productionLine.getM_AttributeSetInstance_ID();
+					int transactionAttributeSetInstance_ID = productionLine.getM_AttributeSetInstance_ID();
+					//always create asi so fifo/lifo work.
+					if (productionLine.getM_AttributeSetInstance_ID() == 0) {
+						MAttributeSet.validateAttributeSetInstanceMandatory(product, MProductionLine.Table_ID , false , productionLine.getM_AttributeSetInstance_ID());
+						asi = MAttributeSetInstance.create(getCtx(), product, get_TrxName());
+						productionLine.setM_AttributeSetInstance_ID(asi.getM_AttributeSetInstance_ID());
+						transactionAttributeSetInstance_ID = asi.getM_AttributeSetInstance_ID();
+						log.config("New ASI=" + productionLine);
+					}
+					//	Fallback: Update Storage - see also VMatch.createMatchRecord
+					if (!MStorage.add(getCtx(), locator.getM_Warehouse_ID(),
+							productionLine.getM_Locator_ID(),
+							productionLine.getM_Product_ID(),
+							transactionAttributeSetInstance_ID, reservationAttributeSetInstance_ID,
+						quantity, Env.ZERO, Env.ZERO, get_TrxName())) {
+						throw new AdempiereException("@M_Transaction_ID@ @no@ @Created@");
+					}
+					//	FallBack: Create Transaction
+					transaction = new MTransaction (getCtx(), productionLine.getAD_Org_ID(),
+						movementType, productionLine.getM_Locator_ID(),
+						productionLine.getM_Product_ID(), productionLine.getM_AttributeSetInstance_ID(),
+						quantity, productionLine.getParent().getMovementDate(), get_TrxName());
+					transaction.setM_ProductionLine_ID(productionLine.getM_ProductionLine_ID());
+					transaction.saveEx();
+					BigDecimal qtyreserved = productionLine.isEndProduct()? productionLine.getMovementQty(): productionLine.getMovementQty().negate();
+					MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+					pbLine.setQtyReserved(pbLine.getQtyReserved().subtract(qtyreserved));
+					pbLine.saveEx();
+				}
 			}
-		}
-		return errors.toString();
+		}	//	stock movement
+		productionLine.setQtyReserved(productionLine.getQtyReserved().add(productionLine.getMovementQty()));
+		productionLine.setProcessed(true);
+		productionLine.saveEx(get_TrxName());
 	}
 	
 	@Override
@@ -285,7 +346,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		//	Processed Plan
 		for(MProductionPlan plan : getProductionPlan()) {
 			plan.setProcessed(Processed);
-			plan.save();
+			plan.saveEx();
 		}
 		//	Processed Line
 		for(MProductionLine line : getLines()) {
@@ -366,7 +427,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	{
 		if (log.isLoggable(Level.INFO))
 			log.info("unlockIt - " + toString());
-		setProcessing(false);
 		return true;
 	}
 
@@ -396,7 +456,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		m_processMsg = validateHeader();
 		//	For production created from Batch
 		if(getM_ProductionBatch_ID() != 0) {
-			m_processMsg = processFromBatch();
+			processFromBatch();
 		} else {
 			m_processMsg = processFromPlan();
 		}
@@ -494,7 +554,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 			return "@NotBOM@ [" + product.getValue() + "-" + product.getName() + "]";	//	TODO: Translation for message (Attempt to create product line for Non Bill Of Materials)
 		}
 		//	
-		if(MPPProductBOM.getDefault(product, get_TrxName()) == null) {
+		if(getDefaultProductBom(product, get_TrxName()) == null) {
 			return "@NotBOMProducts@";	//	TODO: Translation for message (Attempt to create product line for Bill Of Materials with no BOM Products)
 		}
 		//	
@@ -612,7 +672,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 
 		reversal.closeIt();
-		reversal.setProcessing(false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
 		reversal.saveEx(get_TrxName());
@@ -645,10 +704,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		to.setDocStatus(DOCSTATUS_Drafted); // Draft
 		to.setDocAction(DOCACTION_Complete);
 		to.setMovementDate(reversalDate);
-		to.setIsComplete("N");
 		to.setIsCreated(true);
 		to.setPosted(false);
-		to.setProcessing(false);
 		to.setProcessed(false);
 		to.setReversal(true);
 		to.setProductionQty(getProductionQty().negate());
@@ -1003,19 +1060,21 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		
 		recalculate();
 		// Check batch having production planned Qty.
-		BigDecimal cntQty = Env.ZERO;
-		MProductionBatch pBatch = (MProductionBatch) getM_ProductionBatch();
-		for (MProduction p : pBatch.getProductionArray(true)) {
-			if (p.getM_Production_ID() != getM_Production_ID())
-				cntQty = cntQty.add(p.getProductionQty());
-		}
+		if(getM_ProductionBatch_ID() > 0) {
+			BigDecimal cntQty = Env.ZERO;
+			MProductionBatch pBatch = (MProductionBatch) getM_ProductionBatch();
+			for (MProduction p : pBatch.getProductionArray(true)) {
+				if (p.getM_Production_ID() != getM_Production_ID())
+					cntQty = cntQty.add(p.getProductionQty());
+			}
 
-		BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
-		if (getProductionQty().compareTo(maxPlanQty) > 0) {
-			DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Quantity);
-			throw new AdempiereException("@Total@ @ProductionQty@ > @TargetQty@ [@TargetQty@ = " + format.format(pBatch.getTargetQty())
-					+ " @Total@ @ProductionQty@ = " + format.format(cntQty)
-					+ " @Max@ = " + format.format(maxPlanQty));
+			BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
+			if (getProductionQty().compareTo(maxPlanQty) > 0) {
+				DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Quantity);
+				throw new AdempiereException("@Total@ @ProductionQty@ > @TargetQty@ [@TargetQty@ = " + format.format(pBatch.getTargetQty())
+						+ " @Total@ @ProductionQty@ = " + format.format(cntQty)
+						+ " @Max@ = " + format.format(maxPlanQty));
+			}
 		}
 		//	Delete before process
 		deleteLines();
@@ -1077,6 +1136,33 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	}
 	
 	/**
+	 * 	Get BOM Lines for Product BOM
+	 * 	@return BOM Lines
+	 */
+	private List<Integer> getProductBomLines(int productBomId) {
+		return new Query(getCtx(), X_PP_Product_BOMLine.Table_Name, X_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID+"=?", get_TrxName())
+				.setParameters(productBomId)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(X_PP_Product_BOMLine.COLUMNNAME_Line)
+				.getIDsAsList();
+	}	//	getLines    
+	
+	/**
+	 * Get BOM with Default Logic (Product = BOM Product and BOM Value = Product Value) 
+	 * @param product
+	 * @param trxName
+	 * @return product BOM
+	 */
+	private X_PP_Product_BOM getDefaultProductBom(MProduct product, String trxName) {
+		return (X_PP_Product_BOM) new Query(product.getCtx(), X_PP_Product_BOM.Table_Name, "M_Product_ID=? AND Value=?", trxName)
+				.setParameters(new Object[]{product.getM_Product_ID(), product.getValue()}).setOnlyActiveRecords(true)
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
+				.first();
+	}
+	
+	/**
 	 * Create Lines from finished product
 	 * @param mustBeStocked
 	 * @param finishedProduct
@@ -1084,40 +1170,39 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return
 	 */
 	private String createBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
-		int defaultLocator = 0;
-		MPPProductBOM bom = null;
+		AtomicInteger defaultLocator = new AtomicInteger(0);
+		X_PP_Product_BOM bom = null;
 		if(getPP_Product_BOM_ID() != 0) {
-			bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+			bom = new X_PP_Product_BOM(getCtx(), getPP_Product_BOM_ID(), get_TrxName());
 		} else {
-			bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+			bom = getDefaultProductBom(finishedProduct, get_TrxName());
 		}
-		for (MPPProductBOMLine bLine : bom.getLines())
-		{			
-			lineno = lineno + 10;
-			BigDecimal BOMMovementQty = getQty(bLine,true).multiply(requiredQty);	
-			int precision = bLine.getPrecision();
+		getProductBomLines(bom.getPP_Product_BOM_ID()).forEach(productBomLineId -> {
+			X_PP_Product_BOMLine bomLine = new X_PP_Product_BOMLine(getCtx(), productBomLineId, get_TrxName());
+			BigDecimal BOMMovementQty = getQty(bomLine,true).multiply(requiredQty);	
+			int precision = MUOM.getPrecision(getCtx(), bomLine.getC_UOM_ID());
 			if (BOMMovementQty.scale() > precision)
 			{
 				BOMMovementQty = BOMMovementQty.setScale(precision, RoundingMode.HALF_UP);
 			}
-			MProduct bomproduct = bLine.getProduct();
-			if ( bomproduct.isBOM() && bomproduct.isPhantom() )
-			{
+			MProduct bomproduct = new MProduct(getCtx(), bomLine.getM_Product_ID(), get_TrxName());
+			if ( bomproduct.isBOM() && bomproduct.isPhantom() ) {
 				createBOM(mustBeStocked, bomproduct, BOMMovementQty);
 			}
 			else
 			{
-				defaultLocator = bomproduct.getM_Locator_ID();
-				if ( defaultLocator == 0 )
-					defaultLocator = getM_Locator_ID();
+				defaultLocator.set(bomproduct.getM_Locator_ID());
+				if (defaultLocator.get() == 0) {
+					defaultLocator.set(getM_Locator_ID());
+				}
 
 				if (!bomproduct.isStocked())
 				{					
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID(  bomproduct.getM_Product_ID()  );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID()  );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setQtyUsed(BOMMovementQty );
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.setMovementQty(BOMMovementQty.negate());
@@ -1129,9 +1214,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				{
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID( bomproduct.getM_Product_ID() );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID() );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setQtyUsed( BOMMovementQty );
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.saveEx(get_TrxName());
@@ -1142,9 +1227,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				{					
 					MProductionLine BOMLine = null;
 					BOMLine = new MProductionLine( this );
-					BOMLine.setLine( lineno );
-					BOMLine.setM_Product_ID(  bomproduct.getM_Product_ID()  );
-					BOMLine.setM_Locator_ID( defaultLocator );  
+					BOMLine.setLine(lineno);
+					BOMLine.setM_Product_ID(bomproduct.getM_Product_ID()  );
+					BOMLine.setM_Locator_ID(defaultLocator.get());  
 					BOMLine.setPlannedQty( BOMMovementQty );
 					BOMLine.setQtyReserved(BOMMovementQty);
 					BOMLine.setMovementQty(BOMMovementQty.negate());
@@ -1152,8 +1237,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 					lineno = lineno + 10;				
 				} // for available storages
 
-			}			
-		}
+			}
+		});
 		return "";
 	}
 	
@@ -1173,7 +1258,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
 			return "";
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
-				//.process(RollupBillOfMaterial.getProcessId())
 				.process(53062)
 				.withRecordId(MProduction.Table_ID, getM_Product_ID())
 				.withParameter("C_AcctSchema_ID", as.getC_AcctSchema_ID())
@@ -1192,9 +1276,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		return "";
 	}
 	
-	public BigDecimal getQty(MPPProductBOMLine bLine, boolean includeScrapQty)
+	public BigDecimal getQty(X_PP_Product_BOMLine bLine, boolean includeScrapQty)
 	{
-		int precision = bLine.getPrecision();
+		int precision = MUOM.getPrecision(getCtx(), bLine.getC_UOM_ID());
 		BigDecimal qty;
 		if (bLine.isQtyPercentage())
 		{
@@ -1208,8 +1292,8 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		//
 		if (includeScrapQty)
 		{
-			BigDecimal scrapDec = bLine.getScrap().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_UP);
-			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, BigDecimal.ROUND_HALF_UP);
+			BigDecimal scrapDec = bLine.getScrap().divide(Env.ONEHUNDRED, 12, RoundingMode.UP);
+			qty = qty.divide(Env.ONE.subtract(scrapDec), precision, RoundingMode.HALF_UP);
 		}
 		return qty;
 	}

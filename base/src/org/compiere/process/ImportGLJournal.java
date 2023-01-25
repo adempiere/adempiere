@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_I_GLJournal;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
@@ -32,7 +33,6 @@ import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.X_I_GLJournal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;

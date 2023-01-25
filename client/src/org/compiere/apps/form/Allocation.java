@@ -23,11 +23,11 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
+import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
-import org.compiere.model.I_C_Invoice;
-import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MInvoice;
@@ -303,7 +303,7 @@ public class Allocation
 			return;
 
 		//	Async BPartner Test
-		Integer key = new Integer(bPartnerId);
+		Integer key = Integer.valueOf(bPartnerId);
 		if (!bpartnerCheck.contains(key))
 		{
 			new Thread()

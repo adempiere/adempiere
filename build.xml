@@ -1,15 +1,116 @@
-<project name="Adempiere Build Travis" default="build" basedir=".">
+<project name="Adempiere Build" default="build" basedir=".">
     <description>
-        Building ADempiere
-        by
-        Yamel Senih
-        http://www.erpya.com
+        Building ADempiere, by
+        Yamel Senih (http://www.erpya.com)
+		Victor Perez (victor.perez@e-evolution.com, http://www.e-evolution.com)
+		Mario Calderon (mario.calderon@westfalia-it.com, http://westfalia-it.com)
     </description>
+
+  <property environment="env" />
   <!-- set global properties for this build -->
+  <property name="env_directory" location="adempiere/Adempiere/utils"/>
+  <property name="AD_directory" location="adempiere/Adempiere"/>
   <property name="adempiere_build" location="utils_dev/build.xml"/>
-  
-  <target name="build">
-    <echo message="Building ADempiere"/>
+  <property name="myEnvironment" location="adempiere/Adempiere/utils/myEnvironment.sh"/>
+  <property name="myEnvironmentTemplate" location="adempiere/Adempiere/utils/myEnvironmentTemplate.sh"/>
+  <property name="RUN_DBRestore" location="adempiere/Adempiere/utils/RUN_DBRestore.sh"/>
+  <property name="RUN_DBExport" location="adempiere/Adempiere/utils/RUN_DBExport.sh"/>
+  <property name="RUN_ExportReference" location="adempiere/Adempiere/utils/RUN_ExportReference.sh"/>
+  <property name="RUN_ImportAdempiere" location="adempiere/Adempiere/utils/RUN_ImportAdempiere.sh"/>
+  <property name="RUN_MigrateXML" location="adempiere/Adempiere/utils/RUN_MigrateXML.sh"/>
+  <property name="RUN_silentsetup" location="adempiere/Adempiere/RUN_silentsetup.sh"/>
+  <property name="AdempierePropertiesFrom" location="adempiere/Adempiere/AdempiereEnvTemplate.properties"/>
+  <property name="AdempierePropertiesTo" location="adempiere/Adempiere/AdempiereEnv.properties"/>
+  <property name="myDBcopyTemplate" location="adempiere/Adempiere/utils/myDBcopyTemplate.sh"/>
+  <property name="myDBcopy" location="adempiere/Adempiere/utils/myDBcopy.sh"/>
+
+  <target name="build" description="Step 1: Create installation artifacts">
+  	<echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
+  	<echo message="Build finished"/>
+  	<antcall target="deploy"/>
+  </target>
+	
+  <target name="deploy" description="Step 2: Deploy ADempiere prior to installation">
+	<echo message="Deploy ADempiere"/>
+	<chmod dir="${AD_directory}" perm="ugo+rx" includes="**/*.sh"/>
+	<chmod dir="${AD_directory}/data" perm="ugo+rx" includes="**/*.dmp"/>
+	<chmod dir="${env_directory}" perm="ugo+rx" includes="**/*.sh"/>
+	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
+
+	<echo message="Java Home : ${env.JAVA_HOME}"/>
+	<echo message="ADempiere Home : ${env.ADEMPIERE_HOME}"/>
+	<echo message="Copy AdempiereEnvTemplate.properties to AdempiereEnv.properties"/>
+	<copy file="${AdempierePropertiesFrom}" tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
+	<replaceregexp file="${AdempierePropertiesTo}" match="ADEMPIERE_HOME=/opt/Adempiere" replace="ADEMPIERE_HOME=${env.ADEMPIERE_HOME}" byline="true"/>
+	<replaceregexp file="${AdempierePropertiesTo}" match="JAVA_HOME=/usr/lib/jvm/jdk-11" replace="JAVA_HOME=${env.JAVA_HOME}" byline="true"/>
+	<property file="${AdempierePropertiesTo}"/>
+	<filter filtersfile="${AdempierePropertiesTo}" />
+	<echo message="Generate myEnvironment.sh"/>
+	<copy file="${myEnvironmentTemplate}" tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
+	<echo message="Deploy finished"/>
+  	<antcall target="silent-setup"/>
+  </target>
+
+  <target name="silent-setup" description="Step 3: Run SilentSetup">
+	<echo message="Install ADempiere with SilentSetup start"/>
+	<java dir="${env.ADEMPIERE_HOME}" classname="org.compiere.install.SilentSetup" fork="true">
+	  <arg value="ALL"/>
+	  <jvmarg value="--add-opens"/>
+	  <jvmarg value="java.base/sun.security.tools.keytool=ALL-UNNAMED"/>
+	  <jvmarg value="--add-exports"/>
+	  <jvmarg value="java.base/jdk.internal.misc=ALL-UNNAMED"/>
+	  <jvmarg value="--add-opens"/>
+	  <jvmarg value="java.base/java.lang=ALL-UNNAMED"/>
+	  <sysproperty key="ADEMPIERE_HOME" value="${env.ADEMPIERE_HOME}"/>
+	  <classpath>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CInstall.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/Adempiere.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CCTools.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/oracle.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/postgresql.jar"/>
+		  <pathelement path="${java.class.path}"/>
+	  </classpath>
+	</java>
+	<echo message="Install ADempiere with SilentSetup finished"/>
+	<tstamp>
+	  <format property="current.time" pattern="dd/MM/yyyy hh:mm:ss"/>
+	</tstamp>
+	<concat destfile="${AdempierePropertiesTo}" append="true">CDate=${current.time}</concat>
+	<echo message="Copy myDBcopyTemplate to myDBcopy"/>
+  	<copy file="${myDBcopyTemplate}"
+			tofile="${myDBcopy}" filtering="yes" overwrite="yes" />
+  	<antcall target="import-database-seed"/>
+  </target>
+
+  <!-- For the last ANT targets the following is valid: -->
+  <!-- Target will     be executed if called as follows: -Dnodbrestore=false or without parameter -->
+  <!-- Target will not be executed if called as follows: -Dnodbrestore=true                       -->
+  <target name="import-database-seed" description="Step 4: Run Import ADempiere: import seed" unless="${nodbrestore}">
+  	<echo message="Restore last ADempiere seed with RUN_ImportAdempiere.sh start"/>
+  	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
+    	<arg value="${RUN_ImportAdempiere}"/>
+  	</exec>
+  	<echo message="Restore last ADempiere seed with RUN_ImportAdempiere.sh finished"/>
+    <!-- If this target is not executed, the next ANT call is also not executed -->
+  	<antcall target="import-xml-files"/>
+  </target>
+  	
+  <target name="import-xml-files" description="Step 5: Run Migrate XML: load and apply all migration xml files" unless="${nodbrestore}">
+  	<echo message="Execute XML migration files with RUN_MigrateXML start"/>
+	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
+    	<arg value="${RUN_MigrateXML}"/>
+  	</exec>
+  	<echo message="Execute XML migration files with RUN_MigrateXML finished"/>
+    <!-- If this target is not executed, the next ANT call is also not executed -->
+  	<antcall target="export-database"/>
+  </target>
+  	
+  <target name="export-database" description="Step 6: Export restored and migrated database" unless="${nodbrestore}">
+  	<echo message="Export new Database seed with RUN_ExportReference start"/>
+	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
+    	<arg value="${RUN_ExportReference}"/>
+  	</exec>
+  	<echo message="Export new Database seed with RUN_ExportReference finished"/>
   </target>
 </project>

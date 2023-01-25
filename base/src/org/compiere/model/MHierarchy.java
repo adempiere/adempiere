@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_PA_Hierarchy;
 import org.compiere.util.CCache;
 
 /**
@@ -42,7 +43,7 @@ public class MHierarchy extends X_PA_Hierarchy
 	 */
 	public static MHierarchy get (Properties ctx, int PA_Hierarchy_ID)
 	{
-		Integer key = new Integer (PA_Hierarchy_ID);
+		Integer key = Integer.valueOf(PA_Hierarchy_ID);
 		MHierarchy retValue = (MHierarchy)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

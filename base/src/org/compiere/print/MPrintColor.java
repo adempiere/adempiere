@@ -22,8 +22,8 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_PrintColor;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_PrintColor;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -93,7 +93,7 @@ public class MPrintColor extends X_AD_PrintColor
 	{
 	//	if (AD_PrintColor_ID == 0)
 	//		return new MPrintColor (ctx, 0);
-		Integer key = new Integer(AD_PrintColor_ID);
+		Integer key = Integer.valueOf(AD_PrintColor_ID);
 		MPrintColor pc = (MPrintColor)s_colors.get(key);
 		if (pc == null)
 		{

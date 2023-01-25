@@ -19,10 +19,10 @@ package org.adempiere.process;
 
 import java.util.Enumeration;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.I_ASP_Level;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
-import org.compiere.model.I_AD_Menu;
-import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MBrowseCustom;
 import org.compiere.model.MBrowseFieldCustom;
 import org.compiere.model.MClientInfo;
@@ -83,13 +83,17 @@ public class CreateCustomizationFromASP extends CreateCustomizationFromASPAbstra
 		}
 			
 		// Navigate the menu and add every non-summary node
-		if (node != null && node.isSummary()) {
-			Enumeration<?> en = node.preorderEnumeration();
-			while (en.hasMoreElements()) {
-				MTreeNode nn = (MTreeNode)en.nextElement();
-				if (!nn.isSummary()) {
-					addNodeToLevel(nn);
+		if (node != null) {
+			if(node.isSummary()) {
+				Enumeration<?> en = node.preorderEnumeration();
+				while (en.hasMoreElements()) {
+					MTreeNode childNode = (MTreeNode)en.nextElement();
+					if (!childNode.isSummary()) {
+						addNodeToLevel(childNode);
+					}
 				}
+			} else {
+				addNodeToLevel(node);
 			}
 		}
 		if (noWindows > 0)

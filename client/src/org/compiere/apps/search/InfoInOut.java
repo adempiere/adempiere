@@ -253,21 +253,20 @@ public class InfoInOut extends Info
 				String id;
 				//  M_InOut_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_InOut_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fieldID = new Integer(id).intValue();
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fieldID = Integer.valueOf(id).intValue();
 				}
 
 				//  C_BPartner_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "C_BPartner_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-					fBPartner_ID.setValue(new Integer(id));
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fBPartner_ID.setValue(Integer.valueOf(id));
+				}
 
 				//  M_Shipper_ID
 				id = Env.getContext(Env.getCtx(), p_WindowNo, p_TabNo, "M_Shipper_ID", true);
-				if (id != null && id.length() != 0 && (new Integer(id).intValue() > 0))
-				{
-					fShipper_ID.setValue(new Integer(id).intValue());
+				if (id != null && id.length() != 0 && (Integer.valueOf(id).intValue() > 0)) {
+					fShipper_ID.setValue(Integer.valueOf(id).intValue());
 				}
 
 			}

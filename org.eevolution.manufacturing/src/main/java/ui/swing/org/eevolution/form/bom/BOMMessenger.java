@@ -24,10 +24,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.compiere.model.MProduct;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.wrapper.BOMLineWrapper;
-import org.eevolution.model.wrapper.BOMWrapper;
-import org.eevolution.msg.HTMLMessenger;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.wrapper.BOMLineWrapper;
+import org.eevolution.manufacturing.model.wrapper.BOMWrapper;
+import org.eevolution.manufacturing.msg.HTMLMessenger;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
@@ -37,12 +37,12 @@ public class BOMMessenger extends HTMLMessenger {
 	
 	protected JTree bomTree;
 	protected BOMTreeCellRenderer bomTreeCellRenderer;
-	protected HashMap cache;
+	protected HashMap<DefaultMutableTreeNode, String> cache;
 	
 	public BOMMessenger(JTree bomTree) {
 		
 		this.bomTree = bomTree;
-		this.cache = new HashMap();
+		this.cache = new HashMap<DefaultMutableTreeNode, String>();
 	}
 	
 	public String getToolTipText(MouseEvent evt){

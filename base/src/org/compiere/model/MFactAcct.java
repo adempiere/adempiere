@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_Fact_Acct;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -130,7 +131,7 @@ public class MFactAcct extends X_Fact_Acct
 			getC_LocFrom_ID(), getC_LocTo_ID(), getC_SalesRegion_ID(), 
 			getC_Project_ID(), getC_Campaign_ID(), getC_Activity_ID(),
 			getUser1_ID(), getUser2_ID(), getUser3_ID() , getUser4_ID(),
-			getUserElement1_ID(), getUserElement2_ID(), null);
+			getUserElement1_ID(), getUserElement2_ID(), get_TrxName());
 		if (acct != null && acct.get_ID() == 0)
 			acct.saveEx();
 		return acct;

@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.service.CPOS;
-import org.adempiere.pos.service.POSPanelInterface;
-import org.adempiere.pos.service.POSScalesPanelInterface;
+import org.adempiere.pos.services.CPOS;
+import org.adempiere.pos.services.POSPanelInterface;
+import org.adempiere.pos.services.POSScalesPanelInterface;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;

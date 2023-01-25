@@ -17,10 +17,13 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_InventoryLine;
+import org.adempiere.core.domains.models.X_M_InventoryLine;
 import org.adempiere.engine.IDocumentLine;
 import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
@@ -164,7 +167,7 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine ,
 			if (product != null)
 			{
 				int precision = product.getUOMPrecision(); 
-				QtyCount = QtyCount.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				QtyCount = QtyCount.setScale(precision, RoundingMode.HALF_UP);
 			}
 		}
 		super.setQtyCount(QtyCount);
@@ -183,7 +186,7 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine ,
 			if (product != null)
 			{
 				int precision = product.getUOMPrecision(); 
-				QtyInternalUse = QtyInternalUse.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				QtyInternalUse = QtyInternalUse.setScale(precision, RoundingMode.HALF_UP);
 			}
 		}
 		super.setQtyInternalUse(QtyInternalUse);

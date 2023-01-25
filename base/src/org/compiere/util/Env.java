@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -35,18 +34,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
 
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
@@ -57,7 +52,6 @@ import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MUser;
 import org.compiere.model.PO;
-import org.compiere.swing.CFrame;
 
 
 /**
@@ -146,9 +140,7 @@ public final class Env
 	{
 		s_log.info("finalCall=" + finalCall);
 		if (Ini.isClient())
-		{
-			closeWindows();
-			
+		{	
 			//	Dismantle windows
 			/**
 			for (int i = 0; i < s_windows.size(); i++)
@@ -1502,6 +1494,10 @@ public final class Env
 	//	Array of active Windows
 	private static ArrayList<Container>	s_windows = new ArrayList<Container>(20);
 
+	public static ArrayList<Container> getContainers() {
+		return s_windows;
+	}
+	
 	/**
 	 *	Add Container and return WindowNo.
 	 *  The container is a APanel, AWindow or JFrame/JDialog
@@ -1744,150 +1740,6 @@ public final class Env
    		osName = osName.toLowerCase();
    		return osName.indexOf ("windows") != -1;
    	}	//	isWindows
-
-   	
-	/** Array of hidden Windows				*/
-	private static ArrayList<CFrame>	s_hiddenWindows = new ArrayList<CFrame>();
-	/** Closing Window Indicator			*/
-	private static boolean 				s_closingWindows = false;
-	
-	/**
-	 * 	Hide Window
-	 *	@param window window
-	 *	@return true if window is hidden, otherwise close it
-	 */
-	static public boolean hideWindow(CFrame window)
-	{
-		if (!Ini.isCacheWindow() || s_closingWindows)
-			return false;
-		for (int i = 0; i < s_hiddenWindows.size(); i++)
-		{
-			CFrame hidden = s_hiddenWindows.get(i);
-			s_log.info(i + ": " + hidden);
-			if (hidden.getAD_Window_ID() == window.getAD_Window_ID())
-				return false;	//	already there
-		}
-		if (window.getAD_Window_ID() != 0)	//	workbench
-		{
-			if (s_hiddenWindows.add(window))
-			{
-				window.setVisible(false);
-				s_log.info(window.toString());
-			//	window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_ICONIFIED));
-				if (s_hiddenWindows.size() > 10) {
-					CFrame toClose = s_hiddenWindows.remove(0);		//	sort of lru
-					try {
-						s_closingWindows = true;
-						toClose.dispose();
-					} finally {
-						s_closingWindows = false;
-					}
-				}
-				return true;
-			}
-		}
-		return false;
-	}	//	hideWindow
-	
-	/**
-	 * 	Show Window
-	 *	@param AD_Window_ID window
-	 *	@return true if window re-displayed
-	 */
-	static public CFrame showWindow (int AD_Window_ID)
-	{
-		for (int i = 0; i < s_hiddenWindows.size(); i++)
-		{
-			CFrame hidden = s_hiddenWindows.get(i);
-			if (hidden.getAD_Window_ID() == AD_Window_ID)
-			{
-				s_hiddenWindows.remove(i);
-				s_log.info(hidden.toString());
-				hidden.setVisible(true);
-				// De-iconify window - teo_sarca [ 1707221 ]
-				int state = hidden.getExtendedState();
-				if ((state & CFrame.ICONIFIED) > 0)
-					hidden.setExtendedState(state & ~CFrame.ICONIFIED);
-				//
-				hidden.toFront();
-				return hidden;
-			}
-		}
-		return null;
-	}	//	showWindow
-
-	/**
-	 * 	Clode Windows.
-	 */
-	static void closeWindows ()
-	{
-		s_closingWindows = true;
-		for (int i = 0; i < s_hiddenWindows.size(); i++)
-		{
-			CFrame hidden = s_hiddenWindows.get(i);
-			hidden.dispose();
-		}
-		s_hiddenWindows.clear();
-		s_closingWindows = false;
-	}	//	closeWindows
-
-	/**
-	 * 	Sleep
-	 *	@param sec seconds
-	 */
-	public static void sleep (int sec)
-	{
-		s_log.info("Start - Seconds=" + sec);
-		try
-		{
-			Thread.sleep(sec*1000);
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.WARNING, "", e);
-		}
-		s_log.info("End");
-	}	//	sleep
-	
-	/**
-	 * Update all windows after look and feel changes.
-	 * @since 2006-11-27 
-	 */
-	public static Set<Window>updateUI() 
-	{
-		Set<Window> updated = new HashSet<Window>();
-		for (Container c : s_windows)
-		{
-			Window w = getFrame(c);
-			if (w == null) continue;
-			if (updated.contains(w)) continue;
-			SwingUtilities.updateComponentTreeUI(w);
-			w.validate();
-			RepaintManager mgr = RepaintManager.currentManager(w);
-			Component childs[] = w.getComponents();
-			for (Component child : childs) {
-				if (child instanceof JComponent)
-					mgr.markCompletelyDirty((JComponent)child);
-			}
-			w.repaint();
-			updated.add(w);
-		}
-		for (Window w : s_hiddenWindows)
-		{
-			if (updated.contains(w)) continue;
-			SwingUtilities.updateComponentTreeUI(w);
-			w.validate();
-			RepaintManager mgr = RepaintManager.currentManager(w);
-			Component childs[] = w.getComponents();
-			for (Component child : childs) {
-				if (child instanceof JComponent)
-					mgr.markCompletelyDirty((JComponent)child);
-			}
-			w.repaint();
-			updated.add(w);
-		}
-		return updated;
-	}
 	
 	/**
 	 * Prepare the context for calling remote server (for e.g, ejb), 

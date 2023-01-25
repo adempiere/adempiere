@@ -13,8 +13,11 @@
 package org.adempiere.webui;
 
 import org.adempiere.webui.desktop.IDesktop;
-import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MUser;
+import org.zkforge.keylistener.Keylistener;
+import org.zkoss.zk.ui.Page;
+
+import java.util.List;
 
 /**
  * 
@@ -37,28 +40,20 @@ public interface IWebClient {
 	 * 
 	 * @return IDesktop
 	 */
-	public IDesktop getAppDeskop();
-
-	/**
-	 * 
-	 * @param userId
-	 * @return UserPreference
-	 */
-	public UserPreference loadUserPreference(int userId);
-
-	/**
-	 * 
-	 * @return UserPreference
-	 */
-	public UserPreference getUserPreference();
+	public IDesktop getApplicationDesktop();
 	
 	/**
 	 * @param user
 	 */
 	public void changeRole(MUser user);
 
-	/**
-	 * logout after browser destroyed
-	 */
-	public void logoutAfterTabDestroyed();
+	public Page getPage();
+
+	public List getChildren();
+
+	public void detach();
+
+	public void clearDesktop();
+
+	public Keylistener getKeylistener();
 }

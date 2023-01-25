@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_Requisition;
+import org.adempiere.core.domains.models.I_M_RequisitionLine;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.Env;
 
@@ -90,7 +93,7 @@ public class CalloutRequisition extends CalloutEngine
 		//	Multiply
 		BigDecimal LineNetAmt = Qty.multiply(PriceActual);
 		if (LineNetAmt.scale() > StdPrecision)
-			LineNetAmt = LineNetAmt.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
+			LineNetAmt = LineNetAmt.setScale(StdPrecision, RoundingMode.HALF_UP);
 		line.setLineNetAmt(LineNetAmt);
 		log.info("amt - LineNetAmt=" + LineNetAmt);
 		//

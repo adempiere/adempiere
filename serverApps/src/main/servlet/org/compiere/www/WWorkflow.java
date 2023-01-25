@@ -30,19 +30,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.br;
-import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.h6;
-import org.apache.ecs.xhtml.head;
-import org.apache.ecs.xhtml.hr;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.input;
-import org.apache.ecs.xhtml.link;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.xhtml.body;
+import org.adempiere.legacy.apache.ecs.xhtml.br;
+import org.adempiere.legacy.apache.ecs.xhtml.form;
+import org.adempiere.legacy.apache.ecs.xhtml.h6;
+import org.adempiere.legacy.apache.ecs.xhtml.head;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.xhtml.input;
+import org.adempiere.legacy.apache.ecs.xhtml.link;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -772,7 +772,7 @@ private void loadWorkflow(Properties ctx, int AD_Workflow_ID, HttpSession sess) 
 		for (int i = 0; i < nodes.length; i++)
 		{
 		wfn= nodes[i];
-		nodes_ID.add (new Integer(wfn.getAD_WF_Node_ID()));
+			nodes_ID.add(Integer.valueOf(wfn.getAD_WF_Node_ID()));
 						}//for
         int imageMap [][] = generateImageMap(nodes_ID);
  //printMap(imageMap);
@@ -781,7 +781,7 @@ sess.setAttribute( WORKFLOW,wf);
 sess.setAttribute( NODES,nodes);
 sess.setAttribute( NODES_ID,nodes_ID);
 sess.setAttribute( IMAGE_MAP,imageMap);
-sess.setAttribute( ACTIVE_NODE,new Integer(-999));
+		sess.setAttribute(ACTIVE_NODE, Integer.valueOf(-999));
 
 }//loadWorkflow
 
@@ -800,7 +800,7 @@ sess.setAttribute( ACTIVE_NODE,new Integer(-999));
 private void executeCommand(String m_command, int j_command , MWorkflow wf,int activeNode, MWFNode [] nodes,ArrayList nodes_ID, HttpSession sess){
 if (j_command != 0 )
 {
-sess.setAttribute(ACTIVE_NODE, new Integer(j_command));
+sess.setAttribute(ACTIVE_NODE, Integer.valueOf(j_command));
 return;
 }
 
@@ -840,7 +840,7 @@ if(m_command.equals(LAST)) updatedActiveNode= wf.getLast(0,Env.getContextAsInt(c
 }//ready
 
 //update
-sess.setAttribute(ACTIVE_NODE,new Integer(updatedActiveNode));
+sess.setAttribute(ACTIVE_NODE, Integer.valueOf(updatedActiveNode));
 }//executeCommand
 
 

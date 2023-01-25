@@ -18,7 +18,7 @@ package org.adempiere.pos.util;
 
 import java.lang.reflect.Constructor;
 
-import org.adempiere.pos.service.CPOS;
+import org.adempiere.pos.services.CPOS;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 
@@ -76,7 +76,6 @@ public abstract class POSTicketHandler {
 		if(className == null
 				|| className.trim().length() == 0) {
 			log.fine("Get from GenericTicketHandlerClass");
-			return new POSGenericTicketHandler(pos);
 		}
 		//	Handler
 		POSTicketHandler ticketHandler = null;

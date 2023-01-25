@@ -35,7 +35,7 @@
     <pathelement path="../org.adempiere.asset/dist/lib/FixedAssetManagement.jar"/>
     <pathelement location="../lib/Adempiere.jar" />
     <pathelement location="../lib/CSTools.jar" />
-    <pathelement location="../tools/lib/servlet-api.jar" />
+    <pathelement location="../tools/lib/javax.servlet-api-4.0.1.jar" />
   	<pathelement location="../tools/lib/jsp-api.jar" />
   </path>
 
@@ -52,12 +52,13 @@
     </path>
   	
     <javac
-      target="1.8" encoding="UTF-8"
+      target="11" encoding="UTF-8"
 	  destdir="${build.war.dir}"
 	  debug="on"
 	  deprecation="off"
 	  optimize="on"
-	  classpathref="web.path">
+				classpathref="web.path"
+				includeantruntime="false">
       <src path="${src.servlet.dir}"/>
     </javac>
   	

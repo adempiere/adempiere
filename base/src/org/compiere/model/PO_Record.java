@@ -20,6 +20,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_Archive;
+import org.adempiere.core.domains.models.X_AD_Attachment;
+import org.adempiere.core.domains.models.X_AD_Note;
+import org.adempiere.core.domains.models.X_AD_RecentItem;
+import org.adempiere.core.domains.models.X_CM_Chat;
+import org.adempiere.core.domains.models.X_CM_Container;
+import org.adempiere.core.domains.models.X_CM_Container_Element;
+import org.adempiere.core.domains.models.X_C_Order;
+import org.adempiere.core.domains.models.X_C_OrderLine;
+import org.adempiere.core.domains.models.X_K_Index;
+import org.adempiere.core.domains.models.X_R_Request;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -104,7 +115,7 @@ public class PO_Record
 			//	DELETE FROM table WHERE AD_Table_ID=#1 AND Record_ID=#2
 			if (s_cascades[i] != AD_Table_ID)
 			{
-				Object[] params = new Object[]{new Integer(AD_Table_ID), new Integer(Record_ID)};
+				Object[] params = new Object[]{Integer.valueOf(AD_Table_ID), Integer.valueOf(Record_ID)};
 				StringBuffer sql = new StringBuffer ("DELETE FROM ")
 					.append(s_cascadeNames[i])
 					.append(" WHERE AD_Table_ID=? AND Record_ID=?");
@@ -126,7 +137,7 @@ public class PO_Record
 			if (s_parents[j] == AD_Table_ID)
 			{
 				int AD_Table_IDchild = s_parentChilds[j];
-				Object[] params = new Object[]{new Integer(AD_Table_IDchild), new Integer(Record_ID)};
+				Object[] params = new Object[]{Integer.valueOf(AD_Table_IDchild), Integer.valueOf(Record_ID)};
 				for (int i = 0; i < s_cascades.length; i++)
 				{
 					StringBuffer sql = new StringBuffer ("DELETE FROM ")

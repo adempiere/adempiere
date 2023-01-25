@@ -384,7 +384,7 @@ public class WAllocation extends Allocation
 		AD_Column_ID = 61804;    //  C_AllocationLine.C_Charge_ID
 		MLookup lookupCharge = MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, AD_Column_ID, DisplayType.TableDir);
 		chargePick = new WTableDirEditor("C_Charge_ID", true, false, true, lookupCharge);
-		chargePick.setValue(new Integer(chargeId));
+		chargePick.setValue(Integer.valueOf(chargeId));
 		chargePick.addValueChangeListener(this);
 		
 		// Organization set on allocation

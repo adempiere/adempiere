@@ -29,7 +29,7 @@ public class WWindowStatus
 	
 	public static WWindowStatus get (Map cache, int WinNo, boolean changeTab, int TabNo, boolean changeRow, /*int RowNo*/int RecordID ) //throws AD_WrongTabException 
 	{
-		WWindowStatus ws = (WWindowStatus)cache.get(new Integer(WinNo));
+		WWindowStatus ws = (WWindowStatus) cache.get(Integer.valueOf(WinNo));
 		if (ws != null)
 		{
 			if (changeTab &&ws.curTab.getTabNo()!=TabNo)
@@ -171,7 +171,9 @@ public class WWindowStatus
 		
 	public int getRowNoFromRecordID( int RecordID ) {		
 		Integer rowNo = this.RecordIDMap.get( RecordID ); 
-		if (rowNo == null) rowNo = new Integer(-1);
+		if (rowNo == null) {
+			rowNo = Integer.valueOf(-1);
+		}
 		System.out.println("getRowNo From RecID "+RecordID+" = "+rowNo.intValue());
 		return rowNo.intValue();		
 	}

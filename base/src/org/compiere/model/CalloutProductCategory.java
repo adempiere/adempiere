@@ -43,7 +43,7 @@ public class CalloutProductCategory extends CalloutEngine
 
 		Integer productCategoryId = (Integer) mTab.getValue(MProductCategory.COLUMNNAME_M_Product_Category_ID);
 		if (productCategoryId == null)
-			productCategoryId = new Integer(0);
+			productCategoryId = Integer.valueOf(0);
 		
 		if (productCategoryId.intValue() > 0) {
 			MProductCategory pc = new MProductCategory(ctx, productCategoryId.intValue(), null);

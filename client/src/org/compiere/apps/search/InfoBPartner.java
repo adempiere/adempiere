@@ -356,7 +356,7 @@ public class InfoBPartner extends Info implements PropertyChangeListener, Action
 	        	String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
 				if (bp != null && bp.length() != 0)
 				{
-					fieldID = new Integer(bp).intValue();
+					fieldID = Integer.valueOf(bp).intValue();
 				}
 			}
         }

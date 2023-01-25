@@ -30,12 +30,11 @@ package org.compiere.server;
 
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.X_IMP_Processor_Type;
 import org.adempiere.server.rpl.IImportProcessor;
 import org.compiere.model.AdempiereProcessor;
 import org.compiere.model.MClient;
-import org.compiere.model.X_IMP_Processor_Type;
 import org.compiere.util.TimeUtil;
-import org.compiere.server.AdempiereServer;
 import org.compiere.model.MIMPProcessor;
 import org.compiere.model.MIMPProcessorLog;
 
@@ -124,27 +123,27 @@ public class ReplicationProcessor extends AdempiereServer {
 				log.fine("ReplicationProcessor caught an exception !!!" );
 				e.printStackTrace();
 				log.severe(e.getMessage());
-				MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, e.getMessage() );
-				pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-				pLog.saveEx();
-				try 
+				MIMPProcessorLog processorLog = new MIMPProcessorLog(mImportProcessor, e.getMessage() , trxName);
+				processorLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+				processorLog.saveEx();
+				try
 				{
 				    importProcessor.stop();
-				} 
-				catch (Exception e1) 
+				}
+				catch (Exception e1)
 				{
 				    e1.printStackTrace();
-				    MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() );					
+				    MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() , trxName);
 				    pLog2.saveEx();
-				} 
+				}
 		    }
 			//
 			int no = mImportProcessor.deleteLog();
 			m_summary.append("Logs Records deleted=").append(no).append("; ");
 			//
-			MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, m_summary.toString());
-			pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			pLog.saveEx();
+			MIMPProcessorLog processorLog = new MIMPProcessorLog(mImportProcessor, m_summary.toString(), trxName);
+			processorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+			processorLog.saveEx();
 		}
 	}
 

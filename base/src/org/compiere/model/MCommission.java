@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_CommissionLine;
+import org.adempiere.core.domains.models.X_C_Commission;
 import org.compiere.util.DB;
 
 /**
@@ -161,9 +164,11 @@ public class MCommission extends X_C_Commission
 	 * @param bPartnerId
 	 * @param from
 	 * @param to
+	 * @param docBasisType
+	 * @param trxName
 	 * @return
 	 */
-	public static BigDecimal getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to, String docBasisType) {
+	public static BigDecimal getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to, String docBasisType, String trxName) {
 		ArrayList<Object> params = new ArrayList<Object>();
 		String whereClause = new String();
 		//	Add BPartner
@@ -190,16 +195,5 @@ public class MCommission extends X_C_Commission
 		BigDecimal value = DB.getSQLValueBDEx(null, sql.toString(), params);
 		//	Valid Value
 		return value;
-	}
-	
-	/**
-	 * Get commission amount for a sales representative without doc basis type
-	 * @param bPartnerId
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	public static BigDecimal getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to) {
-		return getCommissionAmt(bPartnerId, from, to, null);
 	}
 }	//	MCommission

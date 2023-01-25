@@ -67,6 +67,7 @@ import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
+import org.adempiere.core.domains.models.X_AD_Column;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
@@ -79,7 +80,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MUserQuery;
-import org.compiere.model.X_AD_Column;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -649,7 +649,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             /**/
 
             //  TargetFields
-            m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
+            m_targetFields.put(Integer.valueOf(mField.getAD_Column_ID()), mField);
         }   //  for all target tab fields
 
         //  Disable simple query fields
@@ -1286,7 +1286,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-		        editor.setValue(new Integer(i));
+		        editor.setValue(Integer.valueOf(i));
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -2103,7 +2103,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 if (in instanceof Integer)
                     return in;
                 int i = Integer.parseInt(in.toString());
-                return new Integer(i);
+                return Integer.valueOf(i);
             }
             //  Return BigDecimal
             else if (DisplayType.isNumeric(dt))

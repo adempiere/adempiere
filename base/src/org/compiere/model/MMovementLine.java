@@ -17,18 +17,19 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_M_MovementLine;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocumentReversalLineEnable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MDDOrderLine;
 
 /**
  *	Inventory Move Line Model
@@ -140,7 +141,7 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 			if (product != null)
 			{
 				int precision = product.getUOMPrecision(); 
-				MovementQty = MovementQty.setScale(precision, BigDecimal.ROUND_HALF_UP);
+				MovementQty = MovementQty.setScale(precision, RoundingMode.HALF_UP);
 			}
 		}
 		super.setMovementQty(MovementQty);
@@ -239,6 +240,8 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 		return true;
 	}	//	beforeSave
 	
+	
+	
 	/** 
 	 *      Set Distribution Order Line. 
 	 *      Does not set Quantity! 
@@ -246,12 +249,12 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 	 *      @param M_Locator_ID locator 
 	 *      @param Qty used only to find suitable locator 
 	 */ 
-	public void setOrderLine (MDDOrderLine oLine, BigDecimal Qty, boolean isReceipt) 
+	public void setOrderLine (int distributionOrderLineId, int productId, int attributeSetInstanceId, int attributeSetInstanceToId, int warehouseId, int locatorId, int locatorToId, int line, String description, BigDecimal Qty, boolean isReceipt) 
 	{ 
-		setDD_OrderLine_ID(oLine.getDD_OrderLine_ID()); 
-		setLine(oLine.getLine()); 
+		setDD_OrderLine_ID(distributionOrderLineId); 
+		setLine(line); 
 		//setC_UOM_ID(oLine.getC_UOM_ID()); 
-		MProduct product = oLine.getProduct(); 
+		MProduct product = MProduct.get(getCtx(), productId); 
 		if (product == null) 
 		{ 
 			set_ValueNoCheck(COLUMNNAME_M_Product_ID, null); 
@@ -262,13 +265,13 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 		} 
 		else 
 		{ 
-			setM_Product_ID(oLine.getM_Product_ID()); 
-			setM_AttributeSetInstance_ID(oLine.getM_AttributeSetInstance_ID()); 
-			setM_AttributeSetInstanceTo_ID(oLine.getM_AttributeSetInstanceTo_ID()); 
+			setM_Product_ID(productId); 
+			setM_AttributeSetInstance_ID(attributeSetInstanceId); 
+			setM_AttributeSetInstanceTo_ID(attributeSetInstanceToId); 
 			// 
 			if (product.isItem()) 
 			{ 
-				MWarehouse warehouse = MWarehouse.get(getCtx(), oLine.getParent().getM_Warehouse_ID());
+				MWarehouse warehouse = MWarehouse.get(getCtx(), warehouseId);
 				MLocator locator = MLocator.getDefault(warehouse);
 				if(locator == null)
 					throw new AdempiereException("@M_Warehouse_ID@ " + warehouse.getName() + " @M_Locator_ID@ @IsDefault@ @NotFound@");
@@ -276,11 +279,11 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 				if (isReceipt)
 				{
 					setM_Locator_ID(locator.getM_Locator_ID());
-					setM_LocatorTo_ID(oLine.getM_LocatorTo_ID()); 
+					setM_LocatorTo_ID(locatorToId); 
 				}
 				else 
 				{
-					setM_Locator_ID(oLine.getM_Locator_ID()); 
+					setM_Locator_ID(locatorId); 
 					setM_LocatorTo_ID(locator.getM_Locator_ID());
 				}
 			} 
@@ -291,7 +294,7 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 			}	
 		} 
 	
-		setDescription(oLine.getDescription()); 
+		setDescription(description); 
 		this.setMovementQty(Qty);
 	}       //      setOrderLine 
 

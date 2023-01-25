@@ -22,13 +22,13 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.core.domains.models.I_AD_WF_NextCondition;
+import org.adempiere.core.domains.models.I_AD_WF_Node;
+import org.adempiere.core.domains.models.I_AD_WF_NodeNext;
+import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_WF_NextCondition;
-import org.compiere.model.I_AD_WF_Node;
-import org.compiere.model.I_AD_WF_NodeNext;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.Env;
 import org.compiere.wf.MWFNextCondition;
 import org.compiere.wf.MWFNode;

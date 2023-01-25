@@ -34,8 +34,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_AD_Column;
 import org.adempiere.webui.component.Listbox;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MFactAcct;
@@ -252,7 +252,7 @@ public class WAcctViewerData
 
 				ValueNamePair pp = new ValueNamePair(tableName, name);
 				cb.appendItem(pp.getName(),pp);
-				tableInfo.put (tableName, new Integer(id));
+				tableInfo.put(tableName, Integer.valueOf(id));
 				
 				if (id == AD_Table_ID)
 					select = pp;

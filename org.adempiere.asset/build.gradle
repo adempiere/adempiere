@@ -1,0 +1,117 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+allprojects {
+	tasks.withType(Javadoc) {
+    	options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    implementation group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-collections4
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
+	
+	api project(path: ':base')
+	api project(path: ':org.adempiere.project')
+	api project(path: ':org.adempiere.test')
+	//api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    //api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
+    //api 'io.github.adempiere:project:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+}
+
+sourceSets {
+    main {
+         java {
+            srcDirs = ['src/main/java/base']
+         }
+    }
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+//signing {
+//    def signingKey = findProperty("signingKey")
+//    def signingPassword = findProperty("signingPassword")
+//    useInMemoryPgpKeys(signingKey, signingPassword)
+//    sign configurations.archives
+//}
+
+
+def entityType = 'D'
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+
+jar {
+    manifest {
+        attributes("Implementation-Title": "Adempiere Project Management",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = findProperty("sonatypeUsername")
+                password = findProperty("sonatypePassword")
+            }
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+        	groupId 'io.github.adempiere'
+            artifactId 'asset'
+            version
+           	from components.java
+           	pom {
+                name = 'Asset'
+                description = 'Fixed Asset Management of ADempiere.'
+                url = 'http://adempiere.io/'
+                licenses {
+                    license {
+                        name = 'GNU General Public License, version 2'
+                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'yamelsenih'
+                        name = 'Yamel Senih'
+                        email = 'ysenih@erpya.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
+                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
+                    url = 'http://github.com/adempiere/adempiere'
+                }
+            }
+		}
+	}
+}
+
+signing {
+	def signingKey = findProperty("signingKey")
+    def signingPassword = findProperty("signingPassword")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}

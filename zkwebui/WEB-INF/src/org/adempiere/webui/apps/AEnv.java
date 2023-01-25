@@ -19,7 +19,6 @@ package org.adempiere.webui.apps;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.URI;
@@ -37,6 +36,7 @@ import java.util.logging.Level;
 
 import javax.servlet.ServletRequest;
 
+import org.adempiere.pdf.IText7Document;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
@@ -62,13 +62,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
-
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfImportedPage;
-import com.lowagie.text.pdf.PdfReader;
-import com.lowagie.text.pdf.PdfWriter;
 
 /**
  *  ZK Application Environment and utilities
@@ -252,12 +245,12 @@ public final class AEnv
 
 		log.config("Window=" + WindowNo + ", AD_Window_ID=" + AD_Window_ID);
 		GridWindowVO mWindowVO = null;
-		String locale = Env.getLanguage(Env.getCtx()).getLocale().toString();
+		String windowKey = Env.getLanguage(Env.getCtx()).getLocale() + "|" + Env.getAD_Role_ID(Env.getCtx());
 		if (AD_Window_ID != 0 && Ini.isCacheWindow())	//	try cache
 		{
 			synchronized (windowCache)
 			{
-				CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
+				CCache<Integer,GridWindowVO> cache = windowCache.get(windowKey);
 				if (cache != null)
 				{
 					mWindowVO = cache.get(AD_Window_ID);
@@ -279,11 +272,11 @@ public final class AEnv
 			{
 				synchronized (windowCache)
 				{
-					CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
+					CCache<Integer,GridWindowVO> cache = windowCache.get(windowKey);
 					if (cache == null)
 					{
 						cache = new CCache<Integer, GridWindowVO>("AD_Window", 10);
-						windowCache.put(locale, cache);
+						windowCache.put(windowKey, cache);
 					}
 					cache.put(AD_Window_ID, mWindowVO);
 				}
@@ -636,36 +629,15 @@ public final class AEnv
     }
 
     /**
-     *
-     * @param pdfList
-     * @param outFile
-     * @throws IOException
-     * @throws DocumentException
-     * @throws FileNotFoundException
-     */
-    public static void mergePdf(List<File> pdfList, File outFile) throws IOException,
-			DocumentException, FileNotFoundException {
-		Document document = null;
-		PdfWriter copy = null;
-		for (File f : pdfList)
-		{
-			PdfReader reader = new PdfReader(f.getAbsolutePath());
-			if (document == null)
-			{
-				document = new Document(reader.getPageSizeWithRotation(1));
-				copy = PdfWriter.getInstance(document, new FileOutputStream(outFile));
-				document.open();
-			}
-			int pages = reader.getNumberOfPages();
-			PdfContentByte cb = copy.getDirectContent();
-			for (int i = 1; i <= pages; i++) {
-				document.newPage();
-				PdfImportedPage page = copy.getImportedPage(reader, i);
-				cb.addTemplate(page, 0, 0);
-			}
-		}
-		document.close();
-    }
+    *
+    * @param pdfList
+    * @param outFile
+    * @throws IOException
+    * @throws FileNotFoundException
+    */
+   public static void mergePdf(List<File> pdfList, File outFile) throws IOException, FileNotFoundException {
+   	IText7Document.mergePdf(pdfList, outFile);
+   }
 
     /**
 	 *	Get window title

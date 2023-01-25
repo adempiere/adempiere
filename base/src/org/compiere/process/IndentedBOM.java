@@ -17,23 +17,18 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_PP_Product_BOMLine;
+import org.adempiere.core.domains.models.X_T_BOM_Indented;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.util.StringUtils;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
-import org.compiere.model.MCostElement;
 import org.compiere.model.MProduct;
-import org.compiere.model.MProductBOM;
 import org.compiere.model.Query;
-import org.compiere.model.X_T_BOM_Indented;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.Env;
-import org.eevolution.model.MPPProductBOMLine;
 
 /**
  * Cost Multi-Level BOM & Formula Review
@@ -131,8 +126,8 @@ public class IndentedBOM extends SvrProcess
 
 		BigDecimal llCost = Env.ZERO;
 		BigDecimal llFutureCost = Env.ZERO;
-		List<MPPProductBOMLine> list = getBOMs(product);
-		for (MPPProductBOMLine bom : list)
+		List<X_PP_Product_BOMLine> list = getBOMs(product);
+		for (X_PP_Product_BOMLine bom : list)
 		{
 			m_LevelNo++;
 			llCost ll = explodeProduct(bom.getM_Product_ID(), bom.getQtyBOM(), accumQty.multiply(bom.getQtyBOM()));
@@ -172,19 +167,19 @@ public class IndentedBOM extends SvrProcess
 	 * @param isComponent
 	 * @return list of MProductBOM
 	 */
-	private List<MPPProductBOMLine> getBOMs(MProduct product)
+	private List<X_PP_Product_BOMLine> getBOMs(MProduct product)
 	{
 		
 		log.severe(" PRODUCT NAME = " + product.getName() ) ;
 		
 		StringBuffer whereClause = new StringBuffer();
-		whereClause.append(MPPProductBOMLine.COLUMNNAME_PP_Product_BOM_ID);
+		whereClause.append(X_PP_Product_BOMLine.COLUMNNAME_PP_Product_BOM_ID);
 		whereClause.append(" IN ( SELECT PP_Product_BOM_ID FROM PP_Product_BOM ");
 		whereClause.append(" WHERE M_Product_ID = " + product.get_ID() + " ) ");
 		
-		List<MPPProductBOMLine> list = new Query(getCtx(), MPPProductBOMLine.Table_Name, whereClause.toString(), null)
+		List<X_PP_Product_BOMLine> list = new Query(getCtx(), X_PP_Product_BOMLine.Table_Name, whereClause.toString(), null)
 									.setOnlyActiveRecords(true)
-									.setOrderBy(MPPProductBOMLine.COLUMNNAME_Line)
+									.setOrderBy(X_PP_Product_BOMLine.COLUMNNAME_Line)
 									.list();
 		return list;
 	}

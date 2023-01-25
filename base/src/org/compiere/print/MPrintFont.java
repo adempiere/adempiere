@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_PrintFont;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_PrintFont;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 
@@ -211,7 +211,7 @@ public class MPrintFont extends X_AD_PrintFont
 	 */
 	static public MPrintFont get (int AD_PrintFont_ID)
 	{
-		Integer key = new Integer(AD_PrintFont_ID);
+		Integer key = Integer.valueOf(AD_PrintFont_ID);
 		MPrintFont pf = (MPrintFont)s_fonts.get(key);
 		if (pf == null)
 		{

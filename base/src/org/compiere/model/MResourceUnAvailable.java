@@ -20,6 +20,9 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_S_Resource;
+import org.adempiere.core.domains.models.I_S_ResourceUnAvailable;
+import org.adempiere.core.domains.models.X_S_ResourceUnAvailable;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;

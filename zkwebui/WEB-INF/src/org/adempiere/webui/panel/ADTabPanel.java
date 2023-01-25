@@ -24,6 +24,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_AD_FieldGroup;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.*;
 import org.adempiere.webui.component.Column;
@@ -1281,6 +1282,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
                 activateChild(false, ep);
             }
 		} else {
+		    gridTab.dataRefresh(gridTab.getCurrentRow());
 			formComponent.setVisible(true);
 			repaintComponents(false);
 			//activate embedded panel
@@ -1299,7 +1301,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
 			if (listPanel != null && listPanel.getADTabPanel() != null && listPanel.getADTabPanel().getGlobalToolbar() != null )
 				listPanel.getADTabPanel().getGlobalToolbar().setCurrentPanel(this);
-
+			    
 				listPanel.refresh(gridTab);
 			listPanel.scrollToCurrentRow();
 			repaintComponents(true);

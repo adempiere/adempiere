@@ -32,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 import org.adempiere.util.DeleteEntitiesModel;
 import org.compiere.apps.ADialog;
@@ -75,6 +76,9 @@ public class VDeleteEntity extends DeleteEntityControler
 	private CComboBox clientPick;
 	private CComboBox tablePick;
 	private CLabel tableLabel;
+	private CComboBox definitionPick;
+	private CLabel definitionLabel;
+	private CCheckBox isTableBased;
 	private CCheckBox dryRun;
 	private CButton refreshButton;
 	private DefaultMutableTreeNode rootNode;
@@ -102,22 +106,21 @@ public class VDeleteEntity extends DeleteEntityControler
 	 * @param root
 	 */
 	@SuppressWarnings("unchecked")
-	private void createNodes(DefaultMutableTreeNode root) {
+	private void createNodes(DefaultMutableTreeNode root, boolean isParent) {
 		DeleteEntitiesModel currentNode = (DeleteEntitiesModel) root.getUserObject();		
 		//	Load from parent
-		loadChilds(currentNode, root);
+		loadChilds(currentNode, root, isParent);
 		//	
-		Enumeration<DefaultMutableTreeNode> kids = root.children();
+		Enumeration<TreeNode> kids = root.children();
 		while (kids.hasMoreElements()) {
-			DefaultMutableTreeNode node = kids.nextElement();
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode)kids.nextElement();
 			if (root.isNodeAncestor(node)) {
 				log.log(Level.WARNING, "Loop detected, escaping.");
 				break;
 			} else if (((DeleteEntitiesModel) node.getUserObject()).isMandatoryLink()) {
-				createNodes(node);
+				createNodes(node, false);
 			}
 		}
-
 	}
 
 	/**
@@ -129,10 +132,21 @@ public class VDeleteEntity extends DeleteEntityControler
 		if (o != null) {
 			setClientId(((KeyNamePair) o).getKey());
 		}
-		//	Table
-		o = tablePick.getValue();
-		if (o != null) {
-			setTableId(((KeyNamePair) o).getKey());
+		setCleanDefinition(!isTableBased.isSelected());
+		if(isCleanDefinition()) {
+			//	Definition
+			o = definitionPick.getValue();
+			if (o != null) {
+				setCleanDefinitionId(((KeyNamePair) o).getKey());
+			}
+			setTableId(0);			
+		} else {
+			//	Table
+			o = tablePick.getValue();
+			if (o != null) {
+				setTableId(((KeyNamePair) o).getKey());
+			}
+			setCleanDefinitionId(0);
 		}
 		//	Dry Run
 		setDryRun(dryRun.isSelected());
@@ -154,7 +168,7 @@ public class VDeleteEntity extends DeleteEntityControler
 
 		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
 		model.setRoot(rootNode);
-		createNodes(rootNode);
+		createNodes(rootNode, true);
 
 		tree.expandRow(0);
 
@@ -171,6 +185,8 @@ public class VDeleteEntity extends DeleteEntityControler
 		refreshButton.addActionListener(this);
 		//	
 		dryRun = new CCheckBox(Msg.getMsg(Env.getCtx(), "DryRun"), true);
+		isTableBased = new CCheckBox(Msg.getElement(Env.getCtx(), "IsTableBased"), true);
+		isTableBased.addActionListener(this);
 		clientLabel = new CLabel(Msg.getElement(Env.getCtx(), "AD_Client_ID"));
 		clientPick = new CComboBox(getClients());
 		clientPick.setSelectedItem(null);
@@ -179,10 +195,16 @@ public class VDeleteEntity extends DeleteEntityControler
 		
 		tableLabel = new CLabel(Msg.getElement(Env.getCtx(), "AD_Table_ID"));
 		tablePick = new CComboBox(getTables());
+		definitionLabel = new CLabel(Msg.getElement(Env.getCtx(), "AD_CleanDefinition_ID"));
+		definitionPick = new CComboBox(getCleanDefinition());
 		tablePick.setSelectedItem(null);
 		tablePick.setMandatory(true);
 		tablePick.setBackground(false);
-		
+		definitionPick.setSelectedItem(null);
+		definitionPick.setMandatory(true);
+		definitionPick.setBackground(false);
+		definitionPick.setVisible(false);
+		definitionLabel.setVisible(false);
 		rootNode = new DefaultMutableTreeNode(null);
 		tree = new CheckboxTree(rootNode);
 		treePane = new JScrollPane(tree);
@@ -211,15 +233,24 @@ public class VDeleteEntity extends DeleteEntityControler
 		//	Client Pick
 		centerPanel.add(clientPick,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		// Table Label
-		centerPanel.add(tableLabel,  new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		//	Table Pick
-		centerPanel.add(tablePick,   new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+		//	Is Table Based
+		centerPanel.add(isTableBased,   new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		// Dry Run
-		centerPanel.add(dryRun,   new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		centerPanel.add(dryRun,   new GridBagConstraints(4, 0, 1, 1, 0.0, 0.0
 				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		// Table Label
+		centerPanel.add(tableLabel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		//	Table Pick
+		centerPanel.add(tablePick,   new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		// Definition Label
+		centerPanel.add(definitionLabel,  new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
+		//	Definition Pick
+		centerPanel.add(definitionPick,   new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 		//	Refresh Button
 		centerPanel.add(refreshButton,    new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
 				,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -243,7 +274,12 @@ public class VDeleteEntity extends DeleteEntityControler
 	public void actionPerformed (ActionEvent e) {
 		log.log(Level.FINE, "from: " + e.getSource() + " action: " + e.getActionCommand());
 		//	
-		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL)) {
+		if(e.getSource().equals(isTableBased)) {
+			definitionPick.setVisible(!isTableBased.isSelected());
+			definitionLabel.setVisible(!isTableBased.isSelected());
+			tablePick.setVisible(isTableBased.isSelected());
+			tableLabel.setVisible(isTableBased.isSelected());
+		} else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL)) {
 			dispose();
 			return;
 		} else if (e.getActionCommand().equals(ConfirmPanel.A_OK)) {

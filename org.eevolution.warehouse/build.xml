@@ -31,6 +31,9 @@
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
         <include name="*.jar"/>
     </fileset>
+  	<fileset dir="${adempiere.trunk}/org.eevolution.distribution/dist/lib">
+  	  <include name="*.jar"/>
+  	</fileset>
   </path>
 
   <target name="init" depends="clean">
@@ -46,7 +49,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac encoding="UTF-8"  srcdir="${src}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}" includeantruntime="false">
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="lib.class.path"/>
     </javac>
@@ -73,7 +76,7 @@
     <target name="zkcompile" depends="dist"
             description="compile the source " >
         <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
+        <javac encoding="UTF-8" debug="true" srcdir="${zksrc}" destdir="${zkclasses}" includeantruntime="false">
             <classpath refid="compile.classpath"/>
         </javac>
     </target>
@@ -86,7 +89,7 @@
         <jar jarfile="${dist}/lib/WarehouseManagementZk.jar" basedir="${basedir}/build/zkwebui" includes="WEB-INF/"/>
 
         <!-- Create target Liberozk deployment -->
-        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberoWM/lib"/>
+        <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/WarehouseManagement/lib"/>
 
         <!-- Transfer liberozkWM.jar -->
         <copy file="${dist}/lib/WarehouseManagementZk.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/WarehouseManagement/lib"/>

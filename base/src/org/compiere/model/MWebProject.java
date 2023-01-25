@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_CM_WebProject;
 import org.compiere.util.CCache;
 
 /**
@@ -43,7 +44,7 @@ public class MWebProject extends X_CM_WebProject
 	 */
 	public static MWebProject get (Properties ctx, int CM_WebProject_ID)
 	{
-		Integer key = new Integer (CM_WebProject_ID);
+		Integer key = Integer.valueOf(CM_WebProject_ID);
 		MWebProject retValue = (MWebProject)s_cache.get (key);
 		if (retValue != null)
 			return retValue;

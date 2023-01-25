@@ -17,9 +17,12 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_M_ProductPrice;
+import org.adempiere.core.domains.models.X_M_ProductPrice;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
@@ -63,14 +66,14 @@ public class MProductPrice extends X_M_ProductPrice
 	 *	@param ignored ignored
 	 *	@param trxName transaction
 	 */
-	public MProductPrice (Properties ctx, int ignored, String trxName)
+	public MProductPrice (Properties ctx, int productPriceId, String trxName)
 	{
-		super(ctx, 0, trxName);
-		if (ignored != 0)
-			throw new IllegalArgumentException("Multi-Key");
-		setPriceLimit (Env.ZERO);
-		setPriceList (Env.ZERO);
-		setPriceStd (Env.ZERO);
+		super(ctx, productPriceId, trxName);
+		if(productPriceId <= 0) {
+			setPriceLimit (Env.ZERO);
+			setPriceList (Env.ZERO);
+			setPriceStd (Env.ZERO);
+		}
 	}	//	MProductPrice
 
 	/**
@@ -141,9 +144,9 @@ public class MProductPrice extends X_M_ProductPrice
 	 */
 	public void setPrices (BigDecimal PriceList, BigDecimal PriceStd, BigDecimal PriceLimit)
 	{
-		setPriceLimit (PriceLimit.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), BigDecimal.ROUND_HALF_UP)); 
-		setPriceList (PriceList.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), BigDecimal.ROUND_HALF_UP)); 
-		setPriceStd (PriceStd.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), BigDecimal.ROUND_HALF_UP));
+		setPriceLimit (PriceLimit.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), RoundingMode.HALF_UP)); 
+		setPriceList (PriceList.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), RoundingMode.HALF_UP)); 
+		setPriceStd (PriceStd.setScale(this.getM_PriceList_Version().getM_PriceList().getPricePrecision(), RoundingMode.HALF_UP));
 	}	//	setPrice
 
 	/**

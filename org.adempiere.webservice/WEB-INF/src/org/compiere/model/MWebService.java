@@ -36,6 +36,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_WS_WebService;
+import org.adempiere.core.domains.models.X_WS_WebServiceMethod;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -60,7 +62,7 @@ public class MWebService extends X_WS_WebService
 	 */
 	public static MWebService get (Properties ctx, int WS_WebService_ID)
 	{
-		Integer key = new Integer (WS_WebService_ID);
+		Integer key = Integer.valueOf(WS_WebService_ID);
 		MWebService retValue = (MWebService) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -112,7 +114,7 @@ public class MWebService extends X_WS_WebService
 		}
 		if (retValue != null)
 		{
-			Integer key = new Integer (retValue.getWS_WebService_ID());
+			Integer key = Integer.valueOf(retValue.getWS_WebService_ID());
 			s_cache.put (key, retValue);
 		}
 		return retValue;

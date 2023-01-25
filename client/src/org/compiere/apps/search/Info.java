@@ -1815,7 +1815,7 @@ public abstract class Info extends CDialog
 							}
 						}
 						else if (c == Boolean.class)
-							data = new Boolean("Y".equals(m_rs.getString(colIndex)));
+							data = Boolean.valueOf("Y".equals(m_rs.getString(colIndex)));
 						else if (c == Timestamp.class)
 							data = m_rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)
@@ -1823,7 +1823,7 @@ public abstract class Info extends CDialog
 						else if (c == Double.class)
 							data = new Double(m_rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(m_rs.getInt(colIndex));
+							data = Integer.valueOf(m_rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)
 						{
 							String display = m_rs.getString(colIndex);

@@ -16,6 +16,29 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import io.vavr.Function4;
+import io.vavr.control.Try;
+import org.adempiere.exceptions.DBException;
+import org.adempiere.util.Check;
+import org.compiere.Adempiere;
+import org.compiere.db.AdempiereDatabase;
+import org.compiere.db.CConnection;
+import org.compiere.db.Database;
+import org.compiere.db.ProxyFactory;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MLanguage;
+import org.compiere.model.MRole;
+import org.compiere.model.MSequence;
+import org.compiere.model.MSysConfig;
+import org.compiere.model.MSystem;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POResultSet;
+import org.compiere.process.SequenceCheck;
+
+import javax.sql.RowSet;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,31 +59,13 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import javax.sql.RowSet;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
-import org.adempiere.exceptions.DBException;
-import org.adempiere.util.Check;
-import org.compiere.Adempiere;
-import org.compiere.db.AdempiereDatabase;
-import org.compiere.db.CConnection;
-import org.compiere.db.Database;
-import org.compiere.db.ProxyFactory;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MLanguage;
-import org.compiere.model.MRole;
-import org.compiere.model.MSequence;
-import org.compiere.model.MSysConfig;
-import org.compiere.model.MSystem;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POResultSet;
-import org.compiere.process.SequenceCheck;
+import static io.vavr.API.Option;
 
 
 /**
@@ -99,6 +104,9 @@ import org.compiere.process.SequenceCheck;
  *		@see https://github.com/adempiere/adempiere/issues/352
  *		<li> FR [ 391 ] Add connection support to MariaDB
  *		@see https://github.com/adempiere/adempiere/issues/464
+ * @author Raul Capecce, raul.capecce@openupsolutions.com
+ * 		<li>FR [ 3725 ] New way to iterate ResultSets
+ * 		@see https://github.com/adempiere/adempiere/issues/3725
  */
 public final class DB
 {
@@ -480,7 +488,9 @@ public final class DB
 	        {
 	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autocommit=" + autoCommit +"]");
 	        }
-        } catch (SQLException e) {}
+        } catch (SQLException exception) {
+			log.severe(exception.getMessage());
+		}
 
         return conn;
     }   //  createConnection
@@ -970,7 +980,7 @@ public final class DB
 	 */
 	public static int executeUpdate (String sql, int param, String trxName, int timeOut)
 	{
-		return executeUpdate (sql, new Object[]{new Integer(param)}, false, trxName, timeOut);
+		return executeUpdate (sql, new Object[]{Integer.valueOf(param)}, false, trxName, timeOut);
 	}	//	executeUpdate
 
 	/**
@@ -999,7 +1009,7 @@ public final class DB
 	 */
 	public static int executeUpdate (String sql, int param, boolean ignoreError, String trxName, int timeOut)
 	{
-		return executeUpdate (sql, new Object[]{new Integer(param)}, ignoreError, trxName, timeOut);
+		return executeUpdate (sql, new Object[]{Integer.valueOf(param)}, ignoreError, trxName, timeOut);
 	}	//	executeUpdate
 
 	/**
@@ -1033,11 +1043,11 @@ public final class DB
 		verifyTrx(trxName, sql);
 		//
 		int no = -1;
-		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
-			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
-
+		CPreparedStatement cs = null;
 		try
 		{
+			cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted
 			setParameters(cs, params);
 			if (timeOut > 0)
 				cs.setQueryTimeout(timeOut);
@@ -1065,15 +1075,8 @@ public final class DB
 		}
 		finally
 		{
-			//  Always close cursor
-			try
-			{
-				cs.close();
-			}
-			catch (SQLException e2)
-			{
-				log.log(Level.SEVERE, "Cannot close statement");
-			}
+			DB.close(cs);
+			cs = null;
 		}
 		return no;
 	}	//	executeUpdate
@@ -1107,11 +1110,11 @@ public final class DB
 		//
 		verifyTrx(trxName, sql);
 		int no = -1;
-		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
-			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
-
+		CPreparedStatement cs = null;
 		try
 		{
+			cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
 			setParameters(cs, params);
 			if (timeOut > 0)
 				cs.setQueryTimeout(timeOut);
@@ -1129,6 +1132,7 @@ public final class DB
 		finally
 		{
 			DB.close(cs);
+			cs = null;
 		}
 		return no;
 	}
@@ -1159,6 +1163,31 @@ public final class DB
 
 		return no;
 	}	//	executeUpdareMultiple
+
+	/**
+	 *	Execute multiple Update statements and throw exceptions on error
+	 *  @param sql multiple sql statements separated by "; " SQLSTATEMENT_SEPARATOR
+	 * 	@param trxName optional transaction name
+	 *  @return number of rows updated
+	 */
+	public static int executeUpdateMultipleEx (String sql, String trxName) throws DBException
+	{
+		if (sql == null || sql.length() == 0)
+			throw new IllegalArgumentException("Required parameter missing - " + sql);
+		int index = sql.indexOf(SQLSTATEMENT_SEPARATOR);
+		if (index == -1)
+			return executeUpdateEx(sql, null, trxName);
+		int no = 0;
+		//
+		String statements[] = sql.split(SQLSTATEMENT_SEPARATOR);
+		for (int i = 0; i < statements.length; i++)
+		{
+			log.fine(statements[i]);
+			no += executeUpdateEx(statements[i], null, trxName);
+		}
+
+		return no;
+	}	//	executeUpdareMultipleEx
 
 	/**
 	 * Execute Update and throw exception.
@@ -1458,6 +1487,8 @@ public final class DB
 			} else {
 				uuid = DB.getSQLValueString(trxName, "SELECT getUUID()");
 			}
+		} else {
+			uuid = UUID.randomUUID().toString();
 		}
 		return uuid;
 	}
@@ -2557,5 +2588,50 @@ public final class DB
 			} catch (SQLException e) {}
 		}
 		return false;
+	}
+
+    /**
+     * Get the current time from the database
+     * @return a timestamp of the current database time
+     */
+    public static Timestamp getCurrentTimeFromDatabase() {
+
+        return DB.getSQLValueTS(null,
+                "SELECT getdate() FROM DUAL");
+
+    }
+
+	/**
+	 * Execute ResultSet from a function
+	 * Parameters Type <String trxName . String sql , io.vavr.collection.List<Object> parameters , ResultSetRunnable<ResultSet> callback>
+	 * Use apply method to set of parameters
+	 */
+	public static Function4<String , String,  io.vavr.collection.List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
+		AtomicReference<CPreparedStatement> preparedStatementReference = new AtomicReference<>();
+		AtomicReference<ResultSet> resultSetReference = new AtomicReference<>();
+		return Try.run(() -> {
+			final CPreparedStatement prepareStatement = prepareStatement(sql, trxName);
+			if (Option(parameters).isDefined()) {
+				DB.setParameters(prepareStatement, parameters.asJava());
+			}
+			preparedStatementReference.set(prepareStatement);
+			ResultSet resultSet = preparedStatementReference.get().executeQuery();
+			callback.run(resultSet);
+			resultSetReference.set(resultSet);
+		}).andFinally(() -> {
+			DB.close(resultSetReference.get(), preparedStatementReference.get());
+		});
+	};
+
+	/**
+	 * Execute ResultSet from an imperative Mode
+	 * @param trxName trx Name
+	 * @param sql SQL
+	 * @param parameters Parameters
+	 * @param resultSet ResultSet
+	 * @return
+	 */
+	public static Try<Void> runResultSet(String trxName , String sql , java.util.List<Object> parameters , ResultSetRunnable<ResultSet> resultSet) {
+		return runResultSetFunction.apply(trxName , sql ,  io.vavr.collection.List.ofAll(parameters) , resultSet);
 	}
 }	//	DB

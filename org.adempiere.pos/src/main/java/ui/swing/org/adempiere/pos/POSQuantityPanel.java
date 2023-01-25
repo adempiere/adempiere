@@ -29,7 +29,7 @@ import java.math.BigDecimal;
 import javax.swing.KeyStroke;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pos.service.POSPanelInterface;
+import org.adempiere.pos.services.POSPanelInterface;
 import org.compiere.apps.ADialog;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.model.MOrder;

@@ -17,10 +17,12 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.Comparator;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_C_RfQResponseLineQty;
 import org.compiere.util.Env;
 
 /**
@@ -148,9 +150,9 @@ public class MRfQResponseLineQty extends X_C_RfQResponseLineQty implements Compa
 		if (discount == null || Env.ZERO.compareTo(discount) == 0)
 			return price;
 		//	Calculate
-	//	double result = price.doubleValue() * (100.0 - discount.doubleValue()) / 100.0;
+		//	double result = price.doubleValue() * (100.0 - discount.doubleValue()) / 100.0;
 		BigDecimal factor = ONEHUNDRED.subtract(discount);
-		return price.multiply(factor).divide(ONEHUNDRED, 2, BigDecimal.ROUND_HALF_UP);  
+		return price.multiply(factor).divide(ONEHUNDRED, 2, RoundingMode.HALF_UP);  
 	}	//	getNetAmt
 
 	

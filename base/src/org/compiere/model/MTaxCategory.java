@@ -20,6 +20,8 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_C_Tax;
+import org.adempiere.core.domains.models.X_C_TaxCategory;
 import org.adempiere.exceptions.AdempiereException;
 
 /**

@@ -19,6 +19,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,11 +27,11 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_HR_Concept;
+import org.adempiere.core.domains.models.X_HR_Movement;
+import org.adempiere.core.domains.models.X_HR_Payroll;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.X_HR_Concept;
-import org.eevolution.model.X_HR_Movement;
-import org.eevolution.model.X_HR_Payroll;
 
 
 /**
@@ -191,10 +192,8 @@ public class CalloutPaySelection extends CalloutEngine
 		if(OpenAmt.doubleValue() != 0) {
 			CurrentCurrencyRate = AmtSource.divide(OpenAmt, MathContext.DECIMAL128);
 			//	
-			DiscountAmt = DiscountAmt.multiply(CurrentCurrencyRate).setScale(
-					currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-			PayAmt = PayAmt.multiply(CurrentCurrencyRate).setScale(
-					currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+			DiscountAmt = DiscountAmt.multiply(CurrentCurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
+			PayAmt = PayAmt.multiply(CurrentCurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 		}
 		//	For Conversion Rate
 		if(C_Conversion_Rate_ID != 0) {
@@ -218,13 +217,10 @@ public class CalloutPaySelection extends CalloutEngine
 		log.fine ("Rate=" + CurrencyRate + ", InvoiceOpenAmt="
 			+ AmtSource);
 		//	Set Open Amount
-		OpenAmt = AmtSource.multiply(CurrencyRate).setScale(
-				currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+		OpenAmt = AmtSource.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
 		// Currency Changed - convert all
-		PayAmt = PayAmt.multiply(CurrencyRate).setScale(
-				currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-		DiscountAmt = DiscountAmt.multiply (CurrencyRate).setScale(
-				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+		PayAmt = PayAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision(), RoundingMode.HALF_UP);
+		DiscountAmt = DiscountAmt.multiply(CurrencyRate).setScale(currency.getStdPrecision (), RoundingMode.HALF_UP);
 		//	Set difference
 		DifferenceAmt = OpenAmt.subtract(PayAmt).subtract(DiscountAmt);
 		//	Set values
@@ -293,7 +289,7 @@ public class CalloutPaySelection extends CalloutEngine
 				AmtSource = rs.getBigDecimal(1);
 				OpenAmt = rs.getBigDecimal(2);
 				DiscountAmt = rs.getBigDecimal(3);
-				IsSOTrx = new Boolean ("Y".equals(rs.getString(4)));
+				IsSOTrx = Boolean.valueOf("Y".equals(rs.getString(4)));
 				C_ConversionType_ID = rs.getInt(5);
 				C_BPartner_ID = rs.getInt(6);
 			}
@@ -371,7 +367,7 @@ public class CalloutPaySelection extends CalloutEngine
 			if (rs.next()) {
 				AmtSource = rs.getBigDecimal(1);
 				OpenAmt = rs.getBigDecimal(2);
-				IsSOTrx = new Boolean ("Y".equals(rs.getString(3)));
+				IsSOTrx = Boolean.valueOf("Y".equals(rs.getString(3)));
 				C_ConversionType_ID = rs.getInt(4);
 				C_BPartner_ID = rs.getInt(5);
 			}
@@ -413,15 +409,15 @@ public class CalloutPaySelection extends CalloutEngine
 			return "";
 		//	Get amount from movement
 		X_HR_Movement movement = new X_HR_Movement(ctx, HR_Movement_ID, null);
-		X_HR_Concept concept = new X_HR_Concept(ctx, movement.getHR_Concept_ID(), null);
-		//	MHRConcept concept = MHRConcept.get(ctx, movement.getHR_Concept_ID());
-		if(!concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount))
+		X_HR_Concept concept =  new X_HR_Concept(ctx, movement.getHR_Concept_ID(), null);
+		if(!concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) {
 			return "@HR_Concept_ID@ <> @Amount@";
+		}
 		//	Valid payroll
 		X_HR_Payroll payroll = new X_HR_Payroll(ctx, movement.getHR_Payroll_ID(), null);
-		//	MHRPayroll payroll = MHRPayroll.get(ctx, movement.getHR_Payroll_ID());
-		if(payroll.getC_Charge_ID() == 0)
+		if(payroll.getC_Charge_ID() == 0) {
 			return "@C_Charge_ID@ @NotFound@";
+		}
 		//	Get Amount
 		mTab.setValue("PayAmt", movement.getAmount());
 		mTab.setValue("C_Charge_ID", payroll.getC_Charge_ID());

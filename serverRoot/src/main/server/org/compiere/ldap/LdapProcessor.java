@@ -22,10 +22,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
+import org.compiere.model.MAlertProcessorLog;
 import org.compiere.model.MLdapProcessor;
 import org.compiere.model.MLdapProcessorLog;
 import org.compiere.server.AdempiereServer;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 
 /**
  * 	LDAP Server
@@ -102,14 +104,22 @@ public class LdapProcessor extends AdempiereServer
 		
 		int no = m_model.deleteLog();
 		m_summary.append("; Logs deleted=").append(no);
-		//
-		MLdapProcessorLog pLog = new MLdapProcessorLog(m_model, m_summary.toString());
-		pLog.setReference("#" + String.valueOf(p_runCount) 
-			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.saveEx();
-
+		if (m_model.get_TrxName() == null) {
+			Trx.run(this::addLdapProcessorLog);
+		} else {
+			addLdapProcessorLog(m_model.get_TrxName());
+		}
 	}	//	doWork
 
+	/**
+	 * Add Ldap Processor Log
+	 * @param trxName
+	 */
+	private void addLdapProcessorLog(String trxName) {
+		MLdapProcessorLog ldapProcessorLog = new MLdapProcessorLog(m_model, m_summary.toString(), trxName);
+		ldapProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+		ldapProcessorLog.saveEx();
+	}
 	
 	/**
 	 * 	Get Server Info

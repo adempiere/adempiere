@@ -42,6 +42,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.X_PP_MRP;
+import org.adempiere.core.domains.models.X_PP_Product_Planning;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
@@ -60,7 +63,6 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.I_C_Order;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -84,11 +86,9 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPProductPlanning;
-import org.eevolution.model.X_PP_MRP;
-import org.eevolution.model.X_PP_Product_Planning;
+import org.eevolution.manufacturing.model.MPPMRP;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPProductPlanning;
 
 /**
  * VMRPDetailed
@@ -144,8 +144,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 							data = id;
 							p_table.setColumnReadOnly(0, false);
 						} else if (c == Boolean.class)
-							data = new Boolean("Y".equals(rs
-									.getString(colIndex)));
+							data = Boolean.valueOf("Y".equals(rs.getString(colIndex)));
 						else if (c == Timestamp.class)
 							data = rs.getTimestamp(colIndex);
 						else if (c == BigDecimal.class)
@@ -153,7 +152,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 						else if (c == Double.class)
 							data = new Double(rs.getDouble(colIndex));
 						else if (c == Integer.class)
-							data = new Integer(rs.getInt(colIndex));
+							data = Integer.valueOf(rs.getInt(colIndex));
 						else if (c == KeyNamePair.class) {
 							String display = rs.getString(colIndex);
 							int key = rs.getInt(colIndex + 1);
@@ -825,8 +824,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 				m_warehouse_id, 0, m_product_id, 0);
 		if (pai.getM_AttributeSetInstance_ID() != -1) {
 			fAttrSetInstance_ID.setText(pai.getM_AttributeSetInstanceName());
-			fAttrSetInstance_ID.setValue(new Integer(pai
-					.getM_AttributeSetInstance_ID()));
+			fAttrSetInstance_ID.setValue(Integer.valueOf(pai.getM_AttributeSetInstance_ID()));
 		} else {
 			fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 		}
@@ -1087,7 +1085,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 
 			public void setValue(Object arg0) {
 				super.setValue(arg0);
-				fAttrSetInstance_ID.setValue(new Integer(0));
+				fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 			};
 		};
 
@@ -1119,7 +1117,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 			};
 		};
 
-		fAttrSetInstance_ID.setValue(new Integer(0));
+		fAttrSetInstance_ID.setValue(Integer.valueOf(0));
 		fAttrSetInstance_ID.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectAttributeSetInstance();

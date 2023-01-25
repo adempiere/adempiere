@@ -38,6 +38,8 @@ import java.util.logging.Level;
 import javax.script.ScriptEngine;
 import javax.swing.event.EventListenerList;
 
+import org.adempiere.core.domains.models.X_AD_PInstance_Log;
+import org.adempiere.core.domains.models.X_C_BPartner_Location;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -158,7 +160,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private GridWindow			m_window;
 
 	/** The Table Model for Query   */
-	private GridTable          	m_mTable = null;
+	GridTable                	m_mTable = null; // Visible for testing
 
 	private String 				m_keyColumnName = "";
 	private String 				m_linkColumnName = "";
@@ -173,7 +175,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private ArrayList<Integer>	m_Lock = null;
 
 	/** Current Row         */
-	private int					m_currentRow = -1;
+	int					m_currentRow = -1; // Visible for testing
 
 	/** Property Change     */
 	private PropertyChangeSupport m_propertyChangeSupport = new PropertyChangeSupport(this);
@@ -1767,7 +1769,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Load Dependent Information
 	 */
-	private void loadDependentInfo()
+	void loadDependentInfo() // Visible for testing
 	{
 		/**
 		 * Load Order Type from C_DocTypeTarget_ID
@@ -1857,8 +1859,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				Integer key = new Integer(rs.getInt(2));
-				Integer value = new Integer(rs.getInt(1));
+				Integer key = Integer.valueOf(rs.getInt(2));
+				Integer value = Integer.valueOf(rs.getInt(1));
 				m_Attachments.put(key, value);
 			}
 			rs.close();
@@ -1896,7 +1898,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_Attachments == null || m_Attachments.isEmpty())
 			return false;
 		//
-		Integer key = new Integer(m_mTable.getKeyID (m_currentRow));
+		Integer key = Integer.valueOf(m_mTable.getKeyID (m_currentRow));
 		return m_Attachments.containsKey(key);
 	}	//	hasAttachment
 
@@ -1911,7 +1913,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_Attachments.isEmpty())
 			return 0;
 		//
-		Integer key = new Integer(m_mTable.getKeyID (m_currentRow));
+		Integer key = Integer.valueOf(m_mTable.getKeyID (m_currentRow));
 		Integer value = (Integer)m_Attachments.get(key);
 		if (value == null)
 			return 0;
@@ -1941,8 +1943,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				Integer key = new Integer(rs.getInt(2));	//	Record_ID
-				Integer value = new Integer(rs.getInt(1));	//	CM_Chat_ID
+				Integer key = Integer.valueOf(rs.getInt(2));	//	Record_ID
+				Integer value = Integer.valueOf(rs.getInt(1));	//	CM_Chat_ID
 				m_Chats.put(key, value);
 			}
 			rs.close();
@@ -1966,7 +1968,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_Chats == null || m_Chats.isEmpty())
 			return false;
 		//
-		Integer key = new Integer(m_mTable.getKeyID (m_currentRow));
+		Integer key = Integer.valueOf(m_mTable.getKeyID (m_currentRow));
 		return m_Chats.containsKey(key);
 	}	//	hasChat
 
@@ -1981,7 +1983,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_Chats.isEmpty())
 			return 0;
 		//
-		Integer key = new Integer(m_mTable.getKeyID (m_currentRow));
+		Integer key = Integer.valueOf(m_mTable.getKeyID (m_currentRow));
 		Integer value = (Integer)m_Chats.get(key);
 		if (value == null)
 			return 0;
@@ -2016,7 +2018,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				Integer key = new Integer(rs.getInt(1));
+				Integer key = Integer.valueOf(rs.getInt(1));
 				m_Lock.add(key);
 			}
 			rs.close();
@@ -2042,7 +2044,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_Lock == null || m_Lock.isEmpty())
 			return false;
 		//
-		Integer key = new Integer(m_mTable.getKeyID (m_currentRow));
+		Integer key = Integer.valueOf(m_mTable.getKeyID (m_currentRow));
 		return m_Lock.contains(key);
 	}	//	isLocked
 
@@ -2079,10 +2081,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - " + e.toString());
 		int oldCurrentRow = e.getCurrentRow();
 		m_DataStatusEvent = e;          //  save it
-		//  when sorted set current row to 0
+		//  when sorted set current row
 		String msg = m_DataStatusEvent.getAD_Message();
 		if (msg != null && msg.equals("Sorted"))
-			setCurrentRow(0, true);
+		{
+			oldCurrentRow = m_currentRow;
+			if (e.getCurrentRow() >= 0)
+				setCurrentRow(e.getCurrentRow());
+			else
+				setCurrentRow(0, true);
+		}
 		//  set current row
 		m_DataStatusEvent = e;          //  setCurrentRow clear it, need to save again
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
@@ -2275,7 +2283,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @param targetRow target row
 	 *  @return checked row
 	 */
-	private int verifyRow (int targetRow)
+	int verifyRow (int targetRow)
 	{
 		int newRow = targetRow;
 		//  Table Open?
@@ -2307,7 +2315,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Set current row and load data into fields.
 	 *  If there is no row - load nulls
-	 *  @param newCurrentRow new current row
+	 *  @param newCurrentRow new current row in table, not the page
 	 *  @param fireEvents fire events
 	 *  @return current row
 	 */
@@ -2356,6 +2364,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		loadDependentInfo();
 
+		m_mTable.setCurrentRow(m_currentRow);
+
 		if (!fireEvents)    //  prevents informing twice
 			return m_currentRow;
 
@@ -2394,7 +2404,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @return current row
 	 */
 	public void setCurrentRow(int row){
-			setCurrentRow(row, false);
+			setCurrentRow(row, true);
 	}
 
 
@@ -2918,9 +2928,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			lineNoCurrentRow = (Integer) m_mTable.getValueAt(from, lineCol);
 			lineNoNextRow = (Integer) m_mTable.getValueAt(to, lineCol);
 		} else if (m_mTable.getValueAt(from, lineCol) instanceof BigDecimal) {
-			lineNoCurrentRow = new Integer(((BigDecimal) m_mTable.getValueAt(from, lineCol))
+			lineNoCurrentRow = Integer.valueOf(((BigDecimal) m_mTable.getValueAt(from, lineCol))
 					.intValue());
-			lineNoNextRow = new Integer(((BigDecimal) m_mTable.getValueAt(to, lineCol))
+			lineNoNextRow = Integer.valueOf(((BigDecimal) m_mTable.getValueAt(to, lineCol))
 					.intValue());
 		} else {
 			log.fine("unknown value format - return");
@@ -3083,5 +3093,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	}
 	public int getCurrentCol(){
 		return m_currentCol;
-}
+	}
+	
+	/**
+	 * Get Parent Column
+	 * @return
+	 */
+	public int getParent_Column_ID() {
+		return m_vo.Parent_Column_ID;
+	}
 }	//	GridTab

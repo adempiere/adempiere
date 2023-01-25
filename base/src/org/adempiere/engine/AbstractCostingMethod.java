@@ -4,14 +4,16 @@
 package org.adempiere.engine;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_M_InOutLine;
+import org.adempiere.core.domains.models.X_PP_Cost_Collector;
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.I_C_InvoiceLine;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_M_InOutLine;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
@@ -26,11 +28,11 @@ import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MTransaction;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.model.MPPCostCollector;
 
 /**
  * @author anca_bradau
@@ -154,8 +156,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	    String description = "";
 		if (model instanceof MMatchInv){
 			MMatchInv original = new MMatchInv(model.getCtx(), ((MMatchInv) model).getReversal_ID(), model.get_TrxName());
-			if (original == null)
-			    return ;
+			if (original.getM_MatchInv_ID() <= 0)
+			    return;
 			StringBuffer whereClause = new StringBuffer();
 			whereClause.append(" M_CostType_ID=" + dimension.getM_CostType_ID());
 			whereClause.append(" AND M_CostElement_ID=" + dimension.getM_CostElement_ID());
@@ -225,7 +227,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		costDetail = new MCostDetail(model.getCtx(), 0, transaction.get_TrxName());
 		// Qty Transaction
 
-            costDetail.copyValues(lastCostDetail, costDetail);
+            PO.copyValues(lastCostDetail, costDetail, true);
 			costDetail.setAD_Org_ID(lastCostDetail.getAD_Org_ID());
 			costDetail.setM_Warehouse_ID(lastCostDetail.getM_Warehouse_ID());
 			setReversalCostDetail();
@@ -260,8 +262,8 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	
 	protected void setReversalCostDetail()
 	{
-		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
-		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(),BigDecimal.ROUND_HALF_UP));
+		costDetail.setCurrentCostPrice(getNewCurrentCostPrice(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
+		costDetail.setCurrentCostPriceLL(getNewCurrentCostPriceLowerLevel(lastCostDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP));
 		costDetail.setCurrentQty(Env.ZERO);
 		costDetail.setQty(Env.ZERO);
 		costDetail.setAmt(Env.ZERO);
@@ -304,7 +306,7 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		accumulatedQuantity = getNewAccumulatedQuantity(costDetail);
 		accumulatedAmount = getNewAccumulatedAmount(costDetail);
 		accumulatedAmountLowerLevel = getNewAccumulatedAmountLowerLevel(costDetail);
-		currentCostPrice = getNewCurrentCostPrice(costDetail, accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		currentCostPrice = getNewCurrentCostPrice(costDetail, accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 	}
 	
 	public abstract void updateAmountCost();
@@ -316,8 +318,19 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price This Level
+	 * @deprecated
 	 */
 	abstract public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, int roundingMode);
+	/**
+	 * Method to implement the costing method Get the New Current Cost Price
+	 * This Level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price This Level
+	 */
+	abstract public BigDecimal getNewCurrentCostPrice(MCostDetail cost, int scale, RoundingMode roundingMode);
+
 
 	/**
 	 * Method to implement the costing method Get the New Cumulated Amt This Level
@@ -332,8 +345,18 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 	 * @param scale Scale
 	 * @param roundingMode Rounding Mode
 	 * @return New Current Cost Price low level
+	 * @deprecated
 	 */
 	abstract public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, int roundingMode);
+	
+	/**
+	 * Method to implement the costing method Get the New Current Cost Price low level
+	 * @param cost Cost Detail
+	 * @param scale Scale
+	 * @param roundingMode Rounding Mode
+	 * @return New Current Cost Price low level
+	 */
+	abstract public BigDecimal getNewCurrentCostPriceLowerLevel(MCostDetail cost, int scale, RoundingMode roundingMode);
 
 	/**
 	 * Method to implement the costing method Get the new Cumulated Amt Low Level
@@ -409,12 +432,12 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		}
 
 		if (cost.getPP_Cost_Collector_ID() != 0) {
-			MPPCostCollector costCollector = (MPPCostCollector) cost.getPP_Cost_Collector();
+			X_PP_Cost_Collector costCollector = new X_PP_Cost_Collector(cost.getCtx(), cost.getPP_Cost_Collector_ID(), cost.get_TrxName());
 			costCollector.setPosted(false);
 			costCollector.saveEx();
 			recordId = costCollector.get_ID();
 			tableId = costCollector.get_Table_ID();
 		}
-		int no = DB.executeUpdateEx(sqldelete, new Object[] { recordId, tableId }, cost.get_TrxName());
+		DB.executeUpdateEx(sqldelete, new Object[] { recordId, tableId }, cost.get_TrxName());
 	}
 }

@@ -18,6 +18,7 @@ package org.compiere.util;
 
 import java.sql.Timestamp;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -29,22 +30,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ecs.AlignType;
-import org.apache.ecs.xhtml.a;
-import org.apache.ecs.xhtml.body;
-import org.apache.ecs.xhtml.br;
-import org.apache.ecs.xhtml.comment;
-import org.apache.ecs.xhtml.h3;
-import org.apache.ecs.xhtml.hr;
-import org.apache.ecs.xhtml.img;
-import org.apache.ecs.xhtml.p;
-import org.apache.ecs.xhtml.script;
-import org.apache.ecs.xhtml.table;
-import org.apache.ecs.xhtml.td;
-import org.apache.ecs.xhtml.tr;
+import org.adempiere.legacy.apache.ecs.AlignType;
+import org.adempiere.legacy.apache.ecs.xhtml.a;
+import org.adempiere.legacy.apache.ecs.xhtml.body;
+import org.adempiere.legacy.apache.ecs.xhtml.br;
+import org.adempiere.legacy.apache.ecs.xhtml.comment;
+import org.adempiere.legacy.apache.ecs.xhtml.h3;
+import org.adempiere.legacy.apache.ecs.xhtml.hr;
+import org.adempiere.legacy.apache.ecs.xhtml.img;
+import org.adempiere.legacy.apache.ecs.xhtml.p;
+import org.adempiere.legacy.apache.ecs.xhtml.script;
+import org.adempiere.legacy.apache.ecs.xhtml.table;
+import org.adempiere.legacy.apache.ecs.xhtml.td;
+import org.adempiere.legacy.apache.ecs.xhtml.tr;
 import org.compiere.Adempiere;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *  Web Environment and debugging
@@ -114,7 +117,7 @@ public class WebEnv
 			return true;
 		}
 
-		Enumeration en = config.getInitParameterNames();
+		Enumeration<String> en = config.getInitParameterNames();
 		StringBuffer info = new StringBuffer("Servlet Init Parameter: ")
 			.append(config.getServletName());
 		while (en.hasMoreElements())
@@ -147,7 +150,7 @@ public class WebEnv
 		}
 		
 		//  Load Environment Variables (serverApps/src/web/WEB-INF/web.xml)
-		Enumeration en = context.getInitParameterNames();
+		Enumeration<String> en = context.getInitParameterNames();
 		StringBuffer info = new StringBuffer("Servlet Context Init Parameters: ")
 			.append(context.getServletContextName());
 		while (en.hasMoreElements())
@@ -175,10 +178,21 @@ public class WebEnv
 		Properties ctx = new Properties();
 		MClient client = MClient.get(ctx, 0);
 		MSystem system = MSystem.get(ctx);
-		client.sendEMail(client.getRequestEMail(), 
-			"Server started: " + system.getName(), 
-			"ServerInfo: " + context.getServerInfo(), null);
-
+		Trx.run(transactionName -> {
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(ctx)
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+				.addRecipient(client.getRequestEMail())
+				.withText(Msg.parseTranslation(ctx, "@ServerInfo@: " + context.getServerInfo()))
+				.withDescription(Msg.parseTranslation(ctx, "@ServerStarted@: " + system.getName()));
+			//	Add to queue
+			notifier.addToQueue();
+		});
 		return s_initOK;
 	}	//	initWeb
 
@@ -301,7 +315,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = config.getInitParameterNames();
+		Enumeration<String> e = config.getInitParameterNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -324,7 +338,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = ctx.getInitParameterNames();
+		Enumeration<String> e = ctx.getInitParameterNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -358,7 +372,7 @@ public class WebEnv
 		if (!CLogMgt.isLevelFiner())
 			return;
 		boolean first = true;
-		Enumeration e = session.getAttributeNames();
+		Enumeration<String> e = session.getAttributeNames();
 		while (e.hasMoreElements())
 		{
 			if (first)
@@ -393,7 +407,7 @@ public class WebEnv
 		log.finer("- UserPrincipal=" + request.getUserPrincipal());
 		//
 		boolean first = true;
-		Enumeration e = request.getHeaderNames();
+		Enumeration<String> e = request.getHeaderNames();
 		/** Header Names */
 		while (e.hasMoreElements())
 		{
@@ -456,13 +470,13 @@ public class WebEnv
 		log.finer("- Encoding=" + request.getCharacterEncoding());
 		log.finer("- Locale=" + request.getLocale());
 		first = true;
-		e = request.getLocales();
-		while (e.hasMoreElements())
+		Enumeration<Locale> locales = request.getLocales();
+		while (locales.hasMoreElements())
 		{
 			if (first)
 				log.finer("- Locales:");
 			first = false;
-			log.finer("  - " + e.nextElement());
+			log.finer("  - " + locales.nextElement());
 		}
 		log.finer("- Class=" + request.getClass().getName());
 	}	//	dump (Request)
@@ -520,7 +534,7 @@ public class WebEnv
 	{
 		table table = new table();
 		table.setID("DEBUG");
-		Enumeration e;
+		Enumeration<String> e;
 
 		tr space = new tr().addElement(new td().addElement("."));
 		//	Request Info

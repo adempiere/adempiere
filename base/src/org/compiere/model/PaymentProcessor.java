@@ -21,6 +21,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -210,7 +211,7 @@ public abstract class PaymentProcessor
 		else
 		{
 			if (value.scale() < 2)
-				value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
+				value = value.setScale(2, RoundingMode.HALF_UP);
 			return createPair (name, String.valueOf(value), maxLength);
 		}
 	}	//	createPair

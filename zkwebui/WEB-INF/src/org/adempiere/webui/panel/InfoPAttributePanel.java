@@ -17,7 +17,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -34,6 +36,7 @@ import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeSet;
+import org.compiere.model.MLot;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -67,7 +70,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 	private static final long serialVersionUID = -4922961793415942591L;
 
 	/* the attribute set selected on the InfoProduct window */
-	private int p_M_AttributeSet_ID = 0;
+	private int attributeSetId = 0;
 	
 	/**
 	 * 	Constructor.
@@ -78,7 +81,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		super();
 		if (parent instanceof InfoProductPanel) {
-			p_M_AttributeSet_ID = ((InfoProductPanel)parent).getM_AttributeSet_ID();
+			attributeSetId = ((InfoProductPanel)parent).getM_AttributeSet_ID();
 		}
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
 		this.setBorder("normal");
@@ -98,15 +101,15 @@ public class InfoPAttributePanel extends Window implements EventListener
 	}	//	InfoPAttribute
 	
 	/**	Resulting Query			*/
-	private String		m_query = "";
+	private String query = "";
 	/** String representation	*/
-	private String		m_display = "";
+	private String display = "";
 	/**	Product Attribure Editors	*/
-	private ArrayList<Component>	m_productEditors = new ArrayList<Component>();
-	private ArrayList<Component>	m_productEditorsTo = new ArrayList<Component>();
+	private ArrayList<Component> productEditors = new ArrayList<Component>();
+	private ArrayList<Component> productEditorsTo = new ArrayList<Component>();
 	/**	Instance Attribute Editors	*/
-	private ArrayList<Component>	m_instanceEditors = new ArrayList<Component>();
-	private ArrayList<Component>	m_instanceEditorsTo = new ArrayList<Component>();
+	private ArrayList<Component> instanceEditors = new ArrayList<Component>();
+	private ArrayList<Component> instanceEditorsTo = new ArrayList<Component>();
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(InfoPAttributePanel.class);
 
@@ -169,8 +172,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 		boolean isGuarantee = true;
 		boolean isSerial = true;
 		boolean isLot = true;
-		if (p_M_AttributeSet_ID > 0) {
-			MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+		if (attributeSetId > 0) {
+			MAttributeSet as = new MAttributeSet(Env.getCtx(), attributeSetId, null);
 			isGuarantee = as.isGuaranteeDate();
 			isSerial = as.isSerNo();
 			isLot = as.isLot();
@@ -244,8 +247,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String whereAttributeSet;
-		if (p_M_AttributeSet_ID > 0)
-			whereAttributeSet = "AND M_Attribute_ID IN (SELECT M_Attribute_ID FROM M_AttributeUse WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
+		if (attributeSetId > 0)
+			whereAttributeSet = "AND M_Attribute_ID IN (SELECT M_Attribute_ID FROM M_AttributeUse WHERE M_AttributeSet_ID="+ attributeSetId +")";
 		else
 			whereAttributeSet = "";
 		String sql = MRole.getDefault().addAccessSQL(
@@ -350,9 +353,9 @@ public class InfoPAttributePanel extends Window implements EventListener
 				field.setAttribute("zk_component_ID", "InfoPAttributePanel_field_" + name);
 				//
 				if (isInstanceAttribute)
-					m_instanceEditors.add(field);
+					instanceEditors.add(field);
 				else
-					m_productEditors.add(field);
+					productEditors.add(field);
 				
 				//	To (numbers)
 				Component fieldTo = null;
@@ -372,9 +375,9 @@ public class InfoPAttributePanel extends Window implements EventListener
 					fieldTo.setAttribute("zk_component_ID", "InfoPAttributePanel_fieldTo_" + name);
 
 				if (isInstanceAttribute)
-					m_instanceEditorsTo.add(fieldTo);
+					instanceEditorsTo.add(fieldTo);
 				else
-					m_productEditorsTo.add(fieldTo);
+					productEditorsTo.add(fieldTo);
 			}
 		}
 		catch (Exception e)
@@ -391,8 +394,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 			boolean isGuarantee = true;
 			boolean isSerial = true;
 			boolean isLot = true;
-			if (p_M_AttributeSet_ID > 0) {
-				MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+			if (attributeSetId > 0) {
+				MAttributeSet as = new MAttributeSet(Env.getCtx(), attributeSetId, null);
 				isGuarantee = as.isGuaranteeDate();
 				isSerial = as.isSerNo();
 				isLot = as.isLot();
@@ -465,45 +468,17 @@ public class InfoPAttributePanel extends Window implements EventListener
 	 */
 	private void initLotSelection()
 	{
-		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
-		list.add(new KeyNamePair(-1, ""));
-		
-		String whereAttributeSet;
-		if (p_M_AttributeSet_ID > 0)
-			whereAttributeSet = "AND M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
-		else
-			whereAttributeSet = "";
-		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' " + whereAttributeSet + " ORDER BY 2",
-			"M_Lot", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new KeyNamePair(rs.getInt(1), rs.getString(2)));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//	Create List
-		KeyNamePair[] items = new KeyNamePair[list.size()];
-		list.toArray(items);
 		lotSelection = new Listbox();
 		lotSelection.setRows(0);
 		lotSelection.setMultiple(false);
 		lotSelection.setMold("select");
 		lotSelection.setWidth("150px");
 		lotSelection.setAttribute("zk_component_ID", "InfoPAttributePanel_lotSelection");
-		for(int i = 0; i < items.length; i++)
-			lotSelection.appendItem(items[i].getName(), items[i]);
+		List<KeyNamePair> keyNamePairLotList = MLot.getByAttributeSetId(Env.getCtx(), attributeSetId, null)
+				.stream()
+				.map(lot -> new KeyNamePair(lot.getM_Lot_ID(), lot.getName()))
+				.collect(Collectors.toList());
+		keyNamePairLotList.forEach(item -> lotSelection.appendItem(item.getName(),item));
 	}	//	initLotSelection
 
 
@@ -522,8 +497,8 @@ public class InfoPAttributePanel extends Window implements EventListener
 		}
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
-			m_query = null;
-			m_display = null;
+			query = null;
+			display = null;
 			dispose();
 		}
 	}	//	actionPerformed
@@ -600,15 +575,15 @@ public class InfoPAttributePanel extends Window implements EventListener
 		}
 		
 		//	Instance Editors
-		for (int i = 0; i < m_instanceEditors.size(); i++)
+		for (int i = 0; i < instanceEditors.size(); i++)
 		{
 			StringBuffer iAttr = new StringBuffer();
-			Component c = (Component)m_instanceEditors.get(i);
-			Component cTo = (Component)m_instanceEditorsTo.get(i);
-			int M_Attribute_ID = Integer.parseInt(c.getId());
-			if (c instanceof Listbox)
+			Component component = (Component) instanceEditors.get(i);
+			Component componentTo = (Component) instanceEditorsTo.get(i);
+			int M_Attribute_ID = Integer.parseInt(component.getId());
+			if (component instanceof Listbox)
 			{
-				Listbox field = (Listbox)c;
+				Listbox field = (Listbox)component;
 				li = field.getSelectedItem();
 				if(li != null && li.getValue() != null)
 				{
@@ -620,11 +595,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 					} 
 				}
 			}
-			else if (c instanceof NumberBox)
+			else if (component instanceof NumberBox)
 			{
-				NumberBox field = (NumberBox)c;
+				NumberBox field = (NumberBox)component;
 				BigDecimal value = (BigDecimal)field.getValue();
-				NumberBox fieldTo = (NumberBox)cTo;
+				NumberBox fieldTo = (NumberBox)componentTo;
 				BigDecimal valueTo = (BigDecimal)fieldTo.getValue();
 				if (value != null || valueTo != null)
 				{
@@ -641,7 +616,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			}
 			else
 			{
-				Textbox field = (Textbox)c;
+				Textbox field = (Textbox)component;
 				String value = field.getText();
 				if (value != null && value.length() > 0)
 				{
@@ -673,15 +648,15 @@ public class InfoPAttributePanel extends Window implements EventListener
 		
 		
 		//	Product Attributes 
-		for (int i = 0; i < m_productEditors.size(); i++)
+		for (int i = 0; i < productEditors.size(); i++)
 		{
 			StringBuffer pAttr = new StringBuffer();
-			Component c = (Component)m_productEditors.get(i);
-			Component cTo = (Component)m_productEditorsTo.get(i);
-			int M_Attribute_ID = Integer.parseInt(c.getId());
-			if (c instanceof Listbox)
+			Component component = (Component) productEditors.get(i);
+			Component componentTo = (Component) productEditorsTo.get(i);
+			int M_Attribute_ID = Integer.parseInt(component.getId());
+			if (component instanceof Listbox)
 			{
-				Listbox field = (Listbox)c;
+				Listbox field = (Listbox)component;
 				li = field.getSelectedItem();
 				if(li != null && li.getValue() != null)
 				{
@@ -693,11 +668,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 					} 
 				}
 			}
-			else if (c instanceof NumberBox)
+			else if (component instanceof NumberBox)
 			{
-				NumberBox field = (NumberBox)c;
+				NumberBox field = (NumberBox)component;
 				BigDecimal value = (BigDecimal)field.getValue();
-				NumberBox fieldTo = (NumberBox)cTo;
+				NumberBox fieldTo = (NumberBox)componentTo;
 				BigDecimal valueTo = (BigDecimal)fieldTo.getValue();
 				if (value != null || valueTo != null)
 				{
@@ -714,7 +689,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 			}
 			else
 			{
-				Textbox field = (Textbox)c;
+				Textbox field = (Textbox)component;
 				String value = field.getText();
 				if (value != null && value.length() > 0)
 				{
@@ -735,11 +710,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 					.append(pAttr).append(")");
 		}
 		//
-		m_query = null;
+		query = null;
 		if (sb.length() > 0)
-			m_query = sb.toString();
-		log.config(m_query);		
-		return m_query;
+			query = sb.toString();
+		log.config(query);
+		return query;
 	}	//	createQuery
 
 	/**
@@ -748,7 +723,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 	 */
 	public String getWhereClause()
 	{
-		return m_query;
+		return query;
 	}	//	getQuery
 	/**
 	 * Get Display
@@ -756,7 +731,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 	 */
 	public String getDisplay()
 	{
-		return m_display;
+		return display;
 	}
 	/**
 	 *   Set the display text
@@ -773,52 +748,52 @@ public class InfoPAttributePanel extends Window implements EventListener
 		if (guaranteeDateField != null && guaranteeDateField.getValue() != null)
 			display.append(guaranteeDateSelection.getSelectedItem().getValue().toString() + guaranteeDateField.getValue().toString() + "-");
 
-		for (int i = 0; i < m_productEditors.size(); i++)
+		for (int i = 0; i < productEditors.size(); i++)
 		{
-			Component c = (Component)m_productEditors.get(i);
-			Component cTo = (Component)m_productEditorsTo.get(i);
-			if (c instanceof Listbox)
+			Component component = (Component) productEditors.get(i);
+			Component componentTo = (Component) productEditorsTo.get(i);
+			if (component instanceof Listbox)
 			{
-				Listbox field = (Listbox)c;
+				Listbox field = (Listbox)component;
 				display.append(field.getSelectedItem().getValue().toString() + "-");
 			}
-			else if (c instanceof NumberBox)
+			else if (component instanceof NumberBox)
 			{
-				NumberBox field = (NumberBox)c;
+				NumberBox field = (NumberBox)component;
 				if (field.getValue() != null)
 					display.append(field.getValue().toString() + "-");
-				NumberBox fieldTo = (NumberBox)cTo;
+				NumberBox fieldTo = (NumberBox)componentTo;
 				if (fieldTo.getValue() != null)
 					display.append(fieldTo.getValue().toString() + "-");
 			}
 			else
 			{
-				Textbox field = (Textbox)c;
+				Textbox field = (Textbox)component;
 				display.append(field.getValue() + "-");
 			}
 		}
 
-		for (int i = 0; i < m_instanceEditors.size(); i++)
+		for (int i = 0; i < instanceEditors.size(); i++)
 		{
-			Component c = (Component)m_instanceEditors.get(i);
-			Component cTo = (Component)m_instanceEditorsTo.get(i);
-			if (c instanceof Listbox)
+			Component component = (Component) instanceEditors.get(i);
+			Component componentTo = (Component) instanceEditorsTo.get(i);
+			if (component instanceof Listbox)
 			{
-				Listbox field = (Listbox)c;
+				Listbox field = (Listbox)component;
 				display.append(field.getSelectedItem().getValue().toString() + "-");
 			}
-			else if (c instanceof NumberBox)
+			else if (component instanceof NumberBox)
 			{
-				NumberBox field = (NumberBox)c;
+				NumberBox field = (NumberBox)component;
 				if (field.getValue() != null)
 					display.append(field.getValue().toString() + "-");
-				NumberBox fieldTo = (NumberBox)cTo;
+				NumberBox fieldTo = (NumberBox)componentTo;
 				if (fieldTo.getValue() != null)
 					display.append(fieldTo.getValue().toString() + "-");
 			}
 			else
 			{
-				Textbox field = (Textbox)c;
+				Textbox field = (Textbox)component;
 				display.append(field.getValue() + "-");
 			}
 		}
@@ -835,7 +810,7 @@ public class InfoPAttributePanel extends Window implements EventListener
 		{
 			display.delete(display.length()-1, display.length());
 		}
-		m_display = display.toString();
+		this.display = display.toString();
 	}  // set display
 
 }

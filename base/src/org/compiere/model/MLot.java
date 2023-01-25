@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_M_Lot;
+import org.adempiere.core.domains.models.X_M_Lot;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
@@ -44,6 +46,27 @@ public class MLot extends X_M_Lot
 	/**	Logger					*/
 	private static CLogger		s_log = CLogger.getCLogger(MLot.class);
 
+	/**
+	 * Get By Attribute Set Id
+	 * @param ctx
+	 * @param attributeSetId
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MLot> getByAttributeSetId(Properties ctx , int attributeSetId, String trxName) {
+		StringBuilder whereClause = new StringBuilder();
+		ArrayList<Object> parameters = new ArrayList<>();
+		if (attributeSetId > 0 ) {
+			whereClause.append("M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID=? )");
+			parameters.add(attributeSetId);
+		}
+		return new Query(ctx, Table_Name, whereClause.toString(), trxName)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(parameters)
+				.setOrderBy("Name")
+				.list();
+	}
 	/**
 	 * 	Get Lots for Product
 	 *	@param ctx context

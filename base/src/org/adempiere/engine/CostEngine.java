@@ -25,22 +25,26 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.compiere.model.I_C_InvoiceLine;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_ProjectIssue;
-import org.compiere.model.I_M_CostElement;
-import org.compiere.model.I_M_CostType;
-import org.compiere.model.I_M_InOut;
-import org.compiere.model.I_M_Inventory;
-import org.compiere.model.I_M_MatchInv;
-import org.compiere.model.I_M_MatchPO;
-import org.compiere.model.I_M_Movement;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_M_Production;
-import org.compiere.model.I_M_Transaction;
+import org.adempiere.core.domains.models.I_C_InvoiceLine;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_C_ProjectIssue;
+import org.adempiere.core.domains.models.I_M_CostElement;
+import org.adempiere.core.domains.models.I_M_CostType;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_Inventory;
+import org.adempiere.core.domains.models.I_M_MatchInv;
+import org.adempiere.core.domains.models.I_M_MatchPO;
+import org.adempiere.core.domains.models.I_M_Movement;
+import org.adempiere.core.domains.models.I_M_Product;
+import org.adempiere.core.domains.models.I_M_Production;
+import org.adempiere.core.domains.models.I_M_Transaction;
+import org.adempiere.core.domains.models.I_PP_Cost_Collector;
+import org.adempiere.core.domains.models.X_M_Product;
+import org.adempiere.core.domains.models.X_PP_Cost_Collector;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MConversionType;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
@@ -63,13 +67,10 @@ import org.compiere.model.MProjectIssue;
 import org.compiere.model.MTransaction;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_Product;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.model.I_PP_Cost_Collector;
-import org.eevolution.model.MPPCostCollector;
 
 
 /**
@@ -140,14 +141,14 @@ public class CostEngine {
      * @param costCollector
      * @return
      */
-	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, MPPCostCollector costCollector) {
+	public static BigDecimal getParentActualCostByCostType(MAcctSchema accountSchema, int costTypeId, int costElementId, X_PP_Cost_Collector costCollector) {
 		StringBuffer whereClause = new StringBuffer()
 		.append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? AND ")
 		.append(MCostDetail.COLUMNNAME_M_CostType_ID + "=? AND ")
 		.append(MCostDetail.COLUMNNAME_M_CostElement_ID + "=? AND ")
 		.append(MCostDetail.COLUMNNAME_PP_Cost_Collector_ID)
 		.append(" IN (SELECT PP_Cost_Collector_ID FROM PP_Cost_Collector cc WHERE cc.PP_Order_ID=? AND ")
-		.append(" cc.CostCollectorType <> '").append(MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
+		.append(" cc.CostCollectorType <> '").append(X_PP_Cost_Collector.COSTCOLLECTORTYPE_MaterialReceipt).append("')");
 
 		List<MCostDetail> componentsIssue= new Query(costCollector.getCtx(), MCostDetail.Table_Name, whereClause.toString(), costCollector.get_TrxName())
 				.setClient_ID()
@@ -178,16 +179,18 @@ public class CostEngine {
 
 		if (qtyDelivered.signum() != 0)
 			actualCost = actualCost.divide(qtyDelivered,
-					accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_DOWN);
-
+					accountSchema.getCostingPrecision(), RoundingMode.HALF_DOWN);
+		int conversionTypeId = MConversionType.getDefault(costCollector.getAD_Client_ID());
+		MClient client  = MClient.get(costCollector.getCtx());
+		int currencyId = client.getC_Currency_ID();
 		BigDecimal rate = MConversionRate.getRate(
-				costCollector.getC_Currency_ID(), costCollector.getC_Currency_ID(),
-				costCollector.getDateAcct(), costCollector.getC_ConversionType_ID(),
+				currencyId, currencyId,
+				costCollector.getDateAcct(), conversionTypeId,
 				costCollector.getAD_Client_ID(), costCollector.getAD_Org_ID());
 		if (rate != null) {
 			actualCost = actualCost.multiply(rate);
 			if (actualCost.scale() > accountSchema.getCostingPrecision())
-				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				actualCost = actualCost.setScale(accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 		}
 
 		return actualCost;
@@ -227,12 +230,12 @@ public class CostEngine {
 
 		BigDecimal unitCost = Env.ZERO;
 		if (production.getProductionQty().signum() != 0 && totalCost.signum() != 0)
-			unitCost = totalCost.divide(production.getProductionQty() , accountSchema.getCostingPrecision() , BigDecimal.ROUND_HALF_UP);
+			unitCost = totalCost.divide(production.getProductionQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP);
 
 		return unitCost;
 	}
 
-	protected static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
+	public static BigDecimal roundCost(BigDecimal price, int accountSchemaId) {
 		// Fix Cost Precision
 		int precision = MAcctSchema.get(Env.getCtx(), accountSchemaId)
 				.getCostingPrecision();
@@ -250,7 +253,7 @@ public class CostEngine {
 	 */
 	public void createCostDetail(MTransaction transaction, IDocumentLine model) {
 
-		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
+		MClient client =  MClient.get(transaction.getCtx());
 		StringBuilder description = new StringBuilder();
 		if (model != null && model.getDescription() != null && !Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
@@ -311,7 +314,7 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costThisLevel = convertCostToSchemaCurrency(accountSchema, model , model.getPriceActualCurrency());
+			costThisLevel  = allocation.getPriceActual();
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -380,9 +383,9 @@ public class CostEngine {
 		}
 
 		if (!MCostType.COSTINGMETHOD_StandardCosting.equals(costType.getCostingMethod())) {
-			if (model instanceof MPPCostCollector) {
-				MPPCostCollector costCollector = (MPPCostCollector) model;
-				if (MPPCostCollector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
+			if(model.get_TableName().equals(I_PP_Cost_Collector.Table_Name)) {
+				X_PP_Cost_Collector costCollector = (X_PP_Cost_Collector) model;
+				if (X_PP_Cost_Collector.COSTCOLLECTORTYPE_MaterialReceipt.equals(costCollector.getCostCollectorType())) {
 					// get Actual Cost for Cost Type and Cost Element
 					costThisLevel = getCostThisLevel(accountSchema, costType, costElement, transaction, model, costingLevel);
 					costLowLevel = CostEngine.getParentActualCostByCostType(accountSchema, costType.getM_CostType_ID(), costElement.getM_CostElement_ID(), costCollector);
@@ -504,17 +507,15 @@ public class CostEngine {
 	 */
 	private BigDecimal convertCostToSchemaCurrency(MAcctSchema acctSchema , IDocumentLine model , BigDecimal cost)
 	{
-		BigDecimal costThisLevel = BigDecimal.ZERO;
-		BigDecimal rate = MConversionRate.getRate(
-				model.getC_Currency_ID(), acctSchema.getC_Currency_ID() ,
-				model.getDateAcct(), model.getC_ConversionType_ID() ,
-				model.getAD_Client_ID(), model.getAD_Org_ID());
-		if (rate != null) {
-			costThisLevel = cost.multiply(rate);
-			if (costThisLevel.scale() > acctSchema.getCostingPrecision())
-				costThisLevel = costThisLevel.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-		}
-		return costThisLevel;
+		BigDecimal totalCostThisLevel = MConversionRate.convertBase(
+				model.getCtx(),
+				cost,
+				model.getC_Currency_ID(),
+				model.getDateAcct(),
+				model.getC_ConversionType_ID(),
+				model.getAD_Client_ID(),
+				model.getAD_Org_ID());
+		return totalCostThisLevel;
 	}
 
 	//Create cost detail for by document
@@ -609,8 +610,8 @@ public class CostEngine {
 				{
 					costThisLevel =  lastCostDetail.getCostAmt().add(
 							lastCostDetail.getCostAdjustment())
-							.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(),
-									BigDecimal.ROUND_HALF_UP).abs();
+							.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+							.abs();
 				}
 				// return unit cost from last transaction
 				// transaction quantity is zero
@@ -621,9 +622,12 @@ public class CostEngine {
 					costThisLevel =  lastCostDetail.getCostAmt().add(
 									 lastCostDetail.getCostAdjustment()).add(
 									 lastCostDetail.getCumulatedAmt())
-							.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
+							.divide(
+									lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
 									accountSchema.getCostingPrecision(),
-							BigDecimal.ROUND_HALF_UP).abs();
+									RoundingMode.HALF_UP
+							)
+							.abs();
 					
 					return costThisLevel;
 				}	
@@ -634,9 +638,12 @@ public class CostEngine {
 				else if (lastCostDetail.getCumulatedQty().signum() != 0)
 				{
 					costThisLevel = lastCostDetail.getCumulatedAmt()
-							.divide(lastCostDetail.getCumulatedQty(),
+							.divide(
+									lastCostDetail.getCumulatedQty(),
 									accountSchema.getCostingPrecision(),
-							BigDecimal.ROUND_HALF_UP).abs();
+									RoundingMode.HALF_UP
+							)
+							.abs();
 
 					return costThisLevel;
 				}	
@@ -672,7 +679,8 @@ public class CostEngine {
 			if (lastCostDetail.getQty().signum() != 0)
 			{
 				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL())
-						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+						.divide(lastCostDetail.getQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+						.abs();
 			}
 			// return unit cost from last transaction
 			// transaction quantity is zero
@@ -681,9 +689,12 @@ public class CostEngine {
 			else if (lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()).signum() != 0)
 			{
 				costLowLevel =  lastCostDetail.getCostAmtLL().add(lastCostDetail.getCostAdjustmentLL()).add(lastCostDetail.getCumulatedAmtLL())
-						.divide(lastCostDetail.getCumulatedQty().add( lastCostDetail.getQty()),
-								accountSchema.getCostingPrecision(),
-								BigDecimal.ROUND_HALF_UP).abs();
+						.divide(
+							lastCostDetail.getCumulatedQty().add(lastCostDetail.getQty()),
+							accountSchema.getCostingPrecision(),
+							RoundingMode.HALF_UP
+						)
+						.abs();
 
 				return costLowLevel;
 			}
@@ -694,7 +705,8 @@ public class CostEngine {
 			else if (lastCostDetail.getCumulatedQty().signum() != 0)
 			{
 				costLowLevel = lastCostDetail.getCumulatedAmtLL()
-						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP).abs();
+						.divide(lastCostDetail.getCumulatedQty(), accountSchema.getCostingPrecision(), RoundingMode.HALF_UP)
+						.abs();
 				return costLowLevel;
 			}
 
@@ -732,7 +744,7 @@ public class CostEngine {
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
 				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line,  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 
@@ -756,7 +768,7 @@ public class CostEngine {
 			}
 			else if (transaction.getPP_Cost_Collector_ID() > 0)
 			{
-				MPPCostCollector costCollector = (MPPCostCollector) transaction.getPP_Cost_Collector();
+				X_PP_Cost_Collector costCollector = (X_PP_Cost_Collector) transaction.getPP_Cost_Collector();
 				if(!clearAccounting(accountSchema, accountSchema.getM_CostType() , costCollector , costCollector.getM_Product_ID() , costCollector.getDateAcct()));
 				return;
 			}

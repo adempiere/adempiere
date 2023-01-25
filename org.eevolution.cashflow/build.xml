@@ -53,7 +53,7 @@
   <!-- =========================================== -->
   <target name="cashflowCompile" depends="cashflowMakedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac  target="1.8" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+    <javac target="11" encoding="UTF-8" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on" includeantruntime="false">
       <classpath refid="project.class.path"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
@@ -97,6 +97,8 @@
         <attribute name="Class-Path" value="liberoCashflow.jar"/>
       </manifest> 
     </jar>
+  	<copy file="../tools/lib/legacy/cashflow-support-legacy-1.0.0.jar" todir="${env.ADEMPIERE_HOME}/packages/CashflowManagement/lib" />
+  	<copy file="../tools/lib/legacy/cashflow-support-legacy-1.0.0.jar" todir="../packages/" />
   </target>
 
 

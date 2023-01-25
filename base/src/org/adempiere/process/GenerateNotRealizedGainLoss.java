@@ -18,6 +18,12 @@
 
 package org.adempiere.process;
 
+import org.adempiere.core.domains.models.I_C_DocType;
+import org.adempiere.core.domains.models.I_C_ElementValue;
+import org.adempiere.core.domains.models.I_Fact_Acct;
+import org.adempiere.core.domains.models.I_T_InvoiceGL;
+import org.adempiere.core.domains.models.X_C_ElementValue;
+import org.adempiere.core.domains.models.X_T_InvoiceGL;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.util.DB;

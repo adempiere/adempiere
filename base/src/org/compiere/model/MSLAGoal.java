@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.X_PA_SLA_Goal;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

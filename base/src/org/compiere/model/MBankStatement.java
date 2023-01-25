@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_BankStatementLine;
+import org.adempiere.core.domains.models.X_C_BankStatement;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -68,6 +70,13 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	 */
 	static public MBankStatementLine addPayment(MPayment payment)
 	{
+		//	Validate if exist on a bank statement
+		MBankStatementLine bankStatementLine = payment.getBankStatementLine();
+		if(bankStatementLine != null
+				&& bankStatementLine.getC_BankStatement_ID() > 0) {
+			return bankStatementLine;
+		}
+		//	Add
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(MBankStatement.COLUMNNAME_C_BankAccount_ID).append("=? AND ")
 				.append("TRUNC(").append(MBankStatement.COLUMNNAME_StatementDate).append(",'DD')=? AND ")
@@ -90,13 +99,14 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 			bankStatement.saveEx();
 		}
 
-		MBankStatementLine bankStatementLine = new MBankStatementLine(bankStatement);
+		bankStatementLine = new MBankStatementLine(bankStatement);
 		bankStatementLine.setPayment(payment);
 		bankStatementLine.setStatementLineDate(payment.getDateAcct());
 		bankStatementLine.setDateAcct(payment.getDateAcct());
 		bankStatementLine.saveEx();
 		return bankStatementLine;
 	}
+	
 	/**
 	 * 
 	 */

@@ -35,10 +35,10 @@ import org.compiere.model.MUOMConversion;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderNode;
-import org.eevolution.model.MPPOrderWorkflow;
-import org.eevolution.model.reasoner.CRPReasoner;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrderNode;
+import org.eevolution.manufacturing.model.MPPOrderWorkflow;
+import org.eevolution.manufacturing.model.reasoner.CRPReasoner;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
@@ -134,7 +134,7 @@ public abstract class CRPDatasetFactory extends CRPReasoner implements CRPModel
 
 		// Pre-converts to minutes, because its the lowest time unit of compiere 
 		BigDecimal scale = new BigDecimal(1000*60);
-		BigDecimal minutes = new BigDecimal(millis).divide(scale, 2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal minutes = new BigDecimal(millis).divide(scale, 2, RoundingMode.HALF_UP);
 		return convert(minutes);
 	}
 	

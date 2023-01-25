@@ -369,22 +369,22 @@ public class Gui implements ActionListener, FocusListener {
         
         // create the menu
         m_menuFile.setText(s_logger.localizeMessage("guiMenuFile"));
-        m_menuFile.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuFileMnemonic")));
+        m_menuFile.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuFileMnemonic")));
         m_menuFileSave.setText(s_logger.localizeMessage("guiMenuFileSave"));
         m_menuFileSave.setToolTipText(s_logger.localizeMessage("guiMenuFileSaveTip"));
-        m_menuFileSave.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuFileSaveMnemonic")));
+        m_menuFileSave.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuFileSaveMnemonic")));
         m_menuFileSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         m_menuFileSave.setIcon(new ImageIcon(getImage("Save16.png")));
         m_menuFileSave.addActionListener(this);
         m_menuFileClose.setText(s_logger.localizeMessage("guiMenuFileClose"));
         m_menuFileClose.setToolTipText(s_logger.localizeMessage("guiMenuFileCloseTip"));
-        m_menuFileClose.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuFileCloseMnemonic")));
+        m_menuFileClose.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuFileCloseMnemonic")));
         m_menuFileClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
         m_menuFileClose.setIcon(new ImageIcon(getImage("Logout16.png")));
         m_menuFileClose.addActionListener(this);
         m_menuFileExit.setText(s_logger.localizeMessage("guiMenuFileExit"));
         m_menuFileExit.setToolTipText(s_logger.localizeMessage("guiMenuFileExitTip"));
-        m_menuFileExit.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuFileExitMnemonic")));
+        m_menuFileExit.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuFileExitMnemonic")));
         m_menuFileExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         m_menuFileExit.setIcon(new ImageIcon(getImage("Cancel16.png")));
         m_menuFileExit.addActionListener(this);
@@ -393,14 +393,14 @@ public class Gui implements ActionListener, FocusListener {
         m_menuFile.add(m_menuFileClose);
         m_menuFile.add(m_menuFileExit);
         m_menuHelp.setText(s_logger.localizeMessage("guiMenuHelp"));
-        m_menuHelp.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuHelpMnemonic")));
+        m_menuHelp.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuHelpMnemonic")));
         m_menuHelpInfo.setText(s_logger.localizeMessage("guiMenuHelpInfo"));
-        m_menuHelpInfo.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuHelpInfoMnemonic")));
+        m_menuHelpInfo.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuHelpInfoMnemonic")));
         m_menuHelpInfo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
         m_menuHelpInfo.setIcon(new ImageIcon(getImage("Help16.png")));
         m_menuHelpInfo.addActionListener(this);
         m_menuHelpAbout.setText(s_logger.localizeMessage("guiMenuHelpAbout"));
-        m_menuHelpAbout.setMnemonic(new Integer(s_logger.localizeMessage("guiMenuHelpAboutMnemonic")));
+        m_menuHelpAbout.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiMenuHelpAboutMnemonic")));
         m_menuHelpAbout.setIcon(new ImageIcon(getImage("About16.png")));
         m_menuHelpAbout.addActionListener(this);
         m_menuHelp.add(m_menuHelpInfo);
@@ -588,13 +588,13 @@ public class Gui implements ActionListener, FocusListener {
     	panelParameters.add(m_targetSchema, getFieldConstraints(2,13));
     	
     	m_sourceReset = new JButton(s_logger.localizeMessage("guiReset"));
-    	m_sourceReset.setMnemonic(new Integer(s_logger.localizeMessage("guiSourceResetMnemonic")));
+    	m_sourceReset.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiSourceResetMnemonic")));
     	m_sourceReset.addActionListener(this);
     	m_sourceReset.setToolTipText(s_logger.localizeMessage("guiResetTip"));
     	m_sourceReset.setIcon(new ImageIcon(getImage("Reset16.png")));
     	panelParameters.add(m_sourceReset, getFieldConstraints(1,14));
     	m_targetReset = new JButton(s_logger.localizeMessage("guiReset"));
-    	m_targetReset.setMnemonic(new Integer(s_logger.localizeMessage("guiTargetResetMnemonic")));
+    	m_targetReset.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiTargetResetMnemonic")));
     	m_targetReset.addActionListener(this);
     	m_targetReset.setToolTipText(s_logger.localizeMessage("guiResetTip"));
     	m_targetReset.setIcon(new ImageIcon(getImage("Reset16.png")));
@@ -610,11 +610,11 @@ public class Gui implements ActionListener, FocusListener {
 		pane.add(panelMode, getOptionGroupConstraints(1,0));
 		
 		m_modeUpgrade = new JRadioButton(s_logger.localizeMessage("guiModeUpgrade"));
-		m_modeUpgrade.setMnemonic(new Integer(s_logger.localizeMessage("guiModeUpgradeMnemonic")));
+		m_modeUpgrade.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiModeUpgradeMnemonic")));
 		m_modeUpgrade.setToolTipText(s_logger.localizeMessage("guiModeUpgradeTip"));
 		m_modeUpgrade.addActionListener(this);
 		m_modeTransfer = new JRadioButton(s_logger.localizeMessage("guiModeTransfer"));
-		m_modeTransfer.setMnemonic(new Integer(s_logger.localizeMessage("guiModeTransferMnemonic")));
+		m_modeTransfer.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiModeTransferMnemonic")));
 		m_modeTransfer.setToolTipText(s_logger.localizeMessage("guiModeTransferTip"));
 		m_modeTransfer.addActionListener(this);
 		ButtonGroup modeGroup = new ButtonGroup();
@@ -640,20 +640,20 @@ public class Gui implements ActionListener, FocusListener {
 		m_labelLogLevel = new JLabel(s_logger.localizeMessage("guiOptionLogLevel"));
 		m_labelLogLevel.setLabelFor(m_optionLogLevel);
 		m_labelLogLevel.setToolTipText(s_logger.localizeMessage("guiOptionLogLevelTip"));
-		m_labelLogLevel.setDisplayedMnemonic(new Integer(s_logger.localizeMessage("guiOptionLogLevelMnemonic")));
+		m_labelLogLevel.setDisplayedMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionLogLevelMnemonic")));
 		panelLogLevel.add(m_labelLogLevel, getFieldConstraints(0, 0));
 		panelLogLevel.add(m_optionLogLevel, getFieldConstraints(1, 0));
 		
 		m_optionAttemptTranslations = new JCheckBox(s_logger.localizeMessage("guiOptionAttemptTranslations"));
-		m_optionAttemptTranslations.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionAttemptTranslationsMnemonic")));
+		m_optionAttemptTranslations.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionAttemptTranslationsMnemonic")));
 		m_optionAttemptTranslations.setToolTipText(s_logger.localizeMessage("guiOptionAttemptTranslationsTip"));
 
 		optionPreserveGardenWorld = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveGardenWorld"));
-		optionPreserveGardenWorld.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveGardenWorldMnemonic")));
+		optionPreserveGardenWorld.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionPreserveGardenWorldMnemonic")));
 		optionPreserveGardenWorld.setToolTipText(s_logger.localizeMessage("guiOptionPreserveGardenWorldTip"));
 
 		optionPreserveLogs = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveLogs"));
-		optionPreserveLogs.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveLogsMnemonic")));
+		optionPreserveLogs.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionPreserveLogsMnemonic")));
 		optionPreserveLogs.setToolTipText(s_logger.localizeMessage("guiOptionPreserveLogsTip"));
 
 		JPanel panelDays = new JPanel();
@@ -663,7 +663,7 @@ public class Gui implements ActionListener, FocusListener {
 		labelDays = new JLabel(s_logger.localizeMessage("guiPreserveDays"));
 		labelDays.setLabelFor(preserveDays);
 		labelDays.setToolTipText(s_logger.localizeMessage("guiPreserveDaysTip"));
-		labelDays.setDisplayedMnemonic(new Integer(s_logger.localizeMessage("guiDaysMnemonic")));
+		labelDays.setDisplayedMnemonic(Integer.valueOf(s_logger.localizeMessage("guiDaysMnemonic")));
 		preserveDays.setEditable(true);
 		preserveDays.setEnabled(true);
 		preserveDays.setDisabledTextColor(m_sourceHost.getForeground());
@@ -671,23 +671,23 @@ public class Gui implements ActionListener, FocusListener {
 		panelDays.add(preserveDays, getFieldConstraints(1, 0));
 
 		optionTruncateTemporaryTables = new JCheckBox(s_logger.localizeMessage("guiOptionTruncateTemporaryTables"));
-		optionTruncateTemporaryTables.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionTruncateTemporaryTablesMnemonic")));
+		optionTruncateTemporaryTables.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionTruncateTemporaryTablesMnemonic")));
 		optionTruncateTemporaryTables.setToolTipText(s_logger.localizeMessage("guiOptionTruncateTemporaryTablesTip"));
 
 		optionPreserveUnreferencedElements = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveUnreferencedElements"));
-		optionPreserveUnreferencedElements.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveUnreferencedElementsMnemonic")));
+		optionPreserveUnreferencedElements.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionPreserveUnreferencedElementsMnemonic")));
 		optionPreserveUnreferencedElements.setToolTipText(s_logger.localizeMessage("guiOptionPreserveUnreferencedElementsTip"));
 
 		m_optionPreserveTableIDs = new JCheckBox(s_logger.localizeMessage("guiOptionPreserveTableIDs"));
-		m_optionPreserveTableIDs.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionPreserveTableIDsMnemonic")));
+		m_optionPreserveTableIDs.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionPreserveTableIDsMnemonic")));
 		m_optionPreserveTableIDs.setToolTipText(s_logger.localizeMessage("guiOptionPreserveTableIDsTip"));
 
 		m_optionDropSource = new JCheckBox(s_logger.localizeMessage("guiOptionDropSource"));
-		m_optionDropSource.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionDropSourceMnemonic")));
+		m_optionDropSource.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionDropSourceMnemonic")));
 		m_optionDropSource.setToolTipText(s_logger.localizeMessage("guiOptionDropSourceTip"));
 		
 		m_optionOptimizeDatabase = new JCheckBox(s_logger.localizeMessage("guiOptionOptimizeDatabase"));
-		m_optionOptimizeDatabase.setMnemonic(new Integer(s_logger.localizeMessage("guiOptionOptimizeDatabaseMnemonic")));
+		m_optionOptimizeDatabase.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiOptionOptimizeDatabaseMnemonic")));
 		m_optionOptimizeDatabase.setToolTipText(s_logger.localizeMessage("guiOptionOptimizeDatabaseTip"));
 		
 		panelOptions.add(panelLogLevel, getFieldConstraints(0, 0));
@@ -719,7 +719,7 @@ public class Gui implements ActionListener, FocusListener {
 		panelStartButton.setLayout(new GridBagLayout());
 		pane.add(panelStartButton, getButtonGroupConstraints(1,3));
 		m_buttonStart = new JButton(s_logger.localizeMessage("guiButtonStart"));
-		m_buttonStart.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonStartMnemonic")));
+		m_buttonStart.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonStartMnemonic")));
 		m_buttonStart.setToolTipText(s_logger.localizeMessage("guiButtonStartTip"));
 		m_buttonStart.setIcon(new ImageIcon(getImage("Process16.png")));
 		m_buttonStart.addActionListener(this);
@@ -762,19 +762,19 @@ public class Gui implements ActionListener, FocusListener {
 		panelViewButtons.setLayout(new GridBagLayout());
 		pane.add(panelViewButtons, getViewGroupConstraints(0,5));
 		m_trace = new JButton(s_logger.localizeMessage("guiButtonViewTrace"));
-		m_trace.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonViewTraceMnemonic")));
+		m_trace.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonViewTraceMnemonic")));
 		m_trace.setToolTipText(s_logger.localizeMessage("guiButtonViewTraceTip"));
 		m_trace.setIcon(new ImageIcon(getImage("Zoom16.png")));
 		m_trace.setEnabled(false);
 		m_trace.addActionListener(this);
 		m_warnings = new JButton(s_logger.localizeMessage("guiButtonViewWarnings"));
-		m_warnings.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonViewWarningsMnemonic")));
+		m_warnings.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonViewWarningsMnemonic")));
 		m_warnings.setToolTipText(s_logger.localizeMessage("guiButtonViewWarningsTip"));
 		m_warnings.setIcon(new ImageIcon(getImage("Zoom16.png")));
 		m_warnings.setEnabled(false);
 		m_warnings.addActionListener(this);
 		m_errors = new JButton(s_logger.localizeMessage("guiButtonViewErrors"));
-		m_errors.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonViewErrorsMnemonic")));
+		m_errors.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonViewErrorsMnemonic")));
 		m_errors.setToolTipText(s_logger.localizeMessage("guiButtonViewErrorsTip"));
 		m_errors.setIcon(new ImageIcon(getImage("Zoom16.png")));
 		m_errors.setEnabled(false);
@@ -789,12 +789,12 @@ public class Gui implements ActionListener, FocusListener {
 		panelCloseButtons.setLayout(new GridBagLayout());
 		pane.add(panelCloseButtons, getButtonGroupConstraints(1,5));
 		m_buttonCancel = new JButton(s_logger.localizeMessage("guiButtonCancel"));
-		m_buttonCancel.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonCancelMnemonic")));
+		m_buttonCancel.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonCancelMnemonic")));
 		m_buttonCancel.setToolTipText(s_logger.localizeMessage("guiButtonCancelTip"));
 		m_buttonCancel.setIcon(new ImageIcon(getImage("Cancel16.png")));
 		m_buttonCancel.addActionListener(this);
 		m_buttonClose = new JButton(s_logger.localizeMessage("guiButtonClose"));
-		m_buttonClose.setMnemonic(new Integer(s_logger.localizeMessage("guiButtonCloseMnemonic")));
+		m_buttonClose.setMnemonic(Integer.valueOf(s_logger.localizeMessage("guiButtonCloseMnemonic")));
 		m_buttonClose.setToolTipText(s_logger.localizeMessage("guiButtonCloseTip"));
 		m_buttonClose.setIcon(new ImageIcon(getImage("Logout16.png")));
 		m_buttonClose.addActionListener(this);
@@ -3354,7 +3354,7 @@ public class Gui implements ActionListener, FocusListener {
 		 s_parameters.setPreserveGardedWorld(optionPreserveGardenWorld.isSelected());
 		 s_parameters.setTruncateTemporaryTables(optionTruncateTemporaryTables.isSelected());
 		 s_parameters.setPreserveLogs(optionPreserveLogs.isSelected());
-		 s_parameters.setPreserveDays(preserveDays.getText() != null && preserveDays.getText().length() > 0 ? Integer.valueOf(preserveDays.getText()) : new Integer(0));
+		 s_parameters.setPreserveDays(preserveDays.getText() != null && preserveDays.getText().length() > 0 ? Integer.valueOf(preserveDays.getText()) : Integer.valueOf(0));
 		 s_parameters.setPreserveUnreferencedElements(optionPreserveUnreferencedElements.isSelected());
 		 s_parameters.setPreserveTableID(m_optionPreserveTableIDs.isSelected());
 		 s_parameters.setDropSource(m_optionDropSource.isSelected());
@@ -3390,7 +3390,7 @@ public class Gui implements ActionListener, FocusListener {
 		 if (m_sourcePassword.getText()!=null && m_sourcePassword.getText().length()>0)
 			 passwd = m_sourcePassword.getText();
 		if (preserveDays.getText()!=null && preserveDays.getText().length()>0)
-			days = preserveDays.getText() != null && preserveDays.getText().length() > 0 ? Integer.valueOf(preserveDays.getText()) : new Integer(0);
+			days = preserveDays.getText() != null && preserveDays.getText().length() > 0 ? Integer.valueOf(preserveDays.getText()) : Integer.valueOf(0);
 		 if (m_sourceSystemUser.getText()!=null && m_sourceSystemUser.getText().length()>0)
 			 systemUser = m_sourceSystemUser.getText();
 		 if (m_sourceSystemPassword.getText()!=null && m_sourceSystemPassword.getText().length()>0)

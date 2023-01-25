@@ -18,6 +18,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,6 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
+
+import org.adempiere.core.domains.models.I_M_Cost;
+import org.adempiere.core.domains.models.X_M_Cost;
 import org.adempiere.engine.CostComponent;
 import org.adempiere.engine.IDocumentLine;
 import org.adempiere.exceptions.AdempiereException;
@@ -1278,8 +1282,8 @@ public class MCost extends X_M_Cost
 				BigDecimal averageCurrent = oldStockQty.multiply(oldAverageAmt);
 				BigDecimal averageIncrease = matchQty.multiply(cost);
 				BigDecimal newAmt = averageCurrent.add(averageIncrease);
-				newAmt = newAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				newAverageAmt = newAmt.divide(newStockQty, as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				newAmt = newAmt.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP);
+				newAverageAmt = newAmt.divide(newStockQty, as.getCostingPrecision(), RoundingMode.HALF_UP);
 				s_log.finer("Movement=" + movementQty + ", StockQty=" + newStockQty
 					+ ", Match=" + matchQty + ", Cost=" + cost + ", NewAvg=" + newAverageAmt);
 			}
@@ -1374,8 +1378,8 @@ public class MCost extends X_M_Cost
 				BigDecimal averageCurrent = oldStockQty.multiply(oldAverageAmt);
 				BigDecimal averageIncrease = matchQty.multiply(cost);
 				BigDecimal newAmt = averageCurrent.add(averageIncrease);
-				newAmt = newAmt.setScale(as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-				newAverageAmt = newAmt.divide(newStockQty, as.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+				newAmt = newAmt.setScale(as.getCostingPrecision(), RoundingMode.HALF_UP);
+				newAverageAmt = newAmt.divide(newStockQty, as.getCostingPrecision(), RoundingMode.HALF_UP);
 				s_log.finer("Movement=" + movementQty + ", StockQty=" + newStockQty
 					+ ", Match=" + matchQty + ", Cost=" + cost + ", NewAvg=" + newAverageAmt);
 			}
@@ -1852,7 +1856,7 @@ public class MCost extends X_M_Cost
 		BigDecimal sumQty = getCurrentQty().add(qty);
 		if (sumQty.signum() != 0)
 		{
-			BigDecimal cost = sumAmt.divide(sumQty, getPrecision(), BigDecimal.ROUND_HALF_UP);
+			BigDecimal cost = sumAmt.divide(sumQty, getPrecision(), RoundingMode.HALF_UP);
 			setCurrentCostPrice(cost);
 		}
 		//
@@ -1895,7 +1899,7 @@ public class MCost extends X_M_Cost
 		if (getCumulatedQty().signum() != 0
 			&& getCumulatedAmt().signum() != 0)
 			retValue = getCumulatedAmt()
-				.divide(getCumulatedQty(), getPrecision(), BigDecimal.ROUND_HALF_UP);
+				.divide(getCumulatedQty(), getPrecision(), RoundingMode.HALF_UP);
 		return retValue;
 	}	//	getHistoryAverage
 

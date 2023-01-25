@@ -28,10 +28,12 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
+import org.adempiere.core.domains.models.I_A_Asset;
+import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_M_Product;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
-import org.compiere.model.I_A_Asset;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
@@ -163,7 +165,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		// From A_Asset.
 		fBPartner_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, 
-						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_A_Asset.COLUMNNAME_C_BPartner_ID),
+						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_C_BPartner.COLUMNNAME_C_BPartner_ID),
 						DisplayType.Search), 
 						Msg.translate(Env.getCtx(), "C_BPartner_ID"), "", false, false, true);
 		fBPartner_ID.addValueChangeListener(this);
@@ -171,7 +173,7 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		
 		fProduct_ID = new WSearchEditor(
 				MLookupFactory.get (Env.getCtx(), p_WindowNo, 0,  
-						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_A_Asset.COLUMNNAME_M_Product_ID),
+						MColumn.getColumn_ID(I_A_Asset.Table_Name, I_M_Product.COLUMNNAME_M_Product_ID),
 						DisplayType.Search), 
 						Msg.translate(Env.getCtx(), "M_Product_ID"), "", false, false, true);
 		fProduct_ID.addValueChangeListener(this);
@@ -230,19 +232,19 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	        	String aid = Env.getContext(Env.getCtx(), p_WindowNo, "A_Asset_ID");
 				if (aid != null && aid.length() != 0)
 				{
-					fieldID = new Integer(aid).intValue();
+					fieldID = Integer.valueOf(aid).intValue();
 				}
 				//  C_BPartner_ID
 				String bp = Env.getContext(Env.getCtx(), p_WindowNo, "C_BPartner_ID");
 				if (bp != null && bp.length() != 0)
 				{
-					fBPartner_ID.setValue(new Integer(bp).intValue());
+					fBPartner_ID.setValue(Integer.valueOf(bp).intValue());
 				}
 				//  M_Product_ID
 				String pid = Env.getContext(Env.getCtx(), p_WindowNo, "M_Product_ID");
 				if (pid != null && pid.length() != 0)
 				{
-					fProduct_ID.setValue(new Integer(pid).intValue());
+					fProduct_ID.setValue(Integer.valueOf(pid).intValue());
 				}
 			}
 		}
@@ -340,9 +342,6 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	{
 		log.info( "InfoAsset.zoom");
 		Integer A_Asset_ID = record_id;
-		
-		if (A_Asset_ID == null)
-			return;
 		
 		MQuery query = new MQuery("A_Asset");
 		query.addRestriction("A_Asset_ID", MQuery.EQUAL, A_Asset_ID);

@@ -59,7 +59,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -74,6 +73,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.adempiere.core.domains.models.X_AD_Column;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
@@ -92,7 +92,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MUserQuery;
-import org.compiere.model.X_AD_Column;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CComboBoxEditable;
@@ -599,7 +598,7 @@ public final class Find extends CDialog
 			/**/
 
 			//  TargetFields
-			m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
+			m_targetFields.put(Integer.valueOf(mField.getAD_Column_ID()), mField);
 		}   //  for all target tab fields
 
 		//	Disable simple query fields
@@ -1749,7 +1748,7 @@ public final class Find extends CDialog
 				if (in instanceof Integer)
 					return in;
 				int i = Integer.parseInt(in.toString());
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))
@@ -1815,7 +1814,7 @@ public final class Find extends CDialog
 				|| (DisplayType.isID(dt) && field.getColumnName().endsWith("_ID")))
 			{
 				int i = Integer.parseInt(in);
-				return new Integer(i);
+				return Integer.valueOf(i);
 			}
 			//	Return BigDecimal
 			else if (DisplayType.isNumeric(dt))

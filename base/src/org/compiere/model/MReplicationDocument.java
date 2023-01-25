@@ -19,6 +19,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_ReplicationDocument;
+
 /**
  * Created by Victor Perez , e-Evolution on 03/07/16.
  */

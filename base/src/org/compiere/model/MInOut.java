@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -31,6 +32,11 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Order;
+import org.adempiere.core.domains.models.I_C_OrderLine;
+import org.adempiere.core.domains.models.I_M_InOutConfirm;
+import org.adempiere.core.domains.models.I_M_InOutLine;
+import org.adempiere.core.domains.models.X_M_InOut;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.print.ReportEngine;
@@ -155,7 +161,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 				if (oLines[i].getQtyEntered().compareTo(oLines[i].getQtyOrdered()) != 0)
 					inOutLine.setQtyEntered(lineQty
 						.multiply(oLines[i].getQtyEntered())
-						.divide(oLines[i].getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+						.divide(oLines[i].getQtyOrdered(), 12, RoundingMode.HALF_UP));
 				inOutLine.setC_Project_ID(oLines[i].getC_Project_ID());
 				inOutLine.save(trxName);
 				//	Delivered everything ?
@@ -1019,6 +1025,25 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	}	//	beforeSave
 
 	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (isProcessed())
+			return false;
+
+		Arrays.stream(getLines()).forEach(inOutLine -> {
+			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(inOutLine));
+			maybeInvoiceLine.ifPresent(invoiceLine -> {
+				invoiceLine.setM_InOutLine_ID(-1);
+				invoiceLine.saveEx();
+			});
+		});
+		return true;
+	}	//	beforeDelete
+	
+	/**
 	 * 	After Save
 	 *	@param newRecord new
 	 *	@param success success
@@ -1459,9 +1484,9 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}	//	stock movement
 
 			//	Correct Order Line
-			if (product != null && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
+			if (product != null && product.isStocked() && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtySO));
-			else if (product != null && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
+			else if (product != null && product.isStocked() && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtyPO));
 
 			//	Update Sales Order Line

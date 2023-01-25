@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.X_AD_Browse;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -310,7 +311,7 @@ public class MBrowse extends X_AD_Browse {
 	 *	@return MBrowse or null
 	 */
 	public static MBrowse get (Properties ctx, int AD_Browse_ID) {
-		Integer key = new Integer (AD_Browse_ID);
+		Integer key = Integer.valueOf(AD_Browse_ID);
 		MBrowse retValue = (MBrowse) s_cache.get (key);
 		if (retValue != null)
 			return retValue;

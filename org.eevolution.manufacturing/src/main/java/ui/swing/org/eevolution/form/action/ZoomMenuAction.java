@@ -25,7 +25,7 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
 import org.compiere.model.MQuery;
 import org.compiere.model.PO;
-import org.eevolution.model.wrapper.AbstractPOWrapper;
+import org.eevolution.manufacturing.model.wrapper.AbstractPOWrapper;
 
 
 /**

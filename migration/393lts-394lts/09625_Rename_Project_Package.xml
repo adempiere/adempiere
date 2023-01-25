@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename Project Package" ReleaseNo="3.9.4" SeqNo="9625">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8721" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.projectPhase">org.compiere.project.controller.CalloutProject.projectPhase</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="5770" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.planned">org.compiere.project.controller.CalloutProject.planned</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="5769" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.planned">org.compiere.project.controller.CalloutProject.planned</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8891" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" oldValue="org.compiere.model.CalloutProject.projectTask">org.compiere.project.controller.CalloutProject.projectTask</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="212" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.CopyFromProject">org.compiere.project.process.CopyFromProject</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="164" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectGenOrder">org.compiere.project.process.ProjectGenOrder</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="225" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectGenPO">org.compiere.project.process.ProjectGenPO</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="224" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectIssue">org.compiere.project.process.ProjectIssue</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="230" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectLinePricing">org.compiere.project.process.ProjectLinePricing</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="216" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectPhaseGenOrder">org.compiere.project.process.ProjectPhaseGenOrder</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="215" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectSetType">org.compiere.project.process.ProjectSetType</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54011" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.CopyFromProjectType">org.eevolution.project.process.CopyFromProjectType</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54028" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ImportProject">org.eevolution.project.process.ImportProject</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54012" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.ProcessingUserSelection">org.eevolution.project.process.ProcessingUserSelection</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="227" Table="AD_Process">
+        <Data AD_Column_ID="78843" Column="GenerateClass" isOldNull="true">N</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.ProjectClose">org.compiere.project.process.ProjectClose</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="170" StepType="SQL">
+      <SQLStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.project.model.validator.ProjectProcessorModelValidator' WHERE ModelValidationClass = 'org.compiere.model.ProjectProcessorModelValidator';
+UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.project.model.validator.ProjectModelValidator' WHERE ModelValidationClass = 'org.eevolution.model.ProjectModelValidator';</SQLStatement>
+      <RollbackStatement>UPDATE AD_ModelValidator SET ModelValidationClass = 'org.compiere.model.ProjectProcessorModelValidator' WHERE ModelValidationClass = 'org.compiere.project.model.validator.ProjectProcessorModelValidator';
+UPDATE AD_ModelValidator SET ModelValidationClass = 'org.eevolution.model.ProjectModelValidator' WHERE ModelValidationClass = 'org.eevolution.project.model.validator.ProjectModelValidator';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

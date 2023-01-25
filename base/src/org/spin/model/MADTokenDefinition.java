@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.core.domains.models.X_AD_TokenDefinition;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -67,7 +68,6 @@ public class MADTokenDefinition extends X_AD_TokenDefinition {
 			return definition;
 
 		definition = new Query(ctx , Table_Name , COLUMNNAME_AD_TokenDefinition_ID + "=?" , trxName)
-				.setClient_ID()
 				.setParameters(definitionId)
 				.first();
 		if (definition != null && definition.get_ID() > 0) {

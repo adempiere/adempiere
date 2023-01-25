@@ -31,7 +31,6 @@ import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAttributeSetInstance;
-import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;
@@ -39,9 +38,9 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPOrder;
-import org.eevolution.model.MPPOrderBOMLine;
-import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.manufacturing.model.MPPOrder;
+import org.eevolution.manufacturing.model.MPPOrderBOMLine;
+import org.eevolution.manufacturing.model.MPPProductBOMLine;
 
 /**
  * 
@@ -283,7 +282,7 @@ public class OrderReceiptIssue extends GenForm {
 			if (product != null && product.get_ID() != 0 && product.isStocked()) {
 				if (value == null && isSelected) {
 					attributeSetInstanceId =  key.getKey();
-					locatorId =  new Integer((String)m_issue[i][0].get(6));
+					locatorId =  Integer.valueOf((String)m_issue[i][0].get(6));
 					if (attributeSetInstanceId == 0 )
 						attributeSetInstanceId = (Integer) key.getKey();
 
@@ -442,7 +441,7 @@ public class OrderReceiptIssue extends GenForm {
 								// componentQtyReq =
 								// toDeliverQty.multiply(qtyBatchPerc); // TODO:
 								// set scale 4
-								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
+								componentQtyToDel = componentToDeliverQty.setScale(4, RoundingMode.HALF_UP);
 								// issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc),
 								// row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
@@ -453,8 +452,8 @@ public class OrderReceiptIssue extends GenForm {
 							componentToDeliverQty = qtyOpen;
 							if (componentToDeliverQty.signum() != 0) {
 								componentQtyReq = openQty.multiply(qtyBatchPerc); // scale 4
-								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
-								issue.setValueAt(componentToDeliverQty.setScale(8, BigDecimal.ROUND_HALF_UP), row, 8); // QtyToDelivery
+								componentQtyToDel = componentToDeliverQty.setScale(4, RoundingMode.HALF_UP);
+								issue.setValueAt(componentToDeliverQty.setScale(8, RoundingMode.HALF_UP), row, 8); // QtyToDelivery
 								issue.setValueAt(openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
 							}
 						}
@@ -625,10 +624,8 @@ public class OrderReceiptIssue extends GenForm {
 										: "";
 								String desc = null;
 								row[3] = desc != null ? desc : "";
-								row[4] = toIssue.setScale(2,
-										BigDecimal.ROUND_HALF_UP).toString();
-								row[5] = getValueBigDecimal(issue, i, 7).setScale(
-										2, BigDecimal.ROUND_HALF_UP).toString();
+								row[4] = toIssue.setScale(2, RoundingMode.HALF_UP).toString();
+								row[5] = getValueBigDecimal(issue, i, 7).setScale(2, RoundingMode.HALF_UP).toString();
 								row[6] = getValueBigDecimal(issue, i, 9).toString();
 								table.add(row);
 							}
@@ -659,10 +656,8 @@ public class OrderReceiptIssue extends GenForm {
 							row[2] = m_uomkey != null ? m_uomkey.toString()
 									: "";
 							row[3] = desc != null ? desc : "";
-							row[4] = issueact.setScale(2,
-									BigDecimal.ROUND_HALF_UP).toString();
-							row[5] = getValueBigDecimal(issue, i, 7).setScale(
-									2, BigDecimal.ROUND_HALF_UP).toString();
+							row[4] = issueact.setScale(2, RoundingMode.HALF_UP).toString();
+							row[5] = getValueBigDecimal(issue, i, 7).setScale(2, RoundingMode.HALF_UP).toString();
 							row[6] = getValueBigDecimal(issue, i, 9).toString();
 							table.add(row);
 

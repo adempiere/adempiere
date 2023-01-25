@@ -1,0 +1,12 @@
+<jboss-web>
+    <resource-ref>
+        <res-ref-name>java/AdempiereDS</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <jndi-name>java:/AdempiereDS</jndi-name>
+    </resource-ref>
+    <resource-ref>
+        <res-ref-name>java/AdempiereSRDS</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <jndi-name>java:/AdempiereSRDS</jndi-name>
+    </resource-ref>
+</jboss-web>

@@ -32,9 +32,18 @@ package org.adempiere.process;
 
 import java.util.Enumeration;
 
+import org.adempiere.core.domains.models.I_AD_Menu;
+import org.adempiere.core.domains.models.I_ASP_Level;
+import org.adempiere.core.domains.models.X_ASP_Browse;
+import org.adempiere.core.domains.models.X_ASP_Field;
+import org.adempiere.core.domains.models.X_ASP_Form;
+import org.adempiere.core.domains.models.X_ASP_Process;
+import org.adempiere.core.domains.models.X_ASP_Process_Para;
+import org.adempiere.core.domains.models.X_ASP_Tab;
+import org.adempiere.core.domains.models.X_ASP_Task;
+import org.adempiere.core.domains.models.X_ASP_Window;
+import org.adempiere.core.domains.models.X_ASP_Workflow;
 import org.adempiere.model.MBrowse;
-import org.compiere.model.I_AD_Menu;
-import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MColumn;
 import org.compiere.model.MField;
@@ -47,18 +56,9 @@ import org.compiere.model.MTask;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.model.MWindow;
-import org.compiere.model.X_ASP_Field;
-import org.compiere.model.X_ASP_Form;
-import org.compiere.model.X_ASP_Process;
-import org.compiere.model.X_ASP_Process_Para;
-import org.compiere.model.X_ASP_Tab;
-import org.compiere.model.X_ASP_Task;
-import org.compiere.model.X_ASP_Window;
-import org.compiere.model.X_ASP_Workflow;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.wf.MWorkflow;
-import org.spin.model.X_ASP_Browse;
 
 /**
  * 	Generate ASP entries for a level
