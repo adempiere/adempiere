@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_PP_Product_BOMLine 
 {
@@ -359,19 +359,6 @@ public interface I_PP_Product_BOMLine
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Product_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
-
-	/** Set BOM Line.
-	  * BOM Line
-	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
-
-	/** Get BOM Line.
-	  * BOM Line
-	  */
-	public int getPP_Product_BOMLine_ID();
-
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -387,18 +374,18 @@ public interface I_PP_Product_BOMLine
 
 	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
-    /** Column name QtyBOM */
-    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+    /** Column name PP_Product_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
 
-	/** Set Quantity.
-	  * Indicate the Quantity  use in this BOM
+	/** Set BOM Line.
+	  * BOM Line
 	  */
-	public void setQtyBOM (BigDecimal QtyBOM);
+	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
 
-	/** Get Quantity.
-	  * Indicate the Quantity  use in this BOM
+	/** Get BOM Line.
+	  * BOM Line
 	  */
-	public BigDecimal getQtyBOM();
+	public int getPP_Product_BOMLine_ID();
 
     /** Column name QtyBatch */
     public static final String COLUMNNAME_QtyBatch = "QtyBatch";
@@ -413,6 +400,19 @@ public interface I_PP_Product_BOMLine
 	  */
 	public BigDecimal getQtyBatch();
 
+    /** Column name QtyBOM */
+    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+
+	/** Set Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM);
+
+	/** Get Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM();
+
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";
 
@@ -425,19 +425,6 @@ public interface I_PP_Product_BOMLine
 	  * Indicate the Scrap %  for calculate the Scrap Quantity
 	  */
 	public BigDecimal getScrap();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -454,6 +441,19 @@ public interface I_PP_Product_BOMLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

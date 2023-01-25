@@ -20,20 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_RegistrationProduct;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for A_RegistrationProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProduct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_RegistrationProduct (Properties ctx, int A_RegistrationProduct_ID, String trxName)
@@ -73,6 +74,11 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_RegistrationAttribute)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_RegistrationAttribute.Table_Name)
+			.getPO(getA_RegistrationAttribute_ID(), get_TrxName());	}
 
 	/** Set Registration Attribute.
 		@param A_RegistrationAttribute_ID 

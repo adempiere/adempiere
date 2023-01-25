@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_PaySelectionLine 
 {
@@ -77,6 +77,21 @@ public interface I_C_PaySelectionLine
 	  */
 	public BigDecimal getAmtSource();
 
+    /** Column name C_BankAccountTo_ID */
+    public static final String COLUMNNAME_C_BankAccountTo_ID = "C_BankAccountTo_ID";
+
+	/** Set Bank Account To.
+	  * Bank Account To make Transfer
+	  */
+	public void setC_BankAccountTo_ID (int C_BankAccountTo_ID);
+
+	/** Get Bank Account To.
+	  * Bank Account To make Transfer
+	  */
+	public int getC_BankAccountTo_ID();
+
+	public org.adempiere.core.domains.models.I_C_BankAccount getC_BankAccountTo() throws RuntimeException;
+
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
@@ -107,21 +122,6 @@ public interface I_C_PaySelectionLine
 
 	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_BankAccountTo_ID */
-    public static final String COLUMNNAME_C_BankAccountTo_ID = "C_BankAccountTo_ID";
-
-	/** Set Bank Account To.
-	  * Bank Account To make Transfer
-	  */
-	public void setC_BankAccountTo_ID (int C_BankAccountTo_ID);
-
-	/** Get Bank Account To.
-	  * Bank Account To make Transfer
-	  */
-	public int getC_BankAccountTo_ID();
-
-	public org.adempiere.core.domains.models.I_C_BankAccount getC_BankAccountTo() throws RuntimeException;
-
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 
@@ -136,21 +136,6 @@ public interface I_C_PaySelectionLine
 	public int getC_Charge_ID();
 
 	public org.adempiere.core.domains.models.I_C_Charge getC_Charge() throws RuntimeException;
-
-    /** Column name C_ConversionType_ID */
-    public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
-
-	/** Set Currency Type.
-	  * Currency Conversion Rate Type
-	  */
-	public void setC_ConversionType_ID (int C_ConversionType_ID);
-
-	/** Get Currency Type.
-	  * Currency Conversion Rate Type
-	  */
-	public int getC_ConversionType_ID();
-
-	public org.adempiere.core.domains.models.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Conversion_Rate_ID */
     public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
@@ -167,20 +152,20 @@ public interface I_C_PaySelectionLine
 
 	public org.adempiere.core.domains.models.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException;
 
-    /** Column name C_InvoicePaySchedule_ID */
-    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+    /** Column name C_ConversionType_ID */
+    public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
-	/** Set Invoice Payment Schedule.
-	  * Invoice Payment Schedule
+	/** Set Currency Type.
+	  * Currency Conversion Rate Type
 	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+	public void setC_ConversionType_ID (int C_ConversionType_ID);
 
-	/** Get Invoice Payment Schedule.
-	  * Invoice Payment Schedule
+	/** Get Currency Type.
+	  * Currency Conversion Rate Type
 	  */
-	public int getC_InvoicePaySchedule_ID();
+	public int getC_ConversionType_ID();
 
-	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -197,6 +182,21 @@ public interface I_C_PaySelectionLine
 
 	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name C_InvoicePaySchedule_ID */
+    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+
+	/** Set Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+
+	/** Get Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID();
+
+	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -211,6 +211,21 @@ public interface I_C_PaySelectionLine
 	public int getC_Order_ID();
 
 	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
+
+    /** Column name C_PaySelection_ID */
+    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
+
+	/** Set Payment Selection.
+	  * Payment Selection
+	  */
+	public void setC_PaySelection_ID (int C_PaySelection_ID);
+
+	/** Get Payment Selection.
+	  * Payment Selection
+	  */
+	public int getC_PaySelection_ID();
+
+	public org.adempiere.core.domains.models.I_C_PaySelection getC_PaySelection() throws RuntimeException;
 
     /** Column name C_PaySelectionCheck_ID */
     public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
@@ -250,21 +265,6 @@ public interface I_C_PaySelectionLine
 	public int getC_PaySelectionLine_Parent_ID();
 
 	public org.adempiere.core.domains.models.I_C_PaySelectionLine getC_PaySelectionLine_Parent() throws RuntimeException;
-
-    /** Column name C_PaySelection_ID */
-    public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
-
-	/** Set Payment Selection.
-	  * Payment Selection
-	  */
-	public void setC_PaySelection_ID (int C_PaySelection_ID);
-
-	/** Get Payment Selection.
-	  * Payment Selection
-	  */
-	public int getC_PaySelection_ID();
-
-	public org.adempiere.core.domains.models.I_C_PaySelection getC_PaySelection() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -330,6 +330,8 @@ public interface I_C_PaySelectionLine
 	/** Get Financial Account	  */
 	public int getFM_Account_ID();
 
+	public org.adempiere.core.domains.models.I_FM_Account getFM_Account() throws RuntimeException;
+
     /** Column name HR_Movement_ID */
     public static final String COLUMNNAME_HR_Movement_ID = "HR_Movement_ID";
 
@@ -338,6 +340,8 @@ public interface I_C_PaySelectionLine
 
 	/** Get Payroll Movement	  */
 	public int getHR_Movement_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Movement getHR_Movement() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -456,19 +460,6 @@ public interface I_C_PaySelectionLine
 	  */
 	public boolean isProcessed();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -484,4 +475,17 @@ public interface I_C_PaySelectionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

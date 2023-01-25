@@ -22,24 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_C_ValidCombination;
-import org.adempiere.core.domains.models.I_I_Asset;
-import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Asset extends PO implements I_I_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Asset (Properties ctx, int I_Asset_ID, String trxName)
@@ -160,6 +159,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
+
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
 		Group of Assets
@@ -239,6 +243,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Spread)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Spread.Table_Name)
+			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
 
 	/** Set Spread Type.
 		@param A_Asset_Spread_Type Spread Type	  */
@@ -347,6 +356,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Method)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Calc_Type(), get_TrxName());	}
+
 	/** Set Calculation Type.
 		@param A_Depreciation_Calc_Type Calculation Type	  */
 	public void setA_Depreciation_Calc_Type (int A_Depreciation_Calc_Type)
@@ -401,6 +415,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Table_Header.Table_Name)
+			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
 	/** Set A_Depreciation_Table_Header_ID.
 		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
@@ -478,29 +497,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -815,6 +811,29 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Asset Depreciation Date.
 		@param AssetDepreciationDate 
 		Date of last depreciation
@@ -998,6 +1017,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getConventionT() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation_Convention)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation_Convention.Table_Name)
+			.getPO(getConventionType(), get_TrxName());	}
+
 	/** Set ConventionType.
 		@param ConventionType ConventionType	  */
 	public void setConventionType (int ConventionType)
@@ -1014,6 +1038,11 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Depreciation getDepreciationT() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Depreciation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Depreciation.Table_Name)
+			.getPO(getDepreciationType(), get_TrxName());	}
 
 	/** Set DepreciationType.
 		@param DepreciationType DepreciationType	  */

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,20 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for I_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Product_BOM (Properties ctx, int I_Product_BOM_ID, String trxName)
@@ -94,6 +97,23 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Backflush Group.
+		@param BackflushGroup 
+		The Grouping Components to the Backflush
+	  */
+	public void setBackflushGroup (String BackflushGroup)
+	{
+		set_Value (COLUMNNAME_BackflushGroup, BackflushGroup);
+	}
+
+	/** Get Backflush Group.
+		@return The Grouping Components to the Backflush
+	  */
+	public String getBackflushGroup () 
+	{
+		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
 	/** BOMType AD_Reference_ID=347 */
@@ -162,23 +182,6 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 	public String getBOMUse () 
 	{
 		return (String)get_Value(COLUMNNAME_BOMUse);
-	}
-
-	/** Set Backflush Group.
-		@param BackflushGroup 
-		The Grouping Components to the Backflush
-	  */
-	public void setBackflushGroup (String BackflushGroup)
-	{
-		set_Value (COLUMNNAME_BackflushGroup, BackflushGroup);
-	}
-
-	/** Get Backflush Group.
-		@return The Grouping Components to the Backflush
-	  */
-	public String getBackflushGroup () 
-	{
-		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
 	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException
@@ -591,34 +594,6 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrgValue);
 	}
 
-	public org.adempiere.core.domains.models.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PP_Product_BOMLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Product_BOMLine.Table_Name)
-			.getPO(getPP_Product_BOMLine_ID(), get_TrxName());	}
-
-	/** Set BOM Line.
-		@param PP_Product_BOMLine_ID 
-		BOM Line
-	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID)
-	{
-		if (PP_Product_BOMLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, Integer.valueOf(PP_Product_BOMLine_ID));
-	}
-
-	/** Get BOM Line.
-		@return BOM Line
-	  */
-	public int getPP_Product_BOMLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOMLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_PP_Product_BOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Product_BOM.Table_Name)
@@ -642,6 +617,34 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 	public int getPP_Product_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PP_Product_BOMLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Product_BOMLine.Table_Name)
+			.getPO(getPP_Product_BOMLine_ID(), get_TrxName());	}
+
+	/** Set BOM Line.
+		@param PP_Product_BOMLine_ID 
+		BOM Line
+	  */
+	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID)
+	{
+		if (PP_Product_BOMLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOMLine_ID, Integer.valueOf(PP_Product_BOMLine_ID));
+	}
+
+	/** Get BOM Line.
+		@return BOM Line
+	  */
+	public int getPP_Product_BOMLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOMLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -692,23 +695,6 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 		return false;
 	}
 
-	/** Set Product Key.
-		@param ProductValue 
-		Key of the Product
-	  */
-	public void setProductValue (String ProductValue)
-	{
-		set_Value (COLUMNNAME_ProductValue, ProductValue);
-	}
-
-	/** Get Product Key.
-		@return Key of the Product
-	  */
-	public String getProductValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductValue);
-	}
-
 	/** Set Product BOM Key.
 		@param Product_BOM_Value 
 		Key of Product BOM
@@ -726,24 +712,21 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 		return (String)get_Value(COLUMNNAME_Product_BOM_Value);
 	}
 
-	/** Set Quantity.
-		@param QtyBOM 
-		Indicate the Quantity  use in this BOM
+	/** Set Product Key.
+		@param ProductValue 
+		Key of the Product
 	  */
-	public void setQtyBOM (BigDecimal QtyBOM)
+	public void setProductValue (String ProductValue)
 	{
-		set_Value (COLUMNNAME_QtyBOM, QtyBOM);
+		set_Value (COLUMNNAME_ProductValue, ProductValue);
 	}
 
-	/** Get Quantity.
-		@return Indicate the Quantity  use in this BOM
+	/** Get Product Key.
+		@return Key of the Product
 	  */
-	public BigDecimal getQtyBOM () 
+	public String getProductValue () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		return (String)get_Value(COLUMNNAME_ProductValue);
 	}
 
 	/** Set Quantity in %.
@@ -761,6 +744,26 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 	public BigDecimal getQtyBatch () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBatch);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Quantity.
+		@param QtyBOM 
+		Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM)
+	{
+		set_Value (COLUMNNAME_QtyBOM, QtyBOM);
+	}
+
+	/** Get Quantity.
+		@return Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyBOM);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

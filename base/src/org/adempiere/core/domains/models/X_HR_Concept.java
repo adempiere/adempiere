@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -190,6 +192,11 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept_Category.Table_Name)
+			.getPO(getHR_Concept_Category_ID(), get_TrxName());	}
+
 	/** Set Global Payroll Concept Category.
 		@param HR_Concept_Category_ID 
 		Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
@@ -236,6 +243,11 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept_Type.Table_Name)
+			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
+
 	/** Set Global Payroll Concept Type.
 		@param HR_Concept_Type_ID 
 		Allows define types for concepts
@@ -259,6 +271,11 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Department)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
+
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
@@ -279,6 +296,11 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Job)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
 	/** Set Payroll Job.
 		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
@@ -298,6 +320,11 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Payroll)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */

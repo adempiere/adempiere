@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_R_RequestAction 
 {
@@ -42,6 +42,21 @@ public interface I_R_RequestAction
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -93,19 +108,6 @@ public interface I_R_RequestAction
 	public int getAD_User_ID();
 
 	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -345,21 +347,6 @@ public interface I_R_RequestAction
 
 	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException;
 
-    /** Column name M_ProductSpent_ID */
-    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
-
-	/** Set Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
-
-	/** Get Product Used.
-	  * Product/Resource/Service used in Request
-	  */
-	public int getM_ProductSpent_ID();
-
-	public org.adempiere.core.domains.models.I_M_Product getM_ProductSpent() throws RuntimeException;
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -374,6 +361,21 @@ public interface I_R_RequestAction
 	public int getM_Product_ID();
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_ProductSpent_ID */
+    public static final String COLUMNNAME_M_ProductSpent_ID = "M_ProductSpent_ID";
+
+	/** Set Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
+
+	/** Get Product Used.
+	  * Product/Resource/Service used in Request
+	  */
+	public int getM_ProductSpent_ID();
+
+	public org.adempiere.core.domains.models.I_M_Product getM_ProductSpent() throws RuntimeException;
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -498,6 +500,21 @@ public interface I_R_RequestAction
 
 	public org.adempiere.core.domains.models.I_R_Group getR_Group() throws RuntimeException;
 
+    /** Column name R_Request_ID */
+    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
+
+	/** Set Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID);
+
+	/** Get Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID();
+
+	public org.adempiere.core.domains.models.I_R_Request getR_Request() throws RuntimeException;
+
     /** Column name R_RequestAction_ID */
     public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
 
@@ -525,21 +542,6 @@ public interface I_R_RequestAction
 	public int getR_RequestType_ID();
 
 	public org.adempiere.core.domains.models.I_R_RequestType getR_RequestType() throws RuntimeException;
-
-    /** Column name R_Request_ID */
-    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
-
-	/** Set Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID);
-
-	/** Get Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID();
-
-	public org.adempiere.core.domains.models.I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name R_Resolution_ID */
     public static final String COLUMNNAME_R_Resolution_ID = "R_Resolution_ID";
@@ -625,19 +627,6 @@ public interface I_R_RequestAction
 	  */
 	public String getTaskStatus();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -653,4 +642,17 @@ public interface I_R_RequestAction
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

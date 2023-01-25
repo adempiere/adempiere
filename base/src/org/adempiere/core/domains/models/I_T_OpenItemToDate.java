@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_OpenItemToDate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_OpenItemToDate 
 {
@@ -92,6 +93,81 @@ public interface I_T_OpenItemToDate
 	public int getC_Activity_ID();
 
 	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException;
+
+    /** Column name C_BP_AccountType_ID */
+    public static final String COLUMNNAME_C_BP_AccountType_ID = "C_BP_AccountType_ID";
+
+	/** Set Account Type.
+	  * Account Type classification for Business Partner
+	  */
+	public void setC_BP_AccountType_ID (int C_BP_AccountType_ID);
+
+	/** Get Account Type.
+	  * Account Type classification for Business Partner
+	  */
+	public int getC_BP_AccountType_ID();
+
+	public org.adempiere.core.domains.models.I_C_BP_AccountType getC_BP_AccountType() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BP_IndustryType_ID */
+    public static final String COLUMNNAME_C_BP_IndustryType_ID = "C_BP_IndustryType_ID";
+
+	/** Set Industry Type.
+	  * Business Partner Industry Type or classification
+	  */
+	public void setC_BP_IndustryType_ID (int C_BP_IndustryType_ID);
+
+	/** Get Industry Type.
+	  * Business Partner Industry Type or classification
+	  */
+	public int getC_BP_IndustryType_ID();
+
+	public org.adempiere.core.domains.models.I_C_BP_IndustryType getC_BP_IndustryType() throws RuntimeException;
+
+    /** Column name C_BP_SalesGroup_ID */
+    public static final String COLUMNNAME_C_BP_SalesGroup_ID = "C_BP_SalesGroup_ID";
+
+	/** Set Sales Group.
+	  * Sales Group
+	  */
+	public void setC_BP_SalesGroup_ID (int C_BP_SalesGroup_ID);
+
+	/** Get Sales Group.
+	  * Sales Group
+	  */
+	public int getC_BP_SalesGroup_ID();
+
+	public org.adempiere.core.domains.models.I_C_BP_SalesGroup getC_BP_SalesGroup() throws RuntimeException;
+
+    /** Column name C_BP_Segment_ID */
+    public static final String COLUMNNAME_C_BP_Segment_ID = "C_BP_Segment_ID";
+
+	/** Set Segment.
+	  * Business Partner Segment
+	  */
+	public void setC_BP_Segment_ID (int C_BP_Segment_ID);
+
+	/** Get Segment.
+	  * Business Partner Segment
+	  */
+	public int getC_BP_Segment_ID();
+
+	public org.adempiere.core.domains.models.I_C_BP_Segment getC_BP_Segment() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -168,21 +244,6 @@ public interface I_T_OpenItemToDate
 
 	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name C_InvoicePaySchedule_ID */
-    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
-
-	/** Set Invoice Payment Schedule.
-	  * Invoice Payment Schedule
-	  */
-	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
-
-	/** Get Invoice Payment Schedule.
-	  * Invoice Payment Schedule
-	  */
-	public int getC_InvoicePaySchedule_ID();
-
-	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -197,6 +258,21 @@ public interface I_T_OpenItemToDate
 	public int getC_Invoice_ID();
 
 	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException;
+
+    /** Column name C_InvoicePaySchedule_ID */
+    public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
+
+	/** Set Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public void setC_InvoicePaySchedule_ID (int C_InvoicePaySchedule_ID);
+
+	/** Get Invoice Payment Schedule.
+	  * Invoice Payment Schedule
+	  */
+	public int getC_InvoicePaySchedule_ID();
+
+	public org.adempiere.core.domains.models.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -242,6 +318,21 @@ public interface I_T_OpenItemToDate
 	public int getC_Project_ID();
 
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -428,6 +519,21 @@ public interface I_T_OpenItemToDate
 	  */
 	public boolean isSOTrx();
 
+    /** Column name M_PriceList_ID */
+    public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
+
+	/** Set Price List.
+	  * Unique identifier of a Price List
+	  */
+	public void setM_PriceList_ID (int M_PriceList_ID);
+
+	/** Get Price List.
+	  * Unique identifier of a Price List
+	  */
+	public int getM_PriceList_ID();
+
+	public org.adempiere.core.domains.models.I_M_PriceList getM_PriceList() throws RuntimeException;
+
     /** Column name NetDays */
     public static final String COLUMNNAME_NetDays = "NetDays";
 
@@ -463,18 +569,20 @@ public interface I_T_OpenItemToDate
 	/** Get Paid Amount	  */
 	public BigDecimal getPaidAmt();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
 	  */
-	public void setUUID (String UUID);
+	public void setSalesRep_ID (int SalesRep_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
 	  */
-	public String getUUID();
+	public int getSalesRep_ID();
+
+	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -491,4 +599,17 @@ public interface I_T_OpenItemToDate
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

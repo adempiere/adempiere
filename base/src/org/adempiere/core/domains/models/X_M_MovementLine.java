@@ -21,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_MovementLine (Properties ctx, int M_MovementLine_ID, String trxName)
@@ -54,9 +53,9 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 // @M_LocatorTo_ID@
 			setM_Movement_ID (0);
 			setM_MovementLine_ID (0);
+			setM_Product_ID (0);
 			setMovementQty (Env.ZERO);
 // 1
-			setM_Product_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
 // 0
@@ -175,26 +174,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
@@ -278,6 +257,31 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Confirmed Quantity.
+		@param ConfirmedQty 
+		Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty)
+	{
+		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
+	}
+
+	/** Get Confirmed Quantity.
+		@return Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_DD_OrderLine getDD_OrderLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_OrderLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_OrderLine.Table_Name)
+			.getPO(getDD_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Distribution Order Line.
 		@param DD_OrderLine_ID Distribution Order Line	  */
@@ -507,26 +511,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_Product)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Product.Table_Name)
@@ -553,6 +537,26 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.
@@ -791,6 +795,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 	{
 		return (String)get_Value(COLUMNNAME_Value);
 	}
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_InOutBoundLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */

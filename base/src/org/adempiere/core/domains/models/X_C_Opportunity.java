@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Opportunity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220521L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_Opportunity (Properties ctx, int C_Opportunity_ID, String trxName)
@@ -196,40 +198,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Close Date.
-		@param CloseDate 
-		Close Date
-	  */
-	public void setCloseDate (Timestamp CloseDate)
-	{
-		set_Value (COLUMNNAME_CloseDate, CloseDate);
-	}
-
-	/** Get Close Date.
-		@return Close Date
-	  */
-	public Timestamp getCloseDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_CloseDate);
-	}
-
-	/** Set Comments.
-		@param Comments 
-		Comments or additional information
-	  */
-	public void setComments (String Comments)
-	{
-		set_Value (COLUMNNAME_Comments, Comments);
-	}
-
-	/** Get Comments.
-		@return Comments or additional information
-	  */
-	public String getComments () 
-	{
-		return (String)get_Value(COLUMNNAME_Comments);
-	}
-
 	/** Set Sales Opportunity.
 		@param C_Opportunity_ID Sales Opportunity	  */
 	public void setC_Opportunity_ID (int C_Opportunity_ID)
@@ -278,26 +246,6 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Cost.
-		@param Cost 
-		Cost information
-	  */
-	public void setCost (BigDecimal Cost)
-	{
-		set_Value (COLUMNNAME_Cost, Cost);
-	}
-
-	/** Get Cost.
-		@return Cost information
-	  */
-	public BigDecimal getCost () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
@@ -326,6 +274,11 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_SalesStage getC_SalesStage() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_SalesStage)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_SalesStage.Table_Name)
+			.getPO(getC_SalesStage_ID(), get_TrxName());	}
+
 	/** Set Sales Stage.
 		@param C_SalesStage_ID 
 		Stages of the sales process
@@ -347,6 +300,60 @@ public class X_C_Opportunity extends PO implements I_C_Opportunity, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Close Date.
+		@param CloseDate 
+		Close Date
+	  */
+	public void setCloseDate (Timestamp CloseDate)
+	{
+		set_Value (COLUMNNAME_CloseDate, CloseDate);
+	}
+
+	/** Get Close Date.
+		@return Close Date
+	  */
+	public Timestamp getCloseDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_CloseDate);
+	}
+
+	/** Set Comments.
+		@param Comments 
+		Comments or additional information
+	  */
+	public void setComments (String Comments)
+	{
+		set_Value (COLUMNNAME_Comments, Comments);
+	}
+
+	/** Get Comments.
+		@return Comments or additional information
+	  */
+	public String getComments () 
+	{
+		return (String)get_Value(COLUMNNAME_Comments);
+	}
+
+	/** Set Cost.
+		@param Cost 
+		Cost information
+	  */
+	public void setCost (BigDecimal Cost)
+	{
+		set_Value (COLUMNNAME_Cost, Cost);
+	}
+
+	/** Get Cost.
+		@return Cost information
+	  */
+	public BigDecimal getCost () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Cost);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Description.

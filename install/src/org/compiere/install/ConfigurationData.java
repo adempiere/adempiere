@@ -875,11 +875,6 @@ public class ConfigurationData
 		String url = null;
 		try {
 			String ccType = Database.DB_ORACLE;
-			//	For others
-			if (!getDatabaseType().equals(Database.DB_ORACLE)) {
-				ccType = getDatabaseType();
-			}
-			//	
 			CConnection cc = CConnection.get (ccType,
 				getDatabaseServer(), getDatabasePort(), getDatabaseName(),
 				getDatabaseUser(), getDatabasePassword());

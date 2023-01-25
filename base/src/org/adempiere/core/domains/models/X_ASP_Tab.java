@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_ASP_Tab (Properties ctx, int ASP_Tab_ID, String trxName)
@@ -103,6 +103,27 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set AllFields.
+		@param AllFields AllFields	  */
+	public void setAllFields (boolean AllFields)
+	{
+		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
+	}
+
+	/** Get AllFields.
+		@return AllFields	  */
+	public boolean isAllFields () 
+	{
+		Object oo = get_Value(COLUMNNAME_AllFields);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** ASP_Status AD_Reference_ID=53234 */
@@ -180,27 +201,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getASP_Window_ID()));
     }
-
-	/** Set AllFields.
-		@param AllFields AllFields	  */
-	public void setAllFields (boolean AllFields)
-	{
-		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
-	}
-
-	/** Get AllFields.
-		@return AllFields	  */
-	public boolean isAllFields () 
-	{
-		Object oo = get_Value(COLUMNNAME_AllFields);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
 
 	/** Set Process Now.
 		@param Processing Process Now	  */

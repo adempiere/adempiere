@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBoundLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_WM_InOutBoundLineMA 
 {
@@ -173,6 +173,8 @@ public interface I_WM_InOutBoundLineMA
 
 	/** Get Inbound & Outbound Order Line	  */
 	public int getWM_InOutBoundLine_ID();
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 
     /** Column name WM_InOutBoundLineMA_ID */
     public static final String COLUMNNAME_WM_InOutBoundLineMA_ID = "WM_InOutBoundLineMA_ID";

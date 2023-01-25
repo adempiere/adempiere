@@ -20,7 +20,7 @@ jobs:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres
+        image: postgres:14.6
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
@@ -36,7 +36,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       
       # Ensure a compatible version of java is used
       - name: Setup Java JDK
@@ -45,32 +45,12 @@ jobs:
             java-version: '11'
             java-package: jdk
 
-      # Build ADempiere with ant
-      - name: Build Adempiere ...
-        env:
-          ACTION_BUILD_DIR: ${{ github.action_path }}
-          POSTGRES_HOST: localhost
-          # The default PostgreSQL port
-          POSTGRES_PORT: 5432
-        run: |
-          echo $ACTION_BUILD_DIR
-          echo $GITHUB_REF
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_BASE_REF
-          echo ${{ github.ref }}
-          echo "Current ant version: $(ant -version)"
-          echo "Installing ant version 1.10.10"
-          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
-          tar -xzf apache-ant-1.10.10-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.10
-          export PATH=${ANT_HOME}/bin:$PATH
-          export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
-          echo $ANT_HOME
-          echo $PATH
-          echo $(ant -version)
-          echo $ADEMPIERE_HOME
-          ant build
-      # Create Artifact for Download
+      # Build ADempiere with ant, if there are changes in XML files
+      - name: Build Adempiere with database restore...
+        uses: ./.github/actions/adempiere-build
+        with:
+           nodbrestore: false
+           
       - name: Upload zip
         uses: skx/github-action-publish-binaries@master
         env:
@@ -96,6 +76,12 @@ jobs:
         with:
           args: 'install/build/*.tar.gz.MD5'
       - name: Upload Seed (Database)
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_ACCESS }}
+        with:
+          args: 'adempiere/Adempiere/data/Adempiere_pg.dmp'
+      - name: Upload Compressed Seed (Database)
         uses: skx/github-action-publish-binaries@master
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_ACCESS }}

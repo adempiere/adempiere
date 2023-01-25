@@ -66,16 +66,16 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
-	static public String	MAIN_VERSION	= "Release 3.9.3";
+	static public String	MAIN_VERSION	= "Release 3.9.4";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2019-12-01";
+	static public String	DATE_VERSION	= "2023-01-24";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2019-12-01";
+	static public String	DB_VERSION		= "2023-01-24";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
 	/** URL of Product          */
-	static public final String	URL				= "www.adempiere.net";
+	static public final String	URL				= "www.adempiere.io";
 	/** 16*16 Product Image. **/
 	static private final String	s_File16x16		= "images/AD16.png";
 	/** 32*32 Product Image.   	*/
@@ -92,7 +92,7 @@ public final class Adempiere
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	static public final String	ADEMPIERE_R		= "Powered by ADempiere ERP\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2019 ADempiere\u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2023 ADempiere\u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
@@ -187,13 +187,14 @@ public final class Adempiere
 		if (s_ImplementationVendor != null)
 			return;
 
-		Package adempierePackage = Package.getPackage("org.compiere");
-		s_ImplementationVendor = adempierePackage.getImplementationVendor();
-		s_ImplementationVersion = adempierePackage.getImplementationVersion();
-		if (s_ImplementationVendor == null)
-		{
-			s_ImplementationVendor = "Supported by ADempiere community";
-			s_ImplementationVersion = "ADempiere";
+		Package adempierePackage = Package.getPackage("org.adempiere");
+		if (adempierePackage != null) {
+			s_ImplementationVendor = adempierePackage.getImplementationVendor();
+			s_ImplementationVersion = adempierePackage.getImplementationVersion();
+			if (s_ImplementationVendor == null) {
+				s_ImplementationVendor = "Supported by ADempiere community";
+				s_ImplementationVersion = "ADempiere";
+			}
 		}
 	}	//	setPackageInfo
 

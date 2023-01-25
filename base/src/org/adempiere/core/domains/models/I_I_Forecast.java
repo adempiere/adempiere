@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Forecast
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_I_Forecast 
 {
@@ -140,21 +141,6 @@ public interface I_I_Forecast
 	  */
 	public boolean isActive();
 
-    /** Column name M_ForecastLine_ID */
-    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
-
-	/** Set Forecast Line.
-	  * Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
-
-	/** Get Forecast Line.
-	  * Forecast Line
-	  */
-	public int getM_ForecastLine_ID();
-
-	public org.adempiere.core.domains.models.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
-
     /** Column name M_Forecast_ID */
     public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
 
@@ -169,6 +155,21 @@ public interface I_I_Forecast
 	public int getM_Forecast_ID();
 
 	public org.adempiere.core.domains.models.I_M_Forecast getM_Forecast() throws RuntimeException;
+
+    /** Column name M_ForecastLine_ID */
+    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
+
+	/** Set Forecast Line.
+	  * Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
+
+	/** Get Forecast Line.
+	  * Forecast Line
+	  */
+	public int getM_ForecastLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -285,19 +286,6 @@ public interface I_I_Forecast
 	/** Get Sales Representative	  */
 	public String getSalesRep_Name();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -313,6 +301,19 @@ public interface I_I_Forecast
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WarehouseValue */
     public static final String COLUMNNAME_WarehouseValue = "WarehouseValue";

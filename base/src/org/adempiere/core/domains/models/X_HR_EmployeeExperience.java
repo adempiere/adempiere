@@ -21,19 +21,21 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_EmployeeExperience
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_EmployeeExperience extends PO implements I_HR_EmployeeExperience, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_EmployeeExperience (Properties ctx, int HR_EmployeeExperience_ID, String trxName)
@@ -205,6 +207,31 @@ public class X_HR_EmployeeExperience extends PO implements I_HR_EmployeeExperien
 		return (String)get_Value(COLUMNNAME_DesignationWhereJoined);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Work Experience.
 		@param HR_EmployeeExperience_ID 
 		Work Experience
@@ -223,26 +250,6 @@ public class X_HR_EmployeeExperience extends PO implements I_HR_EmployeeExperien
 	public int getHR_EmployeeExperience_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeExperience_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

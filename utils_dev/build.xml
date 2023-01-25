@@ -21,8 +21,8 @@
 		<ant inheritAll="false" dir="base"/>
 		<ant inheritAll="false" dir="org.adempiere.asset"/>
 		<ant inheritAll="false" dir="extend"/>
-		<ant inheritAll="false" dir="client"/>
 		<ant inheritAll="false" dir="JasperReports"/>
+		<ant inheritAll="false" dir="client"/>
 		<ant inheritAll="false" dir="JasperReportsWebApp"/>
 		<ant inheritAll="false" dir="org.adempiere.webservice"/>
 		<ant inheritAll="false" dir="serverRoot"/>

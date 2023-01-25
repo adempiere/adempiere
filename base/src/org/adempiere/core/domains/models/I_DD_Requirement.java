@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Requirement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_Requirement 
 {
@@ -97,6 +97,8 @@ public interface I_DD_Requirement
 
 	/** Get Transport Requirement Type	  */
 	public int getDD_RequirementType_ID();
+
+	public org.adempiere.core.domains.models.I_DD_RequirementType getDD_RequirementType() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

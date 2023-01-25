@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_LeaveTypeEmployeeType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_LeaveTypeEmployeeType 
 {
@@ -93,18 +93,7 @@ public interface I_HR_LeaveTypeEmployeeType
 	  */
 	public int getHR_EmployeeType_ID();
 
-    /** Column name HR_LeaveTypeEmployeeType_ID */
-    public static final String COLUMNNAME_HR_LeaveTypeEmployeeType_ID = "HR_LeaveTypeEmployeeType_ID";
-
-	/** Set Leave Type for employee type.
-	  * Leave type for employee type
-	  */
-	public void setHR_LeaveTypeEmployeeType_ID (int HR_LeaveTypeEmployeeType_ID);
-
-	/** Get Leave Type for employee type.
-	  * Leave type for employee type
-	  */
-	public int getHR_LeaveTypeEmployeeType_ID();
+	public org.adempiere.core.domains.models.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
 
     /** Column name HR_LeaveType_ID */
     public static final String COLUMNNAME_HR_LeaveType_ID = "HR_LeaveType_ID";
@@ -118,6 +107,21 @@ public interface I_HR_LeaveTypeEmployeeType
 	  * Leave Type for an Employee
 	  */
 	public int getHR_LeaveType_ID();
+
+	public org.adempiere.core.domains.models.I_HR_LeaveType getHR_LeaveType() throws RuntimeException;
+
+    /** Column name HR_LeaveTypeEmployeeType_ID */
+    public static final String COLUMNNAME_HR_LeaveTypeEmployeeType_ID = "HR_LeaveTypeEmployeeType_ID";
+
+	/** Set Leave Type for employee type.
+	  * Leave type for employee type
+	  */
+	public void setHR_LeaveTypeEmployeeType_ID (int HR_LeaveTypeEmployeeType_ID);
+
+	/** Get Leave Type for employee type.
+	  * Leave type for employee type
+	  */
+	public int getHR_LeaveTypeEmployeeType_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

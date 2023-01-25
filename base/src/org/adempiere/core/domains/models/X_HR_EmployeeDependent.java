@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_EmployeeDependent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_EmployeeDependent (Properties ctx, int HR_EmployeeDependent_ID, String trxName)
@@ -173,6 +175,11 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 		return (String)get_Value(COLUMNNAME_Gender);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_CareerLevel)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_CareerLevel.Table_Name)
+			.getPO(getHR_CareerLevel_ID(), get_TrxName());	}
+
 	/** Set Career Level.
 		@param HR_CareerLevel_ID 
 		The Career Level for this position
@@ -196,6 +203,11 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Degree getHR_Degree() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Degree)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Degree.Table_Name)
+			.getPO(getHR_Degree_ID(), get_TrxName());	}
+
 	/** Set Degree.
 		@param HR_Degree_ID 
 		Degree for an Employee
@@ -214,6 +226,31 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 	public int getHR_Degree_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Degree_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
+	/** Set Payroll Employee.
+		@param HR_Employee_ID Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID)
+	{
+		if (HR_Employee_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
+	}
+
+	/** Get Payroll Employee.
+		@return Payroll Employee	  */
+	public int getHR_Employee_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -242,25 +279,10 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 		return ii.intValue();
 	}
 
-	/** Set Payroll Employee.
-		@param HR_Employee_ID Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID)
-	{
-		if (HR_Employee_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Employee_ID, Integer.valueOf(HR_Employee_ID));
-	}
-
-	/** Get Payroll Employee.
-		@return Payroll Employee	  */
-	public int getHR_Employee_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_Grade getHR_Grade() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Grade)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Grade.Table_Name)
+			.getPO(getHR_Grade_ID(), get_TrxName());	}
 
 	/** Set Grade.
 		@param HR_Grade_ID 
@@ -285,6 +307,11 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Race getHR_Race() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Race)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Race.Table_Name)
+			.getPO(getHR_Race_ID(), get_TrxName());	}
+
 	/** Set Race.
 		@param HR_Race_ID 
 		Race
@@ -307,6 +334,11 @@ public class X_HR_EmployeeDependent extends PO implements I_HR_EmployeeDependent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Relationship getHR_Relationship() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Relationship)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Relationship.Table_Name)
+			.getPO(getHR_Relationship_ID(), get_TrxName());	}
 
 	/** Set Employee Relationship.
 		@param HR_Relationship_ID 

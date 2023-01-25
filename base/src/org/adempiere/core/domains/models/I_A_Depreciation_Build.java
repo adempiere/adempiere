@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Build
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Depreciation_Build 
 {
@@ -43,14 +43,6 @@ public interface I_A_Depreciation_Build
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Build_ID */
     public static final String COLUMNNAME_A_Depreciation_Build_ID = "A_Depreciation_Build_ID";
 
@@ -59,6 +51,36 @@ public interface I_A_Depreciation_Build
 
 	/** Get Build Depreciation	  */
 	public int getA_Depreciation_Build_ID();
+
+    /** Column name A_End_Asset_ID */
+    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
+
+	/** Set To Asset	  */
+	public void setA_End_Asset_ID (int A_End_Asset_ID);
+
+	/** Get To Asset	  */
+	public int getA_End_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_End_Asset() throws RuntimeException;
+
+    /** Column name A_Start_Asset_ID */
+    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
+
+	/** Set From Asset	  */
+	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
+
+	/** Get From Asset	  */
+	public int getA_Start_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Start_Asset() throws RuntimeException;
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -72,24 +94,6 @@ public interface I_A_Depreciation_Build
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_End_Asset_ID */
-    public static final String COLUMNNAME_A_End_Asset_ID = "A_End_Asset_ID";
-
-	/** Set To Asset	  */
-	public void setA_End_Asset_ID (int A_End_Asset_ID);
-
-	/** Get To Asset	  */
-	public int getA_End_Asset_ID();
-
-    /** Column name A_Start_Asset_ID */
-    public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
-
-	/** Set From Asset	  */
-	public void setA_Start_Asset_ID (int A_Start_Asset_ID);
-
-	/** Get From Asset	  */
-	public int getA_Start_Asset_ID();
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";

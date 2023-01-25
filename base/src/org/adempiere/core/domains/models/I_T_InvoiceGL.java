@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_InvoiceGL 
 {
@@ -42,6 +42,21 @@ public interface I_T_InvoiceGL
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -93,34 +108,6 @@ public interface I_T_InvoiceGL
 	public int getAD_Table_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Table getAD_Table() throws RuntimeException;
-
-    /** Column name APAR */
-    public static final String COLUMNNAME_APAR = "APAR";
-
-	/** Set AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR);
-
-	/** Get AP - AR.
-	  * Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR();
-
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
-
-	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AmtAcctBalance */
     public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
@@ -199,6 +186,19 @@ public interface I_T_InvoiceGL
 	  * Source Balance Amount
 	  */
 	public BigDecimal getAmtSourceBalance();
+
+    /** Column name APAR */
+    public static final String COLUMNNAME_APAR = "APAR";
+
+	/** Set AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR);
+
+	/** Get AP - AR.
+	  * Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -402,19 +402,6 @@ public interface I_T_InvoiceGL
 	/** Get Gain/Loss Currency Temporary Table	  */
 	public int getT_InvoiceGL_ID();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -430,4 +417,17 @@ public interface I_T_InvoiceGL
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

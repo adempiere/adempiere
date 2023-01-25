@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Job 
 {
@@ -117,6 +117,8 @@ public interface I_HR_Job
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
+
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
 
@@ -182,6 +184,8 @@ public interface I_HR_Job
 
 	/** Get Next Job	  */
 	public int getNext_Job_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Job getNext_Job() throws RuntimeException;
 
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";

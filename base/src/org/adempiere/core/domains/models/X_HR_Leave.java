@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Leave
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Leave (Properties ctx, int HR_Leave_ID, String trxName)
@@ -318,6 +320,11 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
@@ -333,29 +340,6 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Leave Assign.
-		@param HR_LeaveAssign_ID 
-		Leave Assign
-	  */
-	public void setHR_LeaveAssign_ID (int HR_LeaveAssign_ID)
-	{
-		if (HR_LeaveAssign_ID < 1) 
-			set_Value (COLUMNNAME_HR_LeaveAssign_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_LeaveAssign_ID, Integer.valueOf(HR_LeaveAssign_ID));
-	}
-
-	/** Get Leave Assign.
-		@return Leave Assign
-	  */
-	public int getHR_LeaveAssign_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_LeaveAssign_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -384,6 +368,39 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_LeaveAssign getHR_LeaveAssign() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_LeaveAssign)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_LeaveAssign.Table_Name)
+			.getPO(getHR_LeaveAssign_ID(), get_TrxName());	}
+
+	/** Set Leave Assign.
+		@param HR_LeaveAssign_ID 
+		Leave Assign
+	  */
+	public void setHR_LeaveAssign_ID (int HR_LeaveAssign_ID)
+	{
+		if (HR_LeaveAssign_ID < 1) 
+			set_Value (COLUMNNAME_HR_LeaveAssign_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_LeaveAssign_ID, Integer.valueOf(HR_LeaveAssign_ID));
+	}
+
+	/** Get Leave Assign.
+		@return Leave Assign
+	  */
+	public int getHR_LeaveAssign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_LeaveAssign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_HR_LeaveReason getHR_LeaveReason() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_LeaveReason)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_LeaveReason.Table_Name)
+			.getPO(getHR_LeaveReason_ID(), get_TrxName());	}
+
 	/** Set Leave Reason.
 		@param HR_LeaveReason_ID 
 		Predefiend reasons
@@ -406,6 +423,11 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_LeaveType getHR_LeaveType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_LeaveType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_LeaveType.Table_Name)
+			.getPO(getHR_LeaveType_ID(), get_TrxName());	}
 
 	/** Set Leave Type.
 		@param HR_LeaveType_ID 

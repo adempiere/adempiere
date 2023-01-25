@@ -20,7 +20,7 @@
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="2805" Column="Created">2020-07-21 21:52:39.353</Data>
         <Data AD_Column_ID="2807" Column="Updated">2020-07-21 21:52:39.353</Data>
@@ -88,7 +88,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57714</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54420</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>

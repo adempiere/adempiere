@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Group_Acct 
 {
@@ -87,6 +87,8 @@ public interface I_A_Asset_Group_Acct
 	  */
 	public int getA_Asset_Group_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
     /** Column name A_Asset_Spread_Type */
     public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
 
@@ -96,13 +98,7 @@ public interface I_A_Asset_Group_Acct
 	/** Get Spread Type	  */
 	public int getA_Asset_Spread_Type();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	public org.adempiere.core.domains.models.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException;
 
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
@@ -124,6 +120,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Calculation Type	  */
 	public int getA_Depreciation_Calc_Type();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException;
+
     /** Column name A_Depreciation_Conv_F_ID */
     public static final String COLUMNNAME_A_Depreciation_Conv_F_ID = "A_Depreciation_Conv_F_ID";
 
@@ -132,6 +130,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Depreciation Convention (fiscal)	  */
 	public int getA_Depreciation_Conv_F_ID();
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getA_Depreciation_Conv_F() throws RuntimeException;
 
     /** Column name A_Depreciation_Conv_ID */
     public static final String COLUMNNAME_A_Depreciation_Conv_ID = "A_Depreciation_Conv_ID";
@@ -142,6 +142,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Convention Type	  */
 	public int getA_Depreciation_Conv_ID();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getA_Depreciation_Conv() throws RuntimeException;
+
     /** Column name A_Depreciation_F_ID */
     public static final String COLUMNNAME_A_Depreciation_F_ID = "A_Depreciation_F_ID";
 
@@ -151,6 +153,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Depreciation (fiscal)	  */
 	public int getA_Depreciation_F_ID();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation getA_Depreciation_F() throws RuntimeException;
+
     /** Column name A_Depreciation_ID */
     public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
 
@@ -159,6 +163,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Depreciation	  */
 	public int getA_Depreciation_ID();
+
+	public org.adempiere.core.domains.models.I_A_Depreciation getA_Depreciation() throws RuntimeException;
 
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
@@ -187,6 +193,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Depreciation Method (fiscal)	  */
 	public int getA_Depreciation_Method_F_ID();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Method_F() throws RuntimeException;
+
     /** Column name A_Depreciation_Method_ID */
     public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
 
@@ -196,6 +204,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Depreciation Method	  */
 	public int getA_Depreciation_Method_ID();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Method getA_Depreciation_Method() throws RuntimeException;
+
     /** Column name A_Depreciation_Table_Header_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Header_ID = "A_Depreciation_Table_Header_ID";
 
@@ -204,6 +214,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get A_Depreciation_Table_Header_ID	  */
 	public int getA_Depreciation_Table_Header_ID();
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
 
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
@@ -244,19 +256,6 @@ public interface I_A_Asset_Group_Acct
 	public int getA_Disposal_Revenue_Acct();
 
 	public I_C_ValidCombination getA_Disposal_Revenue_A() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Reval_Accumdep_Offset_Cur */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Cur = "A_Reval_Accumdep_Offset_Cur";
@@ -386,6 +385,27 @@ public interface I_A_Asset_Group_Acct
 	/** Get Split Percent	  */
 	public BigDecimal getA_Split_Percent();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
@@ -409,6 +429,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get ConventionType	  */
 	public int getConventionType();
+
+	public org.adempiere.core.domains.models.I_A_Depreciation_Convention getConventionT() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -434,6 +456,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get DepreciationType	  */
 	public int getDepreciationType();
+
+	public org.adempiere.core.domains.models.I_A_Depreciation getDepreciationT() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

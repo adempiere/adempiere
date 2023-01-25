@@ -20,21 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_WM_Area;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Area
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_Area extends PO implements I_WM_Area, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_Area (Properties ctx, int WM_Area_ID, String trxName)
@@ -186,6 +187,11 @@ public class X_WM_Area extends PO implements I_WM_Area, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_WM_Area_Type getWM_Area_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Area_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Area_Type.Table_Name)
+			.getPO(getWM_Area_Type_ID(), get_TrxName());	}
 
 	/** Set Warehouse Area Type.
 		@param WM_Area_Type_ID 

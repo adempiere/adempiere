@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_AttendanceBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_AttendanceBatch 
 {
@@ -193,6 +193,8 @@ public interface I_HR_AttendanceBatch
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
+
     /** Column name HR_ShiftSchedule_ID */
     public static final String COLUMNNAME_HR_ShiftSchedule_ID = "HR_ShiftSchedule_ID";
 
@@ -206,6 +208,8 @@ public interface I_HR_AttendanceBatch
 	  */
 	public int getHR_ShiftSchedule_ID();
 
+	public org.adempiere.core.domains.models.I_HR_ShiftSchedule getHR_ShiftSchedule() throws RuntimeException;
+
     /** Column name HR_WorkShift_ID */
     public static final String COLUMNNAME_HR_WorkShift_ID = "HR_WorkShift_ID";
 
@@ -218,6 +222,8 @@ public interface I_HR_AttendanceBatch
 	  * Work Shift
 	  */
 	public int getHR_WorkShift_ID();
+
+	public org.adempiere.core.domains.models.I_HR_WorkShift getHR_WorkShift() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Production
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_Production 
 {
@@ -51,6 +51,19 @@ public interface I_M_Production
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +78,6 @@ public interface I_M_Production
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -263,19 +263,6 @@ public interface I_M_Production
 	  */
 	public boolean isActive();
 
-    /** Column name IsComplete */
-    public static final String COLUMNNAME_IsComplete = "IsComplete";
-
-	/** Set Complete.
-	  * It is complete
-	  */
-	public void setIsComplete (String IsComplete);
-
-	/** Get Complete.
-	  * It is complete
-	  */
-	public String getIsComplete();
-
     /** Column name IsCreated */
     public static final String COLUMNNAME_IsCreated = "IsCreated";
 
@@ -324,17 +311,6 @@ public interface I_M_Production
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_ProductionBatch_ID */
-    public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
-
-	/** Set Production Batch	  */
-	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID);
-
-	/** Get Production Batch	  */
-	public int getM_ProductionBatch_ID();
-
-	public org.adempiere.core.domains.models.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException;
-
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 
@@ -347,6 +323,17 @@ public interface I_M_Production
 	  * Plan for producing a product
 	  */
 	public int getM_Production_ID();
+
+    /** Column name M_ProductionBatch_ID */
+    public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
+
+	/** Set Production Batch	  */
+	public void setM_ProductionBatch_ID (int M_ProductionBatch_ID);
+
+	/** Get Production Batch	  */
+	public int getM_ProductionBatch_ID();
+
+	public org.adempiere.core.domains.models.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException;
 
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
@@ -387,6 +374,19 @@ public interface I_M_Production
 	  */
 	public String getName();
 
+    /** Column name Posted */
+    public static final String COLUMNNAME_Posted = "Posted";
+
+	/** Set Posted.
+	  * Posting status
+	  */
+	public void setPosted (boolean Posted);
+
+	/** Get Posted.
+	  * Posting status
+	  */
+	public boolean isPosted();
+
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -401,19 +401,6 @@ public interface I_M_Production
 	public int getPP_Product_BOM_ID();
 
 	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
-    /** Column name Posted */
-    public static final String COLUMNNAME_Posted = "Posted";
-
-	/** Set Posted.
-	  * Posting status
-	  */
-	public void setPosted (boolean Posted);
-
-	/** Get Posted.
-	  * Posting status
-	  */
-	public boolean isPosted();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -440,15 +427,6 @@ public interface I_M_Production
 	  * The date+time (expressed in decimal format) when the document has been processed
 	  */
 	public BigDecimal getProcessedOn();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name ProductionQty */
     public static final String COLUMNNAME_ProductionQty = "ProductionQty";
@@ -477,19 +455,6 @@ public interface I_M_Production
 	public int getReversal_ID();
 
 	public org.adempiere.core.domains.models.I_M_Production getReversal() throws RuntimeException;
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -566,4 +531,17 @@ public interface I_M_Production
 	public int getUser4_ID();
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

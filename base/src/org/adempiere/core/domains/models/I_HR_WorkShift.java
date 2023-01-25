@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_WorkShift
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_WorkShift 
 {
@@ -144,6 +144,8 @@ public interface I_HR_WorkShift
 	  * Shift Group
 	  */
 	public int getHR_ShiftGroup_ID();
+
+	public org.adempiere.core.domains.models.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException;
 
     /** Column name HR_WorkShift_ID */
     public static final String COLUMNNAME_HR_WorkShift_ID = "HR_WorkShift_ID";

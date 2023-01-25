@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -29,14 +29,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_PriceList_Version (Properties ctx, int M_PriceList_Version_ID, String trxName)
@@ -172,29 +172,6 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	/** Set Price List Version.
-		@param M_PriceList_Version_ID 
-		Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
-	{
-		if (M_PriceList_Version_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
-	}
-
-	/** Get Price List Version.
-		@return Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_PriceList_Version)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_PriceList_Version.Table_Name)
@@ -218,6 +195,29 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 	public int getM_Pricelist_Version_Base_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Pricelist_Version_Base_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Price List Version.
+		@param M_PriceList_Version_ID 
+		Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID)
+	{
+		if (M_PriceList_Version_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PriceList_Version_ID, Integer.valueOf(M_PriceList_Version_ID));
+	}
+
+	/** Get Price List Version.
+		@return Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_Version_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

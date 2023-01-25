@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_VehicleType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_VehicleType extends PO implements I_DD_VehicleType, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_VehicleType extends PO implements I_DD_VehicleType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_VehicleType (Properties ctx, int DD_VehicleType_ID, String trxName)
@@ -94,6 +96,11 @@ public class X_DD_VehicleType extends PO implements I_DD_VehicleType, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_CompatibilityGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_CompatibilityGroup.Table_Name)
+			.getPO(getDD_CompatibilityGroup_ID(), get_TrxName());	}
+
 	/** Set Transport Compatibility Group.
 		@param DD_CompatibilityGroup_ID Transport Compatibility Group	  */
 	public void setDD_CompatibilityGroup_ID (int DD_CompatibilityGroup_ID)
@@ -113,6 +120,11 @@ public class X_DD_VehicleType extends PO implements I_DD_VehicleType, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_VehicleGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_VehicleGroup.Table_Name)
+			.getPO(getDD_VehicleGroup_ID(), get_TrxName());	}
 
 	/** Set Vehicle Group.
 		@param DD_VehicleGroup_ID Vehicle Group	  */

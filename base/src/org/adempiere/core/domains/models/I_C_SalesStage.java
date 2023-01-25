@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_SalesStage
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_C_SalesStage 
 {
@@ -64,6 +64,19 @@ public interface I_C_SalesStage
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_SalesStage_ID */
+    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
+
+	/** Set Sales Stage.
+	  * Stages of the sales process
+	  */
+	public void setC_SalesStage_ID (int C_SalesStage_ID);
+
+	/** Get Sales Stage.
+	  * Stages of the sales process
+	  */
+	public int getC_SalesStage_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -79,19 +92,6 @@ public interface I_C_SalesStage
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesStage_ID */
-    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
-
-	/** Set Sales Stage.
-	  * Stages of the sales process
-	  */
-	public void setC_SalesStage_ID (int C_SalesStage_ID);
-
-	/** Get Sales Stage.
-	  * Stages of the sales process
-	  */
-	public int getC_SalesStage_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

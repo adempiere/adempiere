@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_LicenseAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_LicenseAssignment (Properties ctx, int DD_LicenseAssignment_ID, String trxName)
@@ -41,8 +43,8 @@ public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment
       super (ctx, DD_LicenseAssignment_ID, trxName);
       /** if (DD_LicenseAssignment_ID == 0)
         {
-			setDD_LicenseAssignment_ID (0);
 			setDD_License_ID (0);
+			setDD_LicenseAssignment_ID (0);
         } */
     }
 
@@ -74,6 +76,11 @@ public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Driver)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Driver.Table_Name)
+			.getPO(getDD_Driver_ID(), get_TrxName());	}
+
 	/** Set Driver.
 		@param DD_Driver_ID Driver	  */
 	public void setDD_Driver_ID (int DD_Driver_ID)
@@ -89,6 +96,31 @@ public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment
 	public int getDD_Driver_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Driver_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_DD_License getDD_License() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_License)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_License.Table_Name)
+			.getPO(getDD_License_ID(), get_TrxName());	}
+
+	/** Set License.
+		@param DD_License_ID License	  */
+	public void setDD_License_ID (int DD_License_ID)
+	{
+		if (DD_License_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_License_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_License_ID, Integer.valueOf(DD_License_ID));
+	}
+
+	/** Get License.
+		@return License	  */
+	public int getDD_License_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_License_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -114,25 +146,10 @@ public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment
 		return ii.intValue();
 	}
 
-	/** Set License.
-		@param DD_License_ID License	  */
-	public void setDD_License_ID (int DD_License_ID)
-	{
-		if (DD_License_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_License_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_License_ID, Integer.valueOf(DD_License_ID));
-	}
-
-	/** Get License.
-		@return License	  */
-	public int getDD_License_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_License_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Vehicle)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Vehicle.Table_Name)
+			.getPO(getDD_Vehicle_ID(), get_TrxName());	}
 
 	/** Set Vehicle.
 		@param DD_Vehicle_ID Vehicle	  */

@@ -22,7 +22,7 @@
         <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
         <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6485" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="2805" Column="Created">2022-05-18 15:59:33.796</Data>
         <Data AD_Column_ID="2807" Column="Updated">2022-05-18 15:59:33.796</Data>
@@ -86,7 +86,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58693</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
@@ -140,7 +140,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58694</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
@@ -194,7 +194,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58695</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
@@ -242,7 +242,7 @@
         <Data AD_Column_ID="228" Column="AD_Menu_ID">54810</Data>
         <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
         <Data AD_Column_ID="600" Column="CreatedBy">0</Data>
@@ -276,7 +276,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58696</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
@@ -330,7 +330,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58697</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>
@@ -384,7 +384,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58698</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54614</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">0</Data>

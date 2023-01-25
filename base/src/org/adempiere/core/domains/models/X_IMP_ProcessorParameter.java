@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -27,14 +27,14 @@ import org.compiere.model.POInfo;
 
 /** Generated Model for IMP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParameter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_IMP_ProcessorParameter (Properties ctx, int IMP_ProcessorParameter_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
       super (ctx, IMP_ProcessorParameter_ID, trxName);
       /** if (IMP_ProcessorParameter_ID == 0)
         {
-			setIMP_ProcessorParameter_ID (0);
 			setIMP_Processor_ID (0);
+			setIMP_ProcessorParameter_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -111,26 +111,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Import Processor Parameter.
-		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
-	{
-		if (IMP_ProcessorParameter_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
-	}
-
-	/** Get Import Processor Parameter.
-		@return Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_IMP_Processor getIMP_Processor() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_IMP_Processor)MTable.get(getCtx(), org.adempiere.core.domains.models.I_IMP_Processor.Table_Name)
@@ -151,6 +131,26 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Import Processor Parameter.
+		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
+	{
+		if (IMP_ProcessorParameter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
+	}
+
+	/** Get Import Processor Parameter.
+		@return Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

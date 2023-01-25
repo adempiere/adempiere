@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_AD_UserMail (Properties ctx, int AD_UserMail_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       super (ctx, AD_UserMail_ID, trxName);
       /** if (AD_UserMail_ID == 0)
         {
-			setAD_UserMail_ID (0);
 			setAD_User_ID (0);
+			setAD_UserMail_ID (0);
         } */
     }
 
@@ -75,29 +75,6 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set User Mail.
-		@param AD_UserMail_ID 
-		Mail sent to the user
-	  */
-	public void setAD_UserMail_ID (int AD_UserMail_ID)
-	{
-		if (AD_UserMail_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
-	}
-
-	/** Get User Mail.
-		@return Mail sent to the user
-	  */
-	public int getAD_UserMail_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException
     {
@@ -134,6 +111,29 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_User_ID()));
     }
+
+	/** Set User Mail.
+		@param AD_UserMail_ID 
+		Mail sent to the user
+	  */
+	public void setAD_UserMail_ID (int AD_UserMail_ID)
+	{
+		if (AD_UserMail_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserMail_ID, Integer.valueOf(AD_UserMail_ID));
+	}
+
+	/** Get User Mail.
+		@return Mail sent to the user
+	  */
+	public int getAD_UserMail_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserMail_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Delivery Confirmation.
 		@param DeliveryConfirmation 

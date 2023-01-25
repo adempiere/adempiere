@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_W_Store extends PO implements I_W_Store, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_W_Store (Properties ctx, int W_Store_ID, String trxName)
@@ -126,6 +126,90 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	public int getC_PaymentTerm_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_TemplateBPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_TemplateBPartner_ID(), get_TrxName());	}
+
+	/** Set Template BPartner.
+		@param C_TemplateBPartner_ID 
+		BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID)
+	{
+		if (C_TemplateBPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_TemplateBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TemplateBPartner_ID, Integer.valueOf(C_TemplateBPartner_ID));
+	}
+
+	/** Get Template BPartner.
+		@return BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TemplateBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_AD_AppRegistration getCacheServerProvider() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_AppRegistration)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_AppRegistration.Table_Name)
+			.getPO(getCacheServerProvider_ID(), get_TrxName());	}
+
+	/** Set Cache Server Provider.
+		@param CacheServerProvider_ID 
+		Cache Server Provider for Web Store
+	  */
+	public void setCacheServerProvider_ID (int CacheServerProvider_ID)
+	{
+		if (CacheServerProvider_ID < 1) 
+			set_Value (COLUMNNAME_CacheServerProvider_ID, null);
+		else 
+			set_Value (COLUMNNAME_CacheServerProvider_ID, Integer.valueOf(CacheServerProvider_ID));
+	}
+
+	/** Get Cache Server Provider.
+		@return Cache Server Provider for Web Store
+	  */
+	public int getCacheServerProvider_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CacheServerProvider_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_AD_Role getCustomerRole() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_AD_Role)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Role.Table_Name)
+			.getPO(getCustomerRole_ID(), get_TrxName());	}
+
+	/** Set Customer Role.
+		@param CustomerRole_ID 
+		Customer Role used for add automatically after sign in
+	  */
+	public void setCustomerRole_ID (int CustomerRole_ID)
+	{
+		if (CustomerRole_ID < 1) 
+			set_Value (COLUMNNAME_CustomerRole_ID, null);
+		else 
+			set_Value (COLUMNNAME_CustomerRole_ID, Integer.valueOf(CustomerRole_ID));
+	}
+
+	/** Get Customer Role.
+		@return Customer Role used for add automatically after sign in
+	  */
+	public int getCustomerRole_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CustomerRole_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -623,57 +707,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	/** Set Web Store EMail.
-		@param WStoreEMail 
-		EMail address used as the sender (From)
-	  */
-	public void setWStoreEMail (String WStoreEMail)
-	{
-		set_Value (COLUMNNAME_WStoreEMail, WStoreEMail);
-	}
-
-	/** Get Web Store EMail.
-		@return EMail address used as the sender (From)
-	  */
-	public String getWStoreEMail () 
-	{
-		return (String)get_Value(COLUMNNAME_WStoreEMail);
-	}
-
-	/** Set WebStore User.
-		@param WStoreUser 
-		User ID of the Web Store EMail address
-	  */
-	public void setWStoreUser (String WStoreUser)
-	{
-		set_Value (COLUMNNAME_WStoreUser, WStoreUser);
-	}
-
-	/** Get WebStore User.
-		@return User ID of the Web Store EMail address
-	  */
-	public String getWStoreUser () 
-	{
-		return (String)get_Value(COLUMNNAME_WStoreUser);
-	}
-
-	/** Set WebStore Password.
-		@param WStoreUserPW 
-		Password of the Web Store EMail address
-	  */
-	public void setWStoreUserPW (String WStoreUserPW)
-	{
-		set_Value (COLUMNNAME_WStoreUserPW, WStoreUserPW);
-	}
-
-	/** Get WebStore Password.
-		@return Password of the Web Store EMail address
-	  */
-	public String getWStoreUserPW () 
-	{
-		return (String)get_Value(COLUMNNAME_WStoreUserPW);
-	}
-
 	/** Set Web Store.
 		@param W_Store_ID 
 		A Web Store of the Client
@@ -848,5 +881,56 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	public String getWebParam6 () 
 	{
 		return (String)get_Value(COLUMNNAME_WebParam6);
+	}
+
+	/** Set Web Store EMail.
+		@param WStoreEMail 
+		EMail address used as the sender (From)
+	  */
+	public void setWStoreEMail (String WStoreEMail)
+	{
+		set_Value (COLUMNNAME_WStoreEMail, WStoreEMail);
+	}
+
+	/** Get Web Store EMail.
+		@return EMail address used as the sender (From)
+	  */
+	public String getWStoreEMail () 
+	{
+		return (String)get_Value(COLUMNNAME_WStoreEMail);
+	}
+
+	/** Set WebStore User.
+		@param WStoreUser 
+		User ID of the Web Store EMail address
+	  */
+	public void setWStoreUser (String WStoreUser)
+	{
+		set_Value (COLUMNNAME_WStoreUser, WStoreUser);
+	}
+
+	/** Get WebStore User.
+		@return User ID of the Web Store EMail address
+	  */
+	public String getWStoreUser () 
+	{
+		return (String)get_Value(COLUMNNAME_WStoreUser);
+	}
+
+	/** Set WebStore Password.
+		@param WStoreUserPW 
+		Password of the Web Store EMail address
+	  */
+	public void setWStoreUserPW (String WStoreUserPW)
+	{
+		set_Value (COLUMNNAME_WStoreUserPW, WStoreUserPW);
+	}
+
+	/** Get WebStore Password.
+		@return Password of the Web Store EMail address
+	  */
+	public String getWStoreUserPW () 
+	{
+		return (String)get_Value(COLUMNNAME_WStoreUserPW);
 	}
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for PP_ForecastRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunLine (Properties ctx, int PP_ForecastRunLine_ID, String trxName)
@@ -102,6 +105,34 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PP_ForecastRun)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_ForecastRun.Table_Name)
+			.getPO(getPP_ForecastRun_ID(), get_TrxName());	}
+
+	/** Set Forecast Run.
+		@param PP_ForecastRun_ID 
+		Create the forecast simulation based on the forecast definition
+	  */
+	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID)
+	{
+		if (PP_ForecastRun_ID < 1) 
+			set_Value (COLUMNNAME_PP_ForecastRun_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_ForecastRun_ID, Integer.valueOf(PP_ForecastRun_ID));
+	}
+
+	/** Get Forecast Run.
+		@return Create the forecast simulation based on the forecast definition
+	  */
+	public int getPP_ForecastRun_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_PP_ForecastRunDetail getPP_ForecastRunDetail() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_PP_ForecastRunDetail)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_ForecastRunDetail.Table_Name)
@@ -148,34 +179,6 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 	public int getPP_ForecastRunLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PP_ForecastRun)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_ForecastRun.Table_Name)
-			.getPO(getPP_ForecastRun_ID(), get_TrxName());	}
-
-	/** Set Forecast Run.
-		@param PP_ForecastRun_ID 
-		Create the forecast simulation based on the forecast definition
-	  */
-	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID)
-	{
-		if (PP_ForecastRun_ID < 1) 
-			set_Value (COLUMNNAME_PP_ForecastRun_ID, null);
-		else 
-			set_Value (COLUMNNAME_PP_ForecastRun_ID, Integer.valueOf(PP_ForecastRun_ID));
-	}
-
-	/** Get Forecast Run.
-		@return Create the forecast simulation based on the forecast definition
-	  */
-	public int getPP_ForecastRun_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

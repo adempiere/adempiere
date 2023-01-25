@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,18 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_Report 
 {
@@ -42,6 +42,19 @@ public interface I_T_Report
 
     /** Load Meta Data */
 
+    /** Column name AccountType */
+    public static final String COLUMNNAME_AccountType = "AccountType";
+
+	/** Set Account Type.
+	  * Indicates the type of account
+	  */
+	public void setAccountType (String AccountType);
+
+	/** Get Account Type.
+	  * Indicates the type of account
+	  */
+	public String getAccountType();
+
     /** Column name AD_PInstance_ID */
     public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
@@ -56,19 +69,6 @@ public interface I_T_Report
 	public int getAD_PInstance_ID();
 
 	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException;
-
-    /** Column name AccountType */
-    public static final String COLUMNNAME_AccountType = "AccountType";
-
-	/** Set Account Type.
-	  * Indicates the type of account
-	  */
-	public void setAccountType (String AccountType);
-
-	/** Get Account Type.
-	  * Indicates the type of account
-	  */
-	public String getAccountType();
 
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
@@ -210,6 +210,51 @@ public interface I_T_Report
 
 	/** Get Col_20	  */
 	public BigDecimal getCol_20();
+
+    /** Column name Col_21 */
+    public static final String COLUMNNAME_Col_21 = "Col_21";
+
+	/** Set Col_21	  */
+	public void setCol_21 (BigDecimal Col_21);
+
+	/** Get Col_21	  */
+	public BigDecimal getCol_21();
+
+    /** Column name Col_22 */
+    public static final String COLUMNNAME_Col_22 = "Col_22";
+
+	/** Set Col_22	  */
+	public void setCol_22 (BigDecimal Col_22);
+
+	/** Get Col_22	  */
+	public BigDecimal getCol_22();
+
+    /** Column name Col_23 */
+    public static final String COLUMNNAME_Col_23 = "Col_23";
+
+	/** Set Col_23	  */
+	public void setCol_23 (BigDecimal Col_23);
+
+	/** Get Col_23	  */
+	public BigDecimal getCol_23();
+
+    /** Column name Col_24 */
+    public static final String COLUMNNAME_Col_24 = "Col_24";
+
+	/** Set Col_24	  */
+	public void setCol_24 (BigDecimal Col_24);
+
+	/** Get Col_24	  */
+	public BigDecimal getCol_24();
+
+    /** Column name Col_25 */
+    public static final String COLUMNNAME_Col_25 = "Col_25";
+
+	/** Set Col_25	  */
+	public void setCol_25 (BigDecimal Col_25);
+
+	/** Get Col_25	  */
+	public BigDecimal getCol_25();
 
     /** Column name Col_3 */
     public static final String COLUMNNAME_Col_3 = "Col_3";

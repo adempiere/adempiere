@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -32,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_InvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
@@ -98,6 +97,11 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
+
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
 		Group of Assets
@@ -120,6 +124,11 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -186,6 +195,27 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return false;
 	}
 
+	/** Set Processed.
+		@param A_Processed Processed	  */
+	public void setA_Processed (boolean A_Processed)
+	{
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
+	}
+
+	/** Get Processed.
+		@return Processed	  */
+	public boolean isA_Processed () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_AD_Org)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_Org.Table_Name)
@@ -212,27 +242,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Processed.
-		@param A_Processed Processed	  */
-	public void setA_Processed (boolean A_Processed)
-	{
-		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
-	}
-
-	/** Get Processed.
-		@return Processed	  */
-	public boolean isA_Processed () 
-	{
-		Object oo = get_Value(COLUMNNAME_A_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException
@@ -546,6 +555,11 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_FreightLine getDD_FreightLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_FreightLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_FreightLine.Table_Name)
+			.getPO(getDD_FreightLine_ID(), get_TrxName());	}
+
 	/** Set Order Freight Line.
 		@param DD_FreightLine_ID Order Freight Line	  */
 	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
@@ -582,6 +596,11 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public org.adempiere.core.domains.models.I_FM_Amortization getFM_Amortization() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_FM_Amortization)MTable.get(getCtx(), org.adempiere.core.domains.models.I_FM_Amortization.Table_Name)
+			.getPO(getFM_Amortization_ID(), get_TrxName());	}
 
 	/** Set Loan Amortization.
 		@param FM_Amortization_ID Loan Amortization	  */
@@ -1288,6 +1307,11 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_InOutBoundLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */

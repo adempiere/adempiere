@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_WorkShift
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_WorkShift extends PO implements I_HR_WorkShift, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_WorkShift (Properties ctx, int HR_WorkShift_ID, String trxName)
@@ -153,6 +155,11 @@ public class X_HR_WorkShift extends PO implements I_HR_WorkShift, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public org.adempiere.core.domains.models.I_HR_ShiftGroup getHR_ShiftGroup() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_ShiftGroup)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_ShiftGroup.Table_Name)
+			.getPO(getHR_ShiftGroup_ID(), get_TrxName());	}
 
 	/** Set Shift Group.
 		@param HR_ShiftGroup_ID 

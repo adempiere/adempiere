@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_Product_BOM 
 {
@@ -195,21 +195,6 @@ public interface I_M_Product_BOM
 
 	public org.adempiere.core.domains.models.I_M_PartType getM_PartType() throws RuntimeException;
 
-    /** Column name M_ProductBOM_ID */
-    public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
-
-	/** Set BOM Product.
-	  * Bill of Material Component Product
-	  */
-	public void setM_ProductBOM_ID (int M_ProductBOM_ID);
-
-	/** Get BOM Product.
-	  * Bill of Material Component Product
-	  */
-	public int getM_ProductBOM_ID();
-
-	public org.adempiere.core.domains.models.I_M_Product getM_ProductBOM() throws RuntimeException;
-
     /** Column name M_Product_BOM_ID */
     public static final String COLUMNNAME_M_Product_BOM_ID = "M_Product_BOM_ID";
 
@@ -234,18 +219,20 @@ public interface I_M_Product_BOM
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name M_ProductBOM_ID */
+    public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set BOM Product.
+	  * Bill of Material Component Product
 	  */
-	public void setUUID (String UUID);
+	public void setM_ProductBOM_ID (int M_ProductBOM_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get BOM Product.
+	  * Bill of Material Component Product
 	  */
-	public String getUUID();
+	public int getM_ProductBOM_ID();
+
+	public org.adempiere.core.domains.models.I_M_Product getM_ProductBOM() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -262,6 +249,19 @@ public interface I_M_Product_BOM
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

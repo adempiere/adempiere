@@ -856,7 +856,7 @@ public class CConnection implements Serializable, Cloneable
 	{
 		for (int i = 0; i < Database.DB_NAMES.length; i++)
 		{
-			if (Database.DB_NAMES[i].equals (type))
+			if (type.contains(Database.DB_NAMES[i]))
 			{
 				m_type = type;
 				m_okDB = false;
@@ -916,7 +916,7 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public boolean isOracle ()
 	{
-		return Database.DB_ORACLE.equals (m_type);
+		return m_type.contains(Database.DB_ORACLE);
 	} 	//  isOracle
 
 	/**
@@ -1246,7 +1246,7 @@ public class CConnection implements Serializable, Cloneable
 	public AdempiereDatabase getDatabase ()
 	{
 		//  different driver
-		if (m_db != null && !m_db.getName().equals(m_type))
+		if (m_db != null && !m_type.contains(m_db.getName()))
 			m_db = null;
 
 		if (m_db == null)
@@ -1255,7 +1255,7 @@ public class CConnection implements Serializable, Cloneable
 			{
 		         for (int i = 0; i < Database.DB_NAMES.length; i++)
 	             {
-	                     if (Database.DB_NAMES[i].equals (m_type))
+	                     if (m_type.contains(Database.DB_NAMES[i]))
 	                     {
 	                             m_db = (AdempiereDatabase)Database.DB_CLASSES[i].
 	                                        newInstance ();

@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_JobApplication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_JobApplication (Properties ctx, int HR_JobApplication_ID, String trxName)
@@ -129,23 +131,6 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
 	public I_C_Location getC_Location() throws RuntimeException
     {
 		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
@@ -172,6 +157,23 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
 	}
 
 	/** Set Comments.
@@ -284,6 +286,11 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		return (String)get_Value(COLUMNNAME_HighestEducation);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Designation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Designation.Table_Name)
+			.getPO(getHR_Designation_ID(), get_TrxName());	}
+
 	/** Set Designation.
 		@param HR_Designation_ID 
 		Designation is a nationally recognized level
@@ -329,6 +336,11 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_JobOpening getHR_JobOpening() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobOpening)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobOpening.Table_Name)
+			.getPO(getHR_JobOpening_ID(), get_TrxName());	}
 
 	/** Set Job Openings .
 		@param HR_JobOpening_ID 

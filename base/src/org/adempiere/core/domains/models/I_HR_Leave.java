@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Leave
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Leave 
 {
@@ -197,18 +197,7 @@ public interface I_HR_Leave
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
 
-    /** Column name HR_LeaveAssign_ID */
-    public static final String COLUMNNAME_HR_LeaveAssign_ID = "HR_LeaveAssign_ID";
-
-	/** Set Leave Assign.
-	  * Leave Assign
-	  */
-	public void setHR_LeaveAssign_ID (int HR_LeaveAssign_ID);
-
-	/** Get Leave Assign.
-	  * Leave Assign
-	  */
-	public int getHR_LeaveAssign_ID();
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Leave_ID */
     public static final String COLUMNNAME_HR_Leave_ID = "HR_Leave_ID";
@@ -223,6 +212,21 @@ public interface I_HR_Leave
 	  */
 	public int getHR_Leave_ID();
 
+    /** Column name HR_LeaveAssign_ID */
+    public static final String COLUMNNAME_HR_LeaveAssign_ID = "HR_LeaveAssign_ID";
+
+	/** Set Leave Assign.
+	  * Leave Assign
+	  */
+	public void setHR_LeaveAssign_ID (int HR_LeaveAssign_ID);
+
+	/** Get Leave Assign.
+	  * Leave Assign
+	  */
+	public int getHR_LeaveAssign_ID();
+
+	public org.adempiere.core.domains.models.I_HR_LeaveAssign getHR_LeaveAssign() throws RuntimeException;
+
     /** Column name HR_LeaveReason_ID */
     public static final String COLUMNNAME_HR_LeaveReason_ID = "HR_LeaveReason_ID";
 
@@ -236,6 +240,8 @@ public interface I_HR_Leave
 	  */
 	public int getHR_LeaveReason_ID();
 
+	public org.adempiere.core.domains.models.I_HR_LeaveReason getHR_LeaveReason() throws RuntimeException;
+
     /** Column name HR_LeaveType_ID */
     public static final String COLUMNNAME_HR_LeaveType_ID = "HR_LeaveType_ID";
 
@@ -248,6 +254,8 @@ public interface I_HR_Leave
 	  * Leave Type for an Employee
 	  */
 	public int getHR_LeaveType_ID();
+
+	public org.adempiere.core.domains.models.I_HR_LeaveType getHR_LeaveType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

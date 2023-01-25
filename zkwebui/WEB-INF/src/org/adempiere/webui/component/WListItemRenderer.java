@@ -30,13 +30,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.adempiere.webui.apps.AEnv;
+
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
+
+import org.compiere.util.Language;
 import org.compiere.util.MSort;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.Component;
@@ -82,6 +83,9 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
     private Map<WTableColumn, ColumnAttributes> columnAttributesMap
 	= new HashMap<WTableColumn, ColumnAttributes>();
+
+	private final Language language = Language.getLoginLanguage();
+	private final SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, language);
 
     class ColumnAttributes {
 
@@ -259,8 +263,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof Number)
 			{
 				DecimalFormat format = field instanceof BigDecimal
-					? DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()))
-				    : DisplayType.getNumberFormat(DisplayType.Integer, AEnv.getLanguage(Env.getCtx()));
+					? DisplayType.getNumberFormat(DisplayType.Amount, language)
+				    : DisplayType.getNumberFormat(DisplayType.Integer, language);
 
 				// set cell value to allow sorting
 				listcell.setValue(field.toString());
@@ -283,8 +287,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			}
 			else if (field instanceof Timestamp)
 			{
-
-				SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
 				listcell.setValue(dateFormat.format((Timestamp)field));
 				if (isCellEditable)
 				{

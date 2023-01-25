@@ -55,6 +55,7 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -1464,7 +1465,7 @@ public class DocumentEngine implements DocAction
         String error = null;
         if (MClient.isClientAccounting()) {
             getLogger().info ("Table=" + tableName + ", Record=" + recordId);
-            MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, clientId);
+            MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, clientId, trxName);
             Doc doc = getDoc(ass, tableName, recordId, trxName);
 			if (doc != null) {
 				error = doc.postImmediate(force);
@@ -1545,7 +1546,7 @@ public class DocumentEngine implements DocAction
      *  @param rs ResultSet
      *  @param trxName transaction name
      *  @return Document
-     * @throws AdempiereUserError 
+     * @throws AdempiereUserError
      */
     public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) {
         return Doc.get(acctSchemas, tableName, rs, trxName);

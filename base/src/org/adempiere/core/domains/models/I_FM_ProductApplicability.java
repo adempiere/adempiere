@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,18 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FM_ProductApplicability
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_FM_ProductApplicability 
 {
@@ -63,21 +64,6 @@ public interface I_FM_ProductApplicability
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -92,6 +78,21 @@ public interface I_FM_ProductApplicability
 	public int getC_BP_Group_ID();
 
 	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -122,15 +123,6 @@ public interface I_FM_ProductApplicability
 	  */
 	public String getDescription();
 
-    /** Column name FM_ProductApplicability_ID */
-    public static final String COLUMNNAME_FM_ProductApplicability_ID = "FM_ProductApplicability_ID";
-
-	/** Set Financial Product Applicability	  */
-	public void setFM_ProductApplicability_ID (int FM_ProductApplicability_ID);
-
-	/** Get Financial Product Applicability	  */
-	public int getFM_ProductApplicability_ID();
-
     /** Column name FM_Product_ID */
     public static final String COLUMNNAME_FM_Product_ID = "FM_Product_ID";
 
@@ -141,6 +133,15 @@ public interface I_FM_ProductApplicability
 	public int getFM_Product_ID();
 
 	public org.adempiere.core.domains.models.I_FM_Product getFM_Product() throws RuntimeException;
+
+    /** Column name FM_ProductApplicability_ID */
+    public static final String COLUMNNAME_FM_ProductApplicability_ID = "FM_ProductApplicability_ID";
+
+	/** Set Financial Product Applicability	  */
+	public void setFM_ProductApplicability_ID (int FM_ProductApplicability_ID);
+
+	/** Get Financial Product Applicability	  */
+	public int getFM_ProductApplicability_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

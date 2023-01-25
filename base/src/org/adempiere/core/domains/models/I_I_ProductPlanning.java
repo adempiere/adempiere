@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_I_ProductPlanning 
 {
@@ -148,6 +148,8 @@ public interface I_I_ProductPlanning
 	  * Identifies a distribution network, distribution networks are used to establish the source and target of the materials in the supply chain
 	  */
 	public int getDD_NetworkDistribution_ID();
+
+	public org.adempiere.core.domains.models.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -558,6 +560,21 @@ public interface I_I_ProductPlanning
 	  */
 	public String getResourceValue();
 
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public org.adempiere.core.domains.models.I_S_Resource getS_Resource() throws RuntimeException;
+
     /** Column name SafetyStock */
     public static final String COLUMNNAME_SafetyStock = "SafetyStock";
 
@@ -585,21 +602,6 @@ public interface I_I_ProductPlanning
 	public int getSalesRep_ID();
 
 	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException;
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public org.adempiere.core.domains.models.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name TimeFence */
     public static final String COLUMNNAME_TimeFence = "TimeFence";

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_W_Store 
 {
@@ -79,6 +79,36 @@ public interface I_W_Store
 
 	public org.adempiere.core.domains.models.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
+    /** Column name C_TemplateBPartner_ID */
+    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
+
+	/** Set Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
+
+	/** Get Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
+
+    /** Column name CacheServerProvider_ID */
+    public static final String COLUMNNAME_CacheServerProvider_ID = "CacheServerProvider_ID";
+
+	/** Set Cache Server Provider.
+	  * Cache Server Provider for Web Store
+	  */
+	public void setCacheServerProvider_ID (int CacheServerProvider_ID);
+
+	/** Get Cache Server Provider.
+	  * Cache Server Provider for Web Store
+	  */
+	public int getCacheServerProvider_ID();
+
+	public org.adempiere.core.domains.models.I_AD_AppRegistration getCacheServerProvider() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -94,6 +124,21 @@ public interface I_W_Store
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CustomerRole_ID */
+    public static final String COLUMNNAME_CustomerRole_ID = "CustomerRole_ID";
+
+	/** Set Customer Role.
+	  * Customer Role used for add automatically after sign in
+	  */
+	public void setCustomerRole_ID (int CustomerRole_ID);
+
+	/** Get Customer Role.
+	  * Customer Role used for add automatically after sign in
+	  */
+	public int getCustomerRole_ID();
+
+	public org.adempiere.core.domains.models.I_AD_Role getCustomerRole() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -374,6 +419,22 @@ public interface I_W_Store
 	  */
 	public String getStylesheet();
 
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
+
     /** Column name URL */
     public static final String COLUMNNAME_URL = "URL";
 
@@ -399,61 +460,6 @@ public interface I_W_Store
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
-
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
-    /** Column name WStoreEMail */
-    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
-
-	/** Set Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public void setWStoreEMail (String WStoreEMail);
-
-	/** Get Web Store EMail.
-	  * EMail address used as the sender (From)
-	  */
-	public String getWStoreEMail();
-
-    /** Column name WStoreUser */
-    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
-
-	/** Set WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public void setWStoreUser (String WStoreUser);
-
-	/** Get WebStore User.
-	  * User ID of the Web Store EMail address
-	  */
-	public String getWStoreUser();
-
-    /** Column name WStoreUserPW */
-    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
-
-	/** Set WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public void setWStoreUserPW (String WStoreUserPW);
-
-	/** Get WebStore Password.
-	  * Password of the Web Store EMail address
-	  */
-	public String getWStoreUserPW();
 
     /** Column name W_Store_ID */
     public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
@@ -584,4 +590,43 @@ public interface I_W_Store
 	  * Web Site Parameter 6 (default footer right)
 	  */
 	public String getWebParam6();
+
+    /** Column name WStoreEMail */
+    public static final String COLUMNNAME_WStoreEMail = "WStoreEMail";
+
+	/** Set Web Store EMail.
+	  * EMail address used as the sender (From)
+	  */
+	public void setWStoreEMail (String WStoreEMail);
+
+	/** Get Web Store EMail.
+	  * EMail address used as the sender (From)
+	  */
+	public String getWStoreEMail();
+
+    /** Column name WStoreUser */
+    public static final String COLUMNNAME_WStoreUser = "WStoreUser";
+
+	/** Set WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public void setWStoreUser (String WStoreUser);
+
+	/** Get WebStore User.
+	  * User ID of the Web Store EMail address
+	  */
+	public String getWStoreUser();
+
+    /** Column name WStoreUserPW */
+    public static final String COLUMNNAME_WStoreUserPW = "WStoreUserPW";
+
+	/** Set WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public void setWStoreUserPW (String WStoreUserPW);
+
+	/** Get WebStore Password.
+	  * Password of the Web Store EMail address
+	  */
+	public String getWStoreUserPW();
 }

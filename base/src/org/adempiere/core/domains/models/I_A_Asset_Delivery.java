@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Delivery 
 {
@@ -68,6 +68,8 @@ public interface I_A_Asset_Delivery
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -201,19 +203,6 @@ public interface I_A_Asset_Delivery
 	  */
 	public String getLot();
 
-    /** Column name MessageID */
-    public static final String COLUMNNAME_MessageID = "MessageID";
-
-	/** Set Message ID.
-	  * EMail Message ID
-	  */
-	public void setMessageID (String MessageID);
-
-	/** Get Message ID.
-	  * EMail Message ID
-	  */
-	public String getMessageID();
-
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -229,19 +218,6 @@ public interface I_A_Asset_Delivery
 
 	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_ProductDownload_ID */
     public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
 
@@ -256,6 +232,32 @@ public interface I_A_Asset_Delivery
 	public int getM_ProductDownload_ID();
 
 	public org.adempiere.core.domains.models.I_M_ProductDownload getM_ProductDownload() throws RuntimeException;
+
+    /** Column name MessageID */
+    public static final String COLUMNNAME_MessageID = "MessageID";
+
+	/** Set Message ID.
+	  * EMail Message ID
+	  */
+	public void setMessageID (String MessageID);
+
+	/** Get Message ID.
+	  * EMail Message ID
+	  */
+	public String getMessageID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Referrer */
     public static final String COLUMNNAME_Referrer = "Referrer";

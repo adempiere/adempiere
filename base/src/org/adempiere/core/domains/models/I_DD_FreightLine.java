@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_FreightLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_FreightLine 
 {
@@ -149,6 +149,8 @@ public interface I_DD_FreightLine
 	/** Get Order Freight	  */
 	public int getDD_Freight_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Freight getDD_Freight() throws RuntimeException;
+
     /** Column name DD_FreightLine_ID */
     public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
 
@@ -223,21 +225,6 @@ public interface I_DD_FreightLine
 	  */
 	public int getLine();
 
-    /** Column name M_FreightCategory_ID */
-    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
-
-	/** Set Freight Category.
-	  * Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
-
-	/** Get Freight Category.
-	  * Category of the Freight
-	  */
-	public int getM_FreightCategory_ID();
-
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
-
     /** Column name M_Freight_ID */
     public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
 
@@ -252,6 +239,21 @@ public interface I_DD_FreightLine
 	public int getM_Freight_ID();
 
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_FreightCategory_ID */
+    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
+
+	/** Set Freight Category.
+	  * Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
+
+	/** Get Freight Category.
+	  * Category of the Freight
+	  */
+	public int getM_FreightCategory_ID();
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Package_ID */
     public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";

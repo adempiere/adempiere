@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_SalaryStructureLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_SalaryStructureLine 
 {
@@ -106,6 +106,8 @@ public interface I_HR_SalaryStructureLine
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_SalaryStructure_ID */
     public static final String COLUMNNAME_HR_SalaryStructure_ID = "HR_SalaryStructure_ID";
 
@@ -118,6 +120,8 @@ public interface I_HR_SalaryStructureLine
 	  * Salary Structure of an Employee
 	  */
 	public int getHR_SalaryStructure_ID();
+
+	public org.adempiere.core.domains.models.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException;
 
     /** Column name HR_SalaryStructureLine_ID */
     public static final String COLUMNNAME_HR_SalaryStructureLine_ID = "HR_SalaryStructureLine_ID";

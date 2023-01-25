@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_W_Basket extends PO implements I_W_Basket, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_W_Basket (Properties ctx, int W_Basket_ID, String trxName)
@@ -44,7 +44,6 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
       /** if (W_Basket_ID == 0)
         {
 			setAD_User_ID (0);
-			setSession_ID (0);
 			setW_Basket_ID (0);
         } */
     }
@@ -56,7 +55,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -180,22 +179,16 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 
 	/** Set Session ID.
 		@param Session_ID Session ID	  */
-	public void setSession_ID (int Session_ID)
+	public void setSession_ID (String Session_ID)
 	{
-		if (Session_ID < 1) 
-			set_Value (COLUMNNAME_Session_ID, null);
-		else 
-			set_Value (COLUMNNAME_Session_ID, Integer.valueOf(Session_ID));
+		set_Value (COLUMNNAME_Session_ID, Session_ID);
 	}
 
 	/** Get Session ID.
 		@return Session ID	  */
-	public int getSession_ID () 
+	public String getSession_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Session_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Session_ID);
 	}
 
     /** Get Record ID/ColumnName
@@ -203,7 +196,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
       */
     public KeyNamePair getKeyNamePair() 
     {
-        return new KeyNamePair(get_ID(), String.valueOf(getSession_ID()));
+        return new KeyNamePair(get_ID(), getSession_ID());
     }
 
 	/** Set Immutable Universally Unique Identifier.

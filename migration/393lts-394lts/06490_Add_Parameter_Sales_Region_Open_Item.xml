@@ -93,7 +93,7 @@
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57634</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
         <Data AD_Column_ID="3737" Column="FieldLength">0</Data>
         <Data AD_Column_ID="2825" Column="AD_Process_ID">145</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>

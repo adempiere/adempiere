@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_ProcessorParameter
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_EXP_ProcessorParameter 
 {
@@ -93,15 +93,6 @@ public interface I_EXP_ProcessorParameter
 	  */
 	public String getDescription();
 
-    /** Column name EXP_ProcessorParameter_ID */
-    public static final String COLUMNNAME_EXP_ProcessorParameter_ID = "EXP_ProcessorParameter_ID";
-
-	/** Set Processor Parameter	  */
-	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID);
-
-	/** Get Processor Parameter	  */
-	public int getEXP_ProcessorParameter_ID();
-
     /** Column name EXP_Processor_ID */
     public static final String COLUMNNAME_EXP_Processor_ID = "EXP_Processor_ID";
 
@@ -112,6 +103,15 @@ public interface I_EXP_ProcessorParameter
 	public int getEXP_Processor_ID();
 
 	public org.adempiere.core.domains.models.I_EXP_Processor getEXP_Processor() throws RuntimeException;
+
+    /** Column name EXP_ProcessorParameter_ID */
+    public static final String COLUMNNAME_EXP_ProcessorParameter_ID = "EXP_ProcessorParameter_ID";
+
+	/** Set Processor Parameter	  */
+	public void setEXP_ProcessorParameter_ID (int EXP_ProcessorParameter_ID);
+
+	/** Get Processor Parameter	  */
+	public int getEXP_ProcessorParameter_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -161,19 +161,6 @@ public interface I_EXP_ProcessorParameter
 	/** Get Parameter Value	  */
 	public String getParameterValue();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -189,6 +176,19 @@ public interface I_EXP_ProcessorParameter
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_POSKey
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_POSKey 
 {
@@ -107,6 +107,19 @@ public interface I_C_POSKey
 
 	public org.adempiere.core.domains.models.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
+    /** Column name C_POSKey_ID */
+    public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
+
+	/** Set POS Key.
+	  * POS Function Key
+	  */
+	public void setC_POSKey_ID (int C_POSKey_ID);
+
+	/** Get POS Key.
+	  * POS Function Key
+	  */
+	public int getC_POSKey_ID();
+
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 
@@ -121,19 +134,6 @@ public interface I_C_POSKey
 	public int getC_POSKeyLayout_ID();
 
 	public org.adempiere.core.domains.models.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
-
-    /** Column name C_POSKey_ID */
-    public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
-
-	/** Set POS Key.
-	  * POS Function Key
-	  */
-	public void setC_POSKey_ID (int C_POSKey_ID);
-
-	/** Get POS Key.
-	  * POS Function Key
-	  */
-	public int getC_POSKey_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -277,24 +277,15 @@ public interface I_C_POSKey
     /** Column name Text */
     public static final String COLUMNNAME_Text = "Text";
 
-	/** Set Description	  */
+	/** Set Text Message.
+	  * This field allows define a text message with a text very long
+	  */
 	public void setText (String Text);
 
-	/** Get Description	  */
+	/** Get Text Message.
+	  * This field allows define a text message with a text very long
+	  */
 	public String getText();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -311,4 +302,17 @@ public interface I_C_POSKey
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

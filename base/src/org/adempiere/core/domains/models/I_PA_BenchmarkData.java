@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_BenchmarkData
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_PA_BenchmarkData 
 {
@@ -145,19 +145,6 @@ public interface I_PA_BenchmarkData
 	  */
 	public String getName();
 
-    /** Column name PA_BenchmarkData_ID */
-    public static final String COLUMNNAME_PA_BenchmarkData_ID = "PA_BenchmarkData_ID";
-
-	/** Set Benchmark Data.
-	  * Performance Benchmark Data Point
-	  */
-	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID);
-
-	/** Get Benchmark Data.
-	  * Performance Benchmark Data Point
-	  */
-	public int getPA_BenchmarkData_ID();
-
     /** Column name PA_Benchmark_ID */
     public static final String COLUMNNAME_PA_Benchmark_ID = "PA_Benchmark_ID";
 
@@ -173,18 +160,18 @@ public interface I_PA_BenchmarkData
 
 	public org.adempiere.core.domains.models.I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name PA_BenchmarkData_ID */
+    public static final String COLUMNNAME_PA_BenchmarkData_ID = "PA_BenchmarkData_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Benchmark Data.
+	  * Performance Benchmark Data Point
 	  */
-	public void setUUID (String UUID);
+	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Benchmark Data.
+	  * Performance Benchmark Data Point
 	  */
-	public String getUUID();
+	public int getPA_BenchmarkData_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -201,4 +188,17 @@ public interface I_PA_BenchmarkData
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

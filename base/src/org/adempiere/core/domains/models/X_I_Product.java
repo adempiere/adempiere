@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Product extends PO implements I_I_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210709L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
@@ -152,6 +152,34 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_UOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Classification.
 		@param Classification 
 		Classification for grouping
@@ -187,34 +215,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_UOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_Value (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Promised Delivery Time.
@@ -404,23 +404,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return false;
 	}
 
-	/** Set Image URL.
-		@param ImageURL 
-		URL of  image
-	  */
-	public void setImageURL (String ImageURL)
-	{
-		set_Value (COLUMNNAME_ImageURL, ImageURL);
-	}
-
-	/** Get Image URL.
-		@return URL of  image
-	  */
-	public String getImageURL () 
-	{
-		return (String)get_Value(COLUMNNAME_ImageURL);
-	}
-
 	/** Set Import Product.
 		@param I_Product_ID 
 		Import Item or Service
@@ -444,6 +427,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Image URL.
+		@param ImageURL 
+		URL of  image
+	  */
+	public void setImageURL (String ImageURL)
+	{
+		set_Value (COLUMNNAME_ImageURL, ImageURL);
+	}
+
+	/** Get Image URL.
+		@return URL of  image
+	  */
+	public String getImageURL () 
+	{
+		return (String)get_Value(COLUMNNAME_ImageURL);
+	}
+
 	/** Set ISO Currency Code.
 		@param ISO_Code 
 		Three letter ISO 4217 Code of the Currency
@@ -459,23 +459,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public String getISO_Code () 
 	{
 		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-	/** Set Manufacturer.
-		@param Manufacturer 
-		Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer)
-	{
-		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
-	}
-
-	/** Get Manufacturer.
-		@return Manufacturer of the Product
-	  */
-	public String getManufacturer () 
-	{
-		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	public org.adempiere.core.domains.models.I_M_Product_Category getM_Product_Category() throws RuntimeException
@@ -616,6 +599,23 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Manufacturer.
+		@param Manufacturer 
+		Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer)
+	{
+		set_Value (COLUMNNAME_Manufacturer, Manufacturer);
+	}
+
+	/** Get Manufacturer.
+		@return Manufacturer of the Product
+	  */
+	public String getManufacturer () 
+	{
+		return (String)get_Value(COLUMNNAME_Manufacturer);
 	}
 
 	/** Set Name.
@@ -831,40 +831,6 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProductCategory_Value);
 	}
 
-	/** Set Product Classification Name.
-		@param ProductClassification_Name 
-		The key value for the product classification
-	  */
-	public void setProductClassification_Name (String ProductClassification_Name)
-	{
-		set_Value (COLUMNNAME_ProductClassification_Name, ProductClassification_Name);
-	}
-
-	/** Get Product Classification Name.
-		@return The key value for the product classification
-	  */
-	public String getProductClassification_Name () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductClassification_Name);
-	}
-
-	/** Set Product Classification Key.
-		@param ProductClassification_Value 
-		The key value for the product classification
-	  */
-	public void setProductClassification_Value (String ProductClassification_Value)
-	{
-		set_Value (COLUMNNAME_ProductClassification_Value, ProductClassification_Value);
-	}
-
-	/** Get Product Classification Key.
-		@return The key value for the product classification
-	  */
-	public String getProductClassification_Value () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductClassification_Value);
-	}
-
 	/** Set Product Class Name.
 		@param ProductClass_Name 
 		The key value for the product class
@@ -897,6 +863,40 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 	public String getProductClass_Value () 
 	{
 		return (String)get_Value(COLUMNNAME_ProductClass_Value);
+	}
+
+	/** Set Product Classification Name.
+		@param ProductClassification_Name 
+		The key value for the product classification
+	  */
+	public void setProductClassification_Name (String ProductClassification_Name)
+	{
+		set_Value (COLUMNNAME_ProductClassification_Name, ProductClassification_Name);
+	}
+
+	/** Get Product Classification Name.
+		@return The key value for the product classification
+	  */
+	public String getProductClassification_Name () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductClassification_Name);
+	}
+
+	/** Set Product Classification Key.
+		@param ProductClassification_Value 
+		The key value for the product classification
+	  */
+	public void setProductClassification_Value (String ProductClassification_Value)
+	{
+		set_Value (COLUMNNAME_ProductClassification_Value, ProductClassification_Value);
+	}
+
+	/** Get Product Classification Key.
+		@return The key value for the product classification
+	  */
+	public String getProductClassification_Value () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductClassification_Value);
 	}
 
 	/** Set Product Group Name.

@@ -20,19 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_EmployeeWeeklyOff
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_EmployeeWeeklyOff (Properties ctx, int HR_EmployeeWeeklyOff_ID, String trxName)
@@ -117,6 +119,11 @@ public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
 
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */

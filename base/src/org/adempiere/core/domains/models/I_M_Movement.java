@@ -19,13 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_M_Movement 
 {
@@ -211,19 +210,6 @@ public interface I_M_Movement
 
 	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -238,6 +224,19 @@ public interface I_M_Movement
 	public int getC_Project_ID();
 
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -289,6 +288,8 @@ public interface I_M_Movement
 
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
+
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -446,19 +447,6 @@ public interface I_M_Movement
 	  */
 	public int getM_Movement_ID();
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_ProductionBatch_ID */
     public static final String COLUMNNAME_M_ProductionBatch_ID = "M_ProductionBatch_ID";
 
@@ -484,6 +472,19 @@ public interface I_M_Movement
 	public int getM_Shipper_ID();
 
 	public org.adempiere.core.domains.models.I_M_Shipper getM_Shipper() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";

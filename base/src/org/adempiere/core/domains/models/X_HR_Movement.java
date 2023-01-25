@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -197,34 +199,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_BP_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Group.Table_Name)
@@ -276,6 +250,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public int getC_BP_Relation_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -483,6 +485,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Attribute getHR_Attribute() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Attribute)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Attribute.Table_Name)
+			.getPO(getHR_Attribute_ID(), get_TrxName());	}
+
 	/** Set Payroll Employee Attribute.
 		@param HR_Attribute_ID 
 		Employee Attribute allows to add any metadata of type (text, date , quantity and amount ) of an Employee.
@@ -505,6 +512,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept_Category)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept_Category.Table_Name)
+			.getPO(getHR_Concept_Category_ID(), get_TrxName());	}
 
 	/** Set Global Payroll Concept Category.
 		@param HR_Concept_Category_ID 
@@ -529,6 +541,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getHR_Concept_ID(), get_TrxName());	}
+
 	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
 		The Payroll Concept allows to define all the perception and deductions elements needed to define a payroll.
@@ -551,6 +568,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept_Type.Table_Name)
+			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
 
 	/** Set Global Payroll Concept Type.
 		@param HR_Concept_Type_ID 
@@ -575,6 +597,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Contract getHR_Contract() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Contract)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Contract.Table_Name)
+			.getPO(getHR_Contract_ID(), get_TrxName());	}
+
 	/** Set Payroll Contract.
 		@param HR_Contract_ID Payroll Contract	  */
 	public void setHR_Contract_ID (int HR_Contract_ID)
@@ -595,6 +622,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Department)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
+
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
@@ -614,6 +646,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Designation)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Designation.Table_Name)
+			.getPO(getHR_Designation_ID(), get_TrxName());	}
 
 	/** Set Designation.
 		@param HR_Designation_ID 
@@ -638,6 +675,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
+
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
 	public void setHR_Employee_ID (int HR_Employee_ID)
@@ -657,6 +699,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_EmployeeType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_EmployeeType.Table_Name)
+			.getPO(getHR_EmployeeType_ID(), get_TrxName());	}
 
 	/** Set Employee Type.
 		@param HR_EmployeeType_ID 
@@ -681,6 +728,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Job)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
 	/** Set Payroll Job.
 		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
@@ -700,6 +752,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_JobType getHR_JobType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobType.Table_Name)
+			.getPO(getHR_JobType_ID(), get_TrxName());	}
 
 	/** Set Job Type.
 		@param HR_JobType_ID 
@@ -744,6 +801,36 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Payroll)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
+
+	/** Set Payroll.
+		@param HR_Payroll_ID Payroll	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID)
+	{
+		if (HR_Payroll_ID < 1) 
+			set_Value (COLUMNNAME_HR_Payroll_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
+	}
+
+	/** Get Payroll.
+		@return Payroll	  */
+	public int getHR_Payroll_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_HR_PayrollConcept getHR_PayrollConcept() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_PayrollConcept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_PayrollConcept.Table_Name)
+			.getPO(getHR_PayrollConcept_ID(), get_TrxName());	}
+
 	/** Set Payroll Concept.
 		@param HR_PayrollConcept_ID 
 		The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
@@ -767,25 +854,10 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll.
-		@param HR_Payroll_ID Payroll	  */
-	public void setHR_Payroll_ID (int HR_Payroll_ID)
-	{
-		if (HR_Payroll_ID < 1) 
-			set_Value (COLUMNNAME_HR_Payroll_ID, null);
-		else 
-			set_Value (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
-	}
-
-	/** Get Payroll.
-		@return Payroll	  */
-	public int getHR_Payroll_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_Process getHR_Process() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Process)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Process.Table_Name)
+			.getPO(getHR_Process_ID(), get_TrxName());	}
 
 	/** Set Payroll Process.
 		@param HR_Process_ID Payroll Process	  */
@@ -814,6 +886,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getHR_Process_ID()));
     }
+
+	public org.adempiere.core.domains.models.I_HR_SkillType getHR_SkillType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_SkillType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_SkillType.Table_Name)
+			.getPO(getHR_SkillType_ID(), get_TrxName());	}
 
 	/** Set Skill Type.
 		@param HR_SkillType_ID 
@@ -991,6 +1068,11 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ReferenceNo);
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Movement getReversalLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Movement)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Movement.Table_Name)
+			.getPO(getReversalLine_ID(), get_TrxName());	}
 
 	/** Set Reversal Line.
 		@param ReversalLine_ID 

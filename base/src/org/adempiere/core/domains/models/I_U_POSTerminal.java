@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_U_POSTerminal 
 {
@@ -77,21 +77,6 @@ public interface I_U_POSTerminal
 	  */
 	public boolean isAutoLock();
 
-    /** Column name C_CashBPartner_ID */
-    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
-
-	/** Set Cash BPartner.
-	  * BPartner to be used for Cash transactions
-	  */
-	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
-
-	/** Get Cash BPartner.
-	  * BPartner to be used for Cash transactions
-	  */
-	public int getC_CashBPartner_ID();
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_CashBPartner() throws RuntimeException;
-
     /** Column name C_CashBook_ID */
     public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
 
@@ -107,6 +92,21 @@ public interface I_U_POSTerminal
 
 	public org.adempiere.core.domains.models.I_C_CashBook getC_CashBook() throws RuntimeException;
 
+    /** Column name C_CashBPartner_ID */
+    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
+
+	/** Set Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
+
+	/** Get Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_CashBPartner() throws RuntimeException;
+
     /** Column name C_TemplateBPartner_ID */
     public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
 
@@ -121,6 +121,21 @@ public interface I_U_POSTerminal
 	public int getC_TemplateBPartner_ID();
 
 	public org.adempiere.core.domains.models.I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
+
+    /** Column name Card_BankAccount_ID */
+    public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
+
+	/** Set Card Bank Account.
+	  * Bank Account on which card transactions will be processed
+	  */
+	public void setCard_BankAccount_ID (int Card_BankAccount_ID);
+
+	/** Get Card Bank Account.
+	  * Bank Account on which card transactions will be processed
+	  */
+	public int getCard_BankAccount_ID();
+
+	public org.adempiere.core.domains.models.I_C_BankAccount getCard_BankAccount() throws RuntimeException;
 
     /** Column name CardTransferBankAccount_ID */
     public static final String COLUMNNAME_CardTransferBankAccount_ID = "CardTransferBankAccount_ID";
@@ -160,21 +175,6 @@ public interface I_U_POSTerminal
 
 	/** Get Card Transfer Type	  */
 	public String getCardTransferType();
-
-    /** Column name Card_BankAccount_ID */
-    public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
-
-	/** Set Card Bank Account.
-	  * Bank Account on which card transactions will be processed
-	  */
-	public void setCard_BankAccount_ID (int Card_BankAccount_ID);
-
-	/** Get Card Bank Account.
-	  * Bank Account on which card transactions will be processed
-	  */
-	public int getCard_BankAccount_ID();
-
-	public org.adempiere.core.domains.models.I_C_BankAccount getCard_BankAccount() throws RuntimeException;
 
     /** Column name CashBookTransferType */
     public static final String COLUMNNAME_CashBookTransferType = "CashBookTransferType";
@@ -219,6 +219,21 @@ public interface I_U_POSTerminal
 
 	public org.adempiere.core.domains.models.I_C_CashBook getCashTransferCashBook() throws RuntimeException;
 
+    /** Column name Check_BankAccount_ID */
+    public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
+
+	/** Set Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public void setCheck_BankAccount_ID (int Check_BankAccount_ID);
+
+	/** Get Check Bank Account.
+	  * Bank Account to be used for processing Check transactions
+	  */
+	public int getCheck_BankAccount_ID();
+
+	public org.adempiere.core.domains.models.I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
+
     /** Column name CheckTransferBankAccount_ID */
     public static final String COLUMNNAME_CheckTransferBankAccount_ID = "CheckTransferBankAccount_ID";
 
@@ -257,21 +272,6 @@ public interface I_U_POSTerminal
 
 	/** Get Check Transfer Type	  */
 	public String getCheckTransferType();
-
-    /** Column name Check_BankAccount_ID */
-    public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
-
-	/** Set Check Bank Account.
-	  * Bank Account to be used for processing Check transactions
-	  */
-	public void setCheck_BankAccount_ID (int Check_BankAccount_ID);
-
-	/** Get Check Bank Account.
-	  * Bank Account to be used for processing Check transactions
-	  */
-	public int getCheck_BankAccount_ID();
-
-	public org.adempiere.core.domains.models.I_C_BankAccount getCheck_BankAccount() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -341,19 +341,6 @@ public interface I_U_POSTerminal
 	  */
 	public Timestamp getLastLockTime();
 
-    /** Column name LockTime */
-    public static final String COLUMNNAME_LockTime = "LockTime";
-
-	/** Set Lock Time.
-	  * Time in minutes the terminal should be kept in a locked state.
-	  */
-	public void setLockTime (int LockTime);
-
-	/** Get Lock Time.
-	  * Time in minutes the terminal should be kept in a locked state.
-	  */
-	public int getLockTime();
-
     /** Column name Locked */
     public static final String COLUMNNAME_Locked = "Locked";
 
@@ -366,6 +353,19 @@ public interface I_U_POSTerminal
 	  * Whether the terminal is locked
 	  */
 	public boolean isLocked();
+
+    /** Column name LockTime */
+    public static final String COLUMNNAME_LockTime = "LockTime";
+
+	/** Set Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public void setLockTime (int LockTime);
+
+	/** Get Lock Time.
+	  * Time in minutes the terminal should be kept in a locked state.
+	  */
+	public int getLockTime();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -423,17 +423,6 @@ public interface I_U_POSTerminal
 	  */
 	public String getPrinterName();
 
-    /** Column name SO_PriceList_ID */
-    public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
-
-	/** Set Sales Pricelist	  */
-	public void setSO_PriceList_ID (int SO_PriceList_ID);
-
-	/** Get Sales Pricelist	  */
-	public int getSO_PriceList_ID();
-
-	public org.adempiere.core.domains.models.I_M_PriceList getSO_PriceList() throws RuntimeException;
-
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -449,18 +438,16 @@ public interface I_U_POSTerminal
 
 	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name SO_PriceList_ID */
+    public static final String COLUMNNAME_SO_PriceList_ID = "SO_PriceList_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
+	/** Set Sales Pricelist	  */
+	public void setSO_PriceList_ID (int SO_PriceList_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
+	/** Get Sales Pricelist	  */
+	public int getSO_PriceList_ID();
+
+	public org.adempiere.core.domains.models.I_M_PriceList getSO_PriceList() throws RuntimeException;
 
     /** Column name U_POSTerminal_ID */
     public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
@@ -499,6 +486,19 @@ public interface I_U_POSTerminal
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

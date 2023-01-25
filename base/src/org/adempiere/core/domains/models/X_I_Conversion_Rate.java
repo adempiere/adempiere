@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Conversion_Rate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Conversion_Rate (Properties ctx, int I_Conversion_Rate_ID, String trxName)
@@ -78,34 +78,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_C_ConversionType getC_ConversionType() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_ConversionType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ConversionType.Table_Name)
-			.getPO(getC_ConversionType_ID(), get_TrxName());	}
-
-	/** Set Currency Type.
-		@param C_ConversionType_ID 
-		Currency Conversion Rate Type
-	  */
-	public void setC_ConversionType_ID (int C_ConversionType_ID)
-	{
-		if (C_ConversionType_ID < 1) 
-			set_Value (COLUMNNAME_C_ConversionType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
-	}
-
-	/** Get Currency Type.
-		@return Currency Conversion Rate Type
-	  */
-	public int getC_ConversionType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Conversion_Rate)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Conversion_Rate.Table_Name)
@@ -129,6 +101,34 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 	public int getC_Conversion_Rate_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Conversion_Rate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_ConversionType getC_ConversionType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_ConversionType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
+
+	/** Set Currency Type.
+		@param C_ConversionType_ID 
+		Currency Conversion Rate Type
+	  */
+	public void setC_ConversionType_ID (int C_ConversionType_ID)
+	{
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
+	}
+
+	/** Get Currency Type.
+		@return Currency Conversion Rate Type
+	  */
+	public int getC_ConversionType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -248,40 +248,6 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 		return bd;
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-	/** Set ISO Currency To Code.
-		@param ISO_Code_To 
-		Three letter ISO 4217 Code of the To Currency
-	  */
-	public void setISO_Code_To (String ISO_Code_To)
-	{
-		set_Value (COLUMNNAME_ISO_Code_To, ISO_Code_To);
-	}
-
-	/** Get ISO Currency To Code.
-		@return Three letter ISO 4217 Code of the To Currency
-	  */
-	public String getISO_Code_To () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code_To);
-	}
-
 	/** Set Import Conversion Rate.
 		@param I_Conversion_Rate_ID 
 		Import Currency Conversion Rate
@@ -352,6 +318,40 @@ public class X_I_Conversion_Rate extends PO implements I_I_Conversion_Rate, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+	/** Set ISO Currency To Code.
+		@param ISO_Code_To 
+		Three letter ISO 4217 Code of the To Currency
+	  */
+	public void setISO_Code_To (String ISO_Code_To)
+	{
+		set_Value (COLUMNNAME_ISO_Code_To, ISO_Code_To);
+	}
+
+	/** Get ISO Currency To Code.
+		@return Three letter ISO 4217 Code of the To Currency
+	  */
+	public String getISO_Code_To () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code_To);
 	}
 
 	/** Set Multiply Rate.

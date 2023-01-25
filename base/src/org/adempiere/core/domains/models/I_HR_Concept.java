@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Concept 
 {
@@ -156,6 +156,8 @@ public interface I_HR_Concept
 	  */
 	public int getHR_Concept_Category_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException;
+
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
@@ -182,6 +184,8 @@ public interface I_HR_Concept
 	  */
 	public int getHR_Concept_Type_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
@@ -190,6 +194,8 @@ public interface I_HR_Concept
 
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
@@ -200,6 +206,8 @@ public interface I_HR_Concept
 	/** Get Payroll Job	  */
 	public int getHR_Job_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException;
+
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
@@ -208,6 +216,8 @@ public interface I_HR_Concept
 
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

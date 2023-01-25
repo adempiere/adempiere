@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Synchronize DB version and date version on seed with code" ReleaseNo="3.9.4" SeqNo="9900">
+    <Comments>ADempiere Release 3.9.4</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <Comments>Set release no and version correctly</Comments>
+      <SQLStatement>UPDATE AD_System SET ReleaseNo='3.9.4',Version='2023-01-24',Updated=TO_TIMESTAMP('2023-01-24 00:00:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_System_ID=0;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Set release no and version correctly</Comments>
+      <SQLStatement>UPDATE AD_System SET ReleaseNo='3.9.4',Version='2023-01-24',Updated=TO_TIMESTAMP('2023-01-24 00:00:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_System_ID=0;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

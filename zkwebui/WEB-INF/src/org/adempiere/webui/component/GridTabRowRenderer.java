@@ -12,15 +12,6 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.editor.WButtonEditor;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WEditorPopupMenu;
@@ -33,7 +24,7 @@ import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.NamePair;
 import org.spin.util.FieldCondition;
 import org.spin.util.FieldDefinition;
@@ -56,6 +47,15 @@ import org.zkoss.zul.RendererCtrl;
 import org.zkoss.zul.Row;
 import org.zkoss.zul.RowRenderer;
 import org.zkoss.zul.RowRendererExt;
+
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Row renderer for GridTab grid.
@@ -96,7 +96,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private static final String DIVSTYLE = "border: none; width: 100%; height: 100%;";
 
 	private GridField[] gridField;
-	private int totalColumns = -1;	
+	private int totalColumns = -1;
+
+	private final Language language = Language.getLoginLanguage();
+	private final DecimalFormat numberFormat = DisplayType.getNumberFormat(DisplayType.Number, language);
+	private final SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, language);
+
 	/**
 	 *
 	 * @param gridTab
@@ -217,14 +222,13 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			else
 				return "";
     	}
-    	else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
+    	else if (DisplayType.isDate(gridField.getDisplayType()))
     	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))
     	{
-    		return DisplayType.getNumberFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx())).format(value);
+    		return numberFormat.format(value);
     	}
     	else if (DisplayType.Button == gridField.getDisplayType())
     	{
@@ -458,11 +462,10 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 			row.appendChild(div);
 			GridTableListModel model = (GridTableListModel) grid.getModel();
 			model.setEditing(false);
-			
 			totalColumns=colIndex;
-			if (rowIndex == gridTab.getCurrentRow()) {
-				setCurrentRow(row);
-			}
+		}
+		if (rowIndex == gridTab.getCurrentRow()) {
+			setCurrentRow(row);
 		}
 		row.addEventListener(Events.ON_OK, rowListener);
 		row.invalidate();

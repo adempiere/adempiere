@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_JobOpening
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_JobOpening 
 {
@@ -203,6 +203,8 @@ public interface I_HR_JobOpening
 	  */
 	public int getHR_CareerLevel_ID();
 
+	public org.adempiere.core.domains.models.I_HR_CareerLevel getHR_CareerLevel() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
@@ -211,6 +213,8 @@ public interface I_HR_JobOpening
 
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_Designation_ID */
     public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
@@ -225,6 +229,8 @@ public interface I_HR_JobOpening
 	  */
 	public int getHR_Designation_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException;
+
     /** Column name HR_JobEducation_ID */
     public static final String COLUMNNAME_HR_JobEducation_ID = "HR_JobEducation_ID";
 
@@ -237,6 +243,8 @@ public interface I_HR_JobOpening
 	  * The Job Education for this position
 	  */
 	public int getHR_JobEducation_ID();
+
+	public org.adempiere.core.domains.models.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
 
     /** Column name HR_JobOpening_ID */
     public static final String COLUMNNAME_HR_JobOpening_ID = "HR_JobOpening_ID";
@@ -264,6 +272,8 @@ public interface I_HR_JobOpening
 	  */
 	public int getHR_JobType_ID();
 
+	public org.adempiere.core.domains.models.I_HR_JobType getHR_JobType() throws RuntimeException;
+
     /** Column name HR_SalaryRange_ID */
     public static final String COLUMNNAME_HR_SalaryRange_ID = "HR_SalaryRange_ID";
 
@@ -276,6 +286,8 @@ public interface I_HR_JobOpening
 	  * The Salary Rage is use in Job Openings
 	  */
 	public int getHR_SalaryRange_ID();
+
+	public org.adempiere.core.domains.models.I_HR_SalaryRange getHR_SalaryRange() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

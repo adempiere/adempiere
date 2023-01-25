@@ -20,22 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_M_Locator;
-import org.adempiere.core.domains.models.I_WM_Definition;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Definition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_Definition (Properties ctx, int WM_Definition_ID, String trxName)
@@ -78,34 +78,6 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_BP_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Group.Table_Name)
@@ -129,6 +101,34 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -372,6 +372,11 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	public org.adempiere.core.domains.models.I_WM_Area_Type getWM_Area_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Area_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Area_Type.Table_Name)
+			.getPO(getWM_Area_Type_ID(), get_TrxName());	}
+
 	/** Set Warehouse Area Type.
 		@param WM_Area_Type_ID 
 		Warehouse Area Type allow grouping the Warehouse Area for Type
@@ -415,6 +420,11 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_WM_Section_Type getWM_Section_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Section_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Section_Type.Table_Name)
+			.getPO(getWM_Section_Type_ID(), get_TrxName());	}
+
 	/** Set Warehouse Section Type.
 		@param WM_Section_Type_ID Warehouse Section Type	  */
 	public void setWM_Section_Type_ID (int WM_Section_Type_ID)
@@ -434,6 +444,11 @@ public class X_WM_Definition extends PO implements I_WM_Definition, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_WM_Strategy getWM_Strategy() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Strategy)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Strategy.Table_Name)
+			.getPO(getWM_Strategy_ID(), get_TrxName());	}
 
 	/** Set Warehouse Managamet Strategy.
 		@param WM_Strategy_ID Warehouse Managamet Strategy	  */

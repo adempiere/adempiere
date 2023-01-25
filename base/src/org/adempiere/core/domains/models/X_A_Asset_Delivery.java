@@ -21,21 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Delivery;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Delivery (Properties ctx, int A_Asset_Delivery_ID, String trxName)
@@ -99,6 +100,11 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
@@ -247,23 +253,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	/** Set Message ID.
-		@param MessageID 
-		EMail Message ID
-	  */
-	public void setMessageID (String MessageID)
-	{
-		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
-	}
-
-	/** Get Message ID.
-		@return EMail Message ID
-	  */
-	public String getMessageID () 
-	{
-		return (String)get_Value(COLUMNNAME_MessageID);
-	}
-
 	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
@@ -292,31 +281,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
-    }
-
 	public org.adempiere.core.domains.models.I_M_ProductDownload getM_ProductDownload() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_ProductDownload)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_ProductDownload.Table_Name)
@@ -344,6 +308,48 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Message ID.
+		@param MessageID 
+		EMail Message ID
+	  */
+	public void setMessageID (String MessageID)
+	{
+		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
+	}
+
+	/** Get Message ID.
+		@return EMail Message ID
+	  */
+	public String getMessageID () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageID);
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
+    }
 
 	/** Set Referrer.
 		@param Referrer 

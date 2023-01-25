@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Addition 
 {
@@ -92,6 +92,8 @@ public interface I_A_Asset_Addition
 	  */
 	public int getA_Asset_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_CapvsExp */
     public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
 
@@ -109,27 +111,6 @@ public interface I_A_Asset_Addition
 
 	/** Get Create Asset	  */
 	public boolean isA_CreateAsset();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Life_Period_Max */
     public static final String COLUMNNAME_A_Life_Period_Max = "A_Life_Period_Max";
@@ -188,6 +169,27 @@ public interface I_A_Asset_Addition
 
 	/** Get Source Type	  */
 	public String getA_SourceType();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AssetAmtEntered */
     public static final String COLUMNNAME_AssetAmtEntered = "AssetAmtEntered";
@@ -477,6 +479,8 @@ public interface I_A_Asset_Addition
 
 	/** Get Imported Fixed Asset	  */
 	public int getI_FixedAsset_ID();
+
+	public org.adempiere.core.domains.models.I_I_FixedAsset getI_FixedAsset() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

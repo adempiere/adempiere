@@ -36,26 +36,38 @@ public class MClientInfo extends X_AD_ClientInfo
 	 * 
 	 */
 	private static final long serialVersionUID = 4861006368856890116L;
-	
+
+
 	/**
 	 * 	Get Client Info
 	 * 	@param ctx context
 	 * 	@param clientId id
 	 * 	@return Client Info
 	 */
-	public static MClientInfo get (Properties ctx, int clientId)
-	{
-		Integer key = clientId;
-		MClientInfo info = s_cache.get(key);
-		if (info != null)
-			return info;
+	public static MClientInfo get (Properties ctx, int clientId){
 
-		info = new Query(ctx , MClientInfo.Table_Name , "AD_Client_ID=?" , null)
+		Integer key = clientId;
+		MClientInfo clientInfo = s_cache.get(key);
+		if (clientInfo != null)
+			return clientInfo;
+
+		clientInfo = get(ctx, clientId, null);
+		s_cache.put (key, clientInfo);
+		return clientInfo;
+	}
+
+	/**
+	 * 	Get Client Info
+	 * 	@param ctx context
+	 * 	@param clientId id
+	 *  @param trxName Transaction Name
+	 * 	@return Client Info
+	 */
+	public static MClientInfo get (Properties ctx, int clientId, String trxName) {
+		MClientInfo clientInfo = new Query(ctx , MClientInfo.Table_Name , "AD_Client_ID=?" , trxName)
 				.setParameters(clientId)
 				.first();
-
-		s_cache.put (key, info);
-		return info;
+		return clientInfo;
 	}	//	get
 	
 	/**

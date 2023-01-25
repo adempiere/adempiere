@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_ReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_ReportLine (Properties ctx, int I_ReportLine_ID, String trxName)
@@ -327,6 +327,84 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public org.adempiere.core.domains.models.I_PA_ReportLine getPA_ReportLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PA_ReportLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportLine.Table_Name)
+			.getPO(getPA_ReportLine_ID(), get_TrxName());	}
+
+	/** Set Report Line.
+		@param PA_ReportLine_ID Report Line	  */
+	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
+	{
+		if (PA_ReportLine_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
+	}
+
+	/** Get Report Line.
+		@return Report Line	  */
+	public int getPA_ReportLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PA_ReportLineSet)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportLineSet.Table_Name)
+			.getPO(getPA_ReportLineSet_ID(), get_TrxName());	}
+
+	/** Set Report Line Set.
+		@param PA_ReportLineSet_ID Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
+	{
+		if (PA_ReportLineSet_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
+	}
+
+	/** Get Report Line Set.
+		@return Report Line Set	  */
+	public int getPA_ReportLineSet_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_PA_ReportSource getPA_ReportSource() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PA_ReportSource)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportSource.Table_Name)
+			.getPO(getPA_ReportSource_ID(), get_TrxName());	}
+
+	/** Set Report Source.
+		@param PA_ReportSource_ID 
+		Restriction of what will be shown in Report Line
+	  */
+	public void setPA_ReportSource_ID (int PA_ReportSource_ID)
+	{
+		if (PA_ReportSource_ID < 1) 
+			set_Value (COLUMNNAME_PA_ReportSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_ReportSource_ID, Integer.valueOf(PA_ReportSource_ID));
+	}
+
+	/** Get Report Source.
+		@return Restriction of what will be shown in Report Line
+	  */
+	public int getPA_ReportSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** PAAmountType AD_Reference_ID=53328 */
 	public static final int PAAMOUNTTYPE_AD_Reference_ID=53328;
 	/** Balance (expected sign) = B */
@@ -385,84 +463,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 	public String getPAPeriodType () 
 	{
 		return (String)get_Value(COLUMNNAME_PAPeriodType);
-	}
-
-	public org.adempiere.core.domains.models.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PA_ReportLineSet)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportLineSet.Table_Name)
-			.getPO(getPA_ReportLineSet_ID(), get_TrxName());	}
-
-	/** Set Report Line Set.
-		@param PA_ReportLineSet_ID Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID)
-	{
-		if (PA_ReportLineSet_ID < 1) 
-			set_Value (COLUMNNAME_PA_ReportLineSet_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_ReportLineSet_ID, Integer.valueOf(PA_ReportLineSet_ID));
-	}
-
-	/** Get Report Line Set.
-		@return Report Line Set	  */
-	public int getPA_ReportLineSet_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_PA_ReportLine getPA_ReportLine() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PA_ReportLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportLine.Table_Name)
-			.getPO(getPA_ReportLine_ID(), get_TrxName());	}
-
-	/** Set Report Line.
-		@param PA_ReportLine_ID Report Line	  */
-	public void setPA_ReportLine_ID (int PA_ReportLine_ID)
-	{
-		if (PA_ReportLine_ID < 1) 
-			set_Value (COLUMNNAME_PA_ReportLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_ReportLine_ID, Integer.valueOf(PA_ReportLine_ID));
-	}
-
-	/** Get Report Line.
-		@return Report Line	  */
-	public int getPA_ReportLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_PA_ReportSource getPA_ReportSource() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PA_ReportSource)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_ReportSource.Table_Name)
-			.getPO(getPA_ReportSource_ID(), get_TrxName());	}
-
-	/** Set Report Source.
-		@param PA_ReportSource_ID 
-		Restriction of what will be shown in Report Line
-	  */
-	public void setPA_ReportSource_ID (int PA_ReportSource_ID)
-	{
-		if (PA_ReportSource_ID < 1) 
-			set_Value (COLUMNNAME_PA_ReportSource_ID, null);
-		else 
-			set_Value (COLUMNNAME_PA_ReportSource_ID, Integer.valueOf(PA_ReportSource_ID));
-	}
-
-	/** Get Report Source.
-		@return Restriction of what will be shown in Report Line
-	  */
-	public int getPA_ReportSource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportSource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** PostingType AD_Reference_ID=125 */
