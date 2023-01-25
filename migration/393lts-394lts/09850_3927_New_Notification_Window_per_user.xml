@@ -1483,7 +1483,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="228" Column="AD_Menu_ID">54818</Data>
         <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
-        <Data AD_Column_ID="7721" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
         <Data AD_Column_ID="233" Column="AD_Window_ID">53787</Data>
         <Data AD_Column_ID="600" Column="CreatedBy">100</Data>

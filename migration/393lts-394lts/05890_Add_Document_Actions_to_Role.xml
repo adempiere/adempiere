@@ -7977,7 +7977,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">61386</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
