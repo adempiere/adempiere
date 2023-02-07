@@ -51,7 +51,7 @@ jobs:
         with:
             # For available options: see https://github.com/actions/setup-java#supported-distributions
             distribution: 'temurin'
-            java-version: '11.0'
+            java-version: '17'
             
       # Deploy Tomcat-Server 
       - name: Deploy Tomcat ...
