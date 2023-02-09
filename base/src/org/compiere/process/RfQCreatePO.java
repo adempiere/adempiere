@@ -169,7 +169,10 @@ public class RfQCreatePO extends SvrProcess
 				{
 					order = new MOrder (getCtx(), 0, get_TrxName());
 					order.setIsSOTrx(false);
-					order.setC_DocTypeTarget_ID();
+					if (p_C_DocType_ID != 0)
+						order.setC_DocTypeTarget_ID(p_C_DocType_ID);
+					else
+						order.setC_DocTypeTarget_ID();
 					order.setBPartner(bp);
 					order.setC_BPartner_Location_ID(response.getC_BPartner_Location_ID());
 					order.setSalesRep_ID(rfq.getSalesRep_ID());
