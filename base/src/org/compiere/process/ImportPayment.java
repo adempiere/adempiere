@@ -423,6 +423,30 @@ public class ImportPayment extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning ("No DocType=" + no);
+		
+		//	Set Conversion Type
+		sql = new StringBuffer("UPDATE I_Payment i "
+				+ "SET ConversionTypeValue='S' "
+				+ " WHERE C_ConversionType_ID IS NULL AND ConversionTypeValue IS NULL "
+				+ " AND I_IsImported='N' ").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set CurrencyType Value to Spot =" + no);
+		
+		sql = new StringBuffer("UPDATE I_Payment i "
+				+ "SET C_ConversionType_ID=(SELECT c.C_ConversionType_ID FROM C_ConversionType c "
+				+ " WHERE c.Value=i.ConversionTypeValue AND c.AD_Client_ID IN (0,i.AD_Client_ID)) "
+				+ " WHERE C_ConversionType_ID IS NULL AND ConversionTypeValue IS NOT NULL"
+				+ " AND I_IsImported<>'Y' ").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set CurrencyType from Value=" + no);
+		
+		sql = new StringBuffer("UPDATE I_Payment i "
+				+ " SET I_IsImported='E', I_ErrorMsg=COALESCE(I_ErrorMsg,'')	||' ERR=Invalid CurrencyType, ' "
+				+ " WHERE (C_ConversionType_ID IS NULL OR C_ConversionType_ID=0) AND ConversionTypeValue IS NOT NULL "
+				+ " AND I_IsImported<>'Y' ").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning("Invalid CurrencyTypeValue=" + no);
 
 		commitEx();
 		
@@ -476,13 +500,13 @@ public class ImportPayment extends SvrProcess
 				
 				payment.setDateAcct(imp.getDateAcct());
 				payment.setDateTrx(imp.getDateTrx());
-			//	payment.setDescription(imp.getDescription());
+				payment.setDescription(imp.get_ValueAsString(MPayment.COLUMNNAME_Description));
 				//
 				payment.setC_BPartner_ID(imp.getC_BPartner_ID());
 				payment.setC_Invoice_ID(imp.getC_Invoice_ID());
 				payment.setC_DocType_ID(imp.getC_DocType_ID());
 				payment.setC_Currency_ID(imp.getC_Currency_ID());
-			//	payment.setC_ConversionType_ID(imp.getC_ConversionType_ID());
+				payment.setC_ConversionType_ID(imp.get_ValueAsInt(MPayment.COLUMNNAME_C_ConversionType_ID));
 				payment.setC_Charge_ID(imp.getC_Charge_ID());
 				payment.setChargeAmt(imp.getChargeAmt());
 				payment.setTaxAmt(imp.getTaxAmt());
