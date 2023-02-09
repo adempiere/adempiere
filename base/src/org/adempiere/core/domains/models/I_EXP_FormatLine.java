@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.                                     *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net                                                  *
- * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.4
+ *  @version Release 3.9.3
  */
 public interface I_EXP_FormatLine 
 {
@@ -227,6 +227,19 @@ public interface I_EXP_FormatLine
 
 	/** Get Is Part Unique Index	  */
 	public boolean isPartUniqueIndex();
+
+    /** Column name IsSaveAfterProcess */
+    public static final String COLUMNNAME_IsSaveAfterProcess = "IsSaveAfterProcess";
+
+	/** Set Save After Process.
+	  * Allows to validate yes save after processing
+	  */
+	public void setIsSaveAfterProcess (boolean IsSaveAfterProcess);
+
+	/** Get Save After Process.
+	  * Allows to validate yes save after processing
+	  */
+	public boolean isSaveAfterProcess();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

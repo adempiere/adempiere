@@ -240,10 +240,15 @@ public class EntityWrapper {
      * @param key
      * @return
      */
-    public EntityWrapper getReference(String key) {
+    @SuppressWarnings("unchecked")
+	public EntityWrapper getReference(String key) {
     	Object value = attributes.get(key);
-    	if(value instanceof EntityWrapper) {
+    	if(EntityWrapper.class.isAssignableFrom(value.getClass())) {
     		return (EntityWrapper) value;
+    	} else if(Map.class.isAssignableFrom(value.getClass())) {
+    		EntityWrapper wrapper = new EntityWrapper();
+    		wrapper.setMap((Map<String, Object>) value);
+    		return wrapper;
     	}
     	return null;
     }
@@ -253,7 +258,27 @@ public class EntityWrapper {
      * @return
      */
     public Map<String, Object> getMap() {
-        return attributes;
+    	Map<String, Object> onlyValuesMap = new HashMap<String, Object>();
+    	attributes.entrySet().forEach(set -> {
+    		Object convertedValue = null;
+    		if(set.getValue() != null) {
+    			if(EntityWrapper.class.isAssignableFrom(set.getValue().getClass())) {
+    				convertedValue = ((EntityWrapper) set.getValue()).getMap();
+        		} else if(List.class.isAssignableFrom(set.getValue().getClass())) {
+					List<Map<String, Object>> convertedList = new ArrayList<>();
+        			getValueAsList(set.getValue()).forEach(child -> {
+        				if(EntityWrapper.class.isAssignableFrom(child.getClass())) {
+        					convertedList.add(((EntityWrapper) child).getMap());
+                		}
+        			});
+        			convertedValue = convertedList;
+        		} else {
+        			convertedValue = set.getValue();
+        		}
+    		}
+    		onlyValuesMap.put(set.getKey(), convertedValue);
+    	});
+        return onlyValuesMap;
     }
 
     /**
@@ -395,8 +420,20 @@ public class EntityWrapper {
      * @param key
      * @return
      */
-    public List<EntityWrapper> getChildren(String key) {
-        return getValueAsList(attributes.get(key));
+    @SuppressWarnings("unchecked")
+	public List<EntityWrapper> getChildren(String key) {
+    	List<EntityWrapper> convertedList = new ArrayList<>();
+		getValueAsList(attributes.get(key)).forEach(child -> {
+			if(EntityWrapper.class.isAssignableFrom(child.getClass())) {
+				convertedList.add((EntityWrapper) child);
+			} else if(Map.class.isAssignableFrom(child.getClass())) {
+				EntityWrapper wrapper = new EntityWrapper();
+	    		wrapper.setMap((Map<String, Object>) child);
+				convertedList.add(wrapper);
+    		}
+		});
+		
+        return convertedList; // getValueAsList(attributes.get(key));
     }
 
     /**************************************************************************
@@ -617,7 +654,7 @@ public class EntityWrapper {
      * @return
      */
     @SuppressWarnings("unchecked")
-	private <T> List<T> getValueAsList(Object value) {
+	public <T> List<T> getValueAsList(Object value) {
         if (value != null) {
             if (value instanceof List)
                 return ((List<T>) value);

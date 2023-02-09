@@ -17,7 +17,9 @@ package org.adempiere.util.rpl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -76,6 +78,12 @@ public class EntityWrapperFactory {
     private String transactionName;
     /**	Context	*/
     private Properties context;
+    /** Action Origin */
+    private String docAction;
+    /** Status Origin */
+    private String docStatus;
+    /**	Entity to be parsed	*/
+    private Map<MEXPFormat,EntityWrapper> embeddedFormats = new HashMap<MEXPFormat, EntityWrapper>();
     
     /**
      * Default instance
@@ -292,7 +300,7 @@ public class EntityWrapperFactory {
 		if(getEntity() == null) {
 			return this;
 		}
-		else if (!entity.is_Changed()) {
+		else if (!entity.is_Changed() && !(entity instanceof DocAction)) {
 		    log.info("Object not changed = " + entity.toString());
 		    return this;
 		}
@@ -330,25 +338,35 @@ public class EntityWrapperFactory {
 				&& X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(replicationType)
 				&& entity instanceof DocAction) {
 			DocAction document = (DocAction) entity;
-			String action = document.getDocAction();
-			String status = document.getDocStatus();
-			log.info("Document:"+document.toString() + " DocStauts:" + status + " DocAction:"+action);
-
+			/*String action = document.getDocAction();
+			String status = document.getDocStatus();*/
+			//log.info("Document:" " DocStauts:" + status + " DocAction:"+action);
+			entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_DocAction, docStatus);
+			entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_DocStatus, MOrder.DOCSTATUS_Drafted);
+			entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processing, false);
+			entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processed, false);
+			
 			if (ModelValidator.TIMING_AFTER_REVERSECORRECT==replicationEvent) {
-				if(status.equals(DocAction.STATUS_Reversed) && action.equals(DocAction.ACTION_None)) {
+				if(docStatus.equals(DocAction.STATUS_Reversed) && docAction.equals(DocAction.ACTION_None)) {
 					entity.saveEx();
 					return this;
 				}
 			}	 
 			
-			if (((action.equals(DocAction.ACTION_Prepare) || action.equals(DocAction.ACTION_Complete)) 
-					&& (!status.equals(DocAction.STATUS_Completed) && !status.equals(DocAction.STATUS_Closed) && !status.equals(DocAction.STATUS_Voided) && !status.equals(DocAction.STATUS_Reversed)))
-				||  (action.equals(DocAction.ACTION_Close) && status.equals(DocAction.STATUS_Completed) && !status.equals(DocAction.STATUS_Voided) && !status.equals(DocAction.STATUS_Reversed))) {
+			if (((docAction.equals(DocAction.ACTION_Prepare) || docAction.equals(DocAction.ACTION_Complete)) 
+					&& (!docStatus.equals(DocAction.STATUS_Completed) && !docStatus.equals(DocAction.STATUS_Closed) && !docStatus.equals(DocAction.STATUS_Voided) && !docStatus.equals(DocAction.STATUS_Reversed)))
+				||  (docAction.equals(DocAction.ACTION_Close) && docStatus.equals(DocAction.STATUS_Completed) && !docStatus.equals(DocAction.STATUS_Voided) && !docStatus.equals(DocAction.STATUS_Reversed))) {
 				try {
-					if (!document.processIt(action)) {
+					if (!document.processIt(docAction)) {
 						log.info("PO.toString() = can not " + entity.get_Value("DocAction"));
 					}
 					entity.saveEx();
+					if(!embeddedFormats.isEmpty()) {
+						embeddedFormats.entrySet().stream().forEach(embedded -> {
+							PO embeddedEntity = buildEntity(embedded.getKey(), embedded.getValue(), getTransactionName());
+							embeddedEntity.saveReplica(true);
+						});
+					}
 				} catch (Exception e) {
 					throw new AdempiereException(e.getLocalizedMessage());
 				}
@@ -550,7 +568,7 @@ public class EntityWrapperFactory {
 					if ( DisplayType.DateTime == column.getAD_Reference_ID() 
 					  || DisplayType.Date == column.getAD_Reference_ID()) {
 						// 
-						entity.set_ValueOfColumn(formatLine.getAD_Column_ID(), value);
+						entity.set_ValueOfColumn(formatLine.getAD_Column_ID(), wrapper.getValueAsTimestamp(formatLine.getValue()));
 						log.info("Set value of column ["+column.getColumnName()+"]=["+value+"]");
 					} 
 					else if (  DisplayType.isID(column.getAD_Reference_ID())
@@ -618,6 +636,7 @@ public class EntityWrapperFactory {
 		Object value = null;
 		String key = line.getValue();
 		String type = line.getType();
+		Boolean saveAfterProcess = line.isSaveAfterProcess();
 		if (MEXPFormatLine.TYPE_XMLElement.equals(type)
 				|| MEXPFormatLine.TYPE_XMLAttribute.equals(type)) {
 			// XML Element
@@ -646,13 +665,14 @@ public class EntityWrapperFactory {
 		} else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType())) {
 			if (entity.is_Changed()) {
 				if(entity instanceof DocAction) {
+					docAction = ((DocAction) entity).getDocAction();
+					docStatus = ((DocAction) entity).getDocStatus();
 					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_DocStatus, MOrder.DOCSTATUS_Drafted);
+					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_DocAction, MOrder.DOCACTION_Complete);
 					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processing, false);
 					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processed, false);
 				}
 				entity.saveReplica(true);
-			} else {
-				return value;
 			}
 			// Embedded Export Format It is used for Parent-Son records like Order&OrderLine
 			//get from cache
@@ -666,12 +686,17 @@ public class EntityWrapperFactory {
 				List<EntityWrapper> embeddedList = wrapper.getChildren(key);
 				if(embeddedList != null) {
 					embeddedList.forEach(embeddedWrapper -> {
-						PO embeddedEntity = buildEntity(referencedExpFormat, embeddedWrapper, getTransactionName());
-						log.info("embeddedPo = " + embeddedEntity);
-						if (!embeddedEntity.is_Changed()) {
-						    log.info("Object not changed = " + entity.toString());
-						} else {	
-							embeddedEntity.saveReplica(true);
+						if(!saveAfterProcess) {
+							PO embeddedEntity = buildEntity(referencedExpFormat, embeddedWrapper, getTransactionName());
+							
+							log.info("embeddedPo = " + embeddedEntity);
+							if (!embeddedEntity.is_Changed()) {
+							    log.info("Object not changed = " + entity.toString());
+							} else {	
+									embeddedEntity.saveReplica(true);
+							} 
+						} else {
+							embeddedFormats.put(referencedExpFormat,embeddedWrapper);
 						}
 					});
 				}
