@@ -144,6 +144,14 @@ public class MBankAccount extends X_C_BankAccount
 				}
 			}
 		}
+		if(newRecord || is_ValueChanged(COLUMNNAME_AccountNo)) {
+			if(Optional.ofNullable(MBank.get(getCtx(), getC_Bank_ID()).getBankType()).orElse("").equals(MBank.BANKTYPE_Bank)
+					&& !Util.isEmpty(getAccountNo())) {
+				if(getAccountNo().trim().length() > 20) {
+					setAccountNo(getAccountNo().trim().substring(0, 20));
+				}
+			}
+		}
 		return true;
 	}	//	beforeSave
 	
