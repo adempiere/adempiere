@@ -304,7 +304,7 @@ public class MAccount extends X_C_ValidCombination
 										.setClient_ID()
 										.setParameters(params)
 										.setOnlyActiveRecords(true)
-										.firstOnly();
+										.first();
 
 		//	Existing
 		if (existingAccount != null)
@@ -355,7 +355,7 @@ public class MAccount extends X_C_ValidCombination
 		final String whereClause = "C_AcctSchema_ID=? AND Alias=?";
 		MAccount retValue =  new Query(ctx,I_C_ValidCombination.Table_Name,whereClause,null)
 		.setParameters(C_AcctSchema_ID,alias)
-		.firstOnly();
+		.first();
 		return retValue;
 	}	//	get
 
