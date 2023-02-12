@@ -44,6 +44,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.eevolution.manufacturing.model.MPPProductBOMLine;
 import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
@@ -518,11 +519,13 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 */
 	private String validateHeader() {
 		if(getM_Product_ID() != 0) {
-			if(getProductionQty() == null
-					|| getProductionQty().equals(Env.ZERO))
+			if(Optional.ofNullable(getProductionQty()).orElse(Env.ZERO).compareTo(Env.ZERO) == 0
+					&& !isReversal()) {
 				return "@ProductionQty@ = 0";
-			else if(getM_Locator_ID() == 0)
+			}
+			if(getM_Locator_ID() == 0) {
 				return "@M_Locator_ID@ @NotFound@";
+			}
 		}
 		//	Default Return
 		return null;
@@ -652,7 +655,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
 		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getMovementDate();
-		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID(), get_TrxName());
 		MProduction reversal = null;
 		reversal = copyFrom(reversalDate);
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
@@ -683,10 +686,6 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		setReversal_ID(reversal.getM_Production_ID());
 		setDocStatus(DOCSTATUS_Reversed); // may come from void
 		setDocAction(DOCACTION_None);
-
-		MProductionBatch pBatch = getParent();
-		pBatch.saveEx(get_TrxName());
-
 		return reversal;
 	}
 
