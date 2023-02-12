@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -3606,6 +3607,9 @@ public abstract class PO
 			return false;
 		//	Get Node Table Name
 		AtomicReference<String> treeTableName = new AtomicReference<>();
+		AtomicInteger treeId = new AtomicInteger();
+		AtomicInteger parentColumnId = new AtomicInteger();
+		AtomicInteger sortColumnId = new AtomicInteger();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
@@ -3613,52 +3617,63 @@ public abstract class PO
 				elementId = ii.intValue();
 				whereClause = "C_Element_ID = " + elementId;
 				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
-				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+				Optional.ofNullable(element.getTree()).ifPresent(tree -> {
 					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+					treeId.set(element.getAD_Tree_ID());
+					parentColumnId.set(tree.getParent_Column_ID());
+					sortColumnId.set(tree.getAD_ColumnSortOrder_ID());
 				});
 			}
 		}
 		
-		if (treeTableName.get()==null)
+		if (treeTableName.get() == null) {
 			treeTableName.set(MTree.getNodeTableName(tableId));
+		}
 		
-		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
+		if(treeId.get() <= 0) {
+			treeId.set(MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId));
+		}
 		//	Valid tree
-		if(m_AD_Tree_ID < 0)
+		if(treeId.get() <= 0) {
+			return false;
+		}
+		
+		if (treeTableName.get() == null)
 			return false;
 		
-		if (treeTableName.get()==null)
-			return false;
-		
-		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
+		if(elementId <= 0 ) {
+			MTree tree = new MTree(getCtx(), treeId.get(), get_TrxName());
+			parentColumnId.set(tree.getParent_Column_ID());
+			sortColumnId.set(tree.getAD_ColumnSortOrder_ID());
+		}
 		
 		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO(0, get_TrxName());
 		treeNode.setAD_Client_ID(getAD_Client_ID());
 		treeNode.setAD_Org_ID(0);
 		treeNode.setIsActive(true);
-		treeNode.set_CustomColumn("AD_Tree_ID", m_AD_Tree_ID);
+		treeNode.set_CustomColumn("AD_Tree_ID", treeId.get());
 		treeNode.set_CustomColumn("Node_ID", get_ID());
 		//FR [ 729 ]
 		MColumn parentColumnIDforTree = null;
-		if (tree.getParent_Column_ID()>0) {
-			parentColumnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
+		if (parentColumnId.get() > 0) {
+			parentColumnIDforTree = MColumn.get(getCtx(), parentColumnId.get());
 			treeNode.set_CustomColumn("Parent_ID", get_ValueAsInt(parentColumnIDforTree.getColumnName()));
-		}else
+		} else {
 			treeNode.set_CustomColumn("Parent_ID", 0);
+		}
 		
 		if (treeNode.get_ValueAsInt("Parent_ID") == 0 
-				&& tree.getAD_ColumnSortOrder_ID() > 0) {
-			MColumn columnSortforTree = MColumn.get(getCtx(), tree.getAD_ColumnSortOrder_ID());
+				&& sortColumnId.get() > 0) {
+			MColumn columnSortforTree = MColumn.get(getCtx(), sortColumnId.get());
 			treeNode.set_CustomColumn("Parent_ID", getParentFromSort(columnSortforTree.getColumnName(), get_ValueAsString(columnSortforTree.getColumnName()), whereClause));
 			if (parentColumnIDforTree!= null) {
-				if (treeNode.get_ValueAsInt("Parent_ID")!=get_ValueAsInt(parentColumnIDforTree.getColumnName())) {
+				if (treeNode.get_ValueAsInt("Parent_ID") != get_ValueAsInt(parentColumnIDforTree.getColumnName())) {
 					set_Value(parentColumnIDforTree.getColumnName(), treeNode.get_ValueAsInt("Parent_ID"));
 					saveEx();
 				}
 			}
 			
 		}
-		
 		
 		treeNode.set_CustomColumn("SeqNo", 999);
 		treeNode.saveEx();
@@ -3677,35 +3692,48 @@ public abstract class PO
 			return false;
 		//	Get Node Table Name
 		AtomicReference<String> treeTableName = new AtomicReference<>();
+		AtomicInteger treeId = new AtomicInteger();
+		AtomicInteger parentColumnId = new AtomicInteger();
+		AtomicInteger sortColumnId = new AtomicInteger();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
 			if (ii != null) {
 				elementId = ii.intValue();
 				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
-				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+				Optional.ofNullable(element.getTree()).ifPresent(tree -> {
 					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+					treeId.set(element.getAD_Tree_ID());
+					parentColumnId.set(tree.getParent_Column_ID());
+					sortColumnId.set(tree.getAD_ColumnSortOrder_ID());
 				});
 			}
 		}
 		
-		if (treeTableName.get()==null)
+		if (treeTableName.get() == null) {
 			treeTableName.set(MTree.getNodeTableName(tableId));
+		}
 		
-		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
+		if(treeId.get() <= 0) {
+			treeId.set(MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId));
+		}
 		//	Valid tree
-		if(m_AD_Tree_ID < 0)
+		if(treeId.get() <= 0) {
+			return false;
+		}
+		
+		if (treeTableName.get() == null)
 			return false;
 		
-		if (treeTableName.get()==null)
-			return false;
-		
-		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
-		
+		if(elementId <= 0 ) {
+			MTree tree = new MTree(getCtx(), treeId.get(), get_TrxName());
+			parentColumnId.set(tree.getParent_Column_ID());
+			sortColumnId.set(tree.getAD_ColumnSortOrder_ID());
+		}
 		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO("Node_ID = " + get_ID(), get_TrxName());
 		if (treeNode!=null) {
-			if (tree.getParent_Column_ID() > 0) {
-				MColumn columnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
+			if (parentColumnId.get() > 0) {
+				MColumn columnIDforTree = MColumn.get(getCtx(), parentColumnId.get());
 				if (get_ValueAsInt(columnIDforTree.getColumnName())!= treeNode.get_ValueAsInt("Parent_ID")) {
 					treeNode.set_CustomColumn("Parent_ID", get_ValueAsInt(columnIDforTree.getColumnName()));
 					treeNode.saveEx();
