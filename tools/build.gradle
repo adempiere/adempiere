@@ -12,8 +12,12 @@ dependencies {
 sourceSets {
     main {
          java {
-            srcDirs = ['src']
+            srcDirs 'src'
          }
+         resources {
+    		srcDirs 'src'
+        	include 'org/adempiere/legacy/apache/ecs/ecs.properties'
+    	 }
     }
 }
 
