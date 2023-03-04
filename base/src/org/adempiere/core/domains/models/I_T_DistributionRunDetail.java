@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_DistributionRunDetail 
 {
@@ -123,21 +123,6 @@ public interface I_T_DistributionRunDetail
 	  */
 	public boolean isActive();
 
-    /** Column name M_DistributionListLine_ID */
-    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
-
-	/** Set Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
-
-	/** Get Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID();
-
-	public org.adempiere.core.domains.models.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
-
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 
@@ -153,20 +138,20 @@ public interface I_T_DistributionRunDetail
 
 	public org.adempiere.core.domains.models.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
-    /** Column name M_DistributionRunLine_ID */
-    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
+    /** Column name M_DistributionListLine_ID */
+    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
 
-	/** Set Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	/** Set Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
 
-	/** Get Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	/** Get Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
 	  */
-	public int getM_DistributionRunLine_ID();
+	public int getM_DistributionListLine_ID();
 
-	public org.adempiere.core.domains.models.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException;
 
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
@@ -182,6 +167,21 @@ public interface I_T_DistributionRunDetail
 	public int getM_DistributionRun_ID();
 
 	public org.adempiere.core.domains.models.I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
+
+    /** Column name M_DistributionRunLine_ID */
+    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
+
+	/** Set Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
+
+	/** Get Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public int getM_DistributionRunLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -237,19 +237,6 @@ public interface I_T_DistributionRunDetail
 	  */
 	public BigDecimal getRatio();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -265,4 +252,17 @@ public interface I_T_DistributionRunDetail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

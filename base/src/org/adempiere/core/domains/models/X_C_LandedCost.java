@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_LandedCost (Properties ctx, int C_LandedCost_ID, String trxName)
@@ -115,6 +115,29 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getC_InvoiceLine_ID()));
     }
 
+	/** Set Landed Cost.
+		@param C_LandedCost_ID 
+		Landed cost to be allocated to material receipts
+	  */
+	public void setC_LandedCost_ID (int C_LandedCost_ID)
+	{
+		if (C_LandedCost_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, Integer.valueOf(C_LandedCost_ID));
+	}
+
+	/** Get Landed Cost.
+		@return Landed cost to be allocated to material receipts
+	  */
+	public int getC_LandedCost_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCost_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_C_LandedCostType getC_LandedCostType() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_LandedCostType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_LandedCostType.Table_Name)
@@ -135,29 +158,6 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	public int getC_LandedCostType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Landed Cost.
-		@param C_LandedCost_ID 
-		Landed cost to be allocated to material receipts
-	  */
-	public void setC_LandedCost_ID (int C_LandedCost_ID)
-	{
-		if (C_LandedCost_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_LandedCost_ID, Integer.valueOf(C_LandedCost_ID));
-	}
-
-	/** Get Landed Cost.
-		@return Landed cost to be allocated to material receipts
-	  */
-	public int getC_LandedCost_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCost_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -238,34 +238,6 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
-			.getPO(getM_InOutLine_ID(), get_TrxName());	}
-
-	/** Set Shipment/Receipt Line.
-		@param M_InOutLine_ID 
-		Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID)
-	{
-		if (M_InOutLine_ID < 1) 
-			set_Value (COLUMNNAME_M_InOutLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
-	}
-
-	/** Get Shipment/Receipt Line.
-		@return Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_InOut)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOut.Table_Name)
@@ -289,6 +261,34 @@ public class X_C_LandedCost extends PO implements I_C_LandedCost, I_Persistent
 	public int getM_InOut_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
+			.getPO(getM_InOutLine_ID(), get_TrxName());	}
+
+	/** Set Shipment/Receipt Line.
+		@param M_InOutLine_ID 
+		Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID)
+	{
+		if (M_InOutLine_ID < 1) 
+			set_Value (COLUMNNAME_M_InOutLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InOutLine_ID, Integer.valueOf(M_InOutLine_ID));
+	}
+
+	/** Get Shipment/Receipt Line.
+		@return Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

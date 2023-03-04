@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_GL
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_AcctSchema_GL (Properties ctx, int C_AcctSchema_GL_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       /** if (C_AcctSchema_GL_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setCommitmentOffsetSales_Acct (0);
 			setCommitmentOffset_Acct (0);
+			setCommitmentOffsetSales_Acct (0);
 			setIncomeSummary_Acct (0);
 			setIntercompanyDueFrom_Acct (0);
 			setIntercompanyDueTo_Acct (0);
@@ -121,31 +121,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
     }
 
-	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getCommitmentOffsetSales_Acct(), get_TrxName());	}
-
-	/** Set Commitment Offset Sales.
-		@param CommitmentOffsetSales_Acct 
-		Budgetary Commitment Offset Account for Sales
-	  */
-	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
-	{
-		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
-	}
-
-	/** Get Commitment Offset Sales.
-		@return Budgetary Commitment Offset Account for Sales
-	  */
-	public int getCommitmentOffsetSales_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_ValidCombination getCommitmentOffset_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -166,6 +141,31 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	public int getCommitmentOffset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCommitmentOffsetSales_Acct(), get_TrxName());	}
+
+	/** Set Commitment Offset Sales.
+		@param CommitmentOffsetSales_Acct 
+		Budgetary Commitment Offset Account for Sales
+	  */
+	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
+	{
+		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
+	}
+
+	/** Get Commitment Offset Sales.
+		@return Budgetary Commitment Offset Account for Sales
+	  */
+	public int getCommitmentOffsetSales_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -362,23 +362,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	/** Set Use Currency Balancing.
 		@param UseCurrencyBalancing Use Currency Balancing	  */
 	public void setUseCurrencyBalancing (boolean UseCurrencyBalancing)
@@ -440,5 +423,22 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

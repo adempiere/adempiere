@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_Inventory 
 {
@@ -51,6 +51,19 @@ public interface I_M_Inventory
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +78,6 @@ public interface I_M_Inventory
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name ApprovalAmt */
     public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
@@ -400,18 +400,21 @@ public interface I_M_Inventory
 
 	public org.adempiere.core.domains.models.I_M_Inventory getReversal() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Updated.
+	  * Date this record was updated
 	  */
-	public void setUUID (String UUID);
+	public Timestamp getUpdated();
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
 	  */
-	public String getUUID();
+	public int getUpdatedBy();
 
     /** Column name UpdateQty */
     public static final String COLUMNNAME_UpdateQty = "UpdateQty";
@@ -430,22 +433,6 @@ public interface I_M_Inventory
 
 	/** Get Update Quantity Count	  */
 	public String getUpdateQtyCount();
-
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
 
     /** Column name User1_ID */
     public static final String COLUMNNAME_User1_ID = "User1_ID";
@@ -506,4 +493,17 @@ public interface I_M_Inventory
 	public int getUser4_ID();
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

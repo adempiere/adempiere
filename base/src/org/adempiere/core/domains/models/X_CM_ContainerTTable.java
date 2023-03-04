@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ContainerTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_CM_ContainerTTable (Properties ctx, int CM_ContainerTTable_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       super (ctx, CM_ContainerTTable_ID, trxName);
       /** if (CM_ContainerTTable_ID == 0)
         {
-			setCM_ContainerTTable_ID (0);
 			setCM_Container_ID (0);
+			setCM_ContainerTTable_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
@@ -78,29 +78,6 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       return sb.toString();
     }
 
-	/** Set Container T.Table.
-		@param CM_ContainerTTable_ID 
-		Container Template Table
-	  */
-	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
-	{
-		if (CM_ContainerTTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
-	}
-
-	/** Get Container T.Table.
-		@return Container Template Table
-	  */
-	public int getCM_ContainerTTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_CM_Container getCM_Container() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_CM_Container)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_Container.Table_Name)
@@ -124,6 +101,29 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 	public int getCM_Container_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Container T.Table.
+		@param CM_ContainerTTable_ID 
+		Container Template Table
+	  */
+	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID)
+	{
+		if (CM_ContainerTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_ContainerTTable_ID, Integer.valueOf(CM_ContainerTTable_ID));
+	}
+
+	/** Get Container T.Table.
+		@return Container Template Table
+	  */
+	public int getCM_ContainerTTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerTTable_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

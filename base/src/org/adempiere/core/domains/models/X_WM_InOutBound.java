@@ -22,22 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_WM_InOutBound;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_InOutBound
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_InOutBound (Properties ctx, int WM_InOutBound_ID, String trxName)

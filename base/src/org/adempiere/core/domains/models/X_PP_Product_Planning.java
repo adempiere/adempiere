@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_Planning
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PP_Product_Planning (Properties ctx, int PP_Product_Planning_ID, String trxName)
@@ -109,6 +111,11 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_NetworkDistribution)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_NetworkDistribution.Table_Name)
+			.getPO(getDD_NetworkDistribution_ID(), get_TrxName());	}
 
 	/** Set Network Distribution.
 		@param DD_NetworkDistribution_ID 
@@ -563,26 +570,6 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set Safety Stock Qty.
-		@param SafetyStock 
-		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock)
-	{
-		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
-	}
-
-	/** Get Safety Stock Qty.
-		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.adempiere.core.domains.models.I_S_Resource getS_Resource() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_S_Resource)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_Resource.Table_Name)
@@ -609,6 +596,26 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Safety Stock Qty.
+		@param SafetyStock 
+		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public void setSafetyStock (BigDecimal SafetyStock)
+	{
+		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
+	}
+
+	/** Get Safety Stock Qty.
+		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public BigDecimal getSafetyStock () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Time Fence.

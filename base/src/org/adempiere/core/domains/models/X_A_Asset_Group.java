@@ -20,21 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Group;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Group
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Group (Properties ctx, int A_Asset_Group_ID, String trxName)
@@ -83,6 +84,11 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_A_Asset_Class getA_Asset_Class() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Class)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Class.Table_Name)
+			.getPO(getA_Asset_Class_ID(), get_TrxName());	}
 
 	/** Set Asset class.
 		@param A_Asset_Class_ID Asset class	  */
@@ -134,6 +140,11 @@ public class X_A_Asset_Group extends PO implements I_A_Asset_Group, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Group_ID()));
     }
+
+	public org.adempiere.core.domains.models.I_A_Asset_Type getA_Asset_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Type.Table_Name)
+			.getPO(getA_Asset_Type_ID(), get_TrxName());	}
 
 	/** Set Asset Type.
 		@param A_Asset_Type_ID Asset Type	  */

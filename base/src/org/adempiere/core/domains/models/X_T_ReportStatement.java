@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
@@ -81,29 +81,29 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_AD_PInstance)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PInstance.Table_Name)
-			.getPO(getAD_PInstance_ID(), get_TrxName());	}
+		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
 
-	/** Set Process Instance.
-		@param AD_PInstance_ID 
-		Instance of the process
+	/** Set Account.
+		@param Account_ID 
+		Account used
 	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID)
+	public void setAccount_ID (int Account_ID)
 	{
-		if (AD_PInstance_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
-	/** Get Process Instance.
-		@return Instance of the process
+	/** Get Account.
+		@return Account used
 	  */
-	public int getAD_PInstance_ID () 
+	public int getAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -172,29 +172,29 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 		return (String)get_Value(COLUMNNAME_AccountValue);
 	}
 
-	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException
+	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_C_ElementValue)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
+		return (org.adempiere.core.domains.models.I_AD_PInstance)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PInstance.Table_Name)
+			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
-	/** Set Account.
-		@param Account_ID 
-		Account used
+	/** Set Process Instance.
+		@param AD_PInstance_ID 
+		Instance of the process
 	  */
-	public void setAccount_ID (int Account_ID)
+	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
 		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
-	/** Get Account.
-		@return Account used
+	/** Get Process Instance.
+		@return Instance of the process
 	  */
-	public int getAccount_ID () 
+	public int getAD_PInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

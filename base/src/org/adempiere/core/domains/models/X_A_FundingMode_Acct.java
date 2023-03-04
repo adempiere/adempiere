@@ -20,21 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_FundingMode_Acct;
-import org.adempiere.core.domains.models.I_C_ValidCombination;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for A_FundingMode_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_FundingMode_Acct extends PO implements I_A_FundingMode_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_FundingMode_Acct (Properties ctx, int A_FundingMode_Acct_ID, String trxName)
@@ -97,6 +97,11 @@ public class X_A_FundingMode_Acct extends PO implements I_A_FundingMode_Acct, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_FundingMode getA_FundingMode() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_FundingMode)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_FundingMode.Table_Name)
+			.getPO(getA_FundingMode_ID(), get_TrxName());	}
 
 	/** Set Asset Funding Mode.
 		@param A_FundingMode_ID Asset Funding Mode	  */

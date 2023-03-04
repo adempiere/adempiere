@@ -21,21 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Asset_Reval_Entry;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval_Entry (Properties ctx, int A_Asset_Reval_Entry_ID, String trxName)
@@ -45,10 +46,10 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
         {
 			setA_Asset_Reval_Entry_ID (0);
 			setA_Effective_Date (new Timestamp( System.currentTimeMillis() ));
+			setA_Rev_Code (null);
 			setA_Reval_Cal_Method (null);
 			setA_Reval_Effective_Date (null);
 			setA_Reval_Multiplier (null);
-			setA_Rev_Code (null);
 			setC_Currency_ID (0);
 			setDescription (null);
 			setDocumentNo (null);
@@ -128,6 +129,29 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		return (Timestamp)get_Value(COLUMNNAME_A_Effective_Date);
 	}
 
+	/** A_Rev_Code AD_Reference_ID=53262 */
+	public static final int A_REV_CODE_AD_Reference_ID=53262;
+	/** Revaluation Code #1 = R01 */
+	public static final String A_REV_CODE_RevaluationCode1 = "R01";
+	/** Revaluation Code #2 = R02 */
+	public static final String A_REV_CODE_RevaluationCode2 = "R02";
+	/** Revaluation Code #3 = R03 */
+	public static final String A_REV_CODE_RevaluationCode3 = "R03";
+	/** Set Rev. Code.
+		@param A_Rev_Code Rev. Code	  */
+	public void setA_Rev_Code (String A_Rev_Code)
+	{
+
+		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
+	}
+
+	/** Get Rev. Code.
+		@return Rev. Code	  */
+	public String getA_Rev_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Rev_Code);
+	}
+
 	/** A_Reval_Cal_Method AD_Reference_ID=53259 */
 	public static final int A_REVAL_CAL_METHOD_AD_Reference_ID=53259;
 	/** Default = DFT */
@@ -193,29 +217,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public String getA_Reval_Multiplier () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Multiplier);
-	}
-
-	/** A_Rev_Code AD_Reference_ID=53262 */
-	public static final int A_REV_CODE_AD_Reference_ID=53262;
-	/** Revaluation Code #1 = R01 */
-	public static final String A_REV_CODE_RevaluationCode1 = "R01";
-	/** Revaluation Code #2 = R02 */
-	public static final String A_REV_CODE_RevaluationCode2 = "R02";
-	/** Revaluation Code #3 = R03 */
-	public static final String A_REV_CODE_RevaluationCode3 = "R03";
-	/** Set Rev. Code.
-		@param A_Rev_Code Rev. Code	  */
-	public void setA_Rev_Code (String A_Rev_Code)
-	{
-
-		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
-	}
-
-	/** Get Rev. Code.
-		@return Rev. Code	  */
-	public String getA_Rev_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Rev_Code);
 	}
 
 	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException

@@ -21,22 +21,22 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_M_AttributeSetInstance;
-import org.adempiere.core.domains.models.I_WM_InOutBoundLineMA;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for WM_InOutBoundLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLineMA (Properties ctx, int WM_InOutBoundLineMA_ID, String trxName)
@@ -169,6 +169,11 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_InOutBoundLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
 
 	/** Set Inbound & Outbound Order Line.
 		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */

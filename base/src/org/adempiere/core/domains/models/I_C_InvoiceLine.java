@@ -19,13 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_C_InvoiceLine 
 {
@@ -57,6 +56,8 @@ public interface I_C_InvoiceLine
 	  */
 	public int getA_Asset_Group_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -69,6 +70,8 @@ public interface I_C_InvoiceLine
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_CapvsExp */
     public static final String COLUMNNAME_A_CapvsExp = "A_CapvsExp";
@@ -87,6 +90,15 @@ public interface I_C_InvoiceLine
 
 	/** Get Create Asset	  */
 	public boolean isA_CreateAsset();
+
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get Processed	  */
+	public boolean isA_Processed();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -123,15 +135,6 @@ public interface I_C_InvoiceLine
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name A_Processed */
-    public static final String COLUMNNAME_A_Processed = "A_Processed";
-
-	/** Set Processed	  */
-	public void setA_Processed (boolean A_Processed);
-
-	/** Get Processed	  */
-	public boolean isA_Processed();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -266,22 +269,6 @@ public interface I_C_InvoiceLine
 
 	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -312,6 +299,22 @@ public interface I_C_InvoiceLine
 
 	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException;
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name DD_FreightLine_ID */
     public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
 
@@ -320,6 +323,8 @@ public interface I_C_InvoiceLine
 
 	/** Get Order Freight Line	  */
 	public int getDD_FreightLine_ID();
+
+	public org.adempiere.core.domains.models.I_DD_FreightLine getDD_FreightLine() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -342,6 +347,8 @@ public interface I_C_InvoiceLine
 
 	/** Get Loan Amortization	  */
 	public int getFM_Amortization_ID();
+
+	public org.adempiere.core.domains.models.I_FM_Amortization getFM_Amortization() throws RuntimeException;
 
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";
@@ -784,4 +791,6 @@ public interface I_C_InvoiceLine
 
 	/** Get Inbound & Outbound Order Line	  */
 	public int getWM_InOutBoundLine_ID();
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }

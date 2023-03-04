@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_OrderLine 
 {
@@ -124,19 +124,6 @@ public interface I_DD_OrderLine
 
 	public org.adempiere.core.domains.models.I_C_Charge getC_Charge() throws RuntimeException;
 
-    /** Column name ConfirmedQty */
-    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
-
-	/** Set Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty);
-
-	/** Get Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -182,6 +169,34 @@ public interface I_DD_OrderLine
 
 	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name ConfirmedQty */
+    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
+
+	/** Set Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty);
+
+	/** Get Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -197,21 +212,6 @@ public interface I_DD_OrderLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public org.adempiere.core.domains.models.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -260,6 +260,8 @@ public interface I_DD_OrderLine
 
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
+
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
@@ -404,21 +406,6 @@ public interface I_DD_OrderLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
 
-    /** Column name M_FreightCategory_ID */
-    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
-
-	/** Set Freight Category.
-	  * Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
-
-	/** Get Freight Category.
-	  * Category of the Freight
-	  */
-	public int getM_FreightCategory_ID();
-
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
-
     /** Column name M_Freight_ID */
     public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
 
@@ -433,6 +420,21 @@ public interface I_DD_OrderLine
 	public int getM_Freight_ID();
 
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_FreightCategory_ID */
+    public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
+
+	/** Set Freight Category.
+	  * Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID);
+
+	/** Get Freight Category.
+	  * Category of the Freight
+	  */
+	public int getM_FreightCategory_ID();
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -700,4 +702,6 @@ public interface I_DD_OrderLine
 
 	/** Get Inbound & Outbound Order Line	  */
 	public int getWM_InOutBoundLine_ID();
+
+	public org.adempiere.core.domains.models.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }

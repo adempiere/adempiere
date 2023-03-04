@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_I_Movement 
 {
@@ -51,6 +51,19 @@ public interface I_I_Movement
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +78,6 @@ public interface I_I_Movement
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -327,21 +327,6 @@ public interface I_I_Movement
 	  */
 	public String getLocatorValue();
 
-    /** Column name M_LocatorTo_ID */
-    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
-
-	/** Set Locator To.
-	  * Location inventory is moved to
-	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
-
-	/** Get Locator To.
-	  * Location inventory is moved to
-	  */
-	public int getM_LocatorTo_ID();
-
-	public I_M_Locator getM_LocatorTo() throws RuntimeException;
-
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -357,20 +342,20 @@ public interface I_I_Movement
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
 
-	/** Set Move Line.
-	  * Inventory Move document Line
+	/** Set Locator To.
+	  * Location inventory is moved to
 	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
 
-	/** Get Move Line.
-	  * Inventory Move document Line
+	/** Get Locator To.
+	  * Location inventory is moved to
 	  */
-	public int getM_MovementLine_ID();
+	public int getM_LocatorTo_ID();
 
-	public org.adempiere.core.domains.models.I_M_MovementLine getM_MovementLine() throws RuntimeException;
+	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -386,6 +371,21 @@ public interface I_I_Movement
 	public int getM_Movement_ID();
 
 	public org.adempiere.core.domains.models.I_M_Movement getM_Movement() throws RuntimeException;
+
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -539,19 +539,6 @@ public interface I_I_Movement
 	/** Get ShipperName	  */
 	public String getShipperName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -593,4 +580,17 @@ public interface I_I_Movement
 	  * User defined list element #2
 	  */
 	public String getUser2_ID();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

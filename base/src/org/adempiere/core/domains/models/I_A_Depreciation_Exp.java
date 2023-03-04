@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Depreciation_Exp 
 {
@@ -99,6 +99,8 @@ public interface I_A_Depreciation_Exp
 	/** Get Asset Addition	  */
 	public int getA_Asset_Addition_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Addition getA_Asset_Addition() throws RuntimeException;
+
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
@@ -130,6 +132,8 @@ public interface I_A_Depreciation_Exp
 	/** Get Asset Disposed	  */
 	public int getA_Asset_Disposed_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Disposed getA_Asset_Disposed() throws RuntimeException;
+
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
@@ -142,6 +146,8 @@ public interface I_A_Depreciation_Exp
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name A_Asset_Remaining */
     public static final String COLUMNNAME_A_Asset_Remaining = "A_Asset_Remaining";
@@ -161,14 +167,6 @@ public interface I_A_Depreciation_Exp
 	/** Get Remaining Amt (fiscal)	  */
 	public BigDecimal getA_Asset_Remaining_F();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Entry_ID */
     public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
 
@@ -178,6 +176,8 @@ public interface I_A_Depreciation_Exp
 	/** Get Depreciation Entry	  */
 	public int getA_Depreciation_Entry_ID();
 
+	public org.adempiere.core.domains.models.I_A_Depreciation_Entry getA_Depreciation_Entry() throws RuntimeException;
+
     /** Column name A_Depreciation_Exp_ID */
     public static final String COLUMNNAME_A_Depreciation_Exp_ID = "A_Depreciation_Exp_ID";
 
@@ -186,19 +186,6 @@ public interface I_A_Depreciation_Exp
 
 	/** Get A_Depreciation_Exp_ID	  */
 	public int getA_Depreciation_Exp_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Entry_Type */
     public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
@@ -217,6 +204,27 @@ public interface I_A_Depreciation_Exp
 
 	/** Get Asset Period	  */
 	public int getA_Period();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name CR_Account_ID */
     public static final String COLUMNNAME_CR_Account_ID = "CR_Account_ID";

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -31,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_BenchmarkData
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PA_BenchmarkData (Properties ctx, int PA_BenchmarkData_ID, String trxName)
@@ -49,8 +49,8 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 			setBenchmarkDate (new Timestamp( System.currentTimeMillis() ));
 			setBenchmarkValue (Env.ZERO);
 			setName (null);
-			setPA_BenchmarkData_ID (0);
 			setPA_Benchmark_ID (0);
+			setPA_BenchmarkData_ID (0);
         } */
     }
 
@@ -161,29 +161,6 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Benchmark Data.
-		@param PA_BenchmarkData_ID 
-		Performance Benchmark Data Point
-	  */
-	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID)
-	{
-		if (PA_BenchmarkData_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, Integer.valueOf(PA_BenchmarkData_ID));
-	}
-
-	/** Get Benchmark Data.
-		@return Performance Benchmark Data Point
-	  */
-	public int getPA_BenchmarkData_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_BenchmarkData_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_PA_Benchmark getPA_Benchmark() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_PA_Benchmark)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PA_Benchmark.Table_Name)
@@ -207,6 +184,29 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
 	public int getPA_Benchmark_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Benchmark_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Benchmark Data.
+		@param PA_BenchmarkData_ID 
+		Performance Benchmark Data Point
+	  */
+	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID)
+	{
+		if (PA_BenchmarkData_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_BenchmarkData_ID, Integer.valueOf(PA_BenchmarkData_ID));
+	}
+
+	/** Get Benchmark Data.
+		@return Performance Benchmark Data Point
+	  */
+	public int getPA_BenchmarkData_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_BenchmarkData_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

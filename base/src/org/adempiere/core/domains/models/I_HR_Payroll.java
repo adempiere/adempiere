@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Payroll 
 {
@@ -131,6 +131,8 @@ public interface I_HR_Payroll
 
 	/** Get Payroll Contract	  */
 	public int getHR_Contract_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Contract getHR_Contract() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";

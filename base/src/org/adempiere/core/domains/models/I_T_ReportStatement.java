@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_ReportStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_ReportStatement 
 {
@@ -43,20 +43,20 @@ public interface I_T_ReportStatement
 
     /** Load Meta Data */
 
-    /** Column name AD_PInstance_ID */
-    public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
 
-	/** Set Process Instance.
-	  * Instance of the process
+	/** Set Account.
+	  * Account used
 	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID);
+	public void setAccount_ID (int Account_ID);
 
-	/** Get Process Instance.
-	  * Instance of the process
+	/** Get Account.
+	  * Account used
 	  */
-	public int getAD_PInstance_ID();
+	public int getAccount_ID();
 
-	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AccountName */
     public static final String COLUMNNAME_AccountName = "AccountName";
@@ -93,20 +93,20 @@ public interface I_T_ReportStatement
 	  */
 	public String getAccountValue();
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
+    /** Column name AD_PInstance_ID */
+    public static final String COLUMNNAME_AD_PInstance_ID = "AD_PInstance_ID";
 
-	/** Set Account.
-	  * Account used
+	/** Set Process Instance.
+	  * Instance of the process
 	  */
-	public void setAccount_ID (int Account_ID);
+	public void setAD_PInstance_ID (int AD_PInstance_ID);
 
-	/** Get Account.
-	  * Account used
+	/** Get Process Instance.
+	  * Instance of the process
 	  */
-	public int getAccount_ID();
+	public int getAD_PInstance_ID();
 
-	public org.adempiere.core.domains.models.I_C_ElementValue getAccount() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";

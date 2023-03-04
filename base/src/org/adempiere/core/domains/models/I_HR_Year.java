@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Year 
 {
@@ -64,6 +64,21 @@ public interface I_HR_Year
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Year_ID */
+    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
+
+	/** Set Year.
+	  * Calendar Year
+	  */
+	public void setC_Year_ID (int C_Year_ID);
+
+	/** Get Year.
+	  * Calendar Year
+	  */
+	public int getC_Year_ID();
+
+	public org.adempiere.core.domains.models.I_C_Year getC_Year() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -80,21 +95,6 @@ public interface I_HR_Year
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.adempiere.core.domains.models.I_C_Year getC_Year() throws RuntimeException;
-
     /** Column name HR_Calendar_ID */
     public static final String COLUMNNAME_HR_Calendar_ID = "HR_Calendar_ID";
 
@@ -104,6 +104,8 @@ public interface I_HR_Year
 	/** Get Human Resource Calendar	  */
 	public int getHR_Calendar_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Calendar getHR_Calendar() throws RuntimeException;
+
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
@@ -112,6 +114,8 @@ public interface I_HR_Year
 
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name HR_Year_ID */
     public static final String COLUMNNAME_HR_Year_ID = "HR_Year_ID";

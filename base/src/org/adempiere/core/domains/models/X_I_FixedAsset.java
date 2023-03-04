@@ -22,21 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_I_FixedAsset;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for I_FixedAsset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_FixedAsset (Properties ctx, int I_FixedAsset_ID, String trxName)
@@ -119,6 +120,11 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Class getA_Asset_Class() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Class)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Class.Table_Name)
+			.getPO(getA_Asset_Class_ID(), get_TrxName());	}
+
 	/** Set Asset class.
 		@param A_Asset_Class_ID Asset class	  */
 	public void setA_Asset_Class_ID (int A_Asset_Class_ID)
@@ -173,6 +179,11 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return bd;
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
+
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
 		Group of Assets
@@ -210,6 +221,11 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Asset_Group_Value);
 	}
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers
@@ -232,6 +248,11 @@ public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset_Type getA_Asset_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Type.Table_Name)
+			.getPO(getA_Asset_Type_ID(), get_TrxName());	}
 
 	/** Set Asset Type.
 		@param A_Asset_Type_ID Asset Type	  */

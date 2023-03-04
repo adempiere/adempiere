@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_PP_MRP (Properties ctx, int PP_MRP_ID, String trxName)
@@ -367,6 +369,11 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
 	}
 
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Order.Table_Name)
+			.getPO(getDD_Order_ID(), get_TrxName());	}
+
 	/** Set Distribution Order.
 		@param DD_Order_ID Distribution Order	  */
 	public void setDD_Order_ID (int DD_Order_ID)
@@ -386,6 +393,11 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_OrderLine getDD_OrderLine() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_OrderLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_OrderLine.Table_Name)
+			.getPO(getDD_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Distribution Order Line.
 		@param DD_OrderLine_ID Distribution Order Line	  */

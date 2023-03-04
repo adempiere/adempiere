@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,27 +12,30 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_NotificationQueue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220119L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_AD_NotificationQueue (Properties ctx, int AD_NotificationQueue_ID, String trxName)
@@ -214,32 +217,6 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Social Media = SMN */
 	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
-	/** Fiscal Printer = FPR */
-	public static final String APPLICATIONTYPE_FiscalPrinter = "FPR";
-	/** Domain Service = DMS */
-	public static final String APPLICATIONTYPE_DomainService = "DMS";
-	/** Hosting Service = HSS */
-	public static final String APPLICATIONTYPE_HostingService = "HSS";
-	/** Database Service = DBS */
-	public static final String APPLICATIONTYPE_DatabaseService = "DBS";
-	/** ADempiere Service = ADS */
-	public static final String APPLICATIONTYPE_ADempiereService = "ADS";
-	/** Record Weight Service = RWS */
-	public static final String APPLICATIONTYPE_RecordWeightService = "RWS";
-	/** Fiscal Printer Service = FPS */
-	public static final String APPLICATIONTYPE_FiscalPrinterService = "FPS";
-	/** Monitor Service = MNS */
-	public static final String APPLICATIONTYPE_MonitorService = "MNS";
-	/** Local Server = SRV */
-	public static final String APPLICATIONTYPE_LocalServer = "SRV";
-	/** Kubernete Cluster = KBC */
-	public static final String APPLICATIONTYPE_KuberneteCluster = "KBC";
-	/** Travel Terminal Service = TIF */
-	public static final String APPLICATIONTYPE_TravelTerminalService = "TIF";
-	/** Docker Image = DKI */
-	public static final String APPLICATIONTYPE_DockerImage = "DKI";
-	/** Currency Rate Provider = CRP */
-	public static final String APPLICATIONTYPE_CurrencyRateProvider = "CRP";
 	/** Cache Server Provider = CSP */
 	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
 	/** EMail = EMA */
@@ -264,10 +241,10 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
 	/** YouTube = SYT */
 	public static final String APPLICATIONTYPE_YouTube = "SYT";
-	/** Weight Scale Reader = WSR */
-	public static final String APPLICATIONTYPE_WeightScaleReader = "WSR";
-	/** Print Queue = PQS */
-	public static final String APPLICATIONTYPE_PrintQueue = "PQS";
+	/** Discord = SDC */
+	public static final String APPLICATIONTYPE_Discord = "SDC";
+	/** Open ID Connect Authentication = OIA */
+	public static final String APPLICATIONTYPE_OpenIDConnectAuthentication = "OIA";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue
@@ -382,15 +359,18 @@ public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue
 		return (String)get_Value(COLUMNNAME_ResponseHandler);
 	}
 
-	/** Set Description.
-		@param Text Description	  */
+	/** Set Text Message.
+		@param Text 
+		This field allows define a text message with a text very long
+	  */
 	public void setText (String Text)
 	{
 		set_Value (COLUMNNAME_Text, Text);
 	}
 
-	/** Get Description.
-		@return Description	  */
+	/** Get Text Message.
+		@return This field allows define a text message with a text very long
+	  */
 	public String getText () 
 	{
 		return (String)get_Value(COLUMNNAME_Text);

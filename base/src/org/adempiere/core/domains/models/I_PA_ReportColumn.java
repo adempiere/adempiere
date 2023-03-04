@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_ReportColumn
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_PA_ReportColumn 
 {
@@ -51,6 +51,19 @@ public interface I_PA_ReportColumn
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +78,6 @@ public interface I_PA_ReportColumn
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -642,6 +642,34 @@ public interface I_PA_ReportColumn
 
 	public org.adempiere.core.domains.models.I_AD_Org getOrg() throws RuntimeException;
 
+    /** Column name PA_ReportColumn_ID */
+    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
+
+	/** Set Report Column.
+	  * Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
+
+	/** Get Report Column.
+	  * Column in Report
+	  */
+	public int getPA_ReportColumn_ID();
+
+    /** Column name PA_ReportColumnSet_ID */
+    public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
+
+	/** Set Report Column Set.
+	  * Collection of Columns for Report
+	  */
+	public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID);
+
+	/** Get Report Column Set.
+	  * Collection of Columns for Report
+	  */
+	public int getPA_ReportColumnSet_ID();
+
+	public org.adempiere.core.domains.models.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
+
     /** Column name PAAmountType */
     public static final String COLUMNNAME_PAAmountType = "PAAmountType";
 
@@ -667,34 +695,6 @@ public interface I_PA_ReportColumn
 	  * PA Period Type
 	  */
 	public String getPAPeriodType();
-
-    /** Column name PA_ReportColumnSet_ID */
-    public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
-
-	/** Set Report Column Set.
-	  * Collection of Columns for Report
-	  */
-	public void setPA_ReportColumnSet_ID (int PA_ReportColumnSet_ID);
-
-	/** Get Report Column Set.
-	  * Collection of Columns for Report
-	  */
-	public int getPA_ReportColumnSet_ID();
-
-	public org.adempiere.core.domains.models.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
-
-    /** Column name PA_ReportColumn_ID */
-    public static final String COLUMNNAME_PA_ReportColumn_ID = "PA_ReportColumn_ID";
-
-	/** Set Report Column.
-	  * Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID);
-
-	/** Get Report Column.
-	  * Column in Report
-	  */
-	public int getPA_ReportColumn_ID();
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -749,19 +749,6 @@ public interface I_PA_ReportColumn
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -864,4 +851,17 @@ public interface I_PA_ReportColumn
 	  * User defined accounting Element
 	  */
 	public int getUserElement2_ID();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -20,7 +20,6 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -29,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220909L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -287,6 +286,11 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Relationship getHR_Relationship() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Relationship)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Relationship.Table_Name)
+			.getPO(getHR_Relationship_ID(), get_TrxName());	}
+
 	/** Set Employee Relationship.
 		@param HR_Relationship_ID 
 		Employee Relationship Identifies an employee relations
@@ -308,23 +312,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Invoice Address.
@@ -397,6 +384,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.
@@ -473,7 +477,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 
 	/** Set Map URL.
 		@param MapURL 
-		Location Map URL.
+		Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location
 	  */
 	public void setMapURL (String MapURL)
 	{
@@ -481,7 +485,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	}
 
 	/** Get Map URL.
-		@return Location Map URL.
+		@return Location Map URL, use like this format https://maps.google.com/?q=latitude,longitude to synchronize Latitude and Longitude in the Location
 	  */
 	public String getMapURL () 
 	{

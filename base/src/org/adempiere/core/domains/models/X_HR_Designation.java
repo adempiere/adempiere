@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Designation
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Designation extends PO implements I_HR_Designation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Designation (Properties ctx, int HR_Designation_ID, String trxName)
@@ -115,6 +117,11 @@ public class X_HR_Designation extends PO implements I_HR_Designation, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_EmployeeType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_EmployeeType.Table_Name)
+			.getPO(getHR_EmployeeType_ID(), get_TrxName());	}
+
 	/** Set Employee Type.
 		@param HR_EmployeeType_ID 
 		Employee Type
@@ -138,6 +145,11 @@ public class X_HR_Designation extends PO implements I_HR_Designation, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Payroll)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
+
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
@@ -157,6 +169,11 @@ public class X_HR_Designation extends PO implements I_HR_Designation, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_SalaryStructure)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_SalaryStructure.Table_Name)
+			.getPO(getHR_SalaryStructure_ID(), get_TrxName());	}
 
 	/** Set Salary Structure.
 		@param HR_SalaryStructure_ID 

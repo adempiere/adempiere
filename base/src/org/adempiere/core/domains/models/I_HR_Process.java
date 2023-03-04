@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Process 
 {
@@ -214,6 +214,21 @@ public interface I_HR_Process
 
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -229,21 +244,6 @@ public interface I_HR_Process
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -306,6 +306,8 @@ public interface I_HR_Process
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
+
     /** Column name HR_Employee_ID */
     public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
 
@@ -314,6 +316,8 @@ public interface I_HR_Process
 
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
@@ -324,6 +328,8 @@ public interface I_HR_Process
 	/** Get Payroll Job	  */
 	public int getHR_Job_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException;
+
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
@@ -333,6 +339,8 @@ public interface I_HR_Process
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+
     /** Column name HR_Period_ID */
     public static final String COLUMNNAME_HR_Period_ID = "HR_Period_ID";
 
@@ -341,6 +349,8 @@ public interface I_HR_Process
 
 	/** Get Payroll Period	  */
 	public int getHR_Period_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Period getHR_Period() throws RuntimeException;
 
     /** Column name HR_Process_ID */
     public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
@@ -437,6 +447,8 @@ public interface I_HR_Process
 	  * ID of document reversal
 	  */
 	public int getReversal_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Process getReversal() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

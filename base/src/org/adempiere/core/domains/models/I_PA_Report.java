@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_PA_Report 
 {
@@ -64,17 +64,6 @@ public interface I_PA_Report
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_PrintFormatHeader_ID */
-    public static final String COLUMNNAME_AD_PrintFormatHeader_ID = "AD_PrintFormatHeader_ID";
-
-	/** Set Header Print Format	  */
-	public void setAD_PrintFormatHeader_ID (int AD_PrintFormatHeader_ID);
-
-	/** Get Header Print Format	  */
-	public int getAD_PrintFormatHeader_ID();
-
-	public org.adempiere.core.domains.models.I_AD_PrintFormat getAD_PrintFormatHeader() throws RuntimeException;
-
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -89,6 +78,17 @@ public interface I_PA_Report
 	public int getAD_PrintFormat_ID();
 
 	public org.adempiere.core.domains.models.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+
+    /** Column name AD_PrintFormatHeader_ID */
+    public static final String COLUMNNAME_AD_PrintFormatHeader_ID = "AD_PrintFormatHeader_ID";
+
+	/** Set Header Print Format	  */
+	public void setAD_PrintFormatHeader_ID (int AD_PrintFormatHeader_ID);
+
+	/** Get Header Print Format	  */
+	public int getAD_PrintFormatHeader_ID();
+
+	public org.adempiere.core.domains.models.I_AD_PrintFormat getAD_PrintFormatHeader() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -225,6 +225,19 @@ public interface I_PA_Report
 	  */
 	public String getName();
 
+    /** Column name PA_Report_ID */
+    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
+
+	/** Set Financial Report.
+	  * Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID);
+
+	/** Get Financial Report.
+	  * Financial Report
+	  */
+	public int getPA_Report_ID();
+
     /** Column name PA_ReportColumnSet_ID */
     public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 
@@ -266,19 +279,6 @@ public interface I_PA_Report
 
 	public org.adempiere.core.domains.models.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
-    /** Column name PA_Report_ID */
-    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
-
-	/** Set Financial Report.
-	  * Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID);
-
-	/** Get Financial Report.
-	  * Financial Report
-	  */
-	public int getPA_Report_ID();
-
     /** Column name PosPeriodName */
     public static final String COLUMNNAME_PosPeriodName = "PosPeriodName";
 
@@ -306,19 +306,6 @@ public interface I_PA_Report
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -334,4 +321,17 @@ public interface I_PA_Report
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

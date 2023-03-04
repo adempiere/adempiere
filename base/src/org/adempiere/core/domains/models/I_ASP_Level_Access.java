@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,35 +12,34 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for X_AuthorityType
+/** Generated Interface for ASP_Level_Access
  *  @author Adempiere (generated) 
- *  @version 1.03
+ *  @version Release 3.9.4
  */
-public interface I_X_AuthorityType 
+public interface I_ASP_Level_Access 
 {
 
-    /** TableName=X_AuthorityType */
-    public static final String Table_Name = "X_AuthorityType";
+    /** TableName=ASP_Level_Access */
+    public static final String Table_Name = "ASP_Level_Access";
 
-    /** AD_Table_ID=1000116 */
+    /** AD_Table_ID=54851 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 3 - Client - Org 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(3);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -54,15 +54,41 @@ public interface I_X_AuthorityType
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Organisation.
-	  * Organisational entity within client
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
 	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Organisation.
-	  * Organisational entity within client
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Role_ID */
+    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+
+	/** Set Role.
+	  * Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID);
+
+	/** Get Role.
+	  * Responsibility Role
+	  */
+	public int getAD_Role_ID();
+
+	public org.adempiere.core.domains.models.I_AD_Role getAD_Role() throws RuntimeException;
+
+    /** Column name ASP_Level_ID */
+    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
+
+	/** Set ASP Level	  */
+	public void setASP_Level_ID (int ASP_Level_ID);
+
+	/** Get ASP Level	  */
+	public int getASP_Level_ID();
+
+	public org.adempiere.core.domains.models.I_ASP_Level getASP_Level() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -93,19 +119,6 @@ public interface I_X_AuthorityType
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -122,12 +135,16 @@ public interface I_X_AuthorityType
 	  */
 	public int getUpdatedBy();
 
-    /** Column name X_AuthorityType_ID */
-    public static final String COLUMNNAME_X_AuthorityType_ID = "X_AuthorityType_ID";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set AuthorityType	  */
-	public void setX_AuthorityType_ID (int X_AuthorityType_ID);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get AuthorityType	  */
-	public int getX_AuthorityType_ID();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

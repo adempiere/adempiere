@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_ProjectLine (Properties ctx, int C_ProjectLine_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
       super (ctx, C_ProjectLine_ID, trxName);
       /** if (C_ProjectLine_ID == 0)
         {
-			setC_ProjectLine_ID (0);
 			setC_Project_ID (0);
+			setC_ProjectLine_ID (0);
 			setInvoicedAmt (Env.ZERO);
 			setInvoicedQty (Env.ZERO);
 // 0
@@ -120,6 +120,34 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_C_Order getC_OrderPO() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Order.Table_Name)
@@ -148,29 +176,29 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_C_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
+		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
 
-	/** Set Order.
-		@param C_Order_ID 
-		Order
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
 	  */
-	public void setC_Order_ID (int C_Order_ID)
+	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, null);
+		if (C_Project_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
-	/** Get Order.
-		@return Order
+	/** Get Project.
+		@return Financial Project
 	  */
-	public int getC_Order_ID () 
+	public int getC_Project_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -278,34 +306,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_Project)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -576,62 +576,6 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_PP_Order getPP_Order() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PP_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Order.Table_Name)
-			.getPO(getPP_Order_ID(), get_TrxName());	}
-
-	/** Set Manufacturing Order.
-		@param PP_Order_ID 
-		Manufacturing Order
-	  */
-	public void setPP_Order_ID (int PP_Order_ID)
-	{
-		if (PP_Order_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
-	}
-
-	/** Get Manufacturing Order.
-		@return Manufacturing Order
-	  */
-	public int getPP_Order_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_PP_Product_BOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Product_BOM.Table_Name)
-			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
-
-	/** Set BOM & Formula.
-		@param PP_Product_BOM_ID 
-		BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
-	{
-		if (PP_Product_BOM_ID < 1) 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
-	}
-
-	/** Get BOM & Formula.
-		@return BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Planned Amount.
 		@param PlannedAmt 
 		Planned amount for this project
@@ -710,6 +654,62 @@ public class X_C_ProjectLine extends PO implements I_C_ProjectLine, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.adempiere.core.domains.models.I_PP_Order getPP_Order() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PP_Order)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Order.Table_Name)
+			.getPO(getPP_Order_ID(), get_TrxName());	}
+
+	/** Set Manufacturing Order.
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID)
+	{
+		if (PP_Order_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_ID, Integer.valueOf(PP_Order_ID));
+	}
+
+	/** Get Manufacturing Order.
+		@return Manufacturing Order
+	  */
+	public int getPP_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_PP_Product_BOM)MTable.get(getCtx(), org.adempiere.core.domains.models.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Processed.

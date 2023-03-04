@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -27,14 +27,14 @@ import org.compiere.model.POInfo;
 
 /** Generated Model for CM_AccessListBPGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_CM_AccessListBPGroup (Properties ctx, int CM_AccessListBPGroup_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       super (ctx, CM_AccessListBPGroup_ID, trxName);
       /** if (CM_AccessListBPGroup_ID == 0)
         {
-			setCM_AccessProfile_ID (0);
 			setC_BP_Group_ID (0);
+			setCM_AccessProfile_ID (0);
         } */
     }
 
@@ -75,34 +75,6 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       return sb.toString();
     }
 
-	public org.adempiere.core.domains.models.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_CM_AccessProfile)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_AccessProfile.Table_Name)
-			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
-
-	/** Set Web Access Profile.
-		@param CM_AccessProfile_ID 
-		Web Access Profile
-	  */
-	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
-	{
-		if (CM_AccessProfile_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
-	}
-
-	/** Get Web Access Profile.
-		@return Web Access Profile
-	  */
-	public int getCM_AccessProfile_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_BP_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BP_Group.Table_Name)
@@ -126,6 +98,34 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_CM_AccessProfile)MTable.get(getCtx(), org.adempiere.core.domains.models.I_CM_AccessProfile.Table_Name)
+			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
+
+	/** Set Web Access Profile.
+		@param CM_AccessProfile_ID 
+		Web Access Profile
+	  */
+	public void setCM_AccessProfile_ID (int CM_AccessProfile_ID)
+	{
+		if (CM_AccessProfile_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_AccessProfile_ID, Integer.valueOf(CM_AccessProfile_ID));
+	}
+
+	/** Get Web Access Profile.
+		@return Web Access Profile
+	  */
+	public int getCM_AccessProfile_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

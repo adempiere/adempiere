@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_I_Payment extends PO implements I_I_Payment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_I_Payment (Properties ctx, int I_Payment_ID, String trxName)
@@ -248,23 +248,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
 	/** Set Bank Account No.
 		@param BankAccountNo 
 		Bank Account Number
@@ -282,32 +265,21 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_BankAccountNo);
 	}
 
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
+	public void setBPartnerValue (String BPartnerValue)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
 	}
 
-	/** Get Business Partner .
-		@return Identifies a Business Partner
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
 	  */
-	public int getC_BPartner_ID () 
+	public String getBPartnerValue () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
 	}
 
 	public org.adempiere.core.domains.models.I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -333,6 +305,34 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -728,23 +728,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Import Error Message.
 		@param I_ErrorMsg 
 		Messages generated from import process
@@ -874,6 +857,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return false;
 	}
 
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
 	/** Set Over/Under Payment.
 		@param IsOverUnderPayment 
 		Over-Payment (unallocated) or Under-Payment (partial payment)
@@ -1000,23 +1000,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return bd;
 	}
 
-	/** Set PO Number.
-		@param PONum 
-		Purchase Order Number
-	  */
-	public void setPONum (String PONum)
-	{
-		set_Value (COLUMNNAME_PONum, PONum);
-	}
-
-	/** Get PO Number.
-		@return Purchase Order Number
-	  */
-	public String getPONum () 
-	{
-		return (String)get_Value(COLUMNNAME_PONum);
-	}
-
 	/** Set Payment amount.
 		@param PayAmt 
 		Amount being paid
@@ -1035,6 +1018,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set PO Number.
+		@param PONum 
+		Purchase Order Number
+	  */
+	public void setPONum (String PONum)
+	{
+		set_Value (COLUMNNAME_PONum, PONum);
+	}
+
+	/** Get PO Number.
+		@return Purchase Order Number
+	  */
+	public String getPONum () 
+	{
+		return (String)get_Value(COLUMNNAME_PONum);
 	}
 
 	/** Set Processed.
@@ -1237,6 +1237,10 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public static final String TENDERTYPE_Cash = "X";
 	/** Credit Memo = M */
 	public static final String TENDERTYPE_CreditMemo = "M";
+	/** Zelle = Z */
+	public static final String TENDERTYPE_Zelle = "Z";
+	/** Mobile Payment Interbank = P */
+	public static final String TENDERTYPE_MobilePaymentInterbank = "P";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment

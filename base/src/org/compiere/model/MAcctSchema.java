@@ -89,20 +89,20 @@ public class MAcctSchema extends X_C_AcctSchema
 	/**
 	 *  Get AccountSchema of Client
 	 * 	@param ctx context
-	 *  @param AD_Client_ID client or 0 for all
+	 *  @param clientId client or 0 for all
 	 *  @param trxName optional trx 
 	 *  @return Array of AcctSchema of Client
 	 */
-	public static MAcctSchema[] getClientAcctSchema (Properties ctx, int AD_Client_ID, String trxName)
+	public static MAcctSchema[] getClientAcctSchema (Properties ctx, int clientId, String trxName)
 	{
 		//  Check Cache
-		Integer key = Integer.valueOf(AD_Client_ID);
+		Integer key = Integer.valueOf(clientId);
 		if (s_schema.containsKey(key))
 			return (MAcctSchema[])s_schema.get(key);
 
 		//  Create New
 		ArrayList<MAcctSchema> list = new ArrayList<MAcctSchema>();
-		MClientInfo info = MClientInfo.get(ctx, AD_Client_ID);
+		MClientInfo info = MClientInfo.get(ctx, clientId, trxName);
 		MAcctSchema as = MAcctSchema.get (ctx, info.getC_AcctSchema1_ID(), trxName);
 		if (as.get_ID() != 0)
 			list.add(as);
@@ -112,10 +112,10 @@ public class MAcctSchema extends X_C_AcctSchema
 			+ " AND EXISTS (SELECT * FROM C_AcctSchema_GL gl WHERE C_AcctSchema.C_AcctSchema_ID=gl.C_AcctSchema_ID)"
 			+ " AND EXISTS (SELECT * FROM C_AcctSchema_Default d WHERE C_AcctSchema.C_AcctSchema_ID=d.C_AcctSchema_ID)"; 
 			params.add("Y");
-		if (AD_Client_ID != 0)
+		if (clientId != 0)
 		{	
 			whereClause += " AND AD_Client_ID=?";
-			params.add(AD_Client_ID);
+			params.add(clientId);
 		}	
 		
 		List <MAcctSchema> ass = new Query(ctx, I_C_AcctSchema.Table_Name,whereClause,trxName)
@@ -679,7 +679,7 @@ public class MAcctSchema extends X_C_AcctSchema
 		//	Check Primary
 		if (getAD_OrgOnly_ID() != 0)
 		{
-			MClientInfo info = MClientInfo.get(getCtx(), getAD_Client_ID());
+			MClientInfo info = MClientInfo.get(getCtx(), getAD_Client_ID(), get_TrxName());
 			if (info.getC_AcctSchema1_ID() == getC_AcctSchema_ID())
 				setAD_OrgOnly_ID(0);
 		}

@@ -21,21 +21,23 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ListLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_ListLine (Properties ctx, int HR_ListLine_ID, String trxName)
@@ -232,6 +234,11 @@ public class X_HR_ListLine extends PO implements I_HR_ListLine, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_ListVersion getHR_ListVersion() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_ListVersion)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_ListVersion.Table_Name)
+			.getPO(getHR_ListVersion_ID(), get_TrxName());	}
 
 	/** Set Payroll List Version.
 		@param HR_ListVersion_ID Payroll List Version	  */

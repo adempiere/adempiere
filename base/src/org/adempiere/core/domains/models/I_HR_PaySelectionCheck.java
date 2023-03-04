@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_PaySelectionCheck 
 {
@@ -64,21 +64,6 @@ public interface I_HR_PaySelectionCheck
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
@@ -93,6 +78,21 @@ public interface I_HR_PaySelectionCheck
 	public int getC_BP_BankAccount_ID();
 
 	public org.adempiere.core.domains.models.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -151,15 +151,6 @@ public interface I_HR_PaySelectionCheck
 	  */
 	public String getDocumentNo();
 
-    /** Column name HR_PaySelectionCheck_ID */
-    public static final String COLUMNNAME_HR_PaySelectionCheck_ID = "HR_PaySelectionCheck_ID";
-
-	/** Set Payroll Pay Selection Check ID	  */
-	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID);
-
-	/** Get Payroll Pay Selection Check ID	  */
-	public int getHR_PaySelectionCheck_ID();
-
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
 
@@ -168,6 +159,17 @@ public interface I_HR_PaySelectionCheck
 
 	/** Get Payroll Payment Selection ID	  */
 	public int getHR_PaySelection_ID();
+
+	public org.adempiere.core.domains.models.I_HR_PaySelection getHR_PaySelection() throws RuntimeException;
+
+    /** Column name HR_PaySelectionCheck_ID */
+    public static final String COLUMNNAME_HR_PaySelectionCheck_ID = "HR_PaySelectionCheck_ID";
+
+	/** Set Payroll Pay Selection Check ID	  */
+	public void setHR_PaySelectionCheck_ID (int HR_PaySelectionCheck_ID);
+
+	/** Get Payroll Pay Selection Check ID	  */
+	public int getHR_PaySelectionCheck_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

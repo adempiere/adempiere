@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -28,14 +28,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_W_Counter extends PO implements I_W_Counter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
@@ -79,6 +79,23 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
       return sb.toString();
     }
 
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
+	}
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -100,23 +117,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.
@@ -233,6 +233,23 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_Remote_Host);
 	}
 
+	/** Set User Agent.
+		@param UserAgent 
+		Browser Used
+	  */
+	public void setUserAgent (String UserAgent)
+	{
+		set_Value (COLUMNNAME_UserAgent, UserAgent);
+	}
+
+	/** Get User Agent.
+		@return Browser Used
+	  */
+	public String getUserAgent () 
+	{
+		return (String)get_Value(COLUMNNAME_UserAgent);
+	}
+
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -250,21 +267,27 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	/** Set User Agent.
-		@param UserAgent 
-		Browser Used
+	/** Set Web Counter.
+		@param W_Counter_ID 
+		Individual Count hit
 	  */
-	public void setUserAgent (String UserAgent)
+	public void setW_Counter_ID (int W_Counter_ID)
 	{
-		set_Value (COLUMNNAME_UserAgent, UserAgent);
+		if (W_Counter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
 	}
 
-	/** Get User Agent.
-		@return Browser Used
+	/** Get Web Counter.
+		@return Individual Count hit
 	  */
-	public String getUserAgent () 
+	public int getW_Counter_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_UserAgent);
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Counter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.adempiere.core.domains.models.I_W_CounterCount getW_CounterCount() throws RuntimeException
@@ -290,29 +313,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	public int getW_CounterCount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_CounterCount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Web Counter.
-		@param W_Counter_ID 
-		Individual Count hit
-	  */
-	public void setW_Counter_ID (int W_Counter_ID)
-	{
-		if (W_Counter_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
-	}
-
-	/** Get Web Counter.
-		@return Individual Count hit
-	  */
-	public int getW_Counter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_Counter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

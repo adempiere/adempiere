@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_T_Transaction 
 {
@@ -79,21 +79,6 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
-    /** Column name C_ProjectIssue_ID */
-    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
-
-	/** Set Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
-
-	/** Get Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID();
-
-	public org.adempiere.core.domains.models.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -108,6 +93,21 @@ public interface I_T_Transaction
 	public int getC_Project_ID();
 
 	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_ProjectIssue_ID */
+    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
+
+	/** Set Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
+
+	/** Get Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID();
+
+	public org.adempiere.core.domains.models.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -153,21 +153,6 @@ public interface I_T_Transaction
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
-    /** Column name M_InOutLine_ID */
-    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
-
-	/** Set Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public void setM_InOutLine_ID (int M_InOutLine_ID);
-
-	/** Get Shipment/Receipt Line.
-	  * Line on Shipment or Receipt document
-	  */
-	public int getM_InOutLine_ID();
-
-	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException;
-
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -183,20 +168,20 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException;
 
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
 
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public int getM_InventoryLine_ID();
+	public int getM_InOutLine_ID();
 
-	public org.adempiere.core.domains.models.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
@@ -213,6 +198,21 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_M_Inventory getM_Inventory() throws RuntimeException;
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -227,21 +227,6 @@ public interface I_T_Transaction
 	public int getM_Locator_ID();
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
-
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
-
-	/** Set Move Line.
-	  * Inventory Move document Line
-	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
-
-	/** Get Move Line.
-	  * Inventory Move document Line
-	  */
-	public int getM_MovementLine_ID();
-
-	public org.adempiere.core.domains.models.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -258,6 +243,21 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_M_Movement getM_Movement() throws RuntimeException;
 
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_MovementLine getM_MovementLine() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -273,21 +273,6 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_ProductionLine_ID */
-    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
-
-	/** Set Production Line.
-	  * Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
-
-	/** Get Production Line.
-	  * Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID();
-
-	public org.adempiere.core.domains.models.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
-
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 
@@ -302,6 +287,21 @@ public interface I_T_Transaction
 	public int getM_Production_ID();
 
 	public org.adempiere.core.domains.models.I_M_Production getM_Production() throws RuntimeException;
+
+    /** Column name M_ProductionLine_ID */
+    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
+
+	/** Set Production Line.
+	  * Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
+
+	/** Get Production Line.
+	  * Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID();
+
+	public org.adempiere.core.domains.models.I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
 
     /** Column name M_Transaction_ID */
     public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
@@ -398,19 +398,6 @@ public interface I_T_Transaction
 
 	public org.adempiere.core.domains.models.I_C_Order getSearch_Order() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -426,4 +413,17 @@ public interface I_T_Transaction
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

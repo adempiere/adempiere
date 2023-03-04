@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -20,7 +21,6 @@ package org.adempiere.core.domains.models;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -30,14 +30,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_M_Product_Category extends PO implements I_M_Product_Category, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_M_Product_Category (Properties ctx, int M_Product_Category_ID, String trxName)
@@ -48,9 +48,9 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 			setIsDefault (false);
 			setIsSelfService (true);
 // Y
+			setM_Product_Category_ID (0);
 			setMMPolicy (null);
 // F
-			setM_Product_Category_ID (0);
 			setName (null);
 			setPlannedMargin (Env.ZERO);
 			setValue (null);
@@ -85,6 +85,34 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset_Group)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
+
+	/** Set Asset Group.
+		@param A_Asset_Group_ID 
+		Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
+	{
+		if (A_Asset_Group_ID < 1) 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
+	}
+
+	/** Get Asset Group.
+		@return Group of Assets
+	  */
+	public int getA_Asset_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_AD_PrintColor)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_PrintColor.Table_Name)
@@ -108,29 +136,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 	public int getAD_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Asset Group.
-		@param A_Asset_Group_ID 
-		Group of Assets
-	  */
-	public void setA_Asset_Group_ID (int A_Asset_Group_ID)
-	{
-		if (A_Asset_Group_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_A_Asset_Group_ID, Integer.valueOf(A_Asset_Group_ID));
-	}
-
-	/** Get Asset Group.
-		@return Group of Assets
-	  */
-	public int getA_Asset_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -201,30 +206,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return false;
 	}
 
-	/** MMPolicy AD_Reference_ID=335 */
-	public static final int MMPOLICY_AD_Reference_ID=335;
-	/** LiFo = L */
-	public static final String MMPOLICY_LiFo = "L";
-	/** FiFo = F */
-	public static final String MMPOLICY_FiFo = "F";
-	/** Set Material Policy.
-		@param MMPolicy 
-		Material Movement Policy
-	  */
-	public void setMMPolicy (String MMPolicy)
-	{
-
-		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
-	}
-
-	/** Get Material Policy.
-		@return Material Movement Policy
-	  */
-	public String getMMPolicy () 
-	{
-		return (String)get_Value(COLUMNNAME_MMPolicy);
-	}
-
 	/** Set Product Category.
 		@param M_Product_Category_ID 
 		Category of a Product
@@ -271,6 +252,30 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** MMPolicy AD_Reference_ID=335 */
+	public static final int MMPOLICY_AD_Reference_ID=335;
+	/** LiFo = L */
+	public static final String MMPOLICY_LiFo = "L";
+	/** FiFo = F */
+	public static final String MMPOLICY_FiFo = "F";
+	/** Set Material Policy.
+		@param MMPolicy 
+		Material Movement Policy
+	  */
+	public void setMMPolicy (String MMPolicy)
+	{
+
+		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
+	}
+
+	/** Get Material Policy.
+		@return Material Movement Policy
+	  */
+	public String getMMPolicy () 
+	{
+		return (String)get_Value(COLUMNNAME_MMPolicy);
 	}
 
 	/** Set Name.

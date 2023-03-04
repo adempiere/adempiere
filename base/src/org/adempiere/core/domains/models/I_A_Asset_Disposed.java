@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Disposed 
 {
@@ -105,6 +105,8 @@ public interface I_A_Asset_Disposed
 	  */
 	public int getA_Asset_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_Asset_Status */
     public static final String COLUMNNAME_A_Asset_Status = "A_Asset_Status";
 
@@ -123,13 +125,7 @@ public interface I_A_Asset_Disposed
 	/** Get Asset Trade	  */
 	public int getA_Asset_Trade_ID();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset_Trade() throws RuntimeException;
 
     /** Column name A_Disposal_Amt */
     public static final String COLUMNNAME_A_Disposal_Amt = "A_Disposal_Amt";
@@ -167,6 +163,23 @@ public interface I_A_Asset_Disposed
 	/** Get Disposed Reason	  */
 	public String getA_Disposed_Reason();
 
+    /** Column name A_Proceeds */
+    public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
+
+	/** Set Asset Proceeds	  */
+	public void setA_Proceeds (BigDecimal A_Proceeds);
+
+	/** Get Asset Proceeds	  */
+	public BigDecimal getA_Proceeds();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -179,15 +192,6 @@ public interface I_A_Asset_Disposed
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Proceeds */
-    public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
-
-	/** Set Asset Proceeds	  */
-	public void setA_Proceeds (BigDecimal A_Proceeds);
-
-	/** Get Asset Proceeds	  */
-	public BigDecimal getA_Proceeds();
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";

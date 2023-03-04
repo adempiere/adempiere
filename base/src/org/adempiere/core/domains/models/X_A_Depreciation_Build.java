@@ -21,21 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_Depreciation_Build;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Build
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Build (Properties ctx, int A_Depreciation_Build_ID, String trxName)
@@ -103,6 +104,11 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
         return new KeyNamePair(get_ID(), String.valueOf(getA_Depreciation_Build_ID()));
     }
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_End_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_End_Asset_ID(), get_TrxName());	}
+
 	/** Set To Asset.
 		@param A_End_Asset_ID To Asset	  */
 	public void setA_End_Asset_ID (int A_End_Asset_ID)
@@ -122,6 +128,11 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Start_Asset() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Asset)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Asset.Table_Name)
+			.getPO(getA_Start_Asset_ID(), get_TrxName());	}
 
 	/** Set From Asset.
 		@param A_Start_Asset_ID From Asset	  */

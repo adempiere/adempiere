@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_InOutConfirm 
 {
@@ -92,19 +92,6 @@ public interface I_M_InOutConfirm
 
 	public org.adempiere.core.domains.models.I_C_Invoice getC_Invoice() throws RuntimeException;
 
-    /** Column name ConfirmType */
-    public static final String COLUMNNAME_ConfirmType = "ConfirmType";
-
-	/** Set Confirmation Type.
-	  * Type of confirmation
-	  */
-	public void setConfirmType (String ConfirmType);
-
-	/** Get Confirmation Type.
-	  * Type of confirmation
-	  */
-	public String getConfirmType();
-
     /** Column name ConfirmationNo */
     public static final String COLUMNNAME_ConfirmationNo = "ConfirmationNo";
 
@@ -118,14 +105,18 @@ public interface I_M_InOutConfirm
 	  */
 	public String getConfirmationNo();
 
-    /** Column name CreatePackage */
-    public static final String COLUMNNAME_CreatePackage = "CreatePackage";
+    /** Column name ConfirmType */
+    public static final String COLUMNNAME_ConfirmType = "ConfirmType";
 
-	/** Set Create Package	  */
-	public void setCreatePackage (String CreatePackage);
+	/** Set Confirmation Type.
+	  * Type of confirmation
+	  */
+	public void setConfirmType (String ConfirmType);
 
-	/** Get Create Package	  */
-	public String getCreatePackage();
+	/** Get Confirmation Type.
+	  * Type of confirmation
+	  */
+	public String getConfirmType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -142,6 +133,15 @@ public interface I_M_InOutConfirm
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreatePackage */
+    public static final String COLUMNNAME_CreatePackage = "CreatePackage";
+
+	/** Set Create Package	  */
+	public void setCreatePackage (String CreatePackage);
+
+	/** Get Create Package	  */
+	public String getCreatePackage();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -247,19 +247,6 @@ public interface I_M_InOutConfirm
 	  */
 	public boolean isInDispute();
 
-    /** Column name M_InOutConfirm_ID */
-    public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
-
-	/** Set Ship/Receipt Confirmation.
-	  * Material Shipment or Receipt Confirmation
-	  */
-	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID);
-
-	/** Get Ship/Receipt Confirmation.
-	  * Material Shipment or Receipt Confirmation
-	  */
-	public int getM_InOutConfirm_ID();
-
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -274,6 +261,19 @@ public interface I_M_InOutConfirm
 	public int getM_InOut_ID();
 
 	public org.adempiere.core.domains.models.I_M_InOut getM_InOut() throws RuntimeException;
+
+    /** Column name M_InOutConfirm_ID */
+    public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
+
+	/** Set Ship/Receipt Confirmation.
+	  * Material Shipment or Receipt Confirmation
+	  */
+	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID);
+
+	/** Get Ship/Receipt Confirmation.
+	  * Material Shipment or Receipt Confirmation
+	  */
+	public int getM_InOutConfirm_ID();
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
@@ -312,19 +312,6 @@ public interface I_M_InOutConfirm
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -340,4 +327,17 @@ public interface I_M_InOutConfirm
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

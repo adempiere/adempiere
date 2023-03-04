@@ -19,13 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_R_Request 
 {
@@ -56,6 +55,8 @@ public interface I_R_Request
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -228,45 +229,6 @@ public interface I_R_Request
 
 	public org.adempiere.core.domains.models.I_C_Invoice getC_InvoiceRequest() throws RuntimeException;
 
-    /** Column name CloseDate */
-    public static final String COLUMNNAME_CloseDate = "CloseDate";
-
-	/** Set Close Date.
-	  * Close Date
-	  */
-	public void setCloseDate (Timestamp CloseDate);
-
-	/** Get Close Date.
-	  * Close Date
-	  */
-	public Timestamp getCloseDate();
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
-
-    /** Column name ConfidentialTypeEntry */
-    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
-
-	/** Set Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
-
-	/** Get Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public String getConfidentialTypeEntry();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -356,6 +318,45 @@ public interface I_R_Request
 	public int getC_ProjectTask_ID();
 
 	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
+
+    /** Column name CloseDate */
+    public static final String COLUMNNAME_CloseDate = "CloseDate";
+
+	/** Set Close Date.
+	  * Close Date
+	  */
+	public void setCloseDate (Timestamp CloseDate);
+
+	/** Get Close Date.
+	  * Close Date
+	  */
+	public Timestamp getCloseDate();
+
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
+    /** Column name ConfidentialTypeEntry */
+    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
+
+	/** Set Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
+
+	/** Get Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public String getConfidentialTypeEntry();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -447,6 +448,8 @@ public interface I_R_Request
 	/** Get Distribution Order	  */
 	public int getDD_Order_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Order getDD_Order() throws RuntimeException;
+
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
 
@@ -455,6 +458,8 @@ public interface I_R_Request
 
 	/** Get Distribution Order Line	  */
 	public int getDD_OrderLine_ID();
+
+	public org.adempiere.core.domains.models.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
 
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
@@ -842,45 +847,6 @@ public interface I_R_Request
 
 	public org.adempiere.core.domains.models.I_R_Category getR_Category() throws RuntimeException;
 
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
-
-    /** Column name RequestAmt */
-    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
-
-	/** Set Request Amount.
-	  * Amount associated with this request
-	  */
-	public void setRequestAmt (BigDecimal RequestAmt);
-
-	/** Get Request Amount.
-	  * Amount associated with this request
-	  */
-	public BigDecimal getRequestAmt();
-
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
-
-	/** Set Result.
-	  * Result of the action taken
-	  */
-	public void setResult (String Result);
-
-	/** Get Result.
-	  * Result of the action taken
-	  */
-	public String getResult();
-
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
 
@@ -998,6 +964,45 @@ public interface I_R_Request
 	public int getR_Status_ID();
 
 	public org.adempiere.core.domains.models.I_R_Status getR_Status() throws RuntimeException;
+
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
+
+    /** Column name RequestAmt */
+    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
+
+	/** Set Request Amount.
+	  * Amount associated with this request
+	  */
+	public void setRequestAmt (BigDecimal RequestAmt);
+
+	/** Get Request Amount.
+	  * Amount associated with this request
+	  */
+	public BigDecimal getRequestAmt();
+
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
+
+	/** Set Result.
+	  * Result of the action taken
+	  */
+	public void setResult (String Result);
+
+	/** Get Result.
+	  * Result of the action taken
+	  */
+	public String getResult();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

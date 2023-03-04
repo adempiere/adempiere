@@ -20,21 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_M_Locator;
-import org.adempiere.core.domains.models.I_WM_Section_Detail;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for WM_Section_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_Section_Detail (Properties ctx, int WM_Section_Detail_ID, String trxName)
@@ -143,6 +143,11 @@ public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_WM_Section getWM_Section() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Section)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Section.Table_Name)
+			.getPO(getWM_Section_ID(), get_TrxName());	}
 
 	/** Set Warehouse Section.
 		@param WM_Section_ID 

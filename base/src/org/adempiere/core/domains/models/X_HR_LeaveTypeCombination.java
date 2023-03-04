@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_LeaveTypeCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombination, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_LeaveTypeCombination (Properties ctx, int HR_LeaveTypeCombination_ID, String trxName)
@@ -42,8 +44,8 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
       /** if (HR_LeaveTypeCombination_ID == 0)
         {
 			setAllowedLeaveType_ID (0);
-			setHR_LeaveTypeCombination_ID (0);
 			setHR_LeaveType_ID (0);
+			setHR_LeaveTypeCombination_ID (0);
         } */
     }
 
@@ -75,6 +77,11 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_HR_LeaveType getAllowedLeaveType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_LeaveType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_LeaveType.Table_Name)
+			.getPO(getAllowedLeaveType_ID(), get_TrxName());	}
+
 	/** Set Allow Leave with.
 		@param AllowedLeaveType_ID 
 		Allow Leave with
@@ -98,28 +105,10 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
 		return ii.intValue();
 	}
 
-	/** Set Leave Type Combination.
-		@param HR_LeaveTypeCombination_ID 
-		Leave Type Combination
-	  */
-	public void setHR_LeaveTypeCombination_ID (int HR_LeaveTypeCombination_ID)
-	{
-		if (HR_LeaveTypeCombination_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_LeaveTypeCombination_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_LeaveTypeCombination_ID, Integer.valueOf(HR_LeaveTypeCombination_ID));
-	}
-
-	/** Get Leave Type Combination.
-		@return Leave Type Combination
-	  */
-	public int getHR_LeaveTypeCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_LeaveTypeCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_LeaveType getHR_LeaveType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_LeaveType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_LeaveType.Table_Name)
+			.getPO(getHR_LeaveType_ID(), get_TrxName());	}
 
 	/** Set Leave Type.
 		@param HR_LeaveType_ID 
@@ -151,6 +140,29 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
     {
         return new KeyNamePair(get_ID(), String.valueOf(getHR_LeaveType_ID()));
     }
+
+	/** Set Leave Type Combination.
+		@param HR_LeaveTypeCombination_ID 
+		Leave Type Combination
+	  */
+	public void setHR_LeaveTypeCombination_ID (int HR_LeaveTypeCombination_ID)
+	{
+		if (HR_LeaveTypeCombination_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_LeaveTypeCombination_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_LeaveTypeCombination_ID, Integer.valueOf(HR_LeaveTypeCombination_ID));
+	}
+
+	/** Get Leave Type Combination.
+		@return Leave Type Combination
+	  */
+	public int getHR_LeaveTypeCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_LeaveTypeCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 

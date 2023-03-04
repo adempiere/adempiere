@@ -20,21 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_WM_Section;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Section
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_WM_Section extends PO implements I_WM_Section, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220620L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_WM_Section (Properties ctx, int WM_Section_ID, String trxName)
@@ -136,6 +137,11 @@ public class X_WM_Section extends PO implements I_WM_Section, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	public org.adempiere.core.domains.models.I_WM_Area getWM_Area() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Area)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Area.Table_Name)
+			.getPO(getWM_Area_ID(), get_TrxName());	}
+
 	/** Set Warehouse Area.
 		@param WM_Area_ID 
 		Warehouse Area allow grouping the Warehouse Section
@@ -181,6 +187,11 @@ public class X_WM_Section extends PO implements I_WM_Section, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_WM_Section_Type getWM_Section_Type() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_WM_Section_Type)MTable.get(getCtx(), org.adempiere.core.domains.models.I_WM_Section_Type.Table_Name)
+			.getPO(getWM_Section_Type_ID(), get_TrxName());	}
 
 	/** Set Warehouse Section Type.
 		@param WM_Section_Type_ID Warehouse Section Type	  */

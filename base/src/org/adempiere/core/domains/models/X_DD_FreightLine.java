@@ -22,20 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for DD_FreightLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_FreightLine (Properties ctx, int DD_FreightLine_ID, String trxName)
@@ -190,6 +192,11 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_Freight getDD_Freight() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Freight.Table_Name)
+			.getPO(getDD_Freight_ID(), get_TrxName());	}
+
 	/** Set Order Freight.
 		@param DD_Freight_ID Order Freight	  */
 	public void setDD_Freight_ID (int DD_Freight_ID)
@@ -314,34 +321,6 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
-			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
-
-	/** Set Freight Category.
-		@param M_FreightCategory_ID 
-		Category of the Freight
-	  */
-	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
-	{
-		if (M_FreightCategory_ID < 1) 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
-	}
-
-	/** Get Freight Category.
-		@return Category of the Freight
-	  */
-	public int getM_FreightCategory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_M_Freight getM_Freight() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_M_Freight)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_Freight.Table_Name)
@@ -365,6 +344,34 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	public int getM_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_M_FreightCategory getM_FreightCategory() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_M_FreightCategory)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
+
+	/** Set Freight Category.
+		@param M_FreightCategory_ID 
+		Category of the Freight
+	  */
+	public void setM_FreightCategory_ID (int M_FreightCategory_ID)
+	{
+		if (M_FreightCategory_ID < 1) 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_FreightCategory_ID, Integer.valueOf(M_FreightCategory_ID));
+	}
+
+	/** Get Freight Category.
+		@return Category of the Freight
+	  */
+	public int getM_FreightCategory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

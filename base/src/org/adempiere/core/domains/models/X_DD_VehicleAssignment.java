@@ -20,19 +20,21 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for DD_VehicleAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_VehicleAssignment (Properties ctx, int DD_VehicleAssignment_ID, String trxName)
@@ -40,8 +42,8 @@ public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment
       super (ctx, DD_VehicleAssignment_ID, trxName);
       /** if (DD_VehicleAssignment_ID == 0)
         {
-			setDD_VehicleAssignment_ID (0);
 			setDD_Vehicle_ID (0);
+			setDD_VehicleAssignment_ID (0);
 			setM_Shipper_ID (0);
         } */
     }
@@ -74,25 +76,10 @@ public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment
       return sb.toString();
     }
 
-	/** Set Vehicle Assignment ID.
-		@param DD_VehicleAssignment_ID Vehicle Assignment ID	  */
-	public void setDD_VehicleAssignment_ID (int DD_VehicleAssignment_ID)
-	{
-		if (DD_VehicleAssignment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_VehicleAssignment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_VehicleAssignment_ID, Integer.valueOf(DD_VehicleAssignment_ID));
-	}
-
-	/** Get Vehicle Assignment ID.
-		@return Vehicle Assignment ID	  */
-	public int getDD_VehicleAssignment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_Vehicle)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_Vehicle.Table_Name)
+			.getPO(getDD_Vehicle_ID(), get_TrxName());	}
 
 	/** Set Vehicle.
 		@param DD_Vehicle_ID Vehicle	  */
@@ -109,6 +96,26 @@ public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment
 	public int getDD_Vehicle_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Vehicle_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Vehicle Assignment ID.
+		@param DD_VehicleAssignment_ID Vehicle Assignment ID	  */
+	public void setDD_VehicleAssignment_ID (int DD_VehicleAssignment_ID)
+	{
+		if (DD_VehicleAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_VehicleAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_VehicleAssignment_ID, Integer.valueOf(DD_VehicleAssignment_ID));
+	}
+
+	/** Get Vehicle Assignment ID.
+		@return Vehicle Assignment ID	  */
+	public int getDD_VehicleAssignment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleAssignment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

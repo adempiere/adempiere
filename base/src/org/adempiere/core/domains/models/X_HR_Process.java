@@ -22,20 +22,22 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 
 /** Generated Model for HR_Process
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Process extends PO implements I_HR_Process, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Process (Properties ctx, int HR_Process_ID, String trxName)
@@ -519,6 +521,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Department)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
+
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
 	public void setHR_Department_ID (int HR_Department_ID)
@@ -538,6 +545,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
 
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
@@ -559,6 +571,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Job)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
+
 	/** Set Payroll Job.
 		@param HR_Job_ID Payroll Job	  */
 	public void setHR_Job_ID (int HR_Job_ID)
@@ -579,6 +596,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Payroll)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
+
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
@@ -598,6 +620,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Period getHR_Period() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Period)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Period.Table_Name)
+			.getPO(getHR_Period_ID(), get_TrxName());	}
 
 	/** Set Payroll Period.
 		@param HR_Period_ID Payroll Period	  */
@@ -744,6 +771,11 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		}
 		return false;
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Process getReversal() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Process)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Process.Table_Name)
+			.getPO(getReversal_ID(), get_TrxName());	}
 
 	/** Set Reversal ID.
 		@param Reversal_ID 

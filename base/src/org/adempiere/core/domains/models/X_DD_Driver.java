@@ -20,20 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_Driver
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
-public class X_DD_Driver extends PO implements I_DD_Driver, I_Persistent
+ *  @version Release 3.9.4 - $Id$ */
+public class X_DD_Driver extends PO implements I_DD_Driver, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_Driver (Properties ctx, int DD_Driver_ID, String trxName)
@@ -180,6 +182,11 @@ public class X_DD_Driver extends PO implements I_DD_Driver, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_DD_LicenseAssignment getDD_LicenseAssignment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_LicenseAssignment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_LicenseAssignment.Table_Name)
+			.getPO(getDD_LicenseAssignment_ID(), get_TrxName());	}
+
 	/** Set License Types Assignment.
 		@param DD_LicenseAssignment_ID License Types Assignment	  */
 	public void setDD_LicenseAssignment_ID (int DD_LicenseAssignment_ID)
@@ -195,6 +202,11 @@ public class X_DD_Driver extends PO implements I_DD_Driver, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_RequirementAssignment)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_RequirementAssignment.Table_Name)
+			.getPO(getDD_RequirementAssignment_ID(), get_TrxName());	}
 
 	/** Set Transport Requirement Assignment.
 		@param DD_RequirementAssignment_ID Transport Requirement Assignment	  */

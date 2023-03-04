@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_PayrollConcept 
 {
@@ -104,6 +104,19 @@ public interface I_HR_PayrollConcept
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
+    /** Column name HR_Payroll_ID */
+    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
+
+	/** Set Payroll	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID);
+
+	/** Get Payroll	  */
+	public int getHR_Payroll_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+
     /** Column name HR_PayrollConcept_ID */
     public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
 
@@ -116,15 +129,6 @@ public interface I_HR_PayrollConcept
 	  * The payroll concept allows to define all those Global Concept that are using to calculate a payroll.
 	  */
 	public int getHR_PayrollConcept_ID();
-
-    /** Column name HR_Payroll_ID */
-    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
-
-	/** Set Payroll	  */
-	public void setHR_Payroll_ID (int HR_Payroll_ID);
-
-	/** Get Payroll	  */
-	public int getHR_Payroll_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

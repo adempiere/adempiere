@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_BP_BankAccount 
 {
@@ -42,42 +42,6 @@ public interface I_C_BP_BankAccount
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
@@ -209,18 +173,41 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getAccountNo();
 
-    /** Column name BPBankAcctUse */
-    public static final String COLUMNNAME_BPBankAcctUse = "BPBankAcctUse";
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
-	/** Set Account Usage.
-	  * Business Partner Bank Account usage
+	/** Get Client.
+	  * Client/Tenant for this installation.
 	  */
-	public void setBPBankAcctUse (String BPBankAcctUse);
+	public int getAD_Client_ID();
 
-	/** Get Account Usage.
-	  * Business Partner Bank Account usage
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
-	public String getBPBankAcctUse();
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name BankAccountType */
     public static final String COLUMNNAME_BankAccountType = "BankAccountType";
@@ -234,6 +221,34 @@ public interface I_C_BP_BankAccount
 	  * Bank Account Type
 	  */
 	public String getBankAccountType();
+
+    /** Column name BPBankAcctUse */
+    public static final String COLUMNNAME_BPBankAcctUse = "BPBankAcctUse";
+
+	/** Set Account Usage.
+	  * Business Partner Bank Account usage
+	  */
+	public void setBPBankAcctUse (String BPBankAcctUse);
+
+	/** Get Account Usage.
+	  * Business Partner Bank Account usage
+	  */
+	public String getBPBankAcctUse();
+
+    /** Column name C_Bank_ID */
+    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
+
+	/** Set Bank.
+	  * Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID);
+
+	/** Get Bank.
+	  * Bank
+	  */
+	public int getC_Bank_ID();
+
+	public org.adempiere.core.domains.models.I_C_Bank getC_Bank() throws RuntimeException;
 
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
@@ -262,21 +277,6 @@ public interface I_C_BP_BankAccount
 	public int getC_BPartner_ID();
 
 	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_Bank_ID */
-    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
-
-	/** Set Bank.
-	  * Bank
-	  */
-	public void setC_Bank_ID (int C_Bank_ID);
-
-	/** Get Bank.
-	  * Bank
-	  */
-	public int getC_Bank_ID();
-
-	public org.adempiere.core.domains.models.I_C_Bank getC_Bank() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -450,19 +450,6 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getRoutingNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -478,4 +465,17 @@ public interface I_C_BP_BankAccount
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

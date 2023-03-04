@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_DriverAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_DriverAssignment 
 {
@@ -80,15 +80,6 @@ public interface I_DD_DriverAssignment
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_DriverAssignment_ID */
-    public static final String COLUMNNAME_DD_DriverAssignment_ID = "DD_DriverAssignment_ID";
-
-	/** Set Driver Assignment	  */
-	public void setDD_DriverAssignment_ID (int DD_DriverAssignment_ID);
-
-	/** Get Driver Assignment	  */
-	public int getDD_DriverAssignment_ID();
-
     /** Column name DD_Driver_ID */
     public static final String COLUMNNAME_DD_Driver_ID = "DD_Driver_ID";
 
@@ -98,6 +89,17 @@ public interface I_DD_DriverAssignment
 	/** Get Driver	  */
 	public int getDD_Driver_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Driver getDD_Driver() throws RuntimeException;
+
+    /** Column name DD_DriverAssignment_ID */
+    public static final String COLUMNNAME_DD_DriverAssignment_ID = "DD_DriverAssignment_ID";
+
+	/** Set Driver Assignment	  */
+	public void setDD_DriverAssignment_ID (int DD_DriverAssignment_ID);
+
+	/** Get Driver Assignment	  */
+	public int getDD_DriverAssignment_ID();
+
     /** Column name DD_Vehicle_ID */
     public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
 
@@ -106,6 +108,8 @@ public interface I_DD_DriverAssignment
 
 	/** Get Vehicle	  */
 	public int getDD_Vehicle_ID();
+
+	public org.adempiere.core.domains.models.I_DD_Vehicle getDD_Vehicle() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

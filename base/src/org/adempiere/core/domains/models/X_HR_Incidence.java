@@ -22,21 +22,23 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Incidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_Incidence (Properties ctx, int HR_Incidence_ID, String trxName)
@@ -328,6 +330,11 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
+	public org.adempiere.core.domains.models.I_HR_AttendanceBatch getHR_AttendanceBatch() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_AttendanceBatch)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_AttendanceBatch.Table_Name)
+			.getPO(getHR_AttendanceBatch_ID(), get_TrxName());	}
+
 	/** Set Attendance Batch.
 		@param HR_AttendanceBatch_ID Attendance Batch	  */
 	public void setHR_AttendanceBatch_ID (int HR_AttendanceBatch_ID)
@@ -347,6 +354,11 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Concept)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Concept.Table_Name)
+			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
 	/** Set Global Payroll Concept.
 		@param HR_Concept_ID 
@@ -378,6 +390,11 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getHR_Concept_ID()));
     }
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_Employee)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
 
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
@@ -418,6 +435,11 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_HR_ShiftIncidence getHR_ShiftIncidence() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_ShiftIncidence)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_ShiftIncidence.Table_Name)
+			.getPO(getHR_ShiftIncidence_ID(), get_TrxName());	}
 
 	/** Set Shift Incidence.
 		@param HR_ShiftIncidence_ID 
@@ -555,23 +577,6 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		return bd;
 	}
 
-	/** Set Service date.
-		@param ServiceDate 
-		Date service was provided
-	  */
-	public void setServiceDate (Timestamp ServiceDate)
-	{
-		set_Value (COLUMNNAME_ServiceDate, ServiceDate);
-	}
-
-	/** Get Service date.
-		@return Date service was provided
-	  */
-	public Timestamp getServiceDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_ServiceDate);
-	}
-
 	public org.adempiere.core.domains.models.I_S_TimeExpense getS_TimeExpense() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_S_TimeExpense)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_TimeExpense.Table_Name)
@@ -626,6 +631,23 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Service date.
+		@param ServiceDate 
+		Date service was provided
+	  */
+	public void setServiceDate (Timestamp ServiceDate)
+	{
+		set_Value (COLUMNNAME_ServiceDate, ServiceDate);
+	}
+
+	/** Get Service date.
+		@return Date service was provided
+	  */
+	public Timestamp getServiceDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ServiceDate);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

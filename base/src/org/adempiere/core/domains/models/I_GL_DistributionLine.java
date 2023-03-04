@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_DistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_GL_DistributionLine 
 {
@@ -43,6 +43,19 @@ public interface I_GL_DistributionLine
 
     /** Load Meta Data */
 
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -50,6 +63,19 @@ public interface I_GL_DistributionLine
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -65,32 +91,6 @@ public interface I_GL_DistributionLine
 	public int getAD_OrgTrx_ID();
 
 	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -252,19 +252,6 @@ public interface I_GL_DistributionLine
 	  */
 	public String getDescription();
 
-    /** Column name GL_DistributionLine_ID */
-    public static final String COLUMNNAME_GL_DistributionLine_ID = "GL_DistributionLine_ID";
-
-	/** Set GL Distribution Line.
-	  * General Ledger Distribution Line
-	  */
-	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID);
-
-	/** Get GL Distribution Line.
-	  * General Ledger Distribution Line
-	  */
-	public int getGL_DistributionLine_ID();
-
     /** Column name GL_Distribution_ID */
     public static final String COLUMNNAME_GL_Distribution_ID = "GL_Distribution_ID";
 
@@ -279,6 +266,19 @@ public interface I_GL_DistributionLine
 	public int getGL_Distribution_ID();
 
 	public org.adempiere.core.domains.models.I_GL_Distribution getGL_Distribution() throws RuntimeException;
+
+    /** Column name GL_DistributionLine_ID */
+    public static final String COLUMNNAME_GL_DistributionLine_ID = "GL_DistributionLine_ID";
+
+	/** Set GL Distribution Line.
+	  * General Ledger Distribution Line
+	  */
+	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID);
+
+	/** Get GL Distribution Line.
+	  * General Ledger Distribution Line
+	  */
+	public int getGL_DistributionLine_ID();
 
     /** Column name InvertAccountSign */
     public static final String COLUMNNAME_InvertAccountSign = "InvertAccountSign";
@@ -583,19 +583,6 @@ public interface I_GL_DistributionLine
 	  */
 	public String getPostingType();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -671,4 +658,17 @@ public interface I_GL_DistributionLine
 	public int getUser4_ID();
 
 	public org.adempiere.core.domains.models.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

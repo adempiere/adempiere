@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ReplenishPlan
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_M_ReplenishPlan 
 {
@@ -75,17 +75,6 @@ public interface I_M_ReplenishPlan
 
 	public org.adempiere.core.domains.models.I_C_DocType getC_DocType_ConfirmedOr() throws RuntimeException;
 
-    /** Column name C_DocType_PO */
-    public static final String COLUMNNAME_C_DocType_PO = "C_DocType_PO";
-
-	/** Set Purchase Order Doc Type	  */
-	public void setC_DocType_PO (int C_DocType_PO);
-
-	/** Get Purchase Order Doc Type	  */
-	public int getC_DocType_PO();
-
-	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name C_DocType_PlannedOrder */
     public static final String COLUMNNAME_C_DocType_PlannedOrder = "C_DocType_PlannedOrder";
 
@@ -96,6 +85,17 @@ public interface I_M_ReplenishPlan
 	public int getC_DocType_PlannedOrder();
 
 	public org.adempiere.core.domains.models.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException;
+
+    /** Column name C_DocType_PO */
+    public static final String COLUMNNAME_C_DocType_PO = "C_DocType_PO";
+
+	/** Set Purchase Order Doc Type	  */
+	public void setC_DocType_PO (int C_DocType_PO);
+
+	/** Get Purchase Order Doc Type	  */
+	public int getC_DocType_PO();
+
+	public org.adempiere.core.domains.models.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_DocType_Requisition */
     public static final String COLUMNNAME_C_DocType_Requisition = "C_DocType_Requisition";
@@ -263,19 +263,6 @@ public interface I_M_ReplenishPlan
 	/** Get Generate Suggested Requisition Report	  */
 	public String getSuggestedRequisitionReport();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -291,4 +278,17 @@ public interface I_M_ReplenishPlan
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

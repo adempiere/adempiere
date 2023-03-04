@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Period
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Period 
 {
@@ -79,6 +79,21 @@ public interface I_HR_Period
 
 	public org.adempiere.core.domains.models.I_C_Period getC_Period() throws RuntimeException;
 
+    /** Column name C_Year_ID */
+    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
+
+	/** Set Year.
+	  * Calendar Year
+	  */
+	public void setC_Year_ID (int C_Year_ID);
+
+	/** Get Year.
+	  * Calendar Year
+	  */
+	public int getC_Year_ID();
+
+	public org.adempiere.core.domains.models.I_C_Year getC_Year() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -94,21 +109,6 @@ public interface I_HR_Period
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.adempiere.core.domains.models.I_C_Year getC_Year() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -158,6 +158,8 @@ public interface I_HR_Period
 	/** Get Payroll	  */
 	public int getHR_Payroll_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+
     /** Column name HR_Period_ID */
     public static final String COLUMNNAME_HR_Period_ID = "HR_Period_ID";
 
@@ -175,6 +177,8 @@ public interface I_HR_Period
 
 	/** Get Payroll Year	  */
 	public int getHR_Year_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Year getHR_Year() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

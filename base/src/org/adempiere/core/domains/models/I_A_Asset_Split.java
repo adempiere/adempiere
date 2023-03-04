@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset_Split 
 {
@@ -82,6 +82,8 @@ public interface I_A_Asset_Split
 	  */
 	public int getA_Asset_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_Asset_ID_To */
     public static final String COLUMNNAME_A_Asset_ID_To = "A_Asset_ID_To";
 
@@ -95,6 +97,8 @@ public interface I_A_Asset_Split
 	  */
 	public int getA_Asset_ID_To();
 
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset_To() throws RuntimeException;
+
     /** Column name A_Asset_Split_ID */
     public static final String COLUMNNAME_A_Asset_Split_ID = "A_Asset_Split_ID";
 
@@ -103,14 +107,6 @@ public interface I_A_Asset_Split
 
 	/** Get Fixed Asset Split Document	  */
 	public int getA_Asset_Split_ID();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
 
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
@@ -124,34 +120,6 @@ public interface I_A_Asset_Split
 	  * Fixed Asset Balances
 	  */
 	public int getA_Depreciation_Workfile_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name A_Percent_Original */
     public static final String COLUMNNAME_A_Percent_Original = "A_Percent_Original";
@@ -226,6 +194,42 @@ public interface I_A_Asset_Split
 	  * Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
 	  */
 	public boolean isA_Transfer_Balance_IS();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+	public org.adempiere.core.domains.models.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";

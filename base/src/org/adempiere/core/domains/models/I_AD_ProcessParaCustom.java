@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ProcessParaCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_AD_ProcessParaCustom 
 {
@@ -64,6 +64,17 @@ public interface I_AD_ProcessParaCustom
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_Process_Para_ID */
+    public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
+
+	/** Set Process Parameter	  */
+	public void setAD_Process_Para_ID (int AD_Process_Para_ID);
+
+	/** Get Process Parameter	  */
+	public int getAD_Process_Para_ID();
+
+	public org.adempiere.core.domains.models.I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
+
     /** Column name AD_ProcessCustom_ID */
     public static final String COLUMNNAME_AD_ProcessCustom_ID = "AD_ProcessCustom_ID";
 
@@ -83,17 +94,6 @@ public interface I_AD_ProcessParaCustom
 
 	/** Get Process Parameter	  */
 	public int getAD_ProcessParaCustom_ID();
-
-    /** Column name AD_Process_Para_ID */
-    public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
-
-	/** Set Process Parameter	  */
-	public void setAD_Process_Para_ID (int AD_Process_Para_ID);
-
-	/** Get Process Parameter	  */
-	public int getAD_Process_Para_ID();
-
-	public org.adempiere.core.domains.models.I_AD_Process_Para getAD_Process_Para() throws RuntimeException;
 
     /** Column name AD_Reference_ID */
     public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
@@ -318,19 +318,6 @@ public interface I_AD_ProcessParaCustom
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -347,20 +334,18 @@ public interface I_AD_ProcessParaCustom
 	  */
 	public int getUpdatedBy();
 
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setVFormat (String VFormat);
+	public void setUUID (String UUID);
 
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public String getVFormat();
+	public String getUUID();
 
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
@@ -387,4 +372,19 @@ public interface I_AD_ProcessParaCustom
 	  * Minimum Value for a field
 	  */
 	public String getValueMin();
+
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
+
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
 }

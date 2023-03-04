@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Compartment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_Compartment 
 {
@@ -55,6 +55,8 @@ public interface I_DD_Compartment
 	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -123,6 +125,8 @@ public interface I_DD_Compartment
 
 	/** Get Transport Compatibility Group	  */
 	public int getDD_CompatibilityGroup_ID();
+
+	public org.adempiere.core.domains.models.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

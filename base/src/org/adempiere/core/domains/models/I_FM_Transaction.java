@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FM_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_FM_Transaction 
 {
@@ -190,6 +190,8 @@ public interface I_FM_Transaction
 	/** Get Order Freight	  */
 	public int getDD_Freight_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Freight getDD_Freight() throws RuntimeException;
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -212,6 +214,8 @@ public interface I_FM_Transaction
 	/** Get Financial Account	  */
 	public int getFM_Account_ID();
 
+	public org.adempiere.core.domains.models.I_FM_Account getFM_Account() throws RuntimeException;
+
     /** Column name FM_Amortization_ID */
     public static final String COLUMNNAME_FM_Amortization_ID = "FM_Amortization_ID";
 
@@ -221,6 +225,8 @@ public interface I_FM_Transaction
 	/** Get Loan Amortization	  */
 	public int getFM_Amortization_ID();
 
+	public org.adempiere.core.domains.models.I_FM_Amortization getFM_Amortization() throws RuntimeException;
+
     /** Column name FM_Batch_ID */
     public static final String COLUMNNAME_FM_Batch_ID = "FM_Batch_ID";
 
@@ -229,6 +235,8 @@ public interface I_FM_Transaction
 
 	/** Get Financial Transaction Batch	  */
 	public int getFM_Batch_ID();
+
+	public org.adempiere.core.domains.models.I_FM_Batch getFM_Batch() throws RuntimeException;
 
     /** Column name FM_Transaction_ID */
     public static final String COLUMNNAME_FM_Transaction_ID = "FM_Transaction_ID";
@@ -247,6 +255,8 @@ public interface I_FM_Transaction
 
 	/** Get Financial Transaction Type	  */
 	public int getFM_TransactionType_ID();
+
+	public org.adempiere.core.domains.models.I_FM_TransactionType getFM_TransactionType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

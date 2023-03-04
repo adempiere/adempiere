@@ -20,21 +20,22 @@ package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.core.domains.models.I_A_RegistrationValue;
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220706L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_A_RegistrationValue (Properties ctx, int A_RegistrationValue_ID, String trxName)
@@ -42,8 +43,8 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       super (ctx, A_RegistrationValue_ID, trxName);
       /** if (A_RegistrationValue_ID == 0)
         {
-			setA_RegistrationAttribute_ID (0);
 			setA_Registration_ID (0);
+			setA_RegistrationAttribute_ID (0);
 			setName (null);
         } */
     }
@@ -76,6 +77,39 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       return sb.toString();
     }
 
+	public org.adempiere.core.domains.models.I_A_Registration getA_Registration() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_Registration)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_Registration.Table_Name)
+			.getPO(getA_Registration_ID(), get_TrxName());	}
+
+	/** Set Registration.
+		@param A_Registration_ID 
+		User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID)
+	{
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+	}
+
+	/** Get Registration.
+		@return User Asset Registration
+	  */
+	public int getA_Registration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_A_RegistrationAttribute)MTable.get(getCtx(), org.adempiere.core.domains.models.I_A_RegistrationAttribute.Table_Name)
+			.getPO(getA_RegistrationAttribute_ID(), get_TrxName());	}
+
 	/** Set Registration Attribute.
 		@param A_RegistrationAttribute_ID 
 		Asset Registration Attribute
@@ -106,29 +140,6 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID()));
     }
-
-	/** Set Registration.
-		@param A_Registration_ID 
-		User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID)
-	{
-		if (A_Registration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
-	}
-
-	/** Get Registration.
-		@return User Asset Registration
-	  */
-	public int getA_Registration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 

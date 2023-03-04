@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_JobOpeningHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_JobOpeningHistory 
 {
@@ -121,15 +121,6 @@ public interface I_HR_JobOpeningHistory
 	  */
 	public Timestamp getDateTrx();
 
-    /** Column name HR_JobOpeningHistory_ID */
-    public static final String COLUMNNAME_HR_JobOpeningHistory_ID = "HR_JobOpeningHistory_ID";
-
-	/** Set Job Opening History	  */
-	public void setHR_JobOpeningHistory_ID (int HR_JobOpeningHistory_ID);
-
-	/** Get Job Opening History	  */
-	public int getHR_JobOpeningHistory_ID();
-
     /** Column name HR_JobOpening_ID */
     public static final String COLUMNNAME_HR_JobOpening_ID = "HR_JobOpening_ID";
 
@@ -142,6 +133,17 @@ public interface I_HR_JobOpeningHistory
 	  * Job Openings for Recruitment Management
 	  */
 	public int getHR_JobOpening_ID();
+
+	public org.adempiere.core.domains.models.I_HR_JobOpening getHR_JobOpening() throws RuntimeException;
+
+    /** Column name HR_JobOpeningHistory_ID */
+    public static final String COLUMNNAME_HR_JobOpeningHistory_ID = "HR_JobOpeningHistory_ID";
+
+	/** Set Job Opening History	  */
+	public void setHR_JobOpeningHistory_ID (int HR_JobOpeningHistory_ID);
+
+	/** Get Job Opening History	  */
+	public int getHR_JobOpeningHistory_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

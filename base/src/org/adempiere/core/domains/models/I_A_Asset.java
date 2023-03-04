@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_A_Asset 
 {
@@ -61,6 +61,8 @@ public interface I_A_Asset
 	/** Get Asset class	  */
 	public int getA_Asset_Class_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Class getA_Asset_Class() throws RuntimeException;
+
     /** Column name A_Asset_CreateDate */
     public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
 
@@ -82,6 +84,8 @@ public interface I_A_Asset
 	  * Group of Assets
 	  */
 	public int getA_Asset_Group_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -114,6 +118,8 @@ public interface I_A_Asset
 	/** Get Fixed Asset Split Document	  */
 	public int getA_Asset_Split_ID();
 
+	public org.adempiere.core.domains.models.I_A_Asset_Split getA_Asset_Split() throws RuntimeException;
+
     /** Column name A_Asset_Status */
     public static final String COLUMNNAME_A_Asset_Status = "A_Asset_Status";
 
@@ -122,6 +128,17 @@ public interface I_A_Asset
 
 	/** Get Asset Status	  */
 	public String getA_Asset_Status();
+
+    /** Column name A_Asset_Type_ID */
+    public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
+
+	/** Set Asset Type	  */
+	public void setA_Asset_Type_ID (int A_Asset_Type_ID);
+
+	/** Get Asset Type	  */
+	public int getA_Asset_Type_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset_Type getA_Asset_Type() throws RuntimeException;
 
     /** Column name A_AssetType */
     public static final String COLUMNNAME_A_AssetType = "A_AssetType";
@@ -132,14 +149,38 @@ public interface I_A_Asset
 	/** Get Asset Type	  */
 	public String getA_AssetType();
 
-    /** Column name A_Asset_Type_ID */
-    public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
+    /** Column name A_Parent_Asset_ID */
+    public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
 
-	/** Set Asset Type	  */
-	public void setA_Asset_Type_ID (int A_Asset_Type_ID);
+	/** Set Parent Asset	  */
+	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
 
-	/** Get Asset Type	  */
-	public int getA_Asset_Type_ID();
+	/** Get Parent Asset	  */
+	public int getA_Parent_Asset_ID();
+
+	public org.adempiere.core.domains.models.I_A_Asset getA_Parent_Asset() throws RuntimeException;
+
+    /** Column name A_QTY_Current */
+    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
+
+	/** Set Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current);
+
+	/** Get Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
+	public BigDecimal getA_QTY_Current();
+
+    /** Column name A_QTY_Original */
+    public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
+
+	/** Set A_QTY_Original	  */
+	public void setA_QTY_Original (BigDecimal A_QTY_Original);
+
+	/** Get A_QTY_Original	  */
+	public BigDecimal getA_QTY_Original();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -176,37 +217,6 @@ public interface I_A_Asset
 	public int getAD_User_ID();
 
 	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name A_Parent_Asset_ID */
-    public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
-
-	/** Set Parent Asset	  */
-	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
-
-	/** Get Parent Asset	  */
-	public int getA_Parent_Asset_ID();
-
-    /** Column name A_QTY_Current */
-    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
-
-	/** Set Fixed Asset Current Qty.
-	  * Fixed Asset Current Quantity
-	  */
-	public void setA_QTY_Current (BigDecimal A_QTY_Current);
-
-	/** Get Fixed Asset Current Qty.
-	  * Fixed Asset Current Quantity
-	  */
-	public BigDecimal getA_QTY_Current();
-
-    /** Column name A_QTY_Original */
-    public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
-
-	/** Set A_QTY_Original	  */
-	public void setA_QTY_Original (BigDecimal A_QTY_Original);
-
-	/** Get A_QTY_Original	  */
-	public BigDecimal getA_QTY_Original();
 
     /** Column name AssetActivationDate */
     public static final String COLUMNNAME_AssetActivationDate = "AssetActivationDate";
@@ -612,28 +622,6 @@ public interface I_A_Asset
 	  */
 	public String getLot();
 
-    /** Column name ManufacturedYear */
-    public static final String COLUMNNAME_ManufacturedYear = "ManufacturedYear";
-
-	/** Set Manufactured Year	  */
-	public void setManufacturedYear (int ManufacturedYear);
-
-	/** Get Manufactured Year	  */
-	public int getManufacturedYear();
-
-    /** Column name Manufacturer */
-    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
-
-	/** Set Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer);
-
-	/** Get Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public String getManufacturer();
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -693,6 +681,28 @@ public interface I_A_Asset
 	public int getM_Product_ID();
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name ManufacturedYear */
+    public static final String COLUMNNAME_ManufacturedYear = "ManufacturedYear";
+
+	/** Set Manufactured Year	  */
+	public void setManufacturedYear (int ManufacturedYear);
+
+	/** Get Manufactured Year	  */
+	public int getManufacturedYear();
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

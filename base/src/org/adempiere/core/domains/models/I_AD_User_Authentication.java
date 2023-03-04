@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User_Authentication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_AD_User_Authentication 
 {
@@ -42,6 +42,15 @@ public interface I_AD_User_Authentication
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name AccessToken */
+    public static final String COLUMNNAME_AccessToken = "AccessToken";
+
+	/** Set Access Token	  */
+	public void setAccessToken (String AccessToken);
+
+	/** Get Access Token	  */
+	public String getAccessToken();
 
     /** Column name AD_AppRegistration_ID */
     public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
@@ -103,15 +112,6 @@ public interface I_AD_User_Authentication
 
 	public org.adempiere.core.domains.models.I_AD_User getAD_User() throws RuntimeException;
 
-    /** Column name AccessToken */
-    public static final String COLUMNNAME_AccessToken = "AccessToken";
-
-	/** Set Access Token	  */
-	public void setAccessToken (String AccessToken);
-
-	/** Get Access Token	  */
-	public String getAccessToken();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -150,19 +150,6 @@ public interface I_AD_User_Authentication
 	/** Get Refresh Token	  */
 	public String getRefreshToken();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -178,4 +165,17 @@ public interface I_AD_User_Authentication
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
 public interface I_C_ProjectLine 
 {
@@ -79,6 +79,21 @@ public interface I_C_ProjectLine
 
 	public org.adempiere.core.domains.models.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
+
     /** Column name C_OrderPO_ID */
     public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
 
@@ -94,20 +109,20 @@ public interface I_C_ProjectLine
 
 	public org.adempiere.core.domains.models.I_C_Order getC_OrderPO() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Set Order.
-	  * Order
+	/** Set Project.
+	  * Financial Project
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setC_Project_ID (int C_Project_ID);
 
-	/** Get Order.
-	  * Order
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getC_Order_ID();
+	public int getC_Project_ID();
 
-	public org.adempiere.core.domains.models.I_C_Order getC_Order() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_ProjectIssue_ID */
     public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
@@ -166,21 +181,6 @@ public interface I_C_ProjectLine
 	public int getC_ProjectTask_ID();
 
 	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.adempiere.core.domains.models.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name CommittedAmt */
     public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
@@ -367,36 +367,6 @@ public interface I_C_ProjectLine
 
 	public org.adempiere.core.domains.models.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Order_ID */
-    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
-
-	/** Set Manufacturing Order.
-	  * Manufacturing Order
-	  */
-	public void setPP_Order_ID (int PP_Order_ID);
-
-	/** Get Manufacturing Order.
-	  * Manufacturing Order
-	  */
-	public int getPP_Order_ID();
-
-	public org.adempiere.core.domains.models.I_PP_Order getPP_Order() throws RuntimeException;
-
-    /** Column name PP_Product_BOM_ID */
-    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
-
-	/** Set BOM & Formula.
-	  * BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
-
-	/** Get BOM & Formula.
-	  * BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID();
-
-	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
     /** Column name PlannedAmt */
     public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
 
@@ -449,6 +419,36 @@ public interface I_C_ProjectLine
 	  */
 	public BigDecimal getPlannedQty();
 
+    /** Column name PP_Order_ID */
+    public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
+
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public void setPP_Order_ID (int PP_Order_ID);
+
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
+	public int getPP_Order_ID();
+
+	public org.adempiere.core.domains.models.I_PP_Order getPP_Order() throws RuntimeException;
+
+    /** Column name PP_Product_BOM_ID */
+    public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
+
+	/** Set BOM & Formula.
+	  * BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID);
+
+	/** Get BOM & Formula.
+	  * BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID();
+
+	public org.adempiere.core.domains.models.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -475,19 +475,6 @@ public interface I_C_ProjectLine
 	  */
 	public int getS_ResourceAssignment_ID();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -503,6 +490,19 @@ public interface I_C_ProjectLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Vendor_ID */
     public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";

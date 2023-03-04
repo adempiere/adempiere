@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ProcessReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_ProcessReportLine 
 {
@@ -106,6 +106,8 @@ public interface I_HR_ProcessReportLine
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_ProcessReport_ID */
     public static final String COLUMNNAME_HR_ProcessReport_ID = "HR_ProcessReport_ID";
 
@@ -114,6 +116,8 @@ public interface I_HR_ProcessReportLine
 
 	/** Get Payroll Process Report	  */
 	public int getHR_ProcessReport_ID();
+
+	public org.adempiere.core.domains.models.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException;
 
     /** Column name HR_ProcessReportLine_ID */
     public static final String COLUMNNAME_HR_ProcessReportLine_ID = "HR_ProcessReportLine_ID";

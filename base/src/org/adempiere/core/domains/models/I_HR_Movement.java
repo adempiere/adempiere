@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_HR_Movement 
 {
@@ -131,21 +131,6 @@ public interface I_HR_Movement
 
 	public org.adempiere.core.domains.models.I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -175,6 +160,21 @@ public interface I_HR_Movement
 	public int getC_BP_Relation_ID();
 
 	public org.adempiere.core.domains.models.I_C_BP_Relation getC_BP_Relation() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -251,6 +251,21 @@ public interface I_HR_Movement
 
 	public org.adempiere.core.domains.models.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -266,21 +281,6 @@ public interface I_HR_Movement
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.adempiere.core.domains.models.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -321,6 +321,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_Attribute_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Attribute getHR_Attribute() throws RuntimeException;
+
     /** Column name HR_Concept_Category_ID */
     public static final String COLUMNNAME_HR_Concept_Category_ID = "HR_Concept_Category_ID";
 
@@ -333,6 +335,8 @@ public interface I_HR_Movement
 	  * Global Payroll Concept Category allows to grouping of Global Concept to reports and queries
 	  */
 	public int getHR_Concept_Category_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException;
 
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
@@ -347,6 +351,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_Concept_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept getHR_Concept() throws RuntimeException;
+
     /** Column name HR_Concept_Type_ID */
     public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
 
@@ -360,6 +366,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_Concept_Type_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
+
     /** Column name HR_Contract_ID */
     public static final String COLUMNNAME_HR_Contract_ID = "HR_Contract_ID";
 
@@ -369,6 +377,8 @@ public interface I_HR_Movement
 	/** Get Payroll Contract	  */
 	public int getHR_Contract_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Contract getHR_Contract() throws RuntimeException;
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
@@ -377,6 +387,8 @@ public interface I_HR_Movement
 
 	/** Get Payroll Department	  */
 	public int getHR_Department_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Department getHR_Department() throws RuntimeException;
 
     /** Column name HR_Designation_ID */
     public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
@@ -391,6 +403,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_Designation_ID();
 
+	public org.adempiere.core.domains.models.I_HR_Designation getHR_Designation() throws RuntimeException;
+
     /** Column name HR_Employee_ID */
     public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
 
@@ -399,6 +413,8 @@ public interface I_HR_Movement
 
 	/** Get Payroll Employee	  */
 	public int getHR_Employee_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
@@ -413,6 +429,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_EmployeeType_ID();
 
+	public org.adempiere.core.domains.models.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
     /** Column name HR_Job_ID */
     public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
 
@@ -421,6 +439,8 @@ public interface I_HR_Movement
 
 	/** Get Payroll Job	  */
 	public int getHR_Job_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
@@ -435,6 +455,8 @@ public interface I_HR_Movement
 	  */
 	public int getHR_JobType_ID();
 
+	public org.adempiere.core.domains.models.I_HR_JobType getHR_JobType() throws RuntimeException;
+
     /** Column name HR_Movement_ID */
     public static final String COLUMNNAME_HR_Movement_ID = "HR_Movement_ID";
 
@@ -443,6 +465,17 @@ public interface I_HR_Movement
 
 	/** Get Payroll Movement	  */
 	public int getHR_Movement_ID();
+
+    /** Column name HR_Payroll_ID */
+    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
+
+	/** Set Payroll	  */
+	public void setHR_Payroll_ID (int HR_Payroll_ID);
+
+	/** Get Payroll	  */
+	public int getHR_Payroll_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Payroll getHR_Payroll() throws RuntimeException;
 
     /** Column name HR_PayrollConcept_ID */
     public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
@@ -457,14 +490,7 @@ public interface I_HR_Movement
 	  */
 	public int getHR_PayrollConcept_ID();
 
-    /** Column name HR_Payroll_ID */
-    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
-
-	/** Set Payroll	  */
-	public void setHR_Payroll_ID (int HR_Payroll_ID);
-
-	/** Get Payroll	  */
-	public int getHR_Payroll_ID();
+	public org.adempiere.core.domains.models.I_HR_PayrollConcept getHR_PayrollConcept() throws RuntimeException;
 
     /** Column name HR_Process_ID */
     public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
@@ -474,6 +500,8 @@ public interface I_HR_Movement
 
 	/** Get Payroll Process	  */
 	public int getHR_Process_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Process getHR_Process() throws RuntimeException;
 
     /** Column name HR_SkillType_ID */
     public static final String COLUMNNAME_HR_SkillType_ID = "HR_SkillType_ID";
@@ -487,6 +515,8 @@ public interface I_HR_Movement
 	  * Skill Type for an Employee
 	  */
 	public int getHR_SkillType_ID();
+
+	public org.adempiere.core.domains.models.I_HR_SkillType getHR_SkillType() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -602,6 +632,8 @@ public interface I_HR_Movement
 	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
 	public int getReversalLine_ID();
+
+	public org.adempiere.core.domains.models.I_HR_Movement getReversalLine() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

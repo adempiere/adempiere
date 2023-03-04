@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,14 +12,14 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -27,14 +27,14 @@ import org.compiere.model.POInfo;
 
 /** Generated Model for C_CashBook_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_CashBook_Acct (Properties ctx, int C_CashBook_Acct_ID, String trxName)
@@ -42,13 +42,13 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
       super (ctx, C_CashBook_Acct_ID, trxName);
       /** if (C_CashBook_Acct_ID == 0)
         {
+			setC_AcctSchema_ID (0);
+			setC_CashBook_ID (0);
 			setCB_Asset_Acct (0);
 			setCB_CashTransfer_Acct (0);
 			setCB_Differences_Acct (0);
 			setCB_Expense_Acct (0);
 			setCB_Receipt_Acct (0);
-			setC_AcctSchema_ID (0);
-			setC_CashBook_ID (0);
         } */
     }
 
@@ -79,6 +79,62 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
+
+	/** Set Accounting Schema.
+		@param C_AcctSchema_ID 
+		Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
+	{
+		if (C_AcctSchema_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+	}
+
+	/** Get Accounting Schema.
+		@return Rules for accounting
+	  */
+	public int getC_AcctSchema_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.core.domains.models.I_C_CashBook getC_CashBook() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_CashBook)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_CashBook.Table_Name)
+			.getPO(getC_CashBook_ID(), get_TrxName());	}
+
+	/** Set Cash Book.
+		@param C_CashBook_ID 
+		Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID)
+	{
+		if (C_CashBook_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+	}
+
+	/** Get Cash Book.
+		@return Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_ValidCombination getCB_Asset_A() throws RuntimeException
     {
@@ -200,62 +256,6 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 	public int getCB_Receipt_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CB_Receipt_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_AcctSchema)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_AcctSchema.Table_Name)
-			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
-
-	/** Set Accounting Schema.
-		@param C_AcctSchema_ID 
-		Rules for accounting
-	  */
-	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
-	{
-		if (C_AcctSchema_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
-	}
-
-	/** Get Accounting Schema.
-		@return Rules for accounting
-	  */
-	public int getC_AcctSchema_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_C_CashBook getC_CashBook() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_C_CashBook)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_CashBook.Table_Name)
-			.getPO(getC_CashBook_ID(), get_TrxName());	}
-
-	/** Set Cash Book.
-		@param C_CashBook_ID 
-		Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID)
-	{
-		if (C_CashBook_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
-	}
-
-	/** Get Cash Book.
-		@return Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

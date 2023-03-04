@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.core.domains.models;
@@ -21,8 +22,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
 import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.util.Env;
@@ -30,14 +31,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Currency
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_C_Currency extends PO implements I_C_Currency, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_C_Currency (Properties ctx, int C_Currency_ID, String trxName)
@@ -49,11 +50,11 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 			setCostingPrecision (0);
 // 4
 			setDescription (null);
-			setISO_Code (null);
 			setIsEMUMember (false);
 // N
 			setIsEuro (false);
 // N
+			setISO_Code (null);
 			setRoundOffFactor (Env.ZERO);
 // 1
 			setStdPrecision (0);
@@ -203,31 +204,6 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		return bd;
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getISO_Code());
-    }
-
 	/** Set EMU Member.
 		@param IsEMUMember 
 		This currency is member if the European Monetary Union
@@ -275,6 +251,31 @@ public class X_C_Currency extends PO implements I_C_Currency, I_Persistent
 		}
 		return false;
 	}
+
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code)
+	{
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
+	}
+
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_ISO_Code);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getISO_Code());
+    }
 
 	/** Set Round Off Factor.
 		@param RoundOffFactor 

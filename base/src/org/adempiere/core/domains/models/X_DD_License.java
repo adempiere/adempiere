@@ -21,20 +21,22 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_License
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_DD_License extends PO implements I_DD_License, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220616L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_DD_License (Properties ctx, int DD_License_ID, String trxName)
@@ -118,6 +120,11 @@ public class X_DD_License extends PO implements I_DD_License, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.adempiere.core.domains.models.I_DD_LicenseType getDD_LicenseType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_DD_LicenseType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_DD_LicenseType.Table_Name)
+			.getPO(getDD_LicenseType_ID(), get_TrxName());	}
 
 	/** Set Transport License Type.
 		@param DD_LicenseType_ID Transport License Type	  */

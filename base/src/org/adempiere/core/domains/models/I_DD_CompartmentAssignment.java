@@ -19,12 +19,12 @@ package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
+import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_CompartmentAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_DD_CompartmentAssignment 
 {
@@ -80,15 +80,6 @@ public interface I_DD_CompartmentAssignment
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_CompartmentAssignment_ID */
-    public static final String COLUMNNAME_DD_CompartmentAssignment_ID = "DD_CompartmentAssignment_ID";
-
-	/** Set Compartment Assignment  ID	  */
-	public void setDD_CompartmentAssignment_ID (int DD_CompartmentAssignment_ID);
-
-	/** Get Compartment Assignment  ID	  */
-	public int getDD_CompartmentAssignment_ID();
-
     /** Column name DD_Compartment_ID */
     public static final String COLUMNNAME_DD_Compartment_ID = "DD_Compartment_ID";
 
@@ -98,6 +89,17 @@ public interface I_DD_CompartmentAssignment
 	/** Get Transport Compartment	  */
 	public int getDD_Compartment_ID();
 
+	public org.adempiere.core.domains.models.I_DD_Compartment getDD_Compartment() throws RuntimeException;
+
+    /** Column name DD_CompartmentAssignment_ID */
+    public static final String COLUMNNAME_DD_CompartmentAssignment_ID = "DD_CompartmentAssignment_ID";
+
+	/** Set Compartment Assignment  ID	  */
+	public void setDD_CompartmentAssignment_ID (int DD_CompartmentAssignment_ID);
+
+	/** Get Compartment Assignment  ID	  */
+	public int getDD_CompartmentAssignment_ID();
+
     /** Column name DD_TransportUnit_ID */
     public static final String COLUMNNAME_DD_TransportUnit_ID = "DD_TransportUnit_ID";
 
@@ -106,6 +108,8 @@ public interface I_DD_CompartmentAssignment
 
 	/** Get Transport Unit	  */
 	public int getDD_TransportUnit_ID();
+
+	public org.adempiere.core.domains.models.I_DD_TransportUnit getDD_TransportUnit() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

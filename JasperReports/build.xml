@@ -62,8 +62,7 @@
 	      <pathelement path="../base/Base.jar"/>
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
-	      <pathelement path="../lib/oracle.jar"/>
-      	  <pathelement path="../JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+	      <pathelement path="../JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/commons-digester-2.1.jar"/>
 	      <pathelement path="../tools/lib/commons-logging-1.2.jar"/>
       	  <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
@@ -75,8 +74,7 @@
           <pathelement path="../tools/lib/xmlgraphics-commons-2.2.jar"/>
           <pathelement path="../tools/lib/zxing-2.3.0.jar"/>
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
-      	  <pathelement path="../tools/lib/postgresql.jar"/>  
-		  <pathelement path="../JasperReportsTools/lib/iText-2.1.7.jar"/>
+      	  <pathelement path="../JasperReportsTools/lib/iText-2.1.7.jar"/>
       	  <fileset dir="../wildfly/client/lib" includes="*.jar"/>
       </classpath>
     </javac>

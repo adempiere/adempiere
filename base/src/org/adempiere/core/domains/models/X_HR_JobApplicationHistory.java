@@ -21,19 +21,21 @@ package org.adempiere.core.domains.models;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-
-import org.compiere.model.*;
+import org.compiere.model.I_Persistent;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POInfo;
 
 /** Generated Model for HR_JobApplicationHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3 - $Id$ */
+ *  @version Release 3.9.4 - $Id$ */
 public class X_HR_JobApplicationHistory extends PO implements I_HR_JobApplicationHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20220801L;
+	private static final long serialVersionUID = 20230102L;
 
     /** Standard Constructor */
     public X_HR_JobApplicationHistory (Properties ctx, int HR_JobApplicationHistory_ID, String trxName)
@@ -90,28 +92,10 @@ public class X_HR_JobApplicationHistory extends PO implements I_HR_JobApplicatio
 		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
 	}
 
-	/** Set Job Application History.
-		@param HR_JobApplicationHistory_ID 
-		Job Application History
-	  */
-	public void setHR_JobApplicationHistory_ID (int HR_JobApplicationHistory_ID)
-	{
-		if (HR_JobApplicationHistory_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_JobApplicationHistory_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_JobApplicationHistory_ID, Integer.valueOf(HR_JobApplicationHistory_ID));
-	}
-
-	/** Get Job Application History.
-		@return Job Application History
-	  */
-	public int getHR_JobApplicationHistory_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobApplicationHistory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+	public org.adempiere.core.domains.models.I_HR_JobApplication getHR_JobApplication() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_HR_JobApplication)MTable.get(getCtx(), org.adempiere.core.domains.models.I_HR_JobApplication.Table_Name)
+			.getPO(getHR_JobApplication_ID(), get_TrxName());	}
 
 	/** Set Job Application.
 		@param HR_JobApplication_ID 
@@ -131,6 +115,29 @@ public class X_HR_JobApplicationHistory extends PO implements I_HR_JobApplicatio
 	public int getHR_JobApplication_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobApplication_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Job Application History.
+		@param HR_JobApplicationHistory_ID 
+		Job Application History
+	  */
+	public void setHR_JobApplicationHistory_ID (int HR_JobApplicationHistory_ID)
+	{
+		if (HR_JobApplicationHistory_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_JobApplicationHistory_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_JobApplicationHistory_ID, Integer.valueOf(HR_JobApplicationHistory_ID));
+	}
+
+	/** Get Job Application History.
+		@return Job Application History
+	  */
+	public int getHR_JobApplicationHistory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_JobApplicationHistory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
