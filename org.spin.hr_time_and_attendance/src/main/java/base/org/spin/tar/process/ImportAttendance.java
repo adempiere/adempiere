@@ -131,7 +131,7 @@ public class ImportAttendance extends ImportAttendanceAbstract {
          //	Create new
          if(attendanceBatch == null) {
         	 attendanceQuantity = 0;
-        	 attendanceBatch = new MHRAttendanceBatch(getCtx(), 0, get_TrxName());
+        	 attendanceBatch = new MHRAttendanceBatch(getCtx(), 0, importAttendance.get_TrxName());
         	 attendanceBatch.setDateDoc(TimeUtil.getDay(importAttendance.getAttendanceTime()));
         	 MHREmployee employee = MHREmployee.getById(getCtx(), importAttendance.getHR_Employee_ID());
         	 attendanceBatch.setC_BPartner_ID(employee.getC_BPartner_ID());
@@ -143,14 +143,14 @@ public class ImportAttendance extends ImportAttendanceAbstract {
         		 attendanceBatch = null;
         	 } else {
         		 attendanceBatch.setHR_WorkShift_ID(workShiftId);
-        		 attendanceBatch.saveEx();
+        		 attendanceBatch.saveEx(importAttendance.get_TrxName());
         	 }
          }
          if(attendanceBatch != null) {
         	 MHRAttendanceRecord attendanceRecord = new MHRAttendanceRecord(attendanceBatch);
         	 attendanceRecord.setAttendanceTime(importAttendance.getAttendanceTime());
         	 attendanceRecord.setSeqNo(attendanceQuantity * 10);
-        	 attendanceRecord.saveEx();
+        	 attendanceRecord.saveEx(importAttendance.get_TrxName());
         	 //	Save reference
         	 importAttendance.setHR_AttendanceBatch_ID(attendanceBatch.getHR_AttendanceBatch_ID());
         	 importAttendance.setHR_AttendanceRecord_ID(attendanceRecord.getHR_AttendanceRecord_ID());
@@ -158,7 +158,7 @@ public class ImportAttendance extends ImportAttendanceAbstract {
         	 importAttendance.setI_IsImported(true);
              importAttendance.setI_ErrorMsg("");
              importAttendance.setProcessed(true);
-             importAttendance.saveEx();
+             importAttendance.saveEx(importAttendance.get_TrxName());
              //	
              attendanceQuantity++;
              return true;
@@ -175,6 +175,11 @@ public class ImportAttendance extends ImportAttendanceAbstract {
 			if(attendanceBatch == null) {
 				return;
 			}
+			String transactionName = null;
+			if(importAttendance != null) {
+				transactionName = importAttendance.get_TrxName();
+			}
+			attendanceBatch.set_TrxName(transactionName);
 			//	Process Selection
 			if(!attendanceBatch.processIt(MHRAttendanceBatch.DOCACTION_Complete)) {
 				if(importAttendance != null) {
@@ -182,7 +187,7 @@ public class ImportAttendance extends ImportAttendanceAbstract {
 				}
 			}
 			//	
-			attendanceBatch.saveEx();
+			attendanceBatch.saveEx(transactionName);
 			addLog(attendanceBatch.getHR_AttendanceBatch_ID(), attendanceBatch.getDateDoc(), null, attendanceBatch.toString());
 		}
 		
