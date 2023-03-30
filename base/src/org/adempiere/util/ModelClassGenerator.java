@@ -108,7 +108,7 @@ public class ModelClassGenerator
 					writeToFile (sb, fileName);
 				}
 			}
-		}
+		}*/
 	}
 
 	public static final String NL = "\n";
