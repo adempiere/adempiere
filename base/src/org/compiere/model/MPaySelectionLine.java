@@ -20,12 +20,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.Properties;
-
 import org.adempiere.core.domains.models.I_HR_Movement;
 import org.adempiere.core.domains.models.X_C_PaySelectionLine;
 import org.adempiere.core.domains.models.X_HR_Employee;
@@ -35,6 +29,13 @@ import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.Properties;
+
 
 /**
  *	Payment Selection Line Model
@@ -621,19 +622,21 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	}
 	
 	@Override
-	public void setPaymentRule(String PaymentRule) {
-		if (PaymentRule == null
-				||(
-						!getPaymentRule().equals(PAYMENTRULE_Check) 
-						&& !getPaymentRule().equals(PAYMENTRULE_CreditCard) 
-						&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit) 
+	public void setPaymentRule(String paymentRule) {
+		if (paymentRule == null
+				|| (
+				getPaymentRule() != null
+						&& !getPaymentRule().equals(PAYMENTRULE_Check)
+						&& !getPaymentRule().equals(PAYMENTRULE_CreditCard)
+						&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit)
 						&& !getPaymentRule().equals(PAYMENTRULE_DirectDebit)
-				)) {
+		)
+		) {
 			//	Set from Standard
-			PaymentRule = PAYMENTRULE_Check;
+			paymentRule = PAYMENTRULE_Check;
 		}
 		//	Set
-		super.setPaymentRule(PaymentRule);
+		super.setPaymentRule(paymentRule);
 	}
 
 }	//	MPaySelectionLine
