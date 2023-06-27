@@ -287,7 +287,7 @@ public class ImportGLJournal extends SvrProcess implements ImportProcess
 							//	Set/Overwrite Home Currency Rate
 							sql = new StringBuilder("UPDATE I_GLJournal i "
 									+ "SET CurrencyRate=1"
-									+ "WHERE EXISTS (SELECT * FROM C_AcctSchema a"
+									+ " WHERE EXISTS (SELECT * FROM C_AcctSchema a"
 									+ " WHERE a.C_AcctSchema_ID=i.C_AcctSchema_ID AND a.C_Currency_ID=i.C_Currency_ID)"
 									+ " AND C_Currency_ID IS NOT NULL AND I_IsImported<>'Y'").append(clientCheck);
 							no = DB.executeUpdate(sql.toString(), trxName);
