@@ -271,7 +271,7 @@ public class InvoiceHistory extends Window implements EventListener
 				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
 				+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID) "
 				+ "WHERE i.C_BPartner_ID=? "
-				+ "ORDER BY i.DateInvoiced DESC";
+				+ " ORDER BY i.DateInvoiced DESC";
 		}
 		else
 		{
@@ -313,7 +313,7 @@ public class InvoiceHistory extends Window implements EventListener
 					+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
 					+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID) " 
 					+ "WHERE l.M_Product_ID="+ m_M_Product_ID
-					+ "ORDER BY i.DateInvoiced DESC";
+					+ " ORDER BY i.DateInvoiced DESC";
 		}
 		else
 		{
