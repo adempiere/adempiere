@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Application Support to Login With Microsoft Azure" ReleaseNo="3.9.4" SeqNo="9890">
+  <Migration EntityType="D" Name="Add Application Support to Login With Microsoft Azure" ReleaseNo="3.9.5" SeqNo="9890">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54542" Action="I" Record_ID="50031" Table="AD_AppSupport">
         <Data AD_Column_ID="91310" Column="UUID">1f04542a-4d0c-4ed7-a4df-5b8cd7601d12</Data>
