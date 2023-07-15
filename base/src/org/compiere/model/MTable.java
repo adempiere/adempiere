@@ -228,7 +228,7 @@ public class MTable extends X_AD_Table
 			MEntityType et = MEntityType.get(Env.getCtx(), entityType);
 			String etmodelpackage = et.getModelPackage();
 			if (etmodelpackage == null || MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
-				etmodelpackage = "org.compiere.model"; // fallback for dictionary or empty model package on entity type
+				etmodelpackage = "org.adempiere.core.domains.models"; // fallback for dictionary or empty model package on entity type
 			Class<?> clazz = getPOclass(etmodelpackage + ".X_" + tableName, tableName);
 			if (clazz != null)
 			{
