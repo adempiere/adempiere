@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Read Only Logic in AD_ClientInfo table columns" ReleaseNo="3.9.5" SeqNo="9930">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="1983" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3883" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="5956" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2349" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2350" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2347" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2348" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="6735" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3881" Table="AD_Column">
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" oldValue="@AD_Client_ID=0">@AD_Client_ID@=0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
