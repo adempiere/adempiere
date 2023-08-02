@@ -350,6 +350,10 @@ public final class ImpFormat
 			log.log(Level.SEVERE, sql, e);
 			return null;
 		}
+		if (retValue == null) {
+			return null;
+		}
+
 		loadRows (retValue, ID);
 		return retValue;
 	}	//	getFormat
@@ -382,6 +386,10 @@ public final class ImpFormat
 			log.log(Level.SEVERE, sql, e);
 			return null;
 		}
+		if (retValue == null) {
+			return null;
+		}
+
 		loadRows(retValue, impFormatId);
 		return retValue;
 	}	//	getFormat
