@@ -518,8 +518,8 @@ public final class ImpFormat
 	 *  @param fieldNo number of field to be returned
 	 *  @return field in lime or ""
 	@throws IllegalArgumentException if format unknowns
-	 *   */
-	private String parseFlexFormat (String line, String formatType, int fieldNo)
+	 */
+	public String parseFlexFormat(String line, String formatType, int fieldNo)
 	{
 		final char QUOTE = '"';
 		//  check input
