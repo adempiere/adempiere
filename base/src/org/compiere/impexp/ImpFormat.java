@@ -327,6 +327,9 @@ public final class ImpFormat
 	 */
 	public static ImpFormat load (String name) {
 		log.config(name);
+		if (Util.isEmpty(name, true)) {
+			return null;
+		}
 		ImpFormat retValue = null;
 		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
 		int ID = 0;
@@ -358,8 +361,11 @@ public final class ImpFormat
 	 */
 	public static ImpFormat load(int impFormatId) {
 		log.config("AD_ImpFormat_ID = " + impFormatId);
+		if (impFormatId <= 0) {
+			return null;
+		}
 		ImpFormat retValue = null;
-		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
+		String sql = "SELECT * FROM AD_ImpFormat WHERE AD_ImpFormat_ID=?";
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, impFormatId);
