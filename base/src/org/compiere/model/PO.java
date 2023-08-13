@@ -118,7 +118,7 @@ import org.w3c.dom.Element;
  *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
  * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
  *			<a href="https://github.com/adempiere/adempiere/issues/4000">
- *			@see BF [ 729 ] Allows deletion of System client records with the GardenWorld client</a>
+ *			@see BR [ 4000 ] Allows deletion of System client records with the GardenWorld client</a>
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee, Cloneable
