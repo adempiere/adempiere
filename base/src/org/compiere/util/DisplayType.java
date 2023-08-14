@@ -482,6 +482,7 @@ public final class DisplayType
 			}
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("_ID_To")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return "NUMBER(10)";
@@ -628,6 +629,7 @@ public final class DisplayType
 			}
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("_ID_To")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return 10;
@@ -711,6 +713,7 @@ public final class DisplayType
 			}
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
+				|| columnName.endsWith("_ID_To")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return Types.DECIMAL;
