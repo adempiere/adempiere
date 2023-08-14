@@ -60,6 +60,8 @@ import org.spin.util.ASPUtil;
  *  Usually editors listen to their fields.
  *
  *  @author Jorg Janke
+ *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
+ * 
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ], [1877902] Implement JSR 223 Scripting APIs to Callout
  *  		http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *    <li>Implement embedded or horizontal tab panel https://adempiere.atlassian.net/browse/ADEMPIERE-319
@@ -84,7 +86,6 @@ import org.spin.util.ASPUtil;
  * 		@see https://github.com/adempiere/adempiere/issues/349
  * 		<a href="https://github.com/adempiere/adempiere/issues/566">
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
- *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
 	implements Serializable, Evaluatee
@@ -780,7 +781,8 @@ public class GridField
 		{
 			//	IDs & Integer & CreatedBy/UpdatedBy
 			if (m_vo.ColumnName.endsWith("atedBy")
-					|| (m_vo.ColumnName.endsWith("_ID") && DisplayType.isID(m_vo.displayType))) // teo_sarca [ 1672725 ] Process parameter that ends with _ID but is boolean
+				|| ((m_vo.ColumnName.endsWith("_ID") || m_vo.ColumnName.endsWith("_ID_To"))
+				&& DisplayType.isID(m_vo.displayType))) // teo_sarca [ 1672725 ] Process parameter that ends with _ID but is boolean
 			{
 				try	//	defaults -1 => null
 				{
@@ -1580,7 +1582,7 @@ public class GridField
 		{
 			//	Return Integer
 			if (dt == DisplayType.Integer
-				|| (DisplayType.isID(dt) && getColumnName().endsWith("_ID")))
+				|| (DisplayType.isID(dt) && (getColumnName().endsWith("_ID") || getColumnName().endsWith("_ID_To"))))
 			{
 				int i = Integer.parseInt(newValue);
 				setValue(Integer.valueOf(i), inserting);

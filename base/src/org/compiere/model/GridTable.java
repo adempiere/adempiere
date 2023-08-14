@@ -3172,7 +3172,8 @@ public class GridTable extends AbstractTableModel
 				//	Integer, ID, Lookup (UpdatedBy is a numeric column)
 				if (displayType == DisplayType.Integer
 					|| (DisplayType.isID(displayType) 
-						&& (columnName.endsWith("_ID") || columnName.endsWith("_Acct") 
+					&& (columnName.endsWith("_ID") || columnName.endsWith("_ID_To")
+					|| columnName.endsWith("_Acct")
 							|| columnName.equals("AD_Key") || columnName.equals("AD_Display"))) 
 					|| columnName.endsWith("atedBy"))
 				{
