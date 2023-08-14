@@ -86,6 +86,10 @@ import org.spin.util.ASPUtil;
  * 		@see https://github.com/adempiere/adempiere/issues/349
  * 		<a href="https://github.com/adempiere/adempiere/issues/566">
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
+ *
+ *	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ *			<li> BR [ <a href="https://github.com/adempiere/adempiere/issues/3576">3576</a> ]
+ *				Currency Rate does not allow editing the Currency To value.</li>
  */
 public class GridField 
 	implements Serializable, Evaluatee
