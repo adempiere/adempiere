@@ -37,6 +37,10 @@ import org.compiere.util.Util;
  * 			<li>BF [ 1824256 ] Convert sql casts
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  * 		Add support to ROWNUM as LIMIT and OFFSET
+ * 
+ * @author Edwin Betancourt, EdwinBetanc0urt@outllok.com, https://github.com/EdwinBetanc0urt/
+ * 		<a href="https://github.com/adempiere/adempiere/issues/4141">
+ * 		@see BR [ 4141 ] PostgreSQL `LIMIT` clause doesn't work.</a>
  */
 public class Convert_PostgreSQL extends Convert_SQL92 {
 	/**
@@ -143,8 +147,13 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		} else {
 			statement = convertComplexStatement(convertAlias(statement));
 		}
-		if (retVars.size() > 0)
+		if (retVars.size() > 0) {
 			statement = recoverQuotedStrings(statement, retVars);
+			// recoverQuotedStrings add "limit" on column name and reserved word on pagination
+			if (cmpString.indexOf("LIMIT") != -1) {
+				statement = convertLimit(statement);
+			}
+		}
 		result.add(statement);
 		
 		return result;
@@ -383,6 +392,40 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// return retValue;
 		// end e-evolution PostgreSQL
 	} // convertRowNum
+
+
+	/**
+	 * Convert LIMIT of records and omit Limit as column name.
+	 * 
+	 * <pre>
+	 *        SELECT Col1, "limit", Col2 FROM tableA "limit" 1
+	 *        =&gt; SELECT Col1, "limit", Col2 FROM tableA LIMIT 1
+	 * </pre>
+	 * 
+	 * @param sqlStatement
+	 * @return converted statement
+	 */
+	private String convertLimit(String sqlStatement) {
+		String scapeSQLStatement = sqlStatement;
+
+		//	"limit" 10   =>   LIMIT 10
+		final String limitPattern = "\"limit\"\\s+(\\d+)";
+		final String limitReplace = "LIMIT $1";
+
+		Matcher matcherSmallerThanWithAnd = Pattern.compile(
+			limitPattern,
+			REGEX_FLAGS
+		).matcher(sqlStatement);
+		if(matcherSmallerThanWithAnd.find()) {
+			scapeSQLStatement = sqlStatement.replaceAll(
+				matcherSmallerThanWithAnd.pattern().pattern(),
+				limitReplace
+			);
+		}
+
+		return scapeSQLStatement;
+	} // convertLimit
+
 
 	/***************************************************************************
 	 * Converts Update.
