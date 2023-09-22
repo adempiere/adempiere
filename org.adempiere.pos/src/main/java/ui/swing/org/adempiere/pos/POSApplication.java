@@ -49,7 +49,7 @@ public class POSApplication {
 	public POSApplication() {
 		Adempiere.startup(true);	//	needs to be here for UI
 		Splash splash = Splash.getSplash();
-		final FormFrame frame = new FormFrame(splash.getGraphicsConfiguration());
+		final FormFrame frame = new FormFrame(0);
 		//  Focus Traversal
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
 		

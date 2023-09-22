@@ -690,7 +690,7 @@ public class WFActivity extends CPanel
 		else if (MWFNode.ACTION_UserForm.equals(node.getAction()))
 		{
 			int AD_Form_ID = node.getAD_Form_ID();
-			FormFrame ff = new FormFrame();
+			FormFrame ff = new FormFrame(0);
 			ff.openForm(AD_Form_ID);
 			ff.pack();
 			AEnv.addToWindowManager(ff);
