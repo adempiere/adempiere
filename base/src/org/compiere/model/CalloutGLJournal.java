@@ -163,7 +163,6 @@ public class CalloutGLJournal extends CalloutEngine
 	 */
 	public String amt (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
-		String colName = gridField.getColumnName();
 		if (value == null || isCalloutActive())
 			return "";
 
