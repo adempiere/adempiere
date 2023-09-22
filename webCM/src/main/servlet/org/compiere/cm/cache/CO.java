@@ -71,7 +71,7 @@ public class CO {
 	 */
 	public void put(String ID, Object thisObject) {
 		cache.put(ID,thisObject);
-		Long thisLong = new Long(new Date().getTime());
+		Long thisLong = Long.valueOf(new Date().getTime());
 		cacheUsage.put(ID, thisLong);
 		if (cacheUsage.size()>cacheSize-1) {
 			cleanUp();
@@ -145,7 +145,7 @@ public class CO {
 	 *	@param ID
 	 */
 	public void use(int ID) {
-		Long thisLong = new Long(new java.util.Date().getTime());
+		Long thisLong = Long.valueOf(new java.util.Date().getTime());
 		cacheUsage.put("" + ID, thisLong);
 	}
 	
@@ -154,7 +154,7 @@ public class CO {
 	 *	@param ID
 	 */
 	public void use(String ID) {
-		Long thisLong = new Long(new java.util.Date().getTime());
+		Long thisLong = new java.util.Date().getTime();
 		cacheUsage.put(ID, thisLong);
 	}
 	
