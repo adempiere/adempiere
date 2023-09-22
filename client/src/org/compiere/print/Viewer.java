@@ -1627,7 +1627,7 @@ public class Viewer extends CFrame
 	//	MPrintFormat f = new MPrintFormat(Env.getCtx(), 101);
 	//	ReportEngine re = new ReportEngine(f, null);
 
-		new Viewer(re);
+		new Viewer(null, re);
 	}	//	main
 
 }	//	Viewer

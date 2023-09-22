@@ -132,7 +132,7 @@ public class VPrintDocument implements IPrintDocument {
             PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
             ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
             reportEngine.print();
-            new Viewer(reportEngine);
+			new Viewer(null, reportEngine);
         }
 	}
 }
