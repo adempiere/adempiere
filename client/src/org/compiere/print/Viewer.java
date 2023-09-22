@@ -151,16 +151,6 @@ public class Viewer extends CFrame
 	private static final String HTML = "H";
 
 	/**
-	 * 	@deprecated
-	 *	Viewer Constructor
-	 *	@param re report engine
-	 */
-	public Viewer (ReportEngine re)
-	{
-		this(null, re);
-	}
-
-	/**
 	 *	Viewer Constructor
 	 *  @param gc
 	 *	@param re report engine
