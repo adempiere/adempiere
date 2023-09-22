@@ -800,12 +800,12 @@ public class TableElement extends PrintElement
 					int additionalPart = columnWidth * availableWidth / totalWidth;
 					if (remainingWidth < additionalPart)
 					{
-						m_columnWidths.set(col, Float.valueOf(columnWidth+remainingWidth));
+						m_columnWidths.set(col, Float.valueOf(columnWidth + remainingWidth));
 						remainingWidth = 0;
 					}
 					else
 					{
-						m_columnWidths.set(col, Float.valueOf(columnWidth+additionalPart));
+						m_columnWidths.set(col, Float.valueOf(columnWidth + additionalPart));
 						remainingWidth -= additionalPart;
 					}
 					if (log.isLoggable(Level.FINEST)) log.finest("  col=" + col + " - From " + columnWidth + " to " + m_columnWidths.get(col));
