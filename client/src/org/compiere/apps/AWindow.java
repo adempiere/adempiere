@@ -48,15 +48,6 @@ public class AWindow extends CFrame
 	private static final long serialVersionUID = -1925388774073536474L;
 
 	/**
-	 *	@deprecated
-	 *	Standard Constructor - requires initWindow
-	 */
-	public AWindow ()
-	{
-		this(null);
-	}	//	AWindow
-	
-	/**
 	 *	Standard Constructor - requires initWindow
 	 *  @param gc
 	 */
