@@ -573,20 +573,20 @@ public class TableElement extends PrintElement
 			//	Print below existing column
 			if (col != dataCol)
 			{
-				m_columnWidths.add(new Float(0.0));		//	for the data column
+				m_columnWidths.add(Float.valueOf((float) 0.0));		//	for the data column
 				Float origWidth = (Float)m_columnWidths.get(col);
 				if (origWidth == null)
 					log.log(Level.SEVERE, "Column " + dataCol + " below " + col + " - no value for orig width");
 				else
 				{
-					if (origWidth.compareTo(new Float(colWidth)) >= 0)
+					if (origWidth.compareTo(Float.valueOf(colWidth)) >= 0)
 					{
 						log.finest("Same Width - Col=" + col 
 								+ " - OrigWidth=" + origWidth + " - Width=" + colWidth + " - Total=" + p_width);
 					}
 					else
 					{
-						m_columnWidths.set(col, new Float(colWidth));
+						m_columnWidths.set(col, Float.valueOf(colWidth));
 						p_width += (colWidth - origWidth.floatValue());
 						log.finest("New Width - Col=" + col 
 								+ " - OrigWidth=" + origWidth + " - Width=" + colWidth + " - Total=" + p_width);
@@ -596,7 +596,7 @@ public class TableElement extends PrintElement
 			//	Add new Column
 			else
 			{
-				m_columnWidths.add(new Float(colWidth));
+				m_columnWidths.add(Float.valueOf(colWidth));
 				p_width += colWidth;
 				if (log.isLoggable(Level.FINEST)) log.finest("Width - Col=" + dataCol 
 						+ " - Width=" + colWidth + " - Total=" + p_width);
@@ -629,7 +629,7 @@ public class TableElement extends PrintElement
 			under = under == 2 ? under *  m_tFormat.getLineStroke().floatValue() + V_GAP : under *  m_tFormat.getLineStroke().floatValue();
 			rowHeight += over + under;
 			rowHeight += m_tFormat.getLineStroke().floatValue() + (2*V_GAP);
-			m_rowHeights.add(new Float(rowHeight));
+			m_rowHeights.add(Float.valueOf(rowHeight));
 			p_height += rowHeight;
 		}	//	for all rows
 		//	HeaderRow
@@ -654,7 +654,7 @@ public class TableElement extends PrintElement
 		{
 			if (log.isLoggable(Level.FINEST)) log.finest("Page Y=1 - PageHeight=" + m_firstPage.height + " - TableHeight=" + p_height);
 			m_firstRowOnPage.add(Integer.valueOf(0));	//	Y
-			m_pageHeight.add(new Float(p_height));	//	Y index only
+			m_pageHeight.add(Float.valueOf(p_height));	//	Y index only
 		}
 		//	multiple pages on Y | Axis
 		else
@@ -694,7 +694,7 @@ public class TableElement extends PrintElement
 					m_firstRowOnPage.add(Integer.valueOf(dataRow+addlRows));	//	Y
 					if (!firstPage)
 					{
-						m_pageHeight.add(new Float(usedHeight));	//	Y index only
+						m_pageHeight.add(Float.valueOf(usedHeight));	//	Y index only
 						if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_pageHeight.size()
 								+ " - PageHeight=" + usedHeight);
 					}
@@ -717,7 +717,7 @@ public class TableElement extends PrintElement
 					+ ", Row=" + dataRow + ",AddlRows=" + addlRows + ", Height=" + rowHeight 
 					+ " - Available=" + availableHeight + ", Used=" + usedHeight);
 			}	//	for all rows
-			m_pageHeight.add(new Float(usedHeight));			//	Y index only
+			m_pageHeight.add(Float.valueOf(usedHeight));			//	Y index only
 			if (log.isLoggable(Level.FINEST)) log.finest("Page Y=" + m_pageHeight.size()
 					+ " - PageHeight=" + usedHeight);
 		}	//	multiple Y | pages
@@ -800,12 +800,12 @@ public class TableElement extends PrintElement
 					int additionalPart = columnWidth * availableWidth / totalWidth;
 					if (remainingWidth < additionalPart)
 					{
-						m_columnWidths.set(col, new Float(columnWidth+remainingWidth));
+						m_columnWidths.set(col, Float.valueOf(columnWidth+remainingWidth));
 						remainingWidth = 0;
 					}
 					else
 					{
-						m_columnWidths.set(col, new Float(columnWidth+additionalPart));
+						m_columnWidths.set(col, Float.valueOf(columnWidth+additionalPart));
 						remainingWidth -= additionalPart;
 					}
 					if (log.isLoggable(Level.FINEST)) log.finest("  col=" + col + " - From " + columnWidth + " to " + m_columnWidths.get(col));
@@ -818,7 +818,7 @@ public class TableElement extends PrintElement
 			int columnWidth = ((Float)m_columnWidths.get(c)).intValue();
 			if (columnWidth > 0)
 			{
-				m_columnWidths.set(c, new Float(columnWidth+remainingWidth));
+				m_columnWidths.set(c, Float.valueOf(columnWidth + remainingWidth));
 				if (log.isLoggable(Level.FINEST)) log.finest("Final col=" + c + " - From " + columnWidth + " to " + m_columnWidths.get(c));
 				remainingWidth = 0;
 			}
