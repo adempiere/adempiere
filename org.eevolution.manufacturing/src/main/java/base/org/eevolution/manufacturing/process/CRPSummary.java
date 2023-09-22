@@ -218,7 +218,7 @@ public class CRPSummary extends SvrProcess
  		//
  		GregorianCalendar cal = new GregorianCalendar();
  		cal.setTime(dateTime);
- 		cal.add(Calendar.SECOND, new Long(offset).intValue());			//	may have a problem with negative
+		cal.add(Calendar.SECOND, Long.valueOf(offset).intValue());			//	may have a problem with negative
  		return new Timestamp (cal.getTimeInMillis());
  	}	//	addMinutes
      
@@ -412,7 +412,7 @@ public class CRPSummary extends SvrProcess
  		 			 cols.setFrom(gc1.getTime().toString());
  		 			 cols.setTo(gc1.getTime().toString());
  		 			 cols.setDays(1);
- 		 			 Long Hours = new Long(hours); 
+ 		 			Long Hours = Long.valueOf(hours); 
  		 			 cols.setCapacity(Hours.intValue());
  		 			 int C_UOM_ID = DB.getSQLValue(null,"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , r.getS_Resource_ID());
  		 			 MUOM oum = MUOM.get(getCtx(),C_UOM_ID);
