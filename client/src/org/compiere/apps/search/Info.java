@@ -1395,11 +1395,10 @@ public abstract class Info extends CDialog
 	 *  @param AD_Window_ID window id
 	 *  @param zoomQuery zoom query
 	 */
-	@SuppressWarnings("deprecation")
 	protected void zoom (int AD_Window_ID, MQuery zoomQuery)
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		final AWindow frame = new AWindow();
+		final AWindow frame = new AWindow(null);
 		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
 		AEnv.addToWindowManager(frame);
