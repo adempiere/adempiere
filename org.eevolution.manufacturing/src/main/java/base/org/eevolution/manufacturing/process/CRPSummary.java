@@ -144,7 +144,7 @@ public class CRPSummary extends SvrProcess
                 			long factor = (hours * 3600) / 86400; // factor = second for a day / avlailable hour in sencond
                 			System.out.print("factor:" + factor);
                 			long totalseconds = (seconds / factor) ; // (total seconds * factor seconds avaialble) / a day in seconds                			
-                			Long day = new Long((totalseconds/(hours* 3600)));
+                			Long day = Long.valueOf((totalseconds/(hours* 3600)));
                 			Timestamp dateFinishSchedule = getDate(date, day.intValue() ,type);
                 			n.setDateStartSchedule(date);
                 			n.setDateFinishSchedule(dateFinishSchedule);	
@@ -182,7 +182,7 @@ public class CRPSummary extends SvrProcess
                 			long factor = (hours * 3600) / 86400; // factor = second for a day / avlailable hour in sencond
                 			System.out.print("factor:" + factor);
                 			long totalseconds = (seconds / factor) ; // (total seconds * factor seconds avaialble) / a day in seconds                			
-                			Long day = new Long((totalseconds/(hours* 3600)) * -1 );
+                			Long day = Long.valueOf((totalseconds/(hours* 3600)) * -1 );
                 			Timestamp dateStartSchedule = getDate(date, day.intValue() ,type);
                 			n.setDateFinishSchedule(date);
 							n.setDateStartSchedule(dateStartSchedule);
@@ -412,7 +412,7 @@ public class CRPSummary extends SvrProcess
  		 			 cols.setFrom(gc1.getTime().toString());
  		 			 cols.setTo(gc1.getTime().toString());
  		 			 cols.setDays(1);
- 		 			Long Hours = Long.valueOf(hours); 
+ 		 			Long Hours = Long.valueOf(hours);
  		 			 cols.setCapacity(Hours.intValue());
  		 			 int C_UOM_ID = DB.getSQLValue(null,"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , r.getS_Resource_ID());
  		 			 MUOM oum = MUOM.get(getCtx(),C_UOM_ID);
