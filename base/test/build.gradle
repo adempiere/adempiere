@@ -1,8 +1,11 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
+sourceCompatibility JavaVersion.VERSION_11
 
 
 repositories {
@@ -19,22 +22,27 @@ if (JavaVersion.current().isJava8Compatible()) {
 }
 
 dependencies {
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
-    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-    api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    // https://mvnrepository.com/artifact/commons-lang/commons-lang
-    api 'commons-lang:commons-lang:2.1'
     // https://mvnrepository.com/artifact/io.vavr/vavr
     implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
+
+	// https://mvnrepository.com/artifact/commons-lang/commons-lang
+	api 'commons-lang:commons-lang:2.1'
+
+	// Local
+	api project(path: ':base')
+	api project(path: ':org.adempiere.test')
+
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	// testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src']
+		}
+	}
 }
 
 java {
@@ -42,28 +50,29 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
-}
 
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Base Test Module",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
-                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+				username = findProperty("sonatypeUsername")
+				password = findProperty("sonatypePassword")
             }
         }
     }
@@ -100,6 +109,27 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
+
 signing {
-    sign publishing.publications.mavenJava
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	sign configurations.archives
+	sign publishing.publications.mavenJava
 }

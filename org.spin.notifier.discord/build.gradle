@@ -1,8 +1,11 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
+sourceCompatibility JavaVersion.VERSION_11
 
 
 repositories {
@@ -17,18 +20,19 @@ allprojects {
 }
 
 dependencies {
-	api project(path: ':base')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
     // https://mvnrepository.com/artifact/net.dv8tion/JDA
 	implementation 'net.dv8tion:JDA:5.0.0-alpha.11'
+
+	// Local
+	api project(path: ':base')
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src/main/java/base']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src/main/java/base']
+		}
+	}
 }
 
 java {
@@ -36,27 +40,24 @@ java {
     withSourcesJar()
 }
 
-//signing {
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//    sign configurations.archives
-//}
 
-
-def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+def entityType = 'ECA41'
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Discord Notifier Module",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -98,9 +99,26 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
 signing {
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
 	def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }
