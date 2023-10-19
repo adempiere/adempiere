@@ -22,10 +22,12 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import org.adempiere.core.domains.models.X_C_AcctSchema_Element;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Datebox;
@@ -44,9 +46,8 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAcctSchemaElement;
-import org.compiere.model.Query;
+import org.compiere.model.*;
+import org.compiere.process.ProcessInfo;
 import org.compiere.report.core.RColumn;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
@@ -58,6 +59,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -856,7 +858,7 @@ public class WAcctViewer extends Window implements EventListener
 		else if  (source == bExport)
 			actionExportExcel();
 		else if  (source == bPrint)
-			;//PrintScreenPainter.printScreen(this);
+			actionPrintReport();
 		//  InfoButtons
 		else if  (source == bExport)
 			actionExportExcel(); // Export the table.
@@ -1488,19 +1490,17 @@ public class WAcctViewer extends Window implements EventListener
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
 			File file = File.createTempFile(prefix, ".xls", new File(path));
-			
 			RModelExcelExporter exporter = new RModelExcelExporter((RModel)model);
-			exporter.export(file, null, false);
-			//AMedia media = new AMedia(getTitle(), "xls", "application/msexcel", file, true);
-			//Filedownload.save(media, getTitle() + "." + "xls");
-			Filedownload.save(file,"application/msexcel");
+			exporter.export(file, Env.getLanguage(Env.getCtx()), false);
+			AMedia media = new AMedia(file.getName(), "xls", "application/vnd.ms-excel", file, true);
+			Filedownload.save(media);
 		}
 		catch (Exception e) {
 			FDialog.error(0, this, "LoadError", e.getLocalizedMessage());
 			if (CLogMgt.isLevelFinest()) e.printStackTrace();
 		}
 	}
-	//FR[3435028]
+
 	private String makePrefix(String name) {
 		StringBuffer prefix = new StringBuffer();
 		char[] nameArray = name.toCharArray();
@@ -1512,5 +1512,14 @@ public class WAcctViewer extends Window implements EventListener
 			}
 		}
 		return prefix.toString();
+	}
+
+	private void actionPrintReport() {
+		Optional.ofNullable(accountViewerData).ifPresent(document -> {
+			MQuery query = new MQuery(MFactAcct.Table_ID);
+			query.addRestriction(MFactAcct.COLUMNNAME_AD_Table_ID, MQuery.EQUAL, document.AD_Table_ID);
+			query.addRestriction(MFactAcct.COLUMNNAME_Record_ID, MQuery.EQUAL, document.Record_ID);
+			WReport report = new WReport(MFactAcct.Table_ID, query, this, windowNo);
+		});
 	}
 }
