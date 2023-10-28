@@ -79,7 +79,6 @@ import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
 import org.compiere.print.PrintUtil;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -87,9 +86,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
-import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
-
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimplePrintServiceExporterConfiguration;
 import net.sf.jasperreports.engine.JasperPrintManager;
 
 /**
@@ -111,6 +110,11 @@ import net.sf.jasperreports.engine.JasperPrintManager;
  *		<a href="https://github.com/adempiere/adempiere/issues/149">
  * 		@see FR [ 149 ] iReport integration does not have the standard names for parameters</a>
  * 		Resolve problem with direct print and margin
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4174">
+ * 		BR [ 4174 ] Swing client does not generate jasper reports.</a>
+ *
  */
 public class ReportStarter implements ProcessCall, ClientProcess
 {
@@ -639,13 +643,18 @@ public class ReportStarter implements ProcessCall, ClientProcess
 
                     		// Create print service exporter
                         	JRPrintServiceExporter exporter = new JRPrintServiceExporter();
+							exporter.setExporterInput(
+								new SimpleExporterInput(jasperPrint)
+							);
+
                         	// Set parameters
-                        	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE, printerJob.getPrintService());
-                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printerJob.getPrintService().getAttributes());
-                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, prats);
-                        	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
-                        	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
+							SimplePrintServiceExporterConfiguration configuration = new SimplePrintServiceExporterConfiguration();
+							configuration.setPrintRequestAttributeSet(prats);
+							configuration.setPrintService(printerJob.getPrintService());
+							configuration.setPrintServiceAttributeSet(printerJob.getPrintService().getAttributes());
+							configuration.setDisplayPageDialog(false);
+							configuration.setDisplayPrintDialog(false);
+							exporter.setConfiguration(configuration);
                         	// Print report / document
                         	exporter.exportReport();
                     	}
@@ -662,6 +671,9 @@ public class ReportStarter implements ProcessCall, ClientProcess
 						if (processInfo.isPrintPreview()) {
 							log.info("ReportStarter.startProcess run report -" + jasperPrint.getName());
 							JRViewerProvider viewerLauncher = getReportViewerProvider();
+							if (viewerLauncher == null) {
+								throw new AdempiereException("@Error@ JRViewerProvider @NotFound@");
+							}
 							//viewerLauncher.openViewer(jasperPrint, pi.getTitle()+" - " + reportPath);
 							viewerLauncher.openViewer(jasperPrint, pi.getTitle() + "_" + pi.getRecord_ID() + ".pdf");
 						}

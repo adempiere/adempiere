@@ -31,6 +31,10 @@ import org.compiere.wf.MWorkflow;
  * 				<li>BF [ 2530847 ] Report is displayed even if java process fails
  * @author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
  * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4174">
+ * 		BR [ 4174 ] Swing client does not generate jasper reports.</a>
  */
 public final class ProcessUtil {
 
@@ -127,9 +131,11 @@ public final class ProcessUtil {
 		String className = pi.getClassName();
 		if (className == null) {
 			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
-			if (proc.getJasperReport() != null)
+			if (proc.getJasperReport() != null) {
 				className = JASPER_STARTER_CLASS;
+			}
 		}
+
 		//Get Class
 		Class<?> processClass = null;
 		//use context classloader if available
@@ -151,17 +157,12 @@ public final class ProcessUtil {
 		ProcessCall process = null;
 		try
 		{
-			process = (ProcessCall)processClass.newInstance();
+			process = (ProcessCall) processClass.getDeclaredConstructor().newInstance();
 		}
 		catch (Exception ex)
 		{
 			log.log(Level.WARNING, "Instance for " + className, ex);
 			pi.setSummary ("InstanceError", true);
-			return false;
-		}
-		
-		if (processClass == null) {
-			pi.setSummary("No Instance for " + pi.getClassName(), true);
 			return false;
 		}
 		
