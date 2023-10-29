@@ -88,8 +88,8 @@ import org.spin.util.ASPUtil;
  * 		@see FR [ 566 ] Process parameter don't have a parameter like only information</a>
  *
  *	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
- *			<li> BR [ <a href="https://github.com/adempiere/adempiere/issues/3576">3576</a> ]
- *				Currency Rate does not allow editing the Currency To value.</li>
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/3576">
+ * 		BR [ 3576 ] Currency Rate does not allow editing the Currency To value.</a>
  */
 public class GridField 
 	implements Serializable, Evaluatee
@@ -785,7 +785,9 @@ public class GridField
 		{
 			//	IDs & Integer & CreatedBy/UpdatedBy
 			if (m_vo.ColumnName.endsWith("atedBy")
-				|| ((m_vo.ColumnName.endsWith("_ID") || m_vo.ColumnName.endsWith("_ID_To"))
+				|| ((m_vo.ColumnName.endsWith("_ID") || m_vo.ColumnName.endsWith("_ID_To")
+				|| m_vo.ColumnName.equals("AD_Key") || m_vo.ColumnName.equals("AD_Display")
+				|| m_vo.ColumnName.endsWith("_Acct"))
 				&& DisplayType.isID(m_vo.displayType))) // teo_sarca [ 1672725 ] Process parameter that ends with _ID but is boolean
 			{
 				try	//	defaults -1 => null
@@ -1586,8 +1588,12 @@ public class GridField
 		{
 			//	Return Integer
 			if (dt == DisplayType.Integer
-				|| (DisplayType.isID(dt) && (getColumnName().endsWith("_ID") || getColumnName().endsWith("_ID_To"))))
-			{
+				|| (DisplayType.isID(dt)
+				&& (getColumnName().endsWith("_ID") || getColumnName().endsWith("_ID_To")
+				|| getColumnName().equals("AD_Key") || getColumnName().equals("AD_Display")
+				|| getColumnName().endsWith("_Acct")))
+				|| getColumnName().endsWith("atedBy")
+			) {
 				int i = Integer.parseInt(newValue);
 				setValue(Integer.valueOf(i), inserting);
 			}

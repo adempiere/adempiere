@@ -40,9 +40,12 @@ import org.compiere.model.MRefTable;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/676">
  * 		@see FR [ 677 ] Process Class Generator not get parameters type correctly</a>
- *  @author Edwin Betancourt EdwinBetanc0ut@outlook.com
- *  	<li> <a href="https://github.com/adempiere/adempiere/issues/3363">
- * 		@see BR [ 3363 ] Length in 0 of column, prevents to register values in that column</a>
+ *
+ *  @author Edwin Betancourt EdwinBetanc0ut@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/3363">
+ * 		BR [ 3363 ] Length in 0 of column, prevents to register values in that column</a>
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/3576">
+ * 		BR [ 3576 ] Currency Rate does not allow editing the Currency To value.</a>
  */
 public final class DisplayType
 {
@@ -483,6 +486,8 @@ public final class DisplayType
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
 				|| columnName.endsWith("_ID_To")
+				|| columnName.equals("AD_Key")
+				|| columnName.equals("AD_Display")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return "NUMBER(10)";
@@ -630,6 +635,8 @@ public final class DisplayType
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
 				|| columnName.endsWith("_ID_To")
+				|| columnName.equals("AD_Key")
+				|| columnName.equals("AD_Display")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return 10;
@@ -714,6 +721,8 @@ public final class DisplayType
 			//	ID, CreatedBy/UpdatedBy, Acct
 			else if (columnName.endsWith("_ID") 
 				|| columnName.endsWith("_ID_To")
+				|| columnName.equals("AD_Key")
+				|| columnName.equals("AD_Display")
 				|| columnName.endsWith("tedBy") 
 				|| columnName.endsWith("_Acct")) {
 				return Types.DECIMAL;

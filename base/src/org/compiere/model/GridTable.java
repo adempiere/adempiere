@@ -97,8 +97,8 @@ import org.compiere.util.ValueNamePair;
  *			<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/1944">1944</a> ] First save of a record with new Yes-No field causes error. 
  *
  *	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
- *			<li> BR [ <a href="https://github.com/adempiere/adempiere/issues/3576">3576</a> ]
- *				Currency Rate does not allow editing the Currency To value.</li>
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/3576">
+ * 		BR [ 3576 ] Currency Rate does not allow editing the Currency To value.</a>
  *
  */
 public class GridTable extends AbstractTableModel
