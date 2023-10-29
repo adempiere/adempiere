@@ -85,6 +85,13 @@ dependencies {
     //api 'io.github.adempiere:tools:'
 }
 
+configurations.all {
+	resolutionStrategy {
+		// used by aws-java-sdk-core (storefront is joda-time-2.10.4)
+		force("joda-time:joda-time:2.8.1")
+	}
+}
+
 sourceSets {
     main {
          java {
