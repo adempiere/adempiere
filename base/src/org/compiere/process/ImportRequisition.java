@@ -18,7 +18,10 @@
 package org.compiere.process;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -62,6 +65,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 /** Generated Process for (Import Requisitions)
@@ -105,7 +109,7 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
 		if (isDeleteOldImported()) {
 			sql = new StringBuffer ("DELETE I_Requisition "
 				  + "WHERE I_IsImported='Y'").append (clientCheck);
-			no = DB.executeUpdate(sql.toString(), get_TrxName());
+			no = DB.executeUpdate(sql.toString(), null);
 			log.fine("Delete Old Impored =" + no);
 		}
 
@@ -121,7 +125,7 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
 			  + " I_ErrorMsg = ' ',"
 			  + " I_IsImported = 'N' "
 			  + "WHERE I_IsImported<>'Y' OR I_IsImported IS NULL");
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdate(sql.toString(), null);
 		log.info ("Reset=" + no);
 
 		sql = new StringBuffer ("UPDATE I_Requisition o "
@@ -129,29 +133,70 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
 			+ "WHERE (AD_Org_ID IS NULL OR AD_Org_ID=0"
 			+ " OR EXISTS (SELECT * FROM AD_Org oo WHERE o.AD_Org_ID=oo.AD_Org_ID AND (oo.IsSummary='Y' OR oo.IsActive='N')))"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
-		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		no = DB.executeUpdate(sql.toString(), null);
 		if (no != 0)
 			log.warning ("Invalid Org=" + no);
 		
 		AtomicInteger importedRecord = new AtomicInteger(0);
         AtomicInteger withErrors = new AtomicInteger(0);
-        getImportIds(false, false, get_TrxName()).forEach(importRequisitionId -> {
-        	X_I_Requisition importRequisition = new X_I_Requisition(getCtx(), importRequisitionId, get_TrxName());
-            importRequisition.setI_ErrorMsg(null);
-            fillIdValues(importRequisition, get_TrxName());
-            if (importRequisition(importRequisition, get_TrxName())) {
-            	importedRecord.updateAndGet(record -> record + 1);
-            } else {
-            	withErrors.updateAndGet(error -> error + 1);
-            }
-            if (!stringError.toString().isEmpty() && stringError.toString().length() > 0) {
-            	importRequisition.setI_ErrorMsg(Msg.parseTranslation(getCtx(), stringError.toString()));
-            }
-            //	
-            importRequisition.saveEx();
+        //	fill All values
+        getImportIds(false, false).forEach(importRequisitionId -> {
+        	Trx.run(transactionName -> {
+        		X_I_Requisition importRequisition = new X_I_Requisition(getCtx(), importRequisitionId, transactionName);
+    			importRequisition.setI_ErrorMsg(null);
+                fillIdValues(importRequisition, transactionName);
+                importRequisition.saveEx();
+        	});
         });
+        Map<Integer, Boolean> requisitionsIds = new HashMap<Integer, Boolean>();
+        getGroupedRequisitions().entrySet().parallelStream().forEach(requisitionSet -> {
+        	Trx.run(transactionName -> {
+        		requisitionSet.getValue().forEach(importRequisitionId -> {
+        			X_I_Requisition importRequisition = new X_I_Requisition(getCtx(), importRequisitionId, transactionName);
+        			importRequisition.setI_ErrorMsg(null);
+	                if (importRequisition(importRequisition, transactionName)) {
+	                	importedRecord.updateAndGet(record -> record + 1);
+	                  	importRequisition.setProcessed(true);
+	                  	importRequisition.setI_IsImported("Y");
+	                  	requisitionsIds.put(importRequisition.getM_Requisition_ID(), true);
+	                } else {
+	                	withErrors.updateAndGet(error -> error + 1);
+	                }
+	                if (!stringError.toString().isEmpty() && stringError.toString().length() > 0) {
+	                  	importRequisition.setI_ErrorMsg(Msg.parseTranslation(getCtx(), stringError.toString()));
+	                }
+	                //	
+	                importRequisition.saveEx();
+        		});
+        	});
+        });
+        //	Process All
+        if(requisitionsIds.size() > 0) {
+        	requisitionsIds.keySet().parallelStream().forEach(requisitionId -> {
+        		Trx.run(transactionName -> {
+        			MRequisition requisition = new MRequisition(getCtx(), requisitionId, transactionName);
+        			requisition.processIt(getDocAction());
+        			requisition.saveEx();
+            	});
+        	});
+        }
         //	Import 
         return "@M_Requisition_ID@ @Import@ @Records@ " + importedRecord.get() + " @Errors@ " + withErrors.get();
+	}
+	
+	private Map<String, List<Integer>> getGroupedRequisitions() {
+		Map<String, List<Integer>> groupedRequisitions = new HashMap<String, List<Integer>>();
+		getImportIds(false, false).forEach(importRequisitionId -> {
+			X_I_Requisition importRequisition = new X_I_Requisition(getCtx(), importRequisitionId, null);
+			String key = Optional.ofNullable(importRequisition.getWarehouseValue()).orElse("") + "|" + Optional.ofNullable(importRequisition.getDateDoc()).orElse(TimeUtil.getDay(System.currentTimeMillis())) + "|" + Optional.ofNullable(importRequisition.getDocumentNo()).orElse("");
+			List<Integer> importReferences = new ArrayList<Integer>();
+			if(groupedRequisitions.containsKey(key)) {
+				importReferences = groupedRequisitions.get(key);
+			}
+			importReferences.add(importRequisitionId);
+			groupedRequisitions.put(key, importReferences);
+		});
+		return groupedRequisitions;
 	}
 	
     /**
@@ -160,12 +205,12 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
      * @param isProcessed
      * @return
      */
-    private List<Integer> getImportIds(boolean isImported, boolean isProcessed, String transactionName) {
+    private List<Integer> getImportIds(boolean isImported, boolean isProcessed) {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append(I_I_Requisition.COLUMNNAME_I_IsImported).append("=? AND ")
                 .append(I_I_Requisition.COLUMNNAME_Processed).append("=?");
         //	Get
-        return new Query(getCtx(), I_I_Requisition.Table_Name, whereClause.toString(), transactionName)
+        return new Query(getCtx(), I_I_Requisition.Table_Name, whereClause.toString(), null)
                 .setOnlyActiveRecords(true)
                 .setParameters(isImported, isProcessed)
                 .setOrderBy(I_I_Requisition.COLUMNNAME_M_Warehouse_ID + ", " + I_I_Requisition.COLUMNNAME_DateDoc + ", " + I_I_Requisition.COLUMNNAME_DocumentNo + ", " + I_I_Requisition.COLUMNNAME_Line)
@@ -205,7 +250,7 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
         }
         requisition = createRequisition(importRequisition, transactionName);
     	ModelValidationEngine.get().fireImportValidate(this, importRequisition, requisition, ImportValidator.TIMING_AFTER_IMPORT);
-    	return requisition != null;
+    	return importRequisition.getM_Requisition_ID() != 0 && importRequisition.getM_RequisitionLine_ID() != 0;
     }
     
     /**
@@ -260,8 +305,13 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     		if(!Util.isEmpty(importRequisition.getPriorityRule())) {
     			requisition.setPriorityRule(importRequisition.getPriorityRule());
     		}
-    		if(importRequisition.getAD_User_ID() > 0) {
+    		if(getUserId() > 0) {
+    			requisition.setAD_User_ID(getUserId());
+    		} else if(importRequisition.getAD_User_ID() > 0) {
     			requisition.setAD_User_ID(importRequisition.getAD_User_ID());
+    		} else {
+    			isValid = false;
+    			addError(I_M_Requisition.COLUMNNAME_AD_User_ID);
     		}
     		if(importRequisition.getC_Project_ID() > 0) {
     			requisition.setC_Project_ID(importRequisition.getC_Project_ID());
@@ -335,15 +385,11 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     		}
     		if(importRequisition.getM_Product_ID() > 0) {
     			requisitionLine.setM_Product_ID(importRequisition.getM_Product_ID());
+    		} else if(importRequisition.getC_Charge_ID() > 0) {
+    			requisitionLine.setC_Charge_ID(importRequisition.getC_Charge_ID());
     		} else {
     			isValid = false;
     			addError(I_M_RequisitionLine.COLUMNNAME_M_Product_ID);
-    		}
-    		if(importRequisition.getC_UOM_ID() > 0) {
-    			requisitionLine.setC_UOM_ID(importRequisition.getC_UOM_ID());
-    		} else {
-    			isValid = false;
-    			addError(I_M_RequisitionLine.COLUMNNAME_C_UOM_ID);
     		}
     		//	Quantities
     		if(Optional.ofNullable(importRequisition.getQty()).orElse(Env.ZERO).compareTo(Env.ZERO) > 0) {
@@ -408,12 +454,12 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     			String whereClause = "VALUE= '" + value + "'";
     			// Have we already added it?
     			X_M_Product_Class productClass = MTable.get(getCtx(), X_M_Product_Class.Table_ID)
-    				.createQuery(whereClause, get_TrxName())  // will lock the table
+    				.createQuery(whereClause, transactionName)  // will lock the table
     				.setOnlyActiveRecords(true)
     				.setClient_ID()
     				.first();
     			if (productClass == null) {
-    				productClass = new X_M_Product_Class(getCtx(), 0, get_TrxName());
+    				productClass = new X_M_Product_Class(getCtx(), 0, transactionName);
     				productClass.setValue(importRequisition.getProductClass_Value());
     				productClass.setName(importRequisition.getProductClass_Name());
     				productClass.setIsActive(true);
@@ -431,12 +477,12 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     			String whereClause = "VALUE= '" + value + "'";
     			// Have we already added it?
     			X_M_Product_Classification productClassification = MTable.get(getCtx(), X_M_Product_Classification.Table_ID)
-    				.createQuery(whereClause, get_TrxName())  // will lock the table
+    				.createQuery(whereClause, transactionName)  // will lock the table
     				.setOnlyActiveRecords(true)
     				.setClient_ID()
     				.first();
     			if (productClassification == null) {
-    				productClassification = new X_M_Product_Classification(getCtx(), 0, get_TrxName());
+    				productClassification = new X_M_Product_Classification(getCtx(), 0, transactionName);
     				productClassification.setValue(importRequisition.getProductClassification_Value());
     				productClassification.setName(importRequisition.getProductClassification_Name());
     				productClassification.setIsActive(true);
@@ -454,12 +500,12 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     			String whereClause = "VALUE= '" + value + "'";
     			// Have we already added it?
     			X_M_Product_Group productGroup = MTable.get(getCtx(), X_M_Product_Group.Table_ID)
-    				.createQuery(whereClause, get_TrxName())  // will lock the table
+    				.createQuery(whereClause, transactionName)  // will lock the table
     				.setOnlyActiveRecords(true)
     				.setClient_ID()
     				.first();
     			if (productGroup == null) {
-    				productGroup = new X_M_Product_Group(getCtx(), 0, get_TrxName());
+    				productGroup = new X_M_Product_Group(getCtx(), 0, transactionName);
     				productGroup.setValue(importRequisition.getProductGroup_Value());
     				productGroup.setName(importRequisition.getProductGroup_Name());
     				productGroup.setIsActive(true);
@@ -470,7 +516,7 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     			ModelValidationEngine.get().fireImportValidate(this, importRequisition, productGroup, ImportValidator.TIMING_AFTER_IMPORT);
     		}
             //	Create product if not exists
-    		MProduct product = createProduct(importRequisition);
+    		MProduct product = createProduct(importRequisition, transactionName);
     		//	Attribute
     		if(product != null) {
     			referenceId = importRequisition.getM_AttributeSetInstance_ID();
@@ -482,7 +528,7 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
 	            	} else if (importRequisition.getLot() != null || importRequisition.getSerNo() != null) {
 	        			if (product.isInstanceAttribute()) {
 	        				MAttributeSet attributeSet = product.getAttributeSet();
-	        				MAttributeSetInstance attributeSetInstance = new MAttributeSetInstance(getCtx(), 0, attributeSet.getM_AttributeSet_ID(), get_TrxName());
+	        				MAttributeSetInstance attributeSetInstance = new MAttributeSetInstance(getCtx(), 0, attributeSet.getM_AttributeSet_ID(), transactionName);
 	        				if (attributeSet.isLot() && importRequisition.getLot() != null) {
 	        					attributeSetInstance.setLot(importRequisition.getLot(), importRequisition.getM_Product_ID());
 	        				}
@@ -516,8 +562,8 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
 	 * 	Import Constructor
 	 *	@param importRequisition import
 	 */
-	private MProduct createProduct(X_I_Requisition importRequisition) {
-		MProduct product = new MProduct(importRequisition.getCtx(), importRequisition.getM_Product_ID(), importRequisition.get_TrxName());
+	private MProduct createProduct(X_I_Requisition importRequisition, String transactionName) {
+		MProduct product = new MProduct(importRequisition.getCtx(), importRequisition.getM_Product_ID(), transactionName);
 		//	Validate mandatory values
 		boolean isValid = true;
 		if(product.getM_Product_ID() <= 0) {
@@ -721,27 +767,40 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
         if (project != null && project.getC_Project_ID() > 0) {
         	importRequisition.setC_Project_ID(project.getC_Project_ID());
         }
-        //	Product Category
-        referenceId = importRequisition.getM_Product_Category_ID();
-        if(referenceId <= 0
-        		&& !Util.isEmpty(importRequisition.getProductCategory_Value())) {
-        	referenceId = getIdOnlyClient(I_M_Product_Category.Table_Name, I_M_Product_Category.COLUMNNAME_Value + " = ?", transactionName, importRequisition.getProductCategory_Value());
-        	if(referenceId > 0) {
-        		importRequisition.setM_Product_Category_ID(referenceId);
-        	} else { 
-        		addError(I_M_Product_Category.COLUMNNAME_M_Product_Category_ID);
-        	}
-        }
-        //	Tax Category
-        referenceId = importRequisition.getC_TaxCategory_ID();
-        if(referenceId <= 0
-        		&& !Util.isEmpty(importRequisition.getTaxCategoryName())) {
-        	referenceId = getIdOnlyClient(I_C_TaxCategory.Table_Name, I_C_TaxCategory.COLUMNNAME_Name + " = ?", transactionName, importRequisition.getTaxCategoryName());
-        	if(referenceId > 0) {
-        		importRequisition.setC_TaxCategory_ID(referenceId);
-        	} else { 
-        		addError(I_C_TaxCategory.COLUMNNAME_C_TaxCategory_ID);
-        	}
+        if(importRequisition.getM_Product_ID() <= 0 && importRequisition.getC_Charge_ID() <= 0) {
+            //	Product Category
+            referenceId = importRequisition.getM_Product_Category_ID();
+            if(referenceId <= 0
+            		&& !Util.isEmpty(importRequisition.getProductCategory_Value())) {
+            	referenceId = getIdOnlyClient(I_M_Product_Category.Table_Name, I_M_Product_Category.COLUMNNAME_Value + " = ?", transactionName, importRequisition.getProductCategory_Value());
+            	if(referenceId > 0) {
+            		importRequisition.setM_Product_Category_ID(referenceId);
+            	} else { 
+            		addError(I_M_Product_Category.COLUMNNAME_M_Product_Category_ID);
+            	}
+            }
+            //	Tax Category
+            referenceId = importRequisition.getC_TaxCategory_ID();
+            if(referenceId <= 0
+            		&& !Util.isEmpty(importRequisition.getTaxCategoryName())) {
+            	referenceId = getIdOnlyClient(I_C_TaxCategory.Table_Name, I_C_TaxCategory.COLUMNNAME_Name + " = ?", transactionName, importRequisition.getTaxCategoryName());
+            	if(referenceId > 0) {
+            		importRequisition.setC_TaxCategory_ID(referenceId);
+            	} else { 
+            		addError(I_C_TaxCategory.COLUMNNAME_C_TaxCategory_ID);
+            	}
+            }
+            //	UOM
+            referenceId = importRequisition.getC_UOM_ID();
+            if(referenceId <= 0
+            		&& !Util.isEmpty(importRequisition.getX12DE355())) {
+            	referenceId = getId(I_C_UOM.Table_Name, I_C_UOM.COLUMNNAME_X12DE355 + " = ?", transactionName, importRequisition.getX12DE355());
+            	if(referenceId > 0) {
+            		importRequisition.setC_UOM_ID(referenceId);
+            	} else { 
+            		addError(I_C_UOM.COLUMNNAME_C_UOM_ID);
+            	}
+            }
         }
         //	Project Phase
         referenceId = importRequisition.getC_ProjectPhase_ID();
@@ -763,17 +822,6 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
         		importRequisition.setAD_User_ID(referenceId);
         	} else { 
         		addError(I_AD_User.COLUMNNAME_AD_User_ID);
-        	}
-        }
-        //	UOM
-        referenceId = importRequisition.getC_UOM_ID();
-        if(referenceId <= 0
-        		&& !Util.isEmpty(importRequisition.getX12DE355())) {
-        	referenceId = getId(I_C_UOM.Table_Name, I_C_UOM.COLUMNNAME_X12DE355 + " = ?", transactionName, importRequisition.getX12DE355());
-        	if(referenceId > 0) {
-        		importRequisition.setC_UOM_ID(referenceId);
-        	} else { 
-        		addError(I_C_UOM.COLUMNNAME_C_UOM_ID);
         	}
         }
         //	User 1
@@ -823,8 +871,8 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
         //	Save it
         if (!stringError.toString().isEmpty() && stringError.toString().length() > 0) {
         	importRequisition.setI_ErrorMsg(Msg.parseTranslation(getCtx(), stringError.toString()));
-        } else {
-        	importProduct(importRequisition, transactionName);
+        } else if(importRequisition.getM_Product_ID() <= 0 && importRequisition.getC_Charge_ID() <= 0) {
+        	importProduct(importRequisition, null);
         }
         //	Date
         if(importRequisition.getDateRequired() == null) {
