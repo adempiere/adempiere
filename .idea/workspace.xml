@@ -311,7 +311,7 @@
       </method>
     </configuration>
     <configuration name="Adempiere Oracle" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="MAIN_CLASS_NAME" value="org.adempiere.Adempiere" />
       <module name="adempiere" />
       <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempiereOracle.properties " />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
@@ -326,7 +326,7 @@
       </method>
     </configuration>
     <configuration name="Adempiere PG" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="MAIN_CLASS_NAME" value="org.adempiere.Adempiere" />
       <module name="adempiere" />
       <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempierePG.properties " />
       <extension name="coverage">
@@ -340,7 +340,7 @@
       </method>
     </configuration>
     <configuration name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="MAIN_CLASS_NAME" value="org.adempiere.Adempiere" />
       <module name="adempiere" />
       <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempiereTest.properties " />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
