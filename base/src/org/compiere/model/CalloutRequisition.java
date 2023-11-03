@@ -62,7 +62,6 @@ public class CalloutRequisition extends CalloutEngine
 				+ "LEFT OUTER JOIN C_BPartner_Location lship ON (p.C_BPartner_ID=lship.C_BPartner_ID AND lship.IsShipTo=? AND lship.IsActive=?) "
 				+ "WHERE p.C_BPartner_ID=? AND p.IsActive=?";
 
-		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, windowNo, "IsSOTrx"));
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 		try
@@ -167,23 +166,23 @@ public class CalloutRequisition extends CalloutEngine
 		return "";
 	}	//	amt
 
-	private void setPrice(Properties ctx, int WindowNo, I_M_Requisition req, I_M_RequisitionLine line)
+	private void setPrice(Properties ctx, int windowNo, I_M_Requisition requisition, I_M_RequisitionLine requisitionLine)
 	{
-		int partnerId = line.getC_BPartner_ID();
-		BigDecimal qty = line.getQty();
+		int partnerId = requisitionLine.getC_BPartner_ID();
+		BigDecimal qty = requisitionLine.getQty();
 		boolean isSOTrx = false;
-		MProductPricing productPricing = new MProductPricing (line.getM_Product_ID(), partnerId, qty, isSOTrx, null);
+		MProductPricing productPricing = new MProductPricing (requisitionLine.getM_Product_ID(), partnerId, qty, isSOTrx, null);
 		//
-		int priceListId = req.getM_PriceList_ID();
+		int priceListId = requisition.getM_PriceList_ID();
 		productPricing.setM_PriceList_ID(priceListId);
-		int priceListVersionId = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		int priceListVersionId = Env.getContextAsInt(ctx, windowNo, "M_PriceList_Version_ID");
 		productPricing.setM_PriceList_Version_ID(priceListVersionId);
-		Timestamp orderDate = req.getDateRequired();
+		Timestamp orderDate = requisition.getDateRequired();
 		productPricing.setPriceDate(orderDate);
 		//
-		line.setPriceActual(productPricing.getPriceStd());
-		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", productPricing.isEnforcePriceLimit() ? "Y" : "N");	//	not used
-		Env.setContext(ctx, WindowNo, "DiscountSchema", productPricing.isDiscountSchema() ? "Y" : "N");
+		requisitionLine.setPriceActual(productPricing.getPriceStd());
+		Env.setContext(ctx, windowNo, "EnforcePriceLimit", productPricing.isEnforcePriceLimit() ? "Y" : "N");	//	not used
+		Env.setContext(ctx, windowNo, "DiscountSchema", productPricing.isDiscountSchema() ? "Y" : "N");
 	}
 
 	/**
@@ -200,15 +199,15 @@ public class CalloutRequisition extends CalloutEngine
 		if (isCalloutActive() || value == null)
 			return "";
 
-		String column = gridField.getColumnName();
+		String columnName = gridField.getColumnName();
 		//	Check Product
 		int productId = 0;
-		if (column.equals("M_Product_ID"))
+		if (columnName.equals("M_Product_ID"))
 			productId = ((Integer)value).intValue();
 		else
 			productId = Env.getContextAsInt(ctx, windowNo, "M_Product_ID");
 		int chargeId = 0;
-		if (column.equals("C_Charge_ID"))
+		if (columnName.equals("C_Charge_ID"))
 			chargeId = ((Integer)value).intValue();
 		else
 			chargeId = Env.getContextAsInt(ctx, windowNo, "C_Charge_ID");
@@ -218,7 +217,7 @@ public class CalloutRequisition extends CalloutEngine
 
 		//	Check Partner Location
 		int shipPartnerLocationId = 0;
-		if (column.equals("C_BPartner_Location_ID"))
+		if (columnName.equals("C_BPartner_Location_ID"))
 			shipPartnerLocationId = ((Integer)value).intValue();
 		else
 			shipPartnerLocationId = Env.getContextAsInt(ctx, windowNo, "C_BPartner_Location_ID");
