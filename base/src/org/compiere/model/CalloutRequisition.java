@@ -132,27 +132,27 @@ public class CalloutRequisition extends CalloutEngine
 	 * Requisition line - Qty
 	 * 	- Price, LineNetAmt
 	 *  @param ctx context
-	 *  @param WindowNo current Window No
-	 *  @param mTab Grid Tab
-	 *  @param mField Grid Field
+	 *  @param windowNo current Window No
+	 *  @param gridTab Grid Tab
+	 *  @param gridField Grid Field
 	 *  @param value New Value
 	 *  @return null or error message
 	 */
-	public String amt (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	public String amt (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
 		if (isCalloutActive() || value == null)
 			return "";
 		
-		final I_M_Requisition requisition = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
-		final I_M_RequisitionLine requisitionLine = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
+		final I_M_Requisition requisition = GridTabWrapper.create(gridTab.getParentTab(), I_M_Requisition.class);
+		final I_M_RequisitionLine requisitionLine = GridTabWrapper.create(gridTab, I_M_RequisitionLine.class);
 		//	Qty changed - recalc price
-		if (mField.getColumnName().equals(I_M_RequisitionLine.COLUMNNAME_Qty) 
-			&& "Y".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
+		if (gridField.getColumnName().equals(I_M_RequisitionLine.COLUMNNAME_Qty)
+			&& "Y".equals(Env.getContext(ctx, windowNo, "DiscountSchema")))
 		{
-			setPrice(ctx, WindowNo, requisition, requisitionLine);
+			setPrice(ctx, windowNo, requisition, requisitionLine);
 		}
 
-		int stdPrecision = Env.getContextAsInt(ctx, WindowNo, "StdPrecision");
+		int stdPrecision = Env.getContextAsInt(ctx, windowNo, "StdPrecision");
 		BigDecimal qty = requisitionLine.getQty();
 		BigDecimal priceActual = requisitionLine.getPriceActual();
 		log.fine("amt - Qty=" + qty + ", Price=" + priceActual + ", Precision=" + stdPrecision);
