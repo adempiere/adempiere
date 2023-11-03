@@ -16,15 +16,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.Timestamp;
-import java.util.Properties;
-
 import org.adempiere.core.domains.models.I_M_Requisition;
 import org.adempiere.core.domains.models.I_M_RequisitionLine;
 import org.adempiere.model.GridTabWrapper;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  *	Requisition Callouts
@@ -37,27 +43,88 @@ import org.compiere.util.Env;
 public class CalloutRequisition extends CalloutEngine
 {
 	/**
+	 * Business Partner
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
+	public String businessPartner (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		Integer partnerId = (Integer)value;
+		if (partnerId == null || partnerId.intValue() == 0)
+			return "";
+
+		String sql = "SELECT lship.C_BPartner_Location_ID "
+				+ "FROM C_BPartner p "
+				+ "LEFT OUTER JOIN C_BPartner_Location lship ON (p.C_BPartner_ID=lship.C_BPartner_ID AND lship.IsShipTo=? AND lship.IsActive=?) "
+				+ "WHERE p.C_BPartner_ID=? AND p.IsActive=?";
+
+		boolean IsSOTrx = "Y".equals(Env.getContext(ctx, windowNo, "IsSOTrx"));
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try
+		{
+			preparedStatement = DB.prepareStatement(sql, null);
+			preparedStatement.setString(1, "Y");
+			preparedStatement.setString(2, "Y");
+			preparedStatement.setInt(3, partnerId.intValue());
+			preparedStatement.setString(4, "Y");
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next())
+			{
+				// Ship-To Location
+				int shipToId = resultSet.getInt("C_BPartner_Location_ID");
+				if (partnerId.toString().equals(Env.getContext(ctx, windowNo, Env.TAB_INFO, "C_BPartner_ID")))
+				{
+					String locationId = Env.getContext(ctx, windowNo, Env.TAB_INFO, "C_BPartner_Location_ID");
+					if (locationId.length() > 0)
+						shipToId = Integer.parseInt(locationId);
+				}
+				if (shipToId == 0)
+					gridTab.setValue("C_BPartner_Location_ID", null);
+				else
+					gridTab.setValue("C_BPartner_Location_ID", Integer.valueOf(shipToId));
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql, e);
+			return e.getLocalizedMessage();
+		}
+		finally
+		{
+			DB.close(resultSet, preparedStatement);
+			resultSet = null; preparedStatement = null;
+		}
+		return "";
+	}	//	bPartner
+
+
+	/**
 	 *	Requisition Line - Product.
 	 *		- PriceStd
 	 *  @param ctx context
-	 *  @param WindowNo current Window No
-	 *  @param mTab Grid Tab
-	 *  @param mField Grid Field
+	 *  @param windowNo current Window No
+	 *  @param gridTab Grid Tab
+	 *  @param gridField Grid Field
 	 *  @param value New Value
 	 *  @return null or error message
 	 */
-	public String product (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	public String product (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
-		Integer M_Product_ID = (Integer)value;
-		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
+		Integer productId = (Integer)value;
+		if (productId == null || productId.intValue() == 0)
 			return "";
-		final I_M_Requisition req = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
-		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
-		setPrice(ctx, WindowNo, req, line);
-		MProduct product = MProduct.get(ctx, M_Product_ID);
-		line.setC_UOM_ID(product.getC_UOM_ID());
-		line.setM_AttributeSetInstance_ID(product.getM_AttributeSetInstance_ID());
-
+		final I_M_Requisition requisition = GridTabWrapper.create(gridTab.getParentTab(), I_M_Requisition.class);
+		final I_M_RequisitionLine requisitionLine = GridTabWrapper.create(gridTab, I_M_RequisitionLine.class);
+		setPrice(ctx, windowNo, requisition, requisitionLine);
+		MProduct product = MProduct.get(ctx, productId);
+		requisitionLine.setC_UOM_ID(product.getC_UOM_ID());
+		requisitionLine.setM_AttributeSetInstance_ID(product.getM_AttributeSetInstance_ID());
+		tax(ctx,windowNo, gridTab, gridField, value);
 		return "";
 	}	//	product
 
@@ -76,46 +143,118 @@ public class CalloutRequisition extends CalloutEngine
 		if (isCalloutActive() || value == null)
 			return "";
 		
-		final I_M_Requisition req = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
-		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
+		final I_M_Requisition requisition = GridTabWrapper.create(mTab.getParentTab(), I_M_Requisition.class);
+		final I_M_RequisitionLine requisitionLine = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
 		//	Qty changed - recalc price
 		if (mField.getColumnName().equals(I_M_RequisitionLine.COLUMNNAME_Qty) 
 			&& "Y".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
 		{
-			setPrice(ctx, WindowNo, req, line);
+			setPrice(ctx, WindowNo, requisition, requisitionLine);
 		}
 
-		int StdPrecision = Env.getContextAsInt(ctx, WindowNo, "StdPrecision");
-		BigDecimal Qty = line.getQty();
-		BigDecimal PriceActual = line.getPriceActual();
-		log.fine("amt - Qty=" + Qty + ", Price=" + PriceActual + ", Precision=" + StdPrecision);
+		int stdPrecision = Env.getContextAsInt(ctx, WindowNo, "StdPrecision");
+		BigDecimal qty = requisitionLine.getQty();
+		BigDecimal priceActual = requisitionLine.getPriceActual();
+		log.fine("amt - Qty=" + qty + ", Price=" + priceActual + ", Precision=" + stdPrecision);
 
 		//	Multiply
-		BigDecimal LineNetAmt = Qty.multiply(PriceActual);
-		if (LineNetAmt.scale() > StdPrecision)
-			LineNetAmt = LineNetAmt.setScale(StdPrecision, RoundingMode.HALF_UP);
-		line.setLineNetAmt(LineNetAmt);
-		log.info("amt - LineNetAmt=" + LineNetAmt);
+		BigDecimal lineNetAmt = qty.multiply(priceActual);
+		if (lineNetAmt.scale() > stdPrecision)
+			lineNetAmt = lineNetAmt.setScale(stdPrecision, RoundingMode.HALF_UP);
+		requisitionLine.setLineNetAmt(lineNetAmt);
+		log.info("amt - LineNetAmt=" + lineNetAmt);
 		//
 		return "";
 	}	//	amt
 
 	private void setPrice(Properties ctx, int WindowNo, I_M_Requisition req, I_M_RequisitionLine line)
 	{
-		int C_BPartner_ID = line.getC_BPartner_ID();
-		BigDecimal Qty = line.getQty();
+		int partnerId = line.getC_BPartner_ID();
+		BigDecimal qty = line.getQty();
 		boolean isSOTrx = false;
-		MProductPricing pp = new MProductPricing (line.getM_Product_ID(), C_BPartner_ID, Qty, isSOTrx, null);
+		MProductPricing productPricing = new MProductPricing (line.getM_Product_ID(), partnerId, qty, isSOTrx, null);
 		//
-		int M_PriceList_ID = req.getM_PriceList_ID();
-		pp.setM_PriceList_ID(M_PriceList_ID);
-		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
+		int priceListId = req.getM_PriceList_ID();
+		productPricing.setM_PriceList_ID(priceListId);
+		int priceListVersionId = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		productPricing.setM_PriceList_Version_ID(priceListVersionId);
 		Timestamp orderDate = req.getDateRequired();
-		pp.setPriceDate(orderDate);
+		productPricing.setPriceDate(orderDate);
 		//
-		line.setPriceActual(pp.getPriceStd());
-		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");	//	not used
-		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
+		line.setPriceActual(productPricing.getPriceStd());
+		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", productPricing.isEnforcePriceLimit() ? "Y" : "N");	//	not used
+		Env.setContext(ctx, WindowNo, "DiscountSchema", productPricing.isDiscountSchema() ? "Y" : "N");
 	}
+
+	/**
+	 *
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
+	public String tax (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		if (isCalloutActive() || value == null)
+			return "";
+
+		String column = gridField.getColumnName();
+		//	Check Product
+		int productId = 0;
+		if (column.equals("M_Product_ID"))
+			productId = ((Integer)value).intValue();
+		else
+			productId = Env.getContextAsInt(ctx, windowNo, "M_Product_ID");
+		int chargeId = 0;
+		if (column.equals("C_Charge_ID"))
+			chargeId = ((Integer)value).intValue();
+		else
+			chargeId = Env.getContextAsInt(ctx, windowNo, "C_Charge_ID");
+		log.fine("Product=" + productId + ", C_Charge_ID=" + chargeId);
+		if (productId == 0 && chargeId == 0)
+			return amt(ctx, windowNo, gridTab, gridField, value);		//
+
+		//	Check Partner Location
+		int shipPartnerLocationId = 0;
+		if (column.equals("C_BPartner_Location_ID"))
+			shipPartnerLocationId = ((Integer)value).intValue();
+		else
+			shipPartnerLocationId = Env.getContextAsInt(ctx, windowNo, "C_BPartner_Location_ID");
+		if (shipPartnerLocationId == 0)
+			return amt(ctx, windowNo, gridTab, gridField, value);		//
+		log.fine("Ship BP_Location=" + shipPartnerLocationId);
+
+		//
+		Timestamp billDate = Env.getContextAsDate(ctx, windowNo, "DateOrdered");
+		log.fine("Bill Date=" + billDate);
+
+		Timestamp shipDate = Env.getContextAsDate(ctx, windowNo, "DatePromised");
+		log.fine("Ship Date=" + shipDate);
+
+		int orgId = Env.getContextAsInt(ctx, windowNo, "AD_Org_ID");
+		log.fine("Org=" + orgId);
+
+		int warehouseId = Env.getContextAsInt(ctx, windowNo, "M_Warehouse_ID");
+		log.fine("Warehouse=" + warehouseId);
+
+		int billPartnerLocationId = Env.getContextAsInt(ctx, windowNo, "Bill_Location_ID");
+		if (billPartnerLocationId == 0)
+			billPartnerLocationId = shipPartnerLocationId;
+		log.fine("Bill BP_Location=" + billPartnerLocationId);
+
+		//
+		int taxId = Tax.get (ctx, productId, chargeId, billDate, shipDate,
+				orgId, warehouseId, billPartnerLocationId, shipPartnerLocationId,
+				"Y".equals(Env.getContext(ctx, windowNo, "IsSOTrx")), null);
+		log.info("Tax ID=" + taxId);
+		//
+		if (taxId == 0)
+			gridTab.fireDataStatusEEvent(CLogger.retrieveError());
+		else
+			gridTab.setValue("C_Tax_ID", Integer.valueOf(taxId));
+
+		return amt(ctx, windowNo, gridTab, gridField, value);
+	}	//	tax
 }	//	CalloutRequisition
