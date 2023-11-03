@@ -17,7 +17,6 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
@@ -39,30 +38,7 @@ import org.compiere.model.MRfQResponseLineQty;
  *  	<li>BF [ 2892588 ] Create PO from RfQ is not setting correct the price fields
  *  		https://sourceforge.net/tracker/?func=detail&aid=2892588&group_id=176962&atid=879332
  */
-public class RfQCreatePO extends SvrProcess
-{
-	/**	RfQ 			*/
-	private int		p_C_RfQ_ID = 0;
-	private int		p_C_DocType_ID = 0;
-
-	/**
-	 * 	Prepare
-	 */
-	protected void prepare ()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("C_DocType_ID"))
-				p_C_DocType_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_C_RfQ_ID = getRecord_ID();
-	}	//	prepare
+public class RfQCreatePO extends RfQCreatePOAbstract {
 
 	/**
 	 * 	Process.
@@ -73,9 +49,8 @@ public class RfQCreatePO extends SvrProcess
 	 * 	If there is no response marked as Selected Winner, the lines are used.
 	 *	@return message
 	 */
-	protected String doIt () throws Exception
-	{
-		MRfQ rfq = new MRfQ (getCtx(), p_C_RfQ_ID, get_TrxName());
+	protected String doIt () throws Exception {
+		MRfQ rfq = new MRfQ (getCtx(), getRecord_ID(), get_TrxName());
 		if (rfq.get_ID() == 0)
 			throw new IllegalArgumentException("No RfQ found");
 		log.info(rfq.toString());
@@ -97,8 +72,8 @@ public class RfQCreatePO extends SvrProcess
 			log.config("Winner=" + bp);
 			MOrder order = new MOrder (getCtx(), 0, get_TrxName());
 			order.setIsSOTrx(false);
-			if (p_C_DocType_ID != 0)
-				order.setC_DocTypeTarget_ID(p_C_DocType_ID);
+			if (getDocTypeId() != 0)
+				order.setC_DocTypeTarget_ID(getDocTypeId());
 			else
 				order.setC_DocTypeTarget_ID();
 			order.setBPartner(bp);
@@ -169,7 +144,10 @@ public class RfQCreatePO extends SvrProcess
 				{
 					order = new MOrder (getCtx(), 0, get_TrxName());
 					order.setIsSOTrx(false);
-					order.setC_DocTypeTarget_ID();
+					if (getDocTypeId() != 0)
+						order.setC_DocTypeTarget_ID(getDocTypeId());
+					else
+						order.setC_DocTypeTarget_ID();
 					order.setBPartner(bp);
 					order.setC_BPartner_Location_ID(response.getC_BPartner_Location_ID());
 					order.setSalesRep_ID(rfq.getSalesRep_ID());

@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon>Adempiere.ico</icon>
   <classPath>
-    <mainClass>org.compiere.Adempiere</mainClass>
+    <mainClass>org.adempiere.Adempiere</mainClass>
     <cp>customization.jar</cp>
     <cp>patches.jar</cp>
     <cp>Adempiere.jar</cp>
