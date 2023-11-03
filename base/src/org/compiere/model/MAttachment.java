@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.zip.Deflater;
@@ -513,7 +514,8 @@ public class MAttachment extends X_AD_Attachment
 	 *	@return true if saved
 	 */
 	private boolean saveLOBData() {
-		if (items == null || items.size() == 0) {
+		Optional<ArrayList<MAttachmentEntry>> maybeItems = Optional.ofNullable(items);
+		if (!maybeItems.isPresent() || items.size() == 0) {
 			setBinaryData(null);
 			return true;
 		}
@@ -530,7 +532,6 @@ public class MAttachment extends X_AD_Attachment
 						.saveAttachment();
 				} catch (Exception e) {
 					log.warning("Error saving attachment: " + e.getLocalizedMessage());
-					e.printStackTrace();
 				}
 			});
 			return true;
