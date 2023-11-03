@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,19 +12,19 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 package org.adempiere.core.domains.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
 import org.compiere.model.MTable;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Requisition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.3
+ *  @version Release 3.9.4
  */
 public interface I_I_Requisition 
 {
@@ -32,7 +32,7 @@ public interface I_I_Requisition
     /** TableName=I_Requisition */
     public static final String Table_Name = "I_Requisition";
 
-    /** AD_Table_ID=1000000 */
+    /** AD_Table_ID=54868 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -116,6 +116,19 @@ public interface I_I_Requisition
 	  */
 	public String getAttributeSetInstanceValue();
 
+    /** Column name BPartnerAddress_Value */
+    public static final String COLUMNNAME_BPartnerAddress_Value = "BPartnerAddress_Value";
+
+	/** Set Business Partner Address Key.
+	  * Business Partner Address Key
+	  */
+	public void setBPartnerAddress_Value (String BPartnerAddress_Value);
+
+	/** Get Business Partner Address Key.
+	  * Business Partner Address Key
+	  */
+	public String getBPartnerAddress_Value();
+
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
 
@@ -167,6 +180,21 @@ public interface I_I_Requisition
 	public int getC_BPartner_ID();
 
 	public org.adempiere.core.domains.models.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BPartner_Location_ID */
+    public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
+
+	/** Set Partner Location.
+	  * Identifies the (ship to) address for this Business Partner
+	  */
+	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID);
+
+	/** Get Partner Location.
+	  * Identifies the (ship to) address for this Business Partner
+	  */
+	public int getC_BPartner_Location_ID();
+
+	public org.adempiere.core.domains.models.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -314,6 +342,21 @@ public interface I_I_Requisition
 	public int getC_TaxCategory_ID();
 
 	public org.adempiere.core.domains.models.I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public org.adempiere.core.domains.models.I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -1022,6 +1065,19 @@ public interface I_I_Requisition
 	  * Name of tax category
 	  */
 	public String getTaxCategoryName();
+
+    /** Column name Tax_Value */
+    public static final String COLUMNNAME_Tax_Value = "Tax_Value";
+
+	/** Set Tax Rate Key.
+	  * Tax Rate Key for Document
+	  */
+	public void setTax_Value (String Tax_Value);
+
+	/** Get Tax Rate Key.
+	  * Tax Rate Key for Document
+	  */
+	public String getTax_Value();
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";

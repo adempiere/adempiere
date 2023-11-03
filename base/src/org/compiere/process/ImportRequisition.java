@@ -29,10 +29,12 @@ import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
 import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.core.domains.models.I_C_BPartner_Location;
 import org.adempiere.core.domains.models.I_C_Charge;
 import org.adempiere.core.domains.models.I_C_DocType;
 import org.adempiere.core.domains.models.I_C_ElementValue;
 import org.adempiere.core.domains.models.I_C_ProjectPhase;
+import org.adempiere.core.domains.models.I_C_Tax;
 import org.adempiere.core.domains.models.I_C_TaxCategory;
 import org.adempiere.core.domains.models.I_C_UOM;
 import org.adempiere.core.domains.models.I_I_Requisition;
@@ -374,6 +376,9 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     		if(importRequisition.getC_BPartner_ID() > 0) {
     			requisitionLine.setC_BPartner_ID(importRequisition.getC_BPartner_ID());
     		}
+    		if(importRequisition.getC_BPartner_Location_ID() > 0) {
+    			requisitionLine.setC_BPartner_Location_ID(importRequisition.getC_BPartner_Location_ID());
+    		}
     		if(importRequisition.getC_ProjectTask_ID() > 0) {
     			requisitionLine.setC_ProjectTask_ID(importRequisition.getC_ProjectTask_ID());
     		}
@@ -399,6 +404,9 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
     			addError(I_M_RequisitionLine.COLUMNNAME_Qty);
     		}
     		requisitionLine.setPriceActual(Optional.ofNullable(importRequisition.getPriceActual()).orElse(Env.ZERO));
+    		if(importRequisition.getC_Tax_ID() > 0) {
+    			requisitionLine.setC_Tax_ID(importRequisition.getC_Tax_ID());
+    		}
     		if(importRequisition.getC_Campaign_ID() > 0) {
     			requisitionLine.setC_Campaign_ID(importRequisition.getC_Campaign_ID());
     		}
@@ -732,6 +740,38 @@ public class ImportRequisition extends ImportRequisitionAbstract implements Impo
         		importRequisition.setC_Charge_ID(referenceId);
         	} else { 
         		addError(I_C_Charge.COLUMNNAME_C_Charge_ID);
+        	}
+        }
+        //	Tax from Name
+        referenceId = importRequisition.getC_Tax_ID();
+        if(referenceId <= 0
+        		&& !Util.isEmpty(importRequisition.getTax_Value())) {
+        	referenceId = getIdOnlyClient(I_C_Tax.Table_Name, I_C_Tax.COLUMNNAME_Name + " = ?", transactionName, importRequisition.getTax_Value());
+        	if(referenceId > 0) {
+        		importRequisition.setC_Tax_ID(referenceId);
+        	} else { 
+        		addError(I_C_Tax.COLUMNNAME_C_Tax_ID);
+        	}
+        }
+        //	Tax from Tax Indicator
+        referenceId = importRequisition.getC_Tax_ID();
+        if(referenceId <= 0
+        		&& !Util.isEmpty(importRequisition.getTax_Value())) {
+        	referenceId = getIdOnlyClient(I_C_Tax.Table_Name, I_C_Tax.COLUMNNAME_TaxIndicator + " = ?", transactionName, importRequisition.getTax_Value());
+        	if(referenceId > 0) {
+        		importRequisition.setC_Tax_ID(referenceId);
+        	} else { 
+        		addError(I_C_Tax.COLUMNNAME_C_Tax_ID);
+        	}
+        }
+        referenceId = importRequisition.getC_BPartner_Location_ID();
+        if(referenceId <= 0
+        		&& !Util.isEmpty(importRequisition.getBPartnerAddress_Value())) {
+        	referenceId = getIdOnlyClient(I_C_BPartner_Location.Table_Name, I_C_BPartner_Location.COLUMNNAME_Name + " = ?", transactionName, importRequisition.getBPartnerAddress_Value());
+        	if(referenceId > 0) {
+        		importRequisition.setC_BPartner_Location_ID(referenceId);
+        	} else { 
+        		addError(I_C_BPartner_Location.COLUMNNAME_C_BPartner_Location_ID);
         	}
         }
         // Set Activity
