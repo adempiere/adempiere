@@ -19,63 +19,56 @@ package org.spin.process;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.MTable;
+import org.compiere.model.MWindowCustom;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.eevolution.services.dsl.ProcessBuilder;
 
 /** 
- * 	Generated Process for (Copy From Customized Tab)
- *  @author Yamel Senih, ysenih@erpya.com, ERPCyA https://www.erpya.com
+ * 	Generated Process for (Copy Window from other ASP)
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA https://www.erpya.com 
  *  @version Release 3.9.3
  */
-public class ASPCopyFromTab extends ASPCopyFromTabAbstract {
+public class ASPCopyFromWindow extends ASPCopyFromWindowAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
 		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@AD_TabCustom_ID@ @NotFound@");
+			throw new AdempiereException("@AD_WindowCustom_ID@ @NotFound@");
 		}
 	}
 
 	@Override
 	protected String doIt() throws Exception {
-		MTabCustom fromCustomTab = new MTabCustom(getCtx(), getTabCustomId(), get_TrxName());
-		MTabCustom toCustomTab = new MTabCustom(getCtx(), getRecord_ID(), get_TrxName());
-		List<MFieldCustom> fromFieldList = fromCustomTab.getFields();
-		if(fromFieldList == null
-				|| fromFieldList.size() == 0) {
-			return "@AD_FieldCustom_ID@ = 0";
-		}
-		//	Set default to old fields
-		toCustomTab.getFields().forEach(field -> {
-			field.setIsDisplayed(false);
-			field.saveEx();
-		});
-		//	Set translation
-		copyTranslation(fromCustomTab, toCustomTab);
-		//	Get current fields
-		List<MFieldCustom> toFieldList = toCustomTab.getFields();
-		AtomicInteger counter = new AtomicInteger(0);
-		//	Set
-		fromFieldList.forEach(fromField -> {
-			Optional<MFieldCustom> maybeCustomField = toFieldList
-					.stream()
-					.filter(toField -> toField.getAD_Field().getAD_Column_ID() == fromField.getAD_Field().getAD_Column_ID())
-					.findFirst();
-			if(maybeCustomField.isPresent()) {
-				MFieldCustom fieldToOverwrite = maybeCustomField.get();
-				fieldToOverwrite.overwriteValuesFromCustomField(fromField);
-				fieldToOverwrite.saveEx();
-				copyTranslation(fromField, fieldToOverwrite);
-				counter.incrementAndGet();
+		MWindowCustom fromCustomWindow = new MWindowCustom(getCtx(), getRecord_ID(), get_TrxName());
+		MWindowCustom toCustomWindow = new MWindowCustom(getCtx(), 0, get_TrxName());
+		//	
+		PO.copyValues(fromCustomWindow, toCustomWindow, true);
+		toCustomWindow.setASP_Level_ID(getLevelId());
+		toCustomWindow.saveEx();
+		//	Copy Tabs
+		List<MTabCustom> sourceTabs = fromCustomWindow.getTabs();
+		toCustomWindow.getTabs().forEach(targetTab -> {
+			Optional<MTabCustom> maybeSourceTab = sourceTabs.stream().filter(sourceTab -> sourceTab.getAD_Tab_ID() == targetTab.getAD_Tab_ID()).findFirst();
+			if(maybeSourceTab.isPresent()) {
+				ProcessBuilder
+				.create(getCtx())
+				.process(ASPCopyFromTab.getProcessId())
+				.withoutTransactionClose()
+				.withRecordId(MTabCustom.Table_ID, targetTab.getAD_TabCustom_ID())
+				.withParameter(ASPCopyFromTab.AD_TABCUSTOM_ID, maybeSourceTab.get().getAD_TabCustom_ID())
+				.execute(get_TrxName());
+			} else {
+				targetTab.setIsActive(false);
+				targetTab.saveEx();
 			}
 		});
-		return "@Update@: " + counter.get();
+		copyTranslation(fromCustomWindow, toCustomWindow);
+		return "Ok";
 	}
 	
 	/**

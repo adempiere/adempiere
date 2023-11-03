@@ -9,7 +9,11 @@ on:
     types: [opened]
   # Valid for issues and pull requests
   issue_comment: 
-    types: [created]  
+    types: [created]
+  discussion:
+    types: [created, edited, answered]
+  discussion_comment:
+    types: [created, deleted]
   
 jobs:
   build: 
