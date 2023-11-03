@@ -667,6 +667,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 						File PDF = File.createTempFile("mail", ".pdf");
 						JasperExportManager.exportReportToPdfFile(jasperPrint, PDF.getAbsolutePath());
 						processInfo.setPDFReport(PDF);
+						processInfo.setPrintPreview(true);
 						if (processInfo.isPrintPreview()) {
 							log.info("ReportStarter.startProcess run report -" + jasperPrint.getName());
 							JRViewerProvider viewerLauncher = getReportViewerProvider();
