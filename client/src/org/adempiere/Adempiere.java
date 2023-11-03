@@ -195,7 +195,8 @@ public final class Adempiere
 		if (s_ImplementationVendor != null)
 			return;
 
-		Package adempierePackage = Package.getPackage("org.adempiere");
+		Class<?> clazz = Adempiere.class;
+		Package adempierePackage = clazz.getPackage();
 		if (adempierePackage != null) {
 			s_ImplementationVendor = adempierePackage.getImplementationVendor();
 			s_ImplementationVersion = adempierePackage.getImplementationVersion();

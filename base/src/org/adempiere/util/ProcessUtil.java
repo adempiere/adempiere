@@ -155,6 +155,10 @@ public final class ProcessUtil {
 		
 		//Get Process
 		ProcessCall process = null;
+		if (processClass == null) {
+			pi.setSummary("No Instance for " + pi.getClassName(), true);
+			return false;
+		}
 		try
 		{
 			process = (ProcessCall) processClass.getDeclaredConstructor().newInstance();
