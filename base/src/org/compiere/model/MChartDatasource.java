@@ -47,7 +47,7 @@ import org.jfree.data.time.Year;
  * Chart Datasource model.
  *
  * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
- * 		@see <a href="https://github.com/adempiere/adempiere/issues/4176">
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4183">
  * 		BR [ 4183 ] Does not start the swing ui for a chart datasource if the table has no keys.</a>
  */
 public class MChartDatasource extends X_AD_ChartDatasource {
