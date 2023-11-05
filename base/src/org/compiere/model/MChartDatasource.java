@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2023 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.compiere.model;
 
 import java.sql.PreparedStatement;
@@ -28,6 +43,13 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.Week;
 import org.jfree.data.time.Year;
 
+/**
+ * Chart Datasource model.
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4176">
+ * 		BR [ 4183 ] Does not start the swing ui for a chart datasource if the table has no keys.</a>
+ */
 public class MChartDatasource extends X_AD_ChartDatasource {
 
 	/**
@@ -176,8 +198,10 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
 						period = new Year(date);
 
-					tseries.add(period, rs.getBigDecimal(1));
-					key = period.toString();
+					if (period != null) {
+						tseries.add(period, rs.getBigDecimal(1));
+						key = period.toString();
+					}
 					queryWhere += DB.TO_DATE(new Timestamp(date.getTime()));
 				}
 				else {
@@ -185,11 +209,18 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 				}
 
 				MQuery query = new MQuery(getAD_Table_ID());
-				String keyCol = MTable.get(getCtx(), getAD_Table_ID()).getKeyColumns()[0];
-				String whereClause = keyCol  + " IN (SELECT " + getKeyColumn() + " FROM " 
-						+ getFromClause() + " WHERE " + queryWhere + " )";
-				query.addRestriction(whereClause.toString());
-				query.setRecordCount(1);
+				MTable table = MTable.get(getCtx(), getAD_Table_ID());
+				String[] keyColumns = table.getKeyColumns();
+				if (keyColumns != null && keyColumns.length > 0) {
+					String keyCol = keyColumns[0];
+					String whereClause = keyCol  + " IN (SELECT " + getKeyColumn()
+						+ " FROM " + getFromClause()
+						+ " WHERE " + queryWhere + " )";
+					query.addRestriction(whereClause.toString());
+					query.setRecordCount(1);
+				} else {
+					log.warning("Without identifiers " + table.getTableName());
+				}
 
 				HashMap<String, MQuery> map = parent.getQueries();
 
@@ -244,7 +275,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		return cal.getTime();
 	}
 
-	private String formatDate(Date date, String timeUnit)
+	public String formatDate(Date date, String timeUnit)
 	{
 		String key = null;
 		String unitFormat = "yyyy-MM-dd";
