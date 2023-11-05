@@ -275,7 +275,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 		return cal.getTime();
 	}
 
-	public String formatDate(Date date, String timeUnit)
+	public static String formatDate(Date date, String timeUnit)
 	{
 		String key = null;
 		String unitFormat = "yyyy-MM-dd";
@@ -289,9 +289,9 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 					unitFormat = "yyyy";
 		 SimpleDateFormat format = new SimpleDateFormat(unitFormat);
 		 key = format.format(date);
-		 if ( timeUnit.equals(MChart.TIMEUNIT_Quarter) )
-			 key = convertToQuarter(format.format(date));
-		 
+		if (timeUnit.equals(MChart.TIMEUNIT_Quarter)) {
+			key = convertToQuarter(format.format(date));
+		}
 		 return key;
 	}
 	
@@ -300,7 +300,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 	 * @param month
 	 * @return
 	 */
-	private String convertToQuarter(String month) {
+	public static String convertToQuarter(String month) {
 		if ( month.length() != 7 )
 			return month;
 		
