@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#4086 Add Attendance Import Format" ReleaseNo="3.9.5" SeqNo="10000">
+    <Comments>See: https://github.com/adempiere/adempiere/pull/4086</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="381" Action="I" Record_ID="50060" Table="AD_ImpFormat">
+        <Data AD_Column_ID="84330" Column="UUID">b104cad2-0cb4-4cd0-8feb-9b31b0463268</Data>
+        <Data AD_Column_ID="4675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4674" Column="Updated">2023-11-06 18:48:12.084</Data>
+        <Data AD_Column_ID="59193" Column="SeparatorChar" isNewNull="true"/>
+        <Data AD_Column_ID="4703" Column="Processing">false</Data>
+        <Data AD_Column_ID="4676" Column="Name">Attendance Record</Data>
+        <Data AD_Column_ID="4671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4679" Column="FormatType">T</Data>
+        <Data AD_Column_ID="4677" Column="Description">Attendance Record Import Format</Data>
+        <Data AD_Column_ID="4673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4672" Column="Created">2023-11-06 18:48:12.084</Data>
+        <Data AD_Column_ID="85177" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4701" Column="AD_Table_ID">54500</Data>
+        <Data AD_Column_ID="4670" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4668" Column="AD_ImpFormat_ID">50060</Data>
+        <Data AD_Column_ID="4669" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="382" Action="I" Record_ID="51051" Table="AD_ImpFormat_Row">
+        <Data AD_Column_ID="84331" Column="UUID">f4518ad7-02ff-409a-8049-af59bbda4c76</Data>
+        <Data AD_Column_ID="4688" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4687" Column="Updated">2023-11-06 18:48:19.686</Data>
+        <Data AD_Column_ID="4693" Column="StartNo">1</Data>
+        <Data AD_Column_ID="4691" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="6650" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="4689" Column="Name">Device Code</Data>
+        <Data AD_Column_ID="4684" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4694" Column="EndNo">0</Data>
+        <Data AD_Column_ID="4698" Column="DivideBy100">false</Data>
+        <Data AD_Column_ID="62850" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="4697" Column="DecimalPoint">.</Data>
+        <Data AD_Column_ID="4695" Column="DataType">S</Data>
+        <Data AD_Column_ID="4696" Column="DataFormat" isNewNull="true"/>
+        <Data AD_Column_ID="4686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4685" Column="Created">2023-11-06 18:48:19.686</Data>
+        <Data AD_Column_ID="4705" Column="ConstantValue" isNewNull="true"/>
+        <Data AD_Column_ID="4704" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="4683" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4681" Column="AD_ImpFormat_Row_ID">51051</Data>
+        <Data AD_Column_ID="4690" Column="AD_ImpFormat_ID">50060</Data>
+        <Data AD_Column_ID="4702" Column="AD_Column_ID">90430</Data>
+        <Data AD_Column_ID="4682" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="382" Action="I" Record_ID="51052" Table="AD_ImpFormat_Row">
+        <Data AD_Column_ID="84331" Column="UUID">8582a9f3-912e-476d-9638-03891b8f5975</Data>
+        <Data AD_Column_ID="4688" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4687" Column="Updated">2023-11-06 18:48:20.601</Data>
+        <Data AD_Column_ID="4693" Column="StartNo">2</Data>
+        <Data AD_Column_ID="4691" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="6650" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="4689" Column="Name">Employee Code</Data>
+        <Data AD_Column_ID="4684" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4694" Column="EndNo">0</Data>
+        <Data AD_Column_ID="4698" Column="DivideBy100">false</Data>
+        <Data AD_Column_ID="62850" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="4697" Column="DecimalPoint">.</Data>
+        <Data AD_Column_ID="4695" Column="DataType">S</Data>
+        <Data AD_Column_ID="4696" Column="DataFormat" isNewNull="true"/>
+        <Data AD_Column_ID="4686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4685" Column="Created">2023-11-06 18:48:20.601</Data>
+        <Data AD_Column_ID="4705" Column="ConstantValue" isNewNull="true"/>
+        <Data AD_Column_ID="4704" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="4683" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4681" Column="AD_ImpFormat_Row_ID">51052</Data>
+        <Data AD_Column_ID="4690" Column="AD_ImpFormat_ID">50060</Data>
+        <Data AD_Column_ID="4702" Column="AD_Column_ID">90429</Data>
+        <Data AD_Column_ID="4682" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="382" Action="I" Record_ID="51053" Table="AD_ImpFormat_Row">
+        <Data AD_Column_ID="84331" Column="UUID">55bd5b6a-0ed2-4f5d-82f6-29991669406b</Data>
+        <Data AD_Column_ID="4688" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4687" Column="Updated">2023-11-06 18:48:21.674</Data>
+        <Data AD_Column_ID="4693" Column="StartNo">3</Data>
+        <Data AD_Column_ID="4691" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="6650" Column="Script" isNewNull="true"/>
+        <Data AD_Column_ID="4689" Column="Name">Attendance Time</Data>
+        <Data AD_Column_ID="4684" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4694" Column="EndNo">0</Data>
+        <Data AD_Column_ID="4698" Column="DivideBy100">false</Data>
+        <Data AD_Column_ID="62850" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="4697" Column="DecimalPoint">.</Data>
+        <Data AD_Column_ID="4695" Column="DataType">D</Data>
+        <Data AD_Column_ID="4696" Column="DataFormat">yyyy-MM-dd HH:mm:ss</Data>
+        <Data AD_Column_ID="4686" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4685" Column="Created">2023-11-06 18:48:21.674</Data>
+        <Data AD_Column_ID="4705" Column="ConstantValue" isNewNull="true"/>
+        <Data AD_Column_ID="4704" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="4683" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4681" Column="AD_ImpFormat_Row_ID">51053</Data>
+        <Data AD_Column_ID="4690" Column="AD_ImpFormat_ID">50060</Data>
+        <Data AD_Column_ID="4702" Column="AD_Column_ID">90431</Data>
+        <Data AD_Column_ID="4682" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
