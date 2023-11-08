@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Refactory Package Authentication" ReleaseNo="3.9.5" SeqNo="9900">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50026" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GitHubAuthentication">org.spin.authentication.services.provider.GitHubAuthentication</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50027" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.authentication.support.provider.GoogleAuthentication">org.spin.authentication.services.provider.GoogleAuthentication</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
