@@ -207,7 +207,7 @@ public class MDunningRunLine extends X_C_DunningRunLine {
 		setAmt (payAmt);
 		setOpenAmt (openAmt);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
-			currencyId, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+			currencyId, getC_CurrencyTo_ID(), parent.getC_DunningRun().getDunningDate(), 0, getAD_Client_ID(), getAD_Org_ID()));
 		//	Set Order
 		if(orderId != 0) {
 			setC_Order_ID(orderId);
