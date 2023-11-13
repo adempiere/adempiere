@@ -45,6 +45,9 @@ import java.util.logging.Level;
  *  @author Michael McKay (mjmckay)
  *  		<li> BF3468458 - Attribute Set Instance not filled on Orders when product lookup not used.
  *  			 See https://sourceforge.net/tracker/?func=detail&aid=3468458&group_id=176962&atid=879332
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class CalloutOrder extends CalloutEngine
 {
