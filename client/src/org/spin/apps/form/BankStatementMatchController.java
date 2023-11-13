@@ -51,6 +51,9 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1699 ] Add support view for Bank Statement
  * @see https://github.com/adempiere/adempiere/issues/1699
+ * @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class BankStatementMatchController {
 	/**
