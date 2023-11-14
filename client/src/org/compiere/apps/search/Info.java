@@ -1821,7 +1821,7 @@ public abstract class Info extends CDialog
 						else if (c == BigDecimal.class)
 							data = m_rs.getBigDecimal(colIndex);
 						else if (c == Double.class)
-							data = new Double(m_rs.getDouble(colIndex));
+							data = Double.valueOf(m_rs.getDouble(colIndex));
 						else if (c == Integer.class)
 							data = Integer.valueOf(m_rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)
