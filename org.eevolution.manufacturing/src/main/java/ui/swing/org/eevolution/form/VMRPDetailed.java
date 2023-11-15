@@ -1231,7 +1231,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		final AWindow frame = new AWindow();
+		final AWindow frame = new AWindow(null);
 		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
 
