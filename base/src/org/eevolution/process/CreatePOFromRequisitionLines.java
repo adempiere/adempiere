@@ -62,6 +62,7 @@ public class CreatePOFromRequisitionLines extends CreatePOFromRequisitionLinesAb
                 .process(RequisitionPOCreate.getProcessId()).withTitle(RequisitionPOCreate.getProcessName())
                 .withSelectedRecordsIds(MRequisitionLine.Table_ID, getSelectionKeys())
                 .withParameter(RequisitionPOCreate.CONSOLIDATEDOCUMENT, isConsolidateDocument())
+                .withParameter(RequisitionPOCreate.C_DOCTYPE_ID, getDocTypeId())
                 .withoutTransactionClose()
                 .execute(get_TrxName());
 

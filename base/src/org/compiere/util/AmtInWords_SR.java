@@ -17,6 +17,9 @@ package org.compiere.util;
  *Amount in Words for Serbia.
  * @author Nikola Petkov -The class is based on the AmtInWords_EN.java written
  *         by jjanke
+ * @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class AmtInWords_SR
 	implements AmtInWords

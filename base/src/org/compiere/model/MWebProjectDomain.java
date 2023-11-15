@@ -30,6 +30,9 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: MWebProjectDomain.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class MWebProjectDomain extends X_CM_WebProject_Domain
 {

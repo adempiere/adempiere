@@ -13,7 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- *****************************************************************************/
+ ******************************************************************************/
 package org.compiere.cm.cache;
 
 import java.util.Collections;
@@ -31,6 +31,10 @@ import org.compiere.util.CLogger;
  *
  *  @author Yves Sandfort
  *  @version  $Id$
+ *
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ *		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class CO {
 

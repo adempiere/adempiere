@@ -140,7 +140,7 @@ public class DBDataSource extends compiereDataSource
 				}
 				else if (clazz.equals(java.lang.Double.class))
 				{
-					objValue = new Double(m_resultSet.getDouble(field.getName()));
+					objValue = Double.valueOf(m_resultSet.getDouble(field.getName()));
 					if(m_resultSet.wasNull())
 					{
 						objValue = null;
@@ -148,7 +148,7 @@ public class DBDataSource extends compiereDataSource
 				}
 				else if (clazz.equals(java.lang.Float.class))
 				{
-					objValue = new Float(m_resultSet.getFloat(field.getName()));
+					objValue = Float.valueOf(m_resultSet.getFloat(field.getName()));
 					if(m_resultSet.wasNull())
 					{
 						objValue = null;
