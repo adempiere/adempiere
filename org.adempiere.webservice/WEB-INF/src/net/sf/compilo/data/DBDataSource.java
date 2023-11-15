@@ -164,7 +164,7 @@ public class DBDataSource extends compiereDataSource
 				}
 				else if (clazz.equals(java.lang.Long.class))
 				{
-					objValue = new Long(m_resultSet.getLong(field.getName()));
+					objValue = Long.valueOf(m_resultSet.getLong(field.getName()));
 					if(m_resultSet.wasNull())
 					{
 						objValue = null;

@@ -111,7 +111,7 @@ public class CRP {
 	     long hours = t.getTimeSlotHours();
 		 
 		 DefaultCategoryDataset dataset = new DefaultCategoryDataset();	 
-		 //		Long Hours = new Long(hours); 			 		 			 
+		 //		Long Hours = Long.valueOf(hours);
 		 int C_UOM_ID = DB.getSQLValue(null,"SELECT C_UOM_ID FROM M_Product WHERE S_Resource_ID = ? " , resource.getS_Resource_ID());
 		 MUOM uom = MUOM.get(Env.getCtx(),C_UOM_ID);
 	     if (!uom.isHour())
@@ -124,7 +124,7 @@ public class CRP {
  		 {	
 			String day = new String(Integer.valueOf(date.getDate()).toString());
  		 		long HoursLoad = getLoad(resource,date).longValue();
- 		 		Long Hours = new Long(hours); 
+ 		 		Long Hours = Long.valueOf(hours);
  		 		
  		 		switch(gc1.get(Calendar.DAY_OF_WEEK))
 				{

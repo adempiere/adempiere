@@ -261,7 +261,7 @@ public class MADContextInfo extends X_AD_ContextInfo {
 					if(value instanceof BigDecimal) {
 						value = ((BigDecimal) value).doubleValue();
 					} else if(value instanceof Timestamp) {
-						value = new Long(((Timestamp) value).getTime());
+						value = Long.valueOf(((Timestamp) value).getTime());
 					} else if(value instanceof Number) {
 						value = Integer.valueOf(((Number) value).intValue());
 					} else {
