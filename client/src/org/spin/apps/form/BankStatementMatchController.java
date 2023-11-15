@@ -885,10 +885,7 @@ public class BankStatementMatchController {
 	public String saveData(int m_WindowNo, String trxName) {
 		AtomicInteger processed = new AtomicInteger();
 		AtomicInteger lineNo = new AtomicInteger(10);
-		int defaultChargeId = DB.getSQLValue(null, "SELECT MAX(C_Charge_ID) FROM C_Charge WHERE AD_Client_ID = ?", Env.getAD_Client_ID(Env.getCtx()));
-		if(defaultChargeId <= 0) {
-			return Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @NotFound@");
-		}
+
 		importedPaymentHashMap
 			.entrySet()
 			.stream()
@@ -901,10 +898,6 @@ public class BankStatementMatchController {
 				//	For Bank Statement
 				if(bankStatement != null
 						&& !bankStatement.isProcessed()) {
-					if(currentBankStatementImport.getC_Payment_ID() <= 0
-							&& currentBankStatementImport.getC_Charge_ID() <= 0) {
-						currentBankStatementImport.setC_Charge_ID(defaultChargeId);
-					}
 					if(currentBankStatementImport.getC_BankStatementLine_ID() == 0) {
 						importMatched(currentBankStatementImport, lineNo.get());
 						lineNo.addAndGet(10);
