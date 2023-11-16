@@ -32,9 +32,13 @@ import javax.swing.ImageIcon;
 
 import org.compiere.db.CConnection;
 import org.compiere.db.CConnectionDialog;
+import org.compiere.jr.report.ReportStarter;
+import org.compiere.jr.report.SwingJRViewerProvider;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
 import org.compiere.model.ModelValidationEngine;
+import org.compiere.print.ReportCtl;
+import org.compiere.print.SwingViewerProvider;
 import org.compiere.util.CLogFile;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -52,12 +56,16 @@ import org.compiere.util.Util;
  *
  *  @author Jorg Janke
  *  @version $Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $
- *  @athor Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 379 ] Change URL in About
  *		@see https://github.com/adempiere/adempiere/issues/379
  *		<a href="https://github.com/adempiere/adempiere/issues/1208">
  * 		@see FR [ 1208 ] Look and Feel Correction - Print footer</a>
- *  
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4174">
+ * 		BR [ 4174 ] Swing client does not generate jasper reports.</a>
+ *
  */
 public final class Adempiere
 {
@@ -187,7 +195,8 @@ public final class Adempiere
 		if (s_ImplementationVendor != null)
 			return;
 
-		Package adempierePackage = Package.getPackage("org.adempiere");
+		Class<?> clazz = Adempiere.class;
+		Package adempierePackage = clazz.getPackage();
 		if (adempierePackage != null) {
 			s_ImplementationVendor = adempierePackage.getImplementationVendor();
 			s_ImplementationVersion = adempierePackage.getImplementationVersion();
@@ -516,6 +525,12 @@ public final class Adempiere
 		//	Set UI
 		if (isClient)
 		{
+			ReportCtl.setReportViewerProvider(
+				new SwingViewerProvider()
+			);
+			ReportStarter.setReportViewerProvider(
+				new SwingJRViewerProvider()
+			);
 			if (CLogMgt.isLevelAll())
 				log.log(Level.FINEST, System.getProperties().toString());			
 		}
@@ -648,7 +663,7 @@ public final class Adempiere
 		try
 		{
 			Class<?> startClass = Class.forName(className);
-			startClass.newInstance();
+			startClass.getDeclaredConstructor().newInstance();
 		}
 		catch (Exception e)
 		{

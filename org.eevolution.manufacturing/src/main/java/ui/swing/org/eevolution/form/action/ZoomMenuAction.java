@@ -179,7 +179,7 @@ public class ZoomMenuAction extends PopupAction {
 		MQuery query = new MQuery();
 		query.setTableName(tablename);
 
-		AWindow window = new AWindow();
+		AWindow window = new AWindow(null);
 		if (window.initWindow(tableid, query)) {
 		
 			AEnv.showCenterScreen(window);

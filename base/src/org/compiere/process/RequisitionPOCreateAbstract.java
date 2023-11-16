@@ -3,7 +3,7 @@
  * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
- * or (at your option) any later version.										*
+ * or (at your option) any later version.                                     *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -12,7 +12,8 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ * or via info@adempiere.net                                                  *
+ * or https://github.com/adempiere/adempiere/blob/develop/license.html        *
  *****************************************************************************/
 
 package org.compiere.process;
@@ -21,7 +22,7 @@ import java.sql.Timestamp;
 
 /** Generated Process for (Create PO from Requisition)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.5
  */
 public abstract class RequisitionPOCreateAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -52,6 +53,8 @@ public abstract class RequisitionPOCreateAbstract extends SvrProcess {
 	public static final String C_BP_GROUP_ID = "C_BP_Group_ID";
 	/**	Parameter Name for Consolidate to one Document	*/
 	public static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
+	/**	Parameter Name for Document Type	*/
+	public static final String C_DOCTYPE_ID = "C_DocType_ID";
 	/**	Parameter Value for Requisition	*/
 	private int requisitionId;
 	/**	Parameter Value for Organization	*/
@@ -78,6 +81,8 @@ public abstract class RequisitionPOCreateAbstract extends SvrProcess {
 	private int bPGroupId;
 	/**	Parameter Value for Consolidate to one Document	*/
 	private boolean isConsolidateDocument;
+	/**	Parameter Value for Document Type	*/
+	private int docTypeId;
 
 	@Override
 	protected void prepare() {
@@ -94,6 +99,7 @@ public abstract class RequisitionPOCreateAbstract extends SvrProcess {
 		productCategoryId = getParameterAsInt(M_PRODUCT_CATEGORY_ID);
 		bPGroupId = getParameterAsInt(C_BP_GROUP_ID);
 		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
+		docTypeId = getParameterAsInt(C_DOCTYPE_ID);
 	}
 
 	/**	 Getter Parameter Value for Requisition	*/
@@ -224,6 +230,16 @@ public abstract class RequisitionPOCreateAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Consolidate to one Document	*/
 	protected void setConsolidateDocument(boolean isConsolidateDocument) {
 		this.isConsolidateDocument = isConsolidateDocument;
+	}
+
+	/**	 Getter Parameter Value for Document Type	*/
+	protected int getDocTypeId() {
+		return docTypeId;
+	}
+
+	/**	 Setter Parameter Value for Document Type	*/
+	protected void setDocTypeId(int docTypeId) {
+		this.docTypeId = docTypeId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

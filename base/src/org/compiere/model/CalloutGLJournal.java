@@ -26,6 +26,7 @@ import static org.adempiere.core.domains.models.X_C_Period.PERIODTYPE_Adjustment
 import static org.adempiere.core.domains.models.X_C_Period.PERIODTYPE_StandardCalendarPeriod;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.Properties;
 
@@ -162,7 +163,6 @@ public class CalloutGLJournal extends CalloutEngine
 	 */
 	public String amt (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
 	{
-		String colName = gridField.getColumnName();
 		if (value == null || isCalloutActive())
 			return "";
 
@@ -185,10 +185,10 @@ public class CalloutGLJournal extends CalloutEngine
 			amtSourceCr = Env.ZERO;
 
 		BigDecimal amtAcctDr = amtSourceDr.multiply(currencyRate);
-		amtAcctDr = amtAcctDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+		amtAcctDr = amtAcctDr.setScale(precision, RoundingMode.HALF_UP);
 		gridTab.setValue("AmtAcctDr", amtAcctDr);
 		BigDecimal amtAcctCr = amtSourceCr.multiply(currencyRate);
-		amtAcctCr = amtAcctCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
+		amtAcctCr = amtAcctCr.setScale(precision, RoundingMode.HALF_UP);
 		gridTab.setValue("AmtAcctCr", amtAcctCr);
 
 		return "";

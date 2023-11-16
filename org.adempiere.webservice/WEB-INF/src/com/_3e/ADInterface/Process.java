@@ -510,7 +510,7 @@ public class Process {
 				+ " AND l.AD_Reference_ID=135 ORDER BY t.Name";
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next())
 			{
