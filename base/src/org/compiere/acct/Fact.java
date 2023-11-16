@@ -684,9 +684,19 @@ public final class Fact
 		for (int i = 0; i < m_lines.size(); i++)
 		{
 			FactLine factLineSource = (FactLine)m_lines.get(i);
-			List<MDistribution> distributions = MDistribution.get (
-					factLineSource.getCtx(),
-					factLineSource.getC_AcctSchema_ID(),
+			List<MDistribution> distributions = MDistribution.get (factLineSource.getAccount(),
+				m_postingType, m_doc.getC_DocType_ID(),factLineSource.getDateAcct());
+			//	No Distribution for this line
+			//AZ Goodwill
+			//The above "get" only work in GL Journal because it's using ValidCombination Account
+			//Old:
+			//if (distributions == null || distributions.length == 0)
+			//	continue;
+			//For other document, we try the followings (from FactLine):
+			//New:	
+			if (distributions == null || distributions.size() == 0)
+			{
+				distributions = MDistribution.get (factLineSource.getCtx(), factLineSource.getC_AcctSchema_ID(),
 					m_postingType, m_doc.getC_DocType_ID(),
 					factLineSource.getAD_Org_ID(), factLineSource.getAccount_ID(),
 					factLineSource.getM_Product_ID(), factLineSource.getC_BPartner_ID(), factLineSource.getC_Project_ID(),
@@ -697,7 +707,7 @@ public final class Fact
 					factLineSource.getDateAcct());
 				if (distributions == null || distributions.size() == 0)
 					continue;
-
+			}
 			//end AZ
 			//	Just the first
 			if (distributions.size() > 1){
@@ -709,6 +719,7 @@ public final class Fact
 			//Set the transaction name based on posting document, if not a null trx name is used based on the cache causing the lock database
 			distribution.set_TrxName(get_TrxName());
 			List<MDistributionLine> distributionLines = distribution.getLines(false);
+
 			if(distribution.getPercentTotal().signum() != 0)
 			{
 			// FR 2685367 - GL Distribution delete line instead reverse
