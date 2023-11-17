@@ -1,5 +1,5 @@
 plugins {
-=	id 'java-library'
+	id 'java-library'
 	id 'maven-publish'
 	id 'signing'
 }
@@ -43,6 +43,13 @@ sourceSets {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
 }
 
 compileJava {
