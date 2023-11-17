@@ -1,24 +1,35 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
 
+allprojects {
+	tasks.withType(Javadoc) {
+		options.addStringOption('Xdoclint:none', '-quiet')
+	}
+}
 
 dependencies {
 	//api '<library-group>:<library-name>:<library-version>'
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs 'src'
-         }
-         resources {
-    		srcDirs 'src'
-        	include 'org/adempiere/legacy/apache/ecs/ecs.properties'
-    	 }
-    }
+	main {
+		java {
+			srcDirs 'src'
+		}
+		resources {
+			srcDirs 'src'
+				include 'org/adempiere/legacy/apache/ecs/ecs.properties'
+			}
+	}
 }
 
 java {
@@ -26,33 +37,36 @@ java {
     withSourcesJar()
 }
 
-allprojects {
-    tasks.withType(Javadoc) {
-    	options.addStringOption('Xdoclint:none', '-quiet')
-   	}
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
 }
 
-//signing {
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//    sign configurations.archives
-//}
+tasks.withType(Jar){
+	// to fix `Entry org/adempiere/legacy/apache/ecs/ecs.properties is a duplicate but no duplicate handling strategy has been set`
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
 
 
 def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Base Module",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Tools Module",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -94,9 +108,26 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
 signing {
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
 	def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }
