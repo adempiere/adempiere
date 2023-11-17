@@ -169,7 +169,7 @@ public class AArchive implements ActionListener
 	public void actionPerformed (ActionEvent e)
 	{
 		int AD_Form_ID = 118;	//	ArchiveViewer
-		FormFrame ff = new FormFrame(m_graphicsconfig);
+		FormFrame ff = new FormFrame(0);
 		ff.openForm(AD_Form_ID);
 		ArchiveViewer av = (ArchiveViewer)ff.getFormPanel();
 		//
