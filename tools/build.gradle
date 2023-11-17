@@ -44,6 +44,11 @@ tasks.withType(Javadoc) {
 	options.addStringOption('charSet', 'UTF-8')
 }
 
+tasks.withType(Jar){
+	// to fix `Entry org/adempiere/legacy/apache/ecs/ecs.properties is a duplicate but no duplicate handling strategy has been set`
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
 
 def entityType = 'D'
 version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
