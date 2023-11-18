@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -198,9 +199,10 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 					else if ( parent.getTimeUnit().equals(MChart.TIMEUNIT_Year))
 						period = new Year(date);
 
-					if (period != null) {
-						tseries.add(period, rs.getBigDecimal(1));
-						key = period.toString();
+					Optional<RegularTimePeriod> maybePeriod = Optional.ofNullable(period);
+					if(maybePeriod.isPresent()) {
+						tseries.add(maybePeriod.get(), rs.getBigDecimal(1));
+						key = maybePeriod.get().toString();
 					}
 					queryWhere += DB.TO_DATE(new Timestamp(date.getTime()));
 				}
@@ -211,7 +213,7 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 				MQuery query = new MQuery(getAD_Table_ID());
 				MTable table = MTable.get(getCtx(), getAD_Table_ID());
 				String[] keyColumns = table.getKeyColumns();
-				if (keyColumns != null && keyColumns.length > 0) {
+				if (Optional.ofNullable(keyColumns).isPresent() && keyColumns.length > 0) {
 					String keyCol = keyColumns[0];
 					String whereClause = keyCol  + " IN (SELECT " + getKeyColumn()
 						+ " FROM " + getFromClause()
