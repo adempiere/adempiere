@@ -1,9 +1,8 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-
-
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
 repositories {
@@ -19,12 +18,14 @@ allprojects {
 
 dependencies {
 	implementation fileTree(
-        dir: '../tools/lib', 
-        include: [
-        'Verisign.jar', 
-		'payflow.jar',
-        ]
-    )
+		dir: '../tools/lib',
+		include: [
+			'Verisign.jar',
+			'payflow.jar',
+			'harness-1.0.0.jar'
+		]
+	)
+
 	//api '<library-group>:<library-name>:<library-version>'
     // https://mvnrepository.com/artifact/org.apache.poi/poi
 	implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
@@ -80,9 +81,9 @@ dependencies {
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.3'
     // https://mvnrepository.com/artifact/org.beanshell/bsh
     implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
-    //  Local
-    api project(path: ':tools')
-    //api 'io.github.adempiere:tools:'
+
+	//  Local
+	api project(path: ':tools')
 }
 
 configurations.all {
@@ -93,11 +94,11 @@ configurations.all {
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src']
+		}
+	}
 }
 
 java {
@@ -105,26 +106,31 @@ java {
     withSourcesJar()
 }
 
-//signing {
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//    sign configurations.archives
-//}
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
+}
+
 
 def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Base Module",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Base Module",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -166,9 +172,27 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
+
 signing {
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
 	def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }

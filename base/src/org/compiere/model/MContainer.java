@@ -37,6 +37,9 @@ import org.compiere.util.DB;
  * @author Yves Sandfort
  * @version $Id: MContainer.java,v 1.20 2006/09/05 23:22:53 comdivision Exp $
  * FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class MContainer extends X_CM_Container
 {

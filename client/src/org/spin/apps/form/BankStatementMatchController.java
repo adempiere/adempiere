@@ -51,6 +51,9 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1699 ] Add support view for Bank Statement
  * @see https://github.com/adempiere/adempiere/issues/1699
+ * @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class BankStatementMatchController {
 	/**
@@ -882,10 +885,7 @@ public class BankStatementMatchController {
 	public String saveData(int m_WindowNo, String trxName) {
 		AtomicInteger processed = new AtomicInteger();
 		AtomicInteger lineNo = new AtomicInteger(10);
-		int defaultChargeId = DB.getSQLValue(null, "SELECT MAX(C_Charge_ID) FROM C_Charge WHERE AD_Client_ID = ?", Env.getAD_Client_ID(Env.getCtx()));
-		if(defaultChargeId <= 0) {
-			return Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @NotFound@");
-		}
+
 		importedPaymentHashMap
 			.entrySet()
 			.stream()
@@ -898,10 +898,6 @@ public class BankStatementMatchController {
 				//	For Bank Statement
 				if(bankStatement != null
 						&& !bankStatement.isProcessed()) {
-					if(currentBankStatementImport.getC_Payment_ID() <= 0
-							&& currentBankStatementImport.getC_Charge_ID() <= 0) {
-						currentBankStatementImport.setC_Charge_ID(defaultChargeId);
-					}
 					if(currentBankStatementImport.getC_BankStatementLine_ID() == 0) {
 						importMatched(currentBankStatementImport, lineNo.get());
 						lineNo.addAndGet(10);

@@ -272,7 +272,7 @@ public class MobileSessionCtx implements Serializable
 		if (wstore == null)
 			return new Properties();
 		//
-		Integer key = new Integer (wstore.getW_Store_ID());
+		Integer key = Integer.valueOf(wstore.getW_Store_ID());
 		Properties newCtx = (Properties)s_cacheCtx.get(key);
 		
 		/**	Create New Context		*/

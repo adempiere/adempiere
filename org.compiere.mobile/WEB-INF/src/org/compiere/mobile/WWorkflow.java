@@ -768,7 +768,7 @@ private void loadWorkflow(Properties ctx, int AD_Workflow_ID, HttpSession sess) 
 		for (int i = 0; i < nodes.length; i++)
 		{
 		wfn= nodes[i];
-		nodes_ID.add (new Integer(wfn.getAD_WF_Node_ID()));
+			nodes_ID.add(Integer.valueOf(wfn.getAD_WF_Node_ID()));
 						}//for
         int imageMap [][] = generateImageMap(nodes_ID);
  //printMap(imageMap);
@@ -777,7 +777,7 @@ sess.setAttribute( WORKFLOW,wf);
 sess.setAttribute( NODES,nodes);
 sess.setAttribute( NODES_ID,nodes_ID);
 sess.setAttribute( IMAGE_MAP,imageMap);
-sess.setAttribute( ACTIVE_NODE,new Integer(-999));
+		sess.setAttribute(ACTIVE_NODE, Integer.valueOf(-999));
 
 }//loadWorkflow
 
@@ -796,7 +796,7 @@ sess.setAttribute( ACTIVE_NODE,new Integer(-999));
 private void executeCommand(String m_command, int j_command , MWorkflow wf,int activeNode, MWFNode [] nodes,ArrayList nodes_ID, HttpSession sess){
 if (j_command != 0 )
 {
-sess.setAttribute(ACTIVE_NODE, new Integer(j_command));
+			sess.setAttribute(ACTIVE_NODE, Integer.valueOf(j_command));
 return;
 }
 
@@ -836,7 +836,7 @@ if(m_command.equals(LAST)) updatedActiveNode= wf.getLast(0,Env.getContextAsInt(c
 }//ready
 
 //update
-sess.setAttribute(ACTIVE_NODE,new Integer(updatedActiveNode));
+		sess.setAttribute(ACTIVE_NODE, Integer.valueOf(updatedActiveNode));
 }//executeCommand
 
 
@@ -855,7 +855,7 @@ private int getAD_Workflow_ID(int AD_Menu_ID){
 				+ "WHERE AD_Menu_ID=? AND Action='F'";
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, AD_Menu_ID);
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next())

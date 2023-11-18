@@ -286,7 +286,7 @@ public class VTrxMaterial extends TrxMaterial
 
 		//  Zoom
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(null);
 		if (!frame.initWindow(AD_Window_ID, query))
 		{
 			panel.setCursor(Cursor.getDefaultCursor());

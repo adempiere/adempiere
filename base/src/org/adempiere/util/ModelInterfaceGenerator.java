@@ -179,11 +179,12 @@ public class ModelInterfaceGenerator
 			.append("package ").append(packageName).append(";").append(NL)
 		;
 		
-		if (!packageName.equals("org.compiere.model")) {
-			addImportClass("org.compiere.model.*");
+		if (!packageName.equals("org.adempiere.core.domains.models")) {
+			addImportClass("org.adempiere.core.domains.models.*");
 		}
 		addImportClass(java.math.BigDecimal.class);
 		addImportClass(org.compiere.util.KeyNamePair.class);
+		addImportClass(org.compiere.model.MTable.class);
 		
 		createImports(start);
 		// Interface
@@ -604,8 +605,10 @@ public class ModelInterfaceGenerator
 	 */
 	public static String getModelPackage(String entityType)
 	{
+		return "org.adempiere.core.domains.models";
+		/* Comment whe switch to new package core anemic model class org.adempiere.core.domains.models
 		if ("D".equals(entityType))
-			return "org.compiere.model";
+			return "org.adempiere.core.domains.models";
 
 		for (MEntityType entity : MEntityType.getEntityTypes(Env.getCtx()))
 		{
@@ -614,7 +617,8 @@ public class ModelInterfaceGenerator
 				return entity.getModelPackage();
 			}
 		}
-		return null;
+
+		return null;*/
 	}
 	
 	public static String getFieldName(String columnName)
@@ -665,11 +669,13 @@ public class ModelInterfaceGenerator
 				{						
 					referenceClassName = modelpackage+"."+referenceClassName;
 				}
+				/* Comment whe switch to new package core anemic model class org.adempiere.core.domains.models
 				if (!isGenerateModelGetterForEntity(AD_Table_ID, entityType)
 						|| !isCoreModelpackage(modelpackage))
 				{
 					referenceClassName = null; 
 				}
+				*/
 			}
 			else
 			{
@@ -712,11 +718,13 @@ public class ModelInterfaceGenerator
 						{
 							referenceClassName = modelpackage+"."+referenceClassName;
 						}
+						/* Comment whe switch to new package core anemic model class org.adempiere.core.domains.models
 						if (!isGenerateModelGetterForEntity(AD_Table_ID, entityType)
 								|| !isCoreModelpackage(modelpackage))
 						{
 							referenceClassName = null;
 						}
+						*/
 					}
 				}
 			}

@@ -23,6 +23,10 @@ import java.io.FileInputStream;
  * 
  * @author Low Heng Sin
  *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4174">
+ * 		BR [ 4174 ] Swing client does not generate jasper reports.</a>
+ *
  */
 public interface ReportViewerProvider {
 	public void openViewer(ReportEngine re);
