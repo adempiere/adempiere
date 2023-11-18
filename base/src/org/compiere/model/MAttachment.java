@@ -1043,7 +1043,6 @@ public class MAttachment extends X_AD_Attachment
 		}
 		log.fine("updateEntry - " + file);
 		//
-		// String name = file.getName();
 		byte[] data = null;
 		try
 		{
