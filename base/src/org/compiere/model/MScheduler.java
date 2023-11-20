@@ -231,6 +231,10 @@ public class MScheduler extends X_AD_Scheduler
 			}
 		}
 
+		if (list.size() == 0) {
+			list.add(getSupervisor_ID());
+		}
+
 		//
 		return list.toArray(new Integer[list.size()]);
 	}	//	getRecipientAD_User_IDs
