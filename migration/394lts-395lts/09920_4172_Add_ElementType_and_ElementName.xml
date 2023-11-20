@@ -14,7 +14,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">100911</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Type | Area</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -85,7 +85,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">100912</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Element Name</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -433,7 +433,7 @@
         <Data AD_Column_ID="109" Column="AD_Column_ID">100913</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Type</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
