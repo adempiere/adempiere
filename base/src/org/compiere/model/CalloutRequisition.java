@@ -24,6 +24,7 @@ import java.util.Properties;
 import org.adempiere.core.domains.models.I_M_Requisition;
 import org.adempiere.core.domains.models.I_M_RequisitionLine;
 import org.adempiere.model.GridTabWrapper;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 
 /**
@@ -118,4 +119,76 @@ public class CalloutRequisition extends CalloutEngine
 		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");	//	not used
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 	}
+
+	/**
+	 *
+	 * @param ctx
+	 * @param windowNo
+	 * @param gridTab
+	 * @param gridField
+	 * @param value
+	 * @return
+	 */
+	public String tax (Properties ctx, int windowNo, GridTab gridTab, GridField gridField, Object value)
+	{
+		String column = gridField.getColumnName();
+		if (value == null)
+			return "";
+
+		//	Check Product
+		int productId = 0;
+		if (column.equals("M_Product_ID"))
+			productId = ((Integer)value).intValue();
+		else
+			productId = Env.getContextAsInt(ctx, windowNo, "M_Product_ID");
+		int chargeId = 0;
+		if (column.equals("C_Charge_ID"))
+			chargeId = ((Integer)value).intValue();
+		else
+			chargeId = Env.getContextAsInt(ctx, windowNo, "C_Charge_ID");
+		log.fine("Product=" + productId + ", C_Charge_ID=" + chargeId);
+		if (productId == 0 && chargeId == 0)
+			return amt(ctx, windowNo, gridTab, gridField, value);		//
+
+		//	Check Partner Location
+		int shipPartnerLocationId = 0;
+		if (column.equals("C_BPartner_Location_ID"))
+			shipPartnerLocationId = ((Integer)value).intValue();
+		else
+			shipPartnerLocationId = Env.getContextAsInt(ctx, windowNo, "C_BPartner_Location_ID");
+		if (shipPartnerLocationId == 0)
+			return amt(ctx, windowNo, gridTab, gridField, value);		//
+		log.fine("Ship BP_Location=" + shipPartnerLocationId);
+
+		//
+		Timestamp billDate = Env.getContextAsDate(ctx, windowNo, "DateOrdered");
+		log.fine("Bill Date=" + billDate);
+
+		Timestamp shipDate = Env.getContextAsDate(ctx, windowNo, "DatePromised");
+		log.fine("Ship Date=" + shipDate);
+
+		int orgId = Env.getContextAsInt(ctx, windowNo, "AD_Org_ID");
+		log.fine("Org=" + orgId);
+
+		int warehouseId = Env.getContextAsInt(ctx, windowNo, "M_Warehouse_ID");
+		log.fine("Warehouse=" + warehouseId);
+
+		int billPartnerLocationId = Env.getContextAsInt(ctx, windowNo, "Bill_Location_ID");
+		if (billPartnerLocationId == 0)
+			billPartnerLocationId = shipPartnerLocationId;
+		log.fine("Bill BP_Location=" + billPartnerLocationId);
+
+		//
+		int taxId = Tax.get (ctx, productId, chargeId, billDate, shipDate,
+				orgId, warehouseId, billPartnerLocationId, shipPartnerLocationId,
+				"Y".equals(Env.getContext(ctx, windowNo, "IsSOTrx")), null);
+		log.info("Tax ID=" + taxId);
+		//
+		if (taxId == 0)
+			gridTab.fireDataStatusEEvent(CLogger.retrieveError());
+		else
+			gridTab.setValue("C_Tax_ID", Integer.valueOf(taxId));
+
+		return amt(ctx, windowNo, gridTab, gridField, value);
+	}	//	tax
 }	//	CalloutRequisition

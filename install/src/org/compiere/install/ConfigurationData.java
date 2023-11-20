@@ -342,7 +342,7 @@ public class ConfigurationData
 		}
 		//	Default Java Options
 		if (!p_properties.containsKey(ADEMPIERE_JAVA_OPTIONS))
-			p_properties.setProperty(ADEMPIERE_JAVA_OPTIONS, "-Xms64M -Xmx1512M");
+			p_properties.setProperty(ADEMPIERE_JAVA_OPTIONS, "-Dfile.encoding=UTF-8 -Xms128m -Xmx1024m --add-exports java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED  -Djdk.jar.maxSignatureFileSize\\=20000000");
 		//	Web Alias
 		if (!p_properties.containsKey(ADEMPIERE_WEB_ALIAS) && localhost != null)
 			p_properties.setProperty(ADEMPIERE_WEB_ALIAS, localhost.getCanonicalHostName());

@@ -37,7 +37,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20230102L;
+	private static final long serialVersionUID = 20231103L;
 
     /** Standard Constructor */
     public X_M_RequisitionLine (Properties ctx, int M_RequisitionLine_ID, String trxName)

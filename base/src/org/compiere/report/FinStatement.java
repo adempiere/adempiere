@@ -165,7 +165,7 @@ public class FinStatement extends FinStatementAbstract
 	private void createBalanceLine()
 	{
 		StringBuilder where = new StringBuilder();
-		where.append(" WHERE ").append(parameterWhere).append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()));
+		where.append(" WHERE ").append(parameterWhere).append(" AND DateAcct < ").append(DB.TO_DATE(getDateAcct()));
 		StringBuffer sb = new StringBuffer("INSERT INTO T_ReportStatement "
 				+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
 				+ "DateAcct, Name, Description,"
@@ -223,7 +223,7 @@ public class FinStatement extends FinStatementAbstract
 			+ "FROM Fact_Acct "
 			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_Elementvalue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)
-			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(getDateAcct()))
+			.append(" AND DateAcct BETWEEN ").append(DB.TO_DATE(getDateAcct()))
 			.append(" AND ").append(DB.TO_DATE(getDateAcctTo()));
 		
 		//Client Filter 

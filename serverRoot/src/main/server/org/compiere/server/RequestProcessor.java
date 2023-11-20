@@ -484,12 +484,12 @@ public class RequestProcessor extends AdempiereServer
 		StringBuffer whereClause = new StringBuffer("M_ChangeRequest_ID IS NULL"
 			+ " AND EXISTS("
 				+ "SELECT 1 FROM R_RequestType rt "
-				+ "WHERE rt.R_RequestType_ID = R_Request.R_RequestType_ID"
-				+ " AND rt.IsAutoChangeRequest='Y')"
-			+ "AND EXISTS ("
+				+ "WHERE rt.R_RequestType_ID = R_Request.R_RequestType_ID "
+				+ "AND rt.IsAutoChangeRequest='Y') "
+				+ "AND EXISTS ("
 				+ "SELECT 1 FROM R_Group g "
-				+ "WHERE g.R_Group_ID = R_Request.R_Group_ID"
-				+ " AND (g.M_BOM_ID IS NOT NULL OR g.M_ChangeNotice_ID IS NOT NULL)	)");
+				+ "WHERE g.R_Group_ID = R_Request.R_Group_ID "
+				+ "AND (g.M_BOM_ID IS NOT NULL OR g.M_ChangeNotice_ID IS NOT NULL)	)");
 		//	Query for request
 		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
 			.setOrderBy(I_R_Request.COLUMNNAME_R_Status_ID)

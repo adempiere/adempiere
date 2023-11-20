@@ -1351,7 +1351,7 @@ public class Viewer extends CFrame
 				+ "				AND ce.IsActive = 'Y' "
 				+ "				AND ce.AD_Tab_ID IS NOT NULL "
 				+ "				AND ce.AD_Field_ID IS NULL "
-				+ "				AND ce.ASP_Status = 'S')"	//	Show
+				+ "				AND ce.ASP_Status = 'S') "	//	Show
 				//	minus hide ASP exceptions for client
 				+ "AND EXISTS(SELECT 1 FROM ASP_ClientException ce "
 				+ "				WHERE ce.AD_Tab_ID = t.AD_Tab_ID "

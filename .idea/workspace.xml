@@ -5,164 +5,134 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/base/test/src/org/compiere/util/IT_Login.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/base/test/src/org/compiere/util/IT_PaymentFormController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/import/AccountingES-NI.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data/import/AccountingES-NI.ods" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migration/393lts-394lts/09230_Add_refactory_for_WEMailDialog.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migration/393lts-394lts/09250_Add_message_for_server_start.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migration/393lts-394lts/09300_Add_IsIncludeNotAvailable_parameter_for_generate_Invoice.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migration/393lts-394lts/09370_Add_support_for_Outlook_email_configuration.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/migration/393lts-394lts/09380_Fixed_error_with_product_price_for_product.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/ReportStarter.java" beforeDir="false" afterPath="$PROJECT_DIR$/JasperReports/src/org/compiere/report/ReportStarter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/controller/PaymentFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/controller/PaymentFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/exceptions/NoCurrencyConversionException.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/exceptions/NoCurrencyConversionException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/exceptions/PORelationException.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/exceptions/PORelationException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/process/MigrationLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/process/MigrationLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/process/RunDatabaseMigration.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/process/RunDatabaseMigration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/EMailOAuth2Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/EMailOAuth2Provider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchPO.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_MatchPO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Production.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProductionBatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProductionBatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProjectIssue.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_ProjectIssue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Requisition.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/acct/Doc_Requisition.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/db/DB_MariaDB.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/db/DB_MariaDB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/db/DB_MySQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/db/DB_MySQL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/db/DB_Oracle.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/db/DB_Oracle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/db/DB_PostgreSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/db/DB_PostgreSQL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/minigrid/IMiniTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCCommissionRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCCommissionRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MClientInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MClientInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MEntityType.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MEntityType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MPaymentBatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MPaymentBatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MPaymentTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MPaymentTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MProductionPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MProductionPlan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MRefList.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRefList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MYear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/ReportTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/ReportTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_EMailConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/X_AD_EMailConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/plaf/CompiereUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/plaf/CompiereUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/BOMFlagValidate.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/BOMFlagValidate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/BOMVerify.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/BOMVerify.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ColumnSync.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ColumnSync.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/CostCreate.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/CostCreate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/DunningRunCreate.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/DunningRunCreate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/IndentedBOM.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/IndentedBOM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/InvoiceCreateFrom.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/InvoiceCreateFrom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/PosKeyGenerate.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/PosKeyGenerate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfoParameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ProcessInfoParameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionBatchCreate.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ProductionBatchCreate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/ServerProcessCtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/ServerProcessCtl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/UniversalSubstitution.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/UniversalSubstitution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/CLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/CLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/DB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/EMail.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/EMail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Evaluator.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Evaluator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Login.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Login.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/ResultSetIterable.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/ResultSetIterable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Splash.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Splash.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/Trace.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/Trace.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/util/WebEnv.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/util/WebEnv.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/wf/MWFNodeNext.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/wf/MWFNodeNext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MDDOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MDDOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderNodeProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/eevolution/model/MPPOrderNodeProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/test/src/org/compiere/acct/IT_Doc.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/test/src/org/compiere/acct/IT_Doc.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/test/src/org/compiere/model/IT_Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/test/src/org/compiere/model/IT_Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/test/src/org/compiere/model/IT_MBPGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/test/src/org/compiere/model/IT_MBPGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/test/src/org/compiere/process/RoleAccessUpdate_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/test/src/org/compiere/process/RoleAccessUpdate_Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/base/test/src/org/compiere/util/IT_DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/test/src/org/compiere/util/IT_DB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/APanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/EMailDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/EMailDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/form/Charge.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/form/Charge.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/form/VTreeBOM.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/form/VTreeBOM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/search/Find.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/search/Find.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/search/InvoiceHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/search/InvoiceHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VBinary.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VBinary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VCellEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VCellEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/grid/ed/VChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/minigrid/CheckRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniCellEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/minigrid/MiniCellEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/org/eevolution/grid/VBrowserTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/eevolution/grid/VBrowserTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/install/Adempiere/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/install/Adempiere/build.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/adempiere.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adempiere.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/core/domains/models/X_M_RequisitionLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/core/domains/models/X_M_RequisitionLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/engine/AbstractCostingMethod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackOut.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/pipo/PackOut.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/ModelClassGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/ModelClassGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/adempiere/util/ModelInterfaceGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/adempiere/util/ModelInterfaceGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/dbPort/Convert_PostgreSQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/dbPort/Convert_PostgreSQL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutRequisition.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/CalloutRequisition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCommission.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCommission.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MCostQueue.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MCostQueue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MPaySelectionLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MPaySelectionLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MRequisitionLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRequisitionLine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/model/MStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/print/ServerReportCtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/print/ServerReportCtl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/process/FactReconciliation.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/process/FactReconciliation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/FinReport.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/report/FinReportPeriod.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/FinReportPeriod.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/report/FinStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/FinStatement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/base/src/org/compiere/report/TrialBalance.java" beforeDir="false" afterPath="$PROJECT_DIR$/base/src/org/compiere/report/TrialBalance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/acct/AcctViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/acct/AcctViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/apps/ProcessCtl.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/apps/ProcessCtl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/org/compiere/print/Viewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/org/compiere/print/Viewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/install/Adempiere/AdempiereEnvTemplate.properties" beforeDir="false" afterPath="$PROJECT_DIR$/install/Adempiere/AdempiereEnvTemplate.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/install/src/org/compiere/install/ConfigurationData.java" beforeDir="false" afterPath="$PROJECT_DIR$/install/src/org/compiere/install/ConfigurationData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/jetty-ds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/jetty-ds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/mariadb-ds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mariadb-ds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/mysql-ds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-ds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/oracle-ds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/oracle-ds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/postgresql-ds.xml" beforeDir="false" afterPath="$PROJECT_DIR$/lib/postgresql-ds.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetChange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetGroupAcct.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetGroupAcct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetType.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MAssetType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciation.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationConvention.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationConvention.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MDepreciationMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MIFixedAsset.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MIFixedAsset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MXIFAJournal.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.asset/src/main/java/base/org/compiere/model/MXIFAJournal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.crm/src/main/java/org/compiere/model/SalesMgmtValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.crm/src/main/java/org/compiere/model/SalesMgmtValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandCloseStatement.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandCloseStatement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandWithdrawal.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/base/org/adempiere/pos/command/CommandWithdrawal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/test/POSClientSide.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/test/POSClientSide.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/test/POSClientWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.pos/src/main/java/ui/swing/org/adempiere/pos/test/POSClientWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.production/src/main/java/base/org/compiere/process/OrderLineCreateProduction.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.production/src/main/java/base/org/compiere/process/OrderLineCreateProduction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectLine.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectLine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectType.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectTypePhase.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/model/MProjectTypePhase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/process/ProjectSetType.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/compiere/process/ProjectSetType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/eevolution/model/MProjectMemberTyoe.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.project/src/main/java/org/eevolution/model/MProjectMemberTyoe.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/test/java/org/adempiere/test/CommonSystemSetup.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/java/org/adempiere/test/CommonSystemSetup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPaySelectionCreateCheck.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/process/HRPaySelectionCreateCheck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_DDOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_DDOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPCostCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPCostCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/compiere/acct/Doc_PPOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/engine/forecast/PolynomialRegression.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/engine/forecast/PolynomialRegression.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/CalloutCostCollector.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/CalloutCostCollector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/CalloutDistributionOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/CalloutDistributionOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/MPPMRP.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/MPPMRP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateCostElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateCostElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateProductPlanning.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/base/org/eevolution/process/CreateProductPlanning.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderDistributionReceipt.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderDistributionReceipt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderReceiptIssue.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/OrderReceiptIssue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/TreeBOM.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/main/java/ui/swing/org/eevolution/form/TreeBOM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/CSVFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/CSVFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/MRPUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/MRPUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/TestableMRP.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.manufacturing/src/test/java/base/org/eevolution/model/TestableMRP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/engine/warehouse/WMRuleInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/engine/warehouse/WMRuleInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMArea.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMArea.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMSectionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/model/MWMSectionType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/process/GenerateInvoiceInOutBound.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/process/GenerateInvoiceInOutBound.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/process/GenerateInvoiceInOutBoundAbstract.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/process/GenerateInvoiceInOutBoundAbstract.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverApps/src/main/servlet/org/compiere/wstore/PaymentServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverApps/src/main/servlet/org/compiere/wstore/PaymentServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/ReplicationProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/ReplicationProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migration/394lts-395lts/09920_4172_Add_ElementType_and_ElementName.xml" beforeDir="false" afterPath="$PROJECT_DIR$/migration/394lts-395lts/09920_4172_Add_ElementType_and_ElementName.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.adempiere.production/src/main/java/base/org/adempiere/production/process/CalculateReplenishPlan.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.production/src/main/java/base/org/adempiere/production/process/CalculateReplenishPlan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/hr/model/MHRConcept.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.hr_and_payroll/src/main/java/base/org/eevolution/hr/model/MHRConcept.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/ldap/LdapMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/ldap/LdapMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/ProjectProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/ProjectProcessor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/RequestProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/RequestProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/Scheduler.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/Scheduler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/WorkflowProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/main/server/org/compiere/server/WorkflowProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serverRoot/src/test/server/org/compiere/acct/IT_DocumentPosting.java" beforeDir="false" afterPath="$PROJECT_DIR$/serverRoot/src/test/server/org/compiere/acct/IT_DocumentPosting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlj/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sqlj/build.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereIdGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/AdempiereIdGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/IWebClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/IWebClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/form/WInvoiceGenFromShipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/form/WInvoiceGenFromShipment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/wf/WFNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/apps/wf/WFNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/SMJReportViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/component/SMJReportViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WChartEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WChartEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WSearchEditor.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/editor/WSearchEditor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InvoiceHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/InvoiceHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/RolePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/RolePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/panel/TreeSearchPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/SessionTimeoutFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/SessionTimeoutFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/WebUIServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/session/WebUIServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WEMailDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WEMailDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WLocationDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WLocationDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WStringEditorDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/window/WStringEditorDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/test/src/org/adempiere/webui/component/GridPanel_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/test/src/org/adempiere/webui/component/GridPanel_Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/test/src/org/adempiere/webui/component/GridTabRowRenderer_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/test/src/org/adempiere/webui/component/GridTabRowRenderer_Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/HikariCP-5.0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/HikariCP-5.0.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/OpenForecast-0.5.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/OpenForecast-0.5.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/Verisign.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/Verisign.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/activemq-core-5.7.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/activemq-core-5.7.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/aws-java-sdk-core-1.11.795.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/aws-java-sdk-core-1.11.795.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/aws-java-sdk-kms-1.11.795.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/aws-java-sdk-kms-1.11.795.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/aws-java-sdk-s3-1.11.795.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/aws-java-sdk-s3-1.11.795.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/barbecue-1.5-beta1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/barbecue-1.5-beta1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/batik-all-1.9.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/batik-all-1.9.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/bsh-2.0b6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/bsh-2.0b6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/bsh-engine.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/bsh-engine.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/byte-buddy-1.12.19.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/byte-buddy-1.12.19.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-codec-1.10.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-codec-1.10.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-codec-1.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-codec-1.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-collections4-4.4.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-collections4-4.4.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-io.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-io.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-lang-2.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-lang-2.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-logging-1.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-logging-1.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-net-1.4.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-net-1.4.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/commons-validator-1.7.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/commons-validator-1.7.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/cron4j-2.2.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/cron4j-2.2.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/ejb-api-3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/ejb-api-3.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/fluent-hc-4.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/fluent-hc-4.5.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/groovy-all-2.4.15.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/groovy-all-2.4.15.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/groovy-engine.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/groovy-engine.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/harness-1.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/harness-1.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/httpclient-4.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/httpclient-4.5.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/httpclient-cache-4.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/httpclient-cache-4.5.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/httpclient-win-4.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/httpclient-win-4.5.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/httpcore-4.4.10.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/httpcore-4.4.10.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/httpmime-4.5.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/httpmime-4.5.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/icepdf-core-6.2.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/icepdf-core-6.2.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/icepdf-viewer-6.2.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/icepdf-viewer-6.2.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/io-7.1.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/io-7.1.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/itext-carriage-0.8.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/itext-carriage-0.8.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/itextpdf-5.5.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/itextpdf-5.5.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jakarta.servlet-api-5.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jakarta.servlet-api-5.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jakarta.servlet.jsp-api-3.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jakarta.servlet.jsp-api-3.0.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/javax.activation-1.2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/javax.activation-1.2.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/javax.annotation-api-1.3.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/javax.annotation-api-1.3.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/javax.inject-1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/javax.inject-1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/javax.servlet-api-4.0.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/javax.servlet-api-4.0.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jcommon-1.0.18.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jcommon-1.0.18.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jfreechart-1.0.15.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jfreechart-1.0.15.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jgraph.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jgraph.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jna-4.4.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jna-4.4.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jna-5.5.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jna-5.5.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jna-platform-4.4.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jna-platform-4.4.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jnlp.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jnlp.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jpayment.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jpayment.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jsp-api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jsp-api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jstl.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jstl.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jython-engine.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jython-engine.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/jython.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/jython.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/kernel-7.1.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/kernel-7.1.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/lablib-checkboxtree-3.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/lablib-checkboxtree-3.3.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/layout-7.1.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/layout-7.1.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/log4j-1.2-api-2.17.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/log4j-1.2-api-2.17.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/log4j-api-2.17.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/log4j-api-2.17.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/log4j-core-2.17.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/log4j-core-2.17.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/logkit.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/logkit.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/mail.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/mail.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/mariadb-java-client.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/mariadb-java-client.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/miglayout-3.7.1-swing.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/miglayout-3.7.1-swing.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/ooxml-schemas-1.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/ooxml-schemas-1.3.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/oracle.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/oracle.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/org.krysalis.barcode4j_2.1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/org.krysalis.barcode4j_2.1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/payflow.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/payflow.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/pdfa-7.1.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/pdfa-7.1.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/poi-3.17.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/poi-3.17.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/poi-ooxml-3.17.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/poi-ooxml-3.17.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/postgresql.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/postgresql.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/sardine-5.9-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/sardine-5.9-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/slf4j-api-1.7.36.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/slf4j-api-1.7.36.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/slf4j-simple-1.7.36.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/slf4j-simple-1.7.36.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/standard.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/standard.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/swingx-1.6.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/swingx-1.6.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/telegrambots-6.0.1-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/telegrambots-6.0.1-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/vavr-1.0.0-alpha-4.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/vavr-1.0.0-alpha-4.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/wizard.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/wizard.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xercesImpl.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xercesImpl.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xjavadoc-1.1.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xjavadoc-1.1.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xml-apis-1.3.04.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xml-apis-1.3.04.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xml-apis-ext-1.3.04.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xml-apis-ext-1.3.04.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xmlbeans-2.6.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xmlbeans-2.6.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/xmlgraphics-commons-2.2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/xmlgraphics-commons-2.2.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/lib/zxing-2.3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/tools/lib/zxing-2.3.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/acct/WAcctViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/acct/WAcctViewer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,12 +162,7 @@
       <state>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="org.adempiere.jetty" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -208,8 +173,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Package Object" />
-        <option value="Class" />
         <option value="Scala Trait" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -224,54 +189,41 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="1" />
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="1U0IaOsLt0ZPhG8z5Y8FjzV1Ke7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="281" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="298" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="301" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="1096" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="292" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="294" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="298" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="1092" />
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
-    <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
-    <property name="GenerateAntBuildDialog.outputFileNameProperty" value="adempieredevelop" />
-    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546400067265" />
-    <property name="com.intellij.openapi.externalSystem.service.settings.ExternalSystemGroupConfigurable" value="ALL" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/org.adempiere.request/src" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.40536398" />
-    <property name="scala_project_settings_configurable.last_selected_tab_index" value="7" />
-    <property name="settings.editor.selected.configurable" value="build.tools" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hotfix/ADEOS#3.9.4.001&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/e-Evolution/Develop/ADempiere/adeosOk&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.40114942&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;
+  }
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/install/build/Adempiere/migration/392lts-393lts" />
+      <recent name="$PROJECT_DIR$/install/build/Adempiere/migration" />
+      <recent name="$PROJECT_DIR$/tools/lib" />
+      <recent name="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution" />
       <recent name="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test" />
@@ -285,15 +237,8 @@
       <recent name="org.eevolution.service" />
       <recent name="org.eevolution.form" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/install/build/Adempiere/migration/392lts-393lts" />
-      <recent name="$PROJECT_DIR$/install/build/Adempiere/migration" />
-      <recent name="$PROJECT_DIR$/tools/lib" />
-      <recent name="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" />
-      <recent name="$PROJECT_DIR$" />
-    </key>
   </component>
-  <component name="RunManager" selected="Application.Adempiere PG">
+  <component name="RunManager" selected="Application.GenerateModel">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
@@ -326,24 +271,9 @@
       </method>
     </configuration>
     <configuration name="Adempiere PG" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="MAIN_CLASS_NAME" value="org.adempiere.Adempiere" />
       <module name="adempiere" />
       <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempierePG.properties " />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="org.compiere.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Adempiere" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
-      <module name="adempiere" />
-      <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempiereTest.properties " />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.compiere.*" />
@@ -357,8 +287,7 @@
     <configuration name="GenerateModel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.adempiere.util.GenerateModel" />
       <module name="adempiere" />
-      <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempiereTest.properties " />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="-DPropertyFile=$USER_HOME$/AdempierePG.properties " />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.adempiere.util.*" />
@@ -421,6 +350,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Testing" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Testing" />
+      <module name="adempiere" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
@@ -447,6 +384,10 @@
       <option name="HOST" value="localhost" />
       <option name="PORT" value="5005" />
       <option name="AUTO_RESTART" value="false" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="5005" />
+        <option name="LOCAL" value="false" />
+      </RunnerSettings>
       <method v="2" />
     </configuration>
     <configuration name="ADempiere WebUI" type="SbtRunConfiguration" factoryName="sbt Task" show_console_on_std_err="false" show_console_on_std_out="false">
@@ -483,7 +424,7 @@
       <item itemvalue="Application.Adempiere Oracle" />
       <item itemvalue="Application.Adempiere PG" />
       <item itemvalue="Application.MigrationLoader Oracle" />
-      <item itemvalue="Application.Adempiere" />
+      <item itemvalue="Application.Testing" />
       <item itemvalue="Application.GenerateModel" />
       <item itemvalue="Application.MigrationLoader PostgreSQL" />
       <item itemvalue="Application.Setup" />
@@ -493,11 +434,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.GenerateModel" />
+        <item itemvalue="Application.Testing" />
         <item itemvalue="Application.SignDatabaseBuild" />
         <item itemvalue="Application.Setup" />
         <item itemvalue="Application.MigrationLoader PostgreSQL" />
-        <item itemvalue="Application.GenerateModel" />
-        <item itemvalue="Application.Adempiere" />
       </list>
     </recent_temporary>
   </component>
@@ -513,7 +454,7 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -553,7 +494,15 @@
         <option value="Default.Author" />
         <option value="Default.Date" />
         <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
       </list>
+    </option>
+    <option name="COLUMN_ID_WIDTH">
+      <map>
+        <entry key="Table.Default.Author.ColumnIdWidth" value="336" />
+        <entry key="Table.Default.Date.ColumnIdWidth" value="167" />
+        <entry key="Table.Space.CommitStatus.ColumnIdWidth" value="92" />
+      </map>
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -576,9 +525,76 @@
     </option>
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/acct/WAcctViewer.java</url>
+          <line>1495</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/zkwebui/WEB-INF/src/org/adempiere/webui/acct/WAcctViewer.java</url>
+          <line>1485</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/print/PrintUtil.java</url>
+          <line>196</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/eevolution/process/GenerateImportFormatFromTable.java</url>
+          <line>47</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/process/ImportReportLine.java</url>
+          <line>151</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/Testing.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/adempiere/util/GenerateModel.java</url>
+          <line>73</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/db/CConnection.java</url>
+          <line>114</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/adempiere/Adempiere.java</url>
+          <line>536</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/client/src/org/adempiere/Adempiere.java</url>
+          <line>507</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/util/Ini.java</url>
+          <line>272</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/base/src/org/compiere/util/Ini.java</url>
+          <line>405</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
+      <configuration name="Remote">
+        <watch expression="document.AD_Table_ID" />
+      </configuration>
       <configuration name="Application">
-        <watch expression=" Adempiere.getImplementationVersion()" />
+        <watch expression="attributes.substring (attributes.indexOf (&quot;DBhost=&quot;) + 7, attributes.indexOf (&quot;,DBport=&quot;))" />
       </configuration>
     </watches-manager>
   </component>

@@ -372,9 +372,10 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	 *	@return true if tax is set
 	 */
 	public boolean setTax()  {
+
 		int taxId = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getParent().getDateDoc(), getParent().getDateDoc(),
 				getAD_Org_ID(), getParent().getM_Warehouse_ID(),
-				0,		//	should be bill to
+				getC_BPartner_ID(),		//	should be bill to
 				0, false, get_TrxName());
 		if (taxId == 0)
 		{
