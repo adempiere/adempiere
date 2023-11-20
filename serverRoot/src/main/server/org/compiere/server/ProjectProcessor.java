@@ -386,7 +386,7 @@ public class ProjectProcessor extends AdempiereServer
 			//Project
 			whereClause = "AND  (DateFinish IS NULL) ";
 			if (m_model.getC_ProjectType_ID()!=0) {
-				whereClause+= " AND (C_ProjectType_ID = ?)";
+				whereClause+= "AND (C_ProjectType_ID = ?) ";
 				params.add(m_model.getC_ProjectType_ID());
 			}
 			
@@ -402,7 +402,7 @@ public class ProjectProcessor extends AdempiereServer
 			//Project Phase
 			whereClause = "AND  (EndDate IS NULL) ";
 			if (m_model.getC_ProjectType_ID()!=0) 
-				whereClause+= " AND EXISTS (SELECT 1 FROM C_Project p WHERE p.C_Project_ID = C_ProjectPhase.C_Project_ID AND p.C_ProjectType_ID = ?) ";
+				whereClause+= "AND EXISTS (SELECT 1 FROM C_Project p WHERE p.C_Project_ID = C_ProjectPhase.C_Project_ID AND p.C_ProjectType_ID = ?) ";
 			
 			new ScheduleChange(getCtx(), MProjectPhase.Table_Name, whereClauseGeneral + whereClause, m_model.get_TrxName())
 					.setColumns(MProjectPhase.COLUMNNAME_DueType,MProjectPhase.COLUMNNAME_DateLastAlert)
@@ -459,7 +459,7 @@ public class ProjectProcessor extends AdempiereServer
 			//Project
 			whereClause = "AND  (DateFinish IS NULL) ";
 			if (m_model.getC_ProjectType_ID()!=0) {
-				whereClause+= " AND (C_ProjectType_ID = ?)";
+				whereClause+= "AND (C_ProjectType_ID = ?) ";
 				params.add(m_model.getC_ProjectType_ID());
 			}
 			
@@ -475,7 +475,7 @@ public class ProjectProcessor extends AdempiereServer
 			//Project Phase
 			whereClause = "AND  (EndDate IS NULL) ";
 			if (m_model.getC_ProjectType_ID()!=0) 
-				whereClause+= " AND EXISTS (SELECT 1 FROM C_Project p WHERE p.C_Project_ID = C_ProjectPhase.C_Project_ID AND p.C_ProjectType_ID = ?) ";
+				whereClause+= "AND EXISTS (SELECT 1 FROM C_Project p WHERE p.C_Project_ID = C_ProjectPhase.C_Project_ID AND p.C_ProjectType_ID = ?) ";
 			
 			new ScheduleChange(getCtx(), MProjectPhase.Table_Name, whereClauseGeneral + whereClause, m_model.get_TrxName())
 					.setColumns(MProjectPhase.COLUMNNAME_DueType,MProjectPhase.COLUMNNAME_DateLastAlert)
