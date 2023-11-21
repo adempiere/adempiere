@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Rename payroll packages" ReleaseNo="3.9.5" SeqNo="9910">
+  <Migration EntityType="D" Name="Rename payroll packages" ReleaseNo="3.9.4.001" SeqNo="9910">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="376" Action="U" Record_ID="53009" Table="AD_Form">
         <Data AD_Column_ID="4607" Column="Classname" oldValue="org.eevolution.form.VHRActionNotice">org.eevolution.hr.form.VHRActionNotice</Data>
