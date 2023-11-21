@@ -127,7 +127,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//	Set Optional BPartner
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner p"
-			+ " WHERE i.BPartner_Value=p.Value AND i.AD_Client_ID=p.AD_Client_ID) "
+			+ " WHERE i.BPartner_Value=p.Value AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE C_BPartner_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -146,7 +146,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//	EAN/UPC
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			+ " WHERE i.UPC=p.UPC AND i.AD_Client_ID=p.AD_Client_ID) "
+			+ " WHERE i.UPC=p.UPC AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE M_Product_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -155,7 +155,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//	Value
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product p"
-			+ " WHERE i.Value=p.Value AND i.AD_Client_ID=p.AD_Client_ID) "
+			+ " WHERE i.Value=p.Value AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE M_Product_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -165,7 +165,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_ID=(SELECT M_Product_ID FROM M_Product_po p"
 			+ " WHERE i.C_BPartner_ID=p.C_BPartner_ID"
-			+ " AND i.VendorProductNo=p.VendorProductNo AND i.AD_Client_ID=p.AD_Client_ID) "
+			+ " AND i.VendorProductNo=p.VendorProductNo AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE M_Product_ID IS NULL"
 			+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -183,7 +183,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_Category_ID=(SELECT M_Product_Category_ID FROM M_Product_Category c"
-			+ " WHERE i.ProductCategory_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ " WHERE i.ProductCategory_Value=c.Value AND c.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE ProductCategory_Value IS NOT NULL AND M_Product_Category_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -201,7 +201,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_Class_ID=(SELECT M_Product_Class_ID FROM M_Product_Class c"
-			+ " WHERE i.ProductClass_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ " WHERE i.ProductClass_Value=c.Value AND c.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE ProductClass_Value IS NOT NULL AND M_Product_Class_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -219,7 +219,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_Classification_ID=(SELECT M_Product_Classification_ID FROM M_Product_Classification c"
-			+ " WHERE i.ProductClassification_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ " WHERE i.ProductClassification_Value=c.Value AND c.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE ProductClassification_Value IS NOT NULL AND M_Product_Classification_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -237,7 +237,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		//
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET M_Product_Group_ID=(SELECT M_Product_Group_ID FROM M_Product_Group c"
-			+ " WHERE i.ProductGroup_Value=c.Value AND i.AD_Client_ID=c.AD_Client_ID) "
+			+ " WHERE i.ProductGroup_Value=c.Value AND c.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 			+ "WHERE ProductGroup_Value IS NOT NULL AND M_Product_Group_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -251,7 +251,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		{
 			sql = new StringBuffer ("UPDATE I_Product i "
 				+ "SET ").append(strFields[i]).append(" = (SELECT ").append(strFields[i]).append(" FROM M_Product p"
-				+ " WHERE i.M_Product_ID=p.M_Product_ID AND i.AD_Client_ID=p.AD_Client_ID) "
+				+ " WHERE i.M_Product_ID=p.M_Product_ID AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 				+ "WHERE M_Product_ID IS NOT NULL"
 				+ " AND ").append(strFields[i]).append(" IS NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
@@ -266,7 +266,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		{
 			sql = new StringBuffer ("UPDATE I_PRODUCT i "
 				+ "SET ").append(numFields[i]).append(" = (SELECT ").append(numFields[i]).append(" FROM M_Product p"
-				+ " WHERE i.M_Product_ID=p.M_Product_ID AND i.AD_Client_ID=p.AD_Client_ID) "
+				+ " WHERE i.M_Product_ID=p.M_Product_ID AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 				+ "WHERE M_Product_ID IS NOT NULL"
 				+ " AND (").append(numFields[i]).append(" IS NULL OR ").append(numFields[i]).append("=0)"
 				+ " AND I_IsImported='N'").append(clientCheck);
@@ -284,7 +284,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 			sql = new StringBuffer ("UPDATE I_PRODUCT i "
 				+ "SET ").append(strFieldsPO[i]).append(" = (SELECT ").append(strFieldsPO[i])
 				.append(" FROM M_Product_PO p"
-				+ " WHERE i.M_Product_ID=p.M_Product_ID AND i.C_BPartner_ID=p.C_BPartner_ID AND i.AD_Client_ID=p.AD_Client_ID) "
+				+ " WHERE i.M_Product_ID=p.M_Product_ID AND i.C_BPartner_ID=p.C_BPartner_ID AND p.AD_Client_ID=").append(m_AD_Client_ID).append(") "
 				+ "WHERE M_Product_ID IS NOT NULL AND C_BPartner_ID IS NOT NULL"
 				+ " AND ").append(strFieldsPO[i]).append(" IS NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
@@ -384,7 +384,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Value not unique,' "
 			+ "WHERE I_IsImported<>'Y'"
-			+ " AND Value IN (SELECT Value FROM I_Product ii WHERE i.AD_Client_ID=ii.AD_Client_ID GROUP BY Value HAVING COUNT(*) > 1)").append(clientCheck);
+			+ " AND Value IN (SELECT Value FROM I_Product ii WHERE ii.AD_Client_ID=").append(m_AD_Client_ID).append(" GROUP BY Value HAVING COUNT(*) > 1)").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning("Not Unique Value=" + no);
@@ -392,7 +392,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 		sql = new StringBuffer ("UPDATE I_Product i "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=UPC not unique,' "
 			+ "WHERE I_IsImported<>'Y'"
-			+ " AND UPC IN (SELECT UPC FROM I_Product ii WHERE i.AD_Client_ID=ii.AD_Client_ID GROUP BY UPC HAVING COUNT(*) > 1)").append(clientCheck);
+			+ " AND UPC IN (SELECT UPC FROM I_Product ii WHERE ii.AD_Client_ID=").append(m_AD_Client_ID).append(" GROUP BY UPC HAVING COUNT(*) > 1)").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning("Not Unique UPC=" + no);
@@ -425,7 +425,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 			+ "WHERE I_IsImported<>'Y'"
 			+ " AND C_BPartner_ID IS NOT NULL"
 			+ " AND (C_BPartner_ID, VendorProductNo) IN "
-			+ " (SELECT C_BPartner_ID, VendorProductNo FROM I_Product ii WHERE i.AD_Client_ID=ii.AD_Client_ID GROUP BY C_BPartner_ID, VendorProductNo HAVING COUNT(*) > 1)")
+			+ " (SELECT C_BPartner_ID, VendorProductNo FROM I_Product ii WHERE ii.AD_Client_ID=").append(m_AD_Client_ID).append(" GROUP BY C_BPartner_ID, VendorProductNo HAVING COUNT(*) > 1)")
 			.append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
