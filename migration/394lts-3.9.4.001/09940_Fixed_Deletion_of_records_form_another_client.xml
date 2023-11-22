@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fixed Deletion of records from another client" ReleaseNo="3.9.5" SeqNo="9940">
+  <Migration EntityType="D" Name="Fixed Deletion of records from another client" ReleaseNo="3.9.4.001" SeqNo="9940">
     <Comments>https://github.com/adempiere/adempiere/issues/4000</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53779" Table="AD_Message">
