@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Production Line constraint" ReleaseNo="3.9.4.001" SeqNo="9970">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <Comments>PostgreSQL: Remove and recreate constraint</Comments>
+      <SQLStatement>ALTER TABLE M_ProductionLine DROP CONSTRAINT reversalline_mproductionline;
+ALTER TABLE M_ProductionLine ADD CONSTRAINT ReversalLine_MProductionLine FOREIGN KEY (ReversalLine_ID) REFERENCES M_ProductionLine DEFERRABLE INITIALLY DEFERRED;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Oracle: Remove and recreate constraint</Comments>
+      <SQLStatement>ALTER TABLE M_ProductionLine DROP CONSTRAINT ReversalLine_MProductionLine;
+ALTER TABLE M_ProductionLine ADD CONSTRAINT ReversalLine_MProductionLine FOREIGN KEY (ReversalLine_ID) REFERENCES M_ProductionLine (M_ProductionLine_ID);</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>
