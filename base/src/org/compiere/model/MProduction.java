@@ -44,7 +44,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.eevolution.manufacturing.model.MPPProductBOMLine;
 import org.eevolution.services.dsl.ProcessBuilder;
 
 /**
