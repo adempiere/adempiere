@@ -198,8 +198,8 @@ public class WOutBoundOrder extends OutBoundOrder
 	private Label 			invoiceInfo = new Label();
 	private Label			invoiceLabel = new Label();
 	/**	Document Action	*/
-	private Label			docActionLabel = new Label();
-	private WTableDirEditor docActionPick;
+	//private Label			docActionLabel = new Label();
+	//private WTableDirEditor docActionPick;
 	/**	Confirm Panel		*/
 	private ConfirmPanel 	confirmPanel;
 	
@@ -243,7 +243,7 @@ public class WOutBoundOrder extends OutBoundOrder
 		//	Delivery Via Rule
 		deliveryViaRuleLabel.setText(Msg.translate(Env.getCtx(), "DeliveryViaRule"));
 		//	Document Action
-		docActionLabel.setText(Msg.translate(Env.getCtx(), "DocAction"));
+		//docActionLabel.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		//	Date
 		labelDocumentDate.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipmentDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
@@ -314,8 +314,8 @@ public class WOutBoundOrder extends OutBoundOrder
 		row.appendChild(searchButton);
 		searchButton.addActionListener(this);
 		//	Document Action
-		row.appendChild(docActionLabel.rightAlign());
-		row.appendChild(docActionPick.getComponent());
+		//row.appendChild(docActionLabel.rightAlign());
+		//row.appendChild(docActionPick.getComponent());
 		//	
 		northAdded = new North();
 		northAdded.setCollapsible(true);
@@ -520,12 +520,12 @@ public class WOutBoundOrder extends OutBoundOrder
 		shipperPick = new WTableDirEditor("M_Shipper_ID", false, false, true, lookupSP);
 		shipperPick.addValueChangeListener(this);
 		//	
-		MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 58192 /* WM_InOutBound.DocAction */,
-				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
-				false, "AD_Ref_List.Value IN ('CO','PR')");
+		//MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 58192 /* WM_InOutBound.DocAction */,
+		//		DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+		//		false, "AD_Ref_List.Value IN ('CO','PR')");
 		//	Document Action
-		docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
-		docActionPick.setValue(DocAction.ACTION_Complete);
+		//docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
+		//docActionPick.setValue(DocAction.ACTION_Complete);
 
 		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
 		locatorLabel.setMandatory(true);
@@ -581,7 +581,7 @@ public class WOutBoundOrder extends OutBoundOrder
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipmentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipperPick.setValue(null);
-		docActionPick.setValue(DocAction.ACTION_Complete);
+		//docActionPick.setValue(DocAction.ACTION_Complete);
 	}
 
 	/**
@@ -633,8 +633,8 @@ public class WOutBoundOrder extends OutBoundOrder
 		//	Operation Type
 		value = operationTypePick.getValue();
 		movementType = (String)value;
-		value = docActionPick.getValue();
-		documentAction = (String) value;
+		//value = docActionPick.getValue();
+		//documentAction = (String) value;
 		//	Document Type Target
 		value = docTypeTargetPick.getValue();
 		docTypeTargetId = Integer.parseInt(String.valueOf(value != null? value: "0"));
@@ -1002,7 +1002,7 @@ public class WOutBoundOrder extends OutBoundOrder
 				//	Calculate Volume
 				volume = qty.multiply(unitVolume).setScale(volumePrecision, RoundingMode.HALF_UP);
 				orderLineTable.setValueAt(volume, row, OL_VOLUME);
-				
+
 				//  Load Stock Product
 				stockModel = new ListModelTable();
 				stockTable.setData(stockModel, getStockColumnNames());
@@ -1011,19 +1011,46 @@ public class WOutBoundOrder extends OutBoundOrder
 			} else if(col == SELECT) {
 				boolean select = (Boolean) orderLineTable.getValueAt(row, col);
 				if(select) {
-					maxSeqNo += 10;
-					orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
-				}
-			} else if(col == OL_SEQNO) {
-				int seqNo = (Integer) orderLineTable.getValueAt(row, OL_SEQNO);
-				if(!existsSeqNo(orderLineTable, row, seqNo)) {
-					if(seqNo > maxSeqNo) {
-						maxSeqNo = seqNo;
+					// Calculate Qty to Delivery
+					BigDecimal qtyToDelivery = (BigDecimal)orderLineTable.getValueAt(row, OL_QTY_ORDERED);
+					BigDecimal qtyOnHand = (BigDecimal)orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
+					BigDecimal qtyPickedTotal = BigDecimal.ZERO;
+					int rows = orderLineTable.getRowCount();
+					for (int r = 0; r < rows; r++) {
+						Boolean selection = (Boolean) orderLineTable.getValueAt(r, SELECT);
+						//Current Order Line
+						int orderLineId = ((KeyNamePair)orderLineTable.getValueAt(row, ORDER_LINE)).getKey();
+						if (row != r && selection && orderLineId == ((KeyNamePair)orderLineTable.getValueAt(r, ORDER_LINE)).getKey()) {
+							BigDecimal qtyPicked = (BigDecimal) orderLineTable.getValueAt(r, OL_QTY);
+							qtyPickedTotal = qtyPickedTotal.add(qtyPicked);
+						}
+					}
+					qtyToDelivery = qtyToDelivery.subtract(qtyPickedTotal);
+					if (qtyOnHand.compareTo(qtyToDelivery) <= 0 )
+						orderLineTable.setValueAt(qtyOnHand, row, OL_QTY);
+					else
+						orderLineTable.setValueAt(qtyToDelivery, row, OL_QTY);
+
+					BigDecimal seqNo = (BigDecimal) orderLineTable.getValueAt(row, OL_SEQNO);
+					if (seqNo.signum() <= 0 && isRowSelected(orderLineTable, row)) {
+						maxSeqNo = maxSeqNo.add(BigDecimal.valueOf(10));
+						orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
 					}
 				} else {
-					FDialog.warn(m_WindowNo, parameterPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
-					maxSeqNo += 10;
-					orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
+					orderLineTable.setValueAt(BigDecimal.ZERO, row, OL_SEQNO);
+				}
+			} else if(col == OL_SEQNO) {
+				if (isRowSelected(orderLineTable, row)) {
+					BigDecimal seqNo = (BigDecimal) orderLineTable.getValueAt(row, OL_SEQNO);
+					if (!existsSeqNo(orderLineTable, row, seqNo)) {
+						if (seqNo.compareTo(maxSeqNo) > 0) {
+							maxSeqNo = seqNo;
+						}
+					} else {
+						FDialog.warn(m_WindowNo, parameterPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
+						maxSeqNo.add(BigDecimal.valueOf(10));
+						orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
+					}
 				}
 			}
 			//	Load Group by Product
@@ -1097,7 +1124,7 @@ public class WOutBoundOrder extends OutBoundOrder
 			if(!isSelected)
 				qtySet = qtySet.negate();
 			//	
-			qtySet = qtySet.add(qtySetOld);
+			//qtySet = qtySet.add(qtySetOld);
 			stockModel.setValueAt(qtyOnHand, pos, SW_QTY_ON_HAND);
 			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTY_IN_TRANSIT);
 			stockModel.setValueAt(qtySet, pos, SW_QTY_SET);
