@@ -1,5 +1,6 @@
 -- @formatter:off
 -- Code Based on https://github.com/rvkulikov/pg-deps-management
+
 drop function if exists deps_restore_dependencies(
   p_view_schema name,
   p_view_name name,
@@ -12,13 +13,26 @@ drop function if exists deps_save_and_drop_dependencies(
   p_options jsonb
 );
 
-drop table if exists i_deps_saved_ddl;
+drop function if exists public.deps_restore_dependencies(
+  p_view_schema name,
+  p_view_name name,
+  p_options jsonb
+);
+
+drop function if exists public.deps_save_and_drop_dependencies(
+  p_view_schema name,
+  p_view_name name,
+  p_options jsonb
+);
+
+drop table if exists public.deps_saved_ddl;
+
+DROP VIEW  if exists public._role_table_grants;
+DROP VIEW  if exists public._role_column_grants;
 
 
 
-
-
-create table if not exists i_deps_saved_ddl (
+create table if not exists public.deps_saved_ddl (
   src_nsp_name name,
   src_rel_name name,
   dep_nsp_name name,
@@ -26,13 +40,17 @@ create table if not exists i_deps_saved_ddl (
   ddl_order int,
   ddl_statement text,
   ddl_at timestamptz default now(),
-  constraint i_deps_saved_ddl_pk
+  constraint deps_saved_ddl_pk
     primary key (src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order)
 );
 
-grant select, insert, update, delete, truncate on i_deps_saved_ddl to public;
+grant select, insert, update, delete, truncate on public.deps_saved_ddl to public;
 
-create or replace function deps_save_and_drop_dependencies(
+
+
+
+
+create or replace function public.deps_save_and_drop_dependencies(
   p_src_nsp_name name,
   p_src_rel_name name,
   p_options jsonb default '{}'::jsonb
@@ -70,9 +88,169 @@ begin
   );
 
 
+
+  -- very important thing which property handles "PUBLIC", not PUBLIC role. They are not the same
+  create temporary view _role_table_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, privilege_type, is_grantable, with_hierarchy) as
+    with
+      _table_table_privileges as (
+        SELECT
+          u_grantor.oid                                         AS grantor_id, -- added grantor_id
+          u_grantor.rolname::information_schema.sql_identifier  AS grantor,
+          grantee.oid                                           AS grantee_id, -- added grantor_id
+          grantee.rolname::information_schema.sql_identifier    AS grantee,
+          current_database()::information_schema.sql_identifier AS table_catalog,
+          nc.nspname::information_schema.sql_identifier         AS table_schema,
+          c.relname::information_schema.sql_identifier          AS table_name,
+          c.prtype::information_schema.character_data           AS privilege_type,
+          CASE
+            WHEN pg_has_role(grantee.oid, c.relowner, 'USAGE'::text) OR c.grantable THEN 'YES'::text
+            ELSE 'NO'::text
+            END::information_schema.yes_or_no                   AS is_grantable,
+          CASE
+            WHEN c.prtype = 'SELECT'::text THEN 'YES'::text
+            ELSE 'NO'::text
+            END::information_schema.yes_or_no                   AS with_hierarchy
+        FROM (SELECT pg_class.oid,
+                     pg_class.relname,
+                     pg_class.relnamespace,
+                     pg_class.relkind,
+                     pg_class.relowner,
+                     (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).grantor        AS grantor,
+                     (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).grantee        AS grantee,
+                     (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).privilege_type AS privilege_type,
+                     (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).is_grantable   AS is_grantable
+              FROM pg_class) c(oid, relname, relnamespace, relkind, relowner, grantor, grantee, prtype, grantable),
+             pg_namespace nc,
+             pg_roles u_grantor,
+             (SELECT pg_roles.oid,
+                     pg_roles.rolname
+              FROM pg_roles
+              UNION ALL
+              SELECT 0::oid AS oid,
+                     'PUBLIC'::name) grantee(oid, rolname)
+        WHERE c.relnamespace = nc.oid
+          AND (c.relkind = ANY (ARRAY ['r'::"char", 'v'::"char", 'f'::"char", 'p'::"char"]))
+          AND c.grantee = grantee.oid
+          AND c.grantor = u_grantor.oid
+          AND (c.prtype = ANY (ARRAY ['INSERT'::text, 'SELECT'::text, 'UPDATE'::text, 'DELETE'::text, 'TRUNCATE'::text, 'REFERENCES'::text, 'TRIGGER'::text]))
+          AND (pg_has_role(u_grantor.oid, 'USAGE'::text) OR pg_has_role(grantee.oid, 'USAGE'::text) OR grantee.rolname = 'PUBLIC'::name)
+      )
+  SELECT table_privileges.grantor,
+         table_privileges.grantor_id, -- added grantor_id
+         table_privileges.grantee,
+         table_privileges.grantee_id, -- added grantor_id
+         table_privileges.table_catalog,
+         table_privileges.table_schema,
+         table_privileges.table_name,
+         table_privileges.privilege_type,
+         table_privileges.is_grantable,
+         table_privileges.with_hierarchy
+  FROM _table_table_privileges table_privileges
+  WHERE (table_privileges.grantor::name IN (SELECT enabled_roles.role_name
+                                            FROM information_schema.enabled_roles))
+     OR (table_privileges.grantee::name IN (SELECT enabled_roles.role_name
+                                            FROM information_schema.enabled_roles));
+
+
+  -- very important thing which property handles "PUBLIC", not PUBLIC role. They are not the same
+  create temporary view _role_column_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, column_name, privilege_type, is_grantable) as
+    with
+      _column_privileges as (
+        SELECT u_grantor.rolname::information_schema.sql_identifier  AS grantor,
+               u_grantor.oid                                         AS grantor_id, -- added grantor_id
+               grantee.rolname::information_schema.sql_identifier    AS grantee,
+               grantee.oid                                           AS grantee_id, -- added grantor_id
+               current_database()::information_schema.sql_identifier AS table_catalog,
+               nc.nspname::information_schema.sql_identifier         AS table_schema,
+               x.relname::information_schema.sql_identifier          AS table_name,
+               x.attname::information_schema.sql_identifier          AS column_name,
+               x.prtype::information_schema.character_data           AS privilege_type,
+               CASE
+                 WHEN pg_has_role(x.grantee, x.relowner, 'USAGE'::text) OR x.grantable THEN 'YES'::text
+                 ELSE 'NO'::text
+                 END::information_schema.yes_or_no                   AS is_grantable
+        FROM (SELECT pr_c.grantor,
+                     pr_c.grantee,
+                     a.attname,
+                     pr_c.relname,
+                     pr_c.relnamespace,
+                     pr_c.prtype,
+                     pr_c.grantable,
+                     pr_c.relowner
+              FROM (SELECT pg_class.oid,
+                           pg_class.relname,
+                           pg_class.relnamespace,
+                           pg_class.relowner,
+                           (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).grantor        AS grantor,
+                           (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).grantee        AS grantee,
+                           (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).privilege_type AS privilege_type,
+                           (aclexplode(COALESCE(pg_class.relacl, acldefault('r'::"char", pg_class.relowner)))).is_grantable   AS is_grantable
+                    FROM pg_class
+                    WHERE pg_class.relkind = ANY (ARRAY ['r'::"char", 'v'::"char", 'f'::"char", 'p'::"char"])) pr_c(oid, relname, relnamespace, relowner, grantor, grantee, prtype, grantable),
+                   pg_attribute a
+              WHERE a.attrelid = pr_c.oid
+                AND a.attnum > 0
+                AND NOT a.attisdropped
+              UNION
+              SELECT pr_a.grantor,
+                     pr_a.grantee,
+                     pr_a.attname,
+                     c.relname,
+                     c.relnamespace,
+                     pr_a.prtype,
+                     pr_a.grantable,
+                     c.relowner
+              FROM (SELECT a.attrelid,
+                           a.attname,
+                           (aclexplode(COALESCE(a.attacl, acldefault('c'::"char", cc.relowner)))).grantor        AS grantor,
+                           (aclexplode(COALESCE(a.attacl, acldefault('c'::"char", cc.relowner)))).grantee        AS grantee,
+                           (aclexplode(COALESCE(a.attacl, acldefault('c'::"char", cc.relowner)))).privilege_type AS privilege_type,
+                           (aclexplode(COALESCE(a.attacl, acldefault('c'::"char", cc.relowner)))).is_grantable   AS is_grantable
+                    FROM pg_attribute a
+                           JOIN pg_class cc ON a.attrelid = cc.oid
+                    WHERE a.attnum > 0
+                      AND NOT a.attisdropped) pr_a(attrelid, attname, grantor, grantee, prtype, grantable),
+                   pg_class c
+              WHERE pr_a.attrelid = c.oid
+                AND (c.relkind = ANY (ARRAY ['r'::"char", 'v'::"char", 'f'::"char", 'p'::"char"]))) x,
+             pg_namespace nc,
+             pg_roles u_grantor,
+             (SELECT pg_roles.oid,
+                     pg_roles.rolname
+              FROM pg_roles
+              UNION ALL
+              SELECT 0::oid AS oid,
+                     'PUBLIC'::name) grantee(oid, rolname)
+        WHERE x.relnamespace = nc.oid
+          AND x.grantee = grantee.oid
+          AND x.grantor = u_grantor.oid
+          AND (x.prtype = ANY (ARRAY ['INSERT'::text, 'SELECT'::text, 'UPDATE'::text, 'REFERENCES'::text]))
+          AND (pg_has_role(u_grantor.oid, 'USAGE'::text) OR pg_has_role(grantee.oid, 'USAGE'::text) OR grantee.rolname = 'PUBLIC'::name)
+  )
+  SELECT column_privileges.grantor,
+         column_privileges.grantor_id,
+         column_privileges.grantee,
+         column_privileges.grantee_id,
+         column_privileges.table_catalog,
+         column_privileges.table_schema,
+         column_privileges.table_name,
+         column_privileges.column_name,
+         column_privileges.privilege_type,
+         column_privileges.is_grantable
+  FROM _column_privileges column_privileges
+  WHERE (column_privileges.grantor::name IN (SELECT enabled_roles.role_name
+                                             FROM information_schema.enabled_roles))
+     OR (column_privileges.grantee::name IN (SELECT enabled_roles.role_name
+                                             FROM information_schema.enabled_roles));
+
+
+
+
+
+
   raise debug 'flush previous ddl';
   delete from
-    i_deps_saved_ddl
+    public.deps_saved_ddl
   where
     src_nsp_name = p_src_nsp_name and
     src_rel_name = p_src_rel_name;
@@ -146,7 +324,7 @@ begin
 
     raise debug 'Building owners';
     insert into
-      i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+      public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
     select distinct
       p_src_nsp_name,
       p_src_rel_name,
@@ -175,7 +353,7 @@ begin
 
     raise debug 'Building indexes';
     insert into
-      i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+      public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
     select distinct
       p_src_nsp_name,
       p_src_rel_name,
@@ -191,7 +369,7 @@ begin
 
     raise debug 'Building rules';
     insert into
-      i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+      public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
     select distinct
       p_src_nsp_name,
       p_src_rel_name,
@@ -207,7 +385,7 @@ begin
 
     raise debug 'Building view comments';
     insert into
-      i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+      public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
     select
       p_src_nsp_name,
       p_src_rel_name,
@@ -240,7 +418,7 @@ begin
 
     raise debug 'Building column comments';
     insert into
-      i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+      public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
     select
       p_src_nsp_name,
       p_src_rel_name,
@@ -271,7 +449,7 @@ begin
     if v_curr.obj_type = 'v' then
       raise debug 'Building view privilege grants';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -283,7 +461,11 @@ begin
           privilege_type,
           table_schema,
           table_name,
-          grantee,
+          case
+            -- see #13
+            when grantee_id = 0 then 'public'
+            else grantee
+          end,
           case
             when is_grantable = 'YES' -- or with_hierarchy = 'YES'
               then format(
@@ -297,14 +479,14 @@ begin
           end
         )
       from
-        information_schema.role_table_grants
+        _role_table_grants
       where
         table_schema = v_curr.obj_schema and
         table_name = v_curr.obj_name;
     elseif v_curr.obj_type = 'm' then
       raise debug 'Building material view privilege grants';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -382,7 +564,7 @@ begin
     if v_curr.obj_type = 'v' then
       raise debug 'Building view column privilege grants';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -395,7 +577,11 @@ begin
           column_name,
           table_schema,
           table_name,
-          grantee,
+          case
+            -- see #13
+            when grantee_id = 0 then 'public'
+            else grantee
+          end,
           case
             when is_grantable = 'YES'
               then format(
@@ -408,14 +594,14 @@ begin
           end
         )
       from
-        information_schema.role_column_grants
+        _role_column_grants
       where
         table_schema = v_curr.obj_schema and
         table_name = v_curr.obj_name;
     elseif v_curr.obj_type = 'm' then
       raise debug 'Building material view column privilege grants';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -495,7 +681,7 @@ begin
     if v_curr.obj_type = 'v' then
       raise debug 'Building view ddl';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -517,7 +703,7 @@ begin
         information_schema.views
           join pg_class
             on pg_class.relname = v_curr.obj_name
-          join pg_namespace pn 
+          join pg_namespace pn
             on pg_class.relnamespace = pn.oid and
                pn.nspname = v_curr.obj_schema
       where
@@ -526,7 +712,7 @@ begin
     elseif v_curr.obj_type = 'm' then
       raise debug 'Building materialized view ddl';
       insert into
-        i_deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
+        public.deps_saved_ddl(src_nsp_name, src_rel_name, dep_nsp_name, dep_rel_name, ddl_order, ddl_statement)
       select
         p_src_nsp_name,
         p_src_rel_name,
@@ -559,7 +745,7 @@ begin
         pg_matviews
           join pg_class
             on pg_class.relname = v_curr.obj_name
-          join pg_namespace pn 
+          join pg_namespace pn
             on pg_class.relnamespace = pn.oid and
                pn.nspname = v_curr.obj_schema
           join pg_am pa
@@ -608,7 +794,7 @@ language plpgsql;
 
 
 
-create or replace function deps_restore_dependencies(
+create or replace function public.deps_restore_dependencies(
   p_view_schema name,
   p_view_name name,
   p_options jsonb default '{}'::jsonb
@@ -637,7 +823,7 @@ begin
     select
       ddl_statement
     from
-      i_deps_saved_ddl
+      public.deps_saved_ddl
     where
       src_nsp_name = p_view_schema and
       src_rel_name = p_view_name
@@ -656,7 +842,7 @@ begin
 
   raise debug 'Flushing ddl statements';
   delete from
-    i_deps_saved_ddl
+    public.deps_saved_ddl
   where
     src_nsp_name = p_view_schema and
     src_rel_name = p_view_name;
