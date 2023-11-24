@@ -1,8 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#4086 Add Garden World Test Data" ReleaseNo="3.9.5" SeqNo="10010">
+  <Migration EntityType="D" Name="#4086 Add Garden World Test Data" ReleaseNo="3.9.4.001" SeqNo="9990">
     <Comments>See: https://github.com/adempiere/adempiere/pull/4086</Comments>
     <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53088" Action="I" Record_ID="50000" Table="HR_Department">
+        <Data AD_Column_ID="54797" Column="Value">Service</Data>
+        <Data AD_Column_ID="84808" Column="UUID">d12544b1-9fb5-47a0-81a5-0f2d5dfdfd1e</Data>
+        <Data AD_Column_ID="97353" Column="User4_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97352" Column="User3_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97350" Column="User2_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97349" Column="User1_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54795" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54794" Column="Updated">2023-11-06 18:40:12.416</Data>
+        <Data AD_Column_ID="70103" Column="StrengthRequired">0</Data>
+        <Data AD_Column_ID="54787" Column="Name">Service</Data>
+        <Data AD_Column_ID="54793" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54792" Column="HR_Department_ID">50000</Data>
+        <Data AD_Column_ID="54791" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54790" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54789" Column="Created">2023-11-06 18:40:12.416</Data>
+        <Data AD_Column_ID="70101" Column="C_BPartner_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56177" Column="C_Activity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54788" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54796" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53089" Action="I" Record_ID="50000" Table="HR_Job">
+        <Data AD_Column_ID="54813" Column="Value">Staff</Data>
+        <Data AD_Column_ID="84821" Column="UUID">6a182e07-13f5-48e0-8dc1-938394769f2b</Data>
+        <Data AD_Column_ID="97357" Column="User4_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97356" Column="User3_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97355" Column="User2_ID" isNewNull="true"/>
+        <Data AD_Column_ID="97354" Column="User1_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54811" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54810" Column="Updated">2023-11-06 18:40:31.926</Data>
+        <Data AD_Column_ID="54809" Column="Supervisor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54808" Column="Next_Job_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54798" Column="Name">Staff</Data>
+        <Data AD_Column_ID="54807" Column="JobCant">0</Data>
+        <Data AD_Column_ID="54806" Column="IsParent">false</Data>
+        <Data AD_Column_ID="54805" Column="IsActive">true</Data>
+        <Data AD_Column_ID="54804" Column="HR_Job_ID">50000</Data>
+        <Data AD_Column_ID="54803" Column="HR_Department_ID">50000</Data>
+        <Data AD_Column_ID="54802" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="54801" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="54800" Column="Created">2023-11-06 18:40:31.926</Data>
+        <Data AD_Column_ID="97362" Column="C_Activity_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54799" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="54812" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53683" Action="I" Record_ID="50000" Table="HR_ShiftGroup">
+        <Data AD_Column_ID="70163" Column="Value">IMV-ADM</Data>
+        <Data AD_Column_ID="84851" Column="UUID">d870ac6c-7bcf-4188-878a-fdffe8d6975c</Data>
+        <Data AD_Column_ID="70158" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="70156" Column="Updated">2023-11-06 19:00:03.786</Data>
+        <Data AD_Column_ID="94067" Column="OnWednesday">false</Data>
+        <Data AD_Column_ID="94066" Column="OnTuesday">false</Data>
+        <Data AD_Column_ID="94068" Column="OnThursday">false</Data>
+        <Data AD_Column_ID="94064" Column="OnSunday">true</Data>
+        <Data AD_Column_ID="94070" Column="OnSaturday">true</Data>
+        <Data AD_Column_ID="94065" Column="OnMonday">false</Data>
+        <Data AD_Column_ID="94069" Column="OnFriday">false</Data>
+        <Data AD_Column_ID="70162" Column="NoOfHoursThisShift">0</Data>
+        <Data AD_Column_ID="70160" Column="Name">Default</Data>
+        <Data AD_Column_ID="70154" Column="IsActive">true</Data>
+        <Data AD_Column_ID="70159" Column="HR_ShiftGroup_ID">50000</Data>
+        <Data AD_Column_ID="70161" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="70157" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="70155" Column="Created">2023-11-06 19:00:03.785</Data>
+        <Data AD_Column_ID="70153" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="70152" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53681" Action="I" Record_ID="50000" Table="HR_WorkShift">
+        <Data AD_Column_ID="70137" Column="Value">IMV-ADM-[8/5]</Data>
+        <Data AD_Column_ID="84854" Column="UUID">79913926-ad01-4163-a17a-3c0949174b2e</Data>
+        <Data AD_Column_ID="70125" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="70123" Column="Updated">2023-11-06 19:01:01.594</Data>
+        <Data AD_Column_ID="70128" Column="ShiftToTime">1970-01-01 18:00:00.0</Data>
+        <Data AD_Column_ID="70127" Column="ShiftFromTime">1970-01-01 08:00:00.0</Data>
+        <Data AD_Column_ID="70136" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="70131" Column="OverTimeAmount">0</Data>
+        <Data AD_Column_ID="90475" Column="OnWednesday">true</Data>
+        <Data AD_Column_ID="90474" Column="OnTuesday">true</Data>
+        <Data AD_Column_ID="90473" Column="OnThursday">true</Data>
+        <Data AD_Column_ID="90472" Column="OnSunday">false</Data>
+        <Data AD_Column_ID="90471" Column="OnSaturday">false</Data>
+        <Data AD_Column_ID="90470" Column="OnMonday">true</Data>
+        <Data AD_Column_ID="90469" Column="OnFriday">true</Data>
+        <Data AD_Column_ID="70129" Column="NoOfHours">8</Data>
+        <Data AD_Column_ID="70132" Column="Name">8:00 AM ~ 12:00 M / 1:00 PM ~ 5:00 PM</Data>
+        <Data AD_Column_ID="90553" Column="MinAttendanceRequire">2</Data>
+        <Data AD_Column_ID="90478" Column="IsVariableEntrance">false</Data>
+        <Data AD_Column_ID="70130" Column="IsOverTimeApplicable">false</Data>
+        <Data AD_Column_ID="70135" Column="IsHasFixedWorkgroup">false</Data>
+        <Data AD_Column_ID="70121" Column="IsActive">true</Data>
+        <Data AD_Column_ID="70126" Column="HR_WorkShift_ID">50000</Data>
+        <Data AD_Column_ID="70134" Column="HR_ShiftGroup_ID">50000</Data>
+        <Data AD_Column_ID="70133" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="70124" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="70122" Column="Created">2023-11-06 19:01:01.594</Data>
+        <Data AD_Column_ID="90476" Column="BreakStartTime">1970-01-01 12:00:00.0</Data>
+        <Data AD_Column_ID="90468" Column="BreakHoursNo">2</Data>
+        <Data AD_Column_ID="90477" Column="BreakEndTime">1970-01-01 14:00:00.0</Data>
+        <Data AD_Column_ID="70120" Column="AD_Org_ID">50001</Data>
+        <Data AD_Column_ID="70119" Column="AD_Client_ID">11</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="53086" Action="I" Record_ID="50001" Table="HR_Employee">
         <Data AD_Column_ID="84812" Column="UUID">3995deef-bb42-4340-bb58-e771d83e1aaf</Data>
         <Data AD_Column_ID="97361" Column="User4_ID" isNewNull="true"/>
@@ -63,115 +172,6 @@
         <Data AD_Column_ID="82524" Column="AD_OrgTrx_ID" isNewNull="true"/>
         <Data AD_Column_ID="54759" Column="AD_Org_ID">11</Data>
         <Data AD_Column_ID="54757" Column="AD_Client_ID">11</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="53088" Action="I" Record_ID="50000" Table="HR_Department">
-        <Data AD_Column_ID="54797" Column="Value">Service</Data>
-        <Data AD_Column_ID="84808" Column="UUID">d12544b1-9fb5-47a0-81a5-0f2d5dfdfd1e</Data>
-        <Data AD_Column_ID="97353" Column="User4_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97352" Column="User3_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97350" Column="User2_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97349" Column="User1_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54795" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="54794" Column="Updated">2023-11-06 18:40:12.416</Data>
-        <Data AD_Column_ID="70103" Column="StrengthRequired">0</Data>
-        <Data AD_Column_ID="54787" Column="Name">Service</Data>
-        <Data AD_Column_ID="54793" Column="IsActive">true</Data>
-        <Data AD_Column_ID="54792" Column="HR_Department_ID">50000</Data>
-        <Data AD_Column_ID="54791" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="54790" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="54789" Column="Created">2023-11-06 18:40:12.416</Data>
-        <Data AD_Column_ID="70101" Column="C_BPartner_ID" isNewNull="true"/>
-        <Data AD_Column_ID="56177" Column="C_Activity_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54788" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="54796" Column="AD_Client_ID">11</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="53089" Action="I" Record_ID="50000" Table="HR_Job">
-        <Data AD_Column_ID="54813" Column="Value">Staff</Data>
-        <Data AD_Column_ID="84821" Column="UUID">6a182e07-13f5-48e0-8dc1-938394769f2b</Data>
-        <Data AD_Column_ID="97357" Column="User4_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97356" Column="User3_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97355" Column="User2_ID" isNewNull="true"/>
-        <Data AD_Column_ID="97354" Column="User1_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54811" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="54810" Column="Updated">2023-11-06 18:40:31.926</Data>
-        <Data AD_Column_ID="54809" Column="Supervisor_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54808" Column="Next_Job_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54798" Column="Name">Staff</Data>
-        <Data AD_Column_ID="54807" Column="JobCant">0</Data>
-        <Data AD_Column_ID="54806" Column="IsParent">false</Data>
-        <Data AD_Column_ID="54805" Column="IsActive">true</Data>
-        <Data AD_Column_ID="54804" Column="HR_Job_ID">50000</Data>
-        <Data AD_Column_ID="54803" Column="HR_Department_ID">50000</Data>
-        <Data AD_Column_ID="54802" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="54801" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="54800" Column="Created">2023-11-06 18:40:31.926</Data>
-        <Data AD_Column_ID="97362" Column="C_Activity_ID" isNewNull="true"/>
-        <Data AD_Column_ID="54799" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="54812" Column="AD_Client_ID">11</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="40" StepType="AD">
-      <PO AD_Table_ID="53683" Action="I" Record_ID="50000" Table="HR_ShiftGroup">
-        <Data AD_Column_ID="70163" Column="Value">IMV-ADM</Data>
-        <Data AD_Column_ID="84851" Column="UUID">d870ac6c-7bcf-4188-878a-fdffe8d6975c</Data>
-        <Data AD_Column_ID="70158" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="70156" Column="Updated">2023-11-06 19:00:03.786</Data>
-        <Data AD_Column_ID="94067" Column="OnWednesday">false</Data>
-        <Data AD_Column_ID="94066" Column="OnTuesday">false</Data>
-        <Data AD_Column_ID="94068" Column="OnThursday">false</Data>
-        <Data AD_Column_ID="94064" Column="OnSunday">true</Data>
-        <Data AD_Column_ID="94070" Column="OnSaturday">true</Data>
-        <Data AD_Column_ID="94065" Column="OnMonday">false</Data>
-        <Data AD_Column_ID="94069" Column="OnFriday">false</Data>
-        <Data AD_Column_ID="70162" Column="NoOfHoursThisShift">0</Data>
-        <Data AD_Column_ID="70160" Column="Name">Default</Data>
-        <Data AD_Column_ID="70154" Column="IsActive">true</Data>
-        <Data AD_Column_ID="70159" Column="HR_ShiftGroup_ID">50000</Data>
-        <Data AD_Column_ID="70161" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="70157" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="70155" Column="Created">2023-11-06 19:00:03.785</Data>
-        <Data AD_Column_ID="70153" Column="AD_Org_ID">50001</Data>
-        <Data AD_Column_ID="70152" Column="AD_Client_ID">11</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="50" StepType="AD">
-      <PO AD_Table_ID="53681" Action="I" Record_ID="50000" Table="HR_WorkShift">
-        <Data AD_Column_ID="70137" Column="Value">IMV-ADM-[8/5]</Data>
-        <Data AD_Column_ID="84854" Column="UUID">79913926-ad01-4163-a17a-3c0949174b2e</Data>
-        <Data AD_Column_ID="70125" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="70123" Column="Updated">2023-11-06 19:01:01.594</Data>
-        <Data AD_Column_ID="70128" Column="ShiftToTime">1970-01-01 18:00:00.0</Data>
-        <Data AD_Column_ID="70127" Column="ShiftFromTime">1970-01-01 08:00:00.0</Data>
-        <Data AD_Column_ID="70136" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="70131" Column="OverTimeAmount">0</Data>
-        <Data AD_Column_ID="90475" Column="OnWednesday">true</Data>
-        <Data AD_Column_ID="90474" Column="OnTuesday">true</Data>
-        <Data AD_Column_ID="90473" Column="OnThursday">true</Data>
-        <Data AD_Column_ID="90472" Column="OnSunday">false</Data>
-        <Data AD_Column_ID="90471" Column="OnSaturday">false</Data>
-        <Data AD_Column_ID="90470" Column="OnMonday">true</Data>
-        <Data AD_Column_ID="90469" Column="OnFriday">true</Data>
-        <Data AD_Column_ID="70129" Column="NoOfHours">8</Data>
-        <Data AD_Column_ID="70132" Column="Name">8:00 AM ~ 12:00 M / 1:00 PM ~ 5:00 PM</Data>
-        <Data AD_Column_ID="90553" Column="MinAttendanceRequire">2</Data>
-        <Data AD_Column_ID="90478" Column="IsVariableEntrance">false</Data>
-        <Data AD_Column_ID="70130" Column="IsOverTimeApplicable">false</Data>
-        <Data AD_Column_ID="70135" Column="IsHasFixedWorkgroup">false</Data>
-        <Data AD_Column_ID="70121" Column="IsActive">true</Data>
-        <Data AD_Column_ID="70126" Column="HR_WorkShift_ID">50000</Data>
-        <Data AD_Column_ID="70134" Column="HR_ShiftGroup_ID">50000</Data>
-        <Data AD_Column_ID="70133" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="70124" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="70122" Column="Created">2023-11-06 19:01:01.594</Data>
-        <Data AD_Column_ID="90476" Column="BreakStartTime">1970-01-01 12:00:00.0</Data>
-        <Data AD_Column_ID="90468" Column="BreakHoursNo">2</Data>
-        <Data AD_Column_ID="90477" Column="BreakEndTime">1970-01-01 14:00:00.0</Data>
-        <Data AD_Column_ID="70120" Column="AD_Org_ID">50001</Data>
-        <Data AD_Column_ID="70119" Column="AD_Client_ID">11</Data>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
