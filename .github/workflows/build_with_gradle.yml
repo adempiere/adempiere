@@ -16,7 +16,7 @@ on:
         - hotfix/**
         - test/**
   pull_request:
-    branches: 
+    branches:
         - master
         - develop
         - bugfix/**
