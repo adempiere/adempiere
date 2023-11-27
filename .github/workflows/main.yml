@@ -94,9 +94,6 @@ jobs:
               - '**/build.xml'
               # shell/batch files
               - 'utils/RUN*.*'
-              # gradle build
-              - '**.gradle'
-              - '**/*.gradle'
               # standalone libs
               - 'lib/*-ds.xml'
               - 'lib/*.jar'
