@@ -1,6 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 # This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A.
 # Modifications by Mario Calderon, Systemhaus Westfalia 
+# Modifications by Edwin Betancourt
 
 name: ADempiere Build With ANT
 
@@ -9,9 +10,19 @@ on:
   # Triggers the workflow on push or pull request events with prefix "bugfix/" or "feature/". 
   # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
   push:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches:
+        - "master"
+        - "develop"
+        - "bugfix/**"
+        - "feature/**"
+        - "hotfix/**"
   pull_request:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches:
+        - "master"
+        - "develop"
+        - "bugfix/**"
+        - "feature/**"
+        - "hotfix/**"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -76,8 +87,18 @@ jobs:
             xml-files:
               - 'migration/**/*.xml'
               - '.github/workflows/*.yml'
+              # ant build
               - 'build.xml'
+              - '**/build.xml'
+              # shell/batch files
               - 'utils/RUN*.*'
+              # gradle build
+              - '**.gradle'
+              - '**/*.gradle'
+              # standalone libs
+              - 'lib/*-ds.xml'
+              - 'lib/*.jar'
+              - 'tools/lib/*.jar'
 
       # Build ADempiere with ant, if there are changes in XML files
       - name: Build Adempiere with database restore...
