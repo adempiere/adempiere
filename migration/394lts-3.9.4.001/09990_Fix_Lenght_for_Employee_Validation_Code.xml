@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fix Lenght for Employee Validation Code" ReleaseNo="3.9.5" SeqNo="9990">
+  <Migration EntityType="D" Name="Fix Lenght for Employee Validation Code" ReleaseNo="3.9.4.001" SeqNo="9990">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>INSERT INTO t_alter_column values('hr_employee','Code','VARCHAR(255)',null,'NULL')
 ;</SQLStatement>
