@@ -13,9 +13,36 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
+  # Check secrets to push image in docker hub registry
+  check-maven-secrets:
+    name: Check if maven registry information was set on secrets
+    needs:
+      - build-app
+    runs-on: ubuntu-latest
+    outputs:
+      is_have_secrets: ${{ steps.check_maven_secrets_job.outputs.is_have_secrets }}
+    steps:
+      - id: check_maven_secrets_job
+        run: |
+          if [[ "${{ secrets.PGP_SECRET }}" != "" && \
+                "${{ secrets.PGP_PASSPHRASE }}" != "" && \
+                "${{ secrets.OSSRH_TOKEN }}" != "" && \
+                "${{ secrets.OSSRH_USERNAME }}" != "" ]]; \
+          then
+            echo "Secrets to use a container registry are configured in the repo"
+            echo "is_have_secrets=true" >> $GITHUB_OUTPUT
+          else
+            echo "Secrets to use a container registry were not configured in the repo"
+            echo "is_have_secrets=false" >> $GITHUB_OUTPUT
+          fi
+
   # Build dist application backend
   build-app:
     name: Publish with gradle to maven central
+    needs:
+      - check-maven-secrets
+    # Skip step based on secret
+    if: needs.check-maven-secrets.outputs.is_have_secrets == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
