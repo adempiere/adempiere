@@ -236,7 +236,6 @@ public class MTable extends X_AD_Table
 				return clazz;
 			}
 			s_log.warning("No class for table: " + tableName);
-			return null;
 		}
 		
 		//	Special Naming
