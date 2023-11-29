@@ -1,5 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 # This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+# Modifications by Edwin Betancourt
 
 name: ADempiere Publish
 
@@ -9,6 +10,7 @@ on:
   release:
     types: 
       - published
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"

@@ -1,5 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 # This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+# Modifications by Edwin Betancourt
 
 name: Publish With gradle to maven central
 
@@ -16,8 +17,6 @@ jobs:
   # Check secrets to push image in docker hub registry
   check-maven-secrets:
     name: Check if maven registry information was set on secrets
-    needs:
-      - build-app
     runs-on: ubuntu-latest
     outputs:
       is_have_secrets: ${{ steps.check_maven_secrets_job.outputs.is_have_secrets }}
@@ -36,8 +35,8 @@ jobs:
             echo "is_have_secrets=false" >> $GITHUB_OUTPUT
           fi
 
-  # Build dist application backend
-  build-app:
+  # Build dist application
+  publish-maven:
     name: Publish with gradle to maven central
     needs:
       - check-maven-secrets
