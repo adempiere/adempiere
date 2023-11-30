@@ -16,13 +16,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-
 import org.adempiere.core.domains.models.I_M_Product;
 import org.adempiere.core.domains.models.I_M_Requisition;
 import org.adempiere.core.domains.models.I_M_RequisitionLine;
@@ -31,6 +24,13 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 /**
  *	Requisition Line Model
  *	
@@ -372,17 +372,20 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	 *	@return true if tax is set
 	 */
 	public boolean setTax()  {
-		int taxId = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getParent().getDateDoc(), getParent().getDateDoc(),
-				getAD_Org_ID(), getParent().getM_Warehouse_ID(),
-				0,		//	should be bill to
-				0, false, get_TrxName());
-		if (taxId == 0)
-		{
-			log.log(Level.SEVERE, "No Tax found");
-			return false;
+		if (getC_BPartner_ID() > 0 && getC_BPartner_Location_ID() > 0  ) {
+			int taxId = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getParent().getDateDoc(), getParent().getDateDoc(),
+					getAD_Org_ID(), getParent().getM_Warehouse_ID(),
+					getC_BPartner_Location_ID(),		//	should be bill to
+					getC_BPartner_Location_ID(), false, get_TrxName());
+			if (taxId == 0)
+			{
+				log.log(Level.SEVERE, "No Tax found");
+				return false;
+			}
+			setC_Tax_ID (taxId);
+			return true;
 		}
-		setC_Tax_ID (taxId);
-		return true;
+		return false;
 	}	//	setTax
 
 	/**
