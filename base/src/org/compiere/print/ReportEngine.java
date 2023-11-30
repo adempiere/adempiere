@@ -871,8 +871,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
 		}
 		if(tableName.startsWith("T_")
-				|| Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent()
-				|| Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent()) {	//	For Temporary tables
+				|| (Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent() 
+						&& Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent())) {	//	For Temporary tables
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
 
