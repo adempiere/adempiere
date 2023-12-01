@@ -632,10 +632,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 					FDialog.error(getWindowNo(), getPanel(), "Error", saveError);
 				}
 			}
-		} else {
-			saveError = saveParameters();
 		}
-			
 		return saveError;
 	}
 	
