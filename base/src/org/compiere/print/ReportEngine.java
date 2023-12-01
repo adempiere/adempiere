@@ -869,10 +869,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				columnKey = tableName + "_ID";
 
 			query = MQuery.getEqualQuery(columnKey, pi.getRecord_ID());
-		}
-		if(tableName.startsWith("T_")
-				|| (Optional.ofNullable(pi.getAD_PInstance_ID()).isPresent() 
-						&& Optional.ofNullable(table.getColumn("AD_PInstance_ID")).isPresent())) {	//	For Temporary tables
+		} else {	//	For all, the temp tables and other are validated inside method
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), tableName);
 		}
 
