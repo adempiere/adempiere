@@ -548,14 +548,14 @@ public final class MPayment extends X_C_Payment
 					if (approved)
 						setErrorMessage(null);
 					else
-						setErrorMessage("From " +  getCreditCardName() + ": " + getR_RespMsg());
+						setErrorMessage(getR_RespMsg());
 				}
 			}
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "processOnline", e);
-			setErrorMessage("Payment Processor Error: " + e.getMessage());
+			setErrorMessage(e.getMessage());
 		}
 		setIsApproved(approved);
 		return approved;
