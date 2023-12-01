@@ -18,6 +18,8 @@ allprojects {
 
 dependencies {
     api project(path: ':base')
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
 }
 
 sourceSets {
