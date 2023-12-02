@@ -9,9 +9,9 @@ on:
   # Triggers the workflow on push or pull request events with prefix "bugfix/" or "feature/". 
   # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
   push:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "hotfix/*", "feature/*" ]
   pull_request:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "hotfix/*", "feature/*" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
