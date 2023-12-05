@@ -122,7 +122,20 @@ sourceSets {
          java {
             srcDirs = ['src']
          }
+         resources {
+            srcDirs 'src'
+			include 'org/compiere/images/**.*'
+            include 'org/adempiere/plaf/icons/**.*'
+            include 'org/compiere/plaf/sounds/**.*'
+            include 'org/compiere/**.*'
+            include 'org/compiere/db/**.*'
+            include 'org/compiere/install/**.*'  
+        }
     }
+}
+
+tasks.withType(Jar){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 java {
@@ -139,54 +152,4 @@ jar {
                    "Implementation-Version": version, 
                    "EntityType": entityType)
     }
-}
-
-task RunSilentSetup(type: CreateStartScripts) {
-	mustRunAfter(javadocJar)
-	mustRunAfter(sourcesJar)
-    mainClassName = 'org.compiere.install.SilentSetup'
-    applicationName = 'run-silent-setup'
-    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
-    outputDir = new File(project.buildDir, 'tmp')
-    classpath = jar.outputs.files + project.configurations.runtimeClasspath
-}
-
-task Translation(type: CreateStartScripts) {
-	mustRunAfter(javadocJar)
-	mustRunAfter(sourcesJar)
-    mainClassName = 'org.compiere.install.Translation'
-    applicationName = 'translation'
-    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
-    outputDir = new File(project.buildDir, 'tmp')
-    classpath = jar.outputs.files + project.configurations.runtimeClasspath
-}
-
-task RunMigrateXML(type: CreateStartScripts) {
-	mustRunAfter(javadocJar)
-	mustRunAfter(sourcesJar)
-    mainClassName = 'org.adempiere.process.MigrationLoader'
-    applicationName = 'run-migrate'
-    outputDir = new File(project.buildDir, 'tmp')
-    classpath = jar.outputs.files + project.configurations.runtimeClasspath
-}
-
-applicationDistribution.into('bin') {
-	from(RunSilentSetup)
-	from(Translation)
-	from(RunMigrateXML)
-    fileMode = 0755
-}
-
-//	Create release for project
-task createRelease(type: Copy) {
-   dependsOn build
-   from file("$buildDir/distributions/")
-   into file("$buildDir/release/")
-   doLast {
-        file('build/release/')
-        	.listFiles({file -> file.isFile()} as FileFilter).sort()
-        	.each { File file ->
-            ant.checksum file: file
-        }
-   	}
 }

@@ -1,9 +1,8 @@
 apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
-
-
-
 
 repositories {
     mavenLocal()
@@ -36,6 +35,10 @@ sourceSets {
          java {
             srcDirs = ['src']
          }
+         resources {
+            srcDirs 'src'
+			include 'org/compiere/install/**.*'  
+        }
     }
 }
 
@@ -61,6 +64,90 @@ jar {
                    "Implementation-Version": version, 
                    "EntityType": entityType)
     }
+}
+
+run {
+	doFirst {
+		if (System.getProperty("PropertyFile")) {
+			systemProperty "PropertyFile", System.getProperty("PropertyFile")
+		}
+	}
+}
+
+tasks.withType(Jar){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+task ADempiereSwingUIRunner(type: CreateStartScripts) {
+    mustRunAfter(javadocJar)
+	mustRunAfter(sourcesJar)
+	mainClassName = "org.adempiere.Adempiere"
+    applicationName = 'adempiere-swing-ui'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties", "-Dorg.adempiere.server.embedded=true")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+task RunSilentSetup(type: CreateStartScripts) {
+	mustRunAfter(javadocJar)
+	mustRunAfter(sourcesJar)
+    mainClassName = 'org.compiere.install.SilentSetup'
+    applicationName = 'run-silent-setup'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+task RunSetup(type: CreateStartScripts) {
+	mustRunAfter(javadocJar)
+	mustRunAfter(sourcesJar)
+    mainClassName = 'org.compiere.install.Setup'
+    applicationName = 'run-setup'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+task Translation(type: CreateStartScripts) {
+	mustRunAfter(javadocJar)
+	mustRunAfter(sourcesJar)
+    mainClassName = 'org.compiere.install.Translation'
+    applicationName = 'translation'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+task RunMigrateXML(type: CreateStartScripts) {
+	mustRunAfter(javadocJar)
+	mustRunAfter(sourcesJar)
+    mainClassName = 'org.adempiere.process.MigrationLoader'
+    applicationName = 'run-migrate'
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+applicationDistribution.into('bin') {
+    from(ADempiereSwingUIRunner)
+	from(RunSilentSetup)
+    from(RunSetup)
+	from(Translation)
+	from(RunMigrateXML)
+    fileMode = 0755
+}
+
+//	Create release for project
+task createRelease(type: Copy) {
+   dependsOn build
+   from file("$buildDir/distributions/")
+   into file("$buildDir/release/")
+   doLast {
+        file('build/release/')
+        	.listFiles({file -> file.isFile()} as FileFilter).sort()
+        	.each { File file ->
+            ant.checksum file: file
+        }
+   	}
 }
 
 publishing {
