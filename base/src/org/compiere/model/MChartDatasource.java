@@ -215,9 +215,10 @@ public class MChartDatasource extends X_AD_ChartDatasource {
 				String[] keyColumns = table.getKeyColumns();
 				if (Optional.ofNullable(keyColumns).isPresent() && keyColumns.length > 0) {
 					String keyCol = keyColumns[0];
-					String whereClause = keyCol  + " IN (SELECT " + getKeyColumn()
+					String whereClause = keyCol + " IN (SELECT " + getKeyColumn()
 						+ " FROM " + getFromClause()
-						+ " WHERE " + queryWhere + " )";
+						+ " WHERE " + queryWhere + " )"
+					;
 					query.addRestriction(whereClause.toString());
 					query.setRecordCount(1);
 				} else {

@@ -9,6 +9,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the develop branch
   push:
    branches:
+        - main
         - master
         - develop
         - bugfix/**
@@ -17,6 +18,7 @@ on:
         - test/**
   pull_request:
     branches:
+        - main
         - master
         - develop
         - bugfix/**

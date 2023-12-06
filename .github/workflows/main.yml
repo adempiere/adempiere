@@ -11,6 +11,7 @@ on:
   # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
   push:
     branches:
+        - main
         - master
         - develop
         - bugfix/**
@@ -19,6 +20,7 @@ on:
         - test/**
   pull_request:
     branches:
+        - main
         - master
         - develop
         - bugfix/**
