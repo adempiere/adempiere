@@ -34,8 +34,9 @@ SELECT cr.AD_Client_ID, cr.AD_Org_ID, cr.IsActive, cr.Created,cr.CreatedBy, cr.U
     COALESCE (i.AD_User_ID,o.AD_User_ID) AS AD_User_ID,
     COALESCE (i.C_DocType_ID,o.C_DocType_ID) AS C_DocType_ID
 FROM C_CommissionRun cr
-    INNER JOIN C_Commission c ON (cr.C_Commission_ID=c.C_Commission_ID)
     INNER JOIN C_CommissionAmt ca ON (cr.C_CommissionRun_ID=ca.C_CommissionRun_ID)
+    INNER JOIN C_CommissionLine cl ON (cl.C_CommissionLine_ID=ca.C_CommissionLine_ID)
+    INNER JOIN C_Commission c ON (c.C_Commission_ID=cl.C_Commission_ID)
     INNER JOIN C_CommissionDetail cd ON (ca.C_CommissionAmt_ID=cd.C_CommissionAmt_ID)
     LEFT OUTER JOIN C_OrderLine ol ON (cd.C_OrderLine_ID=ol.C_OrderLine_ID)
     LEFT OUTER JOIN C_InvoiceLine il ON (cd.C_InvoiceLine_ID=il.C_InvoiceLine_ID)
