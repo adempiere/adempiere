@@ -241,6 +241,7 @@ public class MWFProcess extends X_AD_WF_Process
 			m_po = lastPO;
 		
 		//
+		set_TrxName(m_po.get_TrxName());
 		MWFActivity[] activities = getActivities (true, true);	//	requery active
 		String closedState = null;
 		boolean suspended = false;
