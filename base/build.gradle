@@ -21,12 +21,13 @@ dependencies {
 		dir: '../tools/lib',
 		include: [
 			'Verisign.jar',
-			'payflow.jar',
-			'harness-1.0.0.jar'
+			'payflow.jar'
 		]
 	)
 
 	//api '<library-group>:<library-name>:<library-version>'
+	// https://mvnrepository.com/artifact/io.konik/harness
+    implementation group: 'io.konik', name: 'harness', version: '1.0.0'
     // https://mvnrepository.com/artifact/org.apache.poi/poi
 	implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
