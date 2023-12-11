@@ -570,7 +570,7 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 
 		//  Start PayPrint
 		int AD_Form_ID = 106;	//	Payment Print/Export
-		FormFrame ff = new FormFrame();
+		FormFrame ff = new FormFrame(0);
 		ff.openForm (AD_Form_ID);
 		//	Set Parameter
 		if (m_ps != null)

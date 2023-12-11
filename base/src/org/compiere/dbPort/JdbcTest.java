@@ -398,7 +398,7 @@ Connection Cache     Threads=10 	Yield=true 	ms= 12813 	each= 1281 	CacheSize=2,
 		try
 		{
 			while (!getGreenLight())
-				yield();
+				Thread.yield();
 			if (WITH_OUTPUT)
 				System.out.println("Thread " + m_myId + " started");
 
@@ -433,7 +433,7 @@ Connection Cache     Threads=10 	Yield=true 	ms= 12813 	each= 1281 	CacheSize=2,
 			while (rs.next())
 			{
 				if (s_do_yield)
-					yield();  // Yield To other threads
+					Thread.yield(); // Yield To other threads
 			}
 
 			// Close all the resources

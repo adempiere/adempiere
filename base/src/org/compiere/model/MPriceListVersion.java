@@ -24,6 +24,7 @@ import org.adempiere.core.domains.models.I_M_ProductPrice;
 import org.adempiere.core.domains.models.X_M_PriceList_Version;
 import org.compiere.util.DisplayType;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 
 /**
  *	Price List Version Model
@@ -115,9 +116,13 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	 */
 	public MProductPrice[] getProductPrice (String whereClause)
 	{
-		String localWhereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?"+whereClause;
-		if (whereClause != null)
+		String localWhereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID + "=?";
+		if (!Util.isEmpty(whereClause, true)) {
+			if (!whereClause.trim().startsWith("AND")) {
+				localWhereClause += " AND ";
+			}
 			localWhereClause += " " + whereClause;
+		}
 		List<MProductPrice> list = new Query(getCtx(),I_M_ProductPrice.Table_Name,localWhereClause,get_TrxName())
 			.setParameters(getM_PriceList_Version_ID())
 			.list();

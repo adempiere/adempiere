@@ -1,5 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 # This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+# Modifications by Edwin Betancourt
 
 name: ADempiere Build With gradle
 
@@ -7,9 +8,21 @@ name: ADempiere Build With gradle
 on:
   # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-   branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+   branches:
+        - master
+        - develop
+        - bugfix/**
+        - feature/**
+        - hotfix/**
+        - test/**
   pull_request:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches:
+        - master
+        - develop
+        - bugfix/**
+        - feature/**
+        - hotfix/**
+        - test/**
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,7 +47,3 @@ jobs:
         run: gradle build
         env:
           ADEMPIERE_LIBRARY_VERSION: 'test-version'
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_SECRET }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.PGP_PASSPHRASE }}
-          ORG_GRADLE_PROJECT_sonatypePassword: ${{ secrets.OSSRH_TOKEN }}
-          ORG_GRADLE_PROJECT_sonatypeUsername: ${{ secrets.OSSRH_USERNAME }}

@@ -96,6 +96,10 @@ import org.compiere.util.ValueNamePair;
  *	@author Michael McKay, michael.mckay@mckayerp.com
  *			<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/1944">1944</a> ] First save of a record with new Yes-No field causes error. 
  *
+ *	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/3576">
+ * 		BR [ 3576 ] Currency Rate does not allow editing the Currency To value.</a>
+ *
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
@@ -3172,7 +3176,8 @@ public class GridTable extends AbstractTableModel
 				//	Integer, ID, Lookup (UpdatedBy is a numeric column)
 				if (displayType == DisplayType.Integer
 					|| (DisplayType.isID(displayType) 
-						&& (columnName.endsWith("_ID") || columnName.endsWith("_Acct") 
+					&& (columnName.endsWith("_ID") || columnName.endsWith("_ID_To")
+					|| columnName.endsWith("_Acct")
 							|| columnName.equals("AD_Key") || columnName.equals("AD_Display"))) 
 					|| columnName.endsWith("atedBy"))
 				{

@@ -42,6 +42,10 @@ import org.compiere.util.Util;
  * @author yamel, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1784 ]
  * @see https://github.com/adempiere/adempiere/issues/1784
+ * 
+ *	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com , http://www.erpya.com
+ * 		<li> BR [ 3489 ] Window footer shows number of lines in null (ContextInfo)
+ * 		@see https://github.com/adempiere/adempiere/issues/3489 </li>
  */
 public class MADContextInfo extends X_AD_ContextInfo {
 
@@ -248,6 +252,7 @@ public class MADContextInfo extends X_AD_ContextInfo {
 							&& !(value instanceof Double)
 							&& !(value instanceof Float)
 							&& !(value instanceof Integer)
+							&& !(value instanceof Long)
 							&& !(value instanceof String)
 							&& !(value instanceof Timestamp)) {
 						continue;
@@ -256,12 +261,13 @@ public class MADContextInfo extends X_AD_ContextInfo {
 					if(value instanceof BigDecimal) {
 						value = ((BigDecimal) value).doubleValue();
 					} else if(value instanceof Timestamp) {
-						value = new Long(((Timestamp) value).getTime());
+						value = Long.valueOf(((Timestamp) value).getTime());
 					} else if(value instanceof Number) {
 						value = Integer.valueOf(((Number) value).intValue());
 					} else {
 						value = String.valueOf(value);
 					}
+
 					//	Set value
 					arguments[column] = value;
 				}

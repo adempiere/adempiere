@@ -150,7 +150,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 						else if (c == BigDecimal.class)
 							data = rs.getBigDecimal(colIndex);
 						else if (c == Double.class)
-							data = new Double(rs.getDouble(colIndex));
+							data = Double.valueOf(rs.getDouble(colIndex));
 						else if (c == Integer.class)
 							data = Integer.valueOf(rs.getInt(colIndex));
 						else if (c == KeyNamePair.class) {
@@ -1231,7 +1231,7 @@ public class VMRPDetailed extends MRPDetailed implements FormPanel,
 	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		final AWindow frame = new AWindow();
+		final AWindow frame = new AWindow(null);
 		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
 

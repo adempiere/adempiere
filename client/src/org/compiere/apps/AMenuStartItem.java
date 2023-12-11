@@ -352,7 +352,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 				return;
 			}
 		}
-		//ff = new FormFrame();
+		// ff = new FormFrame(0);
 		SwingUtilities.invokeLater(updateProgressBar);			//	1
 		ff 	= VBrowser.openBrowse(0 , AD_Browse_ID , "", isSOTrx);
 		ff.setVisible(true);

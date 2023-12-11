@@ -83,7 +83,7 @@ public class GenerateModel
 		//String directory = "/Users/e-Evolution/Develop/ADempiere/390/base/src/org/eevolution/model";
 		//String directory = "/Users/e-Evolution/Develop/ADempiere/develop/base/src/org/spin/model";
         //String directory = "/Users/e-Evolution/Develop/ADempiere/develop/base/src/org/adempiere/model";
-		String directory = "/Users/e-Evolution/Develop/ADempiere/develop/base/src/org/eevolution/model";
+		String directory = "/Users/e-Evolution/Develop/ADempiere/394/base/src/org/adempiere/core/domains/models";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0)
@@ -92,10 +92,11 @@ public class GenerateModel
 			System.exit(1);
 		}
 		log.info("Directory: " + directory);
-		
+
+		String packageName = "org.adempiere.core.domains.models";
 		//	second parameter
 		//String packageName = "compiere.model";
-       	String packageName = "org.eevolution.model";
+       	//String packageName = "org.eevolution.model";
         //String packageName = "org.compiere.model";
         //String packageName = "org.adempiere.model";
 		//String packageName = "org.spin.model";
@@ -112,13 +113,14 @@ public class GenerateModel
 		//String entityType = "'U','A'";	//	User, Application
         //String entityType = "'D'";	//	User, Application
 		//String entityType = "'EE08'";	//	User, Application
-		String entityType = "'EE01','EE02','EE03','EE04','EE06','EE08','EE09'";	//	User, Application
+		//String entityType = "'EE01','EE02','EE03','EE04','EE06','EE08','EE09'";	//	User, Application
         //String entityType = "'EE07'";	//	User, Application
 		//String entityType = "'EE02'";	//	User, Application
 		//String entityType = "'EE08'";	//	User, Application
         //String entityType = "'EE05'";	//	User, Application
 		//String entityType = "'EE08'";	//	User, Application
 		//String entityType = "'FMS'";	//	User, Application
+		String entityType = "'FMS','A','C','D','CRM','PR','ECA01','ECA02','ECA03','ECA12','ECA22','ECA23','ECA34','ECA41','ECA42','EE01','EE02','EE03','EE04','EE05','EE06','EE07','EE08','EE09','EE12','FA'";
 		if (args.length > 2)
 			entityType = args[2]; 
 		if (entityType == null || entityType.length() == 0)
@@ -132,7 +134,7 @@ public class GenerateModel
 		log.info("----------------------------------");
 		
 		String tableLike = null;
-        tableLike = "'%%'";	//	All tables
+        tableLike = "'%'";	//	All tables
 		// tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";	//	Only specific tables
 		if (args.length > 3)
 			tableLike = args[3];

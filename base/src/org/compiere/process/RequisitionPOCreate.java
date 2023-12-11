@@ -298,7 +298,11 @@ public class RequisitionPOCreate extends RequisitionPOCreateAbstract
 			purchaseOrder.setM_Warehouse_ID(requisitionLine.getParent().getM_Warehouse_ID());
 			purchaseOrder.setDatePromised(dateRequired);
 			purchaseOrder.setIsSOTrx(false);
-			purchaseOrder.setC_DocTypeTarget_ID();
+			if(getDocTypeId() > 0) {
+				purchaseOrder.setC_DocTypeTarget_ID(getDocTypeId());
+			} else {
+				purchaseOrder.setC_DocTypeTarget_ID();
+			}
 			purchaseOrder.setBPartner(businessPartner);
 			purchaseOrder.setM_PriceList_ID(priceListId);
 			//	default po document type
@@ -415,7 +419,9 @@ public class RequisitionPOCreate extends RequisitionPOCreateAbstract
 			purcaseOrderLine.setPriceActual(requisitionLine.getPriceActual());
 		}
 		purcaseOrderLine.setAD_Org_ID(requisitionLine.getAD_Org_ID());
-				
+		if(requisitionLine.getC_Tax_ID() > 0) {
+			purcaseOrderLine.setC_Tax_ID(requisitionLine.getC_Tax_ID());
+		}
 		
 		//	Prepare Save
 		productId = requisitionLine.getM_Product_ID();
