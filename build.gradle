@@ -17,7 +17,31 @@ allprojects {
 }
 
 dependencies {
-	//api '<library-group>:<library-name>:<library-version>'
+    api project(':tools')
+    api project(':base')
+    api project(':extend')
+    api project(':migration')
+    api project(':org.adempiere.test')
+    api project(':org.adempiere.project')
+    api project(':org.adempiere.request')
+    api project(':org.adempiere.crm')
+    api project(':org.adempiere.pos')
+    api project(':org.adempiere.asset')
+    api project(':org.eevolution.cashflow')
+    api project(':org.eevolution.distribution')
+    api project(':org.eevolution.manufacturing')
+    api project(':org.adempiere.production')
+    api project(':org.eevolution.warehouse')
+    api project(':org.eevolution.freight')
+    api project(':org.eevolution.hr_and_payroll')
+    api project(':org.spin.hr_time_and_attendance')
+    api project(':org.spin.finance_management')
+    api project(':org.spin.loan_management')
+    api project(':org.spin.store')
+    api project(':org.spin.authentication')
+    api project(':org.spin.notifier.discord')
+    api project(':org.spin.notifier.telegram')
+    api project(':JasperReports')
 }
 
 java {
