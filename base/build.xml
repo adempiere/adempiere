@@ -43,9 +43,10 @@
     <pathelement path="../tools/lib/commons-io.jar"/>
   	<pathelement path="../tools/lib/poi-ooxml-3.17.jar" />
   	<pathelement path="../tools/lib/sardine-5.9-SNAPSHOT.jar" />
-  	<pathelement path="../tools/lib/aws-java-sdk-core-1.11.795.jar" />
-  	<pathelement path="../tools/lib/aws-java-sdk-kms-1.11.795.jar" />
-  	<pathelement path="../tools/lib/aws-java-sdk-s3-1.11.795.jar" />
+  	<pathelement path="../tools/lib/aws/joda-time-2.8.1.jar" />
+  	<pathelement path="../tools/lib/aws/aws-java-sdk-core-1.11.827.jar" />
+  	<pathelement path="../tools/lib/aws/aws-java-sdk-kms-1.11.827.jar" />
+  	<pathelement path="../tools/lib/aws/aws-java-sdk-s3-1.11.827.jar" />
   </path>
 		
   <target name="init" description="initialization target">

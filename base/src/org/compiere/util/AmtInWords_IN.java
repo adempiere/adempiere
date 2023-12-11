@@ -25,6 +25,9 @@ package org.compiere.util;
  *  
  *  @author Halim Englen
  *  @version $Id: AmtInWords_IN.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class AmtInWords_IN implements AmtInWords
 {

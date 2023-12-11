@@ -539,7 +539,7 @@ public class VAttributeGrid extends CPanel
 	{
 		Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
-		FormFrame ff = new FormFrame();
+		FormFrame ff = new FormFrame(0);
 		ff.openForm(1111, "org.compiere.apps.form.VAttributeGrid", "Attribute Table");
 		ff.pack();
 		AEnv.showCenterScreen(ff);

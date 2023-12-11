@@ -28,5 +28,5 @@
 		<property name="adempiereJNLP" value="$$context"/>
 		<property name="Connection" value="@Connection@"/>
 	</resources>  
-	<application-desc main-class = "org.compiere.Adempiere"/>
+	<application-desc main-class = "org.adempiere.Adempiere"/>
 </jnlp>

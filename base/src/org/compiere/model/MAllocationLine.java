@@ -266,16 +266,10 @@ public class MAllocationLine extends X_C_AllocationLine implements DocumentRever
 			MPayment payment = new MPayment (getCtx(), paymentId, get_TrxName());
 			if (getC_BPartner_ID() != payment.getC_BPartner_ID())
 				log.warning("C_BPartner_ID different - Invoice=" + getC_BPartner_ID() + " - Payment=" + payment.getC_BPartner_ID());
-			if (isReverse)
-			{
-				if (!payment.isCashTrx())
-				{
-					payment.setIsAllocated(false);
-					payment.saveEx();
-				}
-			}
-			else
-			{
+			if (isReverse) {
+				payment.setIsAllocated(false);
+				payment.saveEx();
+			} else {
 				if (payment.testAllocation())
 					payment.saveEx();
 			}

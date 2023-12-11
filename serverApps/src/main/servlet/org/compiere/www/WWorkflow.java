@@ -859,7 +859,7 @@ private int getAD_Workflow_ID(int AD_Menu_ID){
 				+ "WHERE AD_Menu_ID=? AND Action='F'";
 			try
 			{
-				PreparedStatement pstmt = DB.prepareStatement(sql);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, AD_Menu_ID);
 				ResultSet rs = pstmt.executeQuery();
 				while (rs.next())

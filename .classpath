@@ -314,9 +314,10 @@
 	<classpathentry kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
-	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
-	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws/joda-time-2.8.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws/aws-java-sdk-core-1.11.827.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws/aws-java-sdk-kms-1.11.827.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws/aws-java-sdk-s3-1.11.827.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/apiguardian-api-1.1.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-1.10.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-agent-1.10.15.jar"/>
