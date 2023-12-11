@@ -992,7 +992,7 @@ public class MiniTable extends CTable implements IMiniTable
 					if (c == IDColumn.class)
 						data = new IDColumn(((Integer)data).intValue());
 					else if (c == Double.class)
-						data = new Double(((BigDecimal)data).doubleValue());
+						data = Double.valueOf(((BigDecimal) data).doubleValue());
 				}
 				//  store
 				setValueAt(data, row, col);
@@ -1285,19 +1285,18 @@ public class MiniTable extends CTable implements IMiniTable
 					}
 					else if (c == Double.class)
 					{
-						Double subtotal = new Double(0);
+						Double subtotal = Double.valueOf(0);
 						if(total[col] != null)
 							subtotal = (Double)(total[col]);
 						
 						Double amt =  (Double) data;
 						if(subtotal == null)
-							subtotal = new Double(0);
+							subtotal = Double.valueOf(0);
 						if(amt == null )
-							subtotal = new Double(0);
+							subtotal = Double.valueOf(0);
 						total[col] = subtotal + amt;
-						
-					}		
-				}	
+					}
+				}
 		}
 		
 		//adding total row

@@ -167,7 +167,7 @@
 		        <attribute name="Implementation-Version" value="${ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}"/>
 		        <attribute name="Implementation-Vendor" value="${ADEMPIERE_VENDOR}"/>
 		        <attribute name="Implementation-URL" value="http://wwww.adempiere.net"/>
-		        <attribute name="Main-Class" value="org.compiere.Adempiere"/>
+		        <attribute name="Main-Class" value="org.adempiere.Adempiere"/>
 		        <attribute name="Class-Path" value="AdempiereSLib.jar"/>
     		</manifest>
 	    </jar>

@@ -821,7 +821,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			else if (c == BigDecimal.class)
 		        value = rs.getBigDecimal(colIndex);
 			else if (c == Double.class)
-		        value = new Double(rs.getDouble(colIndex));
+		        value = Double.valueOf(rs.getDouble(colIndex));
 			else if (c == Integer.class)
 		        value = Integer.valueOf(rs.getInt(colIndex));
 			else if (c == KeyNamePair.class)

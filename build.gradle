@@ -1,8 +1,8 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
 repositories {
@@ -17,7 +17,7 @@ allprojects {
 }
 
 dependencies {
-    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
+	//api '<library-group>:<library-name>:<library-version>'
 }
 
 java {
@@ -25,14 +25,22 @@ java {
     withSourcesJar()
 }
 
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
+}
+
 
 def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere",
+			"Implementation-Version": version,
+			"EntityType": entityType)
+	}
 }
