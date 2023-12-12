@@ -57,6 +57,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.hr.services.HRProcessActionMsg;
 import org.eevolution.manufacturing.model.MPPCostCollector;
@@ -972,6 +973,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 */
 	private void createMovements() throws Exception
 	{
+		deleteMovements();
 		logger.info("CreateMovements #");
 		long startTime = System.currentTimeMillis();
 		scriptCtx.clear();
@@ -1183,26 +1185,29 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		logger.info("Calculation for Employee # " + partner.getValue() + " - " + partner.getName() +  " " + partner.getName2() + " Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startTime));
 		long startSavingTime = System.currentTimeMillis();
 		// Save movements:
-		movements.values()
-			.stream()
-			.filter(movement -> movement.getHR_Concept_ID() != 0)
-			.forEach(movement -> {
-			long startSavingMovementTime = System.currentTimeMillis();
-			MHRConcept concept = MHRConcept.getById(getCtx() , movement.getHR_Concept_ID() , get_TrxName());
-			if (concept != null && concept.get_ID() > 0) {
-				if (concept.isManual()) {
-					logger.fine("Skip saving " + movement);
-				} else {
-					boolean saveThisRecord = (concept.isSaveInHistoric() 
-													|| movement.isPrinted() 
-													|| concept.isPaid() 
-													|| concept.isPrinted()) 
-											&& (!concept.isNotSaveInHistoryIfNull() || !movement.isEmpty());
-					if (saveThisRecord)
-						movement.saveEx();
+		Trx.run(transactionName -> {
+			// Save movements:
+			movements.values()
+				.stream()
+				.filter(movement -> movement.getHR_Concept_ID() != 0)
+				.forEach(movement -> {
+				long startSavingMovementTime = System.currentTimeMillis();
+				MHRConcept concept = MHRConcept.getById(getCtx() , movement.getHR_Concept_ID(), transactionName);
+				if (concept != null && concept.get_ID() > 0) {
+					if (concept.isManual()) {
+						logger.fine("Skip saving " + movement);
+					} else {
+						boolean saveThisRecord = (concept.isSaveInHistoric() 
+														|| movement.isPrinted() 
+														|| concept.isPaid() 
+														|| concept.isPrinted()) 
+												&& (!concept.isNotSaveInHistoryIfNull() || !movement.isEmpty());
+						if (saveThisRecord)
+							movement.saveEx(transactionName);
+					}
 				}
-			}
-			logger.info("Saving Concept " + concept.getValue() + " - " + concept.getName() + " Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startSavingMovementTime));
+				logger.info("Saving Concept " + concept.getValue() + " - " + concept.getName() + " Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startSavingMovementTime));
+			});
 		});
 		logger.info("Saving for Employee # " + partner.getValue() + " - " + partner.getName() +  " " + partner.getName2() + " Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startSavingTime));
 		logger.info("Employee # " + partner.getValue() + " - " + partner.getName() +  " " + partner.getName2() + " Time elapsed: " + TimeUtil.formatElapsed(System.currentTimeMillis() - startTime));
@@ -1212,10 +1217,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 
 	private int deleteMovements()
 	{
-		// RE-Process, delete movement except concept type Incidence
-		int no = DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsManual<>?", new Object[]{getHR_Process_ID(), true}, get_TrxName());
-		logger.info("Movements Deleted #" + no);
-		return  no;
+		AtomicInteger no = new AtomicInteger();
+		Trx.run(transactionName -> {
+			// RE-Process, delete movement except concept type Incidence
+			no.set(DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsManual<>?", new Object[]{getHR_Process_ID(), true}, transactionName));
+			logger.info("Movements Deleted #" + no);
+		});
+		return no.get();
 	}
 
 
