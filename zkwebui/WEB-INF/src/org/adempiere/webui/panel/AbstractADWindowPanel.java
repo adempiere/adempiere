@@ -299,15 +299,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			checkad_user_id = (Integer)currSess.getAttribute("Check_AD_User_ID");
 		if (checkad_user_id!=Env.getAD_User_ID(ctx))
 		{
-			String msg = "Timestamp=" + new Date() 
-					+ ", Bug 2832968 SessionUser="
-					+ checkad_user_id
-					+ ", ContextUser="
-					+ Env.getAD_User_ID(ctx)
-					+ ".  Please report conditions to your system administrator or in sf tracker 2832968";
-			ApplicationException ex = new ApplicationException(msg);
-			logger.log(Level.SEVERE, msg, ex);
-			throw ex;
+			SessionManager.getApplication().logout();
 		}
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
