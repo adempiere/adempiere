@@ -47,6 +47,9 @@ import org.compiere.util.Util;
  * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
  * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  *  @version $Id: MWFProcess.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4266">
+ * 		@see FR [ 4266 ] PO outdated in workflow conditions due to missing transaction</a>
  */
 public class MWFProcess extends X_AD_WF_Process
 {
@@ -241,6 +244,7 @@ public class MWFProcess extends X_AD_WF_Process
 			m_po = lastPO;
 		
 		//
+		set_TrxName(m_po.get_TrxName());
 		MWFActivity[] activities = getActivities (true, true);	//	requery active
 		String closedState = null;
 		boolean suspended = false;
