@@ -1084,10 +1084,9 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		if(employee == null) {
 			return;
 		}
-		String employeePayrollValue = null;
+		MHRPayroll employeePayroll = null;
 		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
-			employeePayrollValue = employeePayroll.getValue();
+			employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
 		}
 		Timestamp employeeValidFrom = dateFrom;
 		Timestamp employeeValidTo = dateTo;
@@ -1118,15 +1117,14 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
 		scriptCtx.put("_C_BPartner", partner);
 		scriptCtx.put("_HR_Employee", employee);
-		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
+		if(employeePayroll != null) {
+			scriptCtx.put("_HR_Employee_Payroll_Value", employeePayroll.getValue());
+			MHRContract contract = MHRContract.getById(getCtx(), employeePayroll.getHR_Contract_ID(), get_TrxName());
+			scriptCtx.put("_HR_Employee_Contract", contract);
+		}
 		//	Get Employee valid from and to
 		scriptCtx.put("_HR_Employee_ValidFrom", employeeValidFrom);
 		scriptCtx.put("_HR_Employee_ValidTo", employeeValidTo);
-		if(employee.getHR_Payroll_ID() > 0) {
-			MHRPayroll payroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
-			MHRContract contract = MHRContract.getById(getCtx(), payroll.getHR_Contract_ID(), get_TrxName());
-			scriptCtx.put("_HR_Employee_Contract", contract);
-		}
 		//	
 		if(getHR_Period_ID() > 0) {
 			createCostCollectorMovements(partner.get_ID(), payrollPeriod);
