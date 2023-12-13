@@ -987,60 +987,60 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		@param ShelfDepth 
 		Shelf depth required
 	  */
-	public void setShelfDepth (int ShelfDepth)
+	public void setShelfDepth (BigDecimal ShelfDepth)
 	{
-		set_Value (COLUMNNAME_ShelfDepth, Integer.valueOf(ShelfDepth));
+		set_Value (COLUMNNAME_ShelfDepth, ShelfDepth);
 	}
 
 	/** Get Shelf Depth.
 		@return Shelf depth required
 	  */
-	public int getShelfDepth () 
+	public BigDecimal getShelfDepth () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ShelfDepth);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ShelfDepth);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Shelf Height.
 		@param ShelfHeight 
 		Shelf height required
 	  */
-	public void setShelfHeight (int ShelfHeight)
+	public void setShelfHeight (BigDecimal ShelfHeight)
 	{
-		set_Value (COLUMNNAME_ShelfHeight, Integer.valueOf(ShelfHeight));
+		set_Value (COLUMNNAME_ShelfHeight, ShelfHeight);
 	}
 
 	/** Get Shelf Height.
 		@return Shelf height required
 	  */
-	public int getShelfHeight () 
+	public BigDecimal getShelfHeight () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ShelfHeight);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ShelfHeight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Shelf Width.
 		@param ShelfWidth 
 		Shelf width required
 	  */
-	public void setShelfWidth (int ShelfWidth)
+	public void setShelfWidth (BigDecimal ShelfWidth)
 	{
-		set_Value (COLUMNNAME_ShelfWidth, Integer.valueOf(ShelfWidth));
+		set_Value (COLUMNNAME_ShelfWidth, ShelfWidth);
 	}
 
 	/** Get Shelf Width.
 		@return Shelf width required
 	  */
-	public int getShelfWidth () 
+	public BigDecimal getShelfWidth () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ShelfWidth);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ShelfWidth);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set SKU.
@@ -1197,20 +1197,20 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 		@param Weight 
 		Weight of a product
 	  */
-	public void setWeight (int Weight)
+	public void setWeight (BigDecimal Weight)
 	{
-		set_Value (COLUMNNAME_Weight, Integer.valueOf(Weight));
+		set_Value (COLUMNNAME_Weight, Weight);
 	}
 
 	/** Get Weight.
 		@return Weight of a product
 	  */
-	public int getWeight () 
+	public BigDecimal getWeight () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Weight);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Weight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set UOM Code.

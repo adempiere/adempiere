@@ -679,12 +679,12 @@ public interface I_I_Product
 	/** Set Shelf Depth.
 	  * Shelf depth required
 	  */
-	public void setShelfDepth (int ShelfDepth);
+	public void setShelfDepth (BigDecimal ShelfDepth);
 
 	/** Get Shelf Depth.
 	  * Shelf depth required
 	  */
-	public int getShelfDepth();
+	public BigDecimal getShelfDepth();
 
     /** Column name ShelfHeight */
     public static final String COLUMNNAME_ShelfHeight = "ShelfHeight";
@@ -692,12 +692,12 @@ public interface I_I_Product
 	/** Set Shelf Height.
 	  * Shelf height required
 	  */
-	public void setShelfHeight (int ShelfHeight);
+	public void setShelfHeight (BigDecimal ShelfHeight);
 
 	/** Get Shelf Height.
 	  * Shelf height required
 	  */
-	public int getShelfHeight();
+	public BigDecimal getShelfHeight();
 
     /** Column name ShelfWidth */
     public static final String COLUMNNAME_ShelfWidth = "ShelfWidth";
@@ -705,12 +705,12 @@ public interface I_I_Product
 	/** Set Shelf Width.
 	  * Shelf width required
 	  */
-	public void setShelfWidth (int ShelfWidth);
+	public void setShelfWidth (BigDecimal ShelfWidth);
 
 	/** Get Shelf Width.
 	  * Shelf width required
 	  */
-	public int getShelfWidth();
+	public BigDecimal getShelfWidth();
 
     /** Column name SKU */
     public static final String COLUMNNAME_SKU = "SKU";
@@ -838,12 +838,12 @@ public interface I_I_Product
 	/** Set Weight.
 	  * Weight of a product
 	  */
-	public void setWeight (int Weight);
+	public void setWeight (BigDecimal Weight);
 
 	/** Get Weight.
 	  * Weight of a product
 	  */
-	public int getWeight();
+	public BigDecimal getWeight();
 
     /** Column name X12DE355 */
     public static final String COLUMNNAME_X12DE355 = "X12DE355";
