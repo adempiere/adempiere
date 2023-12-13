@@ -16,16 +16,23 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.logging.Level;
-
+import org.adempiere.core.domains.models.I_C_CommissionAmt;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommission;
+import org.compiere.model.MCommissionAmt;
+import org.compiere.model.MCommissionLine;
 import org.compiere.model.MCommissionRun;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MPriceList;
+import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  *	Create AP Invoices for Commission
@@ -33,71 +40,87 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: CommissionAPInvoice.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
-public class CommissionAPInvoice extends SvrProcess
-{
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-	}	//	prepare
+public class CommissionAPInvoice extends CommissionAPInvoiceAbstract {
 
+	private List<String> created = new ArrayList<String>();
+	
 	/**
 	 *  Perform process.
 	 *  @return Message (variables are parsed)
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
+	protected String doIt() throws Exception {
 		log.info("doIt - C_CommissionRun_ID=" + getRecord_ID());
 		//	Load Data
-		MCommissionRun comRun = new MCommissionRun (getCtx(), getRecord_ID(), get_TrxName());
-		if (comRun.get_ID() == 0)
-			throw new IllegalArgumentException("CommissionAPInvoice - No Commission Run");
-		if (Env.ZERO.compareTo(comRun.getGrandTotal()) == 0)
+		MCommissionRun commissionRun = new MCommissionRun (getCtx(), getRecord_ID(), get_TrxName());
+		if (commissionRun.getC_CommissionRun_ID() == 0) {
+			throw new IllegalArgumentException("@C_CommissionRun_ID@ @NotFound@");
+		}
+		if(!commissionRun.getDocStatus().equals(MCommissionRun.DOCSTATUS_Completed)) {
+			throw new IllegalArgumentException("@C_CommissionRun_ID@ @document.status.invalid@");
+		}
+		if (Env.ZERO.compareTo(commissionRun.getGrandTotal()) == 0) {
 			throw new IllegalArgumentException("@GrandTotal@ = 0");
-		MCommission com = new MCommission (getCtx(), comRun.getC_Commission_ID(), get_TrxName());
-		if (com.get_ID() == 0)
-			throw new IllegalArgumentException("CommissionAPInvoice - No Commission");
-		if (com.getC_Charge_ID() == 0)
-			throw new IllegalArgumentException("CommissionAPInvoice - No Charge on Commission");
-		MBPartner bp = new MBPartner (getCtx(), com.getC_BPartner_ID(), get_TrxName());
-		if (bp.get_ID() == 0)
-			throw new IllegalArgumentException("CommissionAPInvoice - No BPartner");
-			
-		//	Create Invoice
-		MInvoice invoice = new MInvoice (getCtx(), 0, null);
-		invoice.setClientOrg(com.getAD_Client_ID(), com.getAD_Org_ID());
-		invoice.setC_DocTypeTarget_ID(MDocType.DOCBASETYPE_APInvoice);	//	API
-		invoice.setBPartner(bp);
-	//	invoice.setDocumentNo (comRun.getDocumentNo());		//	may cause unique constraint
-		invoice.setSalesRep_ID(getAD_User_ID());	//	caller
+		}
+		//	
+		getCommissionAmtList(commissionRun).forEach(commissionAmount -> {
+			Trx.run(transactionName -> createInvoiceFromCommissionAmount(commissionAmount, transactionName));
+		});
 		//
-		if (com.getC_Currency_ID() != invoice.getC_Currency_ID())
-			throw new IllegalArgumentException("CommissionAPInvoice - Currency of PO Price List not Commission Currency");
+		return "@Created@: " +  created.toString();
+	}	//	doIt
+	
+	private List<MCommissionAmt> getCommissionAmtList(MCommissionRun commissionRun) {
+		if(getBPartnerId() > 0) {
+			return new Query(getCtx(), I_C_CommissionAmt.Table_Name, "C_CommissionRun_ID = ? AND C_BPartner_ID = ?", null)
+					.setParameters(getRecord_ID(), getBPartnerId())
+					.<MCommissionAmt>list();
+		}
+		return commissionRun.getCommissionAmtList();
+	}
+	
+	private void createInvoiceFromCommissionAmount(MCommissionAmt commissionAmount, String transactionName) {
+		MCommissionLine commissionLine = new MCommissionLine(getCtx(), commissionAmount.getC_CommissionLine_ID(), transactionName);
+		MCommission commissionDefinition = (MCommission) commissionLine.getC_Commission();
+		if(commissionDefinition == null) {
+			throw new IllegalArgumentException("@C_Commission_ID@ @NotFound@");
+		}
+		if(commissionDefinition.getC_Charge_ID() == 0) {
+			throw new IllegalArgumentException("@C_Charge_ID@ @NotFound@");
+		}
+		MBPartner businessPartner = null;
+		if(commissionAmount.getC_BPartner_ID() > 0) {
+			businessPartner = new MBPartner (getCtx(), commissionAmount.getC_BPartner_ID(), get_TrxName());
+		} else if(commissionDefinition.getC_BPartner_ID() > 0) {
+			businessPartner = new MBPartner (getCtx(), commissionDefinition.getC_BPartner_ID(), get_TrxName());
+		}
+		if (businessPartner == null || businessPartner.get_ID() == 0) {
+			throw new IllegalArgumentException("@C_BPartner_ID@ @NotFound@");
+		}
+		//	Create Invoice
+		MInvoice invoice = new MInvoice (getCtx(), 0, transactionName);
+		invoice.setClientOrg(commissionDefinition.getAD_Client_ID(), commissionDefinition.getAD_Org_ID());
+		invoice.setC_DocTypeTarget_ID(MDocType.DOCBASETYPE_APInvoice);	//	API
+		invoice.setBPartner(businessPartner);
+		invoice.setSalesRep_ID(getAD_User_ID());	//	caller
+		String currencyIsoCode = MCurrency.get(getCtx(), commissionDefinition.getC_Currency_ID()).getISO_Code();
+		MPriceList priceList = MPriceList.getDefault(getCtx(), true, currencyIsoCode);
+		if(priceList == null) {
+			throw new IllegalArgumentException("@M_PriceList_ID@ @NotFound@ (@C_Currency_ID@ " + currencyIsoCode + ")");
+		}
+		invoice.setM_PriceList_ID(priceList.getM_PriceList_ID());
 		//		
-		if (!invoice.save())
-			throw new IllegalStateException("CommissionAPInvoice - cannot save Invoice");
+		invoice.saveEx();
 			
  		//	Create Invoice Line
- 		MInvoiceLine iLine = new MInvoiceLine(invoice);
-		iLine.setC_Charge_ID(com.getC_Charge_ID());
- 		iLine.setQty(1);
- 		iLine.setPrice(comRun.getGrandTotal());
-		iLine.setTax();
-		if (!iLine.save())
-			throw new IllegalStateException("CommissionAPInvoice - cannot save Invoice Line");
+ 		MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+		invoiceLine.setC_Charge_ID(commissionDefinition.getC_Charge_ID());
+ 		invoiceLine.setQty(1);
+ 		invoiceLine.setPrice(commissionAmount.getCommissionAmt());
+		invoiceLine.setTax();
+		invoiceLine.saveEx();
 		//
-		return "@C_Invoice_ID@ = " + invoice.getDocumentNo();
-	}	//	doIt
+		created.add(businessPartner.getValue() + " - " + businessPartner.getName() + ": " + invoice.getDocumentNo());
+	}
 
 }	//	CommissionAPInvoice
