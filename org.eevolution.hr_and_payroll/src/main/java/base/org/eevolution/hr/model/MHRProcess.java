@@ -789,12 +789,15 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		Object result = null;
 		description = null;
 		try {
-			if (rule == null) {
+			if (rule == null
+					|| rule.getAD_Rule_ID() <= 0) {
 				logger.log(Level.WARNING, " @AD_Rule_ID@ @NotFound@");
+				return null;
 			}
 			if (!(rule.getEventType().equals(MRule.EVENTTYPE_HumanResourcePayroll)
 					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
 				logger.log(Level.WARNING, " must be of type JSR 223 and event human resource");
+				return null;
 			}
 			boolean isRunned = false;
 			if(rule.isRuleClassGenerated()) {
