@@ -906,19 +906,29 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			//	Check if on Price list
 			if (m_productPrice == null)
 				getProductPricing(m_M_PriceList_ID);
-			if (!m_productPrice.isCalculated()
-					&& !isProcessed()
+			
+			if (!isProcessed()
+					&& !getParent().isProcessed()
 					&& (newRecord
 							|| is_ValueChanged(COLUMNNAME_M_Product_ID)
 							|| is_ValueChanged(COLUMNNAME_C_UOM_ID)
 							|| is_ValueChanged(COLUMNNAME_QtyEntered)
-							|| is_ValueChanged(COLUMNNAME_PriceEntered)
 							|| is_ValueChanged(COLUMNNAME_Discount)
 							|| is_ValueChanged(COLUMNNAME_PriceEntered))) {
-				MDocType documentType = MDocType.get(getCtx(), getParent().getC_DocTypeTarget_ID());
-				if(Util.isEmpty(documentType.getDocSubTypeSO())
-						|| !documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
-					throw new ProductNotOnPriceListException(m_productPrice, getLine());
+				if(!m_productPrice.isCalculated()) {
+					if(!getParent().isReturnOrder()) {
+						throw new ProductNotOnPriceListException(m_productPrice, getLine());
+					}
+				} else if(newRecord
+						|| is_ValueChanged(COLUMNNAME_M_Product_ID)
+						|| is_ValueChanged(COLUMNNAME_C_UOM_ID)
+						|| is_ValueChanged(COLUMNNAME_QtyEntered)
+						|| is_ValueChanged(COLUMNNAME_PriceEntered)) {
+					if(!getParent().isReturnOrder()) {
+						setPriceList(m_productPrice.getPriceList());
+						setPriceLimit(m_productPrice.getPriceLimit());
+						setDiscount(m_productPrice.getDiscount());
+					}
 				}
 			}
 		}
@@ -941,6 +951,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		
 		//	Qty on instance ASI for SO
 		if (getParent().isSOTrx()
+			&& !getParent().isReturnOrder()
 			&& getM_AttributeSetInstance_ID() != 0
 			&& (newRecord || is_ValueChanged("M_Product_ID")
 				|| is_ValueChanged("M_AttributeSetInstance_ID")
@@ -1045,6 +1056,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			return success;
 		if (newRecord
 				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_LineNetAmt) && !getParent().isProcessed())
 				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_QtyEntered) && !getParent().isProcessed())
 				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
 		)
