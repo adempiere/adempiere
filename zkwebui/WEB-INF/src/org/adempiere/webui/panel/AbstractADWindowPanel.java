@@ -1775,7 +1775,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int tableId = currentTab.getAD_Table_ID();
 		int recordId = currentTab.getRecord_ID();
 
-		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, true);
+		boolean isDirectPrint = MProcess.get(ctx, AD_Process_ID).isDirectPrint();
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, isDirectPrint);
 		if (processModalDialog.isValidDialog()) {
 			processModalDialog.setPosition("center");
 			try {
@@ -1904,8 +1905,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			int record_ID = currentTab.getRecord_ID();
 			if (record_ID <= 0)
 				return;
-			// Is necessary reload for each record to apply the display rules
-			processAction = new WProcessAction(this);
+			//	
+			if(processAction == null) {
+				processAction = new WProcessAction(this);
+			}
 			processAction.openOption(toolbar.getEvent().getTarget());			
 		}
 	}
