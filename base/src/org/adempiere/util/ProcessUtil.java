@@ -113,7 +113,7 @@ public final class ProcessUtil {
 	 * @return boolean
 	 */
 	public static boolean startJavaProcess(Properties ctx, ProcessInfo pi, Trx trx) {
-		return startJavaProcess(ctx, pi, trx, true);
+ 			return startJavaProcess(ctx, pi, trx, pi.isManagedTransaction());
 	}
 
 	/**
