@@ -41,6 +41,9 @@ import org.compiere.util.Env;
  *		<li> FR [ 297 ] Payment Selection must be like ADempiere Document, this process is changed to 
  *			document workflow of Payment Selection
  *		@see https://github.com/adempiere/adempiere/issues/297
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 @Deprecated
 public class PaySelectionCreateFrom extends SvrProcess

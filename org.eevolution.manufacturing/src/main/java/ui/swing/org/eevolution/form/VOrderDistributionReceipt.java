@@ -559,7 +559,7 @@ public class VOrderDistributionReceipt extends CPanel
 		             PrintInfo info = new PrintInfo(MMovement.Table_Name,MMovement.Table_ID, movement.getM_Movement_ID());               
 		             ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
 		             re.print();
-                     new Viewer(re);
+					new Viewer(null, re);
 
              	//	Yamel Senih FR [ 114 ] 2015-11-23
 				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),

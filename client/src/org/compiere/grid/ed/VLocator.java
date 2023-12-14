@@ -537,7 +537,7 @@ public class VLocator extends JComponent
 		log.info("");
 		//
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(null);
 		
 		MQuery zoomQuery = new MQuery();
 		zoomQuery.addRestriction(MLocator.COLUMNNAME_M_Locator_ID, MQuery.EQUAL, getValue());

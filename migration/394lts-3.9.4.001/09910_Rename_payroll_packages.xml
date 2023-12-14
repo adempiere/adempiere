@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Rename payroll packages" ReleaseNo="3.9.4.001" SeqNo="9910">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="376" Action="U" Record_ID="53009" Table="AD_Form">
+        <Data AD_Column_ID="4607" Column="Classname" oldValue="org.eevolution.form.VHRActionNotice">org.eevolution.hr.form.VHRActionNotice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54438" Table="AD_Process">
+        <Data AD_Column_ID="2811" Column="Help" oldValue="You can change template for same data by employee">You can change template for same data by employee
+</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.PayrollProcessReport">org.spin.pr.process.PayrollProcessReport</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54035" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.pr.process.PayrollProcessReport">org.spin.pr.process.PayrollProcessReport</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54036" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.PayrollProcessReport">org.spin.pr.process.PayrollProcessReport</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

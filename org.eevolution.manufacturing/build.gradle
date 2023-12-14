@@ -1,8 +1,8 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
 repositories {
@@ -17,30 +17,38 @@ allprojects {
 }
 
 dependencies {
-    implementation fileTree(
-        dir: '../tools/lib/testing',
-        include: [
-        'SuperCSV-with_src-1.52.jar'
-        ]
-    )
+	implementation fileTree(
+		dir: '../zkwebui/WEB-INF/lib',
+		include: [
+			'zhtml.jar',
+			'keylistener.jar',
+		]
+	)
+	implementation fileTree(
+		dir: '../tools/lib/testing',
+		include: [
+			'SuperCSV-with_src-1.52.jar'
+		]
+	)
+
     // https://mvnrepository.com/artifact/com.github.lbordowitz.openforecast/openforecast
     api 'com.github.lbordowitz.openforecast:openforecast:0.5.0'
+
+	// Local
     api project(path: ':base')
     api project(path: ':org.eevolution.distribution')
     api project(path: ':org.adempiere.test')
-    //api 'io.github.adempiere:base:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:distribution:' + System.getenv("ADEMPIERE_LIBRARY_VERSION")
-    //api 'io.github.adempiere:adempiere.test:3.9.4-develop-1.0'
+
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src/main/java/base']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src/main/java/base']
+		}
+	}
 }
 
 java {
@@ -48,27 +56,31 @@ java {
     withSourcesJar()
 }
 
-//signing {
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//    sign configurations.archives
-//}
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
+}
 
 
-def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+def entityType = 'EE01'
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Manufacturing Management",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -85,7 +97,7 @@ publishing {
            	from components.java
            	pom {
                 name = 'Manufacturing Management'
-                description = 'manufacturing Management dedicated to manage all related with production BOM, costing, and manufacturing.'
+				description = 'Manufacturing Management dedicated to manage all related with production BOM, costing, and manufacturing.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
@@ -110,9 +122,26 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
 signing {
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
 	def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }

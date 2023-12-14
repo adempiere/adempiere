@@ -28,6 +28,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: TranslationTable.java,v 1.2 2006/07/30 00:54:54 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class TranslationTable
 {

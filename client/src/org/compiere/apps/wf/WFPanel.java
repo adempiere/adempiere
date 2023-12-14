@@ -501,7 +501,7 @@ public class WFPanel extends CPanel
 		MQuery query = null;
 		if (m_wf != null)
 			query = MQuery.getEqualQuery("AD_Workflow_ID", m_wf.getAD_Workflow_ID());
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(null);
 		if (!frame.initWindow (m_WF_Window_ID, query))
 			return;
 		AEnv.addToWindowManager(frame);

@@ -50,6 +50,9 @@ import org.compiere.util.TimeUtil;
  * 			<li>BF [ 1894524 ] Pay an reversed invoice
  * 			<li>BF [ 1899477 ] MCash.getLines should return only active lines
  * 			<li>BF [ 2588326 ] Cash Lines are not correctly updated on voiding
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class MCash extends X_C_Cash implements DocAction
 {

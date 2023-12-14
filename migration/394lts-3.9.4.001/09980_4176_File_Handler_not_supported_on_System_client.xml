@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#4176 File Handler not supported on System client" ReleaseNo="3.9.4.001" SeqNo="9980">
+    <Comments>https://github.com/adempiere/adempiere/issues/4176</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54240" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

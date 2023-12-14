@@ -1,8 +1,8 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
 repositories {
@@ -20,13 +20,19 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 dependencies {
     implementation fileTree(
-        dir: '../tools/lib', 
-        include: [
-        'swingx-1.6.jar', 
-		'jnlp.jar',
-        'icepdf-viewer-6.2.2.jar'
-        ]
-    )
+		dir: '../tools/lib',
+		include: [
+			'swingx-1.6.jar',
+			'jnlp.jar',
+			'icepdf-viewer-6.2.2.jar',
+			'lablib-checkboxtree-3.3.jar',
+			'groovy-all-2.4.15.jar',
+			'harness-1.0.0.jar',
+			'oracle.jar',
+			'postgresql.jar'
+		]
+	)
+
     // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
     implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.2'
     // https://mvnrepository.com/artifact/com.jgoodies/looks
@@ -39,16 +45,19 @@ dependencies {
     implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.1'
     // https://mvnrepository.com/artifact/org.beanshell/bsh
     implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
-    api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:request:3.9.4-develop-1.0'
+
+	// Local
+	api project(path: ':base')
+	api project(path: ':org.adempiere.request')
+	api project(path: ':JasperReports')
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src']
+		}
+	}
 }
 
 java {
@@ -56,19 +65,25 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
 }
 
+
 def entityType = 'D'
-version = "3.9.4-develop-1.0"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Client",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Swing Client",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
@@ -76,8 +91,8 @@ publishing {
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
-                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+				username = findProperty("sonatypeUsername")
+				password = findProperty("sonatypePassword")
             }
         }
     }
@@ -114,6 +129,27 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
+
 signing {
-    sign publishing.publications.mavenJava
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }

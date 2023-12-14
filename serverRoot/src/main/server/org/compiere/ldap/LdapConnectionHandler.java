@@ -59,6 +59,9 @@ import org.compiere.util.CLogger;
  * 
  *  @author Jorg Janke
  *  @version $Id: LdapConnectionHandler.java,v 1.1 2006/10/09 00:23:16 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class LdapConnectionHandler extends Thread
 {

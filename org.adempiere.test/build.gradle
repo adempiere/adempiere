@@ -1,8 +1,8 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
 
 repositories {
@@ -17,15 +17,18 @@ allprojects {
 }
 
 dependencies {
-    implementation fileTree(
-        dir: '../tools/lib/testing', 
-        include: [
-        'SuperCSV-with_src-1.52.jar'
-        ]
-    )
-    api project(path: ':base')
-    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
+	implementation fileTree(
+		dir: '../tools/lib/testing', 
+		include: [
+			'SuperCSV-with_src-1.52.jar'
+		]
+	)
+
+	// Local
+	api project(path: ':base')
+
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+	// testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     // https://mvnrepository.com/artifact/org.mockito/mockito-junit-jupiter
     api 'org.mockito:mockito-junit-jupiter:3.6.0'
@@ -34,11 +37,11 @@ dependencies {
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src']
+		}
+	}
 }
 
 java {
@@ -46,27 +49,31 @@ java {
     withSourcesJar()
 }
 
-//signing {
-//    def signingKey = findProperty("signingKey")
-//    def signingPassword = findProperty("signingPassword")
-//    useInMemoryPgpKeys(signingKey, signingPassword)
-//    sign configurations.archives
-//}
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
+}
 
 
 def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Test Module",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -83,7 +90,7 @@ publishing {
            	from components.java
            	pom {
                 name = 'Adempiere Test'
-                description = 'Test api dedicated to manage project, and members.'
+				description = 'Test api dedicated to manage project.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
@@ -108,9 +115,26 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
 signing {
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
 	def signingKey = findProperty("signingKey")
-    def signingPassword = findProperty("signingPassword")
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign publishing.publications.mavenJava
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }

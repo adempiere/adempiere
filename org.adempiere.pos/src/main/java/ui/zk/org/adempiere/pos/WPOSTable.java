@@ -132,7 +132,7 @@ public class WPOSTable extends WListbox {
 					}
 					else if (columnClass == Double.class)
 					{
-						data = new Double(rs.getDouble(rsColIndex));
+						data = Double.valueOf(rs.getDouble(rsColIndex));
 					}
 					else if (columnClass == Integer.class)
 					{
@@ -235,7 +235,7 @@ public class WPOSTable extends WListbox {
 					}
 					else if (columnClass == Double.class)
 					{
-						data = new Double(((BigDecimal)data).doubleValue());
+						data = Double.valueOf(((BigDecimal) data).doubleValue());
 					}
 				}
 				//  store

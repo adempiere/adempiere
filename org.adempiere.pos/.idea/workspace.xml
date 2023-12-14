@@ -480,7 +480,7 @@
     </configuration>
     <configuration default="false" name="AD-POS-WebUI" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
+      <option name="MAIN_CLASS_NAME" value="org.adempiere.Adempiere" />
       <option name="VM_PARAMETERS" value="-DPropertyFile=$adempierePropertiesFile$ -DADEMPIERE_HOME=/Applications/Adempiere -Xms512M -Xmx512M -Dorg.adempiere.server.embedded=true" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$" />

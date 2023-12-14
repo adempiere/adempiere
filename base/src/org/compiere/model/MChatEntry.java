@@ -26,6 +26,9 @@ import org.adempiere.core.domains.models.X_CM_ChatEntry;
  *	
  *  @author Jorg Janke
  *  @version $Id: MChatEntry.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class MChatEntry extends X_CM_ChatEntry
 {

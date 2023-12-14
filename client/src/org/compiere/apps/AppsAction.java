@@ -97,7 +97,7 @@ public final class AppsAction extends AbstractAction
 		int pos = toolTipText.indexOf('&');
 		if (pos != -1  && toolTipText.length() > pos)	//	We have a nemonic - creates ALT-_
 		{
-			Character ch = new Character(toolTipText.toUpperCase().charAt(pos+1));
+			Character ch = Character.valueOf(toolTipText.toUpperCase().charAt(pos+1));
 			if (ch != ' ')
 			{
 				toolTipText = toolTipText.substring(0, pos) + toolTipText.substring(pos+1);

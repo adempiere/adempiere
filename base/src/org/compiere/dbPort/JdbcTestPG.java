@@ -288,7 +288,7 @@ Multiple PreCreated  Threads=10 	Yield=true 	ms= 9906 	each= 990
 			if (WITH_OUTPUT)
 				System.out.println("Thread " + m_myId + " waiting");
 			while (!getGreenLight())
-				yield();
+				Thread.yield();
 			if (WITH_OUTPUT)
 				System.out.println("Thread " + m_myId + " started");
 
@@ -313,7 +313,7 @@ Multiple PreCreated  Threads=10 	Yield=true 	ms= 9906 	each= 990
 			while (rs.next())
 			{
 				if (s_do_yield)
-					yield();  // Yield To other threads
+					Thread.yield(); // Yield To other threads
 			}
 
 			// Close all the resources

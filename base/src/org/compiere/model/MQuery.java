@@ -138,11 +138,11 @@ public class MQuery implements Serializable
 				Double P_Number = null;
 				double d = rs.getDouble(4);
 				if (!rs.wasNull())
-					P_Number = new Double(d);
+					P_Number = Double.valueOf(d);
 				Double P_Number_To = null;
 				d = rs.getDouble(5);
 				if (!rs.wasNull())
-					P_Number_To = new Double(d);
+					P_Number_To = Double.valueOf(d);
 				//
 				Timestamp P_Date = rs.getTimestamp(6);
 				Timestamp P_Date_To = rs.getTimestamp(7);

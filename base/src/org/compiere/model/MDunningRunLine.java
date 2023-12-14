@@ -30,6 +30,9 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MDunningRunLine.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class MDunningRunLine extends X_C_DunningRunLine {
 	/**
@@ -207,7 +210,7 @@ public class MDunningRunLine extends X_C_DunningRunLine {
 		setAmt (payAmt);
 		setOpenAmt (openAmt);
 		setConvertedAmt (MConversionRate.convert(getCtx(), getOpenAmt(), 
-			currencyId, getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
+			currencyId, getC_CurrencyTo_ID(), parent.getC_DunningRun().getDunningDate(), 0, getAD_Client_ID(), getAD_Org_ID()));
 		//	Set Order
 		if(orderId != 0) {
 			setC_Order_ID(orderId);
