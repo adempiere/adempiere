@@ -1861,14 +1861,15 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 				}
 				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 				if(rate != null) {
-					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
+					amount = rate.multiply(amount)
 							.setScale(precision, RoundingMode.HALF_UP);
+					
 				}
 			}
 			if(amount == null) {
 				return 0.0;
 			}
-			return amount.doubleValue();
+			return Optional.ofNullable(amount).orElse(Env.ZERO).doubleValue();
 		}
 
 		//something else
@@ -2058,13 +2059,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		String key = "SUM|" + partnerId + "|" + conceptValue + "|" + payrollId + "|" + periodFrom + "|" + periodTo + "|" + includeInProcess;
-		BigDecimal amount = conceptAgregateMap.get(key);
-		if(amount == null) {
-			amount = new BigDecimal(MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName()));
-			conceptAgregateMap.put(key, amount);
+		if(conceptAgregateMap.containsKey(key)) {
+			return Optional.ofNullable(conceptAgregateMap.get(key)).orElse(Env.ZERO).doubleValue();
 		}
+		BigDecimal amount = new BigDecimal(MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName()));
+		conceptAgregateMap.put(key, amount);
 		//	Get from Movement helper method
-		return amount.doubleValue();
+		return Optional.ofNullable(amount).orElse(Env.ZERO).doubleValue();
 	} // getConcept
 
 	/**
@@ -2102,13 +2103,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		String key = "AVG|" + partnerId + "|" + conceptValue + "|" + payrollId + "|" + periodFrom + "|" + periodTo + "|" + includeInProcess;
-		BigDecimal amount = conceptAgregateMap.get(key);
-		if(amount == null) {
-			amount = new BigDecimal(MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName()));
-			conceptAgregateMap.put(key, amount);
+		if(conceptAgregateMap.containsKey(key)) {
+			return Optional.ofNullable(conceptAgregateMap.get(key)).orElse(Env.ZERO).doubleValue();
 		}
+		BigDecimal amount = new BigDecimal(MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, getHR_Period_ID(), periodFrom, periodTo, includeInProcess, get_TrxName()));
+		conceptAgregateMap.put(key, amount);
 		//	Get from Movement helper method
-		return amount.doubleValue();
+		return Optional.ofNullable(amount).orElse(Env.ZERO).doubleValue();
 	} // getConcept
 	
 	/**
@@ -2126,13 +2127,11 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		String key = partnerId + "|" + conceptValue + "|" + payrollValue + "|" + breakDate.getTime() + "|" + isWithValidFrom;
 		
 		//	Get from cache
-		MHRMovement lastMovement = lastConceptMap.get(key);
-		if(lastMovement == null) {
-			lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollValue, partnerId, breakDate, isWithValidFrom, get_TrxName());
-			if(lastMovement != null) {
-				lastConceptMap.put(key, lastMovement);
-			}
+		if(lastConceptMap.containsKey(key)) {
+			return lastConceptMap.get(key);
 		}
+		MHRMovement lastMovement = MHRMovement.getLastMovement(getCtx(), conceptValue, payrollValue, partnerId, breakDate, isWithValidFrom, get_TrxName());
+		lastConceptMap.put(key, lastMovement);
 		return lastMovement;
 	}
 	
@@ -2382,13 +2381,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		String key = "SUM|" + partnerId + "|" + conceptValue + "|" + payrollId + "|" + from.getTime() + "|" + to.getTime() + "|" + includeInProcess;
-		BigDecimal amount = conceptAgregateMap.get(key);
-		if(amount == null) {
-			amount = new BigDecimal(MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, includeInProcess, get_TrxName()));
-			conceptAgregateMap.put(key, amount);
+		if(conceptAgregateMap.containsKey(key)) {
+			return Optional.ofNullable(conceptAgregateMap.get(key)).orElse(Env.ZERO).doubleValue();
 		}
+		BigDecimal amount = new BigDecimal(MHRMovement.getConceptSum(getCtx(), conceptValue, payrollId, partnerId, from, to, includeInProcess, get_TrxName()));
+		conceptAgregateMap.put(key, amount);
 		//	Get from Movement helper method
-		return amount.doubleValue();
+		return Optional.ofNullable(amount).orElse(Env.ZERO).doubleValue();
 	} // getConcept
 
 	/**
@@ -2423,13 +2422,13 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			payrollId = payroll.get_ID();
 		}
 		String key = "AVG|" + partnerId + "|" + conceptValue + "|" + payrollId + "|" + from.getTime() + "|" + to.getTime() + "|" + includeInProcess;
-		BigDecimal amount = conceptAgregateMap.get(key);
-		if(amount == null) {
-			amount = new BigDecimal(MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to , includeInProcess, get_TrxName()));
-			conceptAgregateMap.put(key, amount);
+		if(conceptAgregateMap.containsKey(key)) {
+			return Optional.ofNullable(conceptAgregateMap.get(key)).orElse(Env.ZERO).doubleValue();
 		}
+		BigDecimal amount = new BigDecimal(MHRMovement.getConceptAvg(getCtx(), conceptValue, payrollId, partnerId, from, to , includeInProcess, get_TrxName()));
+		conceptAgregateMap.put(key, amount);
 		//	Get from Movement helper method
-		return amount.doubleValue();
+		return Optional.ofNullable(amount).orElse(Env.ZERO).doubleValue();
 	} // getConcept
 	
 	
