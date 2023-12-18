@@ -38,7 +38,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20230102L;
+	private static final long serialVersionUID = 20231212L;
 
     /** Standard Constructor */
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
@@ -111,6 +111,59 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
+	{
+		set_Value (COLUMNNAME_Classification, Classification);
+	}
+
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
+	{
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
+
+	/** Set Copy From.
+		@param CopyFrom 
+		Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom)
+	{
+		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
+	}
+
+	/** Get Copy From.
+		@return Copy From Record
+	  */
+	public String getCopyFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFrom);
+	}
+
+	/** Set Standard Cost.
+		@param CostStandard 
+		Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard)
+	{
+		throw new IllegalArgumentException ("CostStandard is virtual column");	}
+
+	/** Get Standard Cost.
+		@return Standard Costs
+	  */
+	public BigDecimal getCostStandard () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	public org.adempiere.core.domains.models.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException
     {
@@ -250,59 +303,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Classification.
-		@param Classification 
-		Classification for grouping
-	  */
-	public void setClassification (String Classification)
-	{
-		set_Value (COLUMNNAME_Classification, Classification);
-	}
-
-	/** Get Classification.
-		@return Classification for grouping
-	  */
-	public String getClassification () 
-	{
-		return (String)get_Value(COLUMNNAME_Classification);
-	}
-
-	/** Set Copy From.
-		@param CopyFrom 
-		Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom)
-	{
-		set_Value (COLUMNNAME_CopyFrom, CopyFrom);
-	}
-
-	/** Get Copy From.
-		@return Copy From Record
-	  */
-	public String getCopyFrom () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyFrom);
-	}
-
-	/** Set Standard Cost.
-		@param CostStandard 
-		Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard)
-	{
-		throw new IllegalArgumentException ("CostStandard is virtual column");	}
-
-	/** Get Standard Cost.
-		@return Standard Costs
-	  */
-	public BigDecimal getCostStandard () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostStandard);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Description.
@@ -1330,62 +1330,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.adempiere.core.domains.models.I_S_ExpenseType getS_ExpenseType() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_S_ExpenseType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_ExpenseType.Table_Name)
-			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
-
-	/** Set Expense Type.
-		@param S_ExpenseType_ID 
-		Expense report type
-	  */
-	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
-	{
-		if (S_ExpenseType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
-	}
-
-	/** Get Expense Type.
-		@return Expense report type
-	  */
-	public int getS_ExpenseType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.core.domains.models.I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (org.adempiere.core.domains.models.I_S_Resource)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.adempiere.core.domains.models.I_AD_User getSalesRep() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_AD_User)MTable.get(getCtx(), org.adempiere.core.domains.models.I_AD_User.Table_Name)
@@ -1414,24 +1358,52 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_S_ExpenseType getS_ExpenseType() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_S_ExpenseType)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_ExpenseType.Table_Name)
+			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
+
+	/** Set Expense Type.
+		@param S_ExpenseType_ID 
+		Expense report type
+	  */
+	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
+	{
+		if (S_ExpenseType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
+	}
+
+	/** Get Expense Type.
+		@return Expense report type
+	  */
+	public int getS_ExpenseType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Shelf Depth.
 		@param ShelfDepth 
 		Shelf depth required
 	  */
-	public void setShelfDepth (int ShelfDepth)
+	public void setShelfDepth (BigDecimal ShelfDepth)
 	{
-		set_Value (COLUMNNAME_ShelfDepth, Integer.valueOf(ShelfDepth));
+		set_Value (COLUMNNAME_ShelfDepth, ShelfDepth);
 	}
 
 	/** Get Shelf Depth.
 		@return Shelf depth required
 	  */
-	public int getShelfDepth () 
+	public BigDecimal getShelfDepth () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ShelfDepth);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ShelfDepth);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Shelf Height.
@@ -1458,20 +1430,20 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		@param ShelfWidth 
 		Shelf width required
 	  */
-	public void setShelfWidth (int ShelfWidth)
+	public void setShelfWidth (BigDecimal ShelfWidth)
 	{
-		set_Value (COLUMNNAME_ShelfWidth, Integer.valueOf(ShelfWidth));
+		set_Value (COLUMNNAME_ShelfWidth, ShelfWidth);
 	}
 
 	/** Get Shelf Width.
 		@return Shelf width required
 	  */
-	public int getShelfWidth () 
+	public BigDecimal getShelfWidth () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ShelfWidth);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ShelfWidth);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set SKU.
@@ -1489,6 +1461,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public String getSKU () 
 	{
 		return (String)get_Value(COLUMNNAME_SKU);
+	}
+
+	public org.adempiere.core.domains.models.I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_S_Resource)MTable.get(getCtx(), org.adempiere.core.domains.models.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set UnitsPerPack.
