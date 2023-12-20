@@ -33,12 +33,12 @@ begin
         end if;
         if lower(datatype) <> sqltype and lower(datatype) <> sqltype_short then
 		i := 0;
-		for v in select a.relname, a.oid 
+		for v in select a.relname, a.oid
 			from pg_class a, pg_depend b, pg_depend c, pg_class d, pg_attribute e
 			where a.oid = b.refobjid
 			and b.objid = c.objid
 			and b.refobjid <> c.refobjid
-			and b.deptype = 'n'
+			and b.deptype  in ('n','i')
 			and c.refobjid = d.oid
 			and d.relname = lower(tablename)
 			and d.relkind = 'r'
@@ -52,7 +52,7 @@ begin
 		    viewname[i] := v.relname;
 		end loop;
 		if i > 0 then
-          command := 'SELECT deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
+          command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
 		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
@@ -61,7 +61,7 @@ begin
 		end if;
 	end if;
    end if;
-   
+
    if defaultclause is not null then
        if lower(defaultclause) = 'null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop default ';
@@ -71,7 +71,7 @@ begin
 	   raise notice ' Execute : % ' , command;
        execute command;
    end if;
-   
+
    if nullclause is not null then
       if lower(nullclause) = 'not null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set not null';
@@ -84,7 +84,7 @@ begin
       end if;
    end if;
     if i > 0 then
-        command := 'SELECT deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
+        command := 'SELECT public.deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
 		raise notice ' Execute : % ' , command;
         execute command;
     end if;

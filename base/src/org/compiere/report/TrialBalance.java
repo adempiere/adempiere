@@ -535,7 +535,7 @@ public class TrialBalance extends SvrProcess
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
 			.append(" AND DateAcct >= ").append(DB.TO_DATE(p_DateAcct_From, true))
-			.append(" AND TRUNC(DateAcct, 'DD') <= ").append(DB.TO_DATE(p_DateAcct_To, true));
+			.append(" AND DateAcct <= ").append(DB.TO_DATE(p_DateAcct_To, true));
 		//
 		sql.append(" AND Account_ID IN (");
 		if (plID != null && !plID.isEmpty())

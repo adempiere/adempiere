@@ -28,6 +28,8 @@ import org.adempiere.core.domains.models.I_AD_Process;
 import org.adempiere.util.ProcessUtil;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
+import org.compiere.jr.report.ReportStarter;
+import org.compiere.jr.report.SwingJRViewerProvider;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRule;
@@ -603,6 +605,9 @@ public class ProcessCtl implements Runnable
 		//	Run locally
 		if (!started && (!isServerProcess || clientOnly ))
 		{
+			if(Ini.isClient() && ReportStarter.getReportViewerProvider() == null) {
+				ReportStarter.setReportViewerProvider(new SwingJRViewerProvider());
+			}
 			if (processInstance.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
 				return ProcessUtil.startScriptProcess(Env.getCtx(), processInstance, transaction);
 			} else {

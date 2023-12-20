@@ -62,12 +62,12 @@ public class MCostQueue extends X_M_CostQueue
 	public static MCostQueue get (MProduct product, int M_AttributeSetInstance_ID,
 		MAcctSchema as, int AD_Org_ID, int M_CostElement_ID, String trxName)
 	{
-		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=?"
-									+ " AND "+COLUMNNAME_M_Product_ID+"=?"
-									+ " AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?"
-									+ " AND "+COLUMNNAME_M_CostType_ID+"=?"
-									+ " AND "+COLUMNNAME_C_AcctSchema_ID+"=?"
-									+ " AND "+COLUMNNAME_M_CostElement_ID+"=?";
+		final String whereClause = "AD_Client_ID=? AND AD_Org_ID=? "
+									+ "AND "+COLUMNNAME_M_Product_ID+"=? "
+									+ "AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=? "
+									+ "AND "+COLUMNNAME_M_CostType_ID+"=? "
+									+ "AND "+COLUMNNAME_C_AcctSchema_ID+"=? "
+									+ "AND "+COLUMNNAME_M_CostElement_ID+"=? ";
 		final Object[] params = new Object[]{product.getAD_Client_ID(), AD_Org_ID,
 											product.get_ID(), M_AttributeSetInstance_ID,
 											as.getM_CostType_ID(), as.get_ID(),
@@ -90,30 +90,30 @@ public class MCostQueue extends X_M_CostQueue
     	List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		
-		whereClause.append("AD_Client_ID=? AND AD_Org_ID=?");
+		whereClause.append("AD_Client_ID=? AND AD_Org_ID=? ");
 		params.add(cost.getAD_Client_ID());
 		params.add(cost.getAD_Org_ID());
 		
-		whereClause.append(" AND "+COLUMNNAME_M_Product_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_Product_ID+"=? ");
 		params.add(cost.getM_Product_ID());
 		
 		final MAcctSchema as = MAcctSchema.get(cost.getCtx(), cost.getC_AcctSchema_ID());
-		whereClause.append(" AND "+COLUMNNAME_M_CostType_ID+"=? AND "+COLUMNNAME_C_AcctSchema_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_CostType_ID+"=? AND "+COLUMNNAME_C_AcctSchema_ID+"=? ");
 		params.add(as.getM_CostType_ID());
 		params.add(as.get_ID());
 		
-		whereClause.append(" AND "+COLUMNNAME_M_CostElement_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_CostElement_ID+"=? ");
 		params.add(ce.get_ID());
 		
-		whereClause.append("AND " +COLUMNNAME_CurrentCostPrice+"=?");
+		whereClause.append("AND " +COLUMNNAME_CurrentCostPrice+"=? ");
 		params.add(cd.getPrice());
 		
-		whereClause.append("AND " +COLUMNNAME_DateAcct+"=?");
+		whereClause.append("AND " +COLUMNNAME_DateAcct+"=? ");
 		params.add(cd.getDateAcct());
 		
 		if (cost.getM_AttributeSetInstance_ID() > 0)
 		{
-			whereClause.append(" AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?");
+			whereClause.append("AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=? ");
 			params.add(cost.getM_AttributeSetInstance_ID());
 		}
 		

@@ -396,7 +396,7 @@ public final class MRole extends X_AD_Role
 			+ " INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID)"
 			+ " INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) "
 			+ "WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt "	// only check first tab
-				+ "WHERE xt.AD_Window_ID=w.AD_Window_ID)"
+			+ "WHERE xt.AD_Window_ID=w.AD_Window_ID) "
 			+ "AND tt.AccessLevel IN ";
 		
 		String sqlProcess = "INSERT INTO AD_Process_Access "
