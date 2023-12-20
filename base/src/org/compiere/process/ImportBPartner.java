@@ -730,7 +730,7 @@ implements ImportProcess
 					ci.saveEx();		//	don't subscribe or re-activate
 				}
 				//
-				whereClause = "IsACH = 'Y' AND EXISTS (SELECT 1 FROM I_BPartner i WHERE i.I_BPartner_ID = " + importPartner.getI_BPartner_ID() + "AND i.A_Name = C_BP_BankAccount.A_Name";
+				whereClause = "IsACH = 'Y' AND EXISTS (SELECT 1 FROM I_BPartner i WHERE i.I_BPartner_ID = " + importPartner.getI_BPartner_ID() + " AND i.A_Name = C_BP_BankAccount.A_Name";
 				if (importPartner.isACH()) 
 					whereClause += " AND C_Bank_ID = i.C_Bank_ID";
 				

@@ -32,9 +32,11 @@ import java.util.Collection;
 import java.util.TreeSet;
 import java.util.logging.Level;
 
+import org.adempiere.Adempiere;
 import org.adempiere.exceptions.DBException;
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.model.MTable;
+import org.compiere.process.AdempiereService;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

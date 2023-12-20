@@ -43,7 +43,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
-import org.compiere.Adempiere;
+import org.adempiere.Adempiere;
 import org.compiere.model.MEntityType;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;

@@ -146,7 +146,7 @@ public class MCommission extends X_C_Commission
 		} else {
 			salesRepsList = new Query(getCtx(), I_C_BPartner.Table_Name, "EXISTS(SELECT 1 FROM C_CommissionSalesRep csr "
 					+ "WHERE csr.C_BPartner_ID = C_BPartner.C_BPartner_ID "
-					+ "AND csr.C_Commission_ID = ?"
+					+ "AND csr.C_Commission_ID = ? "
 					+ "AND csr.IsActive = 'Y')", get_TrxName())
 											.setParameters(getC_Commission_ID())
 											.setOnlyActiveRecords(true)
@@ -180,7 +180,7 @@ public class MCommission extends X_C_Commission
 		if(docBasisType != null
 				&& docBasisType.trim().length() > 0) {
 			params.add(docBasisType);
-			whereClause = "AND EXISTS(SELECT 1 FROM C_Commission c "
+			whereClause = " AND EXISTS(SELECT 1 FROM C_Commission c "
 					+ "					INNER JOIN C_CommissionLine cl ON(cl.C_Commission_ID = c.C_Commission_ID) "
 					+ "					WHERE cl.C_CommissionLine_ID = cah.C_CommissionLine_ID "
 					+ "					AND c.DocBasisType = ?)";

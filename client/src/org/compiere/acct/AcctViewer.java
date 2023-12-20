@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
@@ -38,12 +39,14 @@ import javax.swing.event.ChangeListener;
 import org.adempiere.core.domains.models.X_C_AcctSchema_Element;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.PrintScreenPainter;
 import org.compiere.apps.search.Info;
 import org.compiere.grid.ed.VDate;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MFactAcct;
+import org.compiere.model.MQuery;
 import org.compiere.model.Query;
+import org.compiere.print.AReport;
 import org.compiere.report.core.RModel;
 import org.compiere.report.core.RModelExcelExporter;
 import org.compiere.report.core.ResultTable;
@@ -548,7 +551,7 @@ public class AcctViewer extends CFrame
 		else if (source == bRePost)
 			actionRePost();
 		else if  (source == bPrint)
-			PrintScreenPainter.printScreen(this);
+			actionPrintReport();
 		else if (source == bZoom)
 			actionZoom();
 		else if  (source == bExport)
@@ -954,5 +957,14 @@ public class AcctViewer extends CFrame
 			ADialog.error(0, this, "Error", e.getLocalizedMessage());
 			if (CLogMgt.isLevelFinest()) e.printStackTrace();
 		}
+	}
+
+	private void actionPrintReport() {
+		Optional.ofNullable(accountViewerData).ifPresent(document -> {
+			MQuery query = new MQuery(MFactAcct.Table_ID);
+			query.addRestriction(MFactAcct.COLUMNNAME_AD_Table_ID, MQuery.EQUAL, document.AD_Table_ID);
+			query.addRestriction(MFactAcct.COLUMNNAME_Record_ID, MQuery.EQUAL, document.Record_ID);
+			AReport report = new AReport(MFactAcct.Table_ID,  null , query);
+		});
 	}
 }   //  AcctViewer

@@ -18,18 +18,18 @@ name := "org.adempiere.server"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.4-SNAPSHOT",
-  scalaVersion := "3.2.1"
+  scalaVersion := "3.3.1"
 )
 
-scalaVersion := "3.2.1"
+scalaVersion := "3.3.1"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/394"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/adeosOk"
 val adempiereProperties =
-  "-DPropertyFile=" + sourceAdempiere + "/install/build/Adempiere/Adempiere.properties"
+  "-DPropertyFile=" + sourceAdempiere + "/install/build/Adempiere/AdempiereEnv.properties"
 /*scalacOptions ++= Seq(
   "-feature",
   "-unchecked",

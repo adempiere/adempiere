@@ -143,9 +143,11 @@ public class ImportReportLine extends SvrProcess
 
 		//	Validate ElementValue
 		sql = new StringBuffer ("UPDATE I_ReportLine i "
-			+ "SET C_ElementValue_ID=(SELECT C_ElementValue_ID FROM C_ElementValue e"
-			+ " WHERE i.ElementValue=e.Value AND i.AD_Client_ID=e.AD_Client_ID) "
-			+ "WHERE C_ElementValue_ID IS NULL AND ElementValue IS NOT NULL"
+			+ "SET C_ElementValue_ID=(SELECT C_ElementValue_ID FROM C_ElementValue ev "
+			+ "LEFT JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) "
+			+ "LEFT JOIN AD_Tree t ON (e.AD_Tree_ID = t.AD_Tree_ID)"
+			+ "WHERE e.Name = i.ElementName AND t.TreeType = i.TreeType AND  i.ElementValue=ev.Value AND i.AD_Client_ID=ev.AD_Client_ID) "
+			+ "WHERE C_ElementValue_ID IS NULL AND ElementValue IS NOT NULL "
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set C_ElementValue_ID=" + no);
@@ -365,10 +367,13 @@ public class ImportReportLine extends SvrProcess
 				+ "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,"
 				+ "PA_ReportLine_ID,ElementType,C_ElementValue_ID) "
 				+ "SELECT ?,"
-				+ "AD_Client_ID,AD_Org_ID,'Y',SysDate,CreatedBy,SysDate,UpdatedBy,"
-				+ "PA_ReportLine_ID,'AC',C_ElementValue_ID "
-				+ "FROM I_ReportLine "
-				+ "WHERE I_ReportLine_ID=?"
+				+ "i.AD_Client_ID,i.AD_Org_ID,'Y', SysDate ,i.CreatedBy, SysDate,i.UpdatedBy,"
+				+ "i.PA_ReportLine_ID,i.ElementType,i.C_ElementValue_ID "
+				+ "FROM I_ReportLine i "
+				+ "INNER JOIN C_ElementValue ev ON (i.C_ElementValue_ID = ev.C_ElementValue_ID) "
+				+	"INNER JOIN C_Element e ON (ev.C_Element_ID = e.C_Element_ID) "
+				+ "INNER JOIN AD_Tree t ON (e.AD_Tree_ID = t.AD_Tree_ID)	"
+				+ "WHERE e.Name = i.ElementName AND i.TreeType = t.TreeType  AND i.I_ReportLine_ID=?"
 				+ " AND I_IsImported='N'"
 				+ clientCheck, get_TrxName());
 
@@ -435,10 +440,13 @@ public class ImportReportLine extends SvrProcess
 				{
 					//jz
 					String sqlt="UPDATE PA_ReportSource "
-						+ "SET (ElementType,C_ElementValue_ID,Updated,UpdatedBy)="
-						+ " (SELECT CAST('AC' AS CHAR(2)),C_ElementValue_ID,SysDate,UpdatedBy"  //jz
-						+ " FROM I_ReportLine"
-						+ " WHERE I_ReportLine_ID=" + I_ReportLine_ID + ") "
+						+ "SET (ElementType,C_ElementValue_ID,Updated,UpdatedBy)= "
+						+ "(SELECT i.ElementType,C_ElementValue_ID,SysDate,UpdatedBy "  //jz
+						+ "FROM I_ReportLine i "
+						+ "INNER JOIN C_ElementValue ev ON (i.C_ElementValue_ID = ev.C_ElementValue_ID) "
+						+	"INNER JOIN C_Element e ON (ev.C_Element_ID = e.C_Element_ID) "
+						+ "INNER JOIN AD_Tree t ON (e.AD_Tree_ID = t.AD_Tree_ID)	"
+						+ "WHERE e.Name = i.ElementName AND i.TreeType = t.TreeType  AND i.I_ReportLine_ID=" + I_ReportLine_ID + ") "
 						+ "WHERE PA_ReportSource_ID="+PA_ReportSource_ID+" "
 						+ clientCheck;
 					PreparedStatement pstmt_updateSource = DB.prepareStatement
