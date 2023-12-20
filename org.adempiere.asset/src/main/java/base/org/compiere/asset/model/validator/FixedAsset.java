@@ -197,8 +197,10 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			if (timing == TIMING_AFTER_COMPLETE)
 			{
 				MInOut inOut = (MInOut) po;
-				for (MInOutLine inOutLine :  inOut.getLines())
-				{
+				for (MInOutLine inOutLine : inOut.getLines()) {
+					if(inOutLine.getM_Product_ID() <= 0) {
+						continue;
+					}
 					MProduct product = inOutLine.getProduct();
 					MProductCategory productCategory = MProductCategory.get(product.getCtx(), product.getM_Product_Category_ID());
 					MAssetGroup assetGroup = MAssetGroup.get(product.getCtx(), productCategory.getA_Asset_Group_ID()); 

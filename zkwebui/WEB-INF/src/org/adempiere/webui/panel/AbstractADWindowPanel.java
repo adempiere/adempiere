@@ -299,15 +299,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			checkad_user_id = (Integer)currSess.getAttribute("Check_AD_User_ID");
 		if (checkad_user_id!=Env.getAD_User_ID(ctx))
 		{
-			String msg = "Timestamp=" + new Date() 
-					+ ", Bug 2832968 SessionUser="
-					+ checkad_user_id
-					+ ", ContextUser="
-					+ Env.getAD_User_ID(ctx)
-					+ ".  Please report conditions to your system administrator or in sf tracker 2832968";
-			ApplicationException ex = new ApplicationException(msg);
-			logger.log(Level.SEVERE, msg, ex);
-			throw ex;
+			SessionManager.getApplication().logout();
 		}
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
@@ -1783,7 +1775,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int tableId = currentTab.getAD_Table_ID();
 		int recordId = currentTab.getRecord_ID();
 
-		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, true);
+		boolean isDirectPrint = MProcess.get(ctx, AD_Process_ID).isDirectPrint();
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, isDirectPrint);
 		if (processModalDialog.isValidDialog()) {
 			processModalDialog.setPosition("center");
 			try {
@@ -1912,8 +1905,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			int record_ID = currentTab.getRecord_ID();
 			if (record_ID <= 0)
 				return;
-			// Is necessary reload for each record to apply the display rules
-			processAction = new WProcessAction(this);
+			//	
+			if(processAction == null) {
+				processAction = new WProcessAction(this);
+			}
 			processAction.openOption(toolbar.getEvent().getTarget());			
 		}
 	}

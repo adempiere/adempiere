@@ -290,7 +290,6 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
-	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/io-7.1.1.jar"/>
@@ -444,5 +443,6 @@
 	<classpathentry kind="lib" path="tools/lib/openid/json-smart-2.4.8.jar"/>
 	<classpathentry kind="lib" path="tools/lib/openid/nimbus-jose-jwt-9.22.jar"/>
 	<classpathentry kind="lib" path="tools/lib/openid/oauth2-oidc-sdk-9.35.jar"/>
+	<classpathentry kind="lib" path="tools/lib/harness.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -71,39 +71,39 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 				+ "WHERE AD_Client_ID = ?", false, getAD_Client_ID());
 		Arrays.asList(attachmentArray)
 				.forEach(attachmentPair -> {
-					Arrays.asList(new MAttachment(getCtx(), attachmentPair.getKey(), get_TrxName()).getEntries())
-						.forEach(entry -> {
-							Trx.run(new TrxRunnable() {
-								public void run(String trxName) {
-									//	Find existing reference
-									int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
-											+ "FROM AD_AttachmentReference "
-											+ "WHERE AD_Attachment_ID = ? "
-											+ "AND FileName = ? "
-											+ "AND FileHandler_ID = ?", attachmentPair.getKey(), entry.getName(), getAppSupportId());
-									if(attachmentReferenceId < 0) {
-										try {
-											AttachmentUtil.getInstance(getCtx())
-												.withData(entry.getData())
-												.withAttachmentId(attachmentPair.getKey())
-												.withFileName(entry.getName())
-												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-												.withFileHandlerId(getFileHandlerId())
-												.saveAttachment();
-											addLog(entry.getName() + ": @Ok@");
-											processed.incrementAndGet();
-										} catch (Exception e) {
-											log.warning("Error: " + e.getLocalizedMessage());
-											addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
-											errors.incrementAndGet();
-										}
-									} else {
-										addLog(entry.getName() + ": @Ignored@");
-										ignored.incrementAndGet();
+					Trx.run(new TrxRunnable() {
+						public void run(String trxName) {
+							Arrays.asList(new MAttachment(getCtx(), attachmentPair.getKey(), trxName).getEntries())
+							.forEach(entry -> {
+								//	Find existing reference
+								int attachmentReferenceId = DB.getSQLValue(trxName, "SELECT AD_AttachmentReference_ID "
+										+ "FROM AD_AttachmentReference "
+										+ "WHERE AD_Attachment_ID = ? "
+										+ "AND FileName = ? "
+										+ "AND FileHandler_ID = ?", attachmentPair.getKey(), entry.getName(), getAppSupportId());
+								if(attachmentReferenceId < 0) {
+									try {
+										AttachmentUtil.getInstance(getCtx())
+											.withData(entry.getData())
+											.withAttachmentId(attachmentPair.getKey())
+											.withFileName(entry.getName())
+											.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
+											.withFileHandlerId(getFileHandlerId())
+											.saveAttachment();
+										addLog(entry.getName() + ": @Ok@");
+										processed.incrementAndGet();
+									} catch (Exception e) {
+										log.warning("Error: " + e.getLocalizedMessage());
+										addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
+										errors.incrementAndGet();
 									}
+								} else {
+									addLog(entry.getName() + ": @Ignored@");
+									ignored.incrementAndGet();
 								}
 							});
-						});
+						}
+					});
 				});
 	}
 	

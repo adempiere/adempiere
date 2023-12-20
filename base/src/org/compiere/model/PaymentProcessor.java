@@ -111,8 +111,8 @@ public abstract class PaymentProcessor
 
 	/*************************************************************************/
 
-	protected MPaymentProcessor p_mpp = null;
-	protected MPayment			p_mp = null;
+	public MPaymentProcessor p_mpp = null;
+	public MPayment			p_mp = null;
 	//
 	private int     m_timeout = 30;
 

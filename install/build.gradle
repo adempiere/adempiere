@@ -1,9 +1,6 @@
-plugins {
-	id 'java-library'
-	id 'maven-publish'
-	id 'signing'
-}
-
+apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     mavenLocal()
@@ -17,122 +14,118 @@ allprojects {
 }
 
 dependencies {
-	implementation fileTree(
-		dir: '../tools/lib',
-		include: [
-			'ant/apache-ant-1.10.10/lib/ant.jar',
-			'ant/apache-ant-1.10.10/lib/ant-launcher.jar',
-			'mail.jar',
-			'oracle.jar',
-			'postgresql.jar'
-		]
-	)
-
-	// Local
-	api project(path: ':base')
-	api project(path: ':client')
+    api project(path: ':base')
+    api project(path: ':client')
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
+    // https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6
+	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc6', version: '11.2.0.4'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.3'
+    // https://mvnrepository.com/artifact/org.apache.ant/ant
+	implementation group: 'org.apache.ant', name: 'ant', version: '1.10.5'
 }
 
 sourceSets {
     main {
-		java {
-			srcDirs = ['src']
-		}
-	}
-}
-
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-tasks.withType(Javadoc) {
-	failOnError false
-	options.addStringOption('Xdoclint:none', '-quiet')
-	options.addStringOption('encoding', 'UTF-8')
-	options.addStringOption('charSet', 'UTF-8')
+         java {
+            srcDirs = ['src']
+         }
+         resources {
+            srcDirs 'src'
+			include 'org/compiere/install/**.*'  
+        }
+    }
 }
 
 
 def entityType = 'D'
-version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION")
 
 jar {
-	manifest {
-		attributes(
-			"Implementation-Title": "Adempiere Install Module",
-			"Implementation-Version": version,
-			"EntityType": entityType
-		)
-	}
-}
-
-publishing {
-    repositories {
-		mavenLocal()
-
-        maven {
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-                username = findProperty("sonatypeUsername")
-                password = findProperty("sonatypePassword")
-            }
-        }
+    manifest {
+        attributes("Implementation-Title": "Adempiere Install",
+                   "Implementation-Version": version, 
+                   "EntityType": entityType)
     }
-    publications {
-        mavenJava(MavenPublication) {
-        	groupId 'io.github.adempiere'
-            artifactId 'install'
-            version
-           	from components.java
-           	pom {
-                name = 'Install'
-                description = 'Manage all related with ADempiere install.'
-                url = 'http://adempiere.io/'
-                licenses {
-                    license {
-                        name = 'GNU General Public License, version 2'
-                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'yamelsenih'
-                        name = 'Yamel Senih'
-                        email = 'ysenih@erpya.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
-                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
-                    url = 'http://github.com/adempiere/adempiere'
-                }
-            }
+}
+
+run {
+	doFirst {
+		if (System.getProperty("PropertyFile")) {
+			systemProperty "PropertyFile", System.getProperty("PropertyFile")
 		}
 	}
 }
 
-
-task cleanBuildPublishLocal(type: GradleBuild) {
-	tasks = ['clean', 'build', 'publishToMavenLocal']
+tasks.withType(Jar){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
+tasks.withType(Copy){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
 
-signing {
-	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+task ADempiereSwingUIRunner(type: CreateStartScripts) {
+    mainClassName = "org.adempiere.Adempiere"
+    applicationName = 'adempiere-swing-ui'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties", "-Dorg.adempiere.server.embedded=true")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
 
-	sign configurations.archives
+task RunSilentSetup(type: CreateStartScripts) {
+	mainClassName = 'org.compiere.install.SilentSetup'
+    applicationName = 'run-silent-setup'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
 
-	setRequired {
-		// signing is required if this is a release version and the artifacts are to be published
-		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
-		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
-			it.equals(PublishToMavenRepository)
-		}
-	}
+task RunSetup(type: CreateStartScripts) {
+	mainClassName = 'org.compiere.install.Setup'
+    applicationName = 'run-setup'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
 
-	def signingKey = findProperty("signingKey")
-	def signingPassword = findProperty("signingPassword")
-	useInMemoryPgpKeys(signingKey, signingPassword)
-	sign publishing.publications.mavenJava
+task Translation(type: CreateStartScripts) {
+	mainClassName = 'org.compiere.install.Translation'
+    applicationName = 'translation'
+    defaultJvmOpts = Arrays.asList("-DPropertyFile=Adempiere.properties")
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+task RunMigrateXML(type: CreateStartScripts) {
+	mainClassName = 'org.adempiere.process.MigrationLoader'
+    applicationName = 'run-migrate'
+    outputDir = new File(project.buildDir, 'tmp')
+    classpath = jar.outputs.files + project.configurations.runtimeClasspath
+}
+
+applicationDistribution.into('bin') {
+    from(ADempiereSwingUIRunner)
+	from(RunSilentSetup)
+    from(RunSetup)
+	from(Translation)
+	from(RunMigrateXML)
+    fileMode = 0755
+}
+
+//	Create release for project
+task createRelease(type: Copy) {
+   dependsOn build
+   from file("$buildDir/distributions/")
+   into file("$buildDir/release/")
+   doLast {
+        file('build/release/')
+        	.listFiles({file -> file.isFile()} as FileFilter).sort()
+        	.each { File file ->
+            ant.checksum file: file
+        }
+   	}
 }

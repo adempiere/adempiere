@@ -292,7 +292,7 @@
 			<zipfileset src="lib/pdfa-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/harness-1.0.0.jar">
+			<zipfileset src="lib/harness.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/itext-carriage-0.8.0.jar">
@@ -631,7 +631,7 @@
 			<zipfileset src="lib/pdfa-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/harness-1.0.0.jar">
+			<zipfileset src="lib/harness.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/itext-carriage-0.8.0.jar">

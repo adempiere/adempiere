@@ -1,9 +1,6 @@
-plugins {
-	id 'java-library'
-	id 'maven-publish'
-	id 'signing'
-}
-
+apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     mavenLocal()
@@ -20,58 +17,128 @@ if (JavaVersion.current().isJava8Compatible()) {
 
 dependencies {
     implementation fileTree(
-		dir: '../tools/lib',
-		include: [
-			'swingx-1.6.jar',
-			'jnlp.jar',
-			'icepdf-viewer-6.2.2.jar',
-			'lablib-checkboxtree-3.3.jar',
-			'groovy-all-2.4.15.jar',
-			'harness-1.0.0.jar',
-			'oracle.jar',
-			'postgresql.jar'
-		]
-	)
-
+        dir: '../tools/lib', 
+        include: [
+        'swingx-1.6.jar', 
+		'jnlp.jar',
+        'icepdf-viewer-6.2.2.jar'
+        ]
+    )
+    	// ADempiere External Libraries
+	implementation 'com.github.jjYBdx4IL:ecs:1.4.2.1'
+	implementation 'org.telegram:telegrambots:6.0.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.11.0'
+	implementation 'com.lowagie:itext:2.1.7'
+	implementation group: 'org.apache.poi', name: 'poi', version: '3.17'
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+    // https://mvnrepository.com/artifact/com.itextpdf/pdfa
+	implementation group: 'com.itextpdf', name: 'pdfa', version: '7.1.13'
     // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
     implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.2'
+	// https://mvnrepository.com/artifact/io.konik/itext-carriage
+	implementation group: 'io.konik', name: 'itext-carriage', version: '0.8.0'
+    // https://mvnrepository.com/artifact/io.konik/harness
+    implementation group: 'io.konik', name: 'harness', version: '1.0.0'
+    // https://mvnrepository.com/artifact/com.sun.mail/javax.mail
+	implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.4.7'
     // https://mvnrepository.com/artifact/com.jgoodies/looks
 	implementation group: 'com.jgoodies', name: 'looks', version: '2.0.4'
+    // https://mvnrepository.com/artifact/javaee/javaee-api
+	implementation group: 'javaee', name: 'javaee-api', version: '5'
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.827'
     // https://mvnrepository.com/artifact/org.jfree/jfreechart
 	implementation group: 'org.jfree', name: 'jfreechart', version: '1.0.14'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+    // https://mvnrepository.com/artifact/commons-validator/commons-validator
+	implementation group: 'commons-validator', name: 'commons-validator', version: '1.6'
+    // https://mvnrepository.com/artifact/org.apache.activemq/activemq-core
+	implementation group: 'org.apache.activemq', name: 'activemq-core', version: '5.7.0'
+    // https://mvnrepository.com/artifact/org.apache.ant/ant
+	implementation group: 'org.apache.ant', name: 'ant', version: '1.10.5'
+    // https://mvnrepository.com/artifact/com.github.lookfirst/sardine
+	implementation group: 'com.github.lookfirst', name: 'sardine', version: '5.9'
     // https://mvnrepository.com/artifact/io.vavr/vavr
     implementation group: 'io.vavr', name: 'vavr', version: '0.10.4'
-    // https://mvnrepository.com/artifact/com.miglayout/miglayout
-    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.1'
+    // https://mvnrepository.com/artifact/net.sourceforge.barbecue/barbecue
+	implementation group: 'net.sourceforge.barbecue', name: 'barbecue', version: '1.5-beta1'
+    // https://mvnrepository.com/artifact/log4j/log4j
+	implementation group: 'log4j', name: 'log4j', version: '1.2.17'
+    // https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc6
+	implementation group: 'com.oracle.database.jdbc', name: 'ojdbc6', version: '11.2.0.4'
+    // https://mvnrepository.com/artifact/com.google.zxing/core
+	implementation group: 'com.google.zxing', name: 'core', version: '2.3.0'
+    // https://mvnrepository.com/artifact/it.sauronsoftware.cron4j/cron4j
+	implementation group: 'it.sauronsoftware.cron4j', name: 'cron4j', version: '2.2.5'
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
+    // https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+    implementation group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '3.0.4'
+    // https://mvnrepository.com/artifact/org.postgresql/postgresql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.3'
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.3'
     // https://mvnrepository.com/artifact/org.beanshell/bsh
     implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
+    implementation 'org.codehaus.groovy:groovy-all:2.4.15'
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout
+    implementation group: 'com.miglayout', name: 'miglayout', version: '3.7.1'
+    
 
-	// Local
-	api project(path: ':base')
-	api project(path: ':org.adempiere.request')
-	api project(path: ':JasperReports')
+    api project(':tools')
+    api project(':base')
+    api project(':extend')
+    api project(':migration')
+    api project(':org.adempiere.test')
+    api project(':org.adempiere.project')
+    api project(':org.adempiere.request')
+    api project(':org.adempiere.crm')
+    api project(':org.adempiere.pos')
+    api project(':org.adempiere.asset')
+    api project(':org.eevolution.cashflow')
+    api project(':org.eevolution.distribution')
+    api project(':org.eevolution.manufacturing')
+    api project(':org.adempiere.production')
+    api project(':org.eevolution.warehouse')
+    api project(':org.eevolution.freight')
+    api project(':org.eevolution.hr_and_payroll')
+    api project(':org.spin.hr_time_and_attendance')
+    api project(':org.spin.finance_management')
+    api project(':org.spin.loan_management')
+    api project(':org.spin.store')
+    api project(':org.spin.authentication')
+    api project(':org.spin.notifier.discord')
+    api project(':org.spin.notifier.telegram')
+    api project(':JasperReports')
 }
 
 sourceSets {
-	main {
-		java {
-			srcDirs = ['src']
-		}
-	}
+    main {
+         java {
+            srcDirs = ['src']
+         }
+         resources {
+            srcDirs 'src'
+			include 'org/compiere/images/**.*'
+            include 'org/adempiere/plaf/icons/**.*'
+            include 'org/compiere/plaf/sounds/**.*'
+            include 'org/compiere/**.*'
+            include 'org/compiere/db/**.*'
+            include 'org/compiere/install/**.*'  
+        }
+    }
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+tasks.withType(Jar){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
-tasks.withType(Javadoc) {
-	failOnError false
-	options.addStringOption('Xdoclint:none', '-quiet')
-	options.addStringOption('encoding', 'UTF-8')
-	options.addStringOption('charSet', 'UTF-8')
+tasks.withType(Copy){
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
-
 
 def entityType = 'D'
 version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
@@ -84,72 +151,4 @@ jar {
 			"EntityType": entityType
 		)
 	}
-}
-
-publishing {
-    repositories {
-        maven {
-            url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials {
-				username = findProperty("sonatypeUsername")
-				password = findProperty("sonatypePassword")
-            }
-        }
-    }
-    publications {
-        mavenJava(MavenPublication) {
-        	groupId 'io.github.adempiere'
-            artifactId 'swing'
-            version
-           	from components.java
-           	pom {
-                name = 'Swing'
-                description = 'Swing UI and related libraries.'
-                url = 'http://adempiere.io/'
-                licenses {
-                    license {
-                        name = 'GNU General Public License, version 2'
-                        url = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'yamelsenih'
-                        name = 'Yamel Senih'
-                        email = 'ysenih@erpya.com'
-                    }
-                }
-                scm {
-                    connection = 'scm:git:git://github.com/adempiere/adempiere.git'
-                    developerConnection = 'scm:git:ssh://github.com/adempiere/adempiere.git'
-                    url = 'http://github.com/adempiere/adempiere'
-                }
-            }
-		}
-	}
-}
-
-
-task cleanBuildPublishLocal(type: GradleBuild) {
-	tasks = ['clean', 'build', 'publishToMavenLocal']
-}
-
-
-signing {
-	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
-
-	sign configurations.archives
-
-	setRequired {
-		// signing is required if this is a release version and the artifacts are to be published
-		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
-		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
-			it.equals(PublishToMavenRepository)
-		}
-	}
-
-	def signingKey = findProperty("signingKey")
-	def signingPassword = findProperty("signingPassword")
-	useInMemoryPgpKeys(signingKey, signingPassword)
-	sign publishing.publications.mavenJava
 }

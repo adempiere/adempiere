@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#4279 Error when filtering the warehouse in the Requisition" ReleaseNo="3.9.4.002" SeqNo="10330">
+    <Comments>https://github.com/adempiere/adempiere/issues/4279
+By: ELsio Sanchez</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="11474" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">189</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
