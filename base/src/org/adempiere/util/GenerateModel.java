@@ -23,7 +23,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import org.adempiere.Adempiere;
+import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -83,7 +83,7 @@ public class GenerateModel
 		//String directory = "/Users/e-Evolution/Develop/ADempiere/390/base/src/org/eevolution/model";
 		//String directory = "/Users/e-Evolution/Develop/ADempiere/develop/base/src/org/spin/model";
         //String directory = "/Users/e-Evolution/Develop/ADempiere/develop/base/src/org/adempiere/model";
-		String directory = "/Users/e-Evolution/Develop/ADempiere/EE3.9.4.001/base/src/org/adempiere/core/domains/models";
+		String directory = "/Users/e-Evolution/Develop/ADempiere/394/base/src/org/adempiere/core/domains/models";
 		if (args.length > 0)
 			directory = args[0];
 		if (directory == null || directory.length() == 0)
@@ -134,7 +134,7 @@ public class GenerateModel
 		log.info("----------------------------------");
 		
 		String tableLike = null;
-        tableLike = "'%M_RequisitionLine%'";	//	All tables
+        tableLike = "'%'";	//	All tables
 		// tableLike = "'AD_OrgInfo', 'AD_Role', 'C_CashLine', 'C_Currency', 'C_Invoice', 'C_Order', 'C_Payment', 'M_InventoryLine', 'M_PriceList', 'M_Product', 'U_POSTerminal'";	//	Only specific tables
 		if (args.length > 3)
 			tableLike = args[3];

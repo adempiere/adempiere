@@ -142,7 +142,7 @@ public class WReport extends HttpServlet
 			{
 				if (queryColumn.endsWith("_ID"))
 					query.addRestriction(queryColumn, MQuery.EQUAL,
-						new Integer(Env.getContextAsInt(wsc.ctx, m_curTab.getWindowNo(), queryColumn)),
+						Integer.valueOf(Env.getContextAsInt(wsc.ctx, m_curTab.getWindowNo(), queryColumn)),
 						infoName, infoDisplay);
 				else
 					query.addRestriction(queryColumn, MQuery.EQUAL,

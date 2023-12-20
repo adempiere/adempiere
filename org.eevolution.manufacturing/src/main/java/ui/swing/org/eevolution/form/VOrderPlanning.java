@@ -74,6 +74,8 @@ import org.eevolution.manufacturing.model.MPPOrder;
 public class VOrderPlanning extends CPanel
 implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, ListSelectionListener, TableModelListener, ASyncProcess
 {
+	private static final long serialVersionUID = -2027009461523708974L;
+
 	/** Creates new form VOrderPlanning */
 	public VOrderPlanning()
 	{
@@ -650,7 +652,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 						else if (c == BigDecimal.class)
 							data = rs.getBigDecimal(colIndex);
 						else if (c == Double.class)
-							data = new Double(rs.getDouble(colIndex));
+							data = Double.valueOf(rs.getDouble(colIndex));
 						else if (c == Integer.class)
 							data = Integer.valueOf(rs.getInt(colIndex));
 						else if (c == KeyNamePair.class)

@@ -1,9 +1,9 @@
-apply plugin: 'java-library'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
+plugins {
+	id 'java-library'
+	id 'maven-publish'
+	id 'signing'
+}
 
-//
-//
 
 repositories {
     mavenLocal()
@@ -17,24 +17,27 @@ allprojects {
 }
 
 dependencies {
+	// https://mvnrepository.com/artifact/com.sun.jndi.ldap/ldapbp
+	// implementation group: 'com.sun.jndi.ldap', name: 'ldapbp', version: '1.0'
+	// implementation group: 'com.sun.jndi', name: 'ldap', version: '1.2.4'
+
     // https://mvnrepository.com/artifact/javaee/javaee-api
 	api 'javaee:javaee-api:5'
     // https://mvnrepository.com/artifact/org.apache.activemq/activemq-core
     api 'org.apache.activemq:activemq-core:5.7.0'
     // https://mvnrepository.com/artifact/it.sauronsoftware.cron4j/cron4j
     api 'it.sauronsoftware.cron4j:cron4j:2.2.5'
-    //api 'io.github.adempiere:base:3.9.4-develop-1.0'
-    api 'io.github.adempiere:project:3.9.4-develop-1.2'
-    // https://mvnrepository.com/artifact/com.sun.jndi.ldap/ldapbp
-    //implementation group: 'com.sun.jndi.ldap', name: 'ldapbp', version: '1.0'
+
+	// Local
+	api project(path: ':org.adempiere.project')
 }
 
 sourceSets {
-    main {
-         java {
-            srcDirs = ['src/main/server']
-         }
-    }
+	main {
+		java {
+			srcDirs = ['src/main/server']
+		}
+	}
 }
 
 java {
@@ -42,45 +45,54 @@ java {
     withSourcesJar()
 }
 
-signing {
-    sign configurations.archives
+tasks.withType(Javadoc) {
+	failOnError false
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.addStringOption('encoding', 'UTF-8')
+	options.addStringOption('charSet', 'UTF-8')
 }
 
 compileJava {
-    options.compilerArgs.add('--add-exports=java.base/jdk.internal.vm.annotation=ALL-UNNAMED')
-    options.compilerArgs.add('--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED')
+	options.compilerArgs.add('--add-exports=java.base/jdk.internal.vm.annotation=ALL-UNNAMED')
+	options.compilerArgs.add('--add-opens=java.base/jdk.internal.loader=ALL-UNNAMED')
+	options.compilerArgs.add('--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED')
 }
 
+
 def entityType = 'D'
-version = "3.9.4-develop-1.1"
+version = System.getenv("ADEMPIERE_LIBRARY_VERSION") ?: "local-1.0.0"
 
 jar {
-    manifest {
-        attributes("Implementation-Title": "Adempiere Project Management",
-                   "Implementation-Version": version, 
-                   "EntityType": entityType)
-    }
+	manifest {
+		attributes(
+			"Implementation-Title": "Adempiere Server Root",
+			"Implementation-Version": version,
+			"EntityType": entityType
+		)
+	}
 }
 
 publishing {
     repositories {
+		mavenLocal()
+
         maven {
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
-                username = ossrhUsername ?: System.getenv("OSSRH_USER_NAME")
-                password = ossrhPassword ?: System.getenv("OSSRH_PASSWORD")
+				username = findProperty("sonatypeUsername")
+				password = findProperty("sonatypePassword")
             }
         }
     }
     publications {
         mavenJava(MavenPublication) {
         	groupId 'io.github.adempiere'
-            artifactId 'project'
+			artifactId 'server-root'
             version
            	from components.java
            	pom {
-                name = 'Project'
-                description = 'Project Management dedicated to manage project, and members.'
+				name = 'Server Root'
+				description = 'Server Root, and Deploy Server Files.'
                 url = 'http://adempiere.io/'
                 licenses {
                     license {
@@ -105,6 +117,26 @@ publishing {
 	}
 }
 
+
+task cleanBuildPublishLocal(type: GradleBuild) {
+	tasks = ['clean', 'build', 'publishToMavenLocal']
+}
+
 signing {
-    sign publishing.publications.mavenJava
+	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
+
+	sign configurations.archives
+
+	setRequired {
+		// signing is required if this is a release version and the artifacts are to be published
+		// do not use hasTask() as this require realization of the tasks that maybe are not necessary
+		(isReleaseVersion || version.toString().equals("build")) && gradle.taskGraph.allTasks.any {
+			it.equals(PublishToMavenRepository)
+		}
+	}
+
+	def signingKey = findProperty("signingKey")
+	def signingPassword = findProperty("signingPassword")
+	useInMemoryPgpKeys(signingKey, signingPassword)
+	sign publishing.publications.mavenJava
 }

@@ -29,11 +29,11 @@ public class GoogleAuthentication extends OpenIDConnect{
 	/**Default Scope*/
 	private final static String[] defaultScope = new String[]{ "openid", "email", "profile"};
 	
-	/**Github Authorization End Point*/
+	/**Google Authorization End Point*/
 	private final static String authorizationEndPoint = "https://accounts.google.com/o/oauth2/v2/auth";
-	/**Github UserInfo End Point*/
+	/**Google UserInfo End Point*/
 	private final static String userInfoEndPoint = "https://openidconnect.googleapis.com/v1/userinfo";
-	/**Github UserInfo End Point*/
+	/**Google UserInfo End Point*/
 	private final static String tokenEndPoint = "https://oauth2.googleapis.com/token";
 	
 	public GoogleAuthentication() {

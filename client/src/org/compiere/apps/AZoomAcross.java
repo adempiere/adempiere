@@ -118,7 +118,7 @@ public class AZoomAcross
 		logger.info("AD_Window_ID=" + AD_Window_ID 
 			+ " - " + query); 
 		
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(null);
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
 		AEnv.addToWindowManager(frame);

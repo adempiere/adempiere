@@ -168,6 +168,34 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
+	public org.adempiere.core.domains.models.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+    {
+		return (org.adempiere.core.domains.models.I_C_BPartner_Location)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
+
+	/** Set Partner Location.
+		@param C_BPartner_Location_ID 
+		Identifies the (ship to) address for this Business Partner
+	  */
+	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
+	{
+		if (C_BPartner_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
+	}
+
+	/** Get Partner Location.
+		@return Identifies the (ship to) address for this Business Partner
+	  */
+	public int getC_BPartner_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.core.domains.models.I_C_Campaign getC_Campaign() throws RuntimeException
     {
 		return (org.adempiere.core.domains.models.I_C_Campaign)MTable.get(getCtx(), org.adempiere.core.domains.models.I_C_Campaign.Table_Name)

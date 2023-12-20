@@ -73,8 +73,9 @@ public class MovingAverage implements ForecastRule {
 		observedData.setTimeVariable(timeVariable);
 
 		// Try moving average model
-		ForecastingModel model = new MovingAverageModel(new Double(
-				getFactorUser()).intValue());
+		ForecastingModel model = new MovingAverageModel(
+			Double.valueOf(getFactorUser()).intValue()
+		);
 		model.init(observedData);
 		forecastData = model.forecast(observedData);
 	}

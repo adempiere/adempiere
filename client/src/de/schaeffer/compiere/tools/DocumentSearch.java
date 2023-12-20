@@ -48,7 +48,7 @@ public class DocumentSearch extends AbstractDocumentSearch {
 	static CLogger log = CLogger.getCLogger(DocumentSearch.class);
 	@Override
 	protected boolean openWindow(int windowId, MQuery query) {
-		final AWindow frame = new AWindow();
+		final AWindow frame = new AWindow(null);
 		AEnv.addToWindowManager(frame);
 		if (frame.initWindow(windowId, query)) {
 			frame.pack();

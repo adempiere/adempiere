@@ -685,7 +685,7 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 				+ "(CASE "
 				+ "		WHEN COALESCE("
 				+ "					SUM(CASE "
-				+ "							WHEN p.DocStatus NOT IN('VO', 'RE') "
+				+ "							WHEN p.DocStatus IN('CO', 'CL') "
 				+ "							THEN 1 "
 				+ "							ELSE 0 "
 				+ "							END"

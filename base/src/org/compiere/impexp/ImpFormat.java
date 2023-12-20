@@ -327,6 +327,9 @@ public final class ImpFormat
 	 */
 	public static ImpFormat load (String name) {
 		log.config(name);
+		if (Util.isEmpty(name, true)) {
+			return null;
+		}
 		ImpFormat retValue = null;
 		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
 		int ID = 0;
@@ -347,6 +350,10 @@ public final class ImpFormat
 			log.log(Level.SEVERE, sql, e);
 			return null;
 		}
+		if (retValue == null) {
+			return null;
+		}
+
 		loadRows (retValue, ID);
 		return retValue;
 	}	//	getFormat
@@ -358,8 +365,11 @@ public final class ImpFormat
 	 */
 	public static ImpFormat load(int impFormatId) {
 		log.config("AD_ImpFormat_ID = " + impFormatId);
+		if (impFormatId <= 0) {
+			return null;
+		}
 		ImpFormat retValue = null;
-		String sql = "SELECT * FROM AD_ImpFormat WHERE Name=?";
+		String sql = "SELECT * FROM AD_ImpFormat WHERE AD_ImpFormat_ID=?";
 		try {
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, impFormatId);
@@ -376,6 +386,10 @@ public final class ImpFormat
 			log.log(Level.SEVERE, sql, e);
 			return null;
 		}
+		if (retValue == null) {
+			return null;
+		}
+
 		loadRows(retValue, impFormatId);
 		return retValue;
 	}	//	getFormat
@@ -504,8 +518,8 @@ public final class ImpFormat
 	 *  @param fieldNo number of field to be returned
 	 *  @return field in lime or ""
 	@throws IllegalArgumentException if format unknowns
-	 *   */
-	private String parseFlexFormat (String line, String formatType, int fieldNo)
+	 */
+	public String parseFlexFormat(String line, String formatType, int fieldNo)
 	{
 		final char QUOTE = '"';
 		//  check input

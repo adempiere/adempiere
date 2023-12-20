@@ -24,6 +24,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.Query;
 
 /** 
  * 	Generated Process for (Copy From Customized Tab)
@@ -53,6 +56,8 @@ public class ASPCopyFromTab extends ASPCopyFromTabAbstract {
 			field.setIsDisplayed(false);
 			field.saveEx();
 		});
+		//	Set translation
+		copyTranslation(fromCustomTab, toCustomTab);
 		//	Get current fields
 		List<MFieldCustom> toFieldList = toCustomTab.getFields();
 		AtomicInteger counter = new AtomicInteger(0);
@@ -66,9 +71,35 @@ public class ASPCopyFromTab extends ASPCopyFromTabAbstract {
 				MFieldCustom fieldToOverwrite = maybeCustomField.get();
 				fieldToOverwrite.overwriteValuesFromCustomField(fromField);
 				fieldToOverwrite.saveEx();
+				copyTranslation(fromField, fieldToOverwrite);
 				counter.incrementAndGet();
 			}
 		});
 		return "@Update@: " + counter.get();
+	}
+	
+	/**
+	 * Copy translation from PO
+	 * @param source
+	 * @param target
+	 */
+	private void copyTranslation(PO source, PO target) {
+		String tableName = source.get_TableName() + "_Trl";
+		MTable.get(getCtx(), source.get_Table_ID()).getColumnsAsList().stream().filter(column -> column.isTranslated()).findAny().ifPresent(column -> {
+			new Query(getCtx(), tableName, source.get_KeyColumns()[0] + " = ?", get_TrxName())
+				.setParameters(source.get_ID())
+				.<PO>list()
+				.forEach(sourceTranslation -> {
+					new Query(getCtx(), tableName, target.get_KeyColumns()[0] + " = ? AND AD_Language = ?", get_TrxName())
+					.setParameters(target.get_ID(), sourceTranslation.get_ValueAsString("AD_Language"))
+					.<PO>list()
+					.forEach(targetTranslation -> {
+						MTable.get(getCtx(), source.get_Table_ID()).getColumnsAsList().stream().filter(translatedColumn -> translatedColumn.isTranslated()).forEach(translatedColumn -> {
+							targetTranslation.set_ValueOfColumn(translatedColumn.getColumnName(), sourceTranslation.get_Value(translatedColumn.getColumnName()));
+						});
+						targetTranslation.saveEx();
+					});
+				});
+		});
 	}
 }

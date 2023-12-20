@@ -36,6 +36,11 @@ import org.spin.util.support.webdav.IWebDav;
 /** Class for handle Attachment with a external storage
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		Add Support to external storage for attachment
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4176">
+ * 		BR [ 4176 ] File Handler not supported on `System` client.</a>
+ *
  */
 public class AttachmentUtil {
 	
@@ -558,7 +563,7 @@ public class AttachmentUtil {
 		MADAppRegistration registration = null;
 		if(fileHandlerId > 0) {
 			registration = MADAppRegistration.getById(context, fileHandlerId, transactionName);
-		} else if(clientId > 0) {
+		} else if(clientId >= 0) {
 			if(isValidForClient(clientId)) {
 				registration = getFileHandlerFromClient();
 			}

@@ -179,7 +179,7 @@ public class ReportInfo
         ResultSet rs = null;
         try
         {
-            pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, null);
             pstmt.setInt(1, AD_Process_ID);
             rs = pstmt.executeQuery();
             String path = null;

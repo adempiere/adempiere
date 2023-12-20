@@ -1,0 +1,7 @@
+Document Type Name	Document No	Trx Org Key	Document Date	Date Required	Price List Name	Warehouse Key	Priority	Line No	Description	Comment/Help	Line Description	Business Partner Key	Product Key	UOM Code	Quantity	Unit Price	Charge Name	Tax Key	Business Address Key
+Purchase Requisition	R-001	HQ	2023-11-02	2023-11-02	Purchase	HQ	5	10	This is a Requisition for testing		First requisition line		Azalea Bush	EA	5.00	0.00			
+Purchase Requisition	R-001	HQ	2023-11-02	2023-11-02	Purchase	HQ	5	20	This is a Requisition for testing	Second line	Second line		Rake-Bamboo	EA	8.00	0.00		Standard	
+Purchase Requisition	R-002	HQ	2023-11-22	2023-11-22	Purchase	HQ	3	10	This is a Requisition for testing with price list and business partner			TreeFarm	Rake-Bamboo	EA	1.00	100.00			Anywhere
+Purchase Requisition		HQ	2023-11-22	2023-11-22	Purchase	HQ	9	10	Requisition without number...				Rake-Metal	EA	3.00	15.00			
+Purchase Requisition		HQ	2023-11-22	2023-11-22	Purchase	HQ	9	20	Requisition without number...				Tiller	EA	2.00	25.00		Exempt	
+Purchase Requisition		HQ	2023-11-22	2023-11-22	Purchase	HQ	9	20	Requisition without number...			JoeBlock		EA	1.00	125.00	Commissions Paid		Hartford

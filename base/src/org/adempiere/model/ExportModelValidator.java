@@ -61,6 +61,9 @@ import java.util.Properties;
  * <li> https://sourceforge.net/tracker/?func=detail&aid=3014094&group_id=176962&atid=879335
  *	@author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *	<li> Add support to validate error fromreplication strategy
+ * @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  *	@version $Id$
  */
 public class ExportModelValidator implements ModelValidator {

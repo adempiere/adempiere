@@ -49,6 +49,11 @@ import org.compiere.util.Language;
  * 	@author 	Peter Shen
  * 	@version 	$Id: ReportProcessor.java,v 1.7 2005/09/03 04:09:51 pshen Exp $
  *	@description:	report server
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4174">
+ * 		BR [ 4174 ] Swing client does not generate jasper reports.</a>
+ *
  */
 public class ReportProcessor
 {
@@ -138,9 +143,9 @@ public class ReportProcessor
 		
         return m_jasperPrint;
 	}// runReport   
- 
-    
-    private void addProcessParameters( int AD_PInstance_ID, Map params) 
+
+
+	private void addProcessParameters(int AD_PInstance_ID, Map<String, Object> params)
     {
         log.finest("ReportStarter.addProcessParameters");
         MPInstance pinstance = new MPInstance(m_ctx, AD_PInstance_ID, null);
@@ -260,7 +265,7 @@ public class ReportProcessor
     private int m_AD_PInstance_ID = 0;
     private int m_AD_Process_ID = 0;
     private int m_Record_ID = 0;
-    private boolean m_isPrint = false;
+	// private boolean m_isPrint = false;
     private HashMap<String, Object> m_Param = null;
     private Properties m_ctx = null;   
     private JasperPrint m_jasperPrint = null;

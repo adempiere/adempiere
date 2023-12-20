@@ -33,6 +33,9 @@ import org.compiere.util.WebUtil;
  *	
  *  @author Kai Viiksaar
  *  @version $Id: RequestServlet.java,v 1.1 2006/10/11 06:30:11 comdivision Exp $
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class RequestServlet extends HttpServletCM {
 	/**	serialVersionUID	*/

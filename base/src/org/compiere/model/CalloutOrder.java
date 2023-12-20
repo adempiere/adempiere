@@ -45,6 +45,9 @@ import java.util.logging.Level;
  *  @author Michael McKay (mjmckay)
  *  		<li> BF3468458 - Attribute Set Instance not filled on Orders when product lookup not used.
  *  			 See https://sourceforge.net/tracker/?func=detail&aid=3468458&group_id=176962&atid=879332
+ *  @author Raul Capecce, raul.capecce@solopsoftware.com, Solop https://solopsoftware.com/
+ *		<a href="https://github.com/adempiere/adempiere/issues/4188">
+ * 		@see BF [ 4188 ] Badly formatted end of line in files</a>
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -140,7 +143,7 @@ public class CalloutOrder extends CalloutEngine
 					mTab.setValue ("InvoiceRule", X_C_Order.INVOICERULE_AfterDelivery);
 				
 				//	Payment Rule - POS Order
-				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS))
+				if (DocSubTypeSO.equals(MOrder.DocSubTypeSO_POS) || DocSubTypeSO.equals(MOrder.DocSubTypeSO_InvoiceOrder))
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_OnCredit);
@@ -407,7 +410,7 @@ public class CalloutOrder extends CalloutEngine
 					mTab.setValue("InvoiceRule", X_C_Order.INVOICERULE_Immediate);
 					mTab.setValue("DeliveryRule", X_C_Order.DELIVERYRULE_AfterReceipt);
 				}
-				else if (OrderType.equals(MOrder.DocSubTypeSO_POS))	//  for POS
+				else if (OrderType.equals(MOrder.DocSubTypeSO_POS) || OrderType.equals(MOrder.DocSubTypeSO_InvoiceOrder))	//  for POS
 					mTab.setValue("PaymentRule", X_C_Order.PAYMENTRULE_Cash);
 				else
 				{

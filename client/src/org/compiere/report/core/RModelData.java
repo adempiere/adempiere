@@ -149,7 +149,7 @@ class RModelData
 					else if (rc.getColClass() == BigDecimal.class)
 						row.add(rs.getBigDecimal(index++));
 					else if (rc.getColClass() == Double.class)
-						row.add(new Double(rs.getDouble(index++)));
+						row.add(Double.valueOf(rs.getDouble(index++)));
 					else if (rc.getColClass() == Integer.class)
 						row.add(Integer.valueOf(rs.getInt(index++)));
 					else if (rc.getColClass() == Timestamp.class)

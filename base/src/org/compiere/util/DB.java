@@ -733,21 +733,6 @@ public final class DB
 	}	//	prepareCall
 
 
-	/**************************************************************************
-	 *	Prepare Statement
-	 *  @param sql
-	 *  @return Prepared Statement
-	 *  @deprecated
-	 */
-	public static CPreparedStatement prepareStatement (String sql)
-	{
-		int concurrency = ResultSet.CONCUR_READ_ONLY;
-		String upper = sql.toUpperCase();
-		if (upper.startsWith("UPDATE ") || upper.startsWith("DELETE "))
-			concurrency = ResultSet.CONCUR_UPDATABLE;
-		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, concurrency, null);
-	}	//	prepareStatement
-
 	/**
 	 *	Prepare Statement
 	 *  @param sql
@@ -761,20 +746,6 @@ public final class DB
 		if (upper.startsWith("UPDATE ") || upper.startsWith("DELETE "))
 			concurrency = ResultSet.CONCUR_UPDATABLE;
 		return prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, concurrency, trxName);
-	}	//	prepareStatement
-
-	/**
-	 *	Prepare Statement.
-	 *  @param sql sql statement
-	 *  @param resultSetType - ResultSet.TYPE_FORWARD_ONLY, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_SCROLL_SENSITIVE
-	 *  @param resultSetConcurrency - ResultSet.CONCUR_READ_ONLY or ResultSet.CONCUR_UPDATABLE
-	 *  @return Prepared Statement r/o or r/w depending on concur
-	 *  @deprecated
-	 */
-	public static CPreparedStatement prepareStatement (String sql,
-		int resultSetType, int resultSetConcurrency)
-	{
-		return prepareStatement(sql, resultSetType, resultSetConcurrency, null);
 	}	//	prepareStatement
 
 	/**

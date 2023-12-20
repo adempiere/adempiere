@@ -18,7 +18,7 @@ package org.eevolution.test
 
 import java.util.logging.Level
 
-import org.compiere.Adempiere
+import org.adempiere.Adempiere
 import org.compiere.util.*
 /**
   * Trait use to starting Adempiere for test

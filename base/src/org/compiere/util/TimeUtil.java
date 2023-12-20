@@ -546,7 +546,7 @@ public class TimeUtil
 	 * @param includeDay it allows include days of week as days to count
 	 * @return
 	 */
-	private static int getDaysBetweenWithCalendar (Timestamp start, Timestamp end, boolean onlyMatchWithCalendar, int... includeDay) {
+	public static int getDaysBetweenWithCalendar (Timestamp start, Timestamp end, boolean onlyMatchWithCalendar, int... includeDay) {
 		if(start == null
 				|| end == null) {
 			return 0;
@@ -627,7 +627,7 @@ public class TimeUtil
 	 * 	@param includeDay
 	 * 	@return Day + offset at 00:00
 	 */
-	private static Timestamp addDays(Timestamp day, int offset, boolean onlyMatchWithCalendar, int... includeDay) {
+	public static Timestamp addDays(Timestamp day, int offset, boolean onlyMatchWithCalendar, int... includeDay) {
 		Calendar cal = Calendar.getInstance();
 		//	Valid From .. To
 		if(day == null)

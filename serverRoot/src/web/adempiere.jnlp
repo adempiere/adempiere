@@ -26,5 +26,5 @@
 		<jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
 		<jar href = "CompiereJasperReqs.jar" main = "false" download = "eager"/>
 	</resources>
-	<application-desc main-class = "org.compiere.Adempiere"/>
+	<application-desc main-class = "org.adempiere.Adempiere"/>
 </jnlp>
