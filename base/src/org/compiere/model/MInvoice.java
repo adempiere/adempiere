@@ -24,16 +24,22 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_DocType;
 import org.adempiere.core.domains.models.I_C_InvoiceLine;
 import org.adempiere.core.domains.models.I_C_InvoiceTax;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_InOutLine;
 import org.adempiere.core.domains.models.I_PP_Product_Planning;
 import org.adempiere.core.domains.models.X_C_Bank;
 import org.adempiere.core.domains.models.X_C_Invoice;
@@ -55,7 +61,11 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.ResultSetIterable;
 import org.compiere.util.TimeUtil;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple5;
 
 
 /**
@@ -237,7 +247,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 	/**	Cache						*/
 	private static CCache<Integer,MInvoice>	s_cache	= new CCache<Integer,MInvoice>("C_Invoice", 20, 2);	//	2 minutes
-
+	private Map<Integer, List<InOutLinePending>> inoutLinesPending = new HashMap <Integer, List<InOutLinePending>> ();
 
 	/**************************************************************************
 	 * 	Invoice Constructor
@@ -1850,6 +1860,54 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				matchInvoices.getAndUpdate( record -> record + 1);
 				addDocsPostProcess(matchInvoice);
 			}
+			Optional<BigDecimal> maybeInvoiceQty = Optional.ofNullable(invoiceLine.getQtyInvoiced());
+			AtomicReference<BigDecimal> remainQty  = new AtomicReference<BigDecimal>(maybeInvoiceQty.orElse(Env.ZERO));
+			BinaryOperator<BigDecimal> summaryOperator = (currentValue,  addedValue) -> currentValue.add(addedValue);
+			if (!isSOTrx()
+					&& invoiceLine.getC_OrderLine_ID() != 0
+					&& invoiceLine.getM_InOutLine_ID() == 0
+					&& invoiceLine.getM_Product_ID() != 0
+					&& !isReversal())
+				{
+				List<InOutLinePending>  pendingInOutLines = getInOutLinesPending(invoiceLine.getC_OrderLine_ID());
+				pendingInOutLines
+					.stream()
+					.filter(inOutLine -> remainQty.get().compareTo(Env.ZERO) > 0)
+					.forEach(inOutLine -> {
+						
+						BigDecimal matchQty = Env.ZERO;
+						Boolean useReceiptDateAcct = MSysConfig.getBooleanValue("MatchInv_Use_DateAcct_From_Receipt",
+								false, getAD_Client_ID());
+						int inOutLineId = inOutLine.inOutLineId;
+						BigDecimal movementQty = inOutLine.movementQty; 
+						Timestamp dateAcct = inOutLine.dateAcct;
+						String docBaseType = inOutLine.docBaseType;
+						int orgId = inOutLine.orgId;
+						
+						if (movementQty.compareTo(remainQty.get()) < 0) {
+							matchQty = movementQty;
+							movementQty = Env.ZERO;
+						}else {
+							matchQty = remainQty.get();
+							movementQty = movementQty.subtract(matchQty);
+						}
+						//Update Current Quantity
+						remainQty.accumulateAndGet(matchQty.negate(), summaryOperator);
+						inOutLine.movementQty = movementQty;
+						
+						MMatchInv matchInvoice = null;
+						Boolean isReceiptPeriodOpen = MPeriod.isOpen(getCtx(), dateAcct, docBaseType, orgId, get_TrxName());
+						if (useReceiptDateAcct & isReceiptPeriodOpen ) {
+							matchInvoice = new MMatchInv(invoiceLine,dateAcct , matchQty);
+						}else {
+							matchInvoice = new MMatchInv(invoiceLine, getDateAcct(), matchQty);
+						}
+						matchInvoice.setM_InOutLine_ID(inOutLineId);
+						matchInvoice.saveEx();
+						matchInvoices.getAndUpdate( record -> record + 1);
+						addDocsPostProcess(matchInvoice);
+					});
+			}
 
 			MOrderLine orderLine = null;
 			BigDecimal multiplier = getC_DocTypeTarget().getDocBaseType().contains("C")?Env.ONE.negate():Env.ONE;
@@ -2735,7 +2793,65 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				.list();
 		return list;
 	}
-
-
-
+	
+	/**
+	 * Get Receipts Pending for Match Invoices
+	 * @param orderLineId
+	 * @return
+	 */
+	private List<InOutLinePending> getInOutLinesPending(int orderLineId){
+		
+		final List<InOutLinePending> returnValue = Optional.ofNullable(inoutLinesPending.get(orderLineId))
+														   .orElse(new ArrayList<InOutLinePending>());
+		if (returnValue.isEmpty()) {
+			String sql = "SELECT io.DateAcct, dt.DocBaseType, iol.M_InoutLine_ID, io.AD_Org_ID, (iol.MovementQty - COALESCE(SUM(Qty),0)) MovementQty "
+						+ "FROM M_InOutLine iol "
+						+ "INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID) "
+						+ "INNER JOIN C_DocType dt ON (dt.C_DocType_ID = io.C_DocType_ID) "
+						+ "LEFT JOIN M_MatchInv mmi  ON (iol.M_InOutLine_ID = mmi.M_InOutLine_ID AND mmi.Reversal_ID IS NULL) "
+						+ "WHERE iol.C_OrderLine_ID = ? AND io.DocStatus IN ('CO', 'CL') "
+						+ "GROUP BY io.DateAcct, dt.DocBaseType, iol.M_InoutLine_ID, io.AD_Org_ID "
+						+ "HAVING iol.MovementQty != COALESCE(SUM(Qty),0) "
+						+ "ORDER BY io.DateAcct, iol.M_InoutLine_ID ";
+			
+			DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.of(orderLineId), resultSet ->{
+				io.vavr.collection.List<Tuple5<Timestamp, String, Integer, BigDecimal, Integer>> inOutLinesPending = new ResultSetIterable<Tuple5<Timestamp, String, Integer, BigDecimal, Integer>>(resultSet, row -> {
+					return Tuple.of(
+							row.getTimestamp(I_M_InOut.COLUMNNAME_DateAcct), 
+							row.getString(I_C_DocType.COLUMNNAME_DocBaseType), 
+							row.getInt(I_M_InOut.COLUMNNAME_AD_Org_ID), 
+							row.getBigDecimal(I_M_InOutLine.COLUMNNAME_MovementQty), 
+							row.getInt(I_M_InOutLine.COLUMNNAME_M_InOutLine_ID)
+					);
+				}).toList();
+				inOutLinesPending.forEach(row ->{
+					InOutLinePending inoutLinePending = new InOutLinePending();
+					inoutLinePending.dateAcct = row._1;
+					inoutLinePending.docBaseType = row._2;
+					inoutLinePending.orgId = row._3;
+					inoutLinePending.movementQty = row._4;
+					inoutLinePending.inOutLineId = row._5;
+	            	returnValue.add(inoutLinePending);
+	            	inoutLinesPending.put(orderLineId, returnValue);
+				});
+			}).onFailure(throwable -> log.severe(throwable.getMessage()));
+		}
+        return returnValue;
+	}
+	
+	/**
+	 * Class for InOut Lines pending for Match Invoice
+	 *
+	 */
+	private class InOutLinePending {
+		
+		public InOutLinePending() {};
+		
+		public int inOutLineId;
+		public Timestamp dateAcct;
+		public String docBaseType;
+		public int orgId;
+		public BigDecimal movementQty;
+		
+	}
 }	//	MInvoice
