@@ -35,8 +35,11 @@ import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_DocType;
 import org.adempiere.core.domains.models.I_C_InvoiceLine;
 import org.adempiere.core.domains.models.I_C_InvoiceTax;
+import org.adempiere.core.domains.models.I_M_InOut;
+import org.adempiere.core.domains.models.I_M_InOutLine;
 import org.adempiere.core.domains.models.I_PP_Product_Planning;
 import org.adempiere.core.domains.models.X_C_Bank;
 import org.adempiere.core.domains.models.X_C_Invoice;
@@ -58,7 +61,11 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.ResultSetIterable;
 import org.compiere.util.TimeUtil;
+
+import io.vavr.Tuple;
+import io.vavr.Tuple5;
 
 
 /**
@@ -2795,9 +2802,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	 */
 	private Map<Integer, Map<String, Object>> getInOutLinesPending(int orderLineId){
 		
-		Map<Integer, Map<String, Object>> returnValue = inoutLinesPending.get(orderLineId);
-		if (returnValue== null) {
-			returnValue = new HashMap<Integer, Map<String, Object>>();
+		final Map<Integer, Map<String, Object>> returnValue = Optional.ofNullable(inoutLinesPending.get(orderLineId))
+																		.orElse(new HashMap<Integer, Map<String, Object>>());
+		if (returnValue.isEmpty()) {
 			String sql = "SELECT io.DateAcct, dt.DocBaseType, iol.M_InoutLine_ID, io.AD_Org_ID, (iol.MovementQty - COALESCE(SUM(Qty),0)) MovementQty "
 						+ "FROM M_InOutLine iol "
 						+ "INNER JOIN M_InOut io ON (io.M_InOut_ID = iol.M_InOut_ID) "
@@ -2808,28 +2815,26 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 						+ "HAVING iol.MovementQty != COALESCE(SUM(Qty),0) "
 						+ "ORDER BY io.DateAcct, iol.M_InoutLine_ID ";
 			
-	        PreparedStatement pstmt = null;
-	        ResultSet rs = null;
-	        try {
-	            pstmt = DB.prepareStatement(sql, get_TrxName());
-	            pstmt.setInt(1, orderLineId);
-	            rs = pstmt.executeQuery();
-	            Map<String, Object> data ;
-	            while (rs.next()) {
-	            	data = new HashMap<String, Object>();
-	            	data.put(MInOut.COLUMNNAME_DateAcct, rs.getTimestamp(MInOut.COLUMNNAME_DateAcct));
-	            	data.put(MDocType.COLUMNNAME_DocBaseType, rs.getString(MDocType.COLUMNNAME_DocBaseType));
-	            	data.put(MInOut.COLUMNNAME_AD_Org_ID, rs.getInt(MInOut.COLUMNNAME_AD_Org_ID));
-	            	data.put(MInOutLine.COLUMNNAME_MovementQty, rs.getBigDecimal(MInOutLine.COLUMNNAME_MovementQty));
-	            	returnValue.put(rs.getInt(MInOutLine.COLUMNNAME_M_InOutLine_ID), data);
-	            	
+			DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.of(orderLineId), resultSet ->{
+				io.vavr.collection.List<Tuple5<Timestamp, String, Integer, BigDecimal, Integer>> inOutLinesPending = new ResultSetIterable<Tuple5<Timestamp, String, Integer, BigDecimal, Integer>>(resultSet, row -> {
+					return Tuple.of(
+							row.getTimestamp(I_M_InOut.COLUMNNAME_DateAcct), 
+							row.getString(I_C_DocType.COLUMNNAME_DocBaseType), 
+							row.getInt(I_M_InOut.COLUMNNAME_AD_Org_ID), 
+							row.getBigDecimal(I_M_InOutLine.COLUMNNAME_MovementQty), 
+							row.getInt(I_M_InOutLine.COLUMNNAME_M_InOutLine_ID)
+					);
+				}).toList();
+				inOutLinesPending.forEach(row ->{
+					Map<String, Object>data = new HashMap<String, Object>();
+	            	data.put(I_M_InOut.COLUMNNAME_DateAcct, row._1);
+	            	data.put(I_C_DocType.COLUMNNAME_DocBaseType, row._2);
+	            	data.put(I_M_InOut.COLUMNNAME_AD_Org_ID, row._3);
+	            	data.put(I_M_InOutLine.COLUMNNAME_MovementQty, row._4);
+	            	returnValue.put(row._5, data);
 	            	inoutLinesPending.put(orderLineId, returnValue);
-	            }
-	        } catch (Exception e) {
-	            s_log.log(Level.SEVERE, sql, e);
-	        } finally {
-	            DB.close(rs, pstmt);
-	        }
+				});
+			}).onFailure(throwable -> log.severe(throwable.getMessage()));
 		}
         return returnValue;
 	}
