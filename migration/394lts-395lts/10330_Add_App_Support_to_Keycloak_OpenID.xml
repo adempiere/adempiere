@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add App Support to Keycloak Open ID" ReleaseNo="3.9.5" SeqNo="10330">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50040" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">fff42604-9889-4493-a638-227399cfdba8</Data>
+        <Data AD_Column_ID="91312" Column="Value">KeyCloak Authentication</Data>
+        <Data AD_Column_ID="91313" Column="Name">KeyCloak Authentication</Data>
+        <Data AD_Column_ID="91314" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91315" Column="Help">https://www.keycloak.org/documentation</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.authentication.services.provider.GenericAuthentication</Data>
+        <Data AD_Column_ID="91306" Column="Created">2024-01-09 09:29:36.911</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2024-01-09 09:29:36.911</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">OIA</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50040</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50083" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">b640990d-4ebc-4a90-81df-9edabdda1a4e</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:30:11.336</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:30:11.336</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50083</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">http://localhost/webui</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">REDIRECT_URL</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50084" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">e128578b-4847-4464-9971-e81268f4c363</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:30:23.516</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:30:23.516</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50084</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client identifier&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_ID</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50085" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">40a046c9-73da-4d6c-91de-00592ad1d640</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:30:42.13</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:30:42.13</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50085</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client Secret&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_SECRET</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50086" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">99720a45-addb-423a-87a8-f68bd40f85b7</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:33:05.241</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:33:05.241</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50086</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://localhost/realms/&lt;Realm Name&gt;/protocol/openid-connect/auth</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">AUTHORIZATION_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50087" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">220639ba-dd13-4be5-9020-f1b22c3506e3</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:33:37.259</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:33:37.259</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50087</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://localhost/realms/&lt;Realm Name&gt;/protocol/openid-connect/token</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">TOKEN_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50088" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">3477e6d4-7656-4964-ae06-da62882ecd69</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:33:48.495</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:33:48.495</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50088</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://localhost/realms/&lt;Realm Name&gt;/protocol/openid-connect/userinfo</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50040</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">USERINFO_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

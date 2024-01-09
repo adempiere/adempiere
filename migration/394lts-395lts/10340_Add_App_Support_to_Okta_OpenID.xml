@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add App Support to Okta Open ID" ReleaseNo="3.9.5" SeqNo="10340">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50039" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">bd02f9ca-1d29-499d-9ca4-4a953f356261</Data>
+        <Data AD_Column_ID="91312" Column="Value">Okta Authentication</Data>
+        <Data AD_Column_ID="91313" Column="Name">Okta Authentication</Data>
+        <Data AD_Column_ID="91314" Column="Description">https://www.okta.com/</Data>
+        <Data AD_Column_ID="91315" Column="Help">https://help.okta.com/oie/en-us/Content/Topics/Apps/Apps_App_Integration_Wizard_OIDC.htm</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.authentication.services.provider.GenericAuthentication</Data>
+        <Data AD_Column_ID="91306" Column="Created">2024-01-09 09:22:44.517</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2024-01-09 09:22:44.517</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">OIA</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50039</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50077" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">9999a1fd-d196-4982-9055-66b1002efed5</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:23:05.672</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:23:05.672</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50077</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">http://localhost/webui</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">REDIRECT_URL</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50078" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">be6b6b6b-3e68-497f-a666-35c1dc4d0304</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:23:19.347</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:23:19.347</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50078</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client identifier&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_ID</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50079" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">24e2a4c0-8fe1-48d3-8b08-b51e17d11c34</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:23:36.523</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:23:36.523</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50079</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">&lt;Client Secret&gt;</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">CLIENT_SECRET</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50080" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">1140d439-36d0-4987-b311-e82d7f4ec31f</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:24:07.745</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:24:07.745</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50080</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://&lt; Organization &gt;.okta.com/oauth2/v1/authorize</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">AUTHORIZATION_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50081" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">3652e032-bc9e-4483-83dc-8336eb547b11</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:24:24.099</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:24:24.099</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50081</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://&lt; Organization &gt;.okta.com/oauth2/v1/token</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">TOKEN_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50082" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">4fafff03-ac98-4c2c-bb35-d11c183e6bee</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2024-01-09 09:24:46.273</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2024-01-09 09:24:46.273</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50082</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault">https://&lt; Organization &gt;.okta.com/oauth2/v1/userinfo</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50039</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">USERINFO_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
