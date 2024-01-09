@@ -54,6 +54,10 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@M_InOut_ID@ (@Record_ID@) @NotFound@");
+		}
 	}
 	
 	/**
@@ -89,9 +93,6 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	
 	@Override
 	protected String doIt() throws Exception {
-		// Valid Record Identifier
-		if(getRecord_ID() == 0)
-			return "";
 		AtomicInteger referenceId = new AtomicInteger(0);
 		AtomicInteger 	created = new AtomicInteger(0);
 		//	Get Shipment

@@ -42,6 +42,10 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	protected void prepare()
 	{
 		super.prepare();
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_Project_ID@ @NotFound@");
+		}
 	}	//	prepare
 
 	/**
@@ -52,8 +56,6 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	protected String doIt() throws Exception
 	{
 		log.info("C_Project_ID=" + getRecord_ID());
-		if (getRecord_ID() == 0)
-			throw new AdempiereException("@C_Project_ID@ @NotFound@");
 		MProject fromProject = getProject (getCtx(), getRecord_ID(), get_TrxName());
 		Env.setSOTrx(getCtx(), true);	//	Set SO context
 

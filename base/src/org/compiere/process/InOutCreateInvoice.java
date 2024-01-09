@@ -41,6 +41,10 @@ public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 	 */
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@Shipment@ (@Record_ID@) @NotFound@");
+		}
 	}	//	prepare
 
 	/**
@@ -52,8 +56,6 @@ public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 		log.info("M_InOut_ID=" + getRecord_ID()
 			+ ", M_PriceList_ID=" + getPriceListId()
 			+ ", InvoiceDocumentNo=" + getInvoiceDocumentNo());
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("No Shipment");
 		//
 		MInOut materialReceipt = new MInOut (getCtx(), getRecord_ID(), get_TrxName());
 		if (materialReceipt.get_ID() == 0)

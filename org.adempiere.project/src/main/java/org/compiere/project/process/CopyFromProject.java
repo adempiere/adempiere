@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.project.process;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProject;
 
 /**
@@ -29,8 +30,10 @@ public class CopyFromProject extends CopyFromProjectAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("@Record_ID@ @IsMandatory@");
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_Project_ID@ (@Record_ID@) @IsMandatory@");
+		}
 		if (getProjectId() == 0)
 			throw new IllegalArgumentException("@C_Project_ID@ @IsMandatory@");
 	}

@@ -54,14 +54,15 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_Invoice_ID@ (@Record_ID@) @NotFound@");
+		}
 	}
 
 	@Override
 	protected String doIt() throws Exception {
-		// Valid Record Identifier
-		if(getRecord_ID() == 0)
-			return "";
-		//	Get Shipment
+		//	Get Invoice
 		MInvoice invoice = new MInvoice(getCtx(), getRecord_ID(), get_TrxName());
 		AtomicInteger referenceId = new AtomicInteger(0);
 		AtomicInteger 	created = new AtomicInteger(0);

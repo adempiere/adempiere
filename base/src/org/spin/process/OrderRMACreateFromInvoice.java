@@ -19,10 +19,12 @@ package org.spin.process;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
@@ -36,12 +38,19 @@ import org.compiere.util.Env;
  *  @version Release 3.9.3
  */
 public class OrderRMACreateFromInvoice extends OrderRMACreateFromInvoiceAbstract {
+
+	@Override
+	protected void prepare() {
+		super.prepare();
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_Order_ID@ (@Record_ID@) @NotFound@");
+		}
+	}
+
 	@Override
 	protected String doIt() throws Exception {
-		// Valid Record Identifier
-		if(getRecord_ID() == 0)
-			return "@C_Order_ID@ @NotFound@";
-		//	Get Shipment
+		//	Get Order
 		MOrder order = new MOrder(getCtx(), getRecord_ID(), get_TrxName());
 		if(order.isProcessed()) {
 			return "@C_Order_ID@ @Processed@";

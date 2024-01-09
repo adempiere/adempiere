@@ -39,8 +39,9 @@ public class ASPCopyWindowFrom extends ASPCopyWindowFromAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@Record_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@ASP_Level_ID@ / @AD_Role_ID@ / @AD_User_ID@ (@Record_ID@) @NotFound@");
 		}
 	}
 

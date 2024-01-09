@@ -37,7 +37,16 @@ import org.compiere.model.MWarehouse;
  *  @version Release 3.9.2
  */
 public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
-	
+
+	@Override
+	protected void prepare() {
+		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@M_InOut_ID@ (@Record_ID@) @NotFound@");
+		}
+	}
+
 	/**
 	 * Get a valid locator
 	 * @param locatorId
@@ -71,9 +80,6 @@ public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
 	
 	@Override
 	protected String doIt() throws Exception {
-		// Valid Record Identifier
-		if(getRecord_ID() == 0)
-			return "@M_InOut_ID@ @NotFound@";
 		//	Get Shipment
 		MInOut inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
 		if(inout.isProcessed()) {

@@ -37,8 +37,9 @@ public class RFQCreateFromRequisition extends RFQCreateFromRequisitionAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@Record_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_RfQ_ID@ (@Record_ID@) @NotFound@");
 		}
 	}
 	

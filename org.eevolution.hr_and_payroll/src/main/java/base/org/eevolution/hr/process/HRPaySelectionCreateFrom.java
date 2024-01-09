@@ -16,6 +16,7 @@
 package org.eevolution.hr.process;
 
 import org.adempiere.core.domains.models.I_C_BPartner;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.eevolution.hr.model.MHREmployee;
 import org.eevolution.hr.model.MHRMovement;
@@ -59,8 +60,10 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
         paySelection.saveEx();
 
         List<Object> parameters = new ArrayList<Object>();
-        if (getRecord_ID() == 0)
-            throw new IllegalArgumentException("@HR_PaySelection_ID@ @Notfound@");
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0) {
+			throw new AdempiereException("@HR_PaySelection_ID@ (@Record_ID@) @Notfound@");
+		}
         if (paySelection.isProcessed())
             throw new IllegalArgumentException("@HR_PaySelection_ID@ @Processed@");
 

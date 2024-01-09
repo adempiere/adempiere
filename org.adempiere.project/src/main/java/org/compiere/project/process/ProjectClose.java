@@ -38,7 +38,8 @@ public class ProjectClose extends ProjectCloseAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
 			throw new AdempiereException("@C_Project_ID@ @IsMandatory@");
 		}
 	}

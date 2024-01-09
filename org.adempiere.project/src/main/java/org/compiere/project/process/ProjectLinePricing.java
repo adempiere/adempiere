@@ -17,6 +17,7 @@
 package org.compiere.project.process;
 
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProductPricing;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
@@ -32,8 +33,10 @@ public class ProjectLinePricing extends ProjectLinePricingAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("@C_ProjectLine_ID@ @IsMandatory@");
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0) {
+			throw new AdempiereException("@C_ProjectLine_ID@ @IsMandatory@");
+		}
 	}
 
 	/**
