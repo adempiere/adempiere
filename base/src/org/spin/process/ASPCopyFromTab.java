@@ -39,7 +39,7 @@ public class ASPCopyFromTab extends ASPCopyFromTabAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@AD_TabCustom_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @AD_TabCustom_ID@ (@Record_ID@)");
 		}
 	}
 

@@ -32,7 +32,7 @@ public class TestAppRegistration extends TestAppRegistrationAbstract {
 	protected String doIt() throws Exception {
 		//	Validate Config
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@AD_AppRegistration_ID@ @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @AD_AppRegistration_ID@ (@Record_ID@)");
 		}
 		//	
 		IAppSupport supportedApi = AppSupportHandler.getInstance().getAppSupport(MADAppRegistration.getById(getCtx(), getRecord_ID(), get_TrxName()));

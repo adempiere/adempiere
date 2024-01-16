@@ -44,7 +44,7 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 	protected void prepare() {
 		super.prepare();
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_Payment_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_Payment_ID@ (@Record_ID@)");
 		}
 		//	Validate transaction date
 		if(getDateTrx() == null) {

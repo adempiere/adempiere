@@ -40,7 +40,7 @@ public class ProjectClose extends ProjectCloseAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_Project_ID@ @IsMandatory@");
+			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
 		}
 	}
 

@@ -42,7 +42,7 @@ public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_OrderLine_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_OrderLine_ID@ (@Record_ID@)");
 		}
 		if(getMovementDate() == null) {
 			setMovementDate(Env.getContextAsDate(getCtx(), "#Date"));

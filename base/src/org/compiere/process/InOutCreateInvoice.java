@@ -43,7 +43,7 @@ public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@Shipment@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @Shipment@ (@Record_ID@)");
 		}
 	}	//	prepare
 

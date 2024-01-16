@@ -40,12 +40,14 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
     @Override
     protected void prepare() {
         super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@FillMandatory@ @C_Payment_ID@ (@Record_ID@)");
+		}
     }
 
     @Override
     protected String doIt() throws Exception {
-        if (getRecord_ID() <= 0)
-            throw new AdempiereException("@Record_ID@ @NotFound@");
         MPayment payment = new MPayment(getCtx(), getRecord_ID(), get_TrxName());
         if (MPayment.DOCACTION_Complete.equals(payment.getDocStatus()) || MPayment.DOCACTION_Close.equals(payment.getDocStatus())) {
             if (getPayAmt() != null && getPayAmt().compareTo(payment.getPayAmt()) > 0)

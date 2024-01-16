@@ -30,7 +30,7 @@ public class CopyFromDistribution extends CopyFromDistributionAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@GL_Distribution_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @GL_Distribution_ID@ (@Record_ID@)");
 		}
 	}
 

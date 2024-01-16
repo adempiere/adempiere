@@ -36,7 +36,7 @@ public class PaySelectionReversePayment extends PaySelectionReversePaymentAbstra
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_PaySelection_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_PaySelection_ID@ (@Record_ID@)");
 		}
 	}
 

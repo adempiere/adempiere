@@ -26,6 +26,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
 import org.compiere.util.DB;
@@ -98,6 +99,11 @@ public class PaySelectionCreateFrom extends SvrProcess
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
 		p_C_PaySelection_ID = getRecord_ID();
+
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0) {
+			throw new AdempiereException("@FillMandatory@ @C_PaySelection_ID@ (@Record_ID@)");
+		}
 	}	//	prepare
 
 	/**

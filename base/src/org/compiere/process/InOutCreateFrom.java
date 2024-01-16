@@ -56,7 +56,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@M_InOut_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @M_InOut_ID@ (@Record_ID@)");
 		}
 	}
 	

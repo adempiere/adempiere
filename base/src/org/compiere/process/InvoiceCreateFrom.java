@@ -56,7 +56,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if(getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_Invoice_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_Invoice_ID@ (@Record_ID@)");
 		}
 	}
 
