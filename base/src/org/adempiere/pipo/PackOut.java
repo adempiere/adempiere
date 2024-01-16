@@ -159,7 +159,7 @@ public class PackOut extends PackOutAbstract {
 		log.info("doIt - AD_PACKAGE_EXP_ID=" + getRecord_ID());
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@AD_Package_Exp_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @AD_Package_Exp_ID@ (@Record_ID@)");
 		}
 		try {
 			MPackageExp exportPackage = new MPackageExp(getCtx(), getRecord_ID(), get_TrxName());

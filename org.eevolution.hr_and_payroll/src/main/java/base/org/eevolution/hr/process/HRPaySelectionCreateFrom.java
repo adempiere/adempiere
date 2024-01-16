@@ -62,7 +62,7 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
         List<Object> parameters = new ArrayList<Object>();
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@HR_PaySelection_ID@ (@Record_ID@) @Notfound@");
+			throw new AdempiereException("@FillMandatory@ @HR_PaySelection_ID@ (@Record_ID@)");
 		}
         if (paySelection.isProcessed())
             throw new IllegalArgumentException("@HR_PaySelection_ID@ @Processed@");

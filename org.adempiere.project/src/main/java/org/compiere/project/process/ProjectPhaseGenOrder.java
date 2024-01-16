@@ -47,7 +47,7 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 		super.prepare();
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_ProjectPhase_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_ProjectPhase_ID@ (@Record_ID@)");
 		}
 	}	//	prepare
 

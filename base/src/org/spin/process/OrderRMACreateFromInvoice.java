@@ -44,7 +44,7 @@ public class OrderRMACreateFromInvoice extends OrderRMACreateFromInvoiceAbstract
 		super.prepare();
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_Order_ID@ (@Record_ID@) @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_Order_ID@ (@Record_ID@)");
 		}
 	}
 
