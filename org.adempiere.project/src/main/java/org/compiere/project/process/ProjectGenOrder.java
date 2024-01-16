@@ -44,7 +44,7 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 		super.prepare();
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_Project_ID@ @NotFound@");
+			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
 		}
 	}	//	prepare
 

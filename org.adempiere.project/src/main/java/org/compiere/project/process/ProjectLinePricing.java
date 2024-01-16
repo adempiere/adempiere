@@ -35,7 +35,7 @@ public class ProjectLinePricing extends ProjectLinePricingAbstract {
 		super.prepare();
 		// Valid Record Identifier
 		if (getRecord_ID() <= 0) {
-			throw new AdempiereException("@C_ProjectLine_ID@ @IsMandatory@");
+			throw new AdempiereException("@FillMandatory@ @C_ProjectLine_ID@ (@Record_ID@)");
 		}
 	}
 
