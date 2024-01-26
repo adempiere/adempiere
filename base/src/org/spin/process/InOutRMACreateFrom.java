@@ -30,6 +30,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MWarehouse;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Order (RMA) Create From)
@@ -42,7 +43,7 @@ public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @M_InOut_ID@ (@Record_ID@)");
 		}
 	}
@@ -82,6 +83,9 @@ public class InOutRMACreateFrom extends InOutRMACreateFromAbstract {
 	protected String doIt() throws Exception {
 		//	Get Shipment
 		MInOut inout = new MInOut(getCtx(), getRecord_ID(), get_TrxName());
+		if (inout.getM_InOut_ID() <= 0) {
+			throw new AdempiereException("@M_InOut_ID@ @NotFound@");
+		}
 		if(inout.isProcessed()) {
 			return "@M_InOut_ID@ @Processed@";
 		}

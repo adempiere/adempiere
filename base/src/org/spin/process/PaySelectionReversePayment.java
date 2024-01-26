@@ -23,6 +23,7 @@ import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPayment;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 
 /** 
  * 	Reverse Payment
@@ -35,7 +36,7 @@ public class PaySelectionReversePayment extends PaySelectionReversePaymentAbstra
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_PaySelection_ID@ (@Record_ID@)");
 		}
 	}

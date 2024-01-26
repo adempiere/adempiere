@@ -22,6 +22,7 @@ import org.compiere.model.MProductPricing;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Price Project Line.
@@ -34,7 +35,7 @@ public class ProjectLinePricing extends ProjectLinePricingAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_ProjectLine_ID@ (@Record_ID@)");
 		}
 	}

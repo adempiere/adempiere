@@ -29,6 +29,7 @@ import org.compiere.model.MProjectLine;
 import org.compiere.model.MProjectPhase;
 import org.compiere.model.MProjectTask;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /**
@@ -46,7 +47,7 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 	{
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_ProjectPhase_ID@ (@Record_ID@)");
 		}
 	}	//	prepare

@@ -28,6 +28,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBrowseCustom;
 import org.compiere.model.MBrowseFieldCustom;
 import org.compiere.model.PO;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy Browser from other ASP)
@@ -39,7 +40,7 @@ public class ASPCopyBrowserFrom extends ASPCopyBrowserFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @ASP_Level_ID@ / @AD_Role_ID@ / @AD_User_ID@ (@Record_ID@)");
 		}
 	}

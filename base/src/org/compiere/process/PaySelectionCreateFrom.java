@@ -31,6 +31,7 @@ import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /**
@@ -101,7 +102,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 		p_C_PaySelection_ID = getRecord_ID();
 
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_PaySelection_ID@ (@Record_ID@)");
 		}
 	}	//	prepare

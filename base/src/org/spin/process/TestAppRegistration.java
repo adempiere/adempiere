@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Util;
 import org.spin.model.MADAppRegistration;
 import org.spin.util.support.AppSupportHandler;
 
@@ -31,7 +32,7 @@ public class TestAppRegistration extends TestAppRegistrationAbstract {
 	@Override
 	protected String doIt() throws Exception {
 		//	Validate Config
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @AD_AppRegistration_ID@ (@Record_ID@)");
 		}
 		//	

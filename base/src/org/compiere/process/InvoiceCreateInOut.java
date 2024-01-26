@@ -26,6 +26,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MMatchPO;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 import java.math.BigDecimal;
  
@@ -50,6 +51,10 @@ public class InvoiceCreateInOut extends InvoiceCreateInOutAbstract
 	protected void prepare()
 	{
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_Invoice_ID@ (@Record_ID@)");
+		}
 	}	//	prepare
 
 	
@@ -61,8 +66,6 @@ public class InvoiceCreateInOut extends InvoiceCreateInOutAbstract
 	protected String doIt () throws Exception
 	{
 		log.info("C_Invoice_ID=" + getRecord_ID() + ", M_Warehouse_ID=" + getWarehouseId());
-		if (getRecord_ID() <= 0)
-			throw new FillMandatoryException("C_Invoice_ID");
 		if (getWarehouseId() == 0)
 			throw new FillMandatoryException(PARAM_M_Warehouse_ID);
 		//

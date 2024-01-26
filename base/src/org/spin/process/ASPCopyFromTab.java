@@ -27,6 +27,7 @@ import org.compiere.model.MTabCustom;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy From Customized Tab)
@@ -38,7 +39,7 @@ public class ASPCopyFromTab extends ASPCopyFromTabAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @AD_TabCustom_ID@ (@Record_ID@)");
 		}
 	}

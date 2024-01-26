@@ -24,6 +24,7 @@ import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
  
 /**
  *	Create (Generate) Invoice from Shipment
@@ -41,7 +42,7 @@ public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_OrderLine_ID@ (@Record_ID@)");
 		}
 		if(getMovementDate() == null) {

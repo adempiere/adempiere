@@ -27,6 +27,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  Generate Sales Order from Project.
@@ -43,7 +44,7 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	{
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
 		}
 	}	//	prepare

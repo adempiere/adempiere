@@ -30,6 +30,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Order (RMA) Create From)
@@ -42,7 +43,7 @@ public class OrderRMACreateFrom extends OrderRMACreateFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Order_ID@ (@Record_ID@)");
 		}
 	}
@@ -51,6 +52,9 @@ public class OrderRMACreateFrom extends OrderRMACreateFromAbstract {
 	protected String doIt() throws Exception {
 		//	Get Order
 		MOrder order = new MOrder(getCtx(), getRecord_ID(), get_TrxName());
+		if (order == null || order.getC_Order_ID() <= 0) {
+			throw new AdempiereException("@C_Order_ID@ @NotFound@");
+		}
 		if(order.isProcessed()) {
 			return "@C_Order_ID@ @Processed@";
 		}

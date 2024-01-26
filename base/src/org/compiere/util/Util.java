@@ -21,9 +21,11 @@ import java.awt.font.TextAttribute;
 import java.io.UnsupportedEncodingException;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -320,7 +322,17 @@ public class Util
 			return str.length() == 0;
 	}	//	isEmpty
 
-	
+
+	/**
+	 * Is Collection Empty or Null
+	 * @param collection
+	 * @return
+	 */
+	public static boolean isEmptyCollection(Collection<?> collection) {
+		return Objects.isNull(collection) || collection.isEmpty();
+	}
+
+
 	/**************************************************************************
 	 * Find index of search character in str.
 	 * This ignores content in () and 'texts'

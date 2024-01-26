@@ -26,6 +26,7 @@ import org.compiere.model.MTable;
 import org.compiere.model.MWindowCustom;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 import org.eevolution.services.dsl.ProcessBuilder;
 
 /** 
@@ -38,7 +39,7 @@ public class ASPCopyFromWindow extends ASPCopyFromWindowAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @AD_WindowCustom_ID@ (@Record_ID@)");
 		}
 	}

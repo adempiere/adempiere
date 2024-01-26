@@ -33,6 +33,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.model.MWarehouse;
+import org.compiere.util.Util;
 
 /** Generated Process for (In Out Create From)
  *  @author ADempiere (generated) 
@@ -55,7 +56,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @M_InOut_ID@ (@Record_ID@)");
 		}
 	}

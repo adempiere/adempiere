@@ -25,6 +25,7 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPriceList;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -41,7 +42,7 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
     protected void prepare() {
         super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Payment_ID@ (@Record_ID@)");
 		}
     }

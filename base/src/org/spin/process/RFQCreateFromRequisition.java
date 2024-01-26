@@ -38,7 +38,7 @@ public class RFQCreateFromRequisition extends RFQCreateFromRequisitionAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_RfQ_ID@ (@Record_ID@)");
 		}
 	}

@@ -20,6 +20,7 @@
 package org.compiere.process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDistribution;
+import org.compiere.util.Util;
 
 /**
  * Copy From Distribution
@@ -29,7 +30,7 @@ public class CopyFromDistribution extends CopyFromDistributionAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @GL_Distribution_ID@ (@Record_ID@)");
 		}
 	}

@@ -18,6 +18,7 @@ package org.compiere.project.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProject;
+import org.compiere.util.Util;
 
 /**
  *  Copy Project Details
@@ -31,7 +32,7 @@ public class CopyFromProject extends CopyFromProjectAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
 		}
 		if (getProjectId() == 0)

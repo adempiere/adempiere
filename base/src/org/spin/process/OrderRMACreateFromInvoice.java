@@ -30,6 +30,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Order (RMA) Create From Invoice)
@@ -42,7 +43,7 @@ public class OrderRMACreateFromInvoice extends OrderRMACreateFromInvoiceAbstract
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Order_ID@ (@Record_ID@)");
 		}
 	}

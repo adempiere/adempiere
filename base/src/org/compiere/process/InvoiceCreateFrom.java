@@ -34,6 +34,7 @@ import org.compiere.model.MRMALine;
 import org.compiere.model.MUOMConversion;
 import org.compiere.model.PO;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /** Generated Process for (Invoice Create From)
  *  @author ADempiere (generated)
@@ -55,7 +56,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Invoice_ID@ (@Record_ID@)");
 		}
 	}

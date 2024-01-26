@@ -33,6 +33,7 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /** Generated Process for (Identify Payment)
  *  @author ADempiere (generated) 
@@ -43,7 +44,7 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() <= 0) {
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @C_Payment_ID@ (@Record_ID@)");
 		}
 		//	Validate transaction date

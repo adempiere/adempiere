@@ -29,6 +29,7 @@ import org.compiere.model.MConversionRate;
 import org.compiere.model.MPayment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /** Generated Process for (Create From Statement (Process))
@@ -41,16 +42,20 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_BankStatement_ID@ (@Record_ID@)");
+		}
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		//	Copied from CreateFromStatement old class
-		//  fixed values
-		if (getRecord_ID() <= 0)
-			throw new AdempiereException("@C_BankStatement_ID@ @NotFound@");
-
 		MBankStatement bankStatement = new MBankStatement (Env.getCtx(), getRecord_ID(), get_TrxName());
+		//  fixed values
+		if (bankStatement.getC_BankStatement_ID() <= 0) {
+			throw new AdempiereException("@C_BankStatement_ID@ @NotFound@");
+		}
 		//	Get Bank Account
 		MBankAccount bankAccount = bankStatement.getBankAccount();
 		//	Created

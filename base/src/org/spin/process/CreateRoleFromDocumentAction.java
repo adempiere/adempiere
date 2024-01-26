@@ -27,6 +27,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MRefList;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Create from Document Actions)
@@ -38,7 +39,7 @@ public class CreateRoleFromDocumentAction extends CreateRoleFromDocumentActionAb
 	protected void prepare() {
 		super.prepare();
 		// Valid Record Identifier
-		if (getRecord_ID() <= 0) {
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
 			throw new AdempiereException("@FillMandatory@ @AD_Role_ID@ (@Record_ID@)");
 		}
 	}
