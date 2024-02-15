@@ -99,22 +99,29 @@ public class CreateZipFile {
             Unzipper.setOwningTarget(new Target());	
             Unzipper.execute();
      }
-	static public String getParentDir(File zipFilepath)
-    {
+
+	static public String getParentDir(File zipFilepath) throws IOException
+	{
+		String fileName = "";
+		ZipFile zipFile = null;
 		try {
-		ZipFile zipFile = new ZipFile(zipFilepath);
-		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-		ZipEntry entry = entries.nextElement();
-		File tempfile = new File(entry.getName());
-		while (tempfile.getParent()!=null)
-			tempfile = tempfile.getParentFile();		
-		return tempfile.getName();
+			zipFile = new ZipFile(zipFilepath);
+			Enumeration<? extends ZipEntry> entries = zipFile.entries();
+			ZipEntry entry = entries.nextElement();
+			File tempfile = new File(entry.getName());
+			while (tempfile.getParent()!=null) {
+				tempfile = tempfile.getParentFile();
+			}
+			fileName = tempfile.getName();
 		} catch (IOException ioe) {
-		      System.err.println("Unhandled exception:");
-		      ioe.printStackTrace();
-		      return "";
-	    }		
-     }
-	}//	CreateZipFile
+			System.err.println("Unhandled exception:");
+			ioe.printStackTrace();
+		} finally {
+			if (zipFile != null) {
+				zipFile.close();
+			}
+		}
+		return fileName;
+	}
 
-
+} //	CreateZipFile
