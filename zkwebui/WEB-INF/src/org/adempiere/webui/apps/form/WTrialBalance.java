@@ -364,7 +364,7 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		getData(data, false);
 		Vector<String> columnNames = getColumnNames();
 
-		ListModelTable modelI = new ListModelTable(data);
+		ListModelTable<?> modelI = new ListModelTable<>(data);
 		miniTable.setData(modelI, columnNames);
 		miniTable.repaint();
 		miniTable.setMultiSelection(true);
@@ -642,10 +642,10 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 		
 		ListHead listHead = miniTable.getListHead();
 		WListItemRenderer itemRenderer = (WListItemRenderer) ((WListbox) listHead.getParent()).getItemRenderer();
-		
+
+		HSSFWorkbook workbook = new HSSFWorkbook();
 		try
 		{
-			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet sheet = workbook.createSheet("Trial Balance Drillable Report");
 			HSSFRow row = sheet.createRow(0);
 			int column = 0;
@@ -675,7 +675,8 @@ public class WTrialBalance extends TrialBalanceDrill implements IFormController,
 			FileOutputStream out = new FileOutputStream(file);
 			workbook.write(out);
 			out.close();
-			
+			workbook.close();
+
 			AMedia media = new AMedia(file.getName(), "xls", "application/vnd.ms-excel", file, true);
 			Filedownload.save(media, file.getName());
 		}
