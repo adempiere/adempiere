@@ -833,8 +833,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="273" trl="Y">
-  <value column="Name" original="Palestinian Territory Occupied">ปาเลสไตน์ ดินแดนที่ถูกยึดครอง</value>
-  <value column="Description" original="Palestinian Territory Occupied">ปาเลสไตน์ ดินแดนที่ถูกยึดครอง</value>
+  <value column="Name" original="Palestinian Territory Occupied">ปาเลสไตน์</value>
+  <value column="Description" original="Palestinian Territory Occupied">ปาเลสไตน์</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="274" trl="Y">
@@ -863,8 +863,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="279" trl="Y">
-  <value column="Name" original="Pitcairn">เกาะพิตแคร์น</value>
-  <value column="Description" original="Pitcairn">เกาะพิตแคร์น</value>
+  <value column="Name" original="Pitcairn">หมู่เกาะพิตแคร์น</value>
+  <value column="Description" original="Pitcairn">หมู่เกาะพิตแคร์น</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="280" trl="Y">
@@ -1033,8 +1033,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="315" trl="Y">
-  <value column="Name" original="Syrian Arab Republic">ซีเรีย สาธารณรัฐอาหรับ</value>
-  <value column="Description" original="Syrian Arab Republic">ซีเรีย สาธารณรัฐอาหรับ</value>
+  <value column="Name" original="Syrian Arab Republic">ซีเรีย</value>
+  <value column="Description" original="Syrian Arab Republic">ซีเรีย</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="316" trl="Y">
@@ -1128,8 +1128,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="335" trl="Y">
-  <value column="Name" original="United States Minor Outlying Islands">เกาะเล็กรอบนอกของสหรัฐอเมริกา</value>
-  <value column="Description" original="United States Minor Outlying Islands">เกาะเล็กรอบนอกของสหรัฐอเมริกา</value>
+  <value column="Name" original="United States Minor Outlying Islands">หมู่เกาะเล็กรอบนอกของสหรัฐอเมริกา</value>
+  <value column="Description" original="United States Minor Outlying Islands">หมู่เกาะเล็กรอบนอกของสหรัฐอเมริกา</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="336" trl="Y">
