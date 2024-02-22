@@ -623,8 +623,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="230" trl="Y">
-  <value column="Name" original="Libyan Arab Jamahiriya">ลิเบีย สาธารณรัฐสังคมนิยมประชาชนอาหรับ</value>
-  <value column="Description" original="Libyan Arab Jamahiriya">ลิเบีย สาธารณรัฐสังคมนิยมประชาชนอาหรับ</value>
+  <value column="Name" original="Libyan Arab Jamahiriya">ลิเบีย</value>
+  <value column="Description" original="Libyan Arab Jamahiriya">ลิเบีย</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="231" trl="Y">
@@ -808,8 +808,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="268" trl="Y">
-  <value column="Name" original="Northern Mariana Islands">หมู่เกาะนอร์ทเทิร์นมาเรียนา</value>
-  <value column="Description" original="Northern Mariana Islands">หมู่เกาะนอร์ทเทิร์นมาเรียนา</value>
+  <value column="Name" original="Northern Mariana Islands">หมู่เกาะนอร์เทิร์นมาเรียนา</value>
+  <value column="Description" original="Northern Mariana Islands">หมู่เกาะนอร์เทิร์นมาเรียนา</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="269" trl="Y">
