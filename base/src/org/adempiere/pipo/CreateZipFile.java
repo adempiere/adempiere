@@ -19,7 +19,6 @@ package org.adempiere.pipo;
 
 import io.vavr.control.Try;
 import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -103,7 +102,7 @@ public class CreateZipFile {
      }
 
 
-	static public String getParentDir(File zipFilepath) throws IOException
+	static public String getParentDir(File zipFilepath)
 	{
 		Try<String> result = Try.withResources(() -> {
 				return new ZipFile(zipFilepath);
