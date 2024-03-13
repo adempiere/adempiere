@@ -24,10 +24,8 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 /**
  *  Statement of Account
@@ -52,11 +50,10 @@ public class FinStatement extends FinStatementAbstract
 {
 	/** AcctSchame Parameter			*/
 	/**	Parameter Where Clause			*/
-	private StringBuilder		parameterWhere = new StringBuilder();
-
+	private StringBuffer		parameterWhere = new StringBuffer();
 
 	/**	Start Time						*/
-	private long timeStartProcess = System.currentTimeMillis();
+	private long 				m_start = System.currentTimeMillis();
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -74,7 +71,7 @@ public class FinStatement extends FinStatementAbstract
 		setWhereClause();
 		createBalanceLine();
 		createDetailLines();
-		log.fine((System.currentTimeMillis() - timeStartProcess) + " ms");
+		log.fine((System.currentTimeMillis() - m_start) + " ms");
 		return "";
 	}	//	doIt
 
@@ -83,10 +80,9 @@ public class FinStatement extends FinStatementAbstract
 		parameterWhere.append("C_AcctSchema_ID=").append(getAcctSchemaId())
 				.append(" AND PostingType='").append(getPostingType()).append("'");
 		//	Optional Account_ID
-		if (getAccountId() >0) {
+		if (getAccountId() >0)
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
 					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_Account, getAccountId()));
-		}
 
 		//	Optional Org
 		if (getOrgId() != 0)
@@ -126,11 +122,14 @@ public class FinStatement extends FinStatementAbstract
 			parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(),
 					getHierarchyId(), MAcctSchemaElement.ELEMENTTYPE_UserList2, getUser2Id()));
 
+		if (getAccountType() != null){
+			parameterWhere.append(" AND AccountType='").append(getAccountType()).append("'");
+		}
 		setDateAcct();
-		StringBuffer logMessage = new StringBuffer();
-		logMessage.append(" - DateAcct ").append(getDateAcct()).append("-").append(getDateAcctTo());
-		logMessage.append(" - Where=").append(parameterWhere);
-		log.fine(logMessage.toString());
+		StringBuffer sb = new StringBuffer();
+		sb.append(" - DateAcct ").append(getDateAcct()).append("-").append(getDateAcctTo());
+		sb.append(" - Where=").append(parameterWhere);
+		log.fine(sb.toString());
 	}
 
 	private void setDateAcct() {
@@ -166,56 +165,47 @@ public class FinStatement extends FinStatementAbstract
 	private void createBalanceLine()
 	{
 		StringBuilder where = new StringBuilder();
-		List<Object> parameters = new ArrayList<>();
-		where.append(" WHERE ").append(parameterWhere).append(" AND DateAcct < ").append("?");
-		StringBuffer insertBalanceLine = new StringBuffer("INSERT INTO T_ReportStatement "
+		where.append(" WHERE ").append(parameterWhere).append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()));
+		StringBuffer sb = new StringBuffer("INSERT INTO T_ReportStatement "
 				+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
 				+ "DateAcct, Name, Description,"
-				+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID, AccountValue, AccountName, AccountType) ");
-		insertBalanceLine.append("SELECT ").append("?").append(",0,0,")
-				.append("?").append(",")
-				.append("?").append(",NULL,")
+				+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID, accountvalue, accountName, accountType) ");
+		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",0,0,")
+				.append(DB.TO_DATE(getDateAcct(), true)).append(",")
+				.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,")
+				
 				.append("COALESCE(fa.AmtAcctDr, 0) AmtAcctDr, ")
 				.append("COALESCE(fa.AmtAcctCr, 0) AmtAcctCr, ")
 				.append("COALESCE(fa.Balance,0) Balance, ")
 				.append("COALESCE(fa.Qty, 0) Qty, ")
-				.append("ev.C_ElementValue_ID , ev.Value, ev.Name, ev.AccountType ")
+				.append("ev.C_ElementValue_ID , ev.value, ev.name, ev.accounttype ")
 				.append("FROM C_ElementValue ev ")
 				.append("INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) ")
+				
 				.append("LEFT JOIN (SELECT ")
-							.append("Account_ID,")
-							.append("SUM(AcctBalance(Account_ID, AmtAcctDr, 0)) AmtAcctDr,")
-							.append("SUM(AcctBalance(fa.Account_ID, AmtAcctCr, 0)) AmtAcctCr,")
-							.append("SUM(AcctBalance(fa.Account_ID, fa.AmtAcctDr, fa.AmtAcctCr)) Balance, ")
+							.append("Account_ID, ")
+							.append("SUM(AcctBalance(Account_ID, AmtAcctDr, 0)) AmtAcctDr, ")
+							.append("SUM(AcctBalance(fa.Account_ID, 0, AmtAcctCr)) AmtAcctCr, ")
+							.append("SUM(AcctBalance(fa.Account_ID, fa.AmtAcctDr, 0) - AcctBalance(fa.Account_ID, 0, fa.AmtAcctCr)) Balance, ")
 							.append("SUM(AcctBalance(Account_ID, Qty, 0)) Qty ")
 							.append("FROM Fact_Acct fa ")
 							.append(where)
-							.append(" GROUP BY fa.Account_ID) fa ON (fa.Account_ID = ev.C_ElementValue_ID) ")
-				.append("WHERE e.ElementType = ? ");
-		//Set parameters
-		parameters.add(getAD_PInstance_ID());
-		parameters.add(getDateAcct());
-		parameters.add(Msg.getMsg(Env.getCtx(), "BeginningBalance"));
-		parameters.add(getDateAcct());
-		parameters.add("A");
+							.append("GROUP BY fa.Account_ID) fa ON (fa.Account_ID = ev.C_ElementValue_ID) ")
+				.append("WHERE e.ElementType = 'A' ");
+				
 
-		if (getAccountId() > 0) {
-			insertBalanceLine.append(" AND  ev.C_ElementValue_ID = ? ");
-			parameters.add(getAccountId());
-		}
+		if (getAccountId() > 0)
+			sb.append(" AND  ev.C_ElementValue_ID = ").append(getAccountId());
 
-		if (getAccountType() != null && !getAccountType().isEmpty()) {
-			insertBalanceLine.append(" AND ev.AccountType = ? ");
-			parameters.add(getAccountType());
-		}
+		if (getAccountType() != null && !getAccountType().isEmpty())
+			sb.append(" AND  ev.AccountType = '").append(getAccountType()).append("'");
 
 		//Client Filter 
-		insertBalanceLine.append(" AND ev.AD_Client_ID = ? ");
-		parameters.add(getAD_Client_ID());
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
 		
-		int no = DB.executeUpdateEx(insertBalanceLine.toString() , parameters.toArray(), get_TrxName());
+		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no + " (Account_ID=" + getAccountId() + ")");
-		log.finest(insertBalanceLine.toString());
+		log.finest(sb.toString());
 	}	//	createBalanceLine
 
 	/**
@@ -223,57 +213,48 @@ public class FinStatement extends FinStatementAbstract
 	 */
 	private void createDetailLines()
 	{
-		List<Object> parameters = new ArrayList<>();
-		StringBuffer insertDetailLine = new StringBuffer ("INSERT INTO T_ReportStatement "
+		StringBuffer sb = new StringBuffer ("INSERT INTO T_ReportStatement "
 			+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
 			+ "DateAcct, Name, Description,"
-			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , AccountValue, AccountName, AccountType ) ");
-		insertDetailLine.append("SELECT ? ").append(",fact_Acct.Fact_Acct_ID,1,")
-			.append("fact_Acct.DateAcct,NULL,NULL,"
-			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.AccountType "
+			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , accountvalue, accountName, accounttype ) ");
+		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",fact_Acct.Fact_Acct_ID,1,")
+			.append("TRUNC(fact_Acct.DateAcct, 'DD'),NULL,NULL,"
+			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.accounttype "
 			+ "FROM Fact_Acct "
-			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_ElementValue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
+			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_Elementvalue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)
-			.append(" AND DateAcct BETWEEN ? ")
-			.append(" AND ").append("?");
+			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(getDateAcct()))
+			.append(" AND ").append(DB.TO_DATE(getDateAcctTo()));
 		
 		//Client Filter 
-		insertDetailLine.append(" AND ev.AD_Client_ID = ? ");
-		parameters.add(getAD_PInstance_ID());
-		parameters.add(getDateAcct());
-		parameters.add(getDateAcctTo());
-		parameters.add(getAD_Client_ID());
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
+		
 		//
-		int no = DB.executeUpdateEx(insertDetailLine.toString(), parameters.toArray(), get_TrxName());
+		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no);
-		log.finest(insertDetailLine.toString());
+		log.finest(sb.toString());
 
-		List<Object> trlParameters = new ArrayList<>();
 		//	Set Name,Description
 		Language currentLanguage = Env.getLanguage(getCtx());
 		Boolean isBaseLanguage = currentLanguage.isBaseLanguage();
-		String selectFieldsForUpdateDetailLine = " e.Name, fa.Description ";
+		String selectFields = " e.Name, fa.Description ";
 		if (!isBaseLanguage)
-			selectFieldsForUpdateDetailLine = "etrl.Name, fa.Description ";
-		StringBuilder selectForUpdateDetailLine = new StringBuilder("SELECT ");
-		selectForUpdateDetailLine.append(selectFieldsForUpdateDetailLine)
+			selectFields = "etrl.Name, fa.Description ";
+		StringBuffer sql_select = new StringBuffer("SELECT ");
+		sql_select.append(selectFields)
 		.append("FROM Fact_Acct fa")
 		.append(" INNER JOIN AD_Table t ON (fa.AD_Table_ID=t.AD_Table_ID)")
 		.append(" INNER JOIN AD_Element e ON (t.TableName||'_ID'=e.ColumnName) ");
-		if (!isBaseLanguage) {
-			selectForUpdateDetailLine.append(" INNER JOIN AD_Element_Trl etrl ON (e.AD_Element_ID=etrl.AD_Element_ID AND AD_Language = ? ) ");
-			trlParameters.add(currentLanguage.getAD_Language());
-		}
-		selectForUpdateDetailLine.append(" WHERE r.Fact_Acct_ID=fa.Fact_Acct_ID");
-		StringBuilder updateTrlDetailLine = new StringBuilder ("UPDATE T_ReportStatement r SET (Name,Description)=(")
-			.append(selectForUpdateDetailLine).append(") "
-			+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=? ");
-
-		trlParameters.add(getAD_PInstance_ID());
+		if (!isBaseLanguage)
+			sql_select.append(" INNER JOIN AD_element_trl etrl ON (e.ad_element_ID=etrl.ad_element_ID AND AD_Language = '" + currentLanguage.getAD_Language() + "')");
+		sql_select.append(" WHERE r.Fact_Acct_ID=fa.Fact_Acct_ID");
+		StringBuffer updateSql = new StringBuffer ("UPDATE T_ReportStatement r SET (Name,Description)=(")
+			.append(sql_select).append(") "
+			+ "WHERE Fact_Acct_ID <> 0 AND AD_PInstance_ID=").append(getAD_PInstance_ID());
 		//
-	   no = DB.executeUpdateEx(updateTrlDetailLine.toString() , trlParameters.toArray(), get_TrxName());
+	   no = DB.executeUpdate(updateSql.toString(), get_TrxName());
 	   log.fine("Name #" + no);
-	   log.finest("Name - " + insertDetailLine);
+	   log.finest("Name - " + sb);
 
 	}	//	createDetailLines
 
