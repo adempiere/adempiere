@@ -17,8 +17,8 @@
 package org.adempiere.pipo;
 
 
+import io.vavr.control.Try;
 import java.io.File;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -29,6 +29,7 @@ import org.apache.tools.ant.taskdefs.Expand;
 import org.apache.tools.ant.taskdefs.GZip;
 import org.apache.tools.ant.taskdefs.Tar;
 import org.apache.tools.ant.taskdefs.Zip;
+
 /**
  * Compress package
  * 
@@ -99,22 +100,29 @@ public class CreateZipFile {
             Unzipper.setOwningTarget(new Target());	
             Unzipper.execute();
      }
+
+
 	static public String getParentDir(File zipFilepath)
-    {
-		try {
-		ZipFile zipFile = new ZipFile(zipFilepath);
-		Enumeration<? extends ZipEntry> entries = zipFile.entries();
-		ZipEntry entry = entries.nextElement();
-		File tempfile = new File(entry.getName());
-		while (tempfile.getParent()!=null)
-			tempfile = tempfile.getParentFile();		
-		return tempfile.getName();
-		} catch (IOException ioe) {
-		      System.err.println("Unhandled exception:");
-		      ioe.printStackTrace();
-		      return "";
-	    }		
-     }
-	}//	CreateZipFile
+	{
+		Try<String> result = Try.withResources(() -> {
+				return new ZipFile(zipFilepath);
+			})
+			.of(zipFile -> {
+				Enumeration<? extends ZipEntry> entries = zipFile.entries();
+				ZipEntry entry = entries.nextElement();
+				File tempfile = new File(entry.getName());
+				while (tempfile.getParent()!=null) {
+					tempfile = tempfile.getParentFile();
+				}
+				return tempfile.getName();
+			})
+			.onFailure(ioError -> {
+				System.err.println("Error reading file: " + ioError.getMessage());
+				ioError.printStackTrace();
+			})
+		;
 
+		return result.get();
+	}
 
+} //	CreateZipFile
