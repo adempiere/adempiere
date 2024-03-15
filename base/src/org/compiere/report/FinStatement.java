@@ -230,7 +230,7 @@ public class FinStatement extends FinStatementAbstract
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , AccountValue, AccountName, AccountType ) ");
 		insertDetailLine.append("SELECT ? ").append(",fact_Acct.Fact_Acct_ID,1,")
 			.append("fact_Acct.DateAcct,NULL,NULL,"
-			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.AccountType "
+			+ "AmtAcctDr, AmtAcctCr,AcctBalance(Account_ID, AmtAcctDr, AmtAcctCr), Qty, fact_Acct.ACCOUNT_ID, ev.Value, ev.Name, ev.AccountType "
 			+ "FROM Fact_Acct "
 			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_ElementValue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)
