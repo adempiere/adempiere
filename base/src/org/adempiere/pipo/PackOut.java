@@ -83,6 +83,7 @@ import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -157,8 +158,10 @@ public class PackOut extends PackOutAbstract {
 		OutputStream  packageDocStream = null;
 		OutputStream  packOutDocStream = null;
 		log.info("doIt - AD_PACKAGE_EXP_ID=" + getRecord_ID());
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("No Record");	//	
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @AD_Package_Exp_ID@ (@Record_ID@)");
+		}
 		try {
 			MPackageExp exportPackage = new MPackageExp(getCtx(), getRecord_ID(), get_TrxName());
 			//Create the package documentation

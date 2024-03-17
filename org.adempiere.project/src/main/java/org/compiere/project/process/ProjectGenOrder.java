@@ -27,6 +27,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  Generate Sales Order from Project.
@@ -42,6 +43,10 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	protected void prepare()
 	{
 		super.prepare();
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
+		}
 	}	//	prepare
 
 	/**
@@ -52,8 +57,6 @@ public class ProjectGenOrder extends ProjectGenOrderAbstract
 	protected String doIt() throws Exception
 	{
 		log.info("C_Project_ID=" + getRecord_ID());
-		if (getRecord_ID() == 0)
-			throw new AdempiereException("@C_Project_ID@ @NotFound@");
 		MProject fromProject = getProject (getCtx(), getRecord_ID(), get_TrxName());
 		Env.setSOTrx(getCtx(), true);	//	Set SO context
 

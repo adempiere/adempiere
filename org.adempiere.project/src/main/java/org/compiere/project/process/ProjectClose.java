@@ -22,6 +22,7 @@ import java.util.List;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
+import org.compiere.util.Util;
  
 /**
  *  Close Project.
@@ -38,8 +39,9 @@ public class ProjectClose extends ProjectCloseAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@C_Project_ID@ @IsMandatory@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_Project_ID@ (@Record_ID@)");
 		}
 	}
 

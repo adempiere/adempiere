@@ -25,6 +25,7 @@ import org.compiere.model.MProcessPara;
 import org.compiere.model.PO;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
+import org.compiere.util.Util;
 
 /**
  * 
@@ -129,8 +130,9 @@ public class CopyReportProcess extends CopyReportProcessAbstract {
 	protected void prepare() {
 		super.prepare();
 		//	Valid Record Identifier
-		if(getRecord_ID() <= 0)
-			throw new AdempiereException("@AD_Process_ID@ @NotFound@");
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @AD_Process_ID@ (@Record_ID@)");
+		}
 		//	Log
 		log.fine(sql.toString());
 	}

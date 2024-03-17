@@ -21,7 +21,8 @@ import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
- 
+import org.compiere.util.Util;
+
 import java.util.Optional;
 
 /**
@@ -41,6 +42,10 @@ public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 	 */
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @Shipment@ (@Record_ID@)");
+		}
 	}	//	prepare
 
 	/**
@@ -52,15 +57,15 @@ public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 		log.info("M_InOut_ID=" + getRecord_ID()
 			+ ", M_PriceList_ID=" + getPriceListId()
 			+ ", InvoiceDocumentNo=" + getInvoiceDocumentNo());
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("No Shipment");
 		//
 		MInOut materialReceipt = new MInOut (getCtx(), getRecord_ID(), get_TrxName());
-		if (materialReceipt.get_ID() == 0)
-			throw new IllegalArgumentException("Shipment not found");
-		if (!MInOut.DOCSTATUS_Completed.equals(materialReceipt.getDocStatus()))
-			throw new IllegalArgumentException("Shipment not completed");
-		
+		if (materialReceipt.get_ID() == 0) {
+			throw new AdempiereException("@Shipment@ @NotFound@");
+		}
+		if (!MInOut.DOCSTATUS_Completed.equals(materialReceipt.getDocStatus())) {
+			throw new AdempiereException("@Shipment@ @NoCompleted@");
+		}
+
 		MInOutLine[] materialReceiptLines = materialReceipt.getLines(false);
 		for (MInOutLine materialReceiptLine : materialReceiptLines) {
 			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(materialReceiptLine));

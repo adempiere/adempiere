@@ -29,6 +29,7 @@ import org.compiere.model.MProjectLine;
 import org.compiere.model.MProjectPhase;
 import org.compiere.model.MProjectTask;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /**
@@ -45,6 +46,10 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 	protected void prepare()
 	{
 		super.prepare();
+		// Valid Record Identifier
+		if (getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_ProjectPhase_ID@ (@Record_ID@)");
+		}
 	}	//	prepare
 
 	/**
@@ -55,8 +60,6 @@ public class ProjectPhaseGenOrder  extends ProjectPhaseGenOrderAbstract
 	protected String doIt() throws Exception
 	{
 		log.info("doIt - C_ProjectPhase_ID=" + getRecord_ID());
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("C_ProjectPhase_ID == 0");
 		MProjectPhase fromPhase = new MProjectPhase (getCtx(), getRecord_ID(), get_TrxName());
 		MProject fromProject = ProjectGenOrder.getProject (getCtx(), fromPhase.getC_Project_ID(), get_TrxName());
 		if (fromProject.getC_PaymentTerm_ID() <= 0)

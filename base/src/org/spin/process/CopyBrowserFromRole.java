@@ -28,6 +28,7 @@ import org.adempiere.model.MBrowse;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessAccess;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy Browser From Role)
@@ -38,8 +39,9 @@ public class CopyBrowserFromRole extends CopyBrowserFromRoleAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@AD_Role_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @AD_Role_ID@ (@Record_ID@)");
 		}
 	}
 	

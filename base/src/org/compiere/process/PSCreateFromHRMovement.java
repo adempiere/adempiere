@@ -27,6 +27,7 @@ import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
+import org.compiere.util.Util;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payroll Movement)
@@ -44,14 +45,18 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 	protected void prepare() {
 		super.prepare();
 		//	Valid Record Identifier
-		if(getRecord_ID() <= 0)
-			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_PaySelection_ID@ (@Record_ID@)");
+		}
 	}
 
 	@Override
 	protected String doIt() throws Exception {
 		//	Instance current Payment Selection
 		MPaySelection paySelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
+		if (paySelection.getC_PaySelection_ID() <= 0) {
+			throw new AdempiereException("@C_PaySelection_ID@ @NotFound@");
+		}
 		sequence.set(paySelection.getLastLineNo());
 		//	Loop for keys
 		getSelectionKeys().forEach(key -> {

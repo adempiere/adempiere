@@ -18,20 +18,25 @@
  * Created by victor.perez@e-evolution.com , www.e-evolution.com
  */
 package org.compiere.process;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDistribution;
+import org.compiere.util.Util;
 
 /**
  * Copy From Distribution
  */
 public class CopyFromDistribution extends CopyFromDistributionAbstract {
+	@Override
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @GL_Distribution_ID@ (@Record_ID@)");
+		}
 	}
 
 	@Override
 	protected String doIt() throws Exception {
-		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("@GL_Distribution_ID@ @NotFound@");
 		MDistribution from = new MDistribution (getCtx(), getDistributionId(), get_TrxName());
 		MDistribution to = new MDistribution (getCtx(), getRecord_ID(), get_TrxName());
 		int no = to.copyLinesFrom (from);

@@ -25,6 +25,7 @@ import org.adempiere.core.domains.models.X_AD_Form_Access;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MForm;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy Forms From Role)
@@ -35,8 +36,9 @@ public class CopyFormFromRole extends CopyFormFromRoleAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@AD_Role_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @AD_Role_ID@ (@Record_ID@)");
 		}
 	}
 

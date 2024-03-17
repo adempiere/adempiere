@@ -29,6 +29,7 @@ import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.MWindowCustom;
 import org.compiere.model.PO;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy Window from other ASP)
@@ -39,8 +40,9 @@ public class ASPCopyWindowFrom extends ASPCopyWindowFromAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@Record_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @ASP_Level_ID@ / @AD_Role_ID@ / @AD_User_ID@ (@Record_ID@)");
 		}
 	}
 

@@ -32,6 +32,7 @@ import org.compiere.model.MTab;
 import org.compiere.model.MWindow;
 import org.compiere.model.MWindowAccess;
 import org.compiere.model.Query;
+import org.compiere.util.Util;
 
 /** 
  * 	Generated Process for (Copy Window From Role)
@@ -42,11 +43,12 @@ public class CopyWindowFromRole extends CopyWindowFromRoleAbstract {
 	@Override
 	protected void prepare() {
 		super.prepare();
-		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@AD_Role_ID@ @NotFound@");
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @AD_Role_ID@ (@Record_ID@)");
 		}
 	}
-	
+
     @Override
     protected String doIt() throws Exception {
         AtomicInteger windowAdded = new AtomicInteger(0);

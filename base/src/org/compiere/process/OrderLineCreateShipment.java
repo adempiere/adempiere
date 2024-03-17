@@ -18,11 +18,13 @@ package org.compiere.process;
 
 import java.sql.Timestamp;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
  
 /**
  *	Create (Generate) Invoice from Shipment
@@ -39,6 +41,10 @@ public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 	 */
 	protected void prepare() {
 		super.prepare();
+		// Valid Record Identifier
+		if(getRecord_ID() <= 0 && Util.isEmptyCollection(getSelectionKeys())) {
+			throw new AdempiereException("@FillMandatory@ @C_OrderLine_ID@ (@Record_ID@)");
+		}
 		if(getMovementDate() == null) {
 			setMovementDate(Env.getContextAsDate(getCtx(), "#Date"));
 			if (getMovementDate() == null) {
@@ -60,9 +66,6 @@ public class OrderLineCreateShipment extends OrderLineCreateShipmentAbstract {
 	 */
 	protected String doIt () throws Exception {
 		log.info("C_OrderLine_ID=" + getRecord_ID());
-		if (getRecord_ID() == 0) {
-			throw new IllegalArgumentException("@C_OrderLine_ID@ @NotFound@");
-		}
 		//
 		MOrderLine line = new MOrderLine (getCtx(), getRecord_ID(), get_TrxName());
 		if (line.get_ID() == 0) {
