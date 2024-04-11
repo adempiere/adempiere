@@ -269,7 +269,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 
 		reActivateIt();
 		//	Std Period open?
-		MHRPeriod period = MHRPeriod.getById(getCtx(), getHR_Period_ID(), get_TrxName());
+		MHRPeriod period = new MHRPeriod(getCtx(), getHR_Period_ID(), get_TrxName()); // solve issue with get from cache cause a lock transaction
 		MPeriod.testPeriodOpen(getCtx(), getHR_Period_ID() > 0 ? period.getDateAcct():getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID(), get_TrxName());
 
 		//	New or in Progress/Invalid
@@ -988,7 +988,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		
 		if (getHR_Period_ID() > 0)
 		{
-			payrollPeriod = MHRPeriod.getById(getCtx(),  getHR_Period_ID(), get_TrxName());
+			payrollPeriod = new MHRPeriod(getCtx(),  getHR_Period_ID(), get_TrxName()); // solve issue with get from cache cause a lock transaction
 		}
 		else
 		{
@@ -1326,7 +1326,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @return
 	 */
 	private MHRMovement createMovement(MHRConcept concept, MHRAttribute attribute, boolean isPrinted) {
-		MHRPeriod payrollPeriod = MHRPeriod.getById(getCtx(), getHR_Period_ID(), get_TrxName());
+		MHRPeriod payrollPeriod = new MHRPeriod(getCtx(), getHR_Period_ID(), get_TrxName()); // solve issue with get from cache cause a lock transaction
 		MHRMovement movement = new MHRMovement (getCtx(), 0, get_TrxName());
 		movement.setAD_Org_ID(employee.getAD_Org_ID());
 		movement.setSeqNo(concept.getSeqNo());
@@ -2684,7 +2684,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		}
 
 		if (getHR_Period_ID() > 0) {
-			payrollPeriod = MHRPeriod.getById(getCtx(),  getHR_Period_ID(), get_TrxName());
+			payrollPeriod = new MHRPeriod(getCtx(),  getHR_Period_ID(), get_TrxName()); // solve issue with get from cache cause a lock transaction
 		} else {
 			payrollPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
 			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());
