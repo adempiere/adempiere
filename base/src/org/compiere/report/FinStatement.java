@@ -184,8 +184,8 @@ public class FinStatement extends FinStatementAbstract
 				.append("INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) ")
 				.append("LEFT JOIN (SELECT ")
 							.append("Account_ID,")
-							.append("SUM(AcctBalance(Account_ID, AmtAcctDr, 0)) AmtAcctDr,")
-							.append("SUM(AcctBalance(fa.Account_ID, AmtAcctCr, 0)) AmtAcctCr,")
+							.append("SUM(AmtAcctDr) AmtAcctDr,")
+							.append("SUM(AmtAcctCr) AmtAcctCr,")
 							.append("SUM(AcctBalance(fa.Account_ID, fa.AmtAcctDr, fa.AmtAcctCr)) Balance, ")
 							.append("SUM(AcctBalance(Account_ID, Qty, 0)) Qty ")
 							.append("FROM Fact_Acct fa ")
@@ -230,7 +230,7 @@ public class FinStatement extends FinStatementAbstract
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , AccountValue, AccountName, AccountType ) ");
 		insertDetailLine.append("SELECT ? ").append(",fact_Acct.Fact_Acct_ID,1,")
 			.append("fact_Acct.DateAcct,NULL,NULL,"
-			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.AccountType "
+			+ "AmtAcctDr, AmtAcctCr,AcctBalance(Account_ID, AmtAcctDr, AmtAcctCr), Qty, fact_Acct.ACCOUNT_ID, ev.Value, ev.Name, ev.AccountType "
 			+ "FROM Fact_Acct "
 			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_ElementValue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)

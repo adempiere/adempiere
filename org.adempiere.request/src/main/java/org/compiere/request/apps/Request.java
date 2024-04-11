@@ -154,7 +154,7 @@ public class Request {
                 "LEFT JOIN R_Category rc ON (r.R_Category_ID = rc.R_Category_ID) " +
                 "LEFT JOIN R_Status rs ON (r.R_Status_ID = rs.R_Status_ID) " +
                 "LEFT JOIN AD_User rrep ON (r.SalesRep_ID = rrep.AD_User_ID) " +
-                "WHERE " + whereClause + "ORDER BY R_Request_ID";
+                "WHERE " + whereClause + " ORDER BY R_Request_ID";
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
