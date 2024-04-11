@@ -62,11 +62,11 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		if (depreciationExpId <= 0) {
 			return null;
 		}
-		MDepreciationExp depexp = new MDepreciationExp(ctx, depreciationExpId, null);
-		if (depexp.get_ID() != depreciationExpId) {
-			depexp = null;
+		MDepreciationExp depreciationExp = new MDepreciationExp(ctx, depreciationExpId, null);
+		if (depreciationExp.get_ID() != depreciationExpId) {
+			depreciationExp = null;
 		}
-		return depexp;
+		return depreciationExp;
 	}
 
 	/**
@@ -90,23 +90,23 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 				, String description
 				, MDepreciationWorkfile assetBalanace)
 	{
-		MDepreciationExp depexp = new MDepreciationExp(ctx, 0, null);
-		depexp.setA_Entry_Type(entryType);
-		depexp.setA_Asset_ID(assetId);
-		depexp.setDR_Account_ID(debitAcct);
-		depexp.setCR_Account_ID(creditAcct);
-		depexp.setA_Account_Number_Acct(debitAcct);	// TODO: DELETEME
-		depexp.setPostingType(postingType);
-		depexp.setExpense(expense);
-		depexp.setDescription(Msg.parseTranslation(ctx, description));
-		depexp.setA_Period(assetPeriod);
-		depexp.setIsDepreciated(true);
-		depexp.setDateAcct(dateAcct);
+		MDepreciationExp depreciationExp = new MDepreciationExp(ctx, 0, null);
+		depreciationExp.setA_Entry_Type(entryType);
+		depreciationExp.setA_Asset_ID(assetId);
+		depreciationExp.setDR_Account_ID(debitAcct);
+		depreciationExp.setCR_Account_ID(creditAcct);
+		depreciationExp.setA_Account_Number_Acct(debitAcct);	// TODO: DELETEME
+		depreciationExp.setPostingType(postingType);
+		depreciationExp.setExpense(expense);
+		depreciationExp.setDescription(Msg.parseTranslation(ctx, description));
+		depreciationExp.setA_Period(assetPeriod);
+		depreciationExp.setIsDepreciated(true);
+		depreciationExp.setDateAcct(dateAcct);
 		//
-		depexp.updateFrom(assetBalanace);
+		depreciationExp.updateFrom(assetBalanace);
 		//
-		s_log.fine("depexp=" + depexp);
-		return depexp;
+		s_log.fine("depexp=" + depreciationExp);
+		return depreciationExp;
 	}
 	
 	/**
@@ -145,27 +145,27 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		ArrayList<MDepreciationExp> list = new ArrayList<MDepreciationExp>();
 		Properties ctx = assetBalance.getCtx();
 		MAssetAcct assetAcct = assetBalance.getA_AssetAcct(dateAcct, trxName);
-		MDepreciationExp depexp = null;
+		MDepreciationExp depreciationExp = null;
 		
-		depexp = createEntry (ctx, A_ENTRY_TYPE_Depreciation, assetBalance.getA_Asset_ID(), periodNo, dateAcct, assetBalance.getPostingType()
+		depreciationExp = createEntry (ctx, A_ENTRY_TYPE_Depreciation, assetBalance.getA_Asset_ID(), periodNo, dateAcct, assetBalance.getPostingType()
 			, assetAcct.getA_Depreciation_Acct(), assetAcct.getA_Accumdepreciation_Acct()
 			, amt
 			, "@AssetDepreciationAmt@"
 			, assetBalance);
-		if(depexp != null) {
+		if(depreciationExp != null) {
 			MAsset asset = MAsset.get(ctx, assetBalance.getA_Asset_ID(), trxName);
-			depexp.setAD_Org_ID(asset.getAD_Org_ID()); // added by zuhri
+			depreciationExp.setAD_Org_ID(asset.getAD_Org_ID()); // added by zuhri
 			if (accumAmt != null)
-				depexp.setA_Accumulated_Depr(accumAmt);
+				depreciationExp.setA_Accumulated_Depr(accumAmt);
 			if (accumAmtFiscal != null)
-				depexp.setA_Accumulated_Depr_F(accumAmtFiscal);
+				depreciationExp.setA_Accumulated_Depr_F(accumAmtFiscal);
 			if (help != null && help.length() > 0)
-				depexp.setHelp(help);
-			depexp.setExpense_F(amtFiscal);
-			depexp.setA_Accumulated_Depr_Delta(amt);
-			depexp.setA_Accumulated_Depr_F_Delta(amtFiscal);
-			depexp.saveEx(assetBalance.get_TrxName());
-			list.add(depexp);
+				depreciationExp.setHelp(help);
+			depreciationExp.setExpense_F(amtFiscal);
+			depreciationExp.setA_Accumulated_Depr_Delta(amt);
+			depreciationExp.setA_Accumulated_Depr_F_Delta(amtFiscal);
+			depreciationExp.saveEx(assetBalance.get_TrxName());
+			list.add(depreciationExp);
 		}
 		return list;
 	}
@@ -223,9 +223,9 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		if (isProcessed())
 		{
 			// TODO : check if we can reverse it (check period, check dateacct etc)
-			MDepreciationWorkfile assetwk = getA_Depreciation_Workfile();
-			assetwk.adjustAccumulatedDepr(getA_Accumulated_Depr().negate(), getA_Accumulated_Depr_F().negate(), false);
-			assetwk.saveEx();
+			MDepreciationWorkfile depreciationWorkFile = getA_Depreciation_Workfile();
+			depreciationWorkFile.adjustAccumulatedDepr(getA_Accumulated_Depr().negate(), getA_Accumulated_Depr_F().negate(), false);
+			depreciationWorkFile.saveEx();
 		}
 		// Try to delete postings
 		if (isPosted())
@@ -247,9 +247,9 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		// If it was processed, we need to update workfile's current period
 		if (isProcessed())
 		{
-			MDepreciationWorkfile wk = getA_Depreciation_Workfile();
-			wk.setA_Current_Period();
-			wk.saveEx();
+			MDepreciationWorkfile depreciationWorkFile = getA_Depreciation_Workfile();
+			depreciationWorkFile.setA_Current_Period();
+			depreciationWorkFile.saveEx();
 		}
 		//
 		return true;
@@ -279,10 +279,11 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 								+" AND TRUNC("+MDepreciationExp.COLUMNNAME_DateAcct+",'MONTH')<?"
 								+" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?"
 								+" AND "+MDepreciationExp.COLUMNNAME_Processed+"=?";
-		boolean match = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
-					.setParameters(assetId, TimeUtil.getMonthFirstDay(dateAcct), postingType, false)
-					.match();
-		if (match)
+		boolean matched = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
+				.setClient_ID()
+				.setParameters(assetId, TimeUtil.getMonthFirstDay(dateAcct), postingType, false)
+				.match();
+		if (matched)
 			throw new AssetException("There are unprocessed records to date");
 	}
 
@@ -303,10 +304,11 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		final String whereClause = MDepreciationExp.COLUMNNAME_A_Asset_ID+"=?"
 		              +" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?"
 	             	  +" AND "+MDepreciationExp.COLUMNNAME_Processed+"=?";
-		List<MDepreciationExp> list = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
-	                      	.setParameters(new Object[]{assetId, postingType, false})
-		                    .list();
-		return list;
+		List<MDepreciationExp> depreciationExps = new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
+				.setClient_ID()
+	            .setParameters(new Object[]{assetId, postingType, false})
+		        .list();
+		return depreciationExps;
 	}
 
 	/**
@@ -324,20 +326,21 @@ public class MDepreciationExp extends X_A_Depreciation_Exp
 		final String whereClause = MDepreciationExp.COLUMNNAME_A_Asset_ID+"=?"
 				+" AND "+MDepreciationExp.COLUMNNAME_PostingType+"=?";
 		return new Query(ctx, MDepreciationExp.Table_Name, whereClause, trxName)
+				.setClient_ID()
 				.setParameters(assetId, postingType)
 				.setOrderBy(MDepreciationExp.COLUMNNAME_A_Period)
 				.list();
 	}
 
-	
+
 	public void setProcessed(boolean Processed)
 	{
 		super.setProcessed(Processed);
 		//
 		if (get_ID() > 0)
 		{
-			final String sql = "UPDATE "+Table_Name+" SET Processed=? WHERE "+COLUMNNAME_A_Depreciation_Exp_ID+"=?";
-			DB.executeUpdateEx(sql, new Object[]{Processed, get_ID()}, get_TrxName());
+			final String sql = "UPDATE "+Table_Name+" SET Processed=? WHERE "+COLUMNNAME_AD_Client_ID+" = ? AND "+COLUMNNAME_A_Depreciation_Exp_ID+"=?";
+			DB.executeUpdateEx(sql, new Object[]{Processed, getAD_Client_ID() , get_ID()}, get_TrxName());
 		}
 	}
 	
