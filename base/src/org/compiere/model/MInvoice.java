@@ -2352,6 +2352,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				Msg.translate(getCtx(), "C_Invoice_ID")	+ ": " + getDocumentNo() + "/" + reversal.getDocumentNo(),
 				get_TrxName());
 		allocationHdr.setAD_Org_ID(getAD_Org_ID());
+		allocationHdr.setReversal(true);
 		allocationHdr.saveEx();
 		//	Amount
 		BigDecimal grandTotal = getGrandTotal(true);
