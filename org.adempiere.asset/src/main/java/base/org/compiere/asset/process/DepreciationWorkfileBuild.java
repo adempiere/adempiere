@@ -29,22 +29,24 @@ public class DepreciationWorkfileBuild extends DepreciationWorkfileBuildAbstract
     protected String doIt() throws Exception {
         AtomicInteger recordsProcessed = new AtomicInteger(0);
         if (isAllAssets()) {
-            int[] depreciationWorkfileIds = getDepreciationWorkfileIds();
-            Arrays.stream(depreciationWorkfileIds).forEach(id -> Trx.run(trxName -> buildDepreciation(id, recordsProcessed, trxName)));
-            return "@Processed@ #" + recordsProcessed.get() + " @of@ " + depreciationWorkfileIds.length;
+            int[] depreciationWorkFileIds = getDepreciationWorkFileIds();
+            Arrays.stream(depreciationWorkFileIds).forEach(id -> Trx.run(trxName -> buildDepreciation(id, recordsProcessed, trxName)));
+            return "@Processed@ #" + recordsProcessed.get() + " @of@ " + depreciationWorkFileIds.length;
         } else Trx.run(trxName -> buildDepreciation(getRecord_ID(), recordsProcessed ,trxName));
 
         return "@Processed@ # "+recordsProcessed.get() +" @of@ 1";
     }
 
-    private int[] getDepreciationWorkfileIds() {
-        return new Query(getCtx(), MDepreciationWorkfile.Table_Name, MDepreciationWorkfile.COLUMNNAME_IsDepreciated + "='Y'", get_TrxName()).getIDs();
+    private int[] getDepreciationWorkFileIds() {
+        return new Query(getCtx(), MDepreciationWorkfile.Table_Name, MDepreciationWorkfile.COLUMNNAME_IsDepreciated + "='Y'", get_TrxName())
+                .setClient_ID()
+                .getIDs();
     }
 
-    private void buildDepreciation(Integer depreciationWorkfileId, AtomicInteger recordProcessed, String trxName) {
-        MDepreciationWorkfile depreciationWorkfile = new MDepreciationWorkfile(getCtx(), depreciationWorkfileId, trxName);
-        depreciationWorkfile.buildDepreciation();
-        depreciationWorkfile.saveEx();
+    private void buildDepreciation(Integer depreciationWorkFileId, AtomicInteger recordProcessed, String trxName) {
+        MDepreciationWorkfile depreciationWorkFile = new MDepreciationWorkfile(getCtx(), depreciationWorkFileId, trxName);
+        depreciationWorkFile.buildDepreciation();
+        depreciationWorkFile.saveEx();
         recordProcessed.getAndUpdate(processed -> processed + 1);
     }
 }
