@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -251,7 +252,7 @@ public class Translation
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes"); // teo_sarca [ 1705883 ]
 			//	Output, wrapped with a writer - teo_sarca [ 1705883 ]
 			out.createNewFile();
-			Writer writer = new OutputStreamWriter(new FileOutputStream(out), "utf-8"); 
+			Writer writer = new OutputStreamWriter(new FileOutputStream(out), StandardCharsets.UTF_8);
 			StreamResult result = new StreamResult(writer);
 			//	Transform
 			transformer.transform (source, result);
