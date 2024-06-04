@@ -17,14 +17,10 @@
 
 package org.adempiere.webui.component;
 
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.text.ParseException;
-
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
@@ -35,6 +31,11 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Popup;
 import org.zkoss.zul.Vbox;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 /**
  *
@@ -67,6 +68,8 @@ public class NumberBox extends Div
     private boolean btnEnabled = true;
 
 	private Popup popup;
+
+    Language language = Env.getLoginLanguage(Env.getCtx());
     
     /**
      * 
@@ -105,7 +108,7 @@ public class NumberBox extends Div
 		decimalBox = new Decimalbox();
     	if (integral)
     		decimalBox.setScale(0);
-    	//	FR 547
+        //	FR 547
     	decimalBox.setStyle("display: inline; text-align: right; padding-right: 2px");
 		td.appendChild(decimalBox);
 		
@@ -209,10 +212,9 @@ public class NumberBox extends Div
         Popup popup = new Popup(); 
 
         Vbox vbox = new Vbox();
-
-        char separatorChar = DisplayType.getNumberFormat(DisplayType.Number, Env.getLanguage(Env.getCtx())).getDecimalFormatSymbols().getDecimalSeparator();
+        DecimalFormat format = (DecimalFormat)NumberFormat.getNumberInstance(language.getLocale());
+        char separatorChar = format.getDecimalFormatSymbols().getDecimalSeparator();
         String separator = Character.toString(separatorChar);
-
         txtCalc = new Textbox();
         txtCalc.setAction("onKeyPress : return calc.validate('" + 
         		decimalBox.getId() + "','" + txtCalc.getId() 

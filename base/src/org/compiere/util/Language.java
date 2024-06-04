@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import javax.print.attribute.standard.MediaSize;
 import java.awt.ComponentOrientation;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -24,9 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.logging.Logger;
-
-import javax.print.attribute.standard.MediaSize;
 
 /**
  *  Language Management.
@@ -146,7 +146,7 @@ public class Language implements Serializable
 			AD_Language_es_MX,  new Locale("es","MX"), Boolean.TRUE, "dd/MM/yyyy",
 			MediaSize.NA.LETTER),
 		new Language ("Espa\u00f1ol (CL)",
-			AD_Language_es_CL,  new Locale("es","CL"), Boolean.FALSE, "dd/MM/yyyy",
+			AD_Language_es_CL,  new Locale("es","CL"), Boolean.TRUE, "dd/MM/yyyy",
 			MediaSize.NA.LETTER),
 		new Language ("Espa\u00f1ol (CO)",
 			AD_Language_es_CO,  new Locale("es","ES"), Boolean.FALSE, "dd/MM/yyyy",
@@ -285,20 +285,25 @@ public class Language implements Serializable
 	 *  @param langInfo either language (en) or locale (en-US) or display name
 	 *  @return Name (e.g. Deutsch)
 	 */
-	public static Language getLanguage (String langInfo)
+	public synchronized static Language getLanguage (String langInfo)
 	{
-		String lang = langInfo;
-		if (lang == null || lang.length() == 0)
+		String lang;
+		if (langInfo == null || langInfo.length() == 0)
 			lang = System.getProperty("user.language", "");
-
+        else {
+            lang = langInfo;
+        }
+        Optional<Language> maybeLoginLanguage = Arrays.stream(languages)
+				.filter(language ->
+						language.getName().equals(lang) ||
+						language.getLanguageCode().equals(lang) ||
+						language.getAD_Language().equals(lang))
+				.findFirst();
 		//	Search existing Languages
-		for (Language language : languages) {
-			if (lang.equals(language.getName())
-					|| lang.equals(language.getLanguageCode())
-					|| lang.equals(language.getAD_Language()))
-				return language;
+		if(maybeLoginLanguage.isPresent()){
+			Locale.setDefault(maybeLoginLanguage.get().getLocale());
+			return maybeLoginLanguage.get();
 		}
-
 		//	Create Language on the fly
 		if (lang.length() == 5)		//	standard format <language>_<Country>
 		{

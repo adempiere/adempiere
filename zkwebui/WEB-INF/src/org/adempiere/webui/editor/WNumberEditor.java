@@ -17,11 +17,13 @@
 
 package org.adempiere.webui.editor;
 
+import java.beans.PropertyChangeEvent;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Optional;
 
 import org.adempiere.webui.ValuePreference;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
@@ -31,6 +33,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
@@ -54,6 +57,7 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 
     public static final int MAX_DISPLAY_LENGTH = 35;
     public static final int MIN_DISPLAY_LENGTH = 11;
+	Language language = Env.getLoginLanguage(Env.getCtx());
 
     private Object oldValue;
 
@@ -123,9 +127,16 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 
 		if (!DisplayType.isNumeric(displayType))
 			displayType = DisplayType.Number;
-		DecimalFormat format = DisplayType.getNumberFormat(displayType, AEnv.getLanguage(Env.getCtx()));
-		getComponent().getDecimalbox().setFormat(format.toPattern());
-		
+
+		DecimalFormat format = DisplayType.getNumberFormat(displayType, language);
+		Optional<String> maybeViewFormat = Optional.ofNullable(gridField).map(gridFieldFormat -> gridField.getVFormat());
+		if (maybeViewFormat.isPresent()) {
+			getComponent().getDecimalbox().setFormat(maybeViewFormat.get());
+		}
+		else {
+			getComponent().getDecimalbox().setFormat(format.toPattern());
+		}
+		getComponent().setFormat(format);
 		popupMenu = new WEditorPopupMenu(true, true, false);
     	if (gridField != null && gridField.getGridTab() != null)
 		{
