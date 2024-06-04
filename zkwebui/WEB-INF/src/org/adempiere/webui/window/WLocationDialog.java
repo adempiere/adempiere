@@ -424,9 +424,14 @@ public class WLocationDialog extends Window implements EventListener
 			Env.setContext(Env.getCtx(), windowNo, Env.TAB_INFO, "C_Region_ID", "0");
 		}
 		Env.setContext(Env.getCtx(), windowNo, Env.TAB_INFO, "C_Country_ID", String.valueOf(country.get_ID()));
-		
 		txtCity.fillList();
-		
+		Optional<String> maybeCityName = Optional.ofNullable(location.getCity());
+		if (maybeCityName.isPresent()) {
+			txtCity.setText(maybeCityName.get());
+			txtCity.refreshData(maybeCityName.get());
+		} else {
+			txtCity.refreshData("");
+		}
 		//      sequence of City Postal Region - @P@ @C@ - @C@, @R@ @P@
 		String ds = country.getCaptureSequence();
 		if (ds == null || ds.length() == 0)
@@ -491,7 +496,6 @@ public class WLocationDialog extends Window implements EventListener
 			txtAddress2.setText(location.getAddress2());
 			txtAddress3.setText(location.getAddress3());
 			txtAddress4.setText(location.getAddress4());
-			txtCity.setText(location.getCity());
 			txtPostal.setText(location.getPostal());
 			txtPostalAdd.setText(location.getPostal_Add());
 
@@ -538,6 +542,7 @@ public class WLocationDialog extends Window implements EventListener
 				if (location.getRegion().equals(listitem.getValue()))
 				{
 					lstRegion.setSelectedItem(listitem);
+					break;
 				}
 			}
 		}

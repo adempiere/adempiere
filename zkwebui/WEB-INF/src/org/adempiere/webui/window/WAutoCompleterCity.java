@@ -81,10 +81,9 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 		super.onChanging(evt);
 	}
 
-	public void refreshData(String val) 
+	public void refreshData(String value)
 	{
-		String search = val;
-		if (m_city != null && m_city.CityName.compareTo(search) != 0)
+		if (m_city != null && m_city.CityName.compareTo(value) != 0)
 		{
 			setCity(null);
 		}
@@ -93,10 +92,11 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 		this.setDict(null);
 		this.setDescription(null);
 		boolean truncated = false;
-		search = search.toUpperCase();
+		final String search = value.toUpperCase();
 		int i = 0;
 		for (CityVO vo : m_cities) {
 			if (vo.CityName.toUpperCase().startsWith(search)) {
+				setCity(vo);
 				if (i > 0 && i == m_maxRows+1)
 				{
 					m_citiesShow.add(ITEM_More);
@@ -118,6 +118,8 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 			if (city.CityName.equalsIgnoreCase(search))
 			{
 				m_city = city;
+				String cityName = m_city.CityName;
+				setText(cityName);
 				return;
 			}	
 		}
@@ -126,6 +128,11 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 		if (!truncated && m_citiesShow.size() == 1
 				&& m_city != null && m_citiesShow.get(0).equals(this.m_city))
 		{
+			String cityName = m_city.CityName;
+			setText(cityName);
+			int startIndex = cityName.toUpperCase().indexOf(search.toUpperCase());
+			int endIndex = startIndex + search.length();
+			setSelectionRange(startIndex,endIndex);
 			return;
 		}
 		
@@ -141,6 +148,7 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 		this.removeAllItems();
 		this.setDict(cityValues);
 		this.setDescription(cityDesc);
+		this.showPopupDelayed();
 	}
 
 	public void fillList()
@@ -222,10 +230,7 @@ public class WAutoCompleterCity extends AutoComplete implements EventListener
 
 	public void onEvent(Event event) throws Exception 
 	{
-		System.out.println("Event: " + event.getName());
-		event.toString();
 		int index = this.getSelectedIndex();
-		System.out.println("Index = " +index	);
 		if (index>=0)
 		{
 			CityVO city = (CityVO) m_citiesShow.get(index);
