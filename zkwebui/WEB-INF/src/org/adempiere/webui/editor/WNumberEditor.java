@@ -17,17 +17,11 @@
 
 package org.adempiere.webui.editor;
 
-import java.beans.PropertyChangeEvent;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Optional;
-
+import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
-import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
@@ -36,6 +30,10 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.Optional;
 
 /**
  *
