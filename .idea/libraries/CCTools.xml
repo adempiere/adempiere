@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="CCTools">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/CCTools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CSTools.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/CCTools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CCTools.jar!/Lib" />
+      <root url="jar://$PROJECT_DIR$/lib/CSTools.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CSTools.jar!/Lib" />
+    </SOURCES>
+  </library>
+</component>

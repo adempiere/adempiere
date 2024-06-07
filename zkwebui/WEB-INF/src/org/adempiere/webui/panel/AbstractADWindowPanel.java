@@ -1776,7 +1776,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int recordId = currentTab.getRecord_ID();
 
 		boolean isDirectPrint = MProcess.get(ctx, AD_Process_ID).isDirectPrint();
-		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, isDirectPrint);
+		ProcessModalDialog processModalDialog = new ProcessModalDialog(this,getWindowNo(), AD_Process_ID,tableId, recordId, false);
 		if (processModalDialog.isValidDialog()) {
 			processModalDialog.setPosition("center");
 			try {
