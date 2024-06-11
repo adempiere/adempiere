@@ -653,6 +653,17 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *	@return PDF file
 	 */
 	public File getPDF (File file) {
+		if (getPrintFormat().getJasperProcess_ID() > 0) {
+			if (getProcessInfo() == null) {
+				int recordId = (Integer) getQuery().getCode(0);
+				processInfo = new ProcessInfo("", getPrintFormat().getJasperProcess_ID(), getPrintFormat().getAD_Table_ID(),recordId, false);
+				processInfo.setTransactionName(m_trxName);
+				processInfo.setPrintPreview(false);
+			}
+			ServerReportCtl.runJasperProcess(getProcessInfo().getRecord_ID(), this, false, getPrintFormat().getPrinterName(), getProcessInfo());
+			return processInfo.getPDFReport();
+		}
+
 		try {
 			if (file == null) {
 				file = File.createTempFile ("ReportEngine", ".pdf");

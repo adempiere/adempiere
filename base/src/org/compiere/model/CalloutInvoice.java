@@ -345,12 +345,25 @@ public class CalloutInvoice extends CalloutEngine
 		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
 		Timestamp date = Env.getContextAsDate(ctx, WindowNo, "DateInvoiced");
 		pp.setPriceDate(date);
-		//		
-		mTab.setValue("PriceList", pp.getPriceList());
-		mTab.setValue("PriceLimit", pp.getPriceLimit());
-		mTab.setValue("PriceActual", pp.getPriceStd());
-		mTab.setValue("PriceEntered", pp.getPriceStd());
-		mTab.setValue("C_Currency_ID", Integer.valueOf(pp.getC_Currency_ID()));
+		//
+		BigDecimal priceList = (BigDecimal)  mTab.getValue("PriceList");
+		if (priceList.signum() == 0 && pp.getPriceList().signum() != 0) {
+			mTab.setValue("PriceList", pp.getPriceList());
+		}
+		BigDecimal priceLimit =  (BigDecimal)  mTab.getValue("PriceLimit");
+		if ((priceLimit == null || priceLimit.signum() == 0) &&  pp.getPriceLimit().signum() > 0) {
+			mTab.setValue("PriceLimit", pp.getPriceLimit());
+		}
+		BigDecimal priceActual = (BigDecimal) mTab.getValue("PriceActual");
+		if ((priceActual == null || priceActual.signum() == 0) && pp.getPriceStd().signum() > 0) {
+			mTab.setValue("PriceActual", pp.getPriceStd());
+		}
+		BigDecimal priceEntered = (BigDecimal)  mTab.getValue("PriceEntered");
+		if ((priceEntered == null || priceEntered.signum() == 0) && pp.getPriceStd().signum() > 0) {
+			mTab.setValue("PriceEntered", pp.getPriceStd());
+		}
+
+		mTab.setValue("C_Currency_ID", new Integer(pp.getC_Currency_ID()));
 	//	mTab.setValue("Discount", pp.getDiscount());
 		mTab.setValue("C_UOM_ID", Integer.valueOf(pp.getC_UOM_ID()));
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
@@ -558,6 +571,32 @@ public class CalloutInvoice extends CalloutEngine
 			pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
 			Timestamp date = (Timestamp)mTab.getValue("DateInvoiced");
 			pp.setPriceDate(date);
+			/*
+			BigDecimal priceEnteredCurrent = (BigDecimal)  mTab.getValue("PriceEntered");
+			if ((priceEnteredCurrent == null || priceEnteredCurrent.signum() == 0) && pp.getPriceStd().signum() > 0) {
+				//
+				PriceEntered = MUOMConversion.convertProductFrom(ctx, M_Product_ID,
+						C_UOM_To_ID, pp.getPriceStd());
+				if (PriceEntered == null)
+					PriceEntered = pp.getPriceStd();
+				//
+				log.fine("amt - QtyChanged -> PriceActual=" + pp.getPriceStd()
+						+ ", PriceEntered=" + PriceEntered + ", Discount=" + pp.getDiscount());
+
+				mTab.setValue("PriceEntered", PriceEntered);
+			} else {
+				PriceEntered = priceEnteredCurrent;
+			}
+
+			BigDecimal priceActualCurrent = (BigDecimal) mTab.getValue("PriceActual");
+			if ((priceActualCurrent == null || priceActualCurrent.signum() == 0) && pp.getPriceStd().signum() > 0) {
+				PriceActual = pp.getPriceStd();
+				mTab.setValue("PriceActual", pp.getPriceStd());
+			} else {
+				PriceActual = priceActualCurrent;
+			}
+			 */
+
 			//
 			priceEntered = MUOMConversion.convertProductFrom (ctx, productId, 
 				uOMToId, pp.getPriceStd());

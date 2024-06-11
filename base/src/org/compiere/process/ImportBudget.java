@@ -635,6 +635,11 @@ public class ImportBudget extends ImportBudgetAbstract {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(period.getEndDate().getTime());
         calendar.add(Calendar.DATE, 1);
+        /*
+        Timestamp startTime = new Timestamp(calendar.getTimeInMillis());
+        Date startDateNextPeriod = new Date(startTime.getTime());
+        offset = startDateNextPeriod.getMonth() - period.getStartDate().getMonth();
+        */
         Calendar calendarStartDate = Calendar.getInstance();
         calendarStartDate.setTimeInMillis(period.getStartDate().getTime());
         offset = calendar.get(Calendar.MONTH) - calendarStartDate.get(Calendar.MONTH);
