@@ -95,7 +95,7 @@ public class CConnection implements Serializable, Cloneable
 	 *  Get/Set default client/server Connection
 	 *  @return Connection Descriptor
 	 */
-	public static CConnection get ()
+	public synchronized  static CConnection get ()
 	{
 		return get(null);
 	}	//	get
@@ -105,7 +105,7 @@ public class CConnection implements Serializable, Cloneable
 	 *  @param apps_host optional apps host for new connections
 	 *  @return Connection Descriptor
 	 */
-	public static CConnection get (String apps_host)
+	public synchronized  static CConnection get (String apps_host)
 	{
 		if (s_cc == null)
 		{
@@ -189,7 +189,7 @@ public class CConnection implements Serializable, Cloneable
 	 *  @param db_pwd db user password
 	 *  @return connection
 	 */
-	public static CConnection get (String type, String db_host, int db_port,
+	public synchronized  static CConnection get (String type, String db_host, int db_port,
 	  String db_name, String db_uid, String db_pwd)
 	{
 		CConnection cc = new CConnection (db_host);
@@ -1182,7 +1182,7 @@ public class CConnection implements Serializable, Cloneable
 			setFwPort (attributes.substring (attributes.indexOf ("FWport=") + 7, attributes.indexOf (",UID=")));
 			//
 			setDbUid (attributes.substring (attributes.indexOf ("UID=") + 4, attributes.indexOf (",PWD=")));
-			setDbPwd (attributes.substring (attributes.indexOf ("PWD=") + 4, attributes.indexOf ("]")));
+			setDbPwd (attributes.substring (attributes.indexOf ("PWD=") + 4, attributes.lastIndexOf ("]")));
 			//
 		}
 		catch (Exception e)
