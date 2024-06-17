@@ -232,29 +232,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
         } else
             docBaseType = " AND pc.DocBaseType " + docBaseType;
 
-        //Patch
-        /*final StringBuilder updateStatement = new StringBuilder();
-        updateStatement
-                .append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Posted='N', Processing='N'").append(" WHERE ")
-                .append(accountingDocumentTable.getTableName()).append(".").append("AD_Client_ID=").append(getClientId())
-                .append(" AND (").append(accountingDocumentTable.getTableName()).append(".Posted<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Posted IS NULL OR ")
-                .append(accountingDocumentTable.getTableName()).append(".Processing<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Processing IS NULL)")
-                .append(" AND  EXISTS (SELECT 1 FROM Fact_Acct fact ");
-        if (!accountingSchemaDefault.isAutoPeriodControl())
-            updateStatement.append("INNER JOIN C_PeriodControl pc ON (pc.C_Period_ID=fact.C_Period_ID AND pc.PeriodStatus = 'O'").append(docBaseType).append(")");
-
-        updateStatement.append(" WHERE fact.AD_Table_ID=").append(accountingDocumentTable.get_ID()).append(" AND fact.Record_ID=")
-                .append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID");
-
-        if (getDateAcct() != null)
-            updateStatement.append(" AND fact.DateAcct >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-            updateStatement.append(" AND fact.DateAcct <= ").append(DB.TO_DATE(getDateAcctTo()));
-
-        updateStatement.append(")");
-        */
-        ///Patch
-
         final StringBuilder updateStatement = new StringBuilder();
         updateStatement
                 .append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Posted='N', Processing='N'").append(" WHERE ")

@@ -197,19 +197,10 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	 */
 	public File createPDF (File file)
 	{
-		ReportEngine re = null;
-		I_C_DocType docType = getC_DocType();
-		if (docType.getAD_PrintFormat_ID() > 0 ) {
-			MQuery query = new MQuery(get_TableName());
-			query.addRestriction(COLUMNNAME_C_PaySelection_ID, "=", getC_PaySelection_ID());
-			MPrintFormat printFormat = new MPrintFormat(getCtx(), docType.getAD_PrintFormat_ID() , get_TrxName());
-			PrintInfo printInfo = new PrintInfo(getDocumentInfo(), get_Table_ID(), getC_PaySelection_ID(), 0);
-			printInfo.setAD_Table_ID(get_Table_ID());
-			re = new ReportEngine(Env.getCtx(), printFormat, query, printInfo);
-		}
-		if (re == null)
+	//	ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID());
+	//	if (re == null)
 			return null;
-		return re.getPDF(file);
+	//	return re.getPDF(file);
 	}	//	createPDF
 
 	
@@ -621,7 +612,6 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Values
 		int chargeId = 0;
-		int projectId = 0 ;
 		boolean isPrepayment = false;
 		int bankAccountToId = 0;
 		MPaySelectionCheck paySelectionCheck = null;
@@ -643,15 +633,11 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 					|| !paySelectionCheck.getPaymentRule().equals(paySelectionLine.getPaymentRule())
 					|| chargeId != paySelectionLine.getC_Charge_ID()
 					|| isPrepayment != paySelectionLine.isPrepayment()
-					|| (paySelectionLine.getC_Invoice_ID() > 0 &&  paySelectionLine.getInvoice().getC_Project_ID()  != projectId)
 					|| bankAccountToId != paySelectionLine.getC_BankAccountTo_ID()) {
 				paySelectionCheck = new MPaySelectionCheck(paySelectionLine, paySelectionLine.getPaymentRule());
 				//	Set current values
 				chargeId = paySelectionLine.getC_Charge_ID();
 				isPrepayment = paySelectionLine.isPrepayment();
-				if(paySelectionLine.getC_Invoice_ID() > 0 &&  paySelectionLine.getInvoice().getC_Project_ID()  != projectId) {
-					projectId = paySelectionLine.getInvoice().getC_Project_ID();
-				}
 				bankAccountToId = paySelectionLine.getC_BankAccountTo_ID();
 			} else {
 				paySelectionCheck.addLine(paySelectionLine);

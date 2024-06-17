@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.adempiere.core.domains.models.I_A_Asset;
 import org.compiere.acct.Doc;
 import org.compiere.acct.DocLine;
 import org.compiere.acct.Fact;
@@ -85,7 +84,7 @@ public class Doc_DepreciationEntry extends Doc
 		while(it.hasNext())
 		{
 			MDepreciationExp depreciationExp = it.next();
-			I_A_Asset asset = depreciationExp.getA_Asset();
+			MAsset asset = MAsset.get(getCtx(), depreciationExp.getA_Asset_ID(), null);
 			DocLine docLine = createLine(depreciationExp);
 			BigDecimal expenseAmt = depreciationExp.getExpense();
 			//

@@ -268,11 +268,7 @@ public class MMailText extends X_R_MailText
 		int index = po.get_ColumnIndex(variable);
 		if (index == -1)
 			return "@" + variable + "@";	//	keep for next
-
-		POInfo poInfo = POInfo.getPOInfo(po.getCtx(),po.get_Table_ID(), po.get_TrxName());
-		if (poInfo.isVirtualColumn(index)) {
-			po.load(po.get_TrxName());
-		}
+		//
 		Object value = po.get_Value(index);
 		if (value == null)
 			return "";

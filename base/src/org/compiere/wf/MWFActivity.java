@@ -273,7 +273,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.fine(oldState + "->"+ wFState + ", Msg=" + getTextMsg()); 
 			super.setWFState (wFState);
 			m_state = new StateEngine (getWFState());
-			saveEx();			//	closed in MWFProcess.checkActivities()
+			save();			//	closed in MWFProcess.checkActivities()
 			updateEventAudit();			
 			
 			//	Inform Process
@@ -352,10 +352,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	public PO getPO (Trx trx)
 	{
 		if (m_po != null) {
-			if (trx != null && trx.getTrxName() != null &&  m_po.get_TrxName() == null){
-				m_po.set_TrxName(trx.getTrxName());
-			}
-			else if (trx != null && trx.getTrxName() != null && m_po.get_TrxName() != null && !m_po.get_TrxName().equals(trx.getTrxName()))
+			if (trx != null)
 				m_po.set_TrxName(trx.getTrxName());
 			return m_po;
 		}
@@ -1144,10 +1141,9 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		 * this will be respected when trying to find an approval user in
 		 * the call to getApprovalUser(...) below.
 		*/
-		Trx trx = ( get_TrxName() != null ) ? Trx.get(get_TrxName(), false) : null;
-		getPO(trx);
 		setWFState (StateEngine.STATE_Running);
 		setAD_User_ID(AD_User_ID);
+		Trx trx = ( get_TrxName() != null ) ? Trx.get(get_TrxName(), false) : null;
 		boolean ok = setVariable (value, displayType, textMsg, trx);
 		if (!ok)
 			return false;
@@ -1449,7 +1445,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		if(Util.isEmpty(documentSummary)) {
 			documentSummary = "";
 		}
-		MMailText text = new MMailText (getCtx(), m_node.getR_MailText_ID(), m_po.get_TrxName());
+		MMailText text = new MMailText (getCtx(), m_node.getR_MailText_ID(), null);
 		text.setPO(m_po, true);
 		//
 		String subject = documentInfo  

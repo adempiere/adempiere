@@ -632,7 +632,7 @@ public class MWFProcess extends X_AD_WF_Process
 	{
 		MTable domain = MTable.get(getCtx() , getAD_Table_ID());
 		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, get_TrxName());
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
 	}
 
 	/**
@@ -642,6 +642,6 @@ public class MWFProcess extends X_AD_WF_Process
 	{
 		MTable domain = MTable.get (getCtx(), getAD_Table_ID());
 		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, get_TrxName());
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
 	}
 }	//	MWFProcess

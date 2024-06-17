@@ -132,7 +132,6 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setC_Invoice_ID (invoiceId);
 		set_ValueOfColumn("C_InvoicePaySchedule_ID",invoicepayscheduleId);
 		setIsSOTrx(isSOTrx);
-		setC_BPartner_ID(invoice.getC_BPartner_ID());
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
 		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
@@ -141,13 +140,6 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
-		setDescription(invoice.getDescription());
-		if(getPaymentRule() == null && invoice.getPaymentRule() != null)
-			setPaymentRule(invoice.getPaymentRule());
-
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
-
 	}	//	setInvoive
 	
 	/**
@@ -177,9 +169,6 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
-		setDescription(invoice.getDescription());
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
 	}	//	setInvoice
 
 	/**
@@ -210,9 +199,6 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
-		setDescription(order.getDescription());
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),order.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
 	}	//	setOrder
 	
 	/**
@@ -458,7 +444,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 					&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit) 
 					&& !getPaymentRule().equals(PAYMENTRULE_DirectDebit)) {
 				//	Set
-				setPaymentRule(PAYMENTRULE_DirectDeposit);
+				setPaymentRule(PAYMENTRULE_Check);
 			}
 		}
 	}
@@ -647,7 +633,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		)
 		) {
 			//	Set from Standard
-			PaymentRule = PAYMENTRULE_DirectDeposit;
+			paymentRule = PAYMENTRULE_Check;
 		}
 		//	Set
 		super.setPaymentRule(paymentRule);

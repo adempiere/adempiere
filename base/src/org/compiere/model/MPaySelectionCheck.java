@@ -421,7 +421,6 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						BigDecimal overUnder = paySelectionLine.getOpenAmt().subtract(paySelectionLine.getPayAmt())
 							.subtract(paySelectionLine.getDiscountAmt()).subtract(paySelectionLine.getDifferenceAmt());
 						payment.setOverUnderAmt(overUnder);
-						payment.setDescription(paySelectionLine.getDescription());
 					} else {
 						payment.setDiscountAmt(Env.ZERO);
 					}

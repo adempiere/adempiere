@@ -24,8 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -316,23 +314,6 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);
 		//	Set BP from Document
 		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
-		MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
-		mTab.setValue("PaymentRule", invoice.getPaymentRule());
-		Optional<String> invoiceDescription = Optional.ofNullable(invoice.getDescription());
-		Optional<String> maybeDescription = Optional.ofNullable((String) mTab.getValue("Description"));
-		invoiceDescription.ifPresent(description -> {
-			String descriptionLine = maybeDescription.orElse("").isEmpty() ?  description :   maybeDescription.orElse("")  + " " + description;
-			mTab.setValue("Description", descriptionLine);
-		});
-		//Setting Bank Account
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(ctx,invoice.getC_BPartner_ID());
-		banks.stream().findFirst()
-				.ifPresent(bankAccount ->
-						mTab.setValue(
-								"C_BP_BankAccount_ID",
-								bankAccount.getC_BP_BankAccount_ID()
-						)
-				);
 		return "";
 	}	//	PaySel_Invoice
 	
