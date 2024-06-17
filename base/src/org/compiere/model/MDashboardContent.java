@@ -6,6 +6,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.adempiere.core.domains.models.I_AD_Menu;
 import org.adempiere.core.domains.models.X_PA_DashboardContent;
@@ -31,7 +32,13 @@ public class MDashboardContent extends X_PA_DashboardContent
 	public static MDashboardContent[] getForSession()
 	{
 		List<MDashboardContent> list = getForSessionQuery().list();
-		return list.toArray(new MDashboardContent[list.size()]);
+		MRole role =  MRole.getDefault();
+		List<MDashboardContent> dashboardContentList = list.stream()
+				.filter(dashboardContent -> role.getDashboardAccess(dashboardContent.getPA_DashboardContent_ID()))
+				.collect(Collectors.toList());
+		if (!dashboardContentList.isEmpty())
+			return dashboardContentList.toArray(new MDashboardContent[list.size()]);
+		else return new MDashboardContent[0];
 	}
 	
 	public static Query getForSessionQuery()
