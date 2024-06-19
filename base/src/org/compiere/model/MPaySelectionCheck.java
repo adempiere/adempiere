@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -365,25 +366,31 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					payment.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
 					payment.saveEx();
 					if(paySelectionLines != null) {
-						for(MPaySelectionLine line : paySelectionLines) {
-							if(line.getC_BankAccountTo_ID() == 0) {
+						for(MPaySelectionLine paySelectionLine : paySelectionLines) {
+							if(paySelectionLine.getC_BankAccountTo_ID() == 0) {
 								throw new AdempiereException("@C_BankAccountTo_ID@ @NotFound@");
 							}
 							//	For all
 							MPayment receiptAccount = new MPayment(paySelectionCheck.getCtx(), 0, paySelectionCheck.get_TrxName());
 							PO.copyValues(payment, receiptAccount);
 							//	Set default values
-							receiptAccount.setC_BankAccount_ID(line.getC_BankAccountTo_ID());
+							receiptAccount.setC_BankAccount_ID(paySelectionLine.getC_BankAccountTo_ID());
 							receiptAccount.setIsReceipt(!payment.isReceipt());
 							receiptAccount.setC_DocType_ID(!payment.isReceipt());
 							receiptAccount.setRelatedPayment_ID(payment.getC_Payment_ID());
 							receiptAccount.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
-							receiptAccount.setC_Charge_ID(line.getC_Charge_ID());
+							receiptAccount.setC_Charge_ID(paySelectionLine.getC_Charge_ID());
 							receiptAccount.saveEx();
 							receiptAccount.processIt(DocAction.ACTION_Complete);
 							receiptAccount.saveEx();
 							payment.setRelatedPayment_ID(receiptAccount.getC_Payment_ID());
 							payment.setC_Charge_ID(receiptAccount.getC_Charge_ID());
+							Optional<String> maybeDescription = Optional.ofNullable(payment.getDescription());
+							if (maybeDescription.isPresent()){
+								payment.setDescription(maybeDescription.get() + " " + paySelectionLine.getDescription());
+							} else {
+								payment.setDescription(paySelectionLine.getDescription());
+							}
 							payment.saveEx();
 						}
 					}
@@ -421,6 +428,12 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						BigDecimal overUnder = paySelectionLine.getOpenAmt().subtract(paySelectionLine.getPayAmt())
 							.subtract(paySelectionLine.getDiscountAmt()).subtract(paySelectionLine.getDifferenceAmt());
 						payment.setOverUnderAmt(overUnder);
+						Optional<String> maybeDescription = Optional.ofNullable(payment.getDescription());
+						if (maybeDescription.isPresent()){
+							payment.setDescription(maybeDescription.get() + " " + paySelectionLine.getDescription());
+						} else {
+							payment.setDescription(paySelectionLine.getDescription());
+						}
 					} else {
 						payment.setDiscountAmt(Env.ZERO);
 					}
