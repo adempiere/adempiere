@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.core.domains.models.I_C_Invoice;
 import org.adempiere.core.domains.models.I_C_PaySelection;
 import org.adempiere.core.domains.models.I_C_PaySelectionCheck;
 import org.adempiere.core.domains.models.X_C_Order;
@@ -357,6 +358,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						batch.saveEx();	//	new
 					payment.setC_PaymentBatch_ID(batch.getC_PaymentBatch_ID());
 				}
+				boolean enableProjectDimension = "Y".equals(Env.getContext(paySelectionCheck.getCtx(),"$Element_PJ"));
 				List<MPaySelectionLine> paySelectionLines = paySelectionCheck.getPaySelectionLinesAsList(false);
 				logger.fine("confirmPrint - " + paySelectionCheck + " (#SelectionLines=" + (paySelectionLines != null? paySelectionLines.size(): 0) + ")");
 				//	For bank Transfer
@@ -419,6 +421,12 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 						//	For Invoice
 						if(paySelectionLine.getC_Invoice_ID() != 0) {
 							payment.setC_Invoice_ID (paySelectionLine.getC_Invoice_ID());
+							if (enableProjectDimension) {
+								I_C_Invoice invoice = paySelectionLine.getInvoice();
+								if (invoice.getC_Project_ID() > 0) {
+									payment.setC_Project_ID(invoice.getC_Project_ID());
+								}
+							}
 						}
 						//	For all
 						payment.setIsPrepayment(paySelectionLine.isPrepayment());
@@ -437,6 +445,13 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					} else {
 						payment.setDiscountAmt(Env.ZERO);
 					}
+				}
+				if (paySelectionLines != null && payment.getC_Project_ID() <= 0 && enableProjectDimension) {
+					Optional<Integer> maybeProjectId = paySelectionLines.stream()
+							.filter(paySelectionLine -> paySelectionLine.getC_Invoice_ID() > 0 && paySelectionLine.getInvoice().getC_Project_ID() > 0)
+							.findFirst()
+							.map(paySelectionLine -> paySelectionLine.getInvoice().getC_Project_ID());
+					maybeProjectId.ifPresent(payment::setC_Project_ID);
 				}
 				payment.setWriteOffAmt(Env.ZERO);
 				payment.saveEx();

@@ -25,11 +25,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.core.domains.models.I_C_DocType;
 import org.adempiere.core.domains.models.I_C_PaySelection;
 import org.adempiere.core.domains.models.I_C_PaySelectionLine;
 import org.adempiere.core.domains.models.X_C_PaySelection;
 import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
@@ -130,6 +133,18 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	}	//	setC_DocTypeTarget_ID
 	
 	/**
+	 * 	String Representation
+	 *	@return info
+	 */
+	public String toString()
+	{
+		StringBuffer stringBuffer = new StringBuffer("MPaySelection[");
+		stringBuffer.append(get_ID()).append(",").append(getDocumentInfo())
+			.append("]");
+		return stringBuffer.toString();
+	}	//	toString
+
+	/**
 	 * Get Lines with where clause and order by clause, re-query
 	 * @param whereClause
 	 * @param orderClause
@@ -144,23 +159,11 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 			orderClause = I_C_PaySelectionLine.COLUMNNAME_Line;
 		paySelectionLines = new Query(getCtx(),
 				I_C_PaySelectionLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
-			.setParameters(getC_PaySelection_ID())
-			.setOrderBy(orderClause)
-			.list();
+				.setParameters(getC_PaySelection_ID())
+				.setOrderBy(orderClause)
+				.list();
 		return paySelectionLines;
 	}
-	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
-	public String toString()
-	{
-		StringBuffer stringBuffer = new StringBuffer("MPaySelection[");
-		stringBuffer.append(get_ID()).append(",").append(getDocumentInfo())
-			.append("]");
-		return stringBuffer.toString();
-	}	//	toString
 
 	/**
 	 * 	Get Document Info
@@ -197,10 +200,19 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 	 */
 	public File createPDF (File file)
 	{
-	//	ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID());
-	//	if (re == null)
+		ReportEngine re = null;
+		I_C_DocType docType = getC_DocType();
+		if (docType.getAD_PrintFormat_ID() > 0 ) {
+			MQuery query = new MQuery(get_TableName());
+			query.addRestriction(COLUMNNAME_C_PaySelection_ID, "=", getC_PaySelection_ID());
+			MPrintFormat printFormat = new MPrintFormat(getCtx(), docType.getAD_PrintFormat_ID() , get_TrxName());
+			PrintInfo printInfo = new PrintInfo(getDocumentInfo(), get_Table_ID(), getC_PaySelection_ID(), 0);
+			printInfo.setAD_Table_ID(get_Table_ID());
+			re = new ReportEngine(Env.getCtx(), printFormat, query, printInfo);
+		}
+		if (re == null)
 			return null;
-	//	return re.getPDF(file);
+		return re.getPDF(file);
 	}	//	createPDF
 
 	
@@ -612,11 +624,18 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Values
 		int chargeId = 0;
+		int projectId = 0 ;
 		boolean isPrepayment = false;
 		int bankAccountToId = 0;
 		MPaySelectionCheck paySelectionCheck = null;
-		List<MPaySelectionLine> paySelectionLines = getLines(null, "C_BPartner_ID, PaymentRule, "
-				+ "C_BP_BankAccount_ID, IsPrepayment, C_Charge_ID, C_BankAccountTo_ID");
+		String orderBy;
+		boolean enableProjectDimension = "Y".equals(Env.getContext(getCtx(),"$Element_PJ"));
+		if (enableProjectDimension) {
+			orderBy = "C_BPartner_ID, PaymentRule, C_BP_BankAccount_ID, IsPrepayment, C_Charge_ID, C_BankAccountTo_ID, (SELECT C_Project_ID FROM C_Invoice WHERE C_Invoice.C_Invoice_ID = C_PaySelectionLine.C_Invoice_ID)";
+		} else {
+			orderBy =  "C_BPartner_ID, PaymentRule, C_BP_BankAccount_ID, IsPrepayment, C_Charge_ID, C_BankAccountTo_ID";
+		}
+		List<MPaySelectionLine> paySelectionLines = getLines(null, orderBy);
 		//	Try to find one
 		for (MPaySelectionLine paySelectionLine : paySelectionLines) {
 			//	already check reference
@@ -633,11 +652,15 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 					|| !paySelectionCheck.getPaymentRule().equals(paySelectionLine.getPaymentRule())
 					|| chargeId != paySelectionLine.getC_Charge_ID()
 					|| isPrepayment != paySelectionLine.isPrepayment()
+					|| (paySelectionLine.getC_Invoice_ID() > 0 && enableProjectDimension &&  paySelectionLine.getInvoice().getC_Project_ID()  != projectId)
 					|| bankAccountToId != paySelectionLine.getC_BankAccountTo_ID()) {
 				paySelectionCheck = new MPaySelectionCheck(paySelectionLine, paySelectionLine.getPaymentRule());
 				//	Set current values
 				chargeId = paySelectionLine.getC_Charge_ID();
 				isPrepayment = paySelectionLine.isPrepayment();
+				if(paySelectionLine.getC_Invoice_ID() > 0 && enableProjectDimension &&  paySelectionLine.getInvoice().getC_Project_ID()  != projectId) {
+					projectId = paySelectionLine.getInvoice().getC_Project_ID();
+				}
 				bankAccountToId = paySelectionLine.getC_BankAccountTo_ID();
 			} else {
 				paySelectionCheck.addLine(paySelectionLine);
