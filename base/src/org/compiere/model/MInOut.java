@@ -1514,7 +1514,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 						+ ", Delivered=" + orderLine.getQtyDelivered());
 			}
             //  Update RMA Line Qty Delivered
-            else if (rmaLine != null)
+            if (rmaLine != null)
             {
                 if (isSOTrx())
                 {
