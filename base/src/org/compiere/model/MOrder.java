@@ -80,6 +80,11 @@ import org.compiere.util.Util;
  * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1455">
  * 		@see FR [ 1455 ] Add Sales Region to Order and Invoice</a>
+ *
+ * 	@author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ * 		@see <a href="https://github.com/adempiere/adempiere/issues/4333">
+ * 		BR [ 4333 ] PostgreSQL 15 it is not possible to set price list to zero in `MOrder` to save with default.</a>
+ *
  */
 public class MOrder extends X_C_Order implements DocAction
 {
