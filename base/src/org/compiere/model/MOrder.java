@@ -981,7 +981,7 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			int ii = DB.getSQLValueEx(null,
 				"SELECT M_PriceList_ID FROM M_PriceList "
-				+ "WHERE AD_Client_ID=? AND IsSOPriceList=? AND IsActive=?"
+				+ "WHERE AD_Client_ID=? AND IsSOPriceList=? AND IsActive=? "
 				+ "ORDER BY IsDefault DESC", getAD_Client_ID(), isSOTrx(), true);
 			if (ii != 0)
 				setM_PriceList_ID (ii);
