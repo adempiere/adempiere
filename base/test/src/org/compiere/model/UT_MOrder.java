@@ -59,10 +59,12 @@ class UT_MOrder extends CommonGWSetup {
 
 	@Test
 	@DisplayName("Save order with default price list")
-	void testGuardarOrdenConListaDePrecioEnCero() {
+	void testSaveOrderWithoutPriceList() {
 		MOrder order = new MOrder(ctx, 0, trxName);
+		order.setIsSOTrx(true);
 		order.setAD_Org_ID(11); // HQ
 		order.setM_Warehouse_ID(103); // HQ Warehouse
+		// order.setC_DocTypeTarget_ID(132); // Standard Order
 		order.setC_BPartner_ID(121); // Patio Fun, Inc.
 		order.setDateOrdered(
 			new Timestamp(
