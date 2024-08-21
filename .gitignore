@@ -72,3 +72,5 @@ utils_dev/mytest.properties
 .gradle/**
 **/bin/**
 /.gradle/
+/lib/ADInterface-1.0.war
+/lib/mysql-connector-java-5.1.13-bin.jar
