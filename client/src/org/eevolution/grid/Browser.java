@@ -45,6 +45,7 @@ import org.adempiere.model.MViewDefinition;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.Lookup;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -708,7 +709,7 @@ public abstract class Browser {
 			}
 		}
 	}
-	
+
 	/**
 	 * FR [ 245 ]
 	 * Get Data of rows
@@ -716,25 +717,54 @@ public abstract class Browser {
 	 * @return
 	 */
 	public  ArrayList<ArrayList<Object>> getDataRows(IBrowserTable browserTable) {
-		ArrayList<ArrayList<Object>> rows = m_rows;
-		if (isShowTotal()) {
-			ArrayList<Object> row = new ArrayList<Object>(rows.size());
-			BrowserRow data = browserTable.getData();
-			int lastRow = browserTable.getRowCount() - 1;
-			for (int column = 0 ; column < data.getColumnCount() ; column++) {
-				GridField gridField = data.getValue(lastRow , column);
-				Object value = null;
-				if (gridField != null)
-					value = gridField.getValue();
-
-				if (value == null)
-					row.add(null);
-				else
-					row.add(value);
+		int rows = browserTable.getRowCount();
+		ArrayList<Object> header =  new ArrayList<Object>();
+		ArrayList<ArrayList<Object>> dataRows = new ArrayList<>();
+		BrowserRow browserRows = browserTable.getData();
+		for (int row = 0; row < rows; row++) {
+			ArrayList<Object> dataRow = new ArrayList<Object>(browserRows.getColumnCount());
+			for (int column = 0 ; column < browserRows.getColumnCount() ; column++) {
+				GridField gridField = browserRows.getValue(row , column);
+				if (row == 0 ) {
+					header.add(gridField.getHeader());
+				}
+				if (column == 0) {
+					GridField selectedGridField = (GridField) browserRows.getValue(row, keyColumnIndex);
+					IDColumn dataColumn = (IDColumn)  selectedGridField.getValue();
+					if (dataColumn != null) {
+						dataRow.add(dataColumn.getRecord_ID());
+					} else{
+						dataRow.add(null);
+					}
+				} else {
+					if (gridField != null) {
+						if (gridField.isLookup()) {
+							Lookup lookup = gridField.getLookup();
+							if (lookup != null && gridField.getValue() != null) {
+								Object value = lookup.getDisplay(gridField.getValue());
+								dataRow.add(value);
+							} else {
+								dataRow.add(null);
+							}
+						} else {
+							Object value = gridField.getValue();
+							if (value == null)
+								dataRow.add(null);
+							else
+								dataRow.add(value);
+						}
+					} else{
+						dataRow.add(null);
+					}
+				}
 			}
-			rows.add(row);
+			// Adding header
+			if (row == 0) {
+				dataRows.add(header);
+			}
+			dataRows.add(dataRow);
 		}
-		return rows;
+		return dataRows;
 	}
 	
 	/**
