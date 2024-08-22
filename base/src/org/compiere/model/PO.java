@@ -3060,7 +3060,7 @@ public abstract class PO
 		if (!force)
 		{
 			int clientId = Env.getAD_Client_ID(p_ctx);
-			if (clientId != getAD_Client_ID()) {
+			if (clientId > 0 && clientId != getAD_Client_ID()) {
 				log.warning("Record is other client");	//	CannotDeleteTrx
 				log.saveError("CannotDeleteRecordOfAnotherClient", "", false);
 				return false;
