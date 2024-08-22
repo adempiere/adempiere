@@ -524,7 +524,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *	@return Connection
 	 *	@throws Exception
 	 */
-	public Connection getFromConnectionPool(CConnection connection,
+	public synchronized Connection getFromConnectionPool(CConnection connection,
 											boolean autoCommit, int transactionIsolation)
 		throws Exception
 	{
@@ -549,7 +549,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *	@return Connection
 	 *	@throws Exception
 	 */
-	public Connection getFromConnectionPoolShortRunning(CConnection connection,
+	public synchronized Connection getFromConnectionPoolShortRunning(CConnection connection,
 											boolean autoCommit, int transactionIsolation)
 			throws Exception
 	{
@@ -571,7 +571,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *	@param connection connection
 	 *	@return data dource
 	 */
-	public DataSource getDataSource(CConnection connection) {
+	public synchronized DataSource getDataSource(CConnection connection) {
 		if (datasourceLongRunning != null)
 			return datasourceLongRunning;
 
@@ -650,7 +650,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *	@param connection connection
 	 *	@return data source Short Running
 	 */
-	public DataSource getDataSourceShortRunning(CConnection connection) {
+	public synchronized DataSource getDataSourceShortRunning(CConnection connection) {
 		if (datasourceShortRunning != null)
 			return datasourceShortRunning;
 
