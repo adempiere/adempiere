@@ -93,15 +93,19 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		if (definitionCacheValues.size() == 0) {
 			getAll(ctx, true, trxName);
 		}
-		String key = applicationType;
+
+		int clientId = Env.getAD_Client_ID(ctx);
+		String key = clientId + "#" + applicationType;
 		MADAppRegistration definition = definitionCacheValues.get(key);
 		if (definition != null && definition.get_ID() > 0 )
 			return definition;
 
-		definition =  new Query(ctx, Table_Name , COLUMNNAME_ApplicationType +  "=?", trxName)
-				.setParameters(applicationType)
-				.setOrderBy(COLUMNNAME_Value)
-				.first();
+		definition =  new Query(ctx, Table_Name , COLUMNNAME_ApplicationType + "=? AND AD_Client_ID IN(0, ?)", trxName)
+			.setParameters(applicationType)
+			.setOnlyActiveRecords(true)
+			.setOrderBy(COLUMNNAME_AD_Client_ID + " DESC")
+			.first()
+		;
 
 		if (definition != null && definition.get_ID() > 0) {
 			definitionCacheValues.put(key, definition);
@@ -121,10 +125,13 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		List<MADAppRegistration> definitionList;
 		if (resetCache || definitionCacheIds.size() == 0 ) {
 			definitionList = new Query(Env.getCtx(), Table_Name, null , trxName)
-					.setOrderBy(COLUMNNAME_Value)
-					.list();
+				.setOrderBy(COLUMNNAME_Value)
+				.setOnlyActiveRecords(true)
+				.list()
+			;
 			definitionList.stream().forEach(definition -> {
-				String key = definition.getValue();
+				int clientId = Env.getAD_Client_ID(ctx);
+				String key = clientId + "#" + definition.getValue();
 				definitionCacheIds.put(definition.getAD_AppRegistration_ID(), definition);
 				definitionCacheValues.put(key, definition);
 			});
