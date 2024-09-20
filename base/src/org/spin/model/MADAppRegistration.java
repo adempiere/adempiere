@@ -101,7 +101,7 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 			return definition;
 
 		definition =  new Query(ctx, Table_Name , COLUMNNAME_ApplicationType + "=? AND AD_Client_ID IN(0, ?)", trxName)
-			.setParameters(applicationType)
+			.setParameters(applicationType, clientId)
 			.setOnlyActiveRecords(true)
 			.setOrderBy(COLUMNNAME_AD_Client_ID + " DESC")
 			.first()
