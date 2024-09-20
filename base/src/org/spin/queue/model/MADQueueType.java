@@ -97,10 +97,12 @@ public class MADQueueType extends X_AD_QueueType {
 		if (definition != null && definition.get_ID() > 0 )
 			return definition;
 
-		definition =  new Query(ctx, Table_Name , COLUMNNAME_QueueType +  "=? AND AD_Client_ID IN(0, ?)", trxName)
-				.setParameters(queueType, clientId)
-				.setOrderBy(COLUMNNAME_AD_Client_ID + " DESC")
-				.first();
+		definition = new Query(ctx, Table_Name , COLUMNNAME_QueueType + "=? AND AD_Client_ID IN(0, ?)", trxName)
+			.setParameters(queueType, clientId)
+			.setOnlyActiveRecords(true)
+			.setOrderBy(COLUMNNAME_AD_Client_ID + " DESC")
+			.first()
+		;
 
 		if (definition != null && definition.get_ID() > 0) {
 			queueTypeCacheValues.put(key, definition);
@@ -120,9 +122,11 @@ public class MADQueueType extends X_AD_QueueType {
 		List<MADQueueType> definitionList;
 		if (resetCache || queueTypeCacheIds.size() > 0 ) {
 			definitionList = new Query(Env.getCtx(), Table_Name, null , trxName)
-					.setClient_ID()
-					.setOrderBy(COLUMNNAME_Name)
-					.list();
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setOrderBy(COLUMNNAME_Value)
+				.list()
+			;
 			definitionList.stream().forEach(definition -> {
 				int clientId = Env.getAD_Client_ID(ctx);
 				String key = clientId + "#" + definition.getValue();
