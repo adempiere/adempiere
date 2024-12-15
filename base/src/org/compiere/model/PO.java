@@ -2517,7 +2517,7 @@ public abstract class PO
 			}
 		}
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
+		MSession session = MSession.get (p_ctx, false, false);
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
@@ -2793,7 +2793,7 @@ public abstract class PO
 		lobReset();
 
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
+		MSession session = MSession.get (p_ctx, false, false);
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
@@ -3154,7 +3154,7 @@ public abstract class PO
 			if (success)
 			{
 
-				MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
+				MSession session = MSession.get (p_ctx, false, false);
 				if (session == null)
 					log.fine("No Session found");
 				else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
