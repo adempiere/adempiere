@@ -42,7 +42,7 @@ jobs:
       postgres:
         # Docker Hub image
         # Take the specific latest Postgres version that runs with latest Ubuntu version.
-        image: postgres:14.6
+        image: postgres:17.4
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
@@ -116,13 +116,13 @@ jobs:
            nodbrestore: true
 
       - name: Upload Binary Files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.1
         with:
             name: adempiere-binary-files
             path: adempiere/install/
 
       - name: Upload Seed
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.6.1
         if: steps.changed-files.outputs.xml-files == 'true'
         with:
             name: adempiere-postgresql-seed
