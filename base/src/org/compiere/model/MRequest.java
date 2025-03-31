@@ -20,6 +20,7 @@ import org.adempiere.core.domains.models.I_C_ProjectPhase;
 import org.adempiere.core.domains.models.I_C_ProjectTask;
 import org.adempiere.core.domains.models.I_R_RequestAction;
 import org.adempiere.core.domains.models.I_R_RequestUpdate;
+import org.adempiere.core.domains.models.I_R_RequestUpdates;
 import org.adempiere.core.domains.models.X_C_BP_Group;
 import org.adempiere.core.domains.models.X_R_Request;
 import org.adempiere.exceptions.AdempiereException;
@@ -321,6 +322,29 @@ public class MRequest extends X_R_Request
 	{
 		return getUpdates(CONFIDENTIALTYPE_Internal);
 	}	//	getUpdatesInternal
+
+	/**
+	 * Get Notification Updates
+	 * @return array of notificacion updates
+	 */
+	public MRequestUpdates[] getNotificationUpdates() {
+		final String whereClause = MRequestAction.COLUMNNAME_R_Request_ID + " = ?";
+
+		// Notification Update
+		List<MRequestUpdates> list = new Query(
+			getCtx(),
+			I_R_RequestUpdates.Table_Name,
+			whereClause,
+			get_TrxName()
+		)
+			.setParameters(get_ID())
+			.setOrderBy(I_R_RequestUpdates.COLUMNNAME_AD_User_ID)
+			.list()
+		;
+		return list.toArray(
+			new MRequestUpdates[list.size()]
+		);
+	}
 
 	/**
 	 *	Get Request Type
@@ -1278,5 +1302,24 @@ public class MRequest extends X_R_Request
 				setPriority(PRIORITY_Low);
 		}
 	}	//	doEscalate
-	
+
+
+	protected boolean beforeDelete()
+	{
+		if (isProcessed()) {
+			return false;
+		}
+
+		for (MRequestUpdate update : getUpdates(null)) {
+			update.deleteEx(true);
+		}
+		for (MRequestAction action : getActions()) {
+			action.deleteEx(true);
+		}
+		for (MRequestUpdates notification : getNotificationUpdates()) {
+			notification.deleteEx(true);
+		}
+		return true;
+	}
+
 }	//	MRequest
