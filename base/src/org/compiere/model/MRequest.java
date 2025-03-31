@@ -52,6 +52,11 @@ import java.util.Properties;
  *
  *  @author Jorg Janke
  *  @version $Id: MRequest.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ *
+ * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ *			<a href="https://github.com/adempiere/adempiere/issues/4365">
+ *			@see BR [ 4365 ] Cannot delete request if it has history or updates</a>
+
  */
 public class MRequest extends X_R_Request
 {
