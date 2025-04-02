@@ -206,8 +206,8 @@ public class MLookupFactory
 			needToAddSecurity = false;
 		}
 		//	Table or Search with Reference_Value
-		else if ((AD_Reference_ID == DisplayType.Table || AD_Reference_ID == DisplayType.Search)
-			&& AD_Reference_Value_ID != 0)
+		else if (AD_Reference_ID == DisplayType.Table || (AD_Reference_ID == DisplayType.Search
+			&& AD_Reference_Value_ID > 0))
 		{
 			info = getLookup_Table (ctx, language, WindowNo, AD_Reference_Value_ID);
 		}
@@ -454,15 +454,17 @@ public class MLookupFactory
 		}
 
 		StringBuffer realSQL = new StringBuffer("SELECT ");
-		if (!KeyColumn.endsWith("_ID"))
+		if (KeyColumn != null && !KeyColumn.endsWith("_ID")) {
 			realSQL.append("NULL,");
+		}
 
 		//	Translated
 		if (IsTranslated && !Env.isBaseLanguage(language, TableName))
 		{
 			realSQL.append(TableName).append(".").append(KeyColumn).append(",");
-			if (KeyColumn.endsWith("_ID"))
+			if (KeyColumn != null && KeyColumn.endsWith("_ID")) {
 				realSQL.append("NULL,");
+			}
 			if ( !Util.isEmpty( displaySQL ))
 				realSQL.append("NVL(").append(displaySQL).append(",'-1')");
 			else 
@@ -486,8 +488,9 @@ public class MLookupFactory
 		else
 		{
 			realSQL.append(TableName).append(".").append(KeyColumn).append(",");
-			if (KeyColumn.endsWith("_ID"))
+			if (KeyColumn != null && KeyColumn.endsWith("_ID")) {
 				realSQL.append("NULL,");
+			}
 			if ( !Util.isEmpty( displaySQL ))
 				realSQL.append("NVL(").append(displaySQL).append(",'-1')");
 			else 
@@ -765,8 +768,8 @@ public class MLookupFactory
 			{
 				displayColumn.append(DB.TO_CHAR(columnSQL, ldc.DisplayType, language.getAD_Language()));
 			}
-			//  TableDir
-			else if ((ldc.DisplayType == DisplayType.TableDir || ldc.DisplayType == DisplayType.Search)
+			//  TableDir or Search
+			else if ((ldc.DisplayType == DisplayType.TableDir || (ldc.DisplayType == DisplayType.Search && ldc.AD_Reference_ID == 0))
 				&& ldc.ColumnName.endsWith("_ID"))
 			{
 				String embeddedSQL;
@@ -777,8 +780,8 @@ public class MLookupFactory
 				if (embeddedSQL != null)
 					displayColumn.append("(").append(embeddedSQL).append(")");
 			}
-			//	Table
-			else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
+			//	Table or Search
+			else if (ldc.DisplayType == DisplayType.Table || (ldc.DisplayType == DisplayType.Search && ldc.AD_Reference_ID > 0))
 			{
 				String embeddedSQL;
 				if (ldc.IsVirtual)
@@ -908,7 +911,7 @@ public class MLookupFactory
 		if (list.size() == 0)
 		{
 			s_log.log(Level.SEVERE, "No Identifier records found: " + ColumnName);
-			return "";
+			return "CONCAT('<', COALESCE(" + BaseTable + "." + ColumnName + ", -1) ,'>')";
 		}
 
 		//
@@ -932,9 +935,9 @@ public class MLookupFactory
 			{
 				embedSQL.append("NVL(" + DB.TO_CHAR(columnSQL, ldc.DisplayType, language.getAD_Language()) + ",'')");
 			}
-			//  TableDir
-			else if ((ldc.DisplayType == DisplayType.TableDir || ldc.DisplayType == DisplayType.Search)
-			  && ldc.ColumnName.endsWith("_ID"))
+			//  TableDir or Search
+			else if ((ldc.DisplayType == DisplayType.TableDir || (ldc.DisplayType == DisplayType.Search && ldc.AD_Reference_ID == 0))
+				&& ldc.ColumnName.endsWith("_ID"))
 			{
 				String embeddedSQL;
 				if (ldc.IsVirtual)
@@ -943,8 +946,8 @@ public class MLookupFactory
 					embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, TableName);
 				embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
 			}
-			//	Table - teo_sarca [ 1714261 ]
-			else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
+			//	Table or Search - teo_sarca [ 1714261 ]
+			else if ((ldc.DisplayType == DisplayType.Search || ldc.DisplayType == DisplayType.Table) && ldc.AD_Reference_ID > 0)
 			{
 				String embeddedSQL;
 				if (ldc.IsVirtual)
@@ -990,4 +993,3 @@ public class MLookupFactory
 	}	//  getLookup_TableDirEmbed
 
 }   //  MLookupFactory
-
