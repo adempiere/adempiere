@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#4381 Filter Located Product Tab" ReleaseNo="3.9.4.002" SeqNo="10360">
+    <Comments>See https://github.com/adempiere/adempiere/issues/4381 By EdwinBetanc0urt.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53244" Table="AD_Tab">
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isOldNull="true">1980</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
