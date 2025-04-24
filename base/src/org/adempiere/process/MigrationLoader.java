@@ -29,6 +29,7 @@ import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.process.MigrationFromXML;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.RoleAccessUpdate;
 import org.compiere.process.SynchronizeTerminology;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -36,8 +37,17 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Util;
+import org.eevolution.process.GenerateSurrogateKeys;
 import org.eevolution.services.dsl.ProcessBuilder;
 
+/**
+ * Migration Loader
+ * @author Paul Bowden
+ *
+ * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ *			<a href="https://github.com/adempiere/adempiere/issues/4000">
+ *			@see FR [ 4383 ] Generate UUID on records with migration loader.</a>
+ */
 public class MigrationLoader {
 	
 	/**	Logger	*/
@@ -121,7 +131,7 @@ public class MigrationLoader {
 				ProcessInfo processInfoRoleAccessUpdate = ProcessBuilder.create(context)
 						.process(org.compiere.process.RoleAccessUpdate.class)
 						.withTitle("Role Access Update")
-						.withParameter("AD_Client_ID", client.getAD_Client_ID())
+						.withParameter(RoleAccessUpdate.AD_CLIENT_ID, client.getAD_Client_ID())
 						.executeUsingSystemRole();
 				log.log(Level.INFO, "Process=" + processInfoRoleAccessUpdate.getTitle() + " Client=(" + client.getValue() + " - " + client.getName() + ") Error="+processInfoRoleAccessUpdate.isError() + " Summary=" + processInfoRoleAccessUpdate.getSummary());
 			});
@@ -131,6 +141,15 @@ public class MigrationLoader {
 					.withTitle("Updating Garden World")
 					.executeUsingSystemRole();
 			log.log(Level.INFO, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());
+
+			//	Generate Surrrogate Keys
+			ProcessInfo processInfoGenerateSurrogateKeys = ProcessBuilder.create(context)
+				.process(org.eevolution.process.GenerateSurrogateKeys.class)
+				.withTitle("Generate Surrrogate (UUID) Keys")
+				.withParameter(GenerateSurrogateKeys.IsGenerateUUID, true)
+				.executeUsingSystemRole()
+			;
+			log.log(Level.INFO, "Process=" + processInfoGenerateSurrogateKeys.getTitle() + " Error=" + processInfoGenerateSurrogateKeys.isError() + " Summary=" + processInfoGenerateSurrogateKeys.getSummary());
 		} catch (AdempiereException e) {
 			e.printStackTrace();
 			System.exit(1);

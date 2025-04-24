@@ -35,6 +35,10 @@ import org.jfree.util.Log;
 /** Generated Process for (Generate Surrogate Key UUID for all tables)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.0
+ *
+ * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, https://github.com/EdwinBetanc0urt
+ *			<a href="https://github.com/adempiere/adempiere/issues/4000">
+ *			@see FR [ 4383 ] Generate UUID on records with migration loader.</a>
  */
 public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 {
@@ -134,12 +138,16 @@ public class GenerateSurrogateKeys extends GenerateSurrogateKeysAbstract
 	 */
 	private void generateUUIDByTable(String tableName) {
 		int updated = DB.executeUpdate("UPDATE " + tableName + " SET UUID = getUUID() WHERE UUID IS NULL", get_TrxName());
-		addLog(tableName + " @Updated@: " + updated);
+		if (updated != 0) {
+			// errors with -1 and rows updated
+			addLog(tableName + " @Updated@: " + updated);
+		}
 	}
 
 	/**
 	 * Get Table List
 	 * @param trxName
+	 * TODO: Improve performance replace list method by getIDsAsList method 
 	 * @return
 	 */
 	private List<MTable> getTableList(String trxName) {
