@@ -910,8 +910,12 @@ public class MLookupFactory
 		//  Do we have columns ?
 		if (list.size() == 0)
 		{
-			s_log.log(Level.SEVERE, "No Identifier records found: " + ColumnName);
-			return "CONCAT('<', COALESCE(" + BaseTable + "." + ColumnName + ", -1) ,'>')";
+			s_log.log(Level.SEVERE, "No Identifier records found: " + BaseTable + "." + ColumnName);
+			return "CASE "
+					+ "WHEN " + BaseTable + "." + ColumnName + " IS NULL THEN NULL "
+					+ "ELSE CONCAT('<', " + BaseTable + "." + ColumnName + ", '>') "
+				+ "END"
+			;
 		}
 
 		//
