@@ -527,11 +527,17 @@ public class MStorage extends X_M_Storage
 			if (storage0 == null)
 			{
 				storage.setQtyReserved(storage.getQtyReserved().add(diffQtyReserved));
+				System.out.print("reservada: "+storage.getQtyReserved());
+				System.out.print("diferencia: "+diffQtyReserved);
+				System.out.print("id: "+storage.get_ID());
 				//Util.assume(storage.getQtyReserved().signum() >= 0, "QtyReserved should be >=0 for " + storage);
 			}
 			else
 			{
 				storage0.setQtyReserved(storage0.getQtyReserved().add(diffQtyReserved));
+				System.out.print("reservada1: "+storage.getQtyReserved());
+				System.out.print("diferencia1: "+diffQtyReserved);
+				System.out.print("id1: "+storage.get_ID());
 				//Util.assume(storage0.getQtyReserved().signum() >= 0, "QtyReserved should be >=0 for " + storage0);
 			}
 			diffText.append(" Reserved=").append(diffQtyReserved);
@@ -679,6 +685,42 @@ public class MStorage extends X_M_Storage
 				+ ",M_Product_ID=" + M_Product_ID + " = " + retValue);
 		return retValue;
 	}	//	getQtyAvailable
+	
+	
+	
+	
+	
+	
+	public static BigDecimal getQtyAvailableWithoutWarehouse (int M_Locator_ID, 
+	        int M_Product_ID, int M_AttributeSetInstance_ID, String trxName)
+	    {
+	        ArrayList<Object> params = new ArrayList<Object>();
+	        StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(s.QtyOnHand-s.QtyReserved),0)")
+	                                .append(" FROM M_Storage s")
+	                                .append(" WHERE s.M_Product_ID=?");
+	        params.add(M_Product_ID);
+	        // Warehouse level
+	        if(M_Locator_ID > 0) {
+	            sql.append(" AND s.M_Locator_ID=?");
+	            params.add(M_Locator_ID);
+	        }
+	        // With ASI
+	        if (M_AttributeSetInstance_ID != 0) {
+	            sql.append(" AND s.M_AttributeSetInstance_ID=?");
+	            params.add(M_AttributeSetInstance_ID);
+	        }
+	        //
+	        BigDecimal retValue = DB.getSQLValueBD(trxName, sql.toString(), params);
+	        if (CLogMgt.isLevelFine())
+	            s_log.fine("M_Locator_ID=" + M_Locator_ID 
+	                + ",M_Product_ID=" + M_Product_ID + " = " + retValue);
+	        return retValue;
+	    }   //  getQtyAvailable
+	
+	
+	
+	
+	
 	
 	
 	/**************************************************************************

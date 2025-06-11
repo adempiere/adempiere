@@ -294,7 +294,7 @@ public class PromotionRule {
 
 	private static void addDiscountLine(MOrder order, MOrderLine ol, BigDecimal discount,
 			BigDecimal qty, int C_Charge_ID, I_M_Promotion promotion) throws Exception {
-		
+		/*
 		MOrderLine nol;
 		if (discount.scale() > 2)
 			discount = discount.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -315,33 +315,35 @@ public class PromotionRule {
 			nol.saveEx();
 			return;
     	}
-		
 		// SHW: new order line 
-		nol = new MOrderLine(order.getCtx(), 0, order.get_TrxName());
-		nol.setC_Order_ID(order.getC_Order_ID());
-		nol.setOrder(order);
-		nol.setC_Charge_ID(C_Charge_ID);
-		nol.setQty(qty);
-		nol.setPriceActual(discount.negate());
-		nol.setC_UOM_ID(ol.getC_UOM_ID());  // SHW
-		if (ol != null && Integer.toString(ol.getLine()).endsWith("0")) {
-			for(int i = 0; i < 9; i++) {
-				int line = ol.getLine() + i + 1;
-				int r = DB.getSQLValue(order.get_TrxName(), "SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID = ? AND Line = ?", order.getC_Order_ID(), line);
-				if (r <= 0) {
-					nol.setLine(line);
-					break;
-				}
-			}
-		}
-		nol.setDescription(description);
-		nol.set_ValueOfColumn("M_Promotion_ID", promotion.getM_Promotion_ID());
-		if (promotion.getC_Campaign_ID() > 0) {
-			nol.setC_Campaign_ID(promotion.getC_Campaign_ID());
-		}
-		if (!nol.save())
-			throw new AdempiereException("Failed to add discount line to order");
-	}
+                   
+    		nol = new MOrderLine(order.getCtx(), 0, order.get_TrxName());
+    		nol.setC_Order_ID(order.getC_Order_ID());
+    		nol.setOrder(order);
+    		nol.setC_Charge_ID(C_Charge_ID);
+    		nol.setQty(qty);
+    		nol.setPriceActual(discount.negate());
+    		nol.setC_UOM_ID(ol.getC_UOM_ID());  // SHW
+    		if (ol != null && Integer.toString(ol.getLine()).endsWith("0")) {
+    			for(int i = 0; i < 9; i++) {
+    				int line = ol.getLine() + i + 1;
+    				int r = DB.getSQLValue(order.get_TrxName(), "SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID = ? AND Line = ?", order.getC_Order_ID(), line);
+    				if (r <= 0) {
+    					nol.setLine(line);
+    					break;
+    				}
+    			}
+    		}
+    		nol.setDescription(description);
+    		nol.set_ValueOfColumn("M_Promotion_ID", promotion.getM_Promotion_ID());
+    		if (promotion.getC_Campaign_ID() > 0) {
+    			nol.setC_Campaign_ID(promotion.getC_Campaign_ID());
+    		}
+    		if (!nol.save())
+    			throw new AdempiereException("Failed to add discount line to order");
+
+        
+	*/}
 
 	/**
 	 *

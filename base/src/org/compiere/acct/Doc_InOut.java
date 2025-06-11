@@ -355,8 +355,9 @@ public class Doc_InOut extends Doc
 			}	//	for all lines
 		}	//	Sales Return
 		
-		//  *** Purchasing - Receipt
-		else if (getDocumentType().equals(DOCTYPE_MatReceipt) && !isSOTrx())
+		//  *** Purchasing - Receipt CSTM-LPA
+		else if ((getDocumentType().equals(DOCTYPE_MatReceipt) 
+			|| getDocumentType().equals("CMR")) && !isSOTrx())
 		{
 			BigDecimal total = Env.ZERO;
 			for (int i = 0; i < p_lines.length; i++)

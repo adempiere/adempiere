@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -99,9 +100,27 @@ public class CalloutPayment extends CalloutEngine
 				mTab.setValue ("C_Currency_ID", new Integer (C_Currency_ID));
 				//
 				BigDecimal InvoiceOpen = rs.getBigDecimal (3); // Set Invoice
-				// OPen Amount
-				if (InvoiceOpen == null)
-					InvoiceOpen = Env.ZERO;
+				
+				//CSTM-LPA
+				int AD_Client_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Client_ID");
+				int AD_Org_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Org_ID");
+
+				MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
+				Boolean isImmediate = invoice.getC_PaymentTerm().getNetDays() == 0 ? true: false;
+				// OPen Amount 
+                if (InvoiceOpen == null) {
+                    InvoiceOpen = Env.ZERO;
+                }else if(InvoiceOpen.compareTo(BigDecimal.ZERO) > 0) {
+                    if (isImmediate) {
+                        InvoiceOpen = recalculateInvoiceOpen(InvoiceOpen, C_Invoice_ID, C_Currency_ID, 
+                                                            ctx, mTab, AD_Client_ID, AD_Org_ID);
+                    } 
+                }
+                
+                    
+				//END CSTM-LPA
+
+				
 				BigDecimal DiscountAmt = rs.getBigDecimal (4); // Set Discount
 				// Amt
 				if (DiscountAmt == null)
@@ -359,6 +378,26 @@ public class CalloutPayment extends CalloutEngine
 				pstmt = null;
 			}
 		} // get Invoice Info
+
+		//CSTM-LPA
+		// Get Currency Info
+		int C_Currency_ID = ((Integer)mTab.getValue ("C_Currency_ID")) == null ? Env.getContextAsInt(ctx, "$C_Currency_ID"): ((Integer)mTab.getValue ("C_Currency_ID"));
+		int AD_Client_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Client_ID");
+		int AD_Org_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Org_ID");
+		/*
+		 * glpa
+		 */
+		if (InvoiceOpenAmt != null && InvoiceOpenAmt.compareTo(BigDecimal.ZERO) > 0) {
+		    if (C_Invoice_ID != 0) {
+	            MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
+	            Boolean isImmediate = invoice.getC_PaymentTerm().getNetDays() == 0 ? true: false;
+	            if (isImmediate) {
+	                InvoiceOpenAmt = recalculateInvoiceOpen(InvoiceOpenAmt, C_Invoice_ID, C_Currency_Invoice_ID, ctx, mTab, AD_Client_ID,   AD_Org_ID);
+	            }
+	        } 
+		}//END CSTM-LPA
+		
+
 		log.fine ("Open=" + InvoiceOpenAmt + ", C_Invoice_ID=" + C_Invoice_ID
 			+ ", C_Currency_ID=" + C_Currency_Invoice_ID);
 		// Get Info from Tab
@@ -369,8 +408,7 @@ public class CalloutPayment extends CalloutEngine
 		log.fine ("Pay=" + PayAmt + ", Discount=" + DiscountAmt + ", WriteOff="
 			+ WriteOffAmt + ", OverUnderAmt=" + OverUnderAmt);
 		
-		// Get Currency Info
-		int C_Currency_ID = ((Integer)mTab.getValue ("C_Currency_ID")) == null ? Env.getContextAsInt(ctx, "$C_Currency_ID"): ((Integer)mTab.getValue ("C_Currency_ID"));
+		
 			//.intValue ();
 		MCurrency currency = MCurrency.get (ctx, C_Currency_ID);
 		Timestamp ConvDate = (Timestamp)mTab.getValue ("DateTrx");
@@ -378,8 +416,7 @@ public class CalloutPayment extends CalloutEngine
 		Integer ii = (Integer)mTab.getValue ("C_ConversionType_ID");
 		if (ii != null)
 			C_ConversionType_ID = ii.intValue ();
-		int AD_Client_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Client_ID");
-		int AD_Org_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Org_ID");
+		
 		// Get Currency Rate
 		BigDecimal CurrencyRate = Env.ONE;
 		if ((C_Currency_ID > 0 && C_Currency_Invoice_ID > 0 && C_Currency_ID != C_Currency_Invoice_ID)
@@ -482,5 +519,51 @@ public class CalloutPayment extends CalloutEngine
 			}
 		}
 		return "";
-	} // amounts
+	} // amounts 
+
+		 
+	/**
+	 * Calcula otra vez el monto abierto de la factura tomando en cuenta los PAGO/COBRO 
+	 * que se encuentren PREPARADOS
+	 * @param invoiceID Factura a pagar
+	 * @param payCurrencyID	Moneda del pago
+	 * @param ctx Contexto
+	 * @param mTab
+	 * @param AD_Client_ID
+	 * @param AD_Org_ID
+	 * @return El monto abierto de la factura menos el monto de los pagos PREPARADOS
+	 */
+	private BigDecimal recalculateInvoiceOpen(BigDecimal openAmt, int invoiceID, int payCurrencyID, Properties ctx, GridTab mTab, int AD_Client_ID, int AD_Org_ID){
+		
+		BigDecimal paidAmount = BigDecimal.ZERO;
+		String whereClause = MInvoice.COLUMNNAME_C_Invoice_ID + "=? AND DocStatus = 'IP' AND IsIGTF <> 'Y'";
+		int paymentID = 0;
+		if (mTab.getValue(MPayment.COLUMNNAME_C_Payment_ID) != null) {
+			paymentID = (int) mTab.getValue(MPayment.COLUMNNAME_C_Payment_ID);
+		}
+		
+		if (paymentID > 0) {
+			whereClause += "AND " + MPayment.COLUMNNAME_C_Payment_ID + " <> " + paymentID;
+		}
+		
+		List <MPayment> payments = new Query(ctx , MPayment.Table_Name , whereClause, null)
+				.setClient_ID()
+				.setParameters(invoiceID)
+				.list();
+
+		for (MPayment payment : payments) {
+			BigDecimal payAmt =	payment.getPayAmt();
+			MCurrency currency = (MCurrency) payment.getC_Currency();
+
+			BigDecimal CurrencyRate = MConversionRate.getRate (payment.getC_Currency_ID(),
+				payCurrencyID, payment.getDateAcct(), (int) mTab.getValue(MPayment.COLUMNNAME_C_ConversionType_ID) , AD_Client_ID,
+				AD_Org_ID);
+			payAmt = payAmt.multiply (CurrencyRate).setScale (
+				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+			paidAmount = paidAmount.add(payAmt);
+		}
+		
+
+		return openAmt.subtract(paidAmount);
+	}
 } // CalloutPayment

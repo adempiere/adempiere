@@ -92,6 +92,7 @@ public class InvoiceCreateInOut extends InvoiceCreateInOutAbstract
 		if (inOut != null)
 			return inOut;
 		inOut = new MInOut (invoice, 0, null, getWarehouseId());
+		inOut.setC_Invoice_ID(invoice.getC_Invoice_ID());
 		inOut.saveEx();
 		return inOut;
 	}

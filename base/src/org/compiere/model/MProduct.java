@@ -267,7 +267,10 @@ public class MProduct extends X_M_Product
 		setClientOrg(impP);
 		setUpdatedBy(impP.getUpdatedBy());
 		//
-		setValue(impP.getValue());
+		if(impP.getValue() != null)
+		{
+		    setValue(impP.getValue());
+		}
 		setName(impP.getName());
 		setDescription(impP.getDescription());
 		setDocumentNote(impP.getDocumentNote());

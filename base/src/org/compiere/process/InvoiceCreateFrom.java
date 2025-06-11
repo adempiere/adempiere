@@ -41,6 +41,9 @@ import org.compiere.util.Env;
  *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *  @version Release 3.8.0
  */
+/*
+ * pablo
+ */
 public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 
 	/**	Create From Type of RMA		*/

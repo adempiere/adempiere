@@ -183,7 +183,7 @@ public class ImportInventoryMove extends SvrProcess
 		isImported = false;
 		MMovementLine movementLine = getInventoryMovementLine(movement, movementImport);
 		if(movementLine == null)
-			movementLine = new MMovementLine(Env.getCtx(), 0 , get_TrxName());
+			movementLine = new MMovementLine(Env.getCtx(), 0 , movement.get_TrxName());
 		
 		try
 		{
@@ -281,7 +281,7 @@ public class ImportInventoryMove extends SvrProcess
 			movement.setAD_Org_ID(movementImport.getAD_Org_ID());
 			movement.setMovementDate(movementImport.getMovementDate());
 			movement.setC_DocType_ID(movementImport.getC_DocType_ID());
-			movement.setDocumentNo(movementImport.getDocumentNo());
+			//movement.setDocumentNo(movementImport.getDocumentNo());
 			movement.setC_BPartner_ID(movementImport.getC_BPartner_ID());
 			movement.setM_Shipper_ID(movementImport.getM_Shipper_ID());
 			movement.setC_Project_ID(movementImport.getC_Project_ID());

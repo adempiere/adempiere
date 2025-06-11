@@ -200,7 +200,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 		BigDecimal amount = MConversionRate.convertBase(getCtx()
 				, getAmt()
 				, getC_Currency_ID()
-				, getDateAcct()
+				, invoiceLine.getParent().getDateInvoiced()
 				, getC_ConversionType_ID()
 				, getAD_Client_ID()
 				, getAD_Org_ID())

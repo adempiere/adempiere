@@ -91,8 +91,11 @@ public class FactAcctReset extends FactAcctResetAbstract {
     protected String doIt() {
         Optional.ofNullable(MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema())
                 .ifPresent(accountingSchemaDefault -> {
+
                     Arrays.stream(getAccountingDocumentTablesIds()).forEach(tableId -> {
+
                         MTable table = MTable.get(getCtx(), tableId);
+                        
                         if (isDeletePosting())
                             delete(accountingSchemaDefault, table);
                         else

@@ -34,6 +34,7 @@ import org.compiere.model.MPeriod;
 import org.compiere.model.MRole;
 import org.compiere.model.MStorage;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.Query;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -321,7 +322,7 @@ public class Match
 			m_qtyColumn = "lin.QtyOrdered";
 			m_sql.append("SELECT hdr.C_Order_ID,hdr.DocumentNo, hdr.DateOrdered, bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_OrderLine_ID, p.Name,lin.M_Product_ID,"
-				+ " lin.QtyOrdered,SUM(COALESCE(mo.Qty,0)), org.Name, hdr.AD_Org_ID " //JAVIER
+				+ " lin.QtyOrdered,SUM(COALESCE(CASE WHEN mo.M_INOUTLINE_ID IS NOT NULL THEN mo.Qty ELSE 0 end,0)), org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "FROM C_Order hdr"
 				+ " INNER JOIN AD_Org org ON (hdr.AD_Org_ID=org.AD_Org_ID)" //JAVIER
 				+ " INNER JOIN C_BPartner bp ON (hdr.C_BPartner_ID=bp.C_BPartner_ID)"
@@ -332,7 +333,7 @@ public class Match
 				+ " WHERE " ) ; //[ 1876972 ] Can't match partially matched PO with an unmatched receipt SOLVED BY BOJANA, AGENDA_GM
 			m_linetype = new StringBuffer();
 			m_linetype.append( matchToType == MATCH_SHIPMENT ? "M_InOutLine_ID" : "C_InvoiceLine_ID") ;
-			if ( matched ) {
+			/*if ( matched ) {
 				m_sql.append( " mo." + m_linetype + " IS NOT NULL " ) ; 
 			} else {
  				m_sql.append( " ( mo." + m_linetype + " IS NULL OR "
@@ -342,13 +343,13 @@ public class Match
 				+ " hdr.C_ORDER_ID=lin.C_ORDER_ID AND "
 				+ " mo1." + m_linetype
 				+ " IS NOT NULL group by mo1.C_ORDERLINE_ID))) " );	
-			}
-			m_sql.append( " AND hdr.DocStatus IN ('CO','CL')" );
+			}*/
+			m_sql.append( " hdr.DocStatus IN ('CO','CL')" );
 			m_groupBy = " GROUP BY hdr.C_Order_ID,hdr.DocumentNo,hdr.DateOrdered,bp.Name,hdr.C_BPartner_ID,"
 				+ " lin.Line,lin.C_OrderLine_ID,p.Name,lin.M_Product_ID,lin.QtyOrdered, org.Name, hdr.AD_Org_ID " //JAVIER
 				+ "HAVING "
 				+ (matched ? "0" : "lin.QtyOrdered")
-				+ "<>SUM(COALESCE(mo.Qty,0))";
+				+ "<>SUM(COALESCE(CASE WHEN mo.M_INOUTLINE_ID IS NOT NULL THEN mo.Qty ELSE 0 end,0))";
 		}
 		else    //  Shipment
 		{
@@ -468,13 +469,24 @@ public class Match
 			//	Create PO - Invoice Link = corrects PO
 			if (iLine.getC_OrderLine_ID() != 0 && iLine.getM_Product_ID() != 0)
 			{
-				MMatchPO matchPO = new MMatchPO(iLine, iLine.getParent().getDateAcct() , qty);
-				matchPO.setC_InvoiceLine_ID(iLine);
-				if (!matchPO.save())
-					log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
-				if (MClient.isClientAccountingImmediate()) {
-					String ignoreError = DocumentEngine.postImmediate(matchPO.getCtx(), matchPO.getAD_Client_ID(), matchPO.get_Table_ID(), matchPO.get_ID(), true, matchPO.get_TrxName());						
+				Boolean createMPO = true;
+				for (MMatchPO matchPO : MMatchPO.get(iLine.getCtx(), iLine.getC_OrderLine_ID(), iLine.get_ID(), trxName)) {
+					if (matchPO.getQty().compareTo(iLine.getQtyInvoiced()) == 0 
+						|| matchPO.getQty().compareTo(iLine.getC_OrderLine().getQtyOrdered()) == 0) 
+					{
+						createMPO = false;
+					}
 				}
+				if (createMPO) {
+					MMatchPO matchPO = new MMatchPO(iLine, iLine.getParent().getDateAcct() , qty);
+					matchPO.setC_InvoiceLine_ID(iLine);
+					if (!matchPO.save())
+						log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
+					if (MClient.isClientAccountingImmediate()) {
+						String ignoreError = DocumentEngine.postImmediate(matchPO.getCtx(), matchPO.getAD_Client_ID(), matchPO.get_Table_ID(), matchPO.get_ID(), true, matchPO.get_TrxName());						
+					}
+				}
+				
 			}
 		}
 		else	//	Shipment - Order
@@ -511,6 +523,29 @@ public class Match
 			}
 			else
 				success = true;
+
+			for (MMatchInv mInv : MMatchInv.getByInOut(sLine.getCtx(), sLine.get_ID(), trxName)) {
+				
+				String sql = "SELECT 1 FROM M_MATCHPO m" 
+				+" INNER JOIN C_INVOICELINE i ON (m.C_INVOICELINE_ID = i.C_INVOICELINE_ID)"
+				+" INNER JOIN C_ORDERLINE o ON (m.C_ORDERLINE_ID = o.C_ORDERLINE_ID)"
+				+" WHERE m.C_ORDERLINE_ID = ?"
+				+" AND m.C_INVOICELINE_ID = ?"
+				+" AND(m.QTY = i.QTYINVOICED OR m.QTY = o.QTYORDERED)";
+				int no=DB.getSQLValue(trxName, sql, oLine.get_ID(), mInv.getC_InvoiceLine_ID());
+				
+				if (no < 0) {
+					MInvoiceLine invoiceLine = (MInvoiceLine) mInv.getC_InvoiceLine();
+					MMatchPO matchPO = new MMatchPO(invoiceLine, invoiceLine.getParent().getDateAcct() , mInv.getMovementQty());
+					matchPO.setC_InvoiceLine_ID(invoiceLine);
+					matchPO.setC_OrderLine_ID(oLine.get_ID());				
+					if (!matchPO.save())
+						log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
+					if (MClient.isClientAccountingImmediate()) {
+						String ignoreError = DocumentEngine.postImmediate(matchPO.getCtx(), matchPO.getAD_Client_ID(), matchPO.get_Table_ID(), matchPO.get_ID(), true, matchPO.get_TrxName());						
+					}
+				}
+			}
 		}
 		return success;
 	}   //  createMatchRecord

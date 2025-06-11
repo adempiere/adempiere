@@ -962,7 +962,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 						M_AttributeSet_ID, false, null, true, get_TrxName());
 					BigDecimal qty = Env.ZERO;
 					for (int i = 0; i < storages.length; i++)
-					{
+					{  
 						if (storages[i].getM_AttributeSetInstance_ID() == getM_AttributeSetInstance_ID())
 							qty = qty.add(storages[i].getQtyOnHand());
 					}

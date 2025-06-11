@@ -76,6 +76,7 @@ public class GenerateMovement extends GenerateMovementAbstract {
                         printDocument(movement, "Inventory Move Hdr (Example)");
                     });
         }
+        
         return result;
     }    //	generate
 }    //	MovementGenerate
