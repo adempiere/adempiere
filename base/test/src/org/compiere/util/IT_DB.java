@@ -300,9 +300,7 @@ class IT_DB extends CommonGWSetup {
     void test_getResultSetListParamWithFunctionThrowsException() {
         Trx.run(trxName -> {
                     String sql = "SELECT DocumentNo FROM C_InvoiceNotExist WHERE C_Invoice_ID=? AND DocStatus=?";
-                    List<Object> params = new ArrayList<Object>();
-                    params.add(100);
-                    params.add("CO");
+                    io.vavr.collection.List<Object> params = io.vavr.collection.List.of(100,"CO");
                     Try<Void> result = DB.runResultSetFunction.apply(trxName , sql, params, rows -> {
                         while (rows.next()) {
                             String documentNo = rows.getString("documentNo");
@@ -321,9 +319,7 @@ class IT_DB extends CommonGWSetup {
     void test_getResultSetListParamWithFunction() {
         Trx.run(trxName -> {
                     String sql = "SELECT DocumentNo FROM C_Invoice WHERE C_Invoice_ID=? AND DocStatus=?";
-                    ArrayList<Object> params = new ArrayList<Object>();
-                    params.add(100);
-                    params.add("CO");
+                    io.vavr.collection.List<Object> params = io.vavr.collection.List.of(100,"CO");
                     Try<Void> result = DB.runResultSetFunction.apply(trxName, sql, params, rows -> {
                         while (rows.next()) {
                             String documentNo = rows.getString("documentNo");

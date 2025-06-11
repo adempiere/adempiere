@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.compiere.model.MClient;
 import org.compiere.model.MMailMsg;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
@@ -36,10 +35,13 @@ import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebSessionCtx;
 import org.compiere.util.WebUser;
 import org.compiere.util.WebUtil;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Web Store Payment Entry & Confirmation
@@ -399,14 +401,22 @@ public class PaymentServlet  extends HttpServlet
 				wu.getName(),
 				message.toString()});
 		//	SalesRep EMail
-		if (wo != null && wo.getSalesRep_ID() != 0)
-		{
-			MClient client = MClient.get(ctx);
-			client.sendEMail(wo.getSalesRep_ID(), 
-				"(CC) Payment: " + p.getDocumentNo() + " (" + p.getPayAmt() + ")", 
-				"Order: " + wo.getDocumentNo() 
-				+ "\nUser: " + wu.getName() + " - " + wu.getEmail(),
-				null);
+		if (wo != null && wo.getSalesRep_ID() != 0) {
+			Trx.run(transactionName -> {
+				//	Get instance for notifier
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(ctx)
+						.withTransactionName(transactionName);
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+					.addRecipient(wo.getSalesRep_ID())
+					.withText("Order: " + wo.getDocumentNo() + "\nUser: " + wu.getName() + " - " + wu.getEmail())
+					.withDescription("(CC) Payment: " + p.getDocumentNo() + " (" + p.getPayAmt() + ")");
+				//	Add to queue
+				notifier.addToQueue();
+			});
 		}
 	}	//	sendEMail
 

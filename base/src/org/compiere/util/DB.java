@@ -65,6 +65,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import static io.vavr.API.Option;
+
 
 /**
  *  General Database Interface
@@ -2601,15 +2603,17 @@ public final class DB
 
 	/**
 	 * Execute ResultSet from a function
-	 * Parameters Type <String sql , List<Object> parameters , String trxName , ResultSetRunnable<ResultSet> callback>
+	 * Parameters Type <String trxName . String sql , io.vavr.collection.List<Object> parameters , ResultSetRunnable<ResultSet> callback>
 	 * Use apply method to set of parameters
 	 */
-	static Function4<String , String, List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
+	public static Function4<String , String,  io.vavr.collection.List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
 		AtomicReference<CPreparedStatement> preparedStatementReference = new AtomicReference<>();
 		AtomicReference<ResultSet> resultSetReference = new AtomicReference<>();
 		return Try.run(() -> {
-			CPreparedStatement prepareStatement = prepareStatement(sql, trxName);
-			DB.setParameters(prepareStatement, parameters);
+			final CPreparedStatement prepareStatement = prepareStatement(sql, trxName);
+			if (Option(parameters).isDefined()) {
+				DB.setParameters(prepareStatement, parameters.asJava());
+			}
 			preparedStatementReference.set(prepareStatement);
 			ResultSet resultSet = preparedStatementReference.get().executeQuery();
 			callback.run(resultSet);
@@ -2618,4 +2622,16 @@ public final class DB
 			DB.close(resultSetReference.get(), preparedStatementReference.get());
 		});
 	};
+
+	/**
+	 * Execute ResultSet from an imperative Mode
+	 * @param trxName trx Name
+	 * @param sql SQL
+	 * @param parameters Parameters
+	 * @param resultSet ResultSet
+	 * @return
+	 */
+	public static Try<Void> runResultSet(String trxName , String sql , java.util.List<Object> parameters , ResultSetRunnable<ResultSet> resultSet) {
+		return runResultSetFunction.apply(trxName , sql ,  io.vavr.collection.List.ofAll(parameters) , resultSet);
+	}
 }	//	DB

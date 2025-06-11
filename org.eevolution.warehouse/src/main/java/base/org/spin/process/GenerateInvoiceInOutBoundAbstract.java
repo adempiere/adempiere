@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Generate Invoice From Outbound Order)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -39,6 +39,8 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	public static final String DATEINVOICED = "DateInvoiced";
 	/**	Parameter Name for Consolidate to one Document	*/
 	public static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
+	/**	Parameter Name for IsIncludeNotAvailable	*/
+	public static final String ISINCLUDENOTAVAILABLE = "IsIncludeNotAvailable";
 	/**	Parameter Value for Document Action	*/
 	private String docAction;
 	/**	Parameter Value for Target Document Type	*/
@@ -47,6 +49,8 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	private Timestamp dateInvoiced;
 	/**	Parameter Value for Consolidate to one Document	*/
 	private boolean isConsolidateDocument;
+	/**	Parameter Value for IsIncludeNotAvailable	*/
+	private boolean isIncludeNotAvailable;
 
 	@Override
 	protected void prepare() {
@@ -54,6 +58,7 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 		docTypeTargetId = getParameterAsInt(C_DOCTYPETARGET_ID);
 		dateInvoiced = getParameterAsTimestamp(DATEINVOICED);
 		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
+		isIncludeNotAvailable = getParameterAsBoolean(ISINCLUDENOTAVAILABLE);
 	}
 
 	/**	 Getter Parameter Value for Document Action	*/
@@ -94,6 +99,16 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Consolidate to one Document	*/
 	protected void setConsolidateDocument(boolean isConsolidateDocument) {
 		this.isConsolidateDocument = isConsolidateDocument;
+	}
+
+	/**	 Getter Parameter Value for IsIncludeNotAvailable	*/
+	protected boolean isIncludeNotAvailable() {
+		return isIncludeNotAvailable;
+	}
+
+	/**	 Setter Parameter Value for IsIncludeNotAvailable	*/
+	protected void setIsIncludeNotAvailable(boolean isIncludeNotAvailable) {
+		this.isIncludeNotAvailable = isIncludeNotAvailable;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

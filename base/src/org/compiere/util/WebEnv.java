@@ -45,6 +45,8 @@ import org.apache.ecs.xhtml.tr;
 import org.compiere.Adempiere;
 import org.compiere.model.MClient;
 import org.compiere.model.MSystem;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *  Web Environment and debugging
@@ -175,10 +177,21 @@ public class WebEnv
 		Properties ctx = new Properties();
 		MClient client = MClient.get(ctx, 0);
 		MSystem system = MSystem.get(ctx);
-		client.sendEMail(client.getRequestEMail(), 
-			"Server started: " + system.getName(), 
-			"ServerInfo: " + context.getServerInfo(), null);
-
+		Trx.run(transactionName -> {
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(ctx)
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+				.addRecipient(client.getRequestEMail())
+				.withText(Msg.parseTranslation(ctx, "@ServerInfo@: " + context.getServerInfo()))
+				.withDescription(Msg.parseTranslation(ctx, "@ServerStarted@: " + system.getName()));
+			//	Add to queue
+			notifier.addToQueue();
+		});
 		return s_initOK;
 	}	//	initWeb
 

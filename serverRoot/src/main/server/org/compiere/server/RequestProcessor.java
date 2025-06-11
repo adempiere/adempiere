@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.compiere.model.I_R_Request;
 import org.compiere.model.MChangeRequest;
@@ -39,6 +40,8 @@ import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.spin.model.MRNoticeTemplate;
 import org.spin.model.MRNoticeTemplateEvent;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Request Processor
@@ -295,29 +298,49 @@ public class RequestProcessor extends AdempiereServer
 	 *  @return true if sent
 	 */
 	private boolean sendEmail (MRequest request, String eventType) {
-		String subject = null;
-		String message = null;
+		AtomicReference<String> subject = new AtomicReference<String>();
+		AtomicReference<String> message = new AtomicReference<String>();
 		//	Event Type
 		if(!Util.isEmpty(eventType)) {
 			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
 			if(mailText != null) {
 				//	Add Request
 				mailText.setPO(request, true);
-				subject = mailText.getMailHeader();
+				subject.set(mailText.getMailHeader());
 				//	Message
-				message = mailText.getMailText(true);
+				message.set(mailText.getMailText(true));
 			}
 		}
-		if(Util.isEmpty(subject)
-				&& Util.isEmpty(message)) {
+		if(Util.isEmpty(subject.get())
+				&& Util.isEmpty(message.get())) {
 			//  Alert: Request {0} overdue
-			subject = Msg.getMsg(m_client.getAD_Language(), "RequestDue", 
-				new String[] {request.getDocumentNo()});
-			message = request.getSummary();
+			subject.set(Msg.getMsg(m_client.getAD_Language(), "RequestDue", 
+				new String[] {request.getDocumentNo()}));
+			message.set(request.getSummary());
 		}
 		//	
-		return m_client.sendEMail(request.getSalesRep_ID(), 
-				subject, request.getSummary(), request.createPDF());
+		Trx.run(transactionName -> {
+			//	Get instance for notifier
+			try {
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(getCtx())
+						.withTransactionName(transactionName);
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+					.withUserId(request.getUpdatedBy())
+					.addRecipient(request.getSalesRep_ID())
+					.withText(message.get())
+					.addAttachment(request.createPDF())
+					.withDescription(subject.get());
+				//	Add to queue
+				notifier.addToQueue();
+			} catch (Exception e) {
+				log.severe(e.getLocalizedMessage());
+			}
+		});
+		return true;
 	}   //  sendAlert
 
 	/**
@@ -336,46 +359,51 @@ public class RequestProcessor extends AdempiereServer
 			supervisor = MUser.get(getCtx(), supervisor_ID);
 		
 		//  Escalated: Request {0} to {1}
-		String subject = null;
-		String message = null;
+		AtomicReference<String> subject = new AtomicReference<String>();
+		AtomicReference<String> message = new AtomicReference<String>();
 		//	Event Type
 		MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskTaskTransferNotice);
 		if(mailText != null) {
 			//	Add Request
 			mailText.setPO(request, true);
-			subject = mailText.getMailHeader();
+			subject.set(mailText.getMailHeader());
 			//	Message
-			message = mailText.getMailText(true);
+			message.set(mailText.getMailText(true));
 		}
-		if(Util.isEmpty(subject)
-				&& Util.isEmpty(message)) {
+		if(Util.isEmpty(subject.get())
+				&& Util.isEmpty(message.get())) {
 			//  Alert: Request {0} overdue
-			subject = Msg.getMsg(m_client.getAD_Language(), "RequestEscalate", 
-					new String[] {request.getDocumentNo(), supervisor.getName()});
-			message = request.getSummary();
+			subject.set(Msg.getMsg(m_client.getAD_Language(), "RequestEscalate", new String[] {request.getDocumentNo(), supervisor.getName()}));
+			message.set(request.getSummary());
 		}
-		String to = request.getSalesRep().getEMail();
-		if (to == null || to.length() == 0)
-			log.warning("SalesRep has no EMail - " + request.getSalesRep());
-		else
-			m_client.sendEMail(request.getSalesRep_ID(), 
-				subject, message, request.createPDF());
-
+		List<Integer> recipients = new ArrayList<>();
+		recipients.add(request.getSalesRep_ID());
 		//	Not the same - send mail to supervisor
-		if (request.getSalesRep_ID() != supervisor.getAD_User_ID())
-		{
-			to = supervisor.getEMail();
-			if (to == null || to.length() == 0)
-				log.warning("Supervisor has no EMail - " + supervisor);
-			else
-				m_client.sendEMail(supervisor.getAD_User_ID(), 
-					subject, message, request.createPDF());
+		if (request.getSalesRep_ID() != supervisor.getAD_User_ID()) {
+			recipients.add(supervisor.getAD_User_ID());
 		}
-		
+		//	
+		Trx.run(transactionName -> {
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(getCtx())
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(message.get())
+				.addAttachment(request.createPDF())
+				.withDescription(subject.get());
+			//	Add recipients
+			recipients.forEach(recipientId -> notifier.addRecipient(recipientId));
+			//	Add to queue
+			notifier.addToQueue();
+		});
 		//  ----------------
 		request.setDueType();
 		request.setIsEscalated(true);
-		request.setResult(subject);
+		request.setResult(subject.get());
 		return request.save();
 	}   //  escalate
 
