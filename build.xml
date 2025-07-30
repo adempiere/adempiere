@@ -28,9 +28,9 @@
   	<echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
   	<echo message="Build finished"/>
-  	<antcall target="deploy"/>
+  	<!-- <antcall target="deploy"/> -->
   </target>
-	
+
   <target name="deploy" description="Step 2: Deploy ADempiere prior to installation">
 	<echo message="Deploy ADempiere"/>
 	<chmod dir="${AD_directory}" perm="ugo+rx" includes="**/*.sh"/>
@@ -95,7 +95,7 @@
     <!-- If this target is not executed, the next ANT call is also not executed -->
   	<antcall target="import-xml-files"/>
   </target>
-  	
+
   <target name="import-xml-files" description="Step 5: Run Migrate XML: load and apply all migration xml files" unless="${nodbrestore}">
   	<echo message="Execute XML migration files with RUN_MigrateXML start"/>
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
@@ -105,7 +105,7 @@
     <!-- If this target is not executed, the next ANT call is also not executed -->
   	<antcall target="export-database"/>
   </target>
-  	
+
   <target name="export-database" description="Step 6: Export restored and migrated database" unless="${nodbrestore}">
   	<echo message="Export new Database seed with RUN_ExportReference start"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
