@@ -262,29 +262,29 @@ public class InvoiceHistory extends Window implements EventListener
 		{
 			// for Invoice Price
 			sql = "SELECT p.Name,l.PriceActual,l.PriceList,l.QtyInvoiced,"		//  1,2,3,4
-				+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//  5,6
-				+ "o.Name, "															//  7
-				+ "NULL, i.M_PriceList_ID "												//  8,9
-				+ "FROM C_Invoice i"
+				+ " i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo,"	//  5,6
+				+ " o.Name,"															//  7
+				+ " NULL, i.M_PriceList_ID"												//  8,9
+				+ " FROM C_Invoice i"
 				+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
 				+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
-				+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID) "
-				+ "WHERE i.C_BPartner_ID=? "
-				+ "ORDER BY i.DateInvoiced DESC";
+				+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID)"
+				+ " WHERE i.C_BPartner_ID=?"
+				+ " ORDER BY i.DateInvoiced DESC";
 		}
 		else
 		{
 			// for Order Price
-			sql = "SELECT p.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered, " // 1,2,3,4,5
-					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID " // 6,7,8,9
-					+ "FROM C_Order o " 
-					+ "INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID) "
-					+ "INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID) "
-					+ "INNER JOIN AD_Org org ON (o.AD_Org_ID=o.AD_Org_ID) "
-					+ "INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID) " 
-					+ "WHERE o.C_BPartner_ID=? "
-					+ "ORDER BY o.DateOrdered DESC";
+			sql = "SELECT p.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered," // 1,2,3,4,5
+					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID" // 6,7,8,9
+					+ " FROM C_Order o" 
+					+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
+					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+					+ " INNER JOIN AD_Org org ON (o.AD_Org_ID=o.AD_Org_ID)"
+					+ " INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)" 
+					+ " WHERE o.C_BPartner_ID=?"
+					+ " ORDER BY o.DateOrdered DESC";
 		}
 		
 		Vector<Vector<Object>> data = fillTable (sql, m_C_BPartner_ID);
@@ -304,27 +304,27 @@ public class InvoiceHistory extends Window implements EventListener
 		{
 			// for Invoice Price
 			sql = "SELECT bp.Name,l.PriceActual,l.PriceList,l.QtyInvoiced," // 1,2,3,4
-					+ "i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo," // 5,6
-					+ "o.Name," // 7
-					+ "NULL, i.M_PriceList_ID" // 8,9
+					+ " i.DateInvoiced,dt.PrintName || ' ' || i.DocumentNo As DocumentNo," // 5,6
+					+ " o.Name," // 7
+					+ " NULL, i.M_PriceList_ID" // 8,9
 					+ " FROM C_Invoice i" 
 					+ " INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID)"
 					+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
 					+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
-					+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID) " 
-					+ "WHERE l.M_Product_ID="+ m_M_Product_ID
-					+ "ORDER BY i.DateInvoiced DESC";
+					+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID)" 
+					+ " WHERE l.M_Product_ID="+ m_M_Product_ID
+					+ " ORDER BY i.DateInvoiced DESC";
 		}
 		else
 		{
 			// for Order Price
-			sql = "SELECT bp.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered, " // 1,2,3,4,5
-					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID " // 6,7,8,9
-					+ "	FROM C_Order o " 
-					+ "	INNER JOIN C_OrderLine ol	ON (o.C_Order_ID = ol.C_Order_ID) "
-					+ " INNER JOIN C_DocType dt		ON (o.C_DocType_ID = dt.C_DocType_ID) "
-					+ " INNER JOIN AD_Org org		ON (o.AD_Org_ID = org.AD_Org_ID) "
-					+ " INNER JOIN C_BPartner bp	ON (o.C_BPartner_ID = bp.C_BPartner_ID) "
+			sql = "SELECT bp.Name, ol.PriceActual, ol.PriceList, ol.QtyOrdered, o.DateOrdered," // 1,2,3,4,5
+					+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, org.Name, NULL, o.M_PriceList_ID" // 6,7,8,9
+					+ "	FROM C_Order o" 
+					+ "	INNER JOIN C_OrderLine ol	ON (o.C_Order_ID = ol.C_Order_ID)"
+					+ " INNER JOIN C_DocType dt		ON (o.C_DocType_ID = dt.C_DocType_ID)"
+					+ " INNER JOIN AD_Org org		ON (o.AD_Org_ID = org.AD_Org_ID)"
+					+ " INNER JOIN C_BPartner bp	ON (o.C_BPartner_ID = bp.C_BPartner_ID)"
 					+ " WHERE ol.M_Product_ID="+ m_M_Product_ID
 					+ " ORDER BY o.DateOrdered DESC";
 		}
@@ -450,89 +450,89 @@ public class InvoiceHistory extends Window implements EventListener
 		if (m_C_BPartner_ID == 0)
 		{
 			sql = "SELECT bp.Name AS BPName, ol.PriceActual AS PriceActual ,ol.PriceList AS PriceList,ol.QtyReserved AS QtyReserved,"
-				+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-				+ "w.Name AS WarehouseName,"
-				+ "ol.Discount AS Discount "															// 8,9=M_PriceList_ID
-				+ "FROM C_Order o"
+				+ " o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo,"
+				+ " w.Name AS WarehouseName,"
+				+ " ol.Discount AS Discount"  // 8,9=M_PriceList_ID
+				+ " FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
-				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE ol.QtyReserved<>0"
+				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID)"
+				+ " WHERE ol.QtyReserved<>0"
 				+ " AND ol.M_Product_ID=" + m_M_Product_ID
 				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'");
 		}
 		else
 		{
 			sql = "SELECT p.Name AS BPName, ol.PriceActual AS PriceActual,ol.PriceList AS PriceList,ol.QtyReserved AS QtyReserved,"
-				+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-				+ "w.Name AS WarehouseName,"
-				+ "ol.Discount AS Discount "															// 8,9=M_PriceList_ID
-				+ "FROM C_Order o"
+				+ " o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo,"
+				+ " w.Name AS WarehouseName,"
+				+ " ol.Discount AS Discount"// 8,9=M_PriceList_ID
+				+ " FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
-				+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
-				+ "WHERE ol.QtyReserved<>0"
+				+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID)"
+				+ " WHERE ol.QtyReserved<>0"
 				+ " AND o.C_BPartner_ID="+m_C_BPartner_ID
 				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'");
 		}
 
 		if (reserved) {
-			sql += " UNION ALL ";
-			sql += "SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList,ol.QtyReserved AS QtyReserved,"
-					+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-					+ "w.Name AS WarehouseName,"
-					+ "0 AS Discount "                                                            // 8,9=M_PriceList_ID
-					+ "FROM PP_Order o"
+			sql += " UNION ALL";
+			sql += " SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList,ol.QtyReserved AS QtyReserved,"
+					+ " o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+					+ " w.Name AS WarehouseName,"
+					+ " 0 AS Discount "                                                            // 8,9=M_PriceList_ID
+					+ " FROM PP_Order o"
 					+ " INNER JOIN PP_Order_BOMLine ol ON (o.PP_Order_ID=ol.PP_Order_ID)"
 					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 					+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
-					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
-					+ "WHERE ol.QtyReserved<>0"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID)"
+					+ " WHERE ol.QtyReserved<>0"
 					+ " AND ol.M_Product_ID=" + m_M_Product_ID;
 
 			//Distribution Order Reserved
-			sql += " UNION ALL ";
-			sql += "SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList , ol.QtyReserved AS QtyReserved,"
-					+ "o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-					+ "w.Name AS WarehouseName,"
-					+ "0 AS Discount "													// 8,9=M_PriceList_ID
-					+ "FROM DD_Order o"
+			sql += " UNION ALL";
+			sql += " SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList , ol.QtyReserved AS QtyReserved,"
+					+ " o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo,"
+					+ " w.Name AS WarehouseName," 
+					+ " 0 AS Discount "			// 8,9=M_PriceList_ID
+					+ " FROM DD_Order o"
 					+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
 					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 					+ " INNER JOIN M_Locator l ON (l.M_Locator_ID = ol.M_LocatorTo_ID)"
 					+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
-					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
-					+ "WHERE ol.QtyReserved<>0"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID)"
+					+ " WHERE ol.QtyReserved<>0"
 					+ " AND ol.M_Product_ID="+m_M_Product_ID;
 		} else {
 			// Manufacturing Order Ordered
-			sql += " UNION ALL ";
-			sql += "SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList, o.QtyOrdered AS QtyReserved,"
-					+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-					+ "w.Name AS WarehouseName,"
-					+ "0 AS Discount "															// 8,9=M_PriceList_ID
-					+ "FROM PP_Order o"
+			sql += " UNION ALL";
+			sql += " SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList, o.QtyOrdered AS QtyReserved,"
+					+ " o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo,"
+					+ " w.Name AS WarehouseName,"
+					+ " 0 AS Discount"			// 8,9=M_PriceList_ID
+					+ " FROM PP_Order o"
 					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 					+ " INNER JOIN M_Warehouse w ON (o.M_Warehouse_ID=w.M_Warehouse_ID)"
-					+ " INNER JOIN M_Product p  ON (o.M_Product_ID=p.M_Product_ID) "
-					+ "WHERE o.QtyOrdered<>0"
+					+ " INNER JOIN M_Product p  ON (o.M_Product_ID=p.M_Product_ID)"
+					+ " WHERE o.QtyOrdered<>0"
 					+ " AND o.M_Product_ID=" + m_M_Product_ID;
 
 			//Distribution Order Ordered
 			sql += " UNION ALL ";
-			sql += "SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList ,ol.QtyOrdered - ol.QtyDelivered AS QtyReserved,"
-					+ "o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-					+ "wf.Name AS WarehouseName,"
-					+ "0 AS Discount "													// 8,9=M_PriceList_ID
-					+ "FROM DD_Order o"
+			sql += " SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList ,ol.QtyOrdered - ol.QtyDelivered AS QtyReserved,"
+					+ " o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo,"
+					+ " wf.Name AS WarehouseName,"
+					+ " 0 AS Discount"		// 8,9=M_PriceList_ID
+					+ " FROM DD_Order o"
 					+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
 					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 					+ " INNER JOIN M_Locator lf on (lf.M_Locator_ID = ol.M_Locator_ID)"
 					+ " INNER JOIN M_Warehouse wf ON (lf.M_Warehouse_ID=wf.M_Warehouse_ID)"
-					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
-					+ "WHERE (ol.QtyOrdered - ol.QtyDelivered) <>0"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID)"
+					+ " WHERE (ol.QtyOrdered - ol.QtyDelivered) <>0"
 					+ " AND ol.M_Product_ID="+m_M_Product_ID;
 
 		}
@@ -601,16 +601,16 @@ public class InvoiceHistory extends Window implements EventListener
 				+ " CASE WHEN io.IsSOTrx='Y' THEN iol.MovementQty*-1 ELSE iol.MovementQty END AS MovementQty,"
 				+ " io.MovementDate,io.IsSOTrx,"
 				+ " dt.PrintName || ' ' || io.DocumentNo As DocumentNo,"
-				+ " w.Name "
-				+ "FROM M_InOutLine iol"
+				+ " w.Name"
+				+ " FROM M_InOutLine iol"
 				+ " INNER JOIN M_InOut io ON (iol.M_InOut_ID=io.M_InOut_ID)"
 				+ " INNER JOIN C_BPartner bp  ON (io.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_DocType dt ON (io.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (io.M_Warehouse_ID=w.M_Warehouse_ID)"
-				+ " INNER JOIN M_InOutLineConfirm lc ON (iol.M_InOutLine_ID=lc.M_InOutLine_ID) "
-				+ "WHERE iol.M_Product_ID=?"
-				+ " AND lc.Processed='N' "
-				+ "ORDER BY io.MovementDate,io.IsSOTrx";
+				+ " INNER JOIN M_InOutLineConfirm lc ON (iol.M_InOutLine_ID=lc.M_InOutLine_ID)"
+				+ " WHERE iol.M_Product_ID=?"
+				+ " AND lc.Processed='N'"
+				+ " ORDER BY io.MovementDate,io.IsSOTrx";
 			parameter = m_M_Product_ID;
 		}
 		else
@@ -619,16 +619,16 @@ public class InvoiceHistory extends Window implements EventListener
 				+ " CASE WHEN io.IsSOTrx='Y' THEN iol.MovementQty*-1 ELSE iol.MovementQty END AS MovementQty,"
 				+ " io.MovementDate,io.IsSOTrx,"
 				+ " dt.PrintName || ' ' || io.DocumentNo As DocumentNo,"
-				+ " w.Name "
-				+ "FROM M_InOutLine iol"
+				+ " w.Name"
+				+ " FROM M_InOutLine iol"
 				+ " INNER JOIN M_InOut io ON (iol.M_InOut_ID=io.M_InOut_ID)"
 				+ " INNER JOIN M_Product p  ON (iol.M_Product_ID=p.M_Product_ID)"
 				+ " INNER JOIN C_DocType dt ON (io.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (io.M_Warehouse_ID=w.M_Warehouse_ID)"
-				+ " INNER JOIN M_InOutLineConfirm lc ON (iol.M_InOutLine_ID=lc.M_InOutLine_ID) "
-				+ "WHERE io.C_BPartner_ID=?"
-				+ " AND lc.Processed='N' "
-				+ "ORDER BY io.MovementDate,io.IsSOTrx";
+				+ " INNER JOIN M_InOutLineConfirm lc ON (iol.M_InOutLine_ID=lc.M_InOutLine_ID)"
+				+ " WHERE io.C_BPartner_ID=?"
+				+ " AND lc.Processed='N'"
+				+ " ORDER BY io.MovementDate,io.IsSOTrx";
 			parameter = m_C_BPartner_ID;
 		}
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
@@ -699,15 +699,15 @@ public class InvoiceHistory extends Window implements EventListener
 		//	Fill Storage Data
 		boolean showDetail = CLogMgt.isLevelFine();
 		String sql = "SELECT s.QtyOnHand, 0 AS QtyReserved, 0 AS QtyOrdered,"
-			+ " productAttribute(s.M_AttributeSetInstance_ID), s.M_AttributeSetInstance_ID,";
+		 	   + " productAttribute(s.M_AttributeSetInstance_ID), s.M_AttributeSetInstance_ID,";
 		if (!showDetail)
 			sql = "SELECT SUM(s.QtyOnHand), 0 AS QtyReserved, 0 AS QtyOrdered,"
-				+ " productAttribute(s.M_AttributeSetInstance_ID), 0,";
-		sql += " w.Name, l.Value  , 0 AS QtyDelivered "
-			+ "FROM M_Storage s"
+			    + " productAttribute(s.M_AttributeSetInstance_ID), 0,";
+		sql += " w.Name, l.Value  , 0 AS QtyDelivered"
+			+ " FROM M_Storage s"
 			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-			+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID) "
-			+ "WHERE M_Product_ID=?";
+			+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
+			+ " WHERE M_Product_ID=?";
 		if (m_M_Warehouse_ID != 0)
 			sql += " AND l.M_Warehouse_ID=?";
 		if (m_M_AttributeSetInstance_ID > 0)
@@ -771,8 +771,8 @@ public class InvoiceHistory extends Window implements EventListener
 			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 			+ " dt.DocBaseType, bp.Name,"
 			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name, CASE WHEN o.IsSOTrx = 'N' THEN ol.QtyReserved ELSE 0 END AS QtyOrdered,"
-			+ " ol.QtyDelivered AS QtyDelivered "
-			+ "FROM C_Order o"
+			+ " ol.QtyDelivered AS QtyDelivered"
+			+ " FROM C_Order o"
 			+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 			+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 			+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
@@ -785,18 +785,18 @@ public class InvoiceHistory extends Window implements EventListener
 			sql += " AND ol.M_AttributeSetInstance_ID="+ m_M_AttributeSetInstance_ID;
 
 		//	Distribution Orders Reserved
-		sql += " UNION ALL ";
-		sql += "SELECT o.DatePromised, ol.QtyReserved AS QtyReserved,"
+		sql += " UNION ALL";
+		sql += " SELECT o.DatePromised, ol.QtyReserved AS QtyReserved,"
 				+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 				+ " dt.DocBaseType, bp.Name,"
-				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, wf.Name , 0 AS QtyOrdered , ol.QtyInTransit AS QtyDelivered "
-				+ "FROM DD_Order o"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, wf.Name , 0 AS QtyOrdered , ol.QtyInTransit AS QtyDelivered"
+				+ " FROM DD_Order o"
 				+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Locator lf on (lf.M_Locator_ID = ol.M_Locator_ID)"
 				+ " INNER JOIN M_Warehouse wf ON (lf.M_Warehouse_ID=wf.M_Warehouse_ID)"
-				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE ol.QtyReserved <>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
+				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID)"
+				+ " WHERE ol.QtyReserved <>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
 				+ " AND ol.M_Product_ID="+ m_M_Product_ID;
 		if (m_M_Warehouse_ID != 0)
 			sql += " AND wf.M_Warehouse_ID=" + m_M_Warehouse_ID;
@@ -805,18 +805,18 @@ public class InvoiceHistory extends Window implements EventListener
 
 
 		//	Distribution Orders Ordered
-		sql += " UNION ALL ";
-		sql += "SELECT o.DatePromised, 0 AS QtyReserved,"
+		sql += " UNION ALL";
+		sql += " SELECT o.DatePromised, 0 AS QtyReserved,"
 				+ " productAttribute(ol.M_AttributeSetInstanceTo_ID), ol.M_AttributeSetInstanceTo_ID,"
 				+ " dt.DocBaseType, bp.Name,"
-				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , ol.QtyOrdered, ol.QtyDelivered AS QtyDelivered "
-				+ "FROM DD_Order o"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , ol.QtyOrdered, ol.QtyDelivered AS QtyDelivered"
+				+ " FROM DD_Order o"
 				+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID = ol.M_LocatorTo_ID)"
 				+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
-				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE ol.QtyOrdered<>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
+				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID)"
+				+ " WHERE ol.QtyOrdered<>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
 				+ " AND ol.M_Product_ID="+ m_M_Product_ID;
 		if (m_M_Warehouse_ID != 0)
 			sql += " AND w.M_Warehouse_ID=" + m_M_Warehouse_ID;
@@ -825,11 +825,11 @@ public class InvoiceHistory extends Window implements EventListener
 
 		//	Manufacturing Orders Reserved
 		sql += " UNION ALL ";
-		sql += "SELECT o.DatePromised, ol.QtyReserved,"
+		sql += " SELECT o.DatePromised, ol.QtyReserved,"
 				+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 				+ " dt.DocBaseType, null AS Name,"
-				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , 0 AS QtyOrdered, ol.QtyDelivered AS QtyDelivered "
-				+ "FROM PP_Order o"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , 0 AS QtyOrdered, ol.QtyDelivered AS QtyDelivered"
+				+ " FROM PP_Order o"
 				+ " INNER JOIN PP_Order_BOMLine ol ON (o.PP_Order_ID=ol.PP_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
