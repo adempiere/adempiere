@@ -19,6 +19,7 @@ package org.compiere.util;
 import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -94,6 +95,47 @@ public class TimeUtil
 		LocalDate ld1 = date1.toLocalDateTime().toLocalDate();
 		LocalDate ld2 = date2.toLocalDateTime().toLocalDate();
 		return (int) ChronoUnit.DAYS.between(ld2, ld1);
+	}
+
+	/**
+	 * Add days to timestamp, returning a Date (SQL semantics).
+	 * Equivalent to PostgreSQL: cast(date_trunc('day',datetime) + cast(days || ' day' as interval) as date)
+	 *
+	 * @param datetime timestamp to add to, may be null
+	 * @param days number of days to add (must be whole number), may be null
+	 * @return resulting date, or null if either input is null
+	 * @throws IllegalArgumentException if days has fractional component
+	 */
+	static public Date addDaysSql(Timestamp datetime, BigDecimal days) {
+		if (datetime == null || days == null) {
+			return null;
+		}
+
+		// Validate no fractional days
+		BigDecimal stripped = days.stripTrailingZeros();
+		if (stripped.scale() > 0) {
+			throw new IllegalArgumentException("Fractional days not supported: " + days);
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		LocalDate result = date.plusDays(days.longValue());
+		return Date.valueOf(result);
+	}
+
+	/**
+	 * Subtract days from timestamp, returning a Date (SQL semantics).
+	 * Equivalent to PostgreSQL: subtractDays(day, days) which calls addDays(day, days * -1)
+	 *
+	 * @param datetime timestamp to subtract from, may be null
+	 * @param days number of days to subtract, may be null
+	 * @return resulting date, or null if either input is null
+	 * @throws IllegalArgumentException if days has fractional component
+	 */
+	static public Date subtractDaysSql(Timestamp datetime, BigDecimal days) {
+		if (days == null) {
+			return null;
+		}
+		return addDaysSql(datetime, days.negate());
 	}
 
 	/**
