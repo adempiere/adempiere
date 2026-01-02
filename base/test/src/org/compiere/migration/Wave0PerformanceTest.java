@@ -87,8 +87,6 @@ public class Wave0PerformanceTest extends CommonGWSetup {
         }
     }
 
-    // TODO: Enable when addDaysSql is implemented
-    /*
     @RepeatedTest(MEASUREMENT_ROUNDS)
     void testAddDaysPerformance(RepetitionInfo info) {
         Timestamp datetime = Timestamp.valueOf("2026-01-15 14:30:00");
@@ -126,7 +124,6 @@ public class Wave0PerformanceTest extends CommonGWSetup {
                     medianRatio, MAX_LATENCY_RATIO, java.util.Arrays.toString(ratios)));
         }
     }
-    */
 
     // TODO: Enable when SqlCompat.round is implemented
     /*
