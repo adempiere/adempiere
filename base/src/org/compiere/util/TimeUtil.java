@@ -64,6 +64,15 @@ public class TimeUtil
 	}	//	getDay
 
 	/**
+	 * Get current timestamp (equivalent to PostgreSQL getDate() function).
+	 * Unlike getDay(), this returns the full timestamp with time component.
+	 * @return current timestamp, never null
+	 */
+	static public Timestamp getDate() {
+		return new Timestamp(System.currentTimeMillis());
+	}
+
+	/**
 	 * 	Get earliest time of a day (truncate)
 	 *  @param dayTime day and time
 	 *  @return day with 00:00
