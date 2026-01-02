@@ -217,6 +217,11 @@ git commit -m "feat: add SqlCompat with round() and charAt() for SQL migration
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
+**Step 6: Run performance test for round**
+
+Run: `./gradlew :base:test --tests "*.Wave0PerformanceTest.testRoundPerformance" -PperformanceTest -i`
+Expected: PASS (Java should be significantly faster than SQL)
+
 ---
 
 ## Task 12: Implement firstOf() with Oracle-compatible format codes
@@ -460,6 +465,11 @@ git commit -m "feat: add TimeUtil.firstOf() for SQL firstOf migration
 Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
+**Step 6: Run performance test for firstOf**
+
+Run: `./gradlew :base:test --tests "*.Wave0PerformanceTest.testFirstOfPerformance" -PperformanceTest -i`
+Expected: PASS (Java should be significantly faster than SQL)
+
 ---
 
-**Next:** [Part 5: Testing & Deployment](wave0-part5-testing-deployment.md) (Tasks 13-16)
+**Next:** [Part 5: Testing & Deployment](wave0-part5-testing-deployment.md) (Tasks 13, 15-16)
