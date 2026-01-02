@@ -1,0 +1,290 @@
+// ADempiere PostgreSQL Function Dependency Graph
+// Generated: 2026-01-01
+// Render with: dot -Tpng dependency-graph.dot -o dependency-graph.png
+
+digraph FunctionDependencies {
+    rankdir=TB;
+    node [shape=box, style=filled];
+
+    // Color legend
+    // Green: Called from Java and Views (active, high priority)
+    // Blue: Called from Java only
+    // Yellow: Called from Views only
+    // Red: Not called anywhere (dead code candidate)
+    // Orange: Recursive/self-calling
+
+    // ==========================================
+    // INVOICE FUNCTIONS (Critical - High Priority)
+    // ==========================================
+    subgraph cluster_invoice {
+        label="Invoice Functions";
+        style=filled;
+        color=lightgrey;
+
+        invoiceOpen [fillcolor=green, label="invoiceOpen\n(121 LOC)"];
+        invoiceOpenToDate [fillcolor=lightblue, label="invoiceOpenToDate\n(126 LOC)"];
+        invoicePaid [fillcolor=green, label="invoicePaid\n(65 LOC)"];
+        invoicePaidToDate [fillcolor=lightblue, label="invoicePaidToDate\n(74 LOC)"];
+        invoiceDiscount [fillcolor=lightblue, label="invoiceDiscount\n(83 LOC)"];
+    }
+
+    // Invoice dependencies
+    invoiceOpen -> getdate;
+    invoiceOpen -> currencyConvert;
+    invoiceOpenToDate -> currencyConvert;
+    invoicePaid -> currencyConvert;
+    invoicePaidToDate -> currencyConvert;
+    invoiceDiscount -> getdate;
+    invoiceDiscount -> paymentTermDiscount;
+
+    // ==========================================
+    // CURRENCY FUNCTIONS (Critical - Dependency)
+    // ==========================================
+    subgraph cluster_currency {
+        label="Currency Functions";
+        style=filled;
+        color=lightgrey;
+
+        currencyConvert [fillcolor=green, label="currencyConvert\n(63 LOC)"];
+        currencyRate [fillcolor=lightblue, label="currencyRate\n(179 LOC)"];
+        currencyRound [fillcolor=lightblue, label="currencyRound\n(63 LOC)"];
+        currencyBase [fillcolor=lightblue, label="currencyBase\n(34 LOC)"];
+        currencyBaseType [fillcolor=salmon, label="currencyBaseType\n(52 LOC)"];
+    }
+
+    // Currency dependencies
+    currencyConvert -> currencyRate;
+    currencyConvert -> currencyRound;
+    currencyRate -> getdate;
+    currencyBase -> currencyConvert;
+    currencyBaseType -> currencyConvert;
+
+    // ==========================================
+    // BOM QUANTITY FUNCTIONS
+    // ==========================================
+    subgraph cluster_bom_qty {
+        label="BOM Quantity Functions";
+        style=filled;
+        color=lightgrey;
+
+        bomQtyAvailable [fillcolor=green, label="bomQtyAvailable\n(26 LOC)"];
+        bomQtyOnHand [fillcolor=green, label="bomQtyOnHand\n(135 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomQtyReserved [fillcolor=green, label="bomQtyReserved\n(141 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomQtyOrdered [fillcolor=green, label="bomQtyOrdered\n(143 LOC)\n[recursive]", color=orange, penwidth=2];
+
+        bomQtyAvailableASI [fillcolor=salmon, label="bomQtyAvailableASI\n(28 LOC)"];
+        bomQtyOnHandASI [fillcolor=salmon, label="bomQtyOnHandASI\n(139 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomQtyReservedASI [fillcolor=salmon, label="bomQtyReservedASI\n(145 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomQtyOrderedASI [fillcolor=salmon, label="bomQtyOrderedASI\n(145 LOC)\n[recursive]", color=orange, penwidth=2];
+    }
+
+    // BOM Quantity dependencies
+    bomQtyAvailable -> bomQtyOnHand;
+    bomQtyAvailable -> bomQtyReserved;
+    bomQtyOnHand -> bomQtyOnHand [style=dashed, label="recursive"];
+    bomQtyReserved -> bomQtyReserved [style=dashed, label="recursive"];
+    bomQtyOrdered -> bomQtyOrdered [style=dashed, label="recursive"];
+
+    bomQtyAvailableASI -> bomQtyOnHandASI;
+    bomQtyAvailableASI -> bomQtyReservedASI;
+    bomQtyOnHandASI -> bomQtyOnHandASI [style=dashed, label="recursive"];
+    bomQtyReservedASI -> bomQtyReservedASI [style=dashed, label="recursive"];
+    bomQtyOrderedASI -> bomQtyOrderedASI [style=dashed, label="recursive"];
+
+    // ==========================================
+    // BOM PRICING FUNCTIONS
+    // ==========================================
+    subgraph cluster_bom_price {
+        label="BOM Pricing Functions";
+        style=filled;
+        color=lightgrey;
+
+        bomPriceLimit [fillcolor=green, label="bomPriceLimit\n(51 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomPriceList [fillcolor=green, label="bomPriceList\n(61 LOC)\n[recursive]", color=orange, penwidth=2];
+        bomPriceStd [fillcolor=green, label="bomPriceStd\n(60 LOC)\n[recursive]", color=orange, penwidth=2];
+    }
+
+    // BOM Pricing - recursive
+    bomPriceLimit -> bomPriceLimit [style=dashed, label="recursive"];
+    bomPriceList -> bomPriceList [style=dashed, label="recursive"];
+    bomPriceStd -> bomPriceStd [style=dashed, label="recursive"];
+
+    // ==========================================
+    // PAYMENT FUNCTIONS
+    // ==========================================
+    subgraph cluster_payment {
+        label="Payment Functions";
+        style=filled;
+        color=lightgrey;
+
+        paymentAllocated [fillcolor=green, label="paymentAllocated\n(64 LOC)"];
+        paymentAvailable [fillcolor=green, label="paymentAvailable\n(66 LOC)"];
+    }
+
+    // Payment dependencies
+    paymentAllocated -> currencyConvert;
+    paymentAvailable -> currencyConvert;
+
+    // ==========================================
+    // PAYMENT TERM FUNCTIONS
+    // ==========================================
+    subgraph cluster_payterm {
+        label="Payment Term Functions";
+        style=filled;
+        color=lightgrey;
+
+        paymentTermDiscount [fillcolor=lightblue, label="paymentTermDiscount\n(68 LOC)"];
+        paymentTermDueDate [fillcolor=green, label="paymentTermDueDate\n(50 LOC)"];
+        paymentTermDueDays [fillcolor=green, label="paymentTermDueDays\n(123 LOC)"];
+    }
+
+    // Payment Term dependencies
+    paymentTermDiscount -> nextBusinessDay;
+    paymentTermDueDate -> add_months;
+    paymentTermDueDays -> getdate;
+
+    // ==========================================
+    // ID GENERATION FUNCTIONS (Critical)
+    // ==========================================
+    subgraph cluster_id {
+        label="ID Generation Functions";
+        style=filled;
+        color=lightgrey;
+
+        nextID [fillcolor=lightblue, label="nextID\n(56 LOC)"];
+        nextIDFunc [fillcolor=lightblue, label="nextIDFunc\n(14 LOC)"];
+        nextIDByYear [fillcolor=salmon, label="nextIDByYear\n(25 LOC)"];
+    }
+
+    // ID dependencies
+    nextIDFunc -> nextID;
+
+    // ==========================================
+    // DATE UTILITY FUNCTIONS
+    // ==========================================
+    subgraph cluster_date {
+        label="Date Utility Functions";
+        style=filled;
+        color=lightgrey;
+
+        addDays [fillcolor=green, label="addDays\n(34 LOC)"];
+        subtractdays [fillcolor=salmon, label="subtractdays\n(41 LOC)"];
+        addweeks [fillcolor=salmon, label="addweeks\n(47 LOC)"];
+        addyears [fillcolor=salmon, label="addyears\n(47 LOC)"];
+        add_months [fillcolor=salmon, label="add_months\n(14 LOC)"];
+        daysBetween [fillcolor=green, label="daysBetween\n(29 LOC)"];
+        firstOf [fillcolor=green, label="firstOf\n(77 LOC)"];
+        getdate [fillcolor=yellow, label="getDate\n(7 LOC)"];
+        nextBusinessDay [fillcolor=salmon, label="nextBusinessDay\n(59 LOC)"];
+        trunc [fillcolor=green, label="trunc\n(28 LOC)"];
+    }
+
+    // Date dependencies
+    subtractdays -> addDays;
+
+    // ==========================================
+    // HR/PAYROLL FUNCTIONS (Low Priority - Unused)
+    // ==========================================
+    subgraph cluster_hr {
+        label="HR/Payroll Functions (Unused)";
+        style=filled;
+        color=mistyrose;
+
+        dailySalary [fillcolor=salmon, label="dailySalary\n(37 LOC)"];
+        dailySalaryToDate [fillcolor=salmon, label="dailySalaryToDate\n(66 LOC)"];
+        dailySalaryToDateByHRProcess [fillcolor=salmon, label="dailySalaryToDateByHRProcess\n(55 LOC)"];
+        monthlySalary [fillcolor=salmon, label="monthlySalary\n(37 LOC)"];
+        monthlySalaryToDate [fillcolor=salmon, label="monthlySalaryToDate\n(66 LOC)"];
+        ProcessReportSource [fillcolor=salmon, label="ProcessReportSource\n(79 LOC)"];
+    }
+
+    // HR dependencies
+    dailySalary -> dailySalaryToDate;
+    dailySalary -> getdate;
+    dailySalaryToDate -> getdate;
+    monthlySalary -> monthlySalaryToDate;
+    monthlySalary -> getdate;
+    monthlySalaryToDate -> getdate;
+
+    // ==========================================
+    // OTHER UTILITY FUNCTIONS
+    // ==========================================
+    subgraph cluster_utility {
+        label="Utility Functions";
+        style=filled;
+        color=lightgrey;
+
+        charAt [fillcolor=yellow, label="charAt\n(35 LOC)"];
+        instr [fillcolor=salmon, label="instr\n(20 LOC)"];
+        round [fillcolor=yellow, label="round\n(10 LOC)"];
+        productAttribute [fillcolor=green, label="productAttribute\n(93 LOC)"];
+        get_Sysconfig [fillcolor=lightblue, label="get_Sysconfig\n(47 LOC)"];
+        documentNo [fillcolor=yellow, label="documentNo\n(51 LOC)"];
+    }
+
+    // ==========================================
+    // COMMISSION FUNCTIONS
+    // ==========================================
+    subgraph cluster_commission {
+        label="Commission Functions";
+        style=filled;
+        color=lightgrey;
+
+        linenetamtrealinvoiceline [fillcolor=lightblue, label="linenetamtrealinvoiceline\n(18 LOC)"];
+        linenetamtrealorderline [fillcolor=lightblue, label="linenetamtrealorderline\n(18 LOC)"];
+        maxpaydate [fillcolor=lightblue, label="maxpaydate\n(20 LOC)"];
+    }
+
+    // ==========================================
+    // ACCOUNTING
+    // ==========================================
+    acctBalance [fillcolor=lightblue, label="acctBalance\n(42 LOC)"];
+    financialRateToDate [fillcolor=salmon, label="financialRateToDate\n(43 LOC)"];
+    financialRateToDate -> getdate;
+
+    // ==========================================
+    // DDL UTILITIES (Do Not Migrate)
+    // ==========================================
+    subgraph cluster_ddl {
+        label="DDL Utilities (Do Not Migrate)";
+        style=filled;
+        color=mistyrose;
+
+        altercolumn [fillcolor=grey, label="altercolumn\n(99 LOC)\n[DDL]"];
+        deps_save_and_drop_dependencies [fillcolor=grey, label="deps_save_and_drop\n(607 LOC)\n[DDL]"];
+        deps_restore_dependencies [fillcolor=grey, label="deps_restore\n(670 LOC)\n[DDL]"];
+    }
+
+    // DDL dependencies
+    altercolumn -> deps_save_and_drop_dependencies;
+    altercolumn -> deps_restore_dependencies;
+
+    // ==========================================
+    // UNUSED FUNCTIONS
+    // ==========================================
+    subgraph cluster_unused {
+        label="Other Unused Functions";
+        style=filled;
+        color=mistyrose;
+
+        bpartnerRemitLocation [fillcolor=salmon, label="bpartnerRemitLocation\n(25 LOC)"];
+        prodQtyOrdered [fillcolor=salmon, label="prodQtyOrdered\n(66 LOC)"];
+        prodQtyReserved [fillcolor=salmon, label="prodQtyReserved\n(96 LOC)"];
+        getUUID [fillcolor=salmon, label="getUUID\n(36 LOC)"];
+    }
+
+    // ==========================================
+    // LEGEND
+    // ==========================================
+    subgraph cluster_legend {
+        label="Legend";
+        style=filled;
+        color=white;
+
+        legend_java_views [fillcolor=green, label="Called from Java & Views"];
+        legend_java [fillcolor=lightblue, label="Called from Java only"];
+        legend_views [fillcolor=yellow, label="Called from Views only"];
+        legend_unused [fillcolor=salmon, label="Not called (dead code?)"];
+        legend_ddl [fillcolor=grey, label="DDL Utility (do not migrate)"];
+    }
+}
