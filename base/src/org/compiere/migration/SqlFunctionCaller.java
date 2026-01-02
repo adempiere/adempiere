@@ -29,6 +29,7 @@ public class SqlFunctionCaller {
     private static final CLogger log = CLogger.getCLogger(SqlFunctionCaller.class);
 
     /** Calls: SELECT getDate() */
+    @Nullable
     public static Timestamp callGetDate() {
         String sql = "SELECT getDate()";
         try (PreparedStatement pstmt = DB.prepareStatement(sql, null);
