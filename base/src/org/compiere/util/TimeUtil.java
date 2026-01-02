@@ -20,6 +20,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -70,6 +72,28 @@ public class TimeUtil
 	 */
 	static public Timestamp getDate() {
 		return new Timestamp(System.currentTimeMillis());
+	}
+
+	/**
+	 * Calculate days between two dates using SQL semantics.
+	 * Equivalent to PostgreSQL: CAST(p_date1 AS DATE) - CAST(p_date2 AS DATE)
+	 *
+	 * Uses java.time API which correctly handles DST transitions
+	 * (counts calendar days, not 24-hour periods).
+	 *
+	 * @param date1 first date (minuend), may be null
+	 * @param date2 second date (subtrahend), may be null
+	 * @return difference in days (date1 - date2), or null if either input is null
+	 */
+	static public Integer daysBetweenSql(Timestamp date1, Timestamp date2) {
+		if (date1 == null || date2 == null) {
+			return null;
+		}
+
+		// Use java.time API which handles DST correctly
+		LocalDate ld1 = date1.toLocalDateTime().toLocalDate();
+		LocalDate ld2 = date2.toLocalDateTime().toLocalDate();
+		return (int) ChronoUnit.DAYS.between(ld2, ld1);
 	}
 
 	/**
