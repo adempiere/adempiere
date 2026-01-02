@@ -35,7 +35,82 @@
 
 ## 2. Migration Architecture
 
-### Code Location Pattern
+### 2.1 Stateful Function Migration Strategy
+
+**Problem:** Functions that modify database state (`nextID`, `nextIDFunc`, `documentNo`) cannot use shadow mode. Running both Java and SQL would:
+- Consume two sequence values per call (one discarded)
+- Create sequence gaps and potential ID exhaustion
+- Make comparison meaningless (different IDs are expected)
+
+**Affected Functions:** TU-009 (`nextID`, `nextIDFunc`) and `documentNo`
+
+**Alternative Validation Strategy:**
+
+| Phase | Activity | Success Criteria |
+|-------|----------|------------------|
+| 1. Unit Testing | Test sequence logic in isolation with reset sequences | All edge cases pass |
+| 2. Integration Testing | Concurrent access patterns on staging replica | No duplicate IDs under 100 concurrent threads |
+| 3. Staged Rollout | 10% → 50% → 100% traffic via feature flag | No sequence anomalies for 24h at each stage |
+| 4. Production Monitoring | Alert on duplicate ID detection | Zero duplicates = success |
+
+**Rollback Trigger:** Any duplicate ID detection triggers immediate revert to SQL_ONLY.
+
+**Feature Flag Behavior for Stateful Functions:**
+
+| Flag Value | Behavior |
+|------------|----------|
+| `SQL_ONLY` | Legacy SQL path |
+| `STAGED_10` | 10% Java, 90% SQL (random selection) |
+| `STAGED_50` | 50% Java, 50% SQL |
+| `JAVA_ONLY` | Full Java path |
+
+Note: No `SHADOW` mode exists for stateful functions.
+
+### 2.2 Function Dependency Graph
+
+**Problem:** Functions have interdependencies (e.g., `invoiceOpen` calls `currencyConvert`). Migrating in wrong order causes shadow mode comparisons to be meaningless.
+
+**Resolution:** Complete dependency analysis exists in `docs/discovery/`:
+
+| Artifact | Purpose |
+|----------|---------|
+| `dependency-graph.dot` | Visual dependency graph (Graphviz format) |
+| `migration-waves.md` | 6 waves with topological ordering |
+| `transaction-units.json` | 12 units grouping functions with dependent views |
+| `circular-dependencies.json` | Identified cycles (none blocking) |
+
+**Migration Order:** Leaf functions first (Wave 0: Foundation), then progressively up the dependency chain. See `migration-waves.md` for complete ordering.
+
+**Critical Path:** Wave 0 → Wave 1 (Currency) → Wave 3 (Financial Core)
+
+### 2.3 Known Duplicate Resolution: invoiceOpen
+
+**Problem:** `MInvoice.getOpenAmt()` (Java) diverges from `C_Invoice_Open` (SQL). Java has empty TODO blocks for payment schedule logic that SQL implements (~30 lines).
+
+**Decision:** Enhance Java to match SQL behavior.
+
+**Rationale:**
+- Payment schedule logic exists for business reasons - customers depend on it
+- Shadow mode would fail immediately for invoices with payment schedules
+- Fixing Java eliminates a known bug rather than enshrining divergence
+
+**Implementation Requirements:**
+1. Port `C_InvoicePaySchedule` iteration logic from SQL to Java
+2. Add cache invalidation for `openAmount` field when allocations change
+3. Create integration tests with multi-schedule invoices
+
+**Cache Invalidation Strategy:**
+```java
+// In MAllocationLine.afterSave()
+MInvoice invoice = getC_Invoice();
+if (invoice != null) {
+    invoice.invalidateOpenAmtCache();
+}
+```
+
+**Acceptance Criteria:** Shadow mode achieves 99.9% match rate for `invoiceOpen` including invoices with payment schedules.
+
+### 2.4 Code Location Pattern
 
 Migrated functions follow ADempiere's existing model class pattern:
 
@@ -45,7 +120,7 @@ Migrated functions follow ADempiere's existing model class pattern:
 | Utility functions | Static method on relevant M* class | `MConversionRate.convert()` |
 | Complex multi-entity logic | Dedicated calculation class | `MProductPricing` |
 
-### Shadow Execution Flow
+### 2.5 Shadow Execution Flow
 
 ```
 Caller invokes Java method
@@ -70,7 +145,7 @@ After 99.9% match for 7 days -> JAVA_ONLY mode
 Delete SQL function from database
 ```
 
-### Feature Flag Values (per function)
+### 2.6 Feature Flag Values (per function)
 
 | Flag Value | Behavior |
 |------------|----------|
@@ -182,9 +257,20 @@ Stored in `migration.function_log`:
 
 ### Performance Requirements
 
-- **Max 30% latency increase** at p95 compared to SQL baseline
+Performance budgets are tiered by function criticality:
+
+| Tier | Max Latency Increase (p95) | Functions |
+|------|---------------------------|-----------|
+| **Critical** | 5% | `nextID`, `currencyConvert`, `currencyRate`, `documentNo` |
+| **Standard** | 30% | Most functions (default tier) |
+| **Reporting** | 100% | Rarely-used reporting functions, BOM calculations |
+
+**Tier Assignment:** Stored in `migration.function_config.performance_tier` column.
+
+**Measurement:**
 - Baseline captured before shadow mode begins
 - Measured during shadow mode (both paths timed independently)
+- Alert thresholds vary by tier
 
 ### Performance Test Process (Built into Shadow Mode)
 
@@ -268,8 +354,10 @@ CREATE TABLE migration.function_log (
 
 CREATE TABLE migration.function_config (
     function_name VARCHAR(100) PRIMARY KEY,
-    mode VARCHAR(20) NOT NULL, -- SQL_ONLY, SHADOW, JAVA_ONLY
+    mode VARCHAR(20) NOT NULL, -- SQL_ONLY, SHADOW, JAVA_ONLY, STAGED_10, STAGED_50
+    performance_tier VARCHAR(20) DEFAULT 'STANDARD', -- CRITICAL, STANDARD, REPORTING
     sql_baseline_p95_ms INT,
+    sample_rate DECIMAL(5,4) DEFAULT 1.0, -- 1.0 = 100%, 0.01 = 1%
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
@@ -286,13 +374,40 @@ Call Java method
   -> Start timer
   -> Execute logic
   -> Stop timer
-  -> Add entry to in-memory queue (fast, non-blocking)
+  -> Add entry to bounded queue (fast, non-blocking)
   -> Return result
 
 Background thread (every 1 second):
   -> Drain queue
   -> Batch INSERT to migration.function_log
 ```
+
+**Bounded Queue with Backpressure:**
+
+```java
+// Queue configuration
+private static final int QUEUE_CAPACITY = 10_000;
+private final BlockingQueue<LogEntry> queue =
+    new LinkedBlockingQueue<>(QUEUE_CAPACITY);
+
+// Non-blocking add with overflow handling
+public void logAsync(LogEntry entry) {
+    if (!queue.offer(entry)) {
+        // Queue full - apply backpressure strategy
+        droppedCount.incrementAndGet();
+        if (droppedCount.get() % 1000 == 0) {
+            log.warn("Migration log queue full, {} entries dropped", droppedCount.get());
+        }
+    }
+}
+```
+
+**Overflow Strategy:** Drop-oldest with monitoring. Queue depth exposed as metric for alerting.
+
+**Operational Metrics:**
+- `migration.queue.depth` - current queue size
+- `migration.queue.dropped` - entries dropped due to overflow
+- Alert threshold: queue depth > 8,000 for > 60 seconds
 
 ### Monitoring Dashboard Queries
 
@@ -351,9 +466,9 @@ public class ShadowExecutor<T> {
                      Supplier<T> sqlPath,
                      BiPredicate<T, T> comparator) {
 
-        String mode = MigrationConfig.getMode(functionName);
+        MigrationConfig config = MigrationConfig.get(functionName);
 
-        if ("SQL_ONLY".equals(mode)) {
+        if ("SQL_ONLY".equals(config.mode)) {
             return sqlPath.get();
         }
 
@@ -362,13 +477,18 @@ public class ShadowExecutor<T> {
         T javaResult = javaPath.get();
         long javaTime = (System.nanoTime() - javaStart) / 1_000_000;
 
-        if ("JAVA_ONLY".equals(mode)) {
+        if ("JAVA_ONLY".equals(config.mode)) {
             return javaResult;
         }
 
-        // SHADOW mode - also run SQL
+        // SHADOW mode - apply sampling for high-frequency functions
+        if (!shouldSample(config.sampleRate)) {
+            return javaResult; // Skip shadow comparison this call
+        }
+
+        // Run SQL with transaction isolation
         long sqlStart = System.nanoTime();
-        T sqlResult = sqlPath.get();
+        T sqlResult = executeSqlWithIsolation(sqlPath);
         long sqlTime = (System.nanoTime() - sqlStart) / 1_000_000;
 
         // Compare and log async
@@ -378,8 +498,55 @@ public class ShadowExecutor<T> {
 
         return javaResult;  // Always return Java in shadow mode
     }
+
+    private boolean shouldSample(double sampleRate) {
+        return ThreadLocalRandom.current().nextDouble() < sampleRate;
+    }
 }
 ```
+
+### Sampling-Based Shadow Execution
+
+**Problem:** Running both Java and SQL for every call doubles latency. For high-frequency functions like `currencyConvert` (called 1000s of times per transaction), this is unacceptable.
+
+**Solution:** Sample-based shadow execution for high-frequency functions.
+
+| Function Frequency | Sample Rate | Rationale |
+|--------------------|-------------|-----------|
+| Critical/High (>1000 calls/day) | 1% | Enough data for statistical confidence, minimal overhead |
+| Standard (100-1000 calls/day) | 10% | Balance of coverage and performance |
+| Low (<100 calls/day) | 100% | Full coverage, negligible overhead |
+
+**Configuration:** `migration.function_config.sample_rate` column (0.01 = 1%, 1.0 = 100%)
+
+**Statistical Confidence:** At 1% sampling with 10,000 daily calls, we get 100 shadow comparisons/day - sufficient to detect a 1% mismatch rate with 95% confidence within 3 days.
+
+### Transaction Isolation for Shadow Comparisons
+
+**Problem:** Shadow mode executes Java then SQL sequentially. If another transaction modifies data between executions, the comparison is invalid, causing spurious mismatches.
+
+**Solution:** Execute SQL shadow call with `REPEATABLE READ` isolation.
+
+```java
+private <T> T executeSqlWithIsolation(Supplier<T> sqlPath) {
+    Connection conn = null;
+    int originalIsolation = -1;
+    try {
+        conn = DB.getConnection();
+        originalIsolation = conn.getTransactionIsolation();
+        conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+        return sqlPath.get();
+    } finally {
+        if (conn != null && originalIsolation != -1) {
+            conn.setTransactionIsolation(originalIsolation);
+        }
+    }
+}
+```
+
+**Alternative:** For functions where isolation is impractical, capture input data snapshot before Java execution and pass explicitly to SQL call.
+
+**Expected False Positive Rate:** <0.1% from race conditions with `REPEATABLE READ`. Spurious mismatches logged with `mismatch_reason = 'POSSIBLE_RACE'` when timestamps differ.
 
 ### Usage in Model Class
 
@@ -471,14 +638,19 @@ PHASE 5: Cleanup
 |----------|--------|
 | Target state | PostgreSQL-primary, functions in Java |
 | Views | Hybrid: keep simple, migrate those with function deps |
-| Shadow mode | Full (99.9% match, 7 days) |
+| Shadow mode | Sampling-based (1-100% by frequency), 99.9% match, 7 days |
+| Stateful functions | Staged rollout (10%→50%→100%), no shadow mode |
+| MInvoice.getOpenAmt() divergence | Enhance Java to match SQL (port payment schedule logic) |
 | Rollback | No SQL retention; git rollback if needed |
 | Function + view migration | Together as transaction unit |
+| Migration order | Leaf-first per dependency graph (see `docs/discovery/`) |
 | Code location | Model classes (M*) following existing patterns |
 | Existing duplicates | Re-evaluate via shadow, SQL is source of truth |
 | Feature flags | Database-backed (migration schema) |
-| Performance testing | Built into shadow mode with baseline capture |
-| Logging | Async, separate `migration` schema |
+| Performance budgets | Tiered: Critical (5%), Standard (30%), Reporting (100%) |
+| Shadow sampling | 1% for high-frequency, 10% standard, 100% low-frequency |
+| Transaction isolation | `REPEATABLE READ` for shadow SQL calls |
+| Logging | Async with bounded queue (10K capacity), separate schema |
 | Per-function template | ~/sprocfw/step3.md |
 
 ---
