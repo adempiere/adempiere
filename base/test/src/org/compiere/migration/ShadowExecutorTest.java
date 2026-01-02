@@ -5,11 +5,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag("UnitTest")
 public class ShadowExecutorTest {
+
+    @BeforeEach
+    void reset() {
+        CircuitBreaker.resetAll();
+    }
 
     @Test
     void testSqlOnlyModeOnlyCallsSql() {

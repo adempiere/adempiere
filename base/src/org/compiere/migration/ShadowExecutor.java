@@ -43,8 +43,6 @@ public class ShadowExecutor {
                                  Supplier<T> sqlPath,
                                  BiPredicate<T, T> comparator) {
 
-        String serializedParams = ParamSerializer.toJson(params);
-
         if (mode == MigrationMode.SQL_ONLY) {
             return sqlPath.get();
         }
@@ -57,6 +55,9 @@ public class ShadowExecutor {
         if (mode == MigrationMode.JAVA_ONLY) {
             return javaResult;
         }
+
+        // SHADOW mode: serialize params for logging (deferred from method start)
+        String serializedParams = ParamSerializer.toJson(params);
 
         // SHADOW mode: check circuit breaker first
         if (circuitBreakerEnabled && CircuitBreaker.isOpen(functionName)) {
