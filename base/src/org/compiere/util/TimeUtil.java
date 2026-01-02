@@ -139,6 +139,64 @@ public class TimeUtil
 	}
 
 	/**
+	 * Truncate timestamp to date (SQL semantics).
+	 * Equivalent to PostgreSQL: CAST(datetime AS DATE)
+	 *
+	 * @param datetime timestamp to truncate, may be null
+	 * @return truncated date, or null if datetime is null
+	 */
+	static public Date truncSql(Timestamp datetime) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		return Date.valueOf(date);
+	}
+
+	/**
+	 * Truncate timestamp to specified date part (SQL semantics).
+	 * Equivalent to PostgreSQL: trunc(datetime, format)
+	 *
+	 * Supported formats:
+	 * - Q: Quarter
+	 * - Y, YEAR: Year
+	 * - MM, MONTH: Month
+	 * - DD, DY: Day
+	 *
+	 * @param datetime timestamp to truncate, may be null
+	 * @param format format code (required, must be one of: Q, Y, YEAR, MM, MONTH, DD, DY)
+	 * @return truncated date, or null if datetime is null
+	 * @throws IllegalArgumentException if format is null or unrecognized
+	 */
+	static public Date truncSql(Timestamp datetime, String format) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		LocalDate result;
+
+		if ("Q".equals(format)) {
+			// Quarter: truncate to first day of quarter
+			int quarterMonth = ((date.getMonthValue() - 1) / 3) * 3 + 1;
+			result = date.withMonth(quarterMonth).withDayOfMonth(1);
+		} else if ("Y".equals(format) || "YEAR".equals(format)) {
+			result = date.withDayOfYear(1);
+		} else if ("MM".equals(format) || "MONTH".equals(format)) {
+			result = date.withDayOfMonth(1);
+		} else if ("DD".equals(format) || "DY".equals(format)) {
+			result = date;
+		} else {
+			throw new IllegalArgumentException(
+				"Unknown trunc format: " + format +
+				". Valid formats: Q, Y, YEAR, MM, MONTH, DD, DY");
+		}
+
+		return Date.valueOf(result);
+	}
+
+	/**
 	 * 	Get earliest time of a day (truncate)
 	 *  @param dayTime day and time
 	 *  @return day with 00:00
