@@ -1,7 +1,7 @@
 # PostgreSQL Function Migration Design
 
 **Date:** 2026-01-01
-**Status:** Design Complete (Updated 2026-01-02 per Critical Review v3)
+**Status:** Design Complete (Updated 2026-01-02 per Critical Review v4)
 **Reference Framework:** `~/sprocfw/step1.md` (principles), `~/sprocfw/step3.md` (per-function template)
 
 ---
@@ -174,6 +174,132 @@ Replay DB:  Reset sequence to 1001
 
 **Note:** `documentNo` is in TU-012 (Miscellaneous Standalone), not TU-009. It uses shadow mode, not dual-write, as it's lower frequency.
 
+### 2.1.4 Sequence State Capture for Replay
+
+**Problem:** Replay database sequences drift from production due to replication lag or snapshot age. Resetting to arbitrary positions doesn't validate real behavior.
+
+**Solution:** Capture sequence position at execution time; use for pattern validation only.
+
+**Enhanced Log Format for Stateful Functions:**
+```java
+public class StatefulExecutionLog extends FunctionExecutionLog {
+    Map<String, Long> sequencePositions;  // e.g., {"ad_sequence.c_order": 50000}
+}
+```
+
+**Replay Strategy for nextID/nextIDFunc:**
+1. Log captures: sequence name, position before call, generated ID, position after
+2. Replay validates: increment pattern correct (position_after = position_before + 1)
+3. Replay does NOT validate: absolute ID values match production
+
+**Validation Confidence Matrix:**
+
+| Validation Method | Confidence | What It Validates |
+|-------------------|------------|-------------------|
+| Unit tests | HIGH | Logic correctness, edge cases |
+| Integration tests (100 threads) | HIGH | Concurrency, no duplicates |
+| Dual-write replay | MEDIUM | Increment patterns, no gaps |
+| Production monitoring | HIGH | No duplicate ID errors post-cutover |
+
+**Acceptance:** Stateful functions cannot achieve the same replay confidence as stateless functions. The combination of thorough integration tests + pattern validation + 24h post-cutover monitoring provides sufficient safety.
+
+**Rollback Trigger:** Any duplicate ID or gap detected in production triggers immediate revert to SQL_ONLY.
+
+### 2.1.5 Replay Executor Reliability
+
+**Health Monitoring:**
+
+| Metric | Alert Threshold | Action |
+|--------|-----------------|--------|
+| Last successful replay | > 30 minutes ago | Page on-call |
+| Unprocessed backlog | > 10,000 entries | Warning |
+| Unprocessed backlog | > 50,000 entries | Critical |
+| Replay error rate | > 5% | Warning |
+
+**Heartbeat Table:**
+```sql
+CREATE TABLE migration.replay_executor_health (
+    executor_id VARCHAR(50) PRIMARY KEY,
+    last_heartbeat TIMESTAMP NOT NULL,
+    entries_processed_last_hour INT,
+    current_backlog INT
+);
+```
+
+**Redundancy via Partitioning:**
+- Multiple executor instances (2-3 recommended)
+- Each instance owns partition of functions: `hash(function_name) % instance_count`
+- Leader election not required; partitions are static
+- If instance dies, its partition backlog grows until restart (acceptable for 5-15 min detection SLA)
+
+**Backlog Retention Policy:**
+
+| Age | Action |
+|-----|--------|
+| 0-7 days | Active replay queue |
+| 7-30 days | Archive to `migration.replay_archive` (compressed) |
+| > 30 days | Delete archived entries |
+
+**Failure Runbook:**
+```markdown
+## Replay Executor Failure
+
+1. Check executor logs: journalctl -u adempiere-replay-executor
+2. If crashed, restart: systemctl restart adempiere-replay-executor
+3. If backlog > 50K, scale horizontally or reduce dual-write functions temporarily
+4. If persistent failures, set affected functions to SHADOW mode (accepts latency tradeoff)
+5. Post-incident: analyze root cause, add to monitoring
+```
+
+### 2.1.6 Trigger-Based Validation (Escape Hatch)
+
+**Use Case:** Wave 4-5 low-frequency functions where shadow infrastructure proves too complex or risky to deploy.
+
+**When to Use:**
+- Function called < 100 times/day
+- Shadow mode causing unexpected production issues
+- Team capacity insufficient for full shadow implementation
+
+**Approach:**
+```sql
+-- Add logging trigger to existing SQL function
+CREATE OR REPLACE FUNCTION migration.log_function_call()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO migration.trigger_log (function_name, inputs, output, called_at)
+    VALUES (TG_ARGV[0], row_to_json(NEW), TG_ARGV[1], NOW());
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+**Validation Flow:**
+```
+Production: SQL function executes normally
+  → Trigger logs inputs/outputs
+
+Offline job (hourly):
+  → Read trigger_log entries
+  → Execute Java function with same inputs
+  → Compare outputs
+  → Report mismatches
+
+Cutover (when stable):
+  → Set feature flag to JAVA_ONLY
+  → Drop trigger
+```
+
+**Trade-offs:**
+
+| Aspect | Shadow/Dual-Write | Trigger-Based |
+|--------|-------------------|---------------|
+| Production code change | Required | None until cutover |
+| Latency overhead | Varies | 1-5ms per call |
+| Intermediate values | Captured | Not available |
+| Implementation effort | Higher | Lower |
+
+**Recommendation:** Default to shadow/dual-write. Use trigger-based only for Wave 4-5 functions if operational issues emerge with primary strategy.
+
 ### 2.2 Function Dependency Graph
 
 **Problem:** Functions have interdependencies (e.g., `invoiceOpen` calls `currencyConvert`). Migrating in wrong order causes shadow mode comparisons to be meaningless.
@@ -221,20 +347,54 @@ All state transitions affecting invoice open amount must invalidate the cache:
 | Payment reversed | `MPayment.reverseCorrectIt()` | Invalidate all linked invoices |
 | Credit memo allocated | `MAllocationLine.afterSave()` | Already covered |
 
-**Alternative: Request-Scoped Cache**
+### 2.3.1 Cache Strategy: Request-Scoped
 
-Consider replacing field-level cache with request-scoped cache that auto-invalidates at transaction boundary:
+**Decision:** Use request-scoped cache instead of field-level cache.
 
+**Rationale:**
+- Field-level cache requires manual invalidation hooks in 7+ locations
+- Missing a single invalidation hook causes subtle, hard-to-debug inconsistencies
+- Request-scoped cache auto-invalidates at transaction boundary
+- Eliminates entire class of cache coherency bugs
+
+**Implementation:**
 ```java
-// Instead of: private BigDecimal cachedOpenAmt;
-// Use request context:
-RequestContext.get().computeIfAbsent(
-    "invoice.openAmt." + getC_Invoice_ID(),
-    k -> calculateOpenAmtJava()
-);
+public class RequestCache {
+    private static final ThreadLocal<Map<String, Object>> cache =
+        ThreadLocal.withInitial(HashMap::new);
+
+    public static <T> T computeIfAbsent(String key, Supplier<T> compute) {
+        return (T) cache.get().computeIfAbsent(key, k -> compute.get());
+    }
+
+    public static void clear() {
+        cache.get().clear();
+    }
+}
+
+// Usage in MInvoice:
+public BigDecimal getOpenAmt() {
+    return RequestCache.computeIfAbsent(
+        "invoice.openAmt." + getC_Invoice_ID(),
+        this::calculateOpenAmtJava
+    );
+}
 ```
 
-**Audit Requirement:** Before Wave 3 cutover, grep codebase for all `MAllocation`, `MPayment`, and `MInvoice` state-changing methods to confirm invalidation calls are present.
+**Transaction Boundary Hook:**
+```java
+// In Trx.close() or equivalent transaction completion point:
+RequestCache.clear();
+```
+
+**Migration Path:**
+1. Implement RequestCache utility class
+2. Hook clear() into transaction completion
+3. Migrate getOpenAmt() to use RequestCache
+4. Remove field-level cache and all invalidation hooks
+5. Other cached calculations follow same pattern
+
+**Note:** The comprehensive invalidation trigger table above documents what field-level cache would require; request-scoped cache eliminates this complexity.
 
 **Acceptance Criteria:** Shadow mode achieves 99.9% match rate for `invoiceOpen` including invoices with payment schedules.
 
@@ -319,6 +479,48 @@ public BigDecimal calculateBomQty(int productId, Set<Integer> visited, int depth
 - Circular reference: A → B → C → A
 - Wide BOM: 100+ components at single level
 - Combined: deep + wide + near-circular
+
+### 2.7.1 BOM Cache Memory Management
+
+**Problem:** Per-request caches (10,000 entries each) don't protect against concurrent batch processing memory pressure.
+
+**Solution:** JVM-wide shared cache with size-based eviction.
+
+**Implementation:**
+```java
+// Shared across all requests
+private static final Cache<BomCacheKey, BigDecimal> bomCache = Caffeine.newBuilder()
+    .maximumSize(100_000)              // JVM-wide limit
+    .expireAfterWrite(5, TimeUnit.MINUTES)  // Prevent stale data
+    .recordStats()                      // For monitoring
+    .build();
+
+public record BomCacheKey(int productId, int warehouseId, String qtyType) {}
+```
+
+**Memory Budget:**
+- 100,000 entries × ~150 bytes/entry = ~15MB maximum
+- Acceptable overhead for JVM with typical 2-4GB heap
+
+**Per-Request Tracking (for circular detection):**
+```java
+public BigDecimal calculateBomQty(int productId, Set<Integer> visited, int depth) {
+    // Circular detection still per-request (thread-local)
+    if (!visited.add(productId)) {
+        log.warn("Circular BOM detected for M_Product_ID={}", productId);
+        return BigDecimal.ZERO;
+    }
+
+    // Cache lookup is JVM-wide
+    BomCacheKey key = new BomCacheKey(productId, warehouseId, "ON_HAND");
+    return bomCache.get(key, k -> computeBomQtyInternal(productId, visited, depth));
+}
+```
+
+**Monitoring:**
+- `bom.cache.hit_rate` - target > 80% during batch processing
+- `bom.cache.evictions` - alert if > 10,000/minute (cache too small)
+- `bom.cache.size` - current entry count
 
 ---
 
@@ -601,7 +803,99 @@ Exclusions from mismatch count (configurable per-function):
 
 ## 6. Logging and Monitoring
 
-### Separate Schema
+### 6.1 Correlation ID Strategy
+
+**Origin:** Generated at request entry point (web request or API call).
+
+**Format:** `{timestamp_ms}-{random_4_chars}` e.g., `1735689600000-a3f9`
+
+**Propagation:**
+```
+HTTP Request arrives
+  → Filter generates correlationId
+  → Stored in ThreadLocal (RequestContext)
+  → Passed to all shadow/dual-write log entries
+  → Included in mismatch alerts
+  → Cleared at request completion
+```
+
+**Implementation:**
+```java
+public class RequestContext {
+    private static final ThreadLocal<String> correlationId = new ThreadLocal<>();
+
+    public static void init() {
+        correlationId.set(System.currentTimeMillis() + "-" +
+            Integer.toHexString(ThreadLocalRandom.current().nextInt(0xFFFF)));
+    }
+
+    public static String getCorrelationId() {
+        return correlationId.get();
+    }
+
+    public static void clear() {
+        correlationId.remove();
+    }
+}
+```
+
+**Integration Points:**
+
+| Component | Action |
+|-----------|--------|
+| Web filter | `RequestContext.init()` on entry, `clear()` on exit |
+| ShadowExecutor | `RequestContext.getCorrelationId()` for log entries |
+| DualWriteLogger | Same |
+| Mismatch alerts | Include correlationId for debugging |
+
+**ADempiere Compatibility:** If ADempiere has existing request tracing, use that instead. Check for `Env.getContext()` or similar request-scoped storage.
+
+### 6.2 Log Retention Policy
+
+**Retention Tiers:**
+
+| Table | Retention | Cleanup Method |
+|-------|-----------|----------------|
+| `function_log` (matches) | 7 days | Daily batch delete |
+| `function_log` (mismatches) | 90 days | Manual review required before delete |
+| `function_execution_log` (processed) | 30 days | Daily batch delete |
+| `function_execution_log` (unprocessed) | Indefinite | Alert if age > 7 days |
+| `replay_executor_health` | 7 days | Daily batch delete |
+
+**Cleanup Job:**
+```sql
+-- Run daily at 03:00 UTC (low-traffic window)
+DELETE FROM migration.function_log
+WHERE is_match = true
+  AND created_at < NOW() - INTERVAL '7 days';
+
+DELETE FROM migration.function_execution_log
+WHERE processed = true
+  AND created_at < NOW() - INTERVAL '30 days';
+
+-- Archive mismatches before deletion
+INSERT INTO migration.mismatch_archive
+SELECT * FROM migration.function_log
+WHERE is_match = false
+  AND created_at < NOW() - INTERVAL '90 days';
+
+DELETE FROM migration.function_log
+WHERE is_match = false
+  AND created_at < NOW() - INTERVAL '90 days';
+```
+
+**Archive Table:**
+```sql
+CREATE TABLE migration.mismatch_archive (
+    LIKE migration.function_log INCLUDING ALL
+) WITH (autovacuum_enabled = false);  -- Cold storage, no maintenance
+```
+
+**Storage Estimate:**
+- 10,000 shadow comparisons/day × 500 bytes × 7 days = ~35 MB for matches
+- Mismatches should be rare; 90-day retention is negligible
+
+### 6.3 Separate Schema
 
 All migration-related tables live in a dedicated PostgreSQL schema, not touching the main ADempiere schema.
 
@@ -744,7 +1038,7 @@ DROP SCHEMA migration CASCADE;
 
 ## 7. Shadow Mode Infrastructure
 
-### Core Classes
+### 7.1 Core Classes
 
 ```
 org.compiere.migration/
@@ -756,7 +1050,44 @@ org.compiere.migration/
 +-- SqlFunctionCaller.java   -- Calls legacy SQL functions via JDBC
 +-- CircuitBreaker.java      -- Protects shadow mode under load
 +-- ReplayExecutor.java      -- Background replay for dual-write
++-- RequestContext.java      -- Correlation ID and request cache
++-- InputSnapshot.java       -- Captures input state for shadow comparison
 ```
+
+### 7.1.1 Input Snapshot Strategy
+
+**Problem:** Shadow SQL executes in a separate connection and cannot see uncommitted modifications from the Java execution within the same transaction.
+
+**Solution:** Capture all input data at shadow entry point before Java execution.
+
+**Implementation:**
+1. Before Java executes, capture snapshot of all inputs:
+   - Primitive parameters (already captured)
+   - Referenced entity state (getC_Invoice_ID() → read invoice row)
+
+2. Pass snapshot explicitly to both Java and SQL paths
+
+3. For entity-state-dependent functions (invoiceOpen, currencyConvert), capture:
+   - Primary key of referenced entities
+   - Relevant column values that could change mid-transaction
+
+**Snapshot Structure:**
+```java
+public class InputSnapshot {
+    Map<String, Object> parameters;       // Function parameters
+    Map<String, Object> entityState;      // Key entity field values
+    Instant capturedAt;
+}
+```
+
+**Functions Requiring Entity Snapshot:**
+- invoiceOpen: allocation amounts, invoice totals
+- currencyConvert: exchange rates
+- productQty: inventory quantities
+
+**Trade-off:** Some functions may have large entity state. For these, limit snapshot to fields actually used by the function (determined during function analysis).
+
+**Excluded from Shadow Validation:** Functions that depend on writes made earlier in the same Java method call (circular dependency). These use dual-write instead.
 
 ### ShadowExecutor Pattern
 
@@ -865,7 +1196,94 @@ private <T> T executeSqlWithIsolation(Supplier<T> sqlPath) {
 
 **Expected False Positive Rate:** <0.1% from race conditions with `REPEATABLE READ`. Spurious mismatches logged with `mismatch_reason = 'POSSIBLE_RACE'` when timestamps differ.
 
-### Usage in Model Class
+### 7.2 Shadow Connection Pool
+
+**Problem:** Shadow execution calls `DB.getConnection()` per comparison. For high-frequency functions with sampling, this saturates the main connection pool.
+
+**Solution:** Dedicated connection pool for shadow executions with strict limits.
+
+**Configuration:**
+```java
+// Shadow-specific pool (HikariCP or similar)
+HikariConfig shadowConfig = new HikariConfig();
+shadowConfig.setMaximumPoolSize(5);           // Hard limit
+shadowConfig.setConnectionTimeout(100);        // Fail fast (ms)
+shadowConfig.setPoolName("shadow-validation");
+```
+
+**Behavior When Pool Exhausted:**
+- Shadow execution skipped (not queued)
+- Increment `migration.shadow.pool_exhausted` counter
+- Java result returned immediately
+- Log: "Shadow pool exhausted, skipping comparison for {function}"
+
+**Global Rate Limiting:**
+In addition to per-function sampling, enforce global shadow throughput:
+
+| Metric | Limit | Action When Exceeded |
+|--------|-------|---------------------|
+| Concurrent shadow executions | 5 | Skip new shadow calls |
+| Shadow calls per second | 100 | Probabilistic skip |
+| Shadow queue depth | 50 | Circuit breaker opens |
+
+**Updated ShadowExecutor:**
+```java
+private static final Semaphore shadowPermits = new Semaphore(5);
+
+private <T> T executeSqlWithIsolation(Supplier<T> sqlPath) {
+    if (!shadowPermits.tryAcquire()) {
+        poolExhaustedCounter.increment();
+        return null;  // Signal to skip comparison
+    }
+    try {
+        // Use dedicated shadow pool
+        Connection conn = shadowDataSource.getConnection();
+        // ... existing logic
+    } finally {
+        shadowPermits.release();
+    }
+}
+```
+
+**Monitoring:** Alert if `pool_exhausted` exceeds 1000/hour (indicates sample rate too high).
+
+### 7.3 Serialization Error Handling
+
+**Problem:** PostgreSQL REPEATABLE READ throws `40001` (serialization_failure) on write conflicts. Shadow execution should be read-only, but defensive handling needed.
+
+**Implementation:**
+```java
+private <T> T executeSqlWithIsolation(Supplier<T> sqlPath) {
+    if (!shadowPermits.tryAcquire()) {
+        poolExhaustedCounter.increment();
+        return null;
+    }
+    try {
+        Connection conn = shadowDataSource.getConnection();
+        conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+        return sqlPath.get();
+    } catch (SQLException e) {
+        if ("40001".equals(e.getSQLState())) {
+            // Serialization conflict - skip this comparison
+            serializationSkipCounter.increment();
+            log.debug("Serialization conflict in shadow for {}, skipping",
+                      currentFunctionName.get());
+            return null;  // Signal to skip comparison
+        }
+        throw new RuntimeException("Shadow SQL execution failed", e);
+    } finally {
+        shadowPermits.release();
+    }
+}
+```
+
+**Metrics:**
+- `migration.shadow.serialization_skips` - count of skipped comparisons
+- Alert threshold: > 100/hour indicates shadow may be causing write conflicts
+
+**Investigation Trigger:** If serialization skips are high, audit the SQL function for unintended writes (should be SELECT-only).
+
+### 7.4 Usage in Model Class
 
 ```java
 public BigDecimal getOpenAmt() {
@@ -949,6 +1367,51 @@ PHASE 5: Cleanup
 | Dual-write replay backlog grows | LOW | MEDIUM | Monitor replay lag; scale replay executor if needed |
 | Circuit breaker thrashing | LOW | LOW | Adjust sample rate; tune thresholds |
 
+### 9.1 Key Trade-off Decisions
+
+**Trade-off 1: Validation Confidence vs. Production Risk**
+
+| Strategy | Confidence | Production Impact |
+|----------|------------|-------------------|
+| Shadow (100%) | Highest | +50-100% latency |
+| Shadow (sampled) | High | +5-10% latency |
+| Dual-write | High | Zero latency (delayed detection) |
+
+**Decision Matrix - When to Switch Strategy:**
+
+| Trigger | Action |
+|---------|--------|
+| Shadow latency exceeds tier budget | Reduce sample rate to 1% |
+| Sample rate at 1% still exceeds budget | Switch to dual-write |
+| Circuit breaker trips > 3x/hour | Switch to dual-write |
+| Dual-write replay backlog growing | Scale replay executor, not strategy change |
+
+**Escalation:** If function cannot validate under any strategy, escalate to architecture review before proceeding.
+
+---
+
+**Trade-off 2: Rollback Granularity vs. Dependency Coupling**
+
+**Problem:** Rolling back Wave 1 requires rolling back dependent Waves 2-3, creating all-or-nothing scenarios.
+
+**Mitigation:** Retain SQL functions in git after JAVA_ONLY cutover.
+
+| Phase | SQL Function Status |
+|-------|---------------------|
+| JAVA_ONLY cutover | SQL deleted from database, retained in git |
+| Dependent wave stable (7 days) | SQL remains in git |
+| All dependent waves complete | SQL moved to `archive/` directory |
+| 90 days post-migration | SQL deleted from git |
+
+**Rollback with Retained SQL:**
+```bash
+# Restore single function without full wave rollback
+git show HEAD:db/ddlutils/postgresql/functions/C_Currency_Convert.sql | psql
+UPDATE migration.function_config SET mode = 'SQL_ONLY' WHERE function_name = '...';
+```
+
+**Benefit:** Granular rollback possible even after JAVA_ONLY, as long as SQL source is retained in git.
+
 ---
 
 ## 10. Decision Summary
@@ -977,6 +1440,92 @@ PHASE 5: Cleanup
 | BOM safeguards | Depth 100, circular detection, 10K cache limit |
 | Logging | Async with bounded queue (10K), circuit breaker protection |
 | Per-function template | ~/sprocfw/step3.md |
+| Shadow transaction handling | Input snapshot capture (not shared connection) |
+| Stateful function replay | Pattern validation + sequence state capture |
+| Shadow connection pool | Dedicated pool (max 5) with global rate limiting |
+| Replay executor redundancy | Partitioned by function, health monitoring |
+| Cache strategy | Request-scoped with transaction boundary invalidation |
+| BOM cache scope | JVM-wide Caffeine cache (100K entries max) |
+| Correlation ID | ThreadLocal, generated at request entry |
+| Migration schema fallback | Default to SQL_ONLY if unavailable |
+| SQL retention post-cutover | Kept in git until dependent waves complete |
+| Low-frequency escape hatch | Trigger-based logging for Wave 4-5 if needed |
+
+---
+
+## 11. Design Clarifications
+
+### Q1: Disaster Recovery for Migration Schema
+
+**Fallback Behavior:** If `migration.function_config` is unavailable, default to `SQL_ONLY`.
+
+**Implementation:**
+```java
+public static MigrationConfig get(String functionName) {
+    try {
+        return loadFromDatabase(functionName);
+    } catch (Exception e) {
+        log.error("Migration config unavailable, defaulting to SQL_ONLY", e);
+        return MigrationConfig.sqlOnly(functionName);
+    }
+}
+```
+
+**Rationale:** SQL functions are the known-working baseline. Failing to Java during infrastructure issues compounds problems.
+
+### Q2: Total Migration Duration
+
+**Estimate:** 4-6 months across all 6 waves.
+
+| Wave | Duration | Cumulative |
+|------|----------|------------|
+| 0: Foundation | 2 weeks | 2 weeks |
+| 1: Currency | 3 weeks | 5 weeks |
+| 2: Invoicing | 4 weeks | 9 weeks |
+| 3: Financial | 4 weeks | 13 weeks |
+| 4: Misc | 3 weeks | 16 weeks |
+| 5: BOM | 4 weeks | 20 weeks |
+
+**Infrastructure Maintenance:** Shadow/dual-write infrastructure maintained for full duration plus 30-day stabilization period.
+
+### Q3: Replay Database Resource Allocation
+
+**Decision:** Use existing non-production PostgreSQL instance (staging/QA).
+
+- No new infrastructure required
+- Logical replication from production already exists for QA refresh
+- Replay jobs run during off-peak hours to avoid QA contention
+
+### Q4: 99.9% Match Rate Escape Hatch
+
+**Decision Process:**
+1. Investigate all mismatches (usually reveals undocumented SQL edge cases)
+2. If SQL behavior is correct → fix Java
+3. If SQL behavior is buggy → document deviation, fix Java to correct behavior
+4. If match rate plateaus at 99.5%+ → extend validation 2 more weeks
+5. If fundamental incompatibility → escalate to architecture review
+
+**Never:** Accept known divergence without documentation and sign-off.
+
+### Q5: Distributed Transaction Awareness
+
+**ADempiere Status:** No XA/two-phase commit in standard ADempiere.
+
+- All transactions are single-database
+- Shadow/dual-write modes don't participate in distributed transactions
+- If custom XA extensions exist, they require separate analysis
+
+### Q6: Performance Test Data Representativeness
+
+**Requirement:** Baselines captured against production-scale data.
+
+| Method | Data Source |
+|--------|-------------|
+| Development | Anonymized production snapshot (monthly refresh) |
+| Staging | Full production clone (weekly refresh) |
+| Baseline capture | Staging environment with production data volumes |
+
+**Validation:** Before Wave 1, verify staging data volumes within 10% of production for key tables (C_Invoice, C_Order, C_Payment).
 
 ---
 
@@ -1009,3 +1558,4 @@ PHASE 5: Cleanup
 | v1 | 2026-01-01 | Initial design |
 | v2 | 2026-01-01 | Added discovery package, stateful handling, divergence resolution |
 | v3 | 2026-01-02 | Adopted hybrid validation (dual-write + shadow), added circuit breaker, BOM safeguards, complete cache invalidation, rollback drill, view performance gates, configurable tolerances |
+| v4 | 2026-01-02 | Added per Critical Review v4: input snapshot strategy for shadow transaction handling, sequence state capture for stateful replay, dedicated shadow connection pool with global rate limiting, replay executor health monitoring and partitioning, request-scoped cache decision, JVM-wide BOM cache with Caffeine, correlation ID propagation, serialization error handling, log retention policy, design clarifications (Q1-Q6), key trade-off documentation, trigger-based escape hatch for low-frequency functions |
