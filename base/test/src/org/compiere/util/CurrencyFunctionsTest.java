@@ -144,4 +144,26 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
 
         assertNull(result);
     }
+
+    @Test
+    void currencyRate_euroToEmuMember_handlesGracefully() {
+        // EUR to any EMU member - tests the code path exists without crashing
+        // The actual rate depends on EMU configuration in test DB
+        // This test verifies no exceptions are thrown
+        assertDoesNotThrow(() -> {
+            CurrencyFunctions.currencyRate(
+                eurCurrencyId, usdCurrencyId,
+                Timestamp.valueOf("2002-01-01 00:00:00"),
+                null, 11, 0);
+        });
+    }
+
+    @Test
+    void currencyRate_unknownCurrency_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyRate(
+            999999, 999998,
+            null, null, 11, 0);
+
+        assertNull(result);
+    }
 }

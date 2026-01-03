@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import javax.annotation.Nullable;
 
 import org.compiere.model.MCurrency;
+import org.compiere.model.MConversionRate;
 
 /**
  * Currency conversion functions migrated from PostgreSQL.
@@ -30,6 +31,9 @@ import org.compiere.model.MCurrency;
 public class CurrencyFunctions {
 
     private static final CLogger log = CLogger.getCLogger(CurrencyFunctions.class);
+
+    // Cached Euro currency ID (volatile for thread safety)
+    private static volatile Integer cachedEuroCurrencyId;
 
     private CurrencyFunctions() {
         // Utility class - prevent instantiation
@@ -110,7 +114,154 @@ public class CurrencyFunctions {
             return BigDecimal.ONE;
         }
 
-        // TODO: Implement EMU/Euro logic and rate lookup (Task 7)
+        // Default date to today
+        Timestamp effectiveDate = convDate;
+        if (effectiveDate == null) {
+            effectiveDate = new Timestamp(System.currentTimeMillis());
+        }
+
+        // Get currency info
+        MCurrency curFrom = MCurrency.get(Env.getCtx(), curFromId);
+        MCurrency curTo = MCurrency.get(Env.getCtx(), curToId);
+
+        if (curFrom == null || curFrom.get_ID() == 0) {
+            log.warning(() -> "currencyRate: source currency not found, ID=" + curFromId);
+            return null;
+        }
+        if (curTo == null || curTo.get_ID() == 0) {
+            log.warning(() -> "currencyRate: target currency not found, ID=" + curToId);
+            return null;
+        }
+
+        // EMU/Euro fixed rate logic
+        // Note: This implements CORRECT behavior. The SQL function had a bug at line 110
+        // that checked cf_IsEMUMember twice instead of checking both cf and ct.
+        // The SQL bug was fixed as part of Wave 1 migration.
+        // See: docs/plans/2026-01-03-wave1-currency-implementation.md, Decision 1
+        boolean cfIsEuro = curFrom.isEuro();
+        boolean cfIsEmuMember = curFrom.isEMUMember();
+        Timestamp cfEmuEntryDate = curFrom.getEMUEntryDate();
+        BigDecimal cfEmuRate = curFrom.getEMURate();
+
+        boolean ctIsEuro = curTo.isEuro();
+        boolean ctIsEmuMember = curTo.isEMUMember();
+        Timestamp ctEmuEntryDate = curTo.getEMUEntryDate();
+        BigDecimal ctEmuRate = curTo.getEMURate();
+
+        // Fixed - From Euro to EMU
+        if (cfIsEuro && ctIsEmuMember && ctEmuEntryDate != null
+                && !effectiveDate.before(ctEmuEntryDate)) {
+            return ctEmuRate;
+        }
+
+        // Fixed - From EMU to Euro
+        if (ctIsEuro && cfIsEmuMember && cfEmuEntryDate != null
+                && !effectiveDate.before(cfEmuEntryDate)) {
+            if (!isValidDivisor(cfEmuRate)) {
+                log.warning(() -> "currencyRate: invalid cfEmuRate for EMU-to-Euro conversion, "
+                    + "from=" + curFromId + ", rate=" + cfEmuRate);
+                return null;
+            }
+            return BigDecimal.ONE.divide(cfEmuRate, 12, RoundingMode.HALF_UP);
+        }
+
+        // Fixed - From EMU to EMU
+        // IMPORTANT: This is the CORRECTED logic. SQL function bug was:
+        // IF (cf_IsEMUMember = 'Y' AND cf_IsEMUMember ='Y'  -- checked cf twice!
+        // Correct: check BOTH cf_IsEMUMember AND ct_IsEMUMember
+        if (cfIsEmuMember && ctIsEmuMember
+                && cfEmuEntryDate != null && !effectiveDate.before(cfEmuEntryDate)
+                && ctEmuEntryDate != null && !effectiveDate.before(ctEmuEntryDate)) {
+            if (!isValidDivisor(cfEmuRate)) {
+                log.warning(() -> "currencyRate: invalid cfEmuRate for EMU-to-EMU conversion, "
+                    + "from=" + curFromId + ", to=" + curToId + ", cfRate=" + cfEmuRate);
+                return null;
+            }
+            return ctEmuRate.divide(cfEmuRate, 12, RoundingMode.HALF_UP);
+        }
+
+        // Flexible rates - delegate to MConversionRate
+        int effectiveClientId = clientId != null ? clientId : 0;
+        int effectiveOrgId = orgId != null ? orgId : 0;
+        int effectiveConvTypeId = convTypeId != null ? convTypeId : 0;
+
+        // Handle EMU member to/from non-Euro currency via Euro
+        int lookupFromId = curFromId;
+        int lookupToId = curToId;
+        BigDecimal fromEmuAdjustment = null;
+        BigDecimal toEmuAdjustment = null;
+
+        if (cfIsEmuMember && cfEmuEntryDate != null && !effectiveDate.before(cfEmuEntryDate)) {
+            // Convert via Euro
+            Integer euroId = getEuroCurrencyId();
+            if (euroId == null) {
+                log.warning(() -> "currencyRate: Euro currency not found for EMU conversion");
+                return null;
+            }
+            lookupFromId = euroId;
+            fromEmuAdjustment = cfEmuRate;
+        }
+
+        if (ctIsEmuMember && ctEmuEntryDate != null && !effectiveDate.before(ctEmuEntryDate)) {
+            // Convert via Euro
+            Integer euroId = getEuroCurrencyId();
+            if (euroId == null) {
+                log.warning(() -> "currencyRate: Euro currency not found for EMU conversion");
+                return null;
+            }
+            lookupToId = euroId;
+            toEmuAdjustment = ctEmuRate;
+        }
+
+        // Get rate from conversion rate table
+        BigDecimal rate = MConversionRate.getRate(
+            lookupFromId, lookupToId,
+            effectiveDate, effectiveConvTypeId,
+            effectiveClientId, effectiveOrgId);
+
+        if (rate == null) {
+            // Capture for lambda
+            final int finalLookupFromId = lookupFromId;
+            final int finalLookupToId = lookupToId;
+            final Timestamp finalEffectiveDate = effectiveDate;
+            final int finalEffectiveConvTypeId = effectiveConvTypeId;
+            log.fine(() -> "currencyRate: rate not found from=" + finalLookupFromId + " to=" + finalLookupToId
+                + " date=" + finalEffectiveDate + " type=" + finalEffectiveConvTypeId);
+            return null;
+        }
+
+        // Apply EMU adjustments
+        if (fromEmuAdjustment != null && isValidDivisor(fromEmuAdjustment)) {
+            rate = rate.divide(fromEmuAdjustment, 12, RoundingMode.HALF_UP);
+        }
+        if (toEmuAdjustment != null) {
+            rate = rate.multiply(toEmuAdjustment);
+        }
+
+        return rate;
+    }
+
+    /**
+     * Check if a BigDecimal is valid for use as a divisor (not null and not zero).
+     */
+    private static boolean isValidDivisor(BigDecimal value) {
+        return value != null && value.compareTo(BigDecimal.ZERO) != 0;
+    }
+
+    /**
+     * Get Euro currency ID (cached for performance).
+     * MCurrency already caches internally, but we avoid repeated string lookups.
+     */
+    @Nullable
+    private static Integer getEuroCurrencyId() {
+        if (cachedEuroCurrencyId != null) {
+            return cachedEuroCurrencyId;
+        }
+        MCurrency euro = MCurrency.get(Env.getCtx(), "EUR");
+        if (euro != null && euro.get_ID() > 0) {
+            cachedEuroCurrencyId = euro.get_ID();
+            return cachedEuroCurrencyId;
+        }
         return null;
     }
 }
