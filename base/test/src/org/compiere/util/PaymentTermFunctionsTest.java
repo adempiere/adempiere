@@ -107,6 +107,30 @@ class PaymentTermFunctionsTest {
     // in integration tests with mocked holiday data. Unit tests cannot easily
     // simulate 365+ consecutive holidays without database access.
 
+    @Test
+    void paymentTermDueDate_withNullPaymentTermId_returnsNull() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertNull(PaymentTermFunctions.paymentTermDueDate(null, docDate));
+    }
+
+    @Test
+    void paymentTermDueDate_withNullDocDate_returnsNull() {
+        assertNull(PaymentTermFunctions.paymentTermDueDate(106, null));
+    }
+
+    @Test
+    void paymentTermDueDate_withZeroPaymentTermId_returnsNull() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertNull(PaymentTermFunctions.paymentTermDueDate(0, docDate));
+    }
+
+    @Test
+    void paymentTermDueDate_withTrxName_acceptsParameter() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        // Should not throw, even with invalid payment term
+        assertNull(PaymentTermFunctions.paymentTermDueDate(0, docDate, "testTrx"));
+    }
+
     @Nested
     class CalculateFixedDueDateTests {
 

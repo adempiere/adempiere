@@ -198,6 +198,73 @@ public final class PaymentTermFunctions {
     }
 
     /**
+     * Calculate the due date for a payment term.
+     * Matches PostgreSQL paymentTermDueDate() behavior.
+     *
+     * @param paymentTermId C_PaymentTerm_ID (nullable, 0 returns null)
+     * @param docDate document date (nullable)
+     * @return due date as timestamp, or null if inputs invalid
+     */
+    @Nullable
+    public static Timestamp paymentTermDueDate(@Nullable Integer paymentTermId,
+                                                @Nullable Timestamp docDate) {
+        return paymentTermDueDate(paymentTermId, docDate, null);
+    }
+
+    /**
+     * Calculate the due date for a payment term with transaction context.
+     *
+     * @param paymentTermId C_PaymentTerm_ID (nullable, 0 returns null)
+     * @param docDate document date (nullable)
+     * @param trxName transaction name (nullable)
+     * @return due date as timestamp, or null if inputs invalid
+     */
+    @Nullable
+    public static Timestamp paymentTermDueDate(@Nullable Integer paymentTermId,
+                                                @Nullable Timestamp docDate,
+                                                @Nullable String trxName) {
+        if (paymentTermId == null || paymentTermId == 0 || docDate == null) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDueDate: invalid inputs - " +
+                    "paymentTermId=" + paymentTermId + ", docDate=" + docDate);
+            }
+            return null;
+        }
+
+        // Load MPaymentTerm
+        MPaymentTerm pt = new MPaymentTerm(Env.getCtx(), paymentTermId, trxName);
+        if (pt.get_ID() == 0) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDueDate: payment term not found - " + paymentTermId);
+            }
+            return null;
+        }
+
+        LocalDate docLocalDate = docDate.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+
+        LocalDate dueDate = calculateDueDate(pt, docLocalDate);
+
+        return Timestamp.valueOf(dueDate.atStartOfDay());
+    }
+
+    /**
+     * Calculate due date from payment term, handling both fixed and net-days terms.
+     * Shared by paymentTermDueDate and paymentTermDueDays.
+     */
+    private static LocalDate calculateDueDate(MPaymentTerm pt, LocalDate docDate) {
+        if (pt.isDueFixed()) {
+            return calculateFixedDueDate(docDate,
+                pt.getFixMonthDay(),
+                pt.getFixMonthOffset(),
+                pt.getFixMonthCutoff());
+        } else {
+            return docDate.plusDays(pt.getNetDays());
+        }
+    }
+
+    /**
      * Calculate fixed due date matching C_PaymentTerm_DueDays.sql lines 59-103.
      *
      * <p>SQL Logic:
