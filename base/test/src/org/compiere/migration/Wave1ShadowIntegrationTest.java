@@ -120,4 +120,79 @@ public class Wave1ShadowIntegrationTest extends CommonGWSetup {
         assertEquals(0, amount.compareTo(javaResult));
         assertEquals(0, amount.compareTo(sqlResult));
     }
+
+    @Test
+    void currencyRate_sameCurrency_matchesSql() {
+        BigDecimal javaResult = CurrencyFunctions.currencyRate(
+            usdCurrencyId, usdCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyRate(
+            usdCurrencyId, usdCurrencyId, null, null, 11, 0);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            "currencyRate(USD, USD): java=" + javaResult + ", sql=" + sqlResult);
+    }
+
+    @Test
+    void currencyRate_nullCurrency_matchesSql() {
+        BigDecimal javaResult = CurrencyFunctions.currencyRate(null, usdCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyRate(null, usdCurrencyId, null, null, 11, 0);
+
+        assertEquals(sqlResult, javaResult);
+    }
+
+    @Test
+    void currencyRate_crossCurrency_matchesSqlWithTolerance() {
+        // Use a historical date that's likely to have rates configured
+        Timestamp convDate = Timestamp.valueOf("2024-01-01 00:00:00");
+
+        BigDecimal javaResult = CurrencyFunctions.currencyRate(
+            usdCurrencyId, eurCurrencyId, convDate, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyRate(
+            usdCurrencyId, eurCurrencyId, convDate, null, 11, 0);
+
+        // Both may be null if rate not configured - that's a match
+        if (javaResult == null && sqlResult == null) {
+            return; // Both null = match
+        }
+
+        assertNotNull(javaResult, "Java returned null but SQL returned " + sqlResult);
+        assertNotNull(sqlResult, "SQL returned null but Java returned " + javaResult);
+
+        // Compare with 6 decimal place tolerance for division rounding differences
+        // See: docs/plans/2026-01-03-wave1-currency-implementation.md, Decision 2
+        assertEquals(0,
+            javaResult.setScale(6, RoundingMode.HALF_UP)
+                      .compareTo(sqlResult.setScale(6, RoundingMode.HALF_UP)),
+            String.format("currencyRate(USD, EUR, %s): java=%s, sql=%s",
+                convDate, javaResult, sqlResult));
+    }
+
+    @Test
+    void currencyRate_emuToEmu_matchesSqlAfterBugFix() {
+        // This tests the exact path that had the SQL bug at line 110
+        // DEM -> FRF (both EMU members) - validates Decision 1 fix
+        MCurrency dem = getCurrencyByIsoCode("DEM");
+        MCurrency frf = getCurrencyByIsoCode("FRF");
+        assumeTrue(dem != null && dem.isEMUMember(), "DEM (EMU member) required for EMU path test");
+        assumeTrue(frf != null && frf.isEMUMember(), "FRF (EMU member) required for EMU path test");
+
+        // Use post-EMU date (Euro adoption was 1999-2002)
+        Timestamp convDate = Timestamp.valueOf("2002-01-01 00:00:00");
+
+        BigDecimal javaResult = CurrencyFunctions.currencyRate(
+            dem.get_ID(), frf.get_ID(), convDate, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyRate(
+            dem.get_ID(), frf.get_ID(), convDate, null, 11, 0);
+
+        // After SQL bug fix, both should return FRF_rate / DEM_rate
+        // Before fix, SQL would incorrectly compute because it checked DEM twice
+        assertNotNull(javaResult, "EMU-to-EMU should have fixed rate after entry date");
+        assertNotNull(sqlResult, "SQL EMU-to-EMU should have fixed rate after bug fix");
+
+        assertEquals(0,
+            javaResult.setScale(6, RoundingMode.HALF_UP)
+                      .compareTo(sqlResult.setScale(6, RoundingMode.HALF_UP)),
+            String.format("currencyRate(DEM, FRF) EMU-to-EMU: java=%s, sql=%s",
+                javaResult, sqlResult));
+    }
 }
