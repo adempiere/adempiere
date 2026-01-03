@@ -388,4 +388,122 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    /**
+     * Call PostgreSQL nextBusinessDay function.
+     *
+     * @param date input date (nullable)
+     * @param clientId AD_Client_ID for holiday lookup
+     * @return next business day, or null if date is null
+     */
+    @Nullable
+    public static Timestamp callNextBusinessDay(@Nullable Timestamp date, int clientId) {
+        if (date == null) {
+            return null;
+        }
+
+        String sql = "SELECT nextBusinessDay(?, ?)";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setTimestamp(1, date);
+            pstmt.setInt(2, clientId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getTimestamp(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call nextBusinessDay()", e);
+            throw new SqlFunctionException("nextBusinessDay", e);
+        }
+        return null;
+    }
+
+    /**
+     * Call PostgreSQL paymentTermDueDate function.
+     */
+    @Nullable
+    public static Timestamp callPaymentTermDueDate(@Nullable Integer paymentTermId,
+                                                    @Nullable Timestamp docDate) {
+        if (paymentTermId == null || docDate == null) {
+            return null;
+        }
+
+        String sql = "SELECT paymentTermDueDate(?, ?)";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setInt(1, paymentTermId);
+            pstmt.setTimestamp(2, docDate);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getTimestamp(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call paymentTermDueDate()", e);
+            throw new SqlFunctionException("paymentTermDueDate", e);
+        }
+        return null;
+    }
+
+    /**
+     * Call PostgreSQL paymentTermDueDays function.
+     */
+    public static int callPaymentTermDueDays(int paymentTermId,
+                                              @Nullable Timestamp docDate,
+                                              @Nullable Timestamp payDate) {
+        if (paymentTermId == 0 || docDate == null) {
+            return 0;
+        }
+
+        String sql = "SELECT paymentTermDueDays(?, ?, ?)";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setInt(1, paymentTermId);
+            pstmt.setTimestamp(2, docDate);
+            pstmt.setTimestamp(3, payDate);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call paymentTermDueDays()", e);
+            throw new SqlFunctionException("paymentTermDueDays", e);
+        }
+        return 0;
+    }
+
+    /**
+     * Call PostgreSQL paymentTermDiscount function.
+     */
+    public static BigDecimal callPaymentTermDiscount(@Nullable BigDecimal amount,
+                                                       int currencyId,
+                                                       int paymentTermId,
+                                                       @Nullable Timestamp docDate,
+                                                       @Nullable Timestamp payDate) {
+        if (amount == null || paymentTermId == 0 || docDate == null) {
+            return BigDecimal.ZERO;
+        }
+
+        String sql = "SELECT paymentTermDiscount(?, ?, ?, ?, ?)";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setBigDecimal(1, amount);
+            pstmt.setInt(2, currencyId);
+            pstmt.setInt(3, paymentTermId);
+            pstmt.setTimestamp(4, docDate);
+            pstmt.setTimestamp(5, payDate);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    BigDecimal result = rs.getBigDecimal(1);
+                    return result != null ? result : BigDecimal.ZERO;
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call paymentTermDiscount()", e);
+            throw new SqlFunctionException("paymentTermDiscount", e);
+        }
+        return BigDecimal.ZERO;
+    }
 }

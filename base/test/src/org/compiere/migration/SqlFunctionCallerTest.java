@@ -198,4 +198,27 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
                 null, 11, 0);
         });
     }
+
+    @Test
+    void callNextBusinessDay_withNullDate_returnsNull() {
+        assertNull(SqlFunctionCaller.callNextBusinessDay(null, 0));
+    }
+
+    @Test
+    void callPaymentTermDueDate_withNullInputs_returnsNull() {
+        assertNull(SqlFunctionCaller.callPaymentTermDueDate(null, null));
+    }
+
+    @Test
+    void callPaymentTermDueDays_withZeroPaymentTermId_returnsZero() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertEquals(0, SqlFunctionCaller.callPaymentTermDueDays(0, docDate, null));
+    }
+
+    @Test
+    void callPaymentTermDiscount_withNullAmount_returnsZero() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertEquals(BigDecimal.ZERO, SqlFunctionCaller.callPaymentTermDiscount(
+            null, 100, 106, docDate, docDate));
+    }
 }
