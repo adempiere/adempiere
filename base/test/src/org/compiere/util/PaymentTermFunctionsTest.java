@@ -1,6 +1,7 @@
 package org.compiere.util;
 
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -105,4 +106,61 @@ class PaymentTermFunctionsTest {
     // Note: The iteration guard (MAX_BUSINESS_DAY_ITERATIONS = 365) is tested
     // in integration tests with mocked holiday data. Unit tests cannot easily
     // simulate 365+ consecutive holidays without database access.
+
+    @Nested
+    class CalculateFixedDueDateTests {
+
+        @ParameterizedTest
+        @CsvSource({
+            // DocDate, FixMonthDay, FixMonthOffset, FixMonthCutoff, Expected
+            // Cutoff behavior: noDays = dayOfMonth - 1, compare noDays > cutoff
+            "2026-01-10, 15, 1, 20, 2026-02-15",  // noDays=9, 9 > 20? No -> Feb
+            "2026-01-21, 15, 1, 20, 2026-02-15",  // noDays=20, 20 > 20? No -> Feb
+            "2026-01-22, 15, 1, 20, 2026-03-15",  // noDays=21, 21 > 20? Yes -> Mar
+            "2026-01-01, 15, 1, 20, 2026-02-15",  // noDays=0, 0 > 20? No -> Feb
+            "2026-01-31, 15, 1, 15, 2026-03-15",  // noDays=30, 30 > 15? Yes -> Mar
+        })
+        void cutoffBehavior(String docDateStr, int fixMonthDay,
+                int fixMonthOffset, int fixMonthCutoff, String expectedStr) {
+            LocalDate docDate = LocalDate.parse(docDateStr);
+            LocalDate expected = LocalDate.parse(expectedStr);
+            LocalDate result = PaymentTermFunctions.calculateFixedDueDate(
+                docDate, fixMonthDay, fixMonthOffset, fixMonthCutoff);
+            assertEquals(expected, result,
+                "DocDate=" + docDateStr + " with cutoff=" + fixMonthCutoff);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+            // Month-end handling (cutoff=99 to not interfere)
+            "2026-01-15, 31, 1, 99, 2026-02-28",  // Day 31 in Feb -> 28
+            "2026-01-15, 31, 2, 99, 2026-03-31",  // Day 31 in Mar -> 31
+            "2026-01-15, 30, 1, 99, 2026-02-28",  // Day 30 in Feb -> 28
+            "2026-01-15, 30, 3, 99, 2026-04-30",  // Day 30 in Apr -> 30
+            "2026-01-15, 30, 4, 99, 2026-05-31",  // Day 30 in May -> 31 (end-of-month intent)
+        })
+        void monthEndHandling(String docDateStr, int fixMonthDay,
+                int fixMonthOffset, int fixMonthCutoff, String expectedStr) {
+            LocalDate docDate = LocalDate.parse(docDateStr);
+            LocalDate expected = LocalDate.parse(expectedStr);
+            LocalDate result = PaymentTermFunctions.calculateFixedDueDate(
+                docDate, fixMonthDay, fixMonthOffset, fixMonthCutoff);
+            assertEquals(expected, result);
+        }
+
+        @ParameterizedTest
+        @CsvSource({
+            "2026-02-28, 15, 0, 20, 2026-03-15",  // Feb end, past cutoff
+            "2026-12-31, 15, 1, 15, 2027-02-15",  // Year boundary, past cutoff
+            "2026-03-31, 31, 1, 30, 2026-05-31",  // March end -> Apr (30d) skipped if day>30 -> May
+        })
+        void edgeCases(String docDateStr, int fixMonthDay,
+                int fixMonthOffset, int fixMonthCutoff, String expectedStr) {
+            LocalDate docDate = LocalDate.parse(docDateStr);
+            LocalDate expected = LocalDate.parse(expectedStr);
+            LocalDate result = PaymentTermFunctions.calculateFixedDueDate(
+                docDate, fixMonthDay, fixMonthOffset, fixMonthCutoff);
+            assertEquals(expected, result);
+        }
+    }
 }

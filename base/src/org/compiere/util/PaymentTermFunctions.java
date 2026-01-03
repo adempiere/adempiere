@@ -196,4 +196,72 @@ public final class PaymentTermFunctions {
         }
         return date;
     }
+
+    /**
+     * Calculate fixed due date matching C_PaymentTerm_DueDays.sql lines 59-103.
+     *
+     * <p>SQL Logic:
+     * <pre>
+     *   FirstDay := TRUNC(DocDate, 'MM')
+     *   NoDays := extract(day from (TRUNC(DocDate) - FirstDay))
+     *   DueDate := FirstDay + (FixMonthDay - 1)
+     *   DueDate := DueDate + FixMonthOffset months
+     *   IF (NoDays > FixMonthCutoff) THEN DueDate += 1 month
+     * </pre>
+     *
+     * <p>Package-private for testing. Used by paymentTermDueDate and paymentTermDueDays.
+     *
+     * @param docDate document date
+     * @param fixMonthDay day of month for due date (1-31, or 32 for last day)
+     * @param fixMonthOffset months to add
+     * @param fixMonthCutoff cutoff day; if docDate's day-1 exceeds this, add extra month
+     * @return calculated fixed due date
+     */
+    static LocalDate calculateFixedDueDate(LocalDate docDate,
+                                            int fixMonthDay,
+                                            int fixMonthOffset,
+                                            int fixMonthCutoff) {
+        // FirstDay := TRUNC(DocDate, 'MM')
+        LocalDate firstOfMonth = docDate.withDayOfMonth(1);
+
+        // NoDays := extract(day from (TRUNC(DocDate) - FirstDay))
+        // This equals dayOfMonth - 1
+        int noDays = docDate.getDayOfMonth() - 1;
+
+        // Determine target month: start with docDate's month, add offset, check cutoff
+        LocalDate targetMonth = firstOfMonth.plusMonths(fixMonthOffset);
+
+        // IF (NoDays > FixMonthCutoff) THEN add 1 more month
+        if (noDays > fixMonthCutoff) {
+            targetMonth = targetMonth.plusMonths(1);
+        }
+
+        // Now set the day within the target month
+        int maxDay = targetMonth.lengthOfMonth();
+        int targetDay = fixMonthDay;
+
+        if (fixMonthDay >= 30) {
+            // Special handling for end-of-month (day 30 or 31)
+            if (maxDay < 30) {
+                // February: clamp to last day (28 or 29)
+                targetDay = maxDay;
+            } else if (maxDay == 30 && fixMonthDay > 30) {
+                // 30-day month but want day 31: skip to next month
+                targetMonth = targetMonth.plusMonths(1);
+                maxDay = targetMonth.lengthOfMonth();
+                targetDay = Math.min(fixMonthDay, maxDay);
+            } else if (maxDay == 31 && fixMonthDay >= 30) {
+                // 31-day month and want day 30+: use last day (31)
+                targetDay = maxDay;
+            } else {
+                // Other cases: use requested day
+                targetDay = fixMonthDay;
+            }
+        } else if (fixMonthDay > maxDay) {
+            // Requested day > maxDay but < 30: clamp to maxDay
+            targetDay = maxDay;
+        }
+
+        return targetMonth.withDayOfMonth(targetDay);
+    }
 }
