@@ -276,4 +276,32 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    /** Calls: SELECT currencyRate(?, ?, ?, ?, ?, ?) */
+    @Nullable
+    public static BigDecimal callCurrencyRate(@Nullable Integer curFromId,
+                                               @Nullable Integer curToId,
+                                               @Nullable Timestamp convDate,
+                                               @Nullable Integer convTypeId,
+                                               @Nullable Integer clientId,
+                                               @Nullable Integer orgId) {
+        String sql = "SELECT currencyRate(?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, curFromId);
+            setNullableInt(pstmt, 2, curToId);
+            setNullableTimestamp(pstmt, 3, convDate);
+            setNullableInt(pstmt, 4, convTypeId);
+            setNullableInt(pstmt, 5, clientId);
+            setNullableInt(pstmt, 6, orgId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call currencyRate()", e);
+            throw new SqlFunctionException("currencyRate", e);
+        }
+        return null;
+    }
 }

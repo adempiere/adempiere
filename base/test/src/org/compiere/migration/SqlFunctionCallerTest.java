@@ -169,4 +169,33 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
         BigDecimal result = SqlFunctionCaller.callCurrencyRound(null, 100, "N");
         assertNull(result);
     }
+
+    @Test
+    void callCurrencyRate_sameCurrency_returnsOne() {
+        MCurrency usd = MCurrency.get(Env.getCtx(), "USD");
+        assumeTrue(usd != null && usd.get_ID() > 0, "USD currency required");
+
+        BigDecimal result = SqlFunctionCaller.callCurrencyRate(
+            usd.get_ID(), usd.get_ID(), null, null, 11, 0);
+
+        assertNotNull(result);
+        assertEquals(0, BigDecimal.ONE.compareTo(result));
+    }
+
+    @Test
+    void callCurrencyRate_usdToEur_noException() {
+        MCurrency usd = MCurrency.get(Env.getCtx(), "USD");
+        MCurrency eur = MCurrency.get(Env.getCtx(), "EUR");
+        assumeTrue(usd != null && usd.get_ID() > 0, "USD currency required");
+        assumeTrue(eur != null && eur.get_ID() > 0, "EUR currency required");
+
+        // This test validates the SQL function is callable
+        // Rate may be null if not configured in test DB - that's OK
+        assertDoesNotThrow(() -> {
+            SqlFunctionCaller.callCurrencyRate(
+                usd.get_ID(), eur.get_ID(),
+                Timestamp.valueOf("2024-01-01 00:00:00"),
+                null, 11, 0);
+        });
+    }
 }
