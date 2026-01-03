@@ -8,6 +8,8 @@ import javax.annotation.Nullable;
 
 import org.compiere.model.MCurrency;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MAcctSchema;
 
 /**
  * Currency conversion functions migrated from PostgreSQL.
@@ -298,6 +300,72 @@ public class CurrencyFunctions {
         // Apply rate and round to target currency precision
         BigDecimal converted = amount.multiply(rate);
         return currencyRound(converted, curToId, null);
+    }
+
+    /**
+     * Convert amount to client's base currency.
+     * Equivalent to PostgreSQL: currencyBase(amount, curFromId, convDate, convTypeId, clientId, orgId)
+     *
+     * @param amount amount to convert
+     * @param curFromId source currency ID
+     * @param convDate conversion date (null = today)
+     * @param convTypeId conversion type ID (null/0 = default)
+     * @param clientId client ID
+     * @param orgId organization ID
+     * @return converted amount in base currency, or null if rate not found
+     */
+    @Nullable
+    public static BigDecimal currencyBase(@Nullable BigDecimal amount,
+                                            @Nullable Integer curFromId,
+                                            @Nullable Timestamp convDate,
+                                            @Nullable Integer convTypeId,
+                                            @Nullable Integer clientId,
+                                            @Nullable Integer orgId) {
+        if (amount == null || curFromId == null || clientId == null) {
+            log.fine(() -> "currencyBase: null parameter (amount=" + amount
+                + ", curFrom=" + curFromId + ", client=" + clientId + ")");
+            return null;
+        }
+
+        // Get base currency from client's accounting schema
+        Integer curToId = getClientBaseCurrency(clientId);
+        if (curToId == null) {
+            log.warning(() -> "currencyBase: could not determine base currency for client=" + clientId);
+            return null;
+        }
+
+        // Same currency - no conversion needed (but still round)
+        if (curFromId.equals(curToId)) {
+            return currencyRound(amount, curToId, null);
+        }
+
+        return currencyConvert(amount, curFromId, curToId, convDate, convTypeId, clientId, orgId);
+    }
+
+    /**
+     * Get client's base currency from primary accounting schema.
+     */
+    @Nullable
+    private static Integer getClientBaseCurrency(int clientId) {
+        MClientInfo clientInfo = MClientInfo.get(Env.getCtx(), clientId);
+        if (clientInfo == null) {
+            log.fine(() -> "currencyBase: MClientInfo not found for client=" + clientId);
+            return null;
+        }
+
+        int acctSchemaId = clientInfo.getC_AcctSchema1_ID();
+        if (acctSchemaId <= 0) {
+            log.fine(() -> "currencyBase: no accounting schema for client=" + clientId);
+            return null;
+        }
+
+        MAcctSchema acctSchema = MAcctSchema.get(Env.getCtx(), acctSchemaId);
+        if (acctSchema == null) {
+            log.fine(() -> "currencyBase: MAcctSchema not found, ID=" + acctSchemaId);
+            return null;
+        }
+
+        return acctSchema.getC_Currency_ID();
     }
 
     /**

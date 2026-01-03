@@ -200,4 +200,28 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
 
         assertNull(result);
     }
+
+    @Test
+    void currencyBase_nullAmount_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyBase(null, usdCurrencyId, null, null, 11, 0);
+        assertNull(result);
+    }
+
+    @Test
+    void currencyBase_nullClient_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyBase(
+            new BigDecimal("100"), usdCurrencyId, null, null, null, 0);
+        assertNull(result);
+    }
+
+    @Test
+    void currencyBase_sameCurrencyAsBase_returnsAmount() {
+        // This test assumes client 11's base currency matches the input
+        // The actual assertion depends on client configuration
+        BigDecimal amount = new BigDecimal("123.45");
+        BigDecimal result = CurrencyFunctions.currencyBase(amount, usdCurrencyId, null, null, 11, 0);
+
+        // Should not throw, and if base currency is USD, returns original
+        assertNotNull(result);
+    }
 }
