@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import org.adempiere.test.CommonGWSetup;
-// import org.compiere.util.SqlCompat;
+import org.compiere.util.SqlCompat;
 import org.compiere.util.TimeUtil;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -125,8 +125,6 @@ public class Wave0PerformanceTest extends CommonGWSetup {
         }
     }
 
-    // TODO: Enable when SqlCompat.round is implemented
-    /*
     @RepeatedTest(MEASUREMENT_ROUNDS)
     void testRoundPerformance(RepetitionInfo info) {
         BigDecimal value = new BigDecimal("123.456789");
@@ -164,7 +162,6 @@ public class Wave0PerformanceTest extends CommonGWSetup {
                     medianRatio, MAX_LATENCY_RATIO, java.util.Arrays.toString(ratios)));
         }
     }
-    */
 
     @RepeatedTest(MEASUREMENT_ROUNDS)
     void testTruncPerformance(RepetitionInfo info) {
