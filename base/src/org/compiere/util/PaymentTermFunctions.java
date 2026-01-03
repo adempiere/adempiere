@@ -36,6 +36,9 @@ public final class PaymentTermFunctions {
 
     private static final CLogger log = CLogger.getCLogger(PaymentTermFunctions.class);
 
+    /** Maximum iterations for business day search (defensive guard against corrupted data). */
+    private static final int MAX_BUSINESS_DAY_ITERATIONS = 365;
+
     private PaymentTermFunctions() {
         // Utility class
     }
@@ -103,5 +106,94 @@ public final class PaymentTermFunctions {
         }
 
         return holidays;
+    }
+
+    /**
+     * Get the next business day, skipping weekends and configured holidays.
+     * Matches PostgreSQL nextBusinessDay() behavior.
+     *
+     * <p>CRITICAL: Loop logic ensures weekends are rechecked after holiday increment.
+     * If Friday is a holiday, incrementing to Saturday must then skip to Monday.
+     *
+     * <p>Defensive: Limited to 365 iterations to prevent infinite loop with corrupted holiday data.
+     *
+     * @param date input date (nullable)
+     * @param clientId AD_Client_ID for holiday lookup
+     * @return next business day as timestamp, or null if date is null or iterations exhausted
+     */
+    @Nullable
+    public static Timestamp nextBusinessDay(@Nullable Timestamp date, int clientId) {
+        return nextBusinessDay(date, clientId, null);
+    }
+
+    /**
+     * Get the next business day with transaction context.
+     *
+     * @param date input date (nullable)
+     * @param clientId AD_Client_ID for holiday lookup
+     * @param trxName transaction name (nullable)
+     * @return next business day as timestamp, or null if date is null or iterations exhausted
+     */
+    @Nullable
+    public static Timestamp nextBusinessDay(@Nullable Timestamp date, int clientId,
+                                             @Nullable String trxName) {
+        if (date == null) {
+            return null;
+        }
+
+        LocalDate nextDate = date.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+
+        // Pre-fetch holidays for next 30 days (avoids N+1 queries)
+        Set<LocalDate> holidays = (clientId > 0)
+            ? loadHolidays(clientId, nextDate, nextDate.plusDays(30), trxName)
+            : Collections.emptySet();
+
+        // Loop until we find a business day (with iteration guard)
+        int iterations = 0;
+        boolean searching = true;
+        while (searching && iterations < MAX_BUSINESS_DAY_ITERATIONS) {
+            iterations++;
+
+            // First: always skip weekends (runs after any holiday increment)
+            nextDate = skipWeekends(nextDate);
+
+            // Then: check if this day is a holiday
+            if (holidays.contains(nextDate)) {
+                nextDate = nextDate.plusDays(1);
+                // Continue loop - will recheck weekends on next iteration
+            } else {
+                searching = false;
+            }
+        }
+
+        // Guard: if we exhausted iterations, log warning and return null
+        if (iterations >= MAX_BUSINESS_DAY_ITERATIONS) {
+            log.warning("nextBusinessDay: max iterations reached for clientId=" + clientId +
+                ", startDate=" + date + " - possible corrupted holiday data");
+            return null;
+        }
+
+        return Timestamp.valueOf(nextDate.atStartOfDay());
+    }
+
+    /**
+     * Skip weekends (Saturday -> Monday, Sunday -> Monday).
+     * Uses ISO week standard.
+     *
+     * <p>Matches SQL nextBusinessDay.sql lines 36-41 weekend detection.
+     *
+     * @param date input date
+     * @return same date if weekday, Monday if weekend
+     */
+    private static LocalDate skipWeekends(LocalDate date) {
+        DayOfWeek dow = date.getDayOfWeek();
+        if (dow == DayOfWeek.SATURDAY) {
+            return date.plusDays(2);
+        } else if (dow == DayOfWeek.SUNDAY) {
+            return date.plusDays(1);
+        }
+        return date;
     }
 }
