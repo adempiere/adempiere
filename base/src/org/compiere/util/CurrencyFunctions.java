@@ -303,6 +303,29 @@ public class CurrencyFunctions {
     }
 
     /**
+     * Convert amount to client's base currency (5-parameter overload, no conversion type).
+     * Equivalent to PostgreSQL: currencyBase(amount, curFromId, convDate, clientId, orgId)
+     *
+     * <p>This overload exists for backwards compatibility with call sites that don't
+     * specify a conversion type. It delegates to the 6-parameter version with null convTypeId.
+     *
+     * @param amount amount to convert
+     * @param curFromId source currency ID
+     * @param convDate conversion date (null = today)
+     * @param clientId client ID
+     * @param orgId organization ID
+     * @return converted amount in base currency, or null if rate not found
+     */
+    @Nullable
+    public static BigDecimal currencyBase(@Nullable BigDecimal amount,
+                                            @Nullable Integer curFromId,
+                                            @Nullable Timestamp convDate,
+                                            @Nullable Integer clientId,
+                                            @Nullable Integer orgId) {
+        return currencyBase(amount, curFromId, convDate, null, clientId, orgId);
+    }
+
+    /**
      * Convert amount to client's base currency.
      * Equivalent to PostgreSQL: currencyBase(amount, curFromId, convDate, convTypeId, clientId, orgId)
      *

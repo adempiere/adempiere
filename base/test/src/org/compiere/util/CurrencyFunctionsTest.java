@@ -224,4 +224,22 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
         // Should not throw, and if base currency is USD, returns original
         assertNotNull(result);
     }
+
+    @Test
+    void currencyBase5Param_delegatesTo6Param() {
+        BigDecimal amount = new BigDecimal("100.00");
+
+        // 5-param version should delegate to 6-param with null convTypeId
+        BigDecimal result5 = CurrencyFunctions.currencyBase(
+            amount, usdCurrencyId, null, 11, 0);
+        BigDecimal result6 = CurrencyFunctions.currencyBase(
+            amount, usdCurrencyId, null, null, 11, 0);
+
+        // Both should return same result
+        if (result5 != null && result6 != null) {
+            assertEquals(0, result5.compareTo(result6));
+        } else {
+            assertEquals(result5, result6);
+        }
+    }
 }
