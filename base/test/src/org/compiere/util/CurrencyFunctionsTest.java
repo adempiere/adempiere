@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.adempiere.core.domains.models.I_C_Currency;
 import org.adempiere.test.CommonGWSetup;
@@ -11,6 +12,7 @@ import org.compiere.model.MCurrency;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -27,6 +29,7 @@ import org.junit.jupiter.api.TestInstance;
  * <p>Tests use dynamic lookup by ISO code to avoid hardcoded ID dependencies.
  * Tests will be skipped (not failed) if required data is missing.
  */
+@Tag("IntegrationTest")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CurrencyFunctionsTest extends CommonGWSetup {
 
@@ -85,6 +88,34 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
     void currencyRound_nullCurrencyId_returnsAmount() {
         BigDecimal amount = new BigDecimal("123.456");
         BigDecimal result = CurrencyFunctions.currencyRound(amount, null, "N");
+        assertEquals(amount, result);
+    }
+
+    @Test
+    void currencyRound_validCurrency_roundsToStdPrecision() {
+        BigDecimal amount = new BigDecimal("123.456789");
+        BigDecimal result = CurrencyFunctions.currencyRound(amount, usdCurrencyId, "N");
+
+        // USD typically has StdPrecision=2
+        BigDecimal expected = amount.setScale(usdStdPrecision, RoundingMode.HALF_UP);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void currencyRound_costingPrecision_roundsToCostPrecision() {
+        BigDecimal amount = new BigDecimal("123.456789");
+        BigDecimal result = CurrencyFunctions.currencyRound(amount, usdCurrencyId, "Y");
+
+        // USD typically has CostingPrecision=4
+        BigDecimal expected = amount.setScale(usdCostingPrecision, RoundingMode.HALF_UP);
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void currencyRound_unknownCurrency_returnsAmount() {
+        BigDecimal amount = new BigDecimal("123.456789");
+        BigDecimal result = CurrencyFunctions.currencyRound(amount, 999999, "N");
+
         assertEquals(amount, result);
     }
 }

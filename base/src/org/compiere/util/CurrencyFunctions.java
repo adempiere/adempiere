@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 
 import javax.annotation.Nullable;
 
+import org.compiere.model.MCurrency;
+
 /**
  * Currency conversion functions migrated from PostgreSQL.
  * Matches PostgreSQL function semantics exactly.
@@ -55,7 +57,22 @@ public class CurrencyFunctions {
             return amount;
         }
 
-        // TODO: Implement precision lookup and rounding
-        return amount;
+        // Get currency precision
+        MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
+        if (currency == null || currency.get_ID() == 0) {
+            // Currency not found - return unmodified
+            log.warning(() -> "currencyRound: currency not found for ID=" + currencyId
+                + ", returning original amount");
+            return amount;
+        }
+
+        int precision;
+        if ("Y".equals(costing)) {
+            precision = currency.getCostingPrecision();
+        } else {
+            precision = currency.getStdPrecision();
+        }
+
+        return amount.setScale(precision, RoundingMode.HALF_UP);
     }
 }
