@@ -250,6 +250,66 @@ public final class PaymentTermFunctions {
     }
 
     /**
+     * Calculate days due (positive) or days till due (negative).
+     * Grace days are not considered.
+     * Matches PostgreSQL paymentTermDueDays() behavior.
+     *
+     * @param paymentTermId C_PaymentTerm_ID
+     * @param docDate document date (nullable)
+     * @param payDate payment date, or null for today
+     * @return days due (positive = overdue, negative = not yet due)
+     */
+    public static int paymentTermDueDays(int paymentTermId,
+                                          @Nullable Timestamp docDate,
+                                          @Nullable Timestamp payDate) {
+        return paymentTermDueDays(paymentTermId, docDate, payDate, null);
+    }
+
+    /**
+     * Calculate days due with transaction context.
+     *
+     * @param paymentTermId C_PaymentTerm_ID
+     * @param docDate document date (nullable)
+     * @param payDate payment date, or null for today
+     * @param trxName transaction name (nullable)
+     * @return days due (positive = overdue, negative = not yet due)
+     */
+    public static int paymentTermDueDays(int paymentTermId,
+                                          @Nullable Timestamp docDate,
+                                          @Nullable Timestamp payDate,
+                                          @Nullable String trxName) {
+        if (paymentTermId == 0 || docDate == null) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDueDays: invalid inputs - " +
+                    "paymentTermId=" + paymentTermId + ", docDate=" + docDate);
+            }
+            return 0;
+        }
+
+        LocalDate vPayDate = (payDate != null)
+            ? payDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            : LocalDate.now();
+
+        MPaymentTerm pt = new MPaymentTerm(Env.getCtx(), paymentTermId, trxName);
+        if (pt.get_ID() == 0) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDueDays: payment term not found - " + paymentTermId);
+            }
+            return 0;
+        }
+
+        LocalDate docLocalDate = docDate.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+
+        LocalDate dueDate = calculateDueDate(pt, docLocalDate);
+
+        // Return days between due date and pay date
+        // Positive = overdue, Negative = days until due
+        return (int) java.time.temporal.ChronoUnit.DAYS.between(dueDate, vPayDate);
+    }
+
+    /**
      * Calculate due date from payment term, handling both fixed and net-days terms.
      * Shared by paymentTermDueDate and paymentTermDueDays.
      */

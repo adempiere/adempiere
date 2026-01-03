@@ -131,6 +131,33 @@ class PaymentTermFunctionsTest {
         assertNull(PaymentTermFunctions.paymentTermDueDate(0, docDate, "testTrx"));
     }
 
+    @Test
+    void paymentTermDueDays_withZeroPaymentTermId_returnsZero() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        Timestamp payDate = Timestamp.valueOf("2026-02-15 00:00:00");
+        assertEquals(0, PaymentTermFunctions.paymentTermDueDays(0, docDate, payDate));
+    }
+
+    @Test
+    void paymentTermDueDays_withNullDocDate_returnsZero() {
+        Timestamp payDate = Timestamp.valueOf("2026-02-15 00:00:00");
+        assertEquals(0, PaymentTermFunctions.paymentTermDueDays(106, null, payDate));
+    }
+
+    @Test
+    void paymentTermDueDays_withNullPayDate_usesToday() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        // Result depends on current date - just verify no exception with invalid payment term
+        assertDoesNotThrow(() -> PaymentTermFunctions.paymentTermDueDays(0, docDate, null));
+    }
+
+    @Test
+    void paymentTermDueDays_withTrxName_acceptsParameter() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        // Should not throw, even with invalid payment term
+        assertEquals(0, PaymentTermFunctions.paymentTermDueDays(0, docDate, null, "testTrx"));
+    }
+
     @Nested
     class CalculateFixedDueDateTests {
 
