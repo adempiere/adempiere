@@ -227,4 +227,42 @@ public class Wave1ShadowIntegrationTest extends CommonGWSetup {
 
         assertEquals(0, javaResult.compareTo(sqlResult));
     }
+
+    @Test
+    void currencyBase_nullAmount_matchesSql() {
+        BigDecimal javaResult = CurrencyFunctions.currencyBase(null, usdCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyBase(null, usdCurrencyId, null, null, 11, 0);
+
+        assertEquals(sqlResult, javaResult);
+    }
+
+    @Test
+    void currencyBase_sameCurrencyAsBase_matchesSql() {
+        BigDecimal amount = new BigDecimal("123.45");
+
+        BigDecimal javaResult = CurrencyFunctions.currencyBase(amount, usdCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyBase(amount, usdCurrencyId, null, null, 11, 0);
+
+        if (javaResult != null && sqlResult != null) {
+            assertEquals(0, javaResult.compareTo(sqlResult),
+                "currencyBase mismatch: java=" + javaResult + ", sql=" + sqlResult);
+        } else {
+            assertEquals(sqlResult, javaResult);
+        }
+    }
+
+    @Test
+    void currencyBase5Param_matchesSql() {
+        BigDecimal amount = new BigDecimal("100.00");
+
+        BigDecimal javaResult = CurrencyFunctions.currencyBase(amount, usdCurrencyId, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyBase(amount, usdCurrencyId, null, 11, 0);
+
+        if (javaResult != null && sqlResult != null) {
+            assertEquals(0, javaResult.compareTo(sqlResult),
+                "currencyBase(5) mismatch: java=" + javaResult + ", sql=" + sqlResult);
+        } else {
+            assertEquals(sqlResult, javaResult);
+        }
+    }
 }

@@ -334,4 +334,58 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    /** Calls: SELECT currencyBase(?, ?, ?, ?, ?, ?) - 6 param version */
+    @Nullable
+    public static BigDecimal callCurrencyBase(@Nullable BigDecimal amount,
+                                               @Nullable Integer curFromId,
+                                               @Nullable Timestamp convDate,
+                                               @Nullable Integer convTypeId,
+                                               @Nullable Integer clientId,
+                                               @Nullable Integer orgId) {
+        String sql = "SELECT currencyBase(?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableBigDecimal(pstmt, 1, amount);
+            setNullableInt(pstmt, 2, curFromId);
+            setNullableTimestamp(pstmt, 3, convDate);
+            setNullableInt(pstmt, 4, convTypeId);
+            setNullableInt(pstmt, 5, clientId);
+            setNullableInt(pstmt, 6, orgId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call currencyBase(6)", e);
+            throw new SqlFunctionException("currencyBase", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT currencyBase(?, ?, ?, ?, ?) - 5 param version (no convTypeId) */
+    @Nullable
+    public static BigDecimal callCurrencyBase(@Nullable BigDecimal amount,
+                                               @Nullable Integer curFromId,
+                                               @Nullable Timestamp convDate,
+                                               @Nullable Integer clientId,
+                                               @Nullable Integer orgId) {
+        String sql = "SELECT currencyBase(?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableBigDecimal(pstmt, 1, amount);
+            setNullableInt(pstmt, 2, curFromId);
+            setNullableTimestamp(pstmt, 3, convDate);
+            setNullableInt(pstmt, 4, clientId);
+            setNullableInt(pstmt, 5, orgId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call currencyBase(5)", e);
+            throw new SqlFunctionException("currencyBase", e);
+        }
+        return null;
+    }
 }
