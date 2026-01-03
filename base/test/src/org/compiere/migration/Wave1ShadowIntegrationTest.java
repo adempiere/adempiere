@@ -195,4 +195,36 @@ public class Wave1ShadowIntegrationTest extends CommonGWSetup {
             String.format("currencyRate(DEM, FRF) EMU-to-EMU: java=%s, sql=%s",
                 javaResult, sqlResult));
     }
+
+    @Test
+    void currencyConvert_sameCurrency_matchesSql() {
+        BigDecimal amount = new BigDecimal("100.00");
+
+        BigDecimal javaResult = CurrencyFunctions.currencyConvert(
+            amount, usdCurrencyId, usdCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyConvert(
+            amount, usdCurrencyId, usdCurrencyId, null, null, 11, 0);
+
+        assertEquals(0, javaResult.compareTo(sqlResult));
+    }
+
+    @Test
+    void currencyConvert_nullAmount_matchesSql() {
+        BigDecimal javaResult = CurrencyFunctions.currencyConvert(
+            null, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyConvert(
+            null, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+
+        assertEquals(sqlResult, javaResult);
+    }
+
+    @Test
+    void currencyConvert_zeroAmount_matchesSql() {
+        BigDecimal javaResult = CurrencyFunctions.currencyConvert(
+            BigDecimal.ZERO, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+        BigDecimal sqlResult = SqlFunctionCaller.callCurrencyConvert(
+            BigDecimal.ZERO, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+
+        assertEquals(0, javaResult.compareTo(sqlResult));
+    }
 }

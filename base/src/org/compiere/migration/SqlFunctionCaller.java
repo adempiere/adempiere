@@ -304,4 +304,34 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    /** Calls: SELECT currencyConvert(?, ?, ?, ?, ?, ?, ?) */
+    @Nullable
+    public static BigDecimal callCurrencyConvert(@Nullable BigDecimal amount,
+                                                  @Nullable Integer curFromId,
+                                                  @Nullable Integer curToId,
+                                                  @Nullable Timestamp convDate,
+                                                  @Nullable Integer convTypeId,
+                                                  @Nullable Integer clientId,
+                                                  @Nullable Integer orgId) {
+        String sql = "SELECT currencyConvert(?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableBigDecimal(pstmt, 1, amount);
+            setNullableInt(pstmt, 2, curFromId);
+            setNullableInt(pstmt, 3, curToId);
+            setNullableTimestamp(pstmt, 4, convDate);
+            setNullableInt(pstmt, 5, convTypeId);
+            setNullableInt(pstmt, 6, clientId);
+            setNullableInt(pstmt, 7, orgId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call currencyConvert()", e);
+            throw new SqlFunctionException("currencyConvert", e);
+        }
+        return null;
+    }
 }
