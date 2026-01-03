@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assumptions.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
 
 import org.adempiere.core.domains.models.I_C_Currency;
 import org.adempiere.test.CommonGWSetup;
@@ -117,5 +118,30 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
         BigDecimal result = CurrencyFunctions.currencyRound(amount, 999999, "N");
 
         assertEquals(amount, result);
+    }
+
+    @Test
+    void currencyRate_sameCurrency_returnsOne() {
+        BigDecimal result = CurrencyFunctions.currencyRate(
+            usdCurrencyId, usdCurrencyId,  // Same currency
+            null, null, null, null);
+
+        assertEquals(0, BigDecimal.ONE.compareTo(result));
+    }
+
+    @Test
+    void currencyRate_nullFromCurrency_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyRate(
+            null, usdCurrencyId, null, null, null, null);
+
+        assertNull(result);
+    }
+
+    @Test
+    void currencyRate_nullToCurrency_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyRate(
+            usdCurrencyId, null, null, null, null, null);
+
+        assertNull(result);
     }
 }

@@ -75,4 +75,42 @@ public class CurrencyFunctions {
 
         return amount.setScale(precision, RoundingMode.HALF_UP);
     }
+
+    /**
+     * Get currency conversion rate.
+     * Equivalent to PostgreSQL: currencyRate(curFromId, curToId, convDate, convTypeId, clientId, orgId)
+     *
+     * <p><b>EMU/Euro Logic:</b> This function handles legacy EMU (European Monetary Union)
+     * fixed-rate conversions for currencies that adopted the Euro (1999-2002).
+     * The SQL function had a bug at line 110 (checking source currency twice instead
+     * of checking both source and target). This was fixed as part of Wave 1 migration.
+     * See: docs/plans/2026-01-03-wave1-currency-implementation.md, Decision 1
+     *
+     * @param curFromId source currency ID
+     * @param curToId target currency ID
+     * @param convDate conversion date (null = today)
+     * @param convTypeId conversion type ID (null/0 = default)
+     * @param clientId client ID
+     * @param orgId organization ID
+     * @return conversion rate, or null if not found
+     */
+    @Nullable
+    public static BigDecimal currencyRate(@Nullable Integer curFromId,
+                                           @Nullable Integer curToId,
+                                           @Nullable Timestamp convDate,
+                                           @Nullable Integer convTypeId,
+                                           @Nullable Integer clientId,
+                                           @Nullable Integer orgId) {
+        // No conversion needed
+        if (curFromId == null || curToId == null) {
+            log.fine(() -> "currencyRate: null currency ID (from=" + curFromId + ", to=" + curToId + ")");
+            return null;
+        }
+        if (curFromId.equals(curToId)) {
+            return BigDecimal.ONE;
+        }
+
+        // TODO: Implement EMU/Euro logic and rate lookup (Task 7)
+        return null;
+    }
 }
