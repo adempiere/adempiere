@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Tag("UnitTest")
 class PaymentTermFunctionsTest {
@@ -35,5 +36,13 @@ class PaymentTermFunctionsTest {
         Timestamp ts = Timestamp.valueOf(input + " 00:00:00");
         LocalDate result = PaymentTermFunctions.addMonths(ts, months);
         assertEquals(LocalDate.parse(expected), result);
+    }
+
+    @Test
+    void loadHolidays_withZeroClientId_returnsEmptySet() {
+        // loadHolidays is package-private for testing
+        Set<LocalDate> holidays = PaymentTermFunctions.loadHolidays(
+            0, LocalDate.of(2026, 1, 1), LocalDate.of(2026, 1, 31), null);
+        assertTrue(holidays.isEmpty());
     }
 }

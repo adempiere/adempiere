@@ -58,4 +58,50 @@ public final class PaymentTermFunctions {
             .toLocalDate();
         return date.plusMonths(months);
     }
+
+    /**
+     * Load holidays for a date range using MNonBusinessDay model.
+     * Pre-fetches to avoid N+1 queries in nextBusinessDay loop.
+     *
+     * @param clientId AD_Client_ID for holiday lookup (0 returns empty set)
+     * @param fromDate start of date range (inclusive)
+     * @param toDate end of date range (inclusive)
+     * @param trxName transaction name (nullable)
+     * @return set of holiday dates in the range
+     */
+    static Set<LocalDate> loadHolidays(int clientId, LocalDate fromDate,
+                                        LocalDate toDate, @Nullable String trxName) {
+        if (clientId <= 0) {
+            return Collections.emptySet();
+        }
+
+        Set<LocalDate> holidays = new HashSet<>();
+
+        String whereClause = "AD_Client_ID = ? AND IsActive = 'Y' " +
+                             "AND Date1 >= ? AND Date1 <= ?";
+
+        List<MNonBusinessDay> nbdList = new Query(Env.getCtx(),
+                MNonBusinessDay.Table_Name, whereClause, trxName)
+            .setParameters(clientId,
+                Timestamp.valueOf(fromDate.atStartOfDay()),
+                Timestamp.valueOf(toDate.atStartOfDay()))
+            .list();
+
+        for (MNonBusinessDay nbd : nbdList) {
+            Timestamp ts = nbd.getDate1();
+            if (ts != null) {
+                holidays.add(ts.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate());
+            }
+        }
+
+        if (log.isLoggable(Level.FINE)) {
+            log.fine("loadHolidays: clientId=" + clientId +
+                ", range=" + fromDate + " to " + toDate +
+                ", found=" + holidays.size());
+        }
+
+        return holidays;
+    }
 }
