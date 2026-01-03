@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.logging.Level;
 
 import javax.annotation.Nullable;
@@ -27,6 +29,56 @@ import org.compiere.util.DB;
  */
 public class SqlFunctionCaller {
     private static final CLogger log = CLogger.getCLogger(SqlFunctionCaller.class);
+
+    // --- Utility methods for nullable parameter handling ---
+
+    /**
+     * Set nullable Integer parameter on PreparedStatement.
+     */
+    private static void setNullableInt(PreparedStatement ps, int index, Integer value)
+            throws SQLException {
+        if (value != null) {
+            ps.setInt(index, value);
+        } else {
+            ps.setNull(index, Types.INTEGER);
+        }
+    }
+
+    /**
+     * Set nullable BigDecimal parameter on PreparedStatement.
+     */
+    private static void setNullableBigDecimal(PreparedStatement ps, int index, BigDecimal value)
+            throws SQLException {
+        if (value != null) {
+            ps.setBigDecimal(index, value);
+        } else {
+            ps.setNull(index, Types.NUMERIC);
+        }
+    }
+
+    /**
+     * Set nullable Timestamp parameter on PreparedStatement.
+     */
+    private static void setNullableTimestamp(PreparedStatement ps, int index, Timestamp value)
+            throws SQLException {
+        if (value != null) {
+            ps.setTimestamp(index, value);
+        } else {
+            ps.setNull(index, Types.TIMESTAMP);
+        }
+    }
+
+    /**
+     * Set nullable String parameter on PreparedStatement.
+     */
+    private static void setNullableString(PreparedStatement ps, int index, String value)
+            throws SQLException {
+        if (value != null) {
+            ps.setString(index, value);
+        } else {
+            ps.setNull(index, Types.VARCHAR);
+        }
+    }
 
     /** Calls: SELECT getDate() */
     @Nullable
@@ -199,6 +251,28 @@ public class SqlFunctionCaller {
         } catch (Exception e) {
             log.log(Level.WARNING, "Failed to call charAt()", e);
             throw new SqlFunctionException("charAt", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT currencyRound(?, ?, ?) */
+    @Nullable
+    public static BigDecimal callCurrencyRound(@Nullable BigDecimal amount,
+                                                @Nullable Integer currencyId,
+                                                @Nullable String costing) {
+        String sql = "SELECT currencyRound(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableBigDecimal(pstmt, 1, amount);
+            setNullableInt(pstmt, 2, currencyId);
+            setNullableString(pstmt, 3, costing);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call currencyRound()", e);
+            throw new SqlFunctionException("currencyRound", e);
         }
         return null;
     }

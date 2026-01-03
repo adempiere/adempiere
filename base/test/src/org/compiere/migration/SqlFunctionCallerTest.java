@@ -2,17 +2,32 @@
 package org.compiere.migration;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.adempiere.test.CommonGWSetup;
+import org.compiere.model.MCurrency;
+import org.compiere.util.Env;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 @Tag("IntegrationTest")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SqlFunctionCallerTest extends CommonGWSetup {
+
+    private MCurrency usd;
+
+    @BeforeAll
+    void loadTestData() {
+        usd = MCurrency.get(Env.getCtx(), "USD");
+        assumeTrue(usd != null && usd.get_ID() > 0, "USD currency required");
+    }
 
     @Test
     void testCallGetDate() {
@@ -137,5 +152,21 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
     @Test
     void testCallCharAtNullInput() {
         assertNull(SqlFunctionCaller.callCharAt(null, 1));
+    }
+
+    @Test
+    void callCurrencyRound_validInput_returnsResult() {
+        BigDecimal amount = new BigDecimal("123.456789");
+        BigDecimal result = SqlFunctionCaller.callCurrencyRound(amount, usd.get_ID(), "N");
+
+        assertNotNull(result);
+        BigDecimal expected = amount.setScale(usd.getStdPrecision(), RoundingMode.HALF_UP);
+        assertEquals(0, expected.compareTo(result));
+    }
+
+    @Test
+    void callCurrencyRound_nullAmount_returnsNull() {
+        BigDecimal result = SqlFunctionCaller.callCurrencyRound(null, 100, "N");
+        assertNull(result);
     }
 }
