@@ -325,6 +325,117 @@ public final class PaymentTermFunctions {
     }
 
     /**
+     * Calculate the discount amount for a payment term.
+     * Matches PostgreSQL paymentTermDiscount() behavior.
+     *
+     * @param amount invoice amount (nullable)
+     * @param currencyId C_Currency_ID (unused - kept for signature compatibility)
+     * @param paymentTermId C_PaymentTerm_ID
+     * @param docDate document date (nullable)
+     * @param payDate payment date, or null for today
+     * @return discount amount rounded to 2 decimal places
+     */
+    public static BigDecimal paymentTermDiscount(@Nullable BigDecimal amount,
+                                                  int currencyId,
+                                                  int paymentTermId,
+                                                  @Nullable Timestamp docDate,
+                                                  @Nullable Timestamp payDate) {
+        return paymentTermDiscount(amount, currencyId, paymentTermId, docDate, payDate, null);
+    }
+
+    /**
+     * Calculate the discount amount with transaction context.
+     *
+     * @param amount invoice amount (nullable)
+     * @param currencyId C_Currency_ID (unused - kept for signature compatibility)
+     * @param paymentTermId C_PaymentTerm_ID
+     * @param docDate document date (nullable)
+     * @param payDate payment date, or null for today
+     * @param trxName transaction name (nullable)
+     * @return discount amount rounded to 2 decimal places
+     */
+    public static BigDecimal paymentTermDiscount(@Nullable BigDecimal amount,
+                                                  int currencyId,
+                                                  int paymentTermId,
+                                                  @Nullable Timestamp docDate,
+                                                  @Nullable Timestamp payDate,
+                                                  @Nullable String trxName) {
+        // No data - no discount
+        if (amount == null || paymentTermId == 0 || docDate == null) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDiscount: invalid inputs - " +
+                    "amount=" + amount + ", paymentTermId=" + paymentTermId +
+                    ", docDate=" + docDate);
+            }
+            return BigDecimal.ZERO;
+        }
+
+        LocalDate vPayDate = (payDate != null)
+            ? payDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+            : LocalDate.now();
+
+        MPaymentTerm pt = new MPaymentTerm(Env.getCtx(), paymentTermId, trxName);
+        if (pt.get_ID() == 0) {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("paymentTermDiscount: payment term not found - " + paymentTermId);
+            }
+            return BigDecimal.ZERO;
+        }
+
+        LocalDate docLocalDate = docDate.toInstant()
+            .atZone(ZoneId.systemDefault())
+            .toLocalDate();
+
+        int clientId = pt.getAD_Client_ID();
+        int graceDays = pt.getGraceDays();
+        boolean isNextBusinessDay = pt.isNextBusinessDay();
+
+        // Calculate discount dates
+        LocalDate discount1Date = docLocalDate.plusDays(pt.getDiscountDays() + graceDays);
+        LocalDate discount2Date = docLocalDate.plusDays(pt.getDiscountDays2() + graceDays);
+
+        // Apply next business day logic if configured
+        if (isNextBusinessDay) {
+            Timestamp d1Ts = Timestamp.valueOf(discount1Date.atStartOfDay());
+            Timestamp d2Ts = Timestamp.valueOf(discount2Date.atStartOfDay());
+
+            Timestamp nbd1 = nextBusinessDay(d1Ts, clientId, trxName);
+            Timestamp nbd2 = nextBusinessDay(d2Ts, clientId, trxName);
+
+            if (nbd1 != null) {
+                discount1Date = nbd1.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            }
+            if (nbd2 != null) {
+                discount2Date = nbd2.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+            }
+        }
+
+        // Apply discount tier
+        BigDecimal discount = BigDecimal.ZERO;
+        BigDecimal discountPct = pt.getDiscount();
+        BigDecimal discountPct2 = pt.getDiscount2();
+
+        if (!vPayDate.isAfter(discount1Date) && discountPct != null
+                && discountPct.signum() > 0) {
+            // First discount tier
+            discount = amount.multiply(discountPct).divide(
+                new BigDecimal("100"), 6, RoundingMode.HALF_UP);
+        } else if (!vPayDate.isAfter(discount2Date) && discountPct2 != null
+                && discountPct2.signum() > 0) {
+            // Second discount tier
+            discount = amount.multiply(discountPct2).divide(
+                new BigDecimal("100"), 6, RoundingMode.HALF_UP);
+        }
+
+        // Round to 2 decimal places (fixed rounding as per SQL)
+        return discount.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    /**
      * Calculate fixed due date matching C_PaymentTerm_DueDays.sql lines 59-103.
      *
      * <p>SQL Logic:

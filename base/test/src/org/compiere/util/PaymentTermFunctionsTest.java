@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Set;
@@ -156,6 +157,34 @@ class PaymentTermFunctionsTest {
         Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
         // Should not throw, even with invalid payment term
         assertEquals(0, PaymentTermFunctions.paymentTermDueDays(0, docDate, null, "testTrx"));
+    }
+
+    @Test
+    void paymentTermDiscount_withNullAmount_returnsZero() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertEquals(BigDecimal.ZERO, PaymentTermFunctions.paymentTermDiscount(
+            null, 100, 106, docDate, docDate));
+    }
+
+    @Test
+    void paymentTermDiscount_withZeroPaymentTermId_returnsZero() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        assertEquals(BigDecimal.ZERO, PaymentTermFunctions.paymentTermDiscount(
+            new BigDecimal("100.00"), 100, 0, docDate, docDate));
+    }
+
+    @Test
+    void paymentTermDiscount_withNullDocDate_returnsZero() {
+        assertEquals(BigDecimal.ZERO, PaymentTermFunctions.paymentTermDiscount(
+            new BigDecimal("100.00"), 100, 106, null, null));
+    }
+
+    @Test
+    void paymentTermDiscount_withTrxName_acceptsParameter() {
+        Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
+        // Should not throw
+        assertDoesNotThrow(() -> PaymentTermFunctions.paymentTermDiscount(
+            new BigDecimal("100.00"), 100, 0, docDate, docDate, "testTrx"));
     }
 
     @Nested
