@@ -51,13 +51,15 @@ sourceSets {
 
 // Test task configuration for running integration tests with Garden World
 test {
-    useJUnitPlatform {
-        // Include integration tests by tag
-        includeTags 'IntegrationTest'
-    }
+    useJUnitPlatform()
 
     // Pass system properties for ADempiere configuration
     systemProperty 'ADEMPIERE_HOME', System.getenv('ADEMPIERE_HOME') ?: project.rootDir.absolutePath
+
+    // Forward runIntegrationTests property for @EnabledIfSystemProperty tests
+    if (System.getProperty('runIntegrationTests') != null) {
+        systemProperty 'runIntegrationTests', System.getProperty('runIntegrationTests')
+    }
 
     // JVM arguments required by ADempiere
     jvmArgs = [
@@ -189,8 +191,6 @@ task cleanBuildPublishLocal(type: GradleBuild) {
 
 signing {
 	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
-
-	sign configurations.archives
 
 	setRequired {
 		// signing is required if this is a release version and the artifacts are to be published
