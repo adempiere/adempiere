@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.BitSet;
@@ -191,6 +192,75 @@ public class TimeUtil
 			throw new IllegalArgumentException(
 				"Unknown trunc format: " + format +
 				". Valid formats: Q, Y, YEAR, MM, MONTH, DD, DY");
+		}
+
+		return Date.valueOf(result);
+	}
+
+	/**
+	 * Get first date of specified period (SQL/Oracle semantics).
+	 * Equivalent to PostgreSQL firstOf() function with Oracle-compatible format codes.
+	 * Uses java.time API for locale-independent week calculations.
+	 * Format codes are case-insensitive.
+	 *
+	 * Supported formats:
+	 * - IYYY, IY, I, SYYYY, YYYY, YEAR, SYEAR, YYY, YY, Y: First of year
+	 * - Q: First of quarter
+	 * - MONTH, MON, MM, RM: First of month
+	 * - IW, W: First of week (ISO week, Monday start)
+	 * - DDD, DD, J: Day (unchanged)
+	 * - DAY, DY, D: First of week (Sunday start, Oracle compatible)
+	 * - HH, HH12, HH24: Hour (returns date at that hour)
+	 * - MI: Minute (returns date)
+	 *
+	 * @param datetime timestamp (may be null)
+	 * @param datePart format code (may be null, returns date as-is)
+	 * @return first date of the period, or null if datetime is null
+	 */
+	static public Date firstOf(Timestamp datetime, String datePart) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+
+		if (datePart == null || datePart.isEmpty()) {
+			return Date.valueOf(date);
+		}
+
+		String fmt = datePart.toUpperCase();
+		LocalDate result;
+
+		if ("IYYY".equals(fmt) || "IY".equals(fmt) || "I".equals(fmt) ||
+				   "SYYYY".equals(fmt) || "YYYY".equals(fmt) || "YEAR".equals(fmt) ||
+				   "SYEAR".equals(fmt) || "YYY".equals(fmt) || "YY".equals(fmt) ||
+				   "Y".equals(fmt)) {
+			// First of year
+			result = date.withDayOfYear(1);
+		} else if ("Q".equals(fmt)) {
+			// First of quarter
+			int quarterMonth = ((date.getMonthValue() - 1) / 3) * 3 + 1;
+			result = date.withMonth(quarterMonth).withDayOfMonth(1);
+		} else if ("MONTH".equals(fmt) || "MON".equals(fmt) ||
+				   "MM".equals(fmt) || "RM".equals(fmt)) {
+			// First of month
+			result = date.withDayOfMonth(1);
+		} else if ("IW".equals(fmt) || "W".equals(fmt)) {
+			// ISO week (Monday start)
+			result = date.with(DayOfWeek.MONDAY);
+		} else if ("DAY".equals(fmt) || "DY".equals(fmt) || "D".equals(fmt)) {
+			// Oracle week (Sunday start) = ISO Monday - 1
+			result = date.with(DayOfWeek.MONDAY).minusDays(1);
+		} else if ("DDD".equals(fmt) || "DD".equals(fmt) || "J".equals(fmt)) {
+			// Day - no change
+			result = date;
+		} else if ("HH".equals(fmt) || "HH12".equals(fmt) || "HH24".equals(fmt) ||
+				   "MI".equals(fmt)) {
+			// Hour/Minute - just return the date
+			result = date;
+		} else {
+			// Unknown format - return date as-is
+			result = date;
 		}
 
 		return Date.valueOf(result);
