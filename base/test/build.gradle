@@ -34,6 +34,9 @@ dependencies {
 
     // JUnit 5 runtime for test execution
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // Mockito inline for static mocking support
+    testImplementation 'org.mockito:mockito-inline:3.6.0'
 }
 
 sourceSets {
@@ -45,6 +48,9 @@ sourceSets {
 	test {
 		java {
 			srcDirs = ['src']
+		}
+		resources {
+			srcDirs = ['src/test/resources']
 		}
 	}
 }
