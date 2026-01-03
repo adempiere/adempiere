@@ -166,4 +166,38 @@ public class CurrencyFunctionsTest extends CommonGWSetup {
 
         assertNull(result);
     }
+
+    @Test
+    void currencyConvert_sameCurrency_returnsRoundedAmount() {
+        BigDecimal amount = new BigDecimal("100.00");
+        BigDecimal result = CurrencyFunctions.currencyConvert(
+            amount, usdCurrencyId, usdCurrencyId, null, null, 11, 0);
+
+        // Same currency returns amount rounded to target currency precision
+        assertEquals(0, amount.compareTo(result));
+    }
+
+    @Test
+    void currencyConvert_zeroAmount_returnsZero() {
+        BigDecimal result = CurrencyFunctions.currencyConvert(
+            BigDecimal.ZERO, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+
+        assertEquals(0, BigDecimal.ZERO.compareTo(result));
+    }
+
+    @Test
+    void currencyConvert_nullAmount_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyConvert(
+            null, usdCurrencyId, eurCurrencyId, null, null, 11, 0);
+
+        assertNull(result);
+    }
+
+    @Test
+    void currencyConvert_nullCurrency_returnsNull() {
+        BigDecimal result = CurrencyFunctions.currencyConvert(
+            new BigDecimal("100"), null, eurCurrencyId, null, null, 11, 0);
+
+        assertNull(result);
+    }
 }

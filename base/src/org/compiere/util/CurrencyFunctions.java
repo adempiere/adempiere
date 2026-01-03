@@ -242,6 +242,65 @@ public class CurrencyFunctions {
     }
 
     /**
+     * Convert amount between currencies.
+     * Equivalent to PostgreSQL: currencyConvert(amount, curFromId, curToId, convDate, convTypeId, clientId, orgId)
+     *
+     * @param amount amount to convert
+     * @param curFromId source currency ID
+     * @param curToId target currency ID
+     * @param convDate conversion date (null = today)
+     * @param convTypeId conversion type ID (null/0 = default)
+     * @param clientId client ID
+     * @param orgId organization ID
+     * @return converted and rounded amount, or null if rate not found
+     */
+    @Nullable
+    public static BigDecimal currencyConvert(@Nullable BigDecimal amount,
+                                              @Nullable Integer curFromId,
+                                              @Nullable Integer curToId,
+                                              @Nullable Timestamp convDate,
+                                              @Nullable Integer convTypeId,
+                                              @Nullable Integer clientId,
+                                              @Nullable Integer orgId) {
+        // Return null if amount is null
+        if (amount == null) {
+            return null;
+        }
+
+        // Return zero (rounded) if amount is zero
+        // Handle case where currencyRound returns null (e.g., currency not found)
+        if (amount.compareTo(BigDecimal.ZERO) == 0) {
+            if (curToId == null) {
+                return BigDecimal.ZERO;
+            }
+            BigDecimal rounded = currencyRound(BigDecimal.ZERO, curToId, null);
+            return rounded != null ? rounded : BigDecimal.ZERO;
+        }
+
+        // Return amount if same currency (but still round to target precision)
+        if (curFromId != null && curFromId.equals(curToId)) {
+            return currencyRound(amount, curToId, null);
+        }
+
+        // Return null if any required param is null
+        if (curFromId == null || curToId == null) {
+            log.fine(() -> "currencyConvert: null currency ID (from=" + curFromId + ", to=" + curToId + ")");
+            return null;
+        }
+
+        // Get rate
+        BigDecimal rate = currencyRate(curFromId, curToId, convDate, convTypeId, clientId, orgId);
+        if (rate == null) {
+            log.fine(() -> "currencyConvert: no rate found for from=" + curFromId + " to=" + curToId);
+            return null;
+        }
+
+        // Apply rate and round to target currency precision
+        BigDecimal converted = amount.multiply(rate);
+        return currencyRound(converted, curToId, null);
+    }
+
+    /**
      * Check if a BigDecimal is valid for use as a divisor (not null and not zero).
      */
     private static boolean isValidDivisor(BigDecimal value) {
