@@ -2,6 +2,8 @@
 package org.compiere.migration.comparators;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.function.BiPredicate;
 
 import javax.annotation.Nullable;
@@ -27,6 +29,27 @@ public class TimestampComparator implements BiPredicate<Timestamp, Timestamp> {
     public static TimestampComparator exact() {
         return new TimestampComparator(0);
     }
+
+    /**
+     * Compare timestamps by date only (ignoring time component).
+     */
+    public static final BiPredicate<Timestamp, Timestamp> SAME_DAY = (a, b) -> {
+        if (a == null && b == null) return true;
+        if (a == null || b == null) return false;
+
+        LocalDate dateA = a.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate dateB = b.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return dateA.equals(dateB);
+    };
+
+    /**
+     * Compare timestamps with 1-second tolerance.
+     */
+    public static final BiPredicate<Timestamp, Timestamp> WITHIN_SECOND = (a, b) -> {
+        if (a == null && b == null) return true;
+        if (a == null || b == null) return false;
+        return Math.abs(a.getTime() - b.getTime()) <= 1000;
+    };
 
     @Override
     public boolean test(@Nullable Timestamp java, @Nullable Timestamp sql) {
