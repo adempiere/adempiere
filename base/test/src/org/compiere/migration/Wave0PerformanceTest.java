@@ -201,8 +201,6 @@ public class Wave0PerformanceTest extends CommonGWSetup {
         }
     }
 
-    // TODO: Enable when TimeUtil.firstOf is implemented
-    /*
     @RepeatedTest(MEASUREMENT_ROUNDS)
     void testFirstOfPerformance(RepetitionInfo info) {
         Timestamp datetime = Timestamp.valueOf("2026-05-15 14:30:45");
@@ -240,5 +238,4 @@ public class Wave0PerformanceTest extends CommonGWSetup {
                     medianRatio, MAX_LATENCY_RATIO, java.util.Arrays.toString(ratios)));
         }
     }
-    */
 }
