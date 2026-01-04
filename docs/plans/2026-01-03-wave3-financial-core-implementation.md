@@ -849,6 +849,19 @@ public class Wave3PaymentPerformanceTest extends CommonGWSetup {
     }
 
     @BeforeEach
+    void setJavaOnlyMode() {
+        // Bypass shadow execution for accurate Java-only timing
+        MigrationConfig.setMode("paymentAllocated", MigrationMode.JAVA_ONLY);
+        MigrationConfig.setMode("paymentAvailable", MigrationMode.JAVA_ONLY);
+    }
+
+    @AfterEach
+    void restoreMode() {
+        MigrationConfig.setMode("paymentAllocated", MigrationMode.SHADOW);
+        MigrationConfig.setMode("paymentAvailable", MigrationMode.SHADOW);
+    }
+
+    @BeforeEach
     void initAccumulator(RepetitionInfo info) {
         if (info.getCurrentRepetition() == 1) {
             ratioAccumulator = new double[MEASUREMENT_ROUNDS];
@@ -1358,6 +1371,19 @@ public class Wave3InvoicePaidPerformanceTest extends CommonGWSetup {
             .setLimit(50)
             .list();
         assumeTrue(testInvoices.size() >= 10, "Need at least 10 invoices");
+    }
+
+    @BeforeEach
+    void setJavaOnlyMode() {
+        // Bypass shadow execution for accurate Java-only timing
+        MigrationConfig.setMode("invoicePaid", MigrationMode.JAVA_ONLY);
+        MigrationConfig.setMode("invoicePaidToDate", MigrationMode.JAVA_ONLY);
+    }
+
+    @AfterEach
+    void restoreMode() {
+        MigrationConfig.setMode("invoicePaid", MigrationMode.SHADOW);
+        MigrationConfig.setMode("invoicePaidToDate", MigrationMode.SHADOW);
     }
 
     @BeforeEach
