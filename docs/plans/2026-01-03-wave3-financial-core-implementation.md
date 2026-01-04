@@ -2933,7 +2933,11 @@ Expected:
 
 ```sql
 UPDATE migration.function_config
-SET mode = 'SHADOW'
+SET mode = 'SHADOW',
+    sample_rate = CASE
+        WHEN function_name IN ('invoiceOpen', 'invoiceOpenToDate') THEN 0.1
+        ELSE COALESCE(sample_rate, 1.0)
+    END
 WHERE function_name IN (
     'invoiceOpen', 'invoiceOpenToDate', 'invoiceDiscount',
     'invoicePaid', 'invoicePaidToDate',
