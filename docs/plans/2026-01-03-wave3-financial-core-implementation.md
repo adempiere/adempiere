@@ -1078,17 +1078,17 @@ public class InvoiceFunctions {
      * @param multiplierAP multiplier for AP/AR adjustment (1 or -1)
      * @return paid amount rounded to 2 decimals
      */
-    public static BigDecimal invoicePaid(int invoiceId, int currencyId, @Nullable BigDecimal multiplierAP) {
+    public static BigDecimal invoicePaid(int invoiceId, int currencyId, @Nullable BigDecimal multiplierAP, String trxName) {
         return ShadowExecutor.execute(
             "invoicePaid",
             new Object[] { invoiceId, currencyId, multiplierAP },
-            () -> calculateInvoicePaidJava(invoiceId, currencyId, multiplierAP),
+            () -> calculateInvoicePaidJava(invoiceId, currencyId, multiplierAP, trxName),
             () -> SqlFunctionCaller.callInvoicePaid(invoiceId, currencyId, multiplierAP),
             (java, sql) -> java.compareTo(sql) == 0
         );
     }
 
-    private static BigDecimal calculateInvoicePaidJava(int invoiceId, int currencyId, @Nullable BigDecimal multiplierAP) {
+    private static BigDecimal calculateInvoicePaidJava(int invoiceId, int currencyId, @Nullable BigDecimal multiplierAP, String trxName) {
         BigDecimal mult = multiplierAP != null ? multiplierAP : BigDecimal.ONE;
         BigDecimal paymentAmt = BigDecimal.ZERO;
 
@@ -1100,7 +1100,7 @@ public class InvoiceFunctions {
             + "WHERE al.C_Invoice_ID=? "
             + "AND a.DocStatus IN ('CO','CL')";
 
-        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, trxName)) {
             pstmt.setInt(1, invoiceId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -1140,11 +1140,11 @@ public class InvoiceFunctions {
      */
     public static BigDecimal invoicePaidToDate(int invoiceId, int currencyId,
                                                 @Nullable BigDecimal multiplierAP,
-                                                @Nullable Timestamp dateAcct) {
+                                                @Nullable Timestamp dateAcct, String trxName) {
         return ShadowExecutor.execute(
             "invoicePaidToDate",
             new Object[] { invoiceId, currencyId, multiplierAP, dateAcct },
-            () -> calculateInvoicePaidToDateJava(invoiceId, currencyId, multiplierAP, dateAcct),
+            () -> calculateInvoicePaidToDateJava(invoiceId, currencyId, multiplierAP, dateAcct, trxName),
             () -> SqlFunctionCaller.callInvoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct),
             (java, sql) -> java.compareTo(sql) == 0
         );
@@ -1152,7 +1152,7 @@ public class InvoiceFunctions {
 
     private static BigDecimal calculateInvoicePaidToDateJava(int invoiceId, int currencyId,
                                                               @Nullable BigDecimal multiplierAP,
-                                                              @Nullable Timestamp dateAcct) {
+                                                              @Nullable Timestamp dateAcct, String trxName) {
         BigDecimal mult = multiplierAP != null ? multiplierAP : BigDecimal.ONE;
         BigDecimal paymentAmt = BigDecimal.ZERO;
 
@@ -1165,7 +1165,7 @@ public class InvoiceFunctions {
             + "AND a.DocStatus IN ('CO','CL') "
             + "AND a.DateAcct <= ?";
 
-        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, trxName)) {
             pstmt.setInt(1, invoiceId);
             pstmt.setTimestamp(2, dateAcct);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -1635,17 +1635,17 @@ Expected: FAIL
  * @param invoicePayScheduleId C_InvoicePaySchedule_ID (null for total)
  * @return open amount rounded to currency precision
  */
-public static BigDecimal invoiceOpen(int invoiceId, @Nullable Integer invoicePayScheduleId) {
+public static BigDecimal invoiceOpen(int invoiceId, @Nullable Integer invoicePayScheduleId, String trxName) {
     return ShadowExecutor.execute(
         "invoiceOpen",
         new Object[] { invoiceId, invoicePayScheduleId },
-        () -> calculateInvoiceOpenJava(invoiceId, invoicePayScheduleId),
+        () -> calculateInvoiceOpenJava(invoiceId, invoicePayScheduleId, trxName),
         () -> SqlFunctionCaller.callInvoiceOpen(invoiceId, invoicePayScheduleId),
         (java, sql) -> java.compareTo(sql) == 0
     );
 }
 
-private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Integer invoicePayScheduleId) {
+private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Integer invoicePayScheduleId, String trxName) {
     // Step 1: Get invoice header data from C_Invoice_v
     int currencyId = 0;
     BigDecimal totalOpenAmt = BigDecimal.ZERO;
@@ -1656,7 +1656,7 @@ private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Inte
     String headerSql = "SELECT C_Currency_ID, GrandTotal, MultiplierAP, Multiplier "
         + "FROM C_Invoice_v WHERE C_Invoice_ID = ?";
 
-    try (PreparedStatement pstmt = DB.prepareStatement(headerSql, null)) {
+    try (PreparedStatement pstmt = DB.prepareStatement(headerSql, trxName)) {
         pstmt.setInt(1, invoiceId);
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
@@ -1693,7 +1693,7 @@ private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Inte
         + "WHERE al.C_Invoice_ID=? "
         + "AND a.DocStatus IN ('CO','CL')";
 
-    try (PreparedStatement pstmt = DB.prepareStatement(allocSql, null)) {
+    try (PreparedStatement pstmt = DB.prepareStatement(allocSql, trxName)) {
         pstmt.setInt(1, invoiceId);
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
@@ -1732,7 +1732,7 @@ private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Inte
             + "WHERE C_Invoice_ID = ? AND IsValid='Y' "
             + "ORDER BY DueDate";
 
-        try (PreparedStatement pstmt = DB.prepareStatement(schedSql, null)) {
+        try (PreparedStatement pstmt = DB.prepareStatement(schedSql, trxName)) {
             pstmt.setInt(1, invoiceId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
@@ -1827,18 +1827,18 @@ void invoiceOpenToDate_matchesSql() {
  * Calculate open amount as of a specific date.
  */
 public static BigDecimal invoiceOpenToDate(int invoiceId, @Nullable Integer invoicePayScheduleId,
-                                            @Nullable Timestamp dateAcct) {
+                                            @Nullable Timestamp dateAcct, String trxName) {
     return ShadowExecutor.execute(
         "invoiceOpenToDate",
         new Object[] { invoiceId, invoicePayScheduleId, dateAcct },
-        () -> calculateInvoiceOpenToDateJava(invoiceId, invoicePayScheduleId, dateAcct),
+        () -> calculateInvoiceOpenToDateJava(invoiceId, invoicePayScheduleId, dateAcct, trxName),
         () -> SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, invoicePayScheduleId, dateAcct),
         (java, sql) -> java.compareTo(sql) == 0
     );
 }
 
 private static BigDecimal calculateInvoiceOpenToDateJava(int invoiceId, @Nullable Integer invoicePayScheduleId,
-                                                          @Nullable Timestamp dateAcct) {
+                                                          @Nullable Timestamp dateAcct, String trxName) {
     // Similar to invoiceOpen but with DateAcct filter on both header and allocations
     // ... (implementation mirrors invoiceOpen with added date filters)
 }
