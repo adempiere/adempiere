@@ -586,7 +586,7 @@ private BigDecimal calculateAllocatedAmtJava() {
         + "FROM C_AllocationLine al "
         + "INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
         + "WHERE al.C_Payment_ID=? "
-        + "AND a.IsActive='Y' AND a.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
+        + "AND a.DocStatus IN ('CO','CL')";  // No IsActive filter - matches SQL
 
     PreparedStatement pstmt = null;
     ResultSet rs = null;
