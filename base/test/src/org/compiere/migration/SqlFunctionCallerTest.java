@@ -11,6 +11,9 @@ import java.sql.Timestamp;
 
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoicePaySchedule;
+import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
@@ -22,11 +25,38 @@ import org.junit.jupiter.api.TestInstance;
 public class SqlFunctionCallerTest extends CommonGWSetup {
 
     private MCurrency usd;
+    private int testInvoiceId;
+    private int testInvoiceScheduleId;
+    private int testCurrencyId;
 
     @BeforeAll
     void loadTestData() {
         usd = MCurrency.get(Env.getCtx(), "USD");
         assumeTrue(usd != null && usd.get_ID() > 0, "USD currency required");
+    }
+
+    @BeforeAll
+    void findTestData() {
+        // Find a completed invoice dynamically
+        testInvoiceId = new Query(Env.getCtx(), "C_Invoice", "DocStatus IN ('CO','CL')", null)
+            .setOnlyActiveRecords(true).firstId();
+        assumeTrue(testInvoiceId > 0, "Need completed invoice for test");
+
+        // Get currency from invoice
+        MInvoice inv = new MInvoice(Env.getCtx(), testInvoiceId, null);
+        testCurrencyId = inv.getC_Currency_ID();
+
+        // Try to find invoice with payment schedule
+        int invWithSched = new Query(Env.getCtx(), "C_Invoice",
+            "DocStatus IN ('CO','CL') AND IsPayScheduleValid='Y'", null)
+            .setOnlyActiveRecords(true).firstId();
+        if (invWithSched > 0) {
+            MInvoicePaySchedule[] scheds = MInvoicePaySchedule.getInvoicePaySchedule(
+                Env.getCtx(), invWithSched, 0, null);
+            if (scheds.length > 0) {
+                testInvoiceScheduleId = scheds[0].getC_InvoicePaySchedule_ID();
+            }
+        }
     }
 
     @Test
@@ -220,5 +250,42 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
         Timestamp docDate = Timestamp.valueOf("2026-01-15 00:00:00");
         assertEquals(BigDecimal.ZERO, SqlFunctionCaller.callPaymentTermDiscount(
             null, 100, 106, docDate, docDate));
+    }
+
+    @Test
+    void callInvoiceOpen_returnsNumeric() {
+        assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceOpen(testInvoiceId, null));
+    }
+
+    @Test
+    void callInvoiceOpen_withSchedule_returnsNumeric() {
+        assumeTrue(testInvoiceScheduleId > 0, "Need invoice with schedule");
+        assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceOpen(testInvoiceId, testInvoiceScheduleId));
+    }
+
+    @Test
+    void callInvoicePaid_returnsNumeric() {
+        BigDecimal result = SqlFunctionCaller.callInvoicePaid(testInvoiceId, testCurrencyId, BigDecimal.ONE);
+        assertNotNull(result);
+    }
+
+    @Test
+    void callInvoiceDiscount_returnsNumeric() {
+        Timestamp payDate = new Timestamp(System.currentTimeMillis());
+        assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceDiscount(testInvoiceId, payDate, null));
+    }
+
+    @Test
+    void callInvoiceOpenToDate_returnsNumeric() {
+        Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
+        assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceOpenToDate(testInvoiceId, null, dateAcct));
+    }
+
+    @Test
+    void callInvoicePaidToDate_returnsNumeric() {
+        Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
+        BigDecimal result = SqlFunctionCaller.callInvoicePaidToDate(
+            testInvoiceId, testCurrencyId, BigDecimal.ONE, dateAcct);
+        assertNotNull(result);
     }
 }

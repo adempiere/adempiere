@@ -506,4 +506,114 @@ public class SqlFunctionCaller {
         }
         return BigDecimal.ZERO;
     }
+
+    /** Calls: SELECT invoiceOpen(?, ?) */
+    @Nullable
+    public static BigDecimal callInvoiceOpen(@Nullable Integer invoiceId,
+                                              @Nullable Integer invoicePayScheduleId) {
+        String sql = "SELECT invoiceOpen(?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, invoiceId);
+            setNullableInt(pstmt, 2, invoicePayScheduleId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call invoiceOpen()", e);
+            throw new SqlFunctionException("invoiceOpen", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT invoiceOpenToDate(?, ?, ?) */
+    @Nullable
+    public static BigDecimal callInvoiceOpenToDate(@Nullable Integer invoiceId,
+                                                    @Nullable Integer invoicePayScheduleId,
+                                                    @Nullable Timestamp dateAcct) {
+        String sql = "SELECT invoiceOpenToDate(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, invoiceId);
+            setNullableInt(pstmt, 2, invoicePayScheduleId);
+            setNullableTimestamp(pstmt, 3, dateAcct);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call invoiceOpenToDate()", e);
+            throw new SqlFunctionException("invoiceOpenToDate", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT invoiceDiscount(?, ?, ?) */
+    @Nullable
+    public static BigDecimal callInvoiceDiscount(@Nullable Integer invoiceId,
+                                                  @Nullable Timestamp payDate,
+                                                  @Nullable Integer invoicePayScheduleId) {
+        String sql = "SELECT invoiceDiscount(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, invoiceId);
+            setNullableTimestamp(pstmt, 2, payDate);
+            setNullableInt(pstmt, 3, invoicePayScheduleId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call invoiceDiscount()", e);
+            throw new SqlFunctionException("invoiceDiscount", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT invoicePaid(?, ?, ?) */
+    @Nullable
+    public static BigDecimal callInvoicePaid(@Nullable Integer invoiceId,
+                                              @Nullable Integer currencyId,
+                                              @Nullable BigDecimal multiplierAP) {
+        String sql = "SELECT invoicePaid(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, invoiceId);
+            setNullableInt(pstmt, 2, currencyId);
+            setNullableBigDecimal(pstmt, 3, multiplierAP);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call invoicePaid()", e);
+            throw new SqlFunctionException("invoicePaid", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT invoicePaidToDate(?, ?, ?, ?) */
+    @Nullable
+    public static BigDecimal callInvoicePaidToDate(@Nullable Integer invoiceId,
+                                                    @Nullable Integer currencyId,
+                                                    @Nullable BigDecimal multiplierAP,
+                                                    @Nullable Timestamp dateAcct) {
+        String sql = "SELECT invoicePaidToDate(?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, invoiceId);
+            setNullableInt(pstmt, 2, currencyId);
+            setNullableBigDecimal(pstmt, 3, multiplierAP);
+            setNullableTimestamp(pstmt, 4, dateAcct);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call invoicePaidToDate()", e);
+            throw new SqlFunctionException("invoicePaidToDate", e);
+        }
+        return null;
+    }
 }
