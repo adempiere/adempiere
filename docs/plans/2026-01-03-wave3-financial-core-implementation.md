@@ -2088,6 +2088,19 @@ WHERE function_name IN ('invoiceOpen', 'invoiceOpenToDate');
 - Modify: `base/src/org/compiere/util/InvoiceFunctions.java`
 - Test: `base/test/src/org/compiere/migration/Wave3InvoiceFunctionsTest.java`
 
+**Step 0: Verify Wave 2 PaymentTermFunctions exists**
+
+Run: `ls base/src/org/compiere/util/PaymentTermFunctions.java`
+Expected: File exists
+
+If file doesn't exist, Wave 2 must be completed first.
+
+Verify method signature:
+```bash
+grep -n "paymentTermDiscount" base/src/org/compiere/util/PaymentTermFunctions.java
+```
+Expected: Method exists with compatible signature (amount, currencyId, paymentTermId, docDate, payDate)
+
 **Step 1: Write failing test**
 
 ```java
