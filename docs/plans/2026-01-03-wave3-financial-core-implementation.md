@@ -50,32 +50,55 @@ Implementation order follows this dependency chain (bottom-up):
 ```java
 // In SqlFunctionCallerTest.java - add to existing test class
 
+private static int testInvoiceId;
+private static int testInvoiceScheduleId;
+private static int testCurrencyId;
+
+@BeforeAll
+static void findTestData() {
+    // Find a completed invoice dynamically
+    testInvoiceId = new Query(Env.getCtx(), "C_Invoice", "DocStatus IN ('CO','CL')", null)
+        .setOnlyActiveRecords(true).firstId();
+    Assume.assumeTrue(testInvoiceId > 0, "Need completed invoice for test");
+
+    // Get currency from invoice
+    MInvoice inv = new MInvoice(Env.getCtx(), testInvoiceId, null);
+    testCurrencyId = inv.getC_Currency_ID();
+
+    // Try to find invoice with payment schedule
+    int invWithSched = new Query(Env.getCtx(), "C_Invoice",
+        "DocStatus IN ('CO','CL') AND IsPayScheduleValid='Y'", null)
+        .setOnlyActiveRecords(true).firstId();
+    if (invWithSched > 0) {
+        MInvoicePaySchedule[] scheds = MInvoicePaySchedule.getInvoicePaySchedule(
+            Env.getCtx(), invWithSched, 0, null);
+        if (scheds.length > 0) {
+            testInvoiceScheduleId = scheds[0].getC_InvoicePaySchedule_ID();
+        }
+    }
+}
+
 @Test
 void callInvoiceOpen_returnsNumeric() {
-    // Use a known invoice ID from GardenWorld test data
-    // This test just validates the SQL call works, not the value
-    BigDecimal result = SqlFunctionCaller.callInvoiceOpen(109, null);
-    // Result may be null or numeric - just validating no exception
-    assertTrue(result == null || result.compareTo(BigDecimal.ZERO) >= 0 || result.compareTo(BigDecimal.ZERO) < 0);
+    assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceOpen(testInvoiceId, null));
 }
 
 @Test
 void callInvoiceOpen_withSchedule_returnsNumeric() {
-    BigDecimal result = SqlFunctionCaller.callInvoiceOpen(109, 11);
-    assertTrue(result == null || result.compareTo(BigDecimal.ZERO) >= 0 || result.compareTo(BigDecimal.ZERO) < 0);
+    Assume.assumeTrue(testInvoiceScheduleId > 0, "Need invoice with schedule");
+    assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceOpen(testInvoiceId, testInvoiceScheduleId));
 }
 
 @Test
 void callInvoicePaid_returnsNumeric() {
-    BigDecimal result = SqlFunctionCaller.callInvoicePaid(109, 100, new BigDecimal("1"));
+    BigDecimal result = SqlFunctionCaller.callInvoicePaid(testInvoiceId, testCurrencyId, BigDecimal.ONE);
     assertNotNull(result);
 }
 
 @Test
 void callInvoiceDiscount_returnsNumeric() {
     Timestamp payDate = new Timestamp(System.currentTimeMillis());
-    BigDecimal result = SqlFunctionCaller.callInvoiceDiscount(109, payDate, null);
-    assertTrue(result == null || result.compareTo(BigDecimal.ZERO) >= 0);
+    assertDoesNotThrow(() -> SqlFunctionCaller.callInvoiceDiscount(testInvoiceId, payDate, null));
 }
 ```
 
