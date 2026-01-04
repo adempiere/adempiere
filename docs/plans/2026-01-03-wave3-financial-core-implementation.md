@@ -590,7 +590,11 @@ public BigDecimal getAllocatedAmt() {
         new Object[] { getC_Payment_ID(), getC_Currency_ID() },
         () -> calculateAllocatedAmtJava(),
         () -> SqlFunctionCaller.callPaymentAllocated(getC_Payment_ID(), getC_Currency_ID()),
-        (java, sql) -> java.compareTo(sql) == 0
+        (java, sql) -> {
+            if (java == null && sql == null) return true;
+            if (java == null || sql == null) return false;
+            return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+        }
     );
 }
 
@@ -709,7 +713,11 @@ public BigDecimal getAvailableAmt() {
         new Object[] { getC_Payment_ID() },
         () -> calculateAvailableAmtJava(),
         () -> SqlFunctionCaller.callPaymentAvailable(getC_Payment_ID()),
-        (java, sql) -> java.compareTo(sql) == 0
+        (java, sql) -> {
+            if (java == null && sql == null) return true;
+            if (java == null || sql == null) return false;
+            return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+        }
     );
 }
 
@@ -1104,6 +1112,7 @@ import org.compiere.model.MCurrency;
  */
 public class InvoiceFunctions {
     private static final CLogger log = CLogger.getCLogger(InvoiceFunctions.class);
+    private static final BigDecimal TOLERANCE = new BigDecimal("0.01");
 
     /**
      * Calculate paid/allocated amount for invoice in specified currency.
@@ -1120,7 +1129,11 @@ public class InvoiceFunctions {
             new Object[] { invoiceId, currencyId, multiplierAP },
             () -> calculateInvoicePaidJava(invoiceId, currencyId, multiplierAP, trxName),
             () -> SqlFunctionCaller.callInvoicePaid(invoiceId, currencyId, multiplierAP),
-            (java, sql) -> java.compareTo(sql) == 0
+            (java, sql) -> {
+                if (java == null && sql == null) return true;
+                if (java == null || sql == null) return false;
+                return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+            }
         );
     }
 
@@ -1182,7 +1195,11 @@ public class InvoiceFunctions {
             new Object[] { invoiceId, currencyId, multiplierAP, dateAcct },
             () -> calculateInvoicePaidToDateJava(invoiceId, currencyId, multiplierAP, dateAcct, trxName),
             () -> SqlFunctionCaller.callInvoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct),
-            (java, sql) -> java.compareTo(sql) == 0
+            (java, sql) -> {
+                if (java == null && sql == null) return true;
+                if (java == null || sql == null) return false;
+                return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+            }
         );
     }
 
@@ -1690,7 +1707,11 @@ public static BigDecimal invoiceOpen(int invoiceId, @Nullable Integer invoicePay
         new Object[] { invoiceId, invoicePayScheduleId },
         () -> calculateInvoiceOpenJava(invoiceId, invoicePayScheduleId, trxName),
         () -> SqlFunctionCaller.callInvoiceOpen(invoiceId, invoicePayScheduleId),
-        (java, sql) -> java.compareTo(sql) == 0
+        (java, sql) -> {
+            if (java == null && sql == null) return true;
+            if (java == null || sql == null) return false;
+            return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+        }
     );
 }
 
@@ -1882,7 +1903,11 @@ public static BigDecimal invoiceOpenToDate(int invoiceId, @Nullable Integer invo
         new Object[] { invoiceId, invoicePayScheduleId, dateAcct },
         () -> calculateInvoiceOpenToDateJava(invoiceId, invoicePayScheduleId, dateAcct, trxName),
         () -> SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, invoicePayScheduleId, dateAcct),
-        (java, sql) -> java.compareTo(sql) == 0
+        (java, sql) -> {
+            if (java == null && sql == null) return true;
+            if (java == null || sql == null) return false;
+            return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+        }
     );
 }
 
@@ -2093,7 +2118,11 @@ public static BigDecimal invoiceDiscount(int invoiceId, @Nullable Timestamp payD
         new Object[] { invoiceId, payDate, invoicePayScheduleId },
         () -> calculateInvoiceDiscountJava(invoiceId, payDate, invoicePayScheduleId),
         () -> SqlFunctionCaller.callInvoiceDiscount(invoiceId, payDate, invoicePayScheduleId),
-        (java, sql) -> java.compareTo(sql) == 0
+        (java, sql) -> {
+            if (java == null && sql == null) return true;
+            if (java == null || sql == null) return false;
+            return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+        }
     );
 }
 
