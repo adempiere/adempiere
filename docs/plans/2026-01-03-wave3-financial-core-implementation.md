@@ -1060,6 +1060,7 @@ import javax.annotation.Nullable;
 import org.compiere.migration.MigrationLogger;
 import org.compiere.migration.ShadowExecutor;
 import org.compiere.migration.SqlFunctionCaller;
+import org.compiere.model.MCurrency;
 
 /**
  * Invoice calculation functions migrated from SQL.
@@ -1128,7 +1129,10 @@ public class InvoiceFunctions {
             log.log(Level.SEVERE, "calculateInvoicePaidJava", e);
         }
 
-        return paymentAmt.setScale(2, RoundingMode.HALF_UP).multiply(mult);
+        // Get currency precision (don't hardcode 2)
+        MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
+        int precision = currency != null ? currency.getStdPrecision() : 2;
+        return paymentAmt.multiply(mult).setScale(precision, RoundingMode.HALF_UP);
     }
 
     /**
