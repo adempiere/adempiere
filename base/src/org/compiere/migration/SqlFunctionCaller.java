@@ -616,4 +616,42 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    /** Calls: SELECT paymentAllocated(?, ?) */
+    @Nullable
+    public static BigDecimal callPaymentAllocated(@Nullable Integer paymentId,
+                                                   @Nullable Integer currencyId) {
+        String sql = "SELECT paymentAllocated(?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, paymentId);
+            setNullableInt(pstmt, 2, currencyId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call paymentAllocated()", e);
+            throw new SqlFunctionException("paymentAllocated", e);
+        }
+        return null;
+    }
+
+    /** Calls: SELECT paymentAvailable(?) */
+    @Nullable
+    public static BigDecimal callPaymentAvailable(@Nullable Integer paymentId) {
+        String sql = "SELECT paymentAvailable(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            setNullableInt(pstmt, 1, paymentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Failed to call paymentAvailable()", e);
+            throw new SqlFunctionException("paymentAvailable", e);
+        }
+        return null;
+    }
 }

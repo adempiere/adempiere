@@ -13,6 +13,7 @@ import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoicePaySchedule;
+import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,6 +29,8 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
     private int testInvoiceId;
     private int testInvoiceScheduleId;
     private int testCurrencyId;
+    private int testPaymentId;
+    private int testPaymentCurrencyId;
 
     @BeforeAll
     void loadTestData() {
@@ -57,6 +60,15 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
                 testInvoiceScheduleId = scheds[0].getC_InvoicePaySchedule_ID();
             }
         }
+
+        // Find a completed payment dynamically
+        testPaymentId = new Query(Env.getCtx(), "C_Payment", "DocStatus IN ('CO','CL')", null)
+            .setOnlyActiveRecords(true).firstId();
+        assumeTrue(testPaymentId > 0, "Need completed payment for test");
+
+        // Get currency from payment
+        MPayment pmt = new MPayment(Env.getCtx(), testPaymentId, null);
+        testPaymentCurrencyId = pmt.getC_Currency_ID();
     }
 
     @Test
@@ -286,6 +298,18 @@ public class SqlFunctionCallerTest extends CommonGWSetup {
         Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
         BigDecimal result = SqlFunctionCaller.callInvoicePaidToDate(
             testInvoiceId, testCurrencyId, BigDecimal.ONE, dateAcct);
+        assertNotNull(result);
+    }
+
+    @Test
+    void callPaymentAllocated_returnsNumeric() {
+        BigDecimal result = SqlFunctionCaller.callPaymentAllocated(testPaymentId, testPaymentCurrencyId);
+        assertNotNull(result);
+    }
+
+    @Test
+    void callPaymentAvailable_returnsNumeric() {
+        BigDecimal result = SqlFunctionCaller.callPaymentAvailable(testPaymentId);
         assertNotNull(result);
     }
 }
