@@ -1740,11 +1740,13 @@ private static BigDecimal calculateInvoiceOpenJava(int invoiceId, @Nullable Inte
                     BigDecimal dueAmt = rs.getBigDecimal("DueAmt");
 
                     if (schedId == invoicePayScheduleId) {
-                        // This is the target schedule
-                        totalOpenAmt = dueAmt.multiply(multiplierCM).subtract(remaining);
-                        if (dueAmt.subtract(remaining).compareTo(BigDecimal.ZERO) < 0) {
-                            totalOpenAmt = BigDecimal.ZERO;
+                        // This is the target schedule - calculate open amount
+                        BigDecimal scheduleOpen = dueAmt.multiply(multiplierCM).subtract(remaining);
+                        // Zero floor: if calculated open is negative, return zero
+                        if (scheduleOpen.compareTo(BigDecimal.ZERO) < 0) {
+                            scheduleOpen = BigDecimal.ZERO;
                         }
+                        totalOpenAmt = scheduleOpen;
                         break;
                     } else {
                         // Reduce remaining by this schedule's amount
