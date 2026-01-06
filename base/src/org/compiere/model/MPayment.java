@@ -842,6 +842,7 @@ public final class MPayment extends X_C_Payment
 				int adClientId = rs.getInt("AD_Client_ID");
 				int adOrgId = rs.getInt("AD_Org_ID");
 				BigDecimal amount = rs.getBigDecimal("Amount");
+				if (amount == null) amount = BigDecimal.ZERO;
 				int allocCurrencyId = rs.getInt("C_Currency_ID");
 				Timestamp dateTrx = rs.getTimestamp("DateTrx");
 
