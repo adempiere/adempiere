@@ -26,3 +26,9 @@ WHERE function_name IN ('paymentAllocated', 'paymentAvailable');
 UPDATE migration.function_config
 SET mode = 'SHADOW', sample_rate = 1.0
 WHERE function_name IN ('invoicePaid', 'invoicePaidToDate');
+
+-- Enable SHADOW mode for invoice open functions after Java implementation is validated
+-- Using 10% sample rate for high-volume functions
+UPDATE migration.function_config
+SET mode = 'SHADOW', sample_rate = 0.1
+WHERE function_name IN ('invoiceOpen', 'invoiceOpenToDate');
