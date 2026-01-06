@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MInvoice;
@@ -42,5 +43,34 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoicePaid(%d, %d, %s): java=%s, sql=%s",
                 invoiceId, currencyId, multiplierAP, javaResult, sqlResult));
+    }
+
+    @Test
+    void invoicePaidToDate_matchesSql() {
+        int invoiceId = testInvoice.getC_Invoice_ID();
+        int currencyId = testInvoice.getC_Currency_ID();
+        BigDecimal multiplierAP = testInvoice.isSOTrx() ? BigDecimal.ONE : BigDecimal.ONE.negate();
+        Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
+
+        BigDecimal javaResult = InvoiceFunctions.invoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct, null);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoicePaidToDate: java=%s, sql=%s", javaResult, sqlResult));
+    }
+
+    @Test
+    void invoicePaidToDate_historicalDate_matchesSql() {
+        int invoiceId = testInvoice.getC_Invoice_ID();
+        int currencyId = testInvoice.getC_Currency_ID();
+        BigDecimal multiplierAP = BigDecimal.ONE;
+        // Use date before invoice - should return 0
+        Timestamp dateAcct = Timestamp.valueOf("2020-01-01 00:00:00");
+
+        BigDecimal javaResult = InvoiceFunctions.invoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct, null);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoicePaidToDate historical: java=%s, sql=%s", javaResult, sqlResult));
     }
 }
