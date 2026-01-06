@@ -125,4 +125,17 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoiceOpenToDate: java=%s, sql=%s", javaResult, sqlResult));
     }
+
+    @Test
+    void invoiceOpenToDate_historicalDate_matchesSql() {
+        int invoiceId = testInvoice.getC_Invoice_ID();
+        // Use date before invoice - should return full open amount (no allocations counted)
+        Timestamp dateAcct = Timestamp.valueOf("2020-01-01 00:00:00");
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceOpenToDate(invoiceId, null, dateAcct);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, null, dateAcct);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceOpenToDate historical: java=%s, sql=%s", javaResult, sqlResult));
+    }
 }

@@ -383,6 +383,9 @@ public class InvoiceFunctions {
 
     private static BigDecimal calculateInvoiceOpenToDateJava(int invoiceId, @Nullable Integer invoicePayScheduleId,
                                                               @Nullable Timestamp dateAcct, String trxName) {
+        // Handle null dateAcct by treating as current date
+        Timestamp cutoffDate = dateAcct != null ? dateAcct : new Timestamp(System.currentTimeMillis());
+
         // Get invoice header data from C_Invoice_v
         int currencyId;
         BigDecimal grandTotal;
@@ -391,10 +394,12 @@ public class InvoiceFunctions {
 
         String headerSql = "SELECT C_Currency_ID, GrandTotal, MultiplierAP, Multiplier "
             + "FROM C_Invoice_v "
-            + "WHERE C_Invoice_ID=?";
+            + "WHERE C_Invoice_ID=? "
+            + "AND DateAcct <= ?";
 
         try (PreparedStatement pstmt = DB.prepareStatement(headerSql, trxName)) {
             pstmt.setInt(1, invoiceId);
+            pstmt.setTimestamp(2, cutoffDate);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (!rs.next()) {
                     log.log(Level.WARNING, "calculateInvoiceOpenToDateJava - invoice not found or in draft: " + invoiceId);
@@ -417,9 +422,6 @@ public class InvoiceFunctions {
         MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
         int precision = currency != null ? currency.getStdPrecision() : 2;
         BigDecimal minAmt = BigDecimal.ONE.divide(BigDecimal.TEN.pow(precision), precision, RoundingMode.HALF_UP);
-
-        // Handle null dateAcct by treating as current date
-        Timestamp cutoffDate = dateAcct != null ? dateAcct : new Timestamp(System.currentTimeMillis());
 
         // Calculate paid amount (same logic as invoicePaid, but in invoice currency and with date filter)
         BigDecimal paidAmt = BigDecimal.ZERO;
