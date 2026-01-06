@@ -83,13 +83,14 @@ public class InvoiceFunctions {
                 }
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "calculateInvoicePaidJava", e);
+            log.log(Level.SEVERE, "calculateInvoicePaidJava - returning null due to error", e);
+            return null;
         }
 
-        // Get currency precision (don't hardcode 2)
+        // Get currency precision and apply rounding before multiplier (matches SQL behavior)
         MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
         int precision = currency != null ? currency.getStdPrecision() : 2;
-        return paymentAmt.multiply(mult).setScale(precision, RoundingMode.HALF_UP);
+        return paymentAmt.setScale(precision, RoundingMode.HALF_UP).multiply(mult);
     }
 
     /**
@@ -99,13 +100,13 @@ public class InvoiceFunctions {
      * @param invoiceId C_Invoice_ID
      * @param currencyId target C_Currency_ID
      * @param multiplierAP multiplier for AP/AR adjustment (1 or -1)
-     * @param dateAcct cutoff date for allocations
+     * @param dateAcct cutoff date for allocations (if null, treated as current date)
      * @param trxName transaction name
      * @return paid amount rounded to currency precision
      */
     public static BigDecimal invoicePaidToDate(int invoiceId, int currencyId,
                                                 @Nullable BigDecimal multiplierAP,
-                                                @Nullable Timestamp dateAcct, String trxName) {
+                                                Timestamp dateAcct, String trxName) {
         return ShadowExecutor.execute(
             "invoicePaidToDate",
             new Object[] { invoiceId, currencyId, multiplierAP, dateAcct },
@@ -121,9 +122,12 @@ public class InvoiceFunctions {
 
     private static BigDecimal calculateInvoicePaidToDateJava(int invoiceId, int currencyId,
                                                               @Nullable BigDecimal multiplierAP,
-                                                              @Nullable Timestamp dateAcct, String trxName) {
+                                                              Timestamp dateAcct, String trxName) {
         BigDecimal mult = multiplierAP != null ? multiplierAP : BigDecimal.ONE;
         BigDecimal paymentAmt = BigDecimal.ZERO;
+
+        // Handle null dateAcct by treating as current date
+        Timestamp cutoffDate = dateAcct != null ? dateAcct : new Timestamp(System.currentTimeMillis());
 
         String sql = "SELECT a.AD_Client_ID, a.AD_Org_ID, "
             + "al.Amount, al.DiscountAmt, al.WriteOffAmt, "
@@ -136,7 +140,7 @@ public class InvoiceFunctions {
 
         try (PreparedStatement pstmt = DB.prepareStatement(sql, trxName)) {
             pstmt.setInt(1, invoiceId);
-            pstmt.setTimestamp(2, dateAcct);
+            pstmt.setTimestamp(2, cutoffDate);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     int adClientId = rs.getInt("AD_Client_ID");
@@ -161,11 +165,13 @@ public class InvoiceFunctions {
                 }
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "calculateInvoicePaidToDateJava", e);
+            log.log(Level.SEVERE, "calculateInvoicePaidToDateJava - returning null due to error", e);
+            return null;
         }
 
+        // Get currency precision and apply rounding before multiplier (matches SQL behavior)
         MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
         int precision = currency != null ? currency.getStdPrecision() : 2;
-        return paymentAmt.multiply(mult).setScale(precision, RoundingMode.HALF_UP);
+        return paymentAmt.setScale(precision, RoundingMode.HALF_UP).multiply(mult);
     }
 }
