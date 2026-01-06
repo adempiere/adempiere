@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,7 +39,10 @@ import org.adempiere.core.domains.models.X_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.process.*;
+import org.compiere.migration.ShadowExecutor;
+import org.compiere.migration.SqlFunctionCaller;
 import org.compiere.util.CLogger;
+import org.compiere.util.CurrencyFunctions;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -95,9 +99,12 @@ public final class MPayment extends X_C_Payment
 
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6200327948230438741L;
+
+	/** Tolerance for BigDecimal comparisons in shadow mode (0.01) */
+	private static final BigDecimal TOLERANCE = new BigDecimal("0.01");
 
 
 	/**
@@ -712,50 +719,77 @@ public final class MPayment extends X_C_Payment
 	}	//	beforeSave
 	
 	/**
-	 * 	Get Allocated Amt in Payment Currency
-	 *	@return amount or null
+	 * Get Allocated Amt in Payment Currency.
+	 * Uses shadow execution for migration validation.
+	 * @return amount or ZERO
 	 */
-	public BigDecimal getAllocatedAmt ()
-	{
-		BigDecimal retValue = null;
-		if (getC_Charge_ID() != 0)
+	public BigDecimal getAllocatedAmt() {
+		return ShadowExecutor.execute(
+			"paymentAllocated",
+			new Object[] { getC_Payment_ID(), getC_Currency_ID() },
+			() -> calculateAllocatedAmtJava(),
+			() -> SqlFunctionCaller.callPaymentAllocated(getC_Payment_ID(), getC_Currency_ID()),
+			(java, sql) -> {
+				if (java == null && sql == null) return true;
+				if (java == null || sql == null) return false;
+				return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+			}
+		);
+	}	//	getAllocatedAmt
+
+	/**
+	 * Java implementation of paymentAllocated calculation.
+	 * Matches PostgreSQL function semantics exactly.
+	 * @return allocated amount in payment currency
+	 */
+	private BigDecimal calculateAllocatedAmtJava() {
+		// If this is a charge, return the full PayAmt
+		if (getC_Charge_ID() > 0) {
 			return getPayAmt();
-		//
-		String sql = "SELECT SUM(currencyConvert(al.Amount,"
-				+ "ah.C_Currency_ID, p.C_Currency_ID,ah.DateTrx,p.C_ConversionType_ID, al.AD_Client_ID,al.AD_Org_ID)) "
-			+ "FROM C_AllocationLine al"
-			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID) "
-			+ " INNER JOIN C_Payment p ON (al.C_Payment_ID=p.C_Payment_ID) "
-			+ "WHERE al.C_Payment_ID=?"
-			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
-		//	+ " AND al.C_Invoice_ID IS NOT NULL";
+		}
+
+		BigDecimal allocatedAmt = BigDecimal.ZERO;
+
+		// Query matches SQL function exactly - no IsActive filter, only DocStatus check
+		String sql = "SELECT a.AD_Client_ID, a.AD_Org_ID, al.Amount, a.C_Currency_ID, a.DateTrx "
+			+ "FROM C_AllocationLine al "
+			+ "INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
+			+ "WHERE al.C_Payment_ID=? "
+			+ "AND a.DocStatus IN ('CO','CL')";  // No IsActive filter - matches SQL
+
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, getC_Payment_ID());
 			rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getBigDecimal(1);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getAllocatedAmt", e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-	//	log.fine("getAllocatedAmt - " + retValue);
-		//	? ROUND(NVL(v_AllocatedAmt,0), 2);
-		if (retValue == null)
-			retValue = BigDecimal.ZERO;
+			while (rs.next()) {
+				int adClientId = rs.getInt("AD_Client_ID");
+				int adOrgId = rs.getInt("AD_Org_ID");
+				BigDecimal amount = rs.getBigDecimal("Amount");
+				if (amount == null) amount = BigDecimal.ZERO;
+				int allocCurrencyId = rs.getInt("C_Currency_ID");
+				Timestamp dateTrx = rs.getTimestamp("DateTrx");
 
-		return retValue;
-	}	//	getAllocatedAmt
+				// Convert allocation amount to payment currency
+				// Pass null for convTypeId to match SQL function behavior
+				BigDecimal converted = CurrencyFunctions.currencyConvert(
+					amount, allocCurrencyId, getC_Currency_ID(),
+					dateTrx, null, adClientId, adOrgId);
+
+				if (converted != null) {
+					allocatedAmt = allocatedAmt.add(converted);
+				}
+			}
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "calculateAllocatedAmtJava", e);
+		} finally {
+			DB.close(rs, pstmt);
+		}
+
+		// Round to penny - matches SQL function
+		return allocatedAmt.setScale(2, RoundingMode.HALF_UP);
+	}	//	calculateAllocatedAmtJava
 
 	/**
 	 * 	Test Allocation (and set allocated flag)
