@@ -138,4 +138,29 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoiceOpenToDate historical: java=%s, sql=%s", javaResult, sqlResult));
     }
+
+    @Test
+    void invoiceOpenToDate_withSchedule_matchesSql() {
+        // Find invoice with payment schedules
+        MInvoice invWithSchedule = new Query(Env.getCtx(), MInvoice.Table_Name,
+            "IsPayScheduleValid='Y' AND DocStatus IN ('CO','CL')", null)
+            .setOnlyActiveRecords(true)
+            .first();
+        assumeTrue(invWithSchedule != null, "Need invoice with payment schedule");
+
+        MInvoicePaySchedule[] schedules = MInvoicePaySchedule.getInvoicePaySchedule(
+            Env.getCtx(), invWithSchedule.getC_Invoice_ID(), 0, null);
+        assumeTrue(schedules.length > 0, "Need payment schedule records");
+
+        int scheduleId = schedules[0].getC_InvoicePaySchedule_ID();
+        int invoiceId = invWithSchedule.getC_Invoice_ID();
+        Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceOpenToDate(invoiceId, scheduleId, dateAcct);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, scheduleId, dateAcct);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceOpenToDate(%d, %d, date): java=%s, sql=%s",
+                invoiceId, scheduleId, javaResult, sqlResult));
+    }
 }
