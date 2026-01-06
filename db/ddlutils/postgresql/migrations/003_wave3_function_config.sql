@@ -16,3 +16,8 @@ ON CONFLICT (function_name) DO UPDATE SET
     performance_tier = EXCLUDED.performance_tier,
     sample_rate = EXCLUDED.sample_rate,
     circuit_breaker_enabled = EXCLUDED.circuit_breaker_enabled;
+
+-- Enable SHADOW mode for payment functions after Java implementation is validated
+UPDATE migration.function_config
+SET mode = 'SHADOW', sample_rate = 1.0
+WHERE function_name IN ('paymentAllocated', 'paymentAvailable');
