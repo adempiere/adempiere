@@ -63,13 +63,15 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
     void invoicePaidToDate_historicalDate_matchesSql() {
         int invoiceId = testInvoice.getC_Invoice_ID();
         int currencyId = testInvoice.getC_Currency_ID();
-        BigDecimal multiplierAP = BigDecimal.ONE;
+        BigDecimal multiplierAP = testInvoice.isSOTrx() ? BigDecimal.ONE : BigDecimal.ONE.negate();
         // Use date before invoice - should return 0
         Timestamp dateAcct = Timestamp.valueOf("2020-01-01 00:00:00");
 
         BigDecimal javaResult = InvoiceFunctions.invoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct, null);
         BigDecimal sqlResult = SqlFunctionCaller.callInvoicePaidToDate(invoiceId, currencyId, multiplierAP, dateAcct);
 
+        assertEquals(0, BigDecimal.ZERO.compareTo(javaResult),
+            "Historical date before payments should return zero");
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoicePaidToDate historical: java=%s, sql=%s", javaResult, sqlResult));
     }
