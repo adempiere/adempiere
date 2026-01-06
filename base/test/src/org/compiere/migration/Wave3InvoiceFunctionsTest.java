@@ -113,4 +113,16 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
             String.format("invoiceOpen(%d, %d): java=%s, sql=%s",
                 invoiceId, scheduleId, javaResult, sqlResult));
     }
+
+    @Test
+    void invoiceOpenToDate_matchesSql() {
+        int invoiceId = testInvoice.getC_Invoice_ID();
+        Timestamp dateAcct = new Timestamp(System.currentTimeMillis());
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceOpenToDate(invoiceId, null, dateAcct);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, null, dateAcct);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceOpenToDate: java=%s, sql=%s", javaResult, sqlResult));
+    }
 }

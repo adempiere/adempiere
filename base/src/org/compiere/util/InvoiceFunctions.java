@@ -341,4 +341,181 @@ public class InvoiceFunctions {
         // Round to currency precision
         return totalOpenAmt.setScale(precision, RoundingMode.HALF_UP);
     }
+
+    /**
+     * Calculate open/unpaid amount for invoice as of a specific date.
+     * Equivalent to SQL function invoiceOpenToDate(p_C_Invoice_ID, p_C_InvoicePaySchedule_ID, p_DateAcct).
+     *
+     * @param invoiceId C_Invoice_ID
+     * @param invoicePayScheduleId C_InvoicePaySchedule_ID (null for whole invoice)
+     * @param dateAcct cutoff date for allocations (if null, treated as current date)
+     * @return open amount in invoice currency
+     */
+    public static BigDecimal invoiceOpenToDate(int invoiceId, @Nullable Integer invoicePayScheduleId,
+                                                @Nullable Timestamp dateAcct) {
+        return invoiceOpenToDate(invoiceId, invoicePayScheduleId, dateAcct, null);
+    }
+
+    /**
+     * Calculate open/unpaid amount for invoice as of a specific date.
+     * Equivalent to SQL function invoiceOpenToDate(p_C_Invoice_ID, p_C_InvoicePaySchedule_ID, p_DateAcct).
+     *
+     * @param invoiceId C_Invoice_ID
+     * @param invoicePayScheduleId C_InvoicePaySchedule_ID (null for whole invoice)
+     * @param dateAcct cutoff date for allocations (if null, treated as current date)
+     * @param trxName transaction name
+     * @return open amount in invoice currency
+     */
+    public static BigDecimal invoiceOpenToDate(int invoiceId, @Nullable Integer invoicePayScheduleId,
+                                                @Nullable Timestamp dateAcct, String trxName) {
+        return ShadowExecutor.execute(
+            "invoiceOpenToDate",
+            new Object[] { invoiceId, invoicePayScheduleId, dateAcct },
+            () -> calculateInvoiceOpenToDateJava(invoiceId, invoicePayScheduleId, dateAcct, trxName),
+            () -> SqlFunctionCaller.callInvoiceOpenToDate(invoiceId, invoicePayScheduleId, dateAcct),
+            (java, sql) -> {
+                if (java == null && sql == null) return true;
+                if (java == null || sql == null) return false;
+                return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+            }
+        );
+    }
+
+    private static BigDecimal calculateInvoiceOpenToDateJava(int invoiceId, @Nullable Integer invoicePayScheduleId,
+                                                              @Nullable Timestamp dateAcct, String trxName) {
+        // Get invoice header data from C_Invoice_v
+        int currencyId;
+        BigDecimal grandTotal;
+        BigDecimal multiplierAP;
+        BigDecimal multiplierCM;
+
+        String headerSql = "SELECT C_Currency_ID, GrandTotal, MultiplierAP, Multiplier "
+            + "FROM C_Invoice_v "
+            + "WHERE C_Invoice_ID=?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(headerSql, trxName)) {
+            pstmt.setInt(1, invoiceId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) {
+                    log.log(Level.WARNING, "calculateInvoiceOpenToDateJava - invoice not found or in draft: " + invoiceId);
+                    return null;
+                }
+                currencyId = rs.getInt("C_Currency_ID");
+                grandTotal = rs.getBigDecimal("GrandTotal");
+                if (grandTotal == null) grandTotal = BigDecimal.ZERO;
+                multiplierAP = rs.getBigDecimal("MultiplierAP");
+                if (multiplierAP == null) multiplierAP = BigDecimal.ZERO;
+                multiplierCM = rs.getBigDecimal("Multiplier");
+                if (multiplierCM == null) multiplierCM = BigDecimal.ZERO;
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "calculateInvoiceOpenToDateJava - error getting invoice header", e);
+            return null;
+        }
+
+        // Get currency precision
+        MCurrency currency = MCurrency.get(Env.getCtx(), currencyId);
+        int precision = currency != null ? currency.getStdPrecision() : 2;
+        BigDecimal minAmt = BigDecimal.ONE.divide(BigDecimal.TEN.pow(precision), precision, RoundingMode.HALF_UP);
+
+        // Handle null dateAcct by treating as current date
+        Timestamp cutoffDate = dateAcct != null ? dateAcct : new Timestamp(System.currentTimeMillis());
+
+        // Calculate paid amount (same logic as invoicePaid, but in invoice currency and with date filter)
+        BigDecimal paidAmt = BigDecimal.ZERO;
+        String allocSql = "SELECT a.AD_Client_ID, a.AD_Org_ID, "
+            + "al.Amount, al.DiscountAmt, al.WriteOffAmt, "
+            + "a.C_Currency_ID, a.DateTrx "
+            + "FROM C_AllocationLine al "
+            + "INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
+            + "WHERE al.C_Invoice_ID=? "
+            + "AND a.DocStatus IN ('CO','CL') "
+            + "AND a.DateAcct <= ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(allocSql, trxName)) {
+            pstmt.setInt(1, invoiceId);
+            pstmt.setTimestamp(2, cutoffDate);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    int adClientId = rs.getInt("AD_Client_ID");
+                    int adOrgId = rs.getInt("AD_Org_ID");
+                    BigDecimal amount = rs.getBigDecimal("Amount");
+                    if (amount == null) amount = BigDecimal.ZERO;
+                    BigDecimal discountAmt = rs.getBigDecimal("DiscountAmt");
+                    if (discountAmt == null) discountAmt = BigDecimal.ZERO;
+                    BigDecimal writeOffAmt = rs.getBigDecimal("WriteOffAmt");
+                    if (writeOffAmt == null) writeOffAmt = BigDecimal.ZERO;
+                    int allocCurrencyId = rs.getInt("C_Currency_ID");
+                    Timestamp dateTrx = rs.getTimestamp("DateTrx");
+
+                    BigDecimal total = amount.add(discountAmt).add(writeOffAmt);
+                    BigDecimal converted = CurrencyFunctions.currencyConvert(
+                        total.multiply(multiplierAP), allocCurrencyId, currencyId,
+                        dateTrx, null, adClientId, adOrgId);
+
+                    if (converted != null) {
+                        paidAmt = paidAmt.add(converted);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "calculateInvoiceOpenToDateJava - error calculating paid amount", e);
+            return null;
+        }
+
+        BigDecimal totalOpenAmt;
+
+        // Handle payment schedule logic
+        if (invoicePayScheduleId != null && invoicePayScheduleId > 0) {
+            // Iterate through payment schedules in DueDate order
+            BigDecimal remaining = paidAmt;
+            totalOpenAmt = BigDecimal.ZERO;
+
+            String scheduleSql = "SELECT C_InvoicePaySchedule_ID, DueAmt "
+                + "FROM C_InvoicePaySchedule "
+                + "WHERE C_Invoice_ID=? AND IsValid='Y' "
+                + "ORDER BY DueDate";
+
+            try (PreparedStatement pstmt = DB.prepareStatement(scheduleSql, trxName)) {
+                pstmt.setInt(1, invoiceId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        int scheduleId = rs.getInt("C_InvoicePaySchedule_ID");
+                        BigDecimal dueAmt = rs.getBigDecimal("DueAmt");
+                        if (dueAmt == null) dueAmt = BigDecimal.ZERO;
+
+                        if (scheduleId == invoicePayScheduleId) {
+                            // Target schedule: return (DueAmt * MultiplierCM) - remaining
+                            totalOpenAmt = dueAmt.multiply(multiplierCM).subtract(remaining);
+                            // Ensure non-negative (matches SQL logic at lines 93-95)
+                            if (dueAmt.subtract(remaining).compareTo(BigDecimal.ZERO) < 0) {
+                                totalOpenAmt = BigDecimal.ZERO;
+                            }
+                            break;
+                        } else {
+                            // Earlier schedule: subtract from remaining
+                            remaining = remaining.subtract(dueAmt);
+                            if (remaining.compareTo(BigDecimal.ZERO) < 0) {
+                                remaining = BigDecimal.ZERO;
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "calculateInvoiceOpenToDateJava - error processing payment schedule", e);
+                return null;
+            }
+        } else {
+            // No payment schedule: simple calculation
+            totalOpenAmt = grandTotal.subtract(paidAmt);
+        }
+
+        // Ignore rounding (amounts < minAmt become zero)
+        if (totalOpenAmt.compareTo(minAmt.negate()) > 0 && totalOpenAmt.compareTo(minAmt) < 0) {
+            totalOpenAmt = BigDecimal.ZERO;
+        }
+
+        // Round to currency precision
+        return totalOpenAmt.setScale(precision, RoundingMode.HALF_UP);
+    }
 }
