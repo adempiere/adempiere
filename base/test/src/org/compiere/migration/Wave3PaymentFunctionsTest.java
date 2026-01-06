@@ -76,4 +76,16 @@ public class Wave3PaymentFunctionsTest extends CommonGWSetup {
         assertEquals(0, result.compareTo(BigDecimal.ZERO),
             "Unallocated payment should return ZERO");
     }
+
+    @Test
+    void getAvailableAmt_matchesSql() {
+        int paymentId = testPayment.getC_Payment_ID();
+
+        BigDecimal javaResult = testPayment.getAvailableAmt();
+        BigDecimal sqlResult = SqlFunctionCaller.callPaymentAvailable(paymentId);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("paymentAvailable(%d): java=%s, sql=%s",
+                paymentId, javaResult, sqlResult));
+    }
 }

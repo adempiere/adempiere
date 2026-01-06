@@ -795,6 +795,79 @@ public final class MPayment extends X_C_Payment
 	}	//	calculateAllocatedAmtJava
 
 	/**
+	 * Get Available (unallocated) Amount in Payment Currency.
+	 * Uses shadow execution for migration validation.
+	 * @return available amount or ZERO
+	 */
+	public BigDecimal getAvailableAmt() {
+		return ShadowExecutor.execute(
+			"paymentAvailable",
+			new Object[] { getC_Payment_ID() },
+			() -> calculateAvailableAmtJava(),
+			() -> SqlFunctionCaller.callPaymentAvailable(getC_Payment_ID()),
+			(java, sql) -> {
+				if (java == null && sql == null) return true;
+				if (java == null || sql == null) return false;
+				return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+			}
+		);
+	}	//	getAvailableAmt
+
+	/**
+	 * Java implementation of paymentAvailable calculation.
+	 * @return available amount in payment currency
+	 */
+	private BigDecimal calculateAvailableAmtJava() {
+		// If this is a charge, nothing is available
+		if (getC_Charge_ID() > 0) {
+			return BigDecimal.ZERO;
+		}
+
+		BigDecimal availableAmt = getPayAmt();
+
+		// Get allocations
+		String sql = "SELECT a.AD_Client_ID, a.AD_Org_ID, al.Amount, a.C_Currency_ID, a.DateTrx "
+			+ "FROM C_AllocationLine al "
+			+ "INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
+			+ "WHERE al.C_Payment_ID=? "
+			+ "AND a.DocStatus IN ('CO','CL')";
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, getC_Payment_ID());
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int adClientId = rs.getInt("AD_Client_ID");
+				int adOrgId = rs.getInt("AD_Org_ID");
+				BigDecimal amount = rs.getBigDecimal("Amount");
+				int allocCurrencyId = rs.getInt("C_Currency_ID");
+				Timestamp dateTrx = rs.getTimestamp("DateTrx");
+
+				BigDecimal converted = CurrencyFunctionRouter.currencyConvert(
+					amount, allocCurrencyId, getC_Currency_ID(),
+					dateTrx, null, adClientId, adOrgId);
+
+				if (converted != null) {
+					availableAmt = availableAmt.subtract(converted);
+				}
+			}
+		} catch (Exception e) {
+			log.log(Level.SEVERE, "calculateAvailableAmtJava", e);
+		} finally {
+			DB.close(rs, pstmt);
+		}
+
+		// Ignore rounding (match SQL behavior: -0.00999 to 0.00999 = 0)
+		if (availableAmt.abs().compareTo(new BigDecimal("0.01")) < 0) {
+			availableAmt = BigDecimal.ZERO;
+		}
+
+		return availableAmt.setScale(2, RoundingMode.HALF_UP);
+	}	//	calculateAvailableAmtJava
+
+	/**
 	 * 	Test Allocation (and set allocated flag)
 	 *	@return true if updated
 	 */
