@@ -21,3 +21,8 @@ ON CONFLICT (function_name) DO UPDATE SET
 UPDATE migration.function_config
 SET mode = 'SHADOW', sample_rate = 1.0
 WHERE function_name IN ('paymentAllocated', 'paymentAvailable');
+
+-- Enable SHADOW mode for invoice paid functions after Java implementation is validated
+UPDATE migration.function_config
+SET mode = 'SHADOW', sample_rate = 1.0
+WHERE function_name IN ('invoicePaid', 'invoicePaidToDate');
