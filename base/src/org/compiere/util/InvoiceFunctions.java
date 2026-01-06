@@ -273,11 +273,11 @@ public class InvoiceFunctions {
 
                     BigDecimal total = amount.add(discountAmt).add(writeOffAmt);
                     BigDecimal converted = CurrencyFunctions.currencyConvert(
-                        total, allocCurrencyId, currencyId,
+                        total.multiply(multiplierAP), allocCurrencyId, currencyId,
                         dateTrx, null, adClientId, adOrgId);
 
                     if (converted != null) {
-                        paidAmt = paidAmt.add(converted.multiply(multiplierAP));
+                        paidAmt = paidAmt.add(converted);
                     }
                 }
             }
