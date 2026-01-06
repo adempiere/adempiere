@@ -42,7 +42,7 @@ import org.compiere.process.*;
 import org.compiere.migration.ShadowExecutor;
 import org.compiere.migration.SqlFunctionCaller;
 import org.compiere.util.CLogger;
-import org.compiere.util.CurrencyFunctions;
+import org.compiere.util.CurrencyFunctionRouter;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -750,12 +750,15 @@ public final class MPayment extends X_C_Payment
 
 		BigDecimal allocatedAmt = BigDecimal.ZERO;
 
-		// Query matches SQL function exactly - no IsActive filter, only DocStatus check
+		// Note: Original Java filtered on IsActive='Y' for both AllocationHdr and AllocationLine,
+		// but the SQL function does not. This matches SQL function semantics for shadow validation.
+		// The IsActive filter was likely defensive coding that the SQL function doesn't need
+		// because inactive allocations should not have DocStatus IN ('CO','CL').
 		String sql = "SELECT a.AD_Client_ID, a.AD_Org_ID, al.Amount, a.C_Currency_ID, a.DateTrx "
 			+ "FROM C_AllocationLine al "
 			+ "INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
 			+ "WHERE al.C_Payment_ID=? "
-			+ "AND a.DocStatus IN ('CO','CL')";  // No IsActive filter - matches SQL
+			+ "AND a.DocStatus IN ('CO','CL')";
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -773,7 +776,7 @@ public final class MPayment extends X_C_Payment
 
 				// Convert allocation amount to payment currency
 				// Pass null for convTypeId to match SQL function behavior
-				BigDecimal converted = CurrencyFunctions.currencyConvert(
+				BigDecimal converted = CurrencyFunctionRouter.currencyConvert(
 					amount, allocCurrencyId, getC_Currency_ID(),
 					dateTrx, null, adClientId, adOrgId);
 
