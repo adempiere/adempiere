@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoicePaySchedule;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.InvoiceFunctions;
@@ -74,5 +75,42 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
             "Historical date before payments should return zero");
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoicePaidToDate historical: java=%s, sql=%s", javaResult, sqlResult));
+    }
+
+    @Test
+    void invoiceOpen_matchesSql() {
+        int invoiceId = testInvoice.getC_Invoice_ID();
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceOpen(invoiceId, null);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceOpen(invoiceId, null);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceOpen(%d, null): java=%s, sql=%s",
+                invoiceId, javaResult, sqlResult));
+    }
+
+    @Test
+    void invoiceOpen_withSchedule_matchesSql() {
+        // Find invoice with payment schedules
+        MInvoice invWithSchedule = new Query(Env.getCtx(), MInvoice.Table_Name,
+            "IsPayScheduleValid='Y' AND DocStatus IN ('CO','CL')", null)
+            .setOnlyActiveRecords(true)
+            .first();
+        assumeTrue(invWithSchedule != null, "Need invoice with payment schedule");
+
+        // Get first schedule
+        MInvoicePaySchedule[] schedules = MInvoicePaySchedule.getInvoicePaySchedule(
+            Env.getCtx(), invWithSchedule.getC_Invoice_ID(), 0, null);
+        assumeTrue(schedules.length > 0, "Need payment schedule records");
+
+        int scheduleId = schedules[0].getC_InvoicePaySchedule_ID();
+        int invoiceId = invWithSchedule.getC_Invoice_ID();
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceOpen(invoiceId, scheduleId);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceOpen(invoiceId, scheduleId);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceOpen(%d, %d): java=%s, sql=%s",
+                invoiceId, scheduleId, javaResult, sqlResult));
     }
 }
