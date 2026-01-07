@@ -506,4 +506,142 @@ public class SqlFunctionCaller {
         }
         return BigDecimal.ZERO;
     }
+
+    /**
+     * Call acct_balance(p_Account_ID, p_AmtDr, p_AmtCr)
+     * @return balance amount
+     */
+    public static BigDecimal callAcctBalance(Integer accountId, BigDecimal amtDr, BigDecimal amtCr) {
+        String sql = "SELECT acct_balance(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, accountId, Types.INTEGER);
+            pstmt.setBigDecimal(2, amtDr);
+            pstmt.setBigDecimal(3, amtCr);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("acct_balance", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call get_sysconfig(name, defaultvalue, client_id, org_id)
+     * @return configuration value or default
+     */
+    public static String callGetSysconfig(String name, String defaultValue, Integer clientId, Integer orgId) {
+        String sql = "SELECT get_sysconfig(?, ?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setString(1, name);
+            pstmt.setString(2, defaultValue);
+            pstmt.setObject(3, clientId, Types.INTEGER);
+            pstmt.setObject(4, orgId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("get_sysconfig", e);
+        }
+        return defaultValue;
+    }
+
+    /**
+     * Call productattribute(p_M_AttributeSetInstance_ID)
+     * @return formatted attribute string
+     */
+    public static String callProductAttribute(Integer attributeSetInstanceId) {
+        String sql = "SELECT productattribute(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, attributeSetInstanceId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("productattribute", e);
+        }
+        return null;
+    }
+
+    /**
+     * Call documentno(p_PP_MRP_ID)
+     * @return document number for MRP record
+     */
+    public static String callDocumentNo(Integer ppMrpId) {
+        String sql = "SELECT documentno(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, ppMrpId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("documentno", e);
+        }
+        return "";
+    }
+
+    /**
+     * Call linenetamtrealinvoiceline(p_c_invoiceline_id)
+     * @return net amount excluding tax if tax-inclusive
+     */
+    public static BigDecimal callLinenetamtrealinvoiceline(Integer invoiceLineId) {
+        String sql = "SELECT linenetamtrealinvoiceline(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, invoiceLineId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("linenetamtrealinvoiceline", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call linenetamtrealorderline(p_c_orderline_id)
+     * @return net amount excluding tax if tax-inclusive
+     */
+    public static BigDecimal callLinenetamtrealorderline(Integer orderLineId) {
+        String sql = "SELECT linenetamtrealorderline(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, orderLineId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("linenetamtrealorderline", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call maxpaydate(p_c_invoice_id)
+     * @return latest payment date for invoice
+     */
+    public static Timestamp callMaxpaydate(Integer invoiceId) {
+        String sql = "SELECT maxpaydate(?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, invoiceId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getTimestamp(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("maxpaydate", e);
+        }
+        return null;
+    }
 }
