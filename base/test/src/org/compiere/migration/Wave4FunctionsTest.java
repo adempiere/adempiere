@@ -257,4 +257,25 @@ public class Wave4FunctionsTest {
         BigDecimal result = Wave4Functions.linenetamtrealorderline(0);
         assertEquals(BigDecimal.ZERO, result);
     }
+
+    // ========== productAttribute Tests ==========
+
+    @Test
+    void productAttribute_nullId_returnsEmptyString() {
+        // PostgreSQL: IF (p_M_AttributeSetInstance_ID > 0) is false for NULL, returns ''
+        String result = Wave4Functions.productAttribute(null);
+        assertEquals("", result);
+    }
+
+    @Test
+    void productAttribute_zeroId_returnsEmptyString() {
+        String result = Wave4Functions.productAttribute(0);
+        assertEquals("", result);
+    }
+
+    @Test
+    void productAttribute_negativeId_returnsEmptyString() {
+        String result = Wave4Functions.productAttribute(-1);
+        assertEquals("", result);
+    }
 }

@@ -22,7 +22,7 @@ import org.compiere.util.DB;
  * <tr><td>nextIDFunc</td><td>-1</td><td>-1</td><td>-1</td></tr>
  * <tr><td>acctBalance</td><td>AmtDr-AmtCr (default)</td><td>AmtDr-AmtCr (default)</td><td>AmtDr-AmtCr (default)</td></tr>
  * <tr><td>getSysconfig</td><td>defaultValue</td><td>defaultValue</td><td>defaultValue</td></tr>
- * <tr><td>productAttribute</td><td>null</td><td>"" (empty)</td><td>null</td></tr>
+ * <tr><td>productAttribute</td><td>"" (empty)</td><td>"" (empty)</td><td>"" (empty)</td></tr>
  * <tr><td>documentNo</td><td>"" (empty)</td><td>"" (empty)</td><td>"" (empty)</td></tr>
  * <tr><td>linenetamtrealinvoiceline</td><td>ZERO</td><td>ZERO</td><td>ZERO</td></tr>
  * <tr><td>linenetamtrealorderline</td><td>ZERO</td><td>ZERO</td><td>ZERO</td></tr>
@@ -256,8 +256,121 @@ public class Wave4Functions {
         return defaultValue;
     }
 
+    /**
+     * Build display string for product attribute set instance.
+     * Equivalent to PostgreSQL productattribute function.
+     *
+     * NOTE: Column names verified against I_M_AttributeSet.java:
+     * - SerNoCharSOverwrite, SerNoCharEOverwrite (not SerNoCharOverwrite)
+     * - LotCharSOverwrite, LotCharEOverwrite (not LotCharOverwrite)
+     *
+     * @param attributeSetInstanceId M_AttributeSetInstance_ID
+     * @return Formatted attribute string or empty string (matches PostgreSQL behavior)
+     */
     public static String productAttribute(Integer attributeSetInstanceId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        // Match PostgreSQL: IF (p_M_AttributeSetInstance_ID > 0) returns '' for NULL or <= 0
+        if (attributeSetInstanceId == null || attributeSetInstanceId <= 0) {
+            return "";
+        }
+
+        StringBuilder result = new StringBuilder();
+
+        // Fetch instance data with COALESCE for character overwrites (matches SQL exactly)
+        // Column names: SerNoCharSOverwrite, SerNoCharEOverwrite, LotCharSOverwrite, LotCharEOverwrite
+        String instanceSql = "SELECT asi.Lot, asi.SerNo, asi.GuaranteeDate, "
+            + "COALESCE(aset.SerNoCharSOverwrite, '#') AS SerNoStart, "
+            + "COALESCE(aset.SerNoCharEOverwrite, '') AS SerNoEnd, "
+            + "COALESCE(aset.LotCharSOverwrite, '\u00AB') AS LotStart, "
+            + "COALESCE(aset.LotCharEOverwrite, '\u00BB') AS LotEnd "
+            + "FROM M_AttributeSetInstance asi "
+            + "INNER JOIN M_AttributeSet aset ON asi.M_AttributeSet_ID = aset.M_AttributeSet_ID "
+            + "WHERE asi.M_AttributeSetInstance_ID = ?";
+
+        String lot = null;
+        String serNo = null;
+        Timestamp guaranteeDate = null;
+        String serNoStart = "#";
+        String serNoEnd = "";
+        String lotStart = "\u00AB"; // «
+        String lotEnd = "\u00BB";   // »
+
+        try (PreparedStatement pstmt = DB.prepareStatement(instanceSql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for productAttribute - DB unavailable");
+                return "";
+            }
+            pstmt.setInt(1, attributeSetInstanceId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    lot = rs.getString("Lot");
+                    serNo = rs.getString("SerNo");
+                    guaranteeDate = rs.getTimestamp("GuaranteeDate");
+
+                    // COALESCE already applied in SQL - just read the values
+                    serNoStart = rs.getString("SerNoStart");
+                    serNoEnd = rs.getString("SerNoEnd");
+                    lotStart = rs.getString("LotStart");
+                    lotEnd = rs.getString("LotEnd");
+                } else {
+                    return "";
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error fetching attribute instance " + attributeSetInstanceId, e);
+            return "";
+        }
+
+        // Build result string - add trailing space after each element (matches PostgreSQL pattern)
+        // PostgreSQL adds trailing space to everything, then TRIMs at the end
+        if (serNo != null && !serNo.isEmpty()) {
+            result.append(serNoStart).append(serNo).append(serNoEnd).append(" ");
+        }
+        if (lot != null && !lot.isEmpty()) {
+            result.append(lotStart).append(lot).append(lotEnd).append(" ");
+        }
+        if (guaranteeDate != null) {
+            // Match PostgreSQL ISO DateStyle timestamp-to-varchar coercion: "yyyy-MM-dd HH:mm:ss"
+            // Use thread-safe DateTimeFormatter (unlike SimpleDateFormat)
+            result.append(GUARANTEE_DATE_FORMATTER.format(guaranteeDate.toInstant())).append(" ");
+        }
+
+        // Fetch additional attributes - MUST include IsInstanceAttribute='Y' filter
+        String attrSql = "SELECT a.Name, ai.Value "
+            + "FROM M_AttributeInstance ai "
+            + "INNER JOIN M_Attribute a ON (ai.M_Attribute_ID = a.M_Attribute_ID AND a.IsInstanceAttribute = 'Y') "
+            + "WHERE ai.M_AttributeSetInstance_ID = ? "
+            + "ORDER BY a.Name";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(attrSql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for productAttribute attributes - DB unavailable");
+                // Continue with what we have so far
+            } else {
+                pstmt.setInt(1, attributeSetInstanceId);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        String name = rs.getString("Name");
+                        String value = rs.getString("Value");
+                        // Check both name AND value are non-null and non-empty
+                        // Prevents "null:value" output if M_Attribute.Name is null (data quality issue)
+                        if (name != null && !name.isEmpty() && value != null && !value.isEmpty()) {
+                            // Add trailing space (matches PostgreSQL pattern)
+                            result.append(name).append(":").append(value).append(" ");
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error fetching attributes for instance " + attributeSetInstanceId, e);
+        }
+
+        if (result.length() == 0) {
+            return "";
+        }
+
+        // TRIM at end matches PostgreSQL: v_Name || ' (' || TRIM(v_NameAdd) || ')'
+        // Leading space matches PostgreSQL output exactly
+        return " (" + result.toString().trim() + ")";
     }
 
     public static String documentNo(Integer ppMrpId) {
