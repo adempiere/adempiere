@@ -139,6 +139,12 @@ public class Wave4FunctionsTest {
     }
 
     @Test
+    void maxpaydate_zeroInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(0);
+        assertNull(result);
+    }
+
+    @Test
     void maxpaydate_methodSignature() {
         assertDoesNotThrow(() -> {
             var method = Wave4Functions.class.getMethod("maxpaydate", Integer.class);
