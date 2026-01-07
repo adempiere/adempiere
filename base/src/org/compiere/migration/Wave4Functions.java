@@ -123,9 +123,87 @@ public class Wave4Functions {
      * comparing Java vs SQL results (which would consume sequence values).
      */
 
-    // Placeholder methods for other functions (implemented in later tasks)
+    /**
+     * Calculate account balance considering natural sign.
+     * Equivalent to PostgreSQL acct_balance function.
+     *
+     * Logic matches SQL exactly:
+     * 1. Default balance = AmtDr - AmtCr (debit balance)
+     * 2. If AccountSign is 'N' (Natural), resolve to 'D' or 'C' based on AccountType
+     * 3. If resolved AccountSign is 'C', flip to credit balance (AmtCr - AmtDr)
+     *
+     * <p><b>Error Handling:</b> On SQLException, logs at SEVERE level and returns
+     * default calculation (AmtDr - AmtCr). This matches PostgreSQL EXCEPTION behavior.
+     * The circuit breaker (when enabled) will trigger on repeated errors, preventing
+     * cascading failures. Monitor SEVERE log entries for data integrity issues.</p>
+     *
+     * @param accountId C_ElementValue_ID
+     * @param amtDr Debit amount
+     * @param amtCr Credit amount
+     * @return Balance amount (default calculation on error)
+     */
     public static BigDecimal acctBalance(Integer accountId, BigDecimal amtDr, BigDecimal amtCr) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        BigDecimal dr = amtDr != null ? amtDr : BigDecimal.ZERO;
+        BigDecimal cr = amtCr != null ? amtCr : BigDecimal.ZERO;
+        BigDecimal balance = dr.subtract(cr);  // Default: Debit balance
+
+        if (accountId == null || accountId <= 0) {
+            return balance;
+        }
+
+        // Fetch account type and sign from C_ElementValue
+        String sql = "SELECT AccountType, AccountSign FROM C_ElementValue WHERE C_ElementValue_ID = ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            // Check for DB unavailability (per critical review #3)
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for acctBalance - DB unavailable, using default calculation");
+                return balance;
+            }
+            pstmt.setInt(1, accountId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) {
+                    return balance;  // Account not found - expected case, return default
+                }
+
+                String accountType = rs.getString("AccountType");
+                String accountSign = rs.getString("AccountSign");
+
+                // Natural sign resolution (matches SQL exactly)
+                // IF (v_AccountSign='N') THEN
+                //   IF (v_AccountType IN ('A','E')) THEN v_AccountSign := 'D';
+                //   ELSE v_AccountSign := 'C';
+                //
+                // AccountType codes:
+                //   A = Asset (natural debit balance)
+                //   E = Expense (natural debit balance)
+                //   L = Liability (natural credit balance)
+                //   O = Owner's Equity (natural credit balance)
+                //   R = Revenue (natural credit balance)
+                if ("N".equals(accountSign)) {
+                    if ("A".equals(accountType) || "E".equals(accountType)) {
+                        accountSign = "D";  // Debit balance for Assets and Expenses
+                    } else {
+                        accountSign = "C";  // Credit balance for Liability, Owner's Equity, Revenue
+                    }
+                }
+
+                // Credit balance = flip the calculation
+                // IF (v_AccountSign = 'C') THEN v_balance := p_AmtCr - p_AmtDr;
+                if ("C".equals(accountSign)) {
+                    balance = cr.subtract(dr);
+                }
+            }
+        } catch (SQLException e) {
+            // Log at SEVERE level - this indicates a real DB problem, not just "not found"
+            // Per critical review #3: distinguish between expected (not found) and unexpected (error)
+            log.log(Level.SEVERE, "Database error in acctBalance for account " + accountId, e);
+            // Still return default to match SQL EXCEPTION behavior, but consider:
+            // - Circuit breaker may trigger on repeated errors
+            // - Monitoring should alert on SEVERE log entries
+        }
+
+        return balance;
     }
 
     public static String getSysconfig(String name, String defaultValue, Integer clientId, Integer orgId) {
