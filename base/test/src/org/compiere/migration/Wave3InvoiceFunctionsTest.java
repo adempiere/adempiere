@@ -175,4 +175,28 @@ public class Wave3InvoiceFunctionsTest extends CommonGWSetup {
         assertEquals(0, javaResult.compareTo(sqlResult),
             String.format("invoiceDiscount: java=%s, sql=%s", javaResult, sqlResult));
     }
+
+    @Test
+    void invoiceDiscount_withSchedule_matchesSql() {
+        MInvoice invWithSchedule = new Query(Env.getCtx(), MInvoice.Table_Name,
+            "IsPayScheduleValid='Y' AND DocStatus IN ('CO','CL')", null)
+            .setOnlyActiveRecords(true)
+            .first();
+        assumeTrue(invWithSchedule != null, "Need invoice with payment schedule");
+
+        MInvoicePaySchedule[] schedules = MInvoicePaySchedule.getInvoicePaySchedule(
+            Env.getCtx(), invWithSchedule.getC_Invoice_ID(), 0, null);
+        assumeTrue(schedules.length > 0, "Need payment schedule records");
+
+        int scheduleId = schedules[0].getC_InvoicePaySchedule_ID();
+        int invoiceId = invWithSchedule.getC_Invoice_ID();
+        Timestamp payDate = new Timestamp(System.currentTimeMillis());
+
+        BigDecimal javaResult = InvoiceFunctions.invoiceDiscount(invoiceId, payDate, scheduleId);
+        BigDecimal sqlResult = SqlFunctionCaller.callInvoiceDiscount(invoiceId, payDate, scheduleId);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            String.format("invoiceDiscount(%d, date, %d): java=%s, sql=%s",
+                invoiceId, scheduleId, javaResult, sqlResult));
+    }
 }
