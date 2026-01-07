@@ -40,7 +40,7 @@ public class Wave4FunctionsTest {
         // Asset account with natural sign = Debit balance
         BigDecimal result = Wave4Functions.acctBalance(
             ASSET_ACCOUNT_ID, new BigDecimal("100.00"), new BigDecimal("30.00"));
-        assertEquals(new BigDecimal("70.00"), result);
+        assertEquals(0, new BigDecimal("70.00").compareTo(result), "Balance should be 70.00");
     }
 
     @Test
@@ -49,7 +49,7 @@ public class Wave4FunctionsTest {
         // Liability account with natural sign = Credit balance
         BigDecimal result = Wave4Functions.acctBalance(
             LIABILITY_ACCOUNT_ID, new BigDecimal("30.00"), new BigDecimal("100.00"));
-        assertEquals(new BigDecimal("70.00"), result);
+        assertEquals(0, new BigDecimal("70.00").compareTo(result), "Balance should be 70.00");
     }
 
     @Test
@@ -57,6 +57,26 @@ public class Wave4FunctionsTest {
         // No DB lookup needed - null account uses default calculation
         BigDecimal result = Wave4Functions.acctBalance(
             null, new BigDecimal("100.00"), new BigDecimal("30.00"));
-        assertEquals(new BigDecimal("70.00"), result); // AmtDr - AmtCr
+        assertEquals(0, new BigDecimal("70.00").compareTo(result), "Balance should be 70.00");
+    }
+
+    @Test
+    void acctBalance_zeroAccount_defaultCalculation() {
+        BigDecimal result = Wave4Functions.acctBalance(
+            0, new BigDecimal("100.00"), new BigDecimal("30.00"));
+        assertEquals(0, new BigDecimal("70.00").compareTo(result));
+    }
+
+    @Test
+    void acctBalance_negativeAccount_defaultCalculation() {
+        BigDecimal result = Wave4Functions.acctBalance(
+            -1, new BigDecimal("100.00"), new BigDecimal("30.00"));
+        assertEquals(0, new BigDecimal("70.00").compareTo(result));
+    }
+
+    @Test
+    void acctBalance_nullAmounts_treatedAsZero() {
+        BigDecimal result = Wave4Functions.acctBalance(null, null, null);
+        assertEquals(0, BigDecimal.ZERO.compareTo(result));
     }
 }
