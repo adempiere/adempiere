@@ -520,4 +520,80 @@ public class InvoiceFunctions {
         // Round to currency precision
         return totalOpenAmt.setScale(precision, RoundingMode.HALF_UP);
     }
+
+    /**
+     * Calculate payment discount amount.
+     * Uses paymentTermDiscount from Wave 2.
+     * Equivalent to SQL function invoiceDiscount(p_C_Invoice_ID, p_PayDate, p_C_InvoicePaySchedule_ID).
+     *
+     * @param invoiceId C_Invoice_ID
+     * @param payDate payment date (if null, uses current date)
+     * @param invoicePayScheduleId C_InvoicePaySchedule_ID (null for whole invoice)
+     * @return discount amount
+     */
+    public static BigDecimal invoiceDiscount(int invoiceId, @Nullable Timestamp payDate,
+                                              @Nullable Integer invoicePayScheduleId) {
+        return ShadowExecutor.execute(
+            "invoiceDiscount",
+            new Object[] { invoiceId, payDate, invoicePayScheduleId },
+            () -> calculateInvoiceDiscountJava(invoiceId, payDate, invoicePayScheduleId),
+            () -> SqlFunctionCaller.callInvoiceDiscount(invoiceId, payDate, invoicePayScheduleId),
+            (java, sql) -> {
+                if (java == null && sql == null) return true;
+                if (java == null || sql == null) return false;
+                return java.subtract(sql).abs().compareTo(TOLERANCE) <= 0;
+            }
+        );
+    }
+
+    private static BigDecimal calculateInvoiceDiscountJava(int invoiceId, @Nullable Timestamp payDate,
+                                                             @Nullable Integer invoicePayScheduleId) {
+        // Get invoice data
+        String sql = "SELECT ci.IsDiscountLineAmt, i.GrandTotal, i.TotalLines, "
+            + "i.C_PaymentTerm_ID, i.DateInvoiced, i.IsPayScheduleValid "
+            + "FROM AD_ClientInfo ci, C_Invoice i "
+            + "WHERE ci.AD_Client_ID=i.AD_Client_ID AND i.C_Invoice_ID=?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setInt(1, invoiceId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (!rs.next()) return BigDecimal.ZERO;
+
+                boolean isDiscountLineAmt = "Y".equals(rs.getString("IsDiscountLineAmt"));
+                BigDecimal grandTotal = rs.getBigDecimal("GrandTotal");
+                BigDecimal totalLines = rs.getBigDecimal("TotalLines");
+                int paymentTermId = rs.getInt("C_PaymentTerm_ID");
+                Timestamp docDate = rs.getTimestamp("DateInvoiced");
+                boolean isPayScheduleValid = "Y".equals(rs.getString("IsPayScheduleValid"));
+
+                BigDecimal amount = isDiscountLineAmt ? totalLines : grandTotal;
+                if (amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
+
+                Timestamp effectivePayDate = payDate != null ? payDate : TimeUtil.getDate();
+
+                // Valid payment schedule - get discount from schedule
+                if (isPayScheduleValid && invoicePayScheduleId != null && invoicePayScheduleId > 0) {
+                    String schedSql = "SELECT COALESCE(MAX(DiscountAmt),0) FROM C_InvoicePaySchedule "
+                        + "WHERE C_InvoicePaySchedule_ID=? AND DiscountDate <= ?";
+                    try (PreparedStatement schedPstmt = DB.prepareStatement(schedSql, null)) {
+                        schedPstmt.setInt(1, invoicePayScheduleId);
+                        schedPstmt.setTimestamp(2, effectivePayDate);
+                        try (ResultSet schedRs = schedPstmt.executeQuery()) {
+                            if (schedRs.next()) {
+                                return schedRs.getBigDecimal(1);
+                            }
+                        }
+                    }
+                    return BigDecimal.ZERO;
+                }
+
+                // Use payment term discount from Wave 2
+                return PaymentTermFunctions.paymentTermDiscount(
+                    amount, 0, paymentTermId, docDate, effectivePayDate);
+            }
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Error calculating invoice discount", e);
+            return null;
+        }
+    }
 }
