@@ -394,9 +394,6 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setAD_User_ID(line.getAD_User_ID());
 	}	//	MInvoice
 
-	/**	Open Amount				*/
-	private BigDecimal openAmount = null;
-
 	/**	Invoice Lines			*/
 	private MInvoiceLine[] InvoiceLines;
 	/**	Invoice Taxes			*/
