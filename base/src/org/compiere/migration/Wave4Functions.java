@@ -264,8 +264,79 @@ public class Wave4Functions {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * Calculate net amount excluding tax if tax-inclusive pricing.
+     * Equivalent to PostgreSQL linenetamtrealinvoiceline function.
+     *
+     * @param invoiceLineId C_InvoiceLine_ID
+     * @return Net amount (tax-exclusive)
+     */
     public static BigDecimal linenetamtrealinvoiceline(Integer invoiceLineId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (invoiceLineId == null || invoiceLineId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        String sql = "SELECT il.LineNetAmt, pl.IsTaxIncluded, t.Rate, c.StdPrecision "
+            + "FROM C_InvoiceLine il "
+            + "INNER JOIN C_Invoice i ON il.C_Invoice_ID = i.C_Invoice_ID "
+            + "INNER JOIN M_PriceList pl ON i.M_PriceList_ID = pl.M_PriceList_ID "
+            + "INNER JOIN C_Tax t ON il.C_Tax_ID = t.C_Tax_ID "
+            + "INNER JOIN C_Currency c ON i.C_Currency_ID = c.C_Currency_ID "
+            + "WHERE il.C_InvoiceLine_ID = ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for linenetamtrealinvoiceline - DB unavailable");
+                return BigDecimal.ZERO;
+            }
+            pstmt.setInt(1, invoiceLineId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    BigDecimal lineNetAmt = rs.getBigDecimal("LineNetAmt");
+                    boolean isTaxIncluded = "Y".equals(rs.getString("IsTaxIncluded"));
+                    BigDecimal rate = rs.getBigDecimal("Rate");
+                    int precision = rs.getInt("StdPrecision");
+
+                    return calculateTaxExclusiveAmount(lineNetAmt, isTaxIncluded, rate, precision);
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error calculating line net amount for invoice line " + invoiceLineId, e);
+        }
+
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Calculate tax-exclusive amount from tax-inclusive amount.
+     * Uses 15 decimal places for intermediate calculations to match PostgreSQL numeric precision.
+     *
+     * @implNote RoundingMode.HALF_UP is used here. PostgreSQL numeric division uses
+     *           ROUND_HALF_EVEN (banker's rounding) by default. For most cases this
+     *           produces identical results, but edge cases like 2.5 would round to 3
+     *           in Java vs 2 in PostgreSQL. Shadow validation will detect any mismatches.
+     *           If persistent mismatches occur, consider switching to HALF_EVEN.
+     */
+    static BigDecimal calculateTaxExclusiveAmount(
+            BigDecimal lineNetAmt, boolean isTaxIncluded, BigDecimal rate, int precision) {
+        if (lineNetAmt == null) {
+            return BigDecimal.ZERO;
+        }
+        if (!isTaxIncluded || rate == null || rate.compareTo(BigDecimal.ZERO) == 0) {
+            return lineNetAmt;
+        }
+        // LineNetAmt / (1 + Rate/100)
+        // Use 15 decimal places for intermediate precision to match PostgreSQL numeric behavior
+        BigDecimal divisor = BigDecimal.ONE.add(rate.divide(
+            new BigDecimal("100"), 15, RoundingMode.HALF_UP));
+
+        // Guard against division by zero (edge case: rate = -100% produces divisor = 0)
+        if (divisor.compareTo(BigDecimal.ZERO) == 0) {
+            log.warning("Invalid tax rate produces zero divisor: " + rate);
+            return lineNetAmt;
+        }
+
+        return lineNetAmt.divide(divisor, precision, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal linenetamtrealorderline(Integer orderLineId) {

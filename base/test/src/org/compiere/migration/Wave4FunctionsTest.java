@@ -151,4 +151,90 @@ public class Wave4FunctionsTest {
             assertEquals(Timestamp.class, method.getReturnType());
         });
     }
+
+    // ========== linenetamtrealinvoiceline Tests ==========
+
+    @Test
+    void linenetamtrealinvoiceline_nullId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealinvoiceline_invalidId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(-1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealinvoiceline_zeroId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(0);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    // ========== calculateTaxExclusiveAmount Tests ==========
+
+    @Test
+    void calculateTaxExclusiveAmount_nullAmount_returnsZero() {
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            null, true, new BigDecimal("10"), 2);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_notTaxIncluded_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, false, new BigDecimal("10"), 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_nullRate_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, null, 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_zeroRate_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, BigDecimal.ZERO, 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_calculatesCorrectly() {
+        // 110.00 with 10% tax -> 100.00
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("110.00"), true, new BigDecimal("10"), 2);
+        assertEquals(0, new BigDecimal("100.00").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_respectsPrecision() {
+        // 119.00 with 19% tax -> 100.00 exactly
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("119.00"), true, new BigDecimal("19"), 2);
+        assertEquals(0, new BigDecimal("100.00").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_roundsCorrectly() {
+        // 123.45 with 19% tax -> 103.73... rounds to 103.74 (HALF_UP)
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("123.45"), true, new BigDecimal("19"), 2);
+        assertEquals(0, new BigDecimal("103.74").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_negativeTaxRate100_returnsOriginal() {
+        // Edge case: -100% rate would produce zero divisor
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, new BigDecimal("-100"), 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
 }
