@@ -17,23 +17,16 @@ ON CONFLICT (function_name) DO UPDATE SET
     sample_rate = EXCLUDED.sample_rate,
     circuit_breaker_enabled = EXCLUDED.circuit_breaker_enabled;
 
--- Enable SHADOW mode for payment functions after Java implementation is validated
+-- Enable SHADOW mode for all Wave 3 functions after Java implementation is validated
+-- Using 10% sample rate for high-volume functions (invoiceOpen, invoiceOpenToDate)
 UPDATE migration.function_config
-SET mode = 'SHADOW', sample_rate = 1.0
-WHERE function_name IN ('paymentAllocated', 'paymentAvailable');
-
--- Enable SHADOW mode for invoice paid functions after Java implementation is validated
-UPDATE migration.function_config
-SET mode = 'SHADOW', sample_rate = 1.0
-WHERE function_name IN ('invoicePaid', 'invoicePaidToDate');
-
--- Enable SHADOW mode for invoice open functions after Java implementation is validated
--- Using 10% sample rate for high-volume functions
-UPDATE migration.function_config
-SET mode = 'SHADOW', sample_rate = 0.1
-WHERE function_name IN ('invoiceOpen', 'invoiceOpenToDate');
-
--- Enable SHADOW mode for invoice discount after Java implementation is validated
-UPDATE migration.function_config
-SET mode = 'SHADOW', sample_rate = 1.0
-WHERE function_name = 'invoiceDiscount';
+SET mode = 'SHADOW',
+    sample_rate = CASE
+        WHEN function_name IN ('invoiceOpen', 'invoiceOpenToDate') THEN 0.1
+        ELSE COALESCE(sample_rate, 1.0)
+    END
+WHERE function_name IN (
+    'invoiceOpen', 'invoiceOpenToDate', 'invoiceDiscount',
+    'invoicePaid', 'invoicePaidToDate',
+    'paymentAllocated', 'paymentAvailable'
+);
