@@ -87,6 +87,7 @@ public class Wave3ShadowIntegrationTest extends CommonGWSetup {
         assumeTrue(!paidInvoices.isEmpty(), "Need paid invoices");
         assumeTrue(!openInvoices.isEmpty(), "Need open invoices");
         assumeTrue(!allocatedPayments.isEmpty(), "Need allocated payments");
+        assumeTrue(!unallocatedPayments.isEmpty(), "Need unallocated payments");
     }
 
     // ========== invoiceOpen Tests ==========
@@ -255,19 +256,18 @@ public class Wave3ShadowIntegrationTest extends CommonGWSetup {
     Stream<Arguments> invoiceDiscountTestCases() {
         Timestamp payDate = new Timestamp(System.currentTimeMillis());
         return Stream.concat(
-            paidInvoices.stream().map(i -> Arguments.of("paid_" + i.getC_Invoice_ID(), i, null, payDate)),
-            openInvoices.stream().map(i -> Arguments.of("open_" + i.getC_Invoice_ID(), i, null, payDate))
+            paidInvoices.stream().map(i -> Arguments.of("paid_" + i.getC_Invoice_ID(), i, payDate)),
+            openInvoices.stream().map(i -> Arguments.of("open_" + i.getC_Invoice_ID(), i, payDate))
         );
     }
 
     @ParameterizedTest(name = "invoiceDiscount({0})")
     @MethodSource("invoiceDiscountTestCases")
-    void invoiceDiscount_allInvoices_matchSql(String caseName, MInvoice invoice,
-                                               Integer scheduleId, Timestamp payDate) {
+    void invoiceDiscount_allInvoices_matchSql(String caseName, MInvoice invoice, Timestamp payDate) {
         BigDecimal javaResult = InvoiceFunctions.invoiceDiscount(
-            invoice.getC_Invoice_ID(), payDate, scheduleId);
+            invoice.getC_Invoice_ID(), payDate, null);
         BigDecimal sqlResult = SqlFunctionCaller.callInvoiceDiscount(
-            invoice.getC_Invoice_ID(), payDate, scheduleId);
+            invoice.getC_Invoice_ID(), payDate, null);
 
         assertNotNull(javaResult, "Java returned null for " + caseName);
         assertNotNull(sqlResult, "SQL returned null for " + caseName);
