@@ -339,8 +339,47 @@ public class Wave4Functions {
         return lineNetAmt.divide(divisor, precision, RoundingMode.HALF_UP);
     }
 
+    /**
+     * Calculate net amount excluding tax if tax-inclusive pricing.
+     * Equivalent to PostgreSQL linenetamtrealorderline function.
+     *
+     * @param orderLineId C_OrderLine_ID
+     * @return Net amount (tax-exclusive)
+     */
     public static BigDecimal linenetamtrealorderline(Integer orderLineId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (orderLineId == null || orderLineId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        String sql = "SELECT ol.LineNetAmt, pl.IsTaxIncluded, t.Rate, c.StdPrecision "
+            + "FROM C_OrderLine ol "
+            + "INNER JOIN C_Order o ON ol.C_Order_ID = o.C_Order_ID "
+            + "INNER JOIN M_PriceList pl ON o.M_PriceList_ID = pl.M_PriceList_ID "
+            + "INNER JOIN C_Tax t ON ol.C_Tax_ID = t.C_Tax_ID "
+            + "INNER JOIN C_Currency c ON o.C_Currency_ID = c.C_Currency_ID "
+            + "WHERE ol.C_OrderLine_ID = ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for linenetamtrealorderline - DB unavailable");
+                return BigDecimal.ZERO;
+            }
+            pstmt.setInt(1, orderLineId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    BigDecimal lineNetAmt = rs.getBigDecimal("LineNetAmt");
+                    boolean isTaxIncluded = "Y".equals(rs.getString("IsTaxIncluded"));
+                    BigDecimal rate = rs.getBigDecimal("Rate");
+                    int precision = rs.getInt("StdPrecision");
+
+                    return calculateTaxExclusiveAmount(lineNetAmt, isTaxIncluded, rate, precision);
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error calculating line net amount for order line " + orderLineId, e);
+        }
+
+        return BigDecimal.ZERO;
     }
 
     /**

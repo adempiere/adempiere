@@ -237,4 +237,24 @@ public class Wave4FunctionsTest {
             lineNetAmt, true, new BigDecimal("-100"), 2);
         assertEquals(0, lineNetAmt.compareTo(result));
     }
+
+    // ========== linenetamtrealorderline Tests ==========
+
+    @Test
+    void linenetamtrealorderline_nullId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealorderline_invalidId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(-1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealorderline_zeroId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(0);
+        assertEquals(BigDecimal.ZERO, result);
+    }
 }
