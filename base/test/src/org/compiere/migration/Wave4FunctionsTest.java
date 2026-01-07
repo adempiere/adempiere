@@ -97,4 +97,29 @@ public class Wave4FunctionsTest {
             assertEquals(String.class, method.getReturnType());
         });
     }
+
+    @Test
+    void getSysconfig_nullName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig(null, "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_emptyName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig("", "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_whitespaceOnlyName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig("   ", "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_nullClientAndOrg_defaultsToZero() {
+        String result = Wave4Functions.getSysconfig(
+            "NONEXISTENT_CONFIG", "default_value", null, null);
+        assertEquals("default_value", result);
+    }
 }
