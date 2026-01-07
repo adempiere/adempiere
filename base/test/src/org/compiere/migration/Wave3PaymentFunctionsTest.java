@@ -56,7 +56,8 @@ public class Wave3PaymentFunctionsTest extends CommonGWSetup {
             "DocStatus IN ('CO','CL') AND C_Charge_ID > 0", null)
             .setOnlyActiveRecords(true)
             .first();
-        assumeTrue(chargePayment != null, "Need charge payment for test");
+        assumeTrue(chargePayment != null,
+            "SKIPPED: No charge payments found. Need completed payment with C_Charge_ID > 0 to test charge payment behavior.");
 
         BigDecimal result = chargePayment.getAllocatedAmt();
         assertEquals(0, result.compareTo(chargePayment.getPayAmt()),
@@ -70,7 +71,8 @@ public class Wave3PaymentFunctionsTest extends CommonGWSetup {
             "DocStatus IN ('CO','CL') AND IsAllocated='N'", null)
             .setOnlyActiveRecords(true)
             .first();
-        assumeTrue(unallocatedPayment != null, "Need unallocated payment for test");
+        assumeTrue(unallocatedPayment != null,
+            "SKIPPED: No unallocated payments found. Need completed payment with IsAllocated='N' to test unallocated payment behavior.");
 
         BigDecimal result = unallocatedPayment.getAllocatedAmt();
         assertEquals(0, result.compareTo(BigDecimal.ZERO),

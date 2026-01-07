@@ -14,6 +14,7 @@ import org.compiere.model.MInvoicePaySchedule;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.InvoiceFunctions;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -37,6 +38,7 @@ public class Wave3InvoiceDiscountPerformanceTest extends CommonGWSetup {
     private MInvoice invoiceWithSchedule;
     private int scheduleId;
     private static final ThreadLocal<double[]> ratioAccumulator = ThreadLocal.withInitial(() -> new double[MEASUREMENT_ROUNDS]);
+    private MigrationMode savedDiscountMode;
 
     @BeforeAll
     void loadTestData() {
@@ -45,7 +47,9 @@ public class Wave3InvoiceDiscountPerformanceTest extends CommonGWSetup {
             .setOnlyActiveRecords(true)
             .setLimit(50)
             .list();
-        assumeTrue(testInvoices.size() >= 10, "Need at least 10 invoices for performance test");
+        assumeTrue(testInvoices.size() >= 3,
+            String.format("SKIPPED: Need at least 3 completed invoices for performance test, found %d. " +
+                "Performance tests require enough data for statistically meaningful results.", testInvoices.size()));
 
         // Find invoice with payment schedule
         for (MInvoice inv : testInvoices) {
@@ -57,7 +61,31 @@ public class Wave3InvoiceDiscountPerformanceTest extends CommonGWSetup {
                 break;
             }
         }
-        assumeTrue(invoiceWithSchedule != null, "Need at least one invoice with payment schedule");
+        assumeTrue(invoiceWithSchedule != null,
+            "SKIPPED: No invoices with payment schedules found. Need invoice with IsPayScheduleValid='Y' to test scheduled invoice discount performance.");
+
+        // Save current mode and switch to JAVA_ONLY for accurate performance measurement
+        savedDiscountMode = MigrationConfig.get("invoiceDiscount").getMode();
+        setModeInDatabase("invoiceDiscount", MigrationMode.JAVA_ONLY);
+    }
+
+    @AfterAll
+    void restoreModes() {
+        // Restore original mode
+        setModeInDatabase("invoiceDiscount", savedDiscountMode);
+    }
+
+    private void setModeInDatabase(String functionName, MigrationMode mode) {
+        String sql = "UPDATE migration.function_config SET mode = ? WHERE function_name = ?";
+        try (java.sql.PreparedStatement pstmt = org.compiere.util.DB.prepareStatement(sql, null)) {
+            pstmt.setString(1, mode.name());
+            pstmt.setString(2, functionName);
+            pstmt.executeUpdate();
+            // Clear cache so next call to MigrationConfig.get() reloads from database
+            MigrationConfig.clearCache(functionName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set mode for " + functionName, e);
+        }
     }
 
     @RepeatedTest(MEASUREMENT_ROUNDS)

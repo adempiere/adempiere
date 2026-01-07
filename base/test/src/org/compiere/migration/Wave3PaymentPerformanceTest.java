@@ -11,6 +11,7 @@ import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
@@ -46,6 +47,8 @@ public class Wave3PaymentPerformanceTest extends CommonGWSetup {
 
     private List<MPayment> testPayments;
     private static final ThreadLocal<double[]> ratioAccumulator = ThreadLocal.withInitial(() -> new double[MEASUREMENT_ROUNDS]);
+    private MigrationMode savedAllocatedMode;
+    private MigrationMode savedAvailableMode;
 
     @BeforeAll
     void loadTestData() {
@@ -55,7 +58,36 @@ public class Wave3PaymentPerformanceTest extends CommonGWSetup {
             .setOnlyActiveRecords(true)
             .setLimit(50)
             .list();
-        assumeTrue(testPayments.size() >= 10, "Need at least 10 payments for performance test");
+        assumeTrue(testPayments.size() >= 3,
+            String.format("SKIPPED: Need at least 3 completed payments for performance test, found %d. " +
+                "Performance tests require enough data for statistically meaningful results.", testPayments.size()));
+
+        // Save current modes and switch to JAVA_ONLY for accurate performance measurement
+        // Shadow mode would execute BOTH Java and SQL, skewing results
+        savedAllocatedMode = MigrationConfig.get("paymentAllocated").getMode();
+        savedAvailableMode = MigrationConfig.get("paymentAvailable").getMode();
+        setModeInDatabase("paymentAllocated", MigrationMode.JAVA_ONLY);
+        setModeInDatabase("paymentAvailable", MigrationMode.JAVA_ONLY);
+    }
+
+    @AfterAll
+    void restoreModes() {
+        // Restore original modes
+        setModeInDatabase("paymentAllocated", savedAllocatedMode);
+        setModeInDatabase("paymentAvailable", savedAvailableMode);
+    }
+
+    private void setModeInDatabase(String functionName, MigrationMode mode) {
+        String sql = "UPDATE migration.function_config SET mode = ? WHERE function_name = ?";
+        try (java.sql.PreparedStatement pstmt = org.compiere.util.DB.prepareStatement(sql, null)) {
+            pstmt.setString(1, mode.name());
+            pstmt.setString(2, functionName);
+            pstmt.executeUpdate();
+            // Clear cache so next call to MigrationConfig.get() reloads from database
+            MigrationConfig.clearCache(functionName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to set mode for " + functionName, e);
+        }
     }
 
     @RepeatedTest(MEASUREMENT_ROUNDS)

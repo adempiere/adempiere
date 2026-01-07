@@ -122,6 +122,20 @@ public class MigrationConfig {
         return new MigrationConfig(functionName, MigrationMode.SQL_ONLY, 1.0, true);
     }
 
+    /**
+     * Clear cached configuration for a function. Used by tests when database config changes.
+     */
+    public static void clearCache(String functionName) {
+        cache.remove(functionName);
+    }
+
+    /**
+     * Clear all cached configurations. Used by tests.
+     */
+    public static void clearAllCache() {
+        cache.clear();
+    }
+
     public String getFunctionName() { return functionName; }
     public MigrationMode getMode() { return mode; }
     /** Used by ShadowExecutor in Part 2 for probabilistic sampling. */

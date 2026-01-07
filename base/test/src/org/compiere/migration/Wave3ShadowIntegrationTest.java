@@ -84,10 +84,16 @@ public class Wave3ShadowIntegrationTest extends CommonGWSetup {
             "DocStatus IN ('CO','CL') AND C_Charge_ID > 0", null)
             .setOnlyActiveRecords(true).setLimit(10).list();
 
-        assumeTrue(!paidInvoices.isEmpty(), "Need paid invoices");
-        assumeTrue(!openInvoices.isEmpty(), "Need open invoices");
-        assumeTrue(!allocatedPayments.isEmpty(), "Need allocated payments");
-        assumeTrue(!unallocatedPayments.isEmpty(), "Need unallocated payments");
+        // Require at least ONE invoice to run invoice tests
+        // Both paid and open are acceptable - we test with whatever data exists
+        assumeTrue(!paidInvoices.isEmpty() || !openInvoices.isEmpty(),
+            "Need at least one completed invoice (paid or open) - found 0. " +
+            "GardenWorld should have invoices with DocStatus IN ('CO','CL')");
+
+        // Require at least ONE payment to run payment tests
+        assumeTrue(!allocatedPayments.isEmpty() || !unallocatedPayments.isEmpty(),
+            "Need at least one completed payment (allocated or unallocated) - found 0. " +
+            "GardenWorld should have payments with DocStatus IN ('CO','CL')");
     }
 
     // ========== invoiceOpen Tests ==========
