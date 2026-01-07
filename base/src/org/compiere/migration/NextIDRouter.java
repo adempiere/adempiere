@@ -76,6 +76,10 @@ public class NextIDRouter {
         // Note: PostgreSQL nextID is a procedure with OUT param
         String sql = "SELECT nextid(?, ?)";
         try (java.sql.PreparedStatement pstmt = org.compiere.util.DB.prepareStatement(sql, trxName)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for legacy nextID - DB unavailable");
+                return -1;
+            }
             pstmt.setInt(1, adSequenceId);
             pstmt.setString(2, system);
             try (java.sql.ResultSet rs = pstmt.executeQuery()) {
