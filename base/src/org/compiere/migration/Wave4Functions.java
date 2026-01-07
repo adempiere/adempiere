@@ -373,8 +373,87 @@ public class Wave4Functions {
         return " (" + result.toString().trim() + ")";
     }
 
+    /**
+     * Return document number for a PP_MRP record based on order type.
+     * Equivalent to PostgreSQL documentno function.
+     *
+     * @implNote Uses single-query approach with 6 LEFT JOINs regardless of orderType.
+     *           This is an accepted complexity trade-off: documentNo is called infrequently
+     *           (MRP reports/views), PostgreSQL optimizer handles unused JOINs efficiently,
+     *           and single round-trip reduces network latency.
+     *
+     * @param ppMrpId PP_MRP_ID
+     * @return Document number or empty string
+     */
     public static String documentNo(Integer ppMrpId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (ppMrpId == null || ppMrpId <= 0) {
+            return "";
+        }
+
+        // Query order type and related document number
+        String sql = "SELECT mrp.OrderType, "
+            + "f.Name AS ForecastName, "
+            + "po.DocumentNo AS PODocumentNo, "
+            + "ddo.DocumentNo AS DDDocumentNo, "
+            + "so.DocumentNo AS SODocumentNo, "
+            + "mop.DocumentNo AS MOPDocumentNo, "
+            + "req.DocumentNo AS ReqDocumentNo "
+            + "FROM PP_MRP mrp "
+            + "LEFT JOIN M_Forecast f ON mrp.M_Forecast_ID = f.M_Forecast_ID "
+            + "LEFT JOIN C_Order po ON mrp.C_Order_ID = po.C_Order_ID AND mrp.OrderType = 'POO' "
+            + "LEFT JOIN DD_Order ddo ON mrp.DD_Order_ID = ddo.DD_Order_ID AND mrp.OrderType = 'DOO' "
+            + "LEFT JOIN C_Order so ON mrp.C_Order_ID = so.C_Order_ID AND mrp.OrderType = 'SOO' "
+            + "LEFT JOIN PP_Order mop ON mrp.PP_Order_ID = mop.PP_Order_ID AND mrp.OrderType = 'MOP' "
+            + "LEFT JOIN M_Requisition req ON mrp.M_Requisition_ID = req.M_Requisition_ID AND mrp.OrderType = 'POR' "
+            + "WHERE mrp.PP_MRP_ID = ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for documentNo - DB unavailable");
+                return "";
+            }
+            pstmt.setInt(1, ppMrpId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String orderType = rs.getString("OrderType");
+                    if (orderType == null) {
+                        return "";
+                    }
+                    // TRIM orderType to match PostgreSQL: WHEN trim(mrp.ordertype) = 'FTC' THEN ...
+                    orderType = orderType.trim();
+
+                    String docNo = null;
+                    switch (orderType) {
+                        case "FTC":
+                            docNo = rs.getString("ForecastName");
+                            break;
+                        case "POO":
+                            docNo = rs.getString("PODocumentNo");
+                            break;
+                        case "DOO":
+                            docNo = rs.getString("DDDocumentNo");
+                            break;
+                        case "SOO":
+                            docNo = rs.getString("SODocumentNo");
+                            break;
+                        case "MOP":
+                            docNo = rs.getString("MOPDocumentNo");
+                            break;
+                        case "POR":
+                            docNo = rs.getString("ReqDocumentNo");
+                            break;
+                        default:
+                            return "";
+                    }
+
+                    return docNo != null ? docNo : "";
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error fetching document number for MRP " + ppMrpId, e);
+        }
+
+        return "";
     }
 
     /**

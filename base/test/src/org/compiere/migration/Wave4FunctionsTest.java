@@ -278,4 +278,24 @@ public class Wave4FunctionsTest {
         String result = Wave4Functions.productAttribute(-1);
         assertEquals("", result);
     }
+
+    // ========== documentNo Tests ==========
+
+    @Test
+    void documentNo_nullId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(null);
+        assertEquals("", result);
+    }
+
+    @Test
+    void documentNo_zeroId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(0);
+        assertEquals("", result);
+    }
+
+    @Test
+    void documentNo_negativeId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(-1);
+        assertEquals("", result);
+    }
 }
