@@ -217,7 +217,10 @@ public class InvoiceFunctions {
         BigDecimal multiplierAP;
         BigDecimal multiplierCM;
 
-        String headerSql = "SELECT C_Currency_ID, GrandTotal, MultiplierAP, Multiplier "
+        // Use MAX/SUM aggregation to match SQL function behavior
+        // C_Invoice_v returns multiple rows for invoices with payment schedules
+        String headerSql = "SELECT MAX(C_Currency_ID) AS C_Currency_ID, SUM(GrandTotal) AS GrandTotal, "
+            + "MAX(MultiplierAP) AS MultiplierAP, MAX(Multiplier) AS Multiplier "
             + "FROM C_Invoice_v "
             + "WHERE C_Invoice_ID=?";
 
@@ -392,10 +395,13 @@ public class InvoiceFunctions {
         BigDecimal multiplierAP;
         BigDecimal multiplierCM;
 
-        String headerSql = "SELECT C_Currency_ID, GrandTotal, MultiplierAP, Multiplier "
+        // Use MAX/SUM aggregation to match SQL function behavior
+        // C_Invoice_v returns multiple rows for invoices with payment schedules
+        // DateAcct filter is required to match SQL behavior - only include invoice if DateAcct <= cutoffDate
+        String headerSql = "SELECT MAX(C_Currency_ID) AS C_Currency_ID, SUM(GrandTotal) AS GrandTotal, "
+            + "MAX(MultiplierAP) AS MultiplierAP, MAX(Multiplier) AS Multiplier "
             + "FROM C_Invoice_v "
-            + "WHERE C_Invoice_ID=? "
-            + "AND DateAcct <= ?";
+            + "WHERE C_Invoice_ID=? AND DateAcct <= ?";
 
         try (PreparedStatement pstmt = DB.prepareStatement(headerSql, trxName)) {
             pstmt.setInt(1, invoiceId);
@@ -406,6 +412,8 @@ public class InvoiceFunctions {
                     return null;
                 }
                 currencyId = rs.getInt("C_Currency_ID");
+                // If no rows matched the DateAcct filter, aggregation returns NULL values
+                // Continue with grandTotal=ZERO - SQL function uses COALESCE and returns 0, not NULL
                 grandTotal = rs.getBigDecimal("GrandTotal");
                 if (grandTotal == null) grandTotal = BigDecimal.ZERO;
                 multiplierAP = rs.getBigDecimal("MultiplierAP");
