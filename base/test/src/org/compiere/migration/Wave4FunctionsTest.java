@@ -79,4 +79,22 @@ public class Wave4FunctionsTest {
         BigDecimal result = Wave4Functions.acctBalance(null, null, null);
         assertEquals(0, BigDecimal.ZERO.compareTo(result));
     }
+
+    // ========== getSysconfig Tests ==========
+
+    @Test
+    void getSysconfig_returnsDefault_whenNotFound() {
+        String result = Wave4Functions.getSysconfig(
+            "NONEXISTENT_CONFIG", "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_methodSignature() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod(
+                "getSysconfig", String.class, String.class, Integer.class, Integer.class);
+            assertEquals(String.class, method.getReturnType());
+        });
+    }
 }

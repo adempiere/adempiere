@@ -206,8 +206,54 @@ public class Wave4Functions {
         return balance;
     }
 
+    /**
+     * Retrieve system configuration value with precedence.
+     * Equivalent to PostgreSQL get_sysconfig function.
+     *
+     * @param name Configuration name
+     * @param defaultValue Default value if not found
+     * @param clientId AD_Client_ID
+     * @param orgId AD_Org_ID
+     * @return Configuration value or default
+     */
     public static String getSysconfig(String name, String defaultValue, Integer clientId, Integer orgId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (name == null || name.trim().isEmpty()) {
+            return defaultValue;
+        }
+
+        int client = clientId != null ? clientId : 0;
+        int org = orgId != null ? orgId : 0;
+
+        // Query with precedence matching PostgreSQL get_sysconfig exactly:
+        // ORDER BY AD_Client_ID DESC, AD_Org_ID DESC
+        // This gives precedence: (client,org) > (client,0) > (0,org) > (0,0)
+        String sql = "SELECT Value FROM AD_SysConfig "
+            + "WHERE Name = ? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive = 'Y' "
+            + "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC "
+            + "LIMIT 1";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for getSysconfig - DB unavailable");
+                return defaultValue;
+            }
+            pstmt.setString(1, name);
+            pstmt.setInt(2, client);
+            pstmt.setInt(3, org);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String value = rs.getString("Value");
+                    return value != null ? value.trim() : defaultValue;
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error fetching sysconfig " + name, e);
+        } catch (Exception e) {
+            // Handle DB unavailable scenarios (e.g., NPE from PreparedStatementProxy)
+            log.log(Level.WARNING, "DB unavailable for getSysconfig " + name, e);
+        }
+
+        return defaultValue;
     }
 
     public static String productAttribute(Integer attributeSetInstanceId) {
