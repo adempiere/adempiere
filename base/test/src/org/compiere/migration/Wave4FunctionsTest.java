@@ -3,6 +3,7 @@ package org.compiere.migration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
@@ -121,5 +122,27 @@ public class Wave4FunctionsTest {
         String result = Wave4Functions.getSysconfig(
             "NONEXISTENT_CONFIG", "default_value", null, null);
         assertEquals("default_value", result);
+    }
+
+    // ========== maxpaydate Tests ==========
+
+    @Test
+    void maxpaydate_nullInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(null);
+        assertNull(result);
+    }
+
+    @Test
+    void maxpaydate_invalidInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(-1);
+        assertNull(result);
+    }
+
+    @Test
+    void maxpaydate_methodSignature() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod("maxpaydate", Integer.class);
+            assertEquals(Timestamp.class, method.getReturnType());
+        });
     }
 }

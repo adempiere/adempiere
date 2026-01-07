@@ -272,7 +272,50 @@ public class Wave4Functions {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    /**
+     * Find most recent payment date for an invoice.
+     * Equivalent to PostgreSQL maxpaydate function.
+     *
+     * @implNote Query structure differs from PostgreSQL (uses direct JOIN vs LEFT JOIN
+     *           from C_Invoice). Results are equivalent: both return NULL for invalid
+     *           invoice_id or invoice with no payments. This is an acceptable deviation
+     *           that simplifies the query without changing semantics.
+     *
+     * @implNote Performance: Query joins C_AllocationLine -> C_AllocationHdr -> C_Payment
+     *           and filters on C_Invoice_ID. For optimal performance, ensure index exists:
+     *           CREATE INDEX IF NOT EXISTS idx_allocationline_invoice ON C_AllocationLine(C_Invoice_ID);
+     *
+     * @param invoiceId C_Invoice_ID
+     * @return Latest payment date or null
+     */
     public static Timestamp maxpaydate(Integer invoiceId) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        if (invoiceId == null || invoiceId <= 0) {
+            return null;
+        }
+
+        String sql = "SELECT MAX(p.DateTrx) "
+            + "FROM C_AllocationLine al "
+            + "INNER JOIN C_AllocationHdr ah ON al.C_AllocationHdr_ID = ah.C_AllocationHdr_ID "
+            + "INNER JOIN C_Payment p ON al.C_Payment_ID = p.C_Payment_ID "
+            + "WHERE al.C_Invoice_ID = ? "
+            + "AND al.C_Charge_ID IS NULL "
+            + "AND ah.DocStatus <> 'RE'";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                log.warning("Cannot prepare statement for maxpaydate - DB unavailable");
+                return null;
+            }
+            pstmt.setInt(1, invoiceId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getTimestamp(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error fetching max pay date for invoice " + invoiceId, e);
+        }
+
+        return null;
     }
 }
