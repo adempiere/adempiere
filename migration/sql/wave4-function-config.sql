@@ -41,6 +41,31 @@ ON CONFLICT (function_name) DO UPDATE SET
 --                         'linenetamtrealorderline', 'maxpaydate');
 
 -- ========================================================
+-- get_Sysconfig: Already Java-implemented (No Routing Needed)
+-- ========================================================
+--
+-- MSysConfig.getValue() already implements equivalent logic with caching:
+-- - Same precedence logic: ORDER BY AD_Client_ID DESC, AD_Org_ID DESC
+--   Priority: (client, org) > (client, 0) > (0, org) > (0, 0)
+-- - Returns default value when not found
+-- - Java enhancement: CCache for performance (no database hit on repeated calls)
+--
+-- The SQL function (db/ddlutils/postgresql/functions/get_Sysconfig.sql) uses:
+--   SELECT Value FROM AD_SysConfig
+--   WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?)
+--   ORDER BY AD_Client_ID DESC, AD_Org_ID DESC LIMIT 1
+--
+-- MSysConfig.getValue() (base/src/org/compiere/model/MSysConfig.java) uses:
+--   SELECT Value FROM AD_SysConfig
+--   WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive='Y'
+--   ORDER BY AD_Client_ID DESC, AD_Org_ID DESC
+--
+-- Set to JAVA_ONLY immediately (no shadow mode needed):
+-- UPDATE migration.function_config
+-- SET mode = 'JAVA_ONLY', updated = NOW()
+-- WHERE function_name = 'get_Sysconfig';
+
+-- ========================================================
 -- Cutover to JAVA_ONLY (after 7 days at 99.9% match rate)
 -- ========================================================
 
