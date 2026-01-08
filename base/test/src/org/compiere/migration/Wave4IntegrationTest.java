@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -118,7 +119,9 @@ public class Wave4IntegrationTest extends CommonGWSetup {
         String javaResult = Wave4Functions.getSysconfig(name, defaultValue, clientId, orgId);
         String sqlResult = SqlFunctionCaller.callGetSysconfig(name, defaultValue, clientId, orgId);
 
-        assertEquals(sqlResult, javaResult);
+        assertEquals(sqlResult, javaResult,
+            () -> String.format("getSysconfig mismatch for '%s': java='%s', sql='%s'",
+                name, javaResult, sqlResult));
     }
 
     @ParameterizedTest
@@ -152,5 +155,23 @@ public class Wave4IntegrationTest extends CommonGWSetup {
         assertEquals(sqlResult, javaResult,
             () -> String.format("Mismatch for ASI %d: java='%s', sql='%s'",
                 attributeSetInstanceId, javaResult, sqlResult));
+    }
+
+    @Test
+    void documentNo_invalidId_javaMatchesSql() {
+        String javaResult = Wave4Functions.documentNo(-1);
+        String sqlResult = SqlFunctionCaller.callDocumentNo(-1);
+        assertEquals(sqlResult, javaResult,
+            () -> String.format("documentNo mismatch for id=-1: java='%s', sql='%s'",
+                javaResult, sqlResult));
+    }
+
+    @Test
+    void maxpaydate_invalidId_javaMatchesSql() {
+        Timestamp javaResult = Wave4Functions.maxpaydate(-1);
+        Timestamp sqlResult = SqlFunctionCaller.callMaxpaydate(-1);
+        assertEquals(sqlResult, javaResult,
+            () -> String.format("maxpaydate mismatch for id=-1: java=%s, sql=%s",
+                javaResult, sqlResult));
     }
 }
