@@ -68,10 +68,17 @@ WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
 -- ========================================================
 -- Cutover to JAVA_ONLY (after 7 days at 99.9% match rate)
 -- ========================================================
-
--- Uncomment after successful SHADOW validation:
--- UPDATE migration.function_config
--- SET mode = 'JAVA_ONLY'
--- WHERE function_name IN ('nextID', 'nextIDFunc', 'acctBalance', 'productAttribute',
---                         'documentNo', 'get_Sysconfig', 'linenetamtrealinvoiceline',
---                         'linenetamtrealorderline', 'maxpaydate');
+--
+-- QUALITY GATES CHECKLIST - All must be verified before running:
+-- [ ] 99.9% match rate for 7 consecutive days
+-- [ ] No critical mismatches
+-- [ ] Performance within tier budget (5% for CRITICAL, 30% for STANDARD)
+-- [ ] Rollback tested
+--
+-- This SQL should only be run after human verification of the above quality gates.
+--
+UPDATE migration.function_config
+SET mode = 'JAVA_ONLY'
+WHERE function_name IN ('nextID', 'nextIDFunc', 'acctBalance', 'productAttribute',
+                        'documentNo', 'get_Sysconfig', 'linenetamtrealinvoiceline',
+                        'linenetamtrealorderline', 'maxpaydate');
