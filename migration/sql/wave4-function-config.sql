@@ -26,12 +26,12 @@ ON CONFLICT (function_name) DO UPDATE SET
 -- Run this after code deployment to start validation
 -- ========================================================
 
--- Uncomment to enable SHADOW mode:
--- UPDATE migration.function_config
--- SET mode = 'SHADOW', sample_rate = 1.0
--- WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
---                         'get_Sysconfig', 'linenetamtrealinvoiceline',
---                         'linenetamtrealorderline', 'maxpaydate');
+-- Enable SHADOW mode:
+UPDATE migration.function_config
+SET mode = 'SHADOW', sample_rate = 1.0
+WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
+                        'get_Sysconfig', 'linenetamtrealinvoiceline',
+                        'linenetamtrealorderline', 'maxpaydate');
 
 -- Verify configuration:
 -- SELECT function_name, mode, sample_rate, circuit_breaker_enabled
