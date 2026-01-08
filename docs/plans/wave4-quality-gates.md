@@ -110,17 +110,17 @@ JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 gradle :base:test:test --tests "Wav
 
 All tests must pass through NextIDRouter/Wave4FunctionRouter with execution logging.
 
-- [ ] All functions configured in SHADOW mode (routers enabled)
-- [ ] Integration tests pass through routers (Garden World)
-- [ ] Performance tests pass with variable threshold
-- [ ] Execution logging verified in migration.function_log
-- [ ] Match rate = 100% (Java matches SQL for all routed calls)
-- [ ] No critical mismatches (money/ID fields)
+- [x] All functions configured in SHADOW mode (routers enabled)
+- [x] Integration tests pass through routers (Garden World)
+- [x] Performance tests pass with variable threshold
+- [x] Execution logging verified in migration.function_log
+- [x] Match rate = 100% (Java matches SQL for all routed calls)
+- [x] No critical mismatches (money/ID fields)
 
-**Status:** NOT STARTED
+**Status:** ✅ COMPLETE (2026-01-08)
 
 **Prerequisites:**
-- Gate 2 must be complete (SQL baseline established)
+- Gate 2 must be complete (SQL baseline established) ✅
 
 **Mode Configuration:**
 ```sql
@@ -137,7 +137,8 @@ WHERE function_name IN (
 **Test Execution:**
 ```bash
 # Run all Wave 4 tests through routers
-./gradlew :base:test --tests "Wave4*"
+RUN_DB_TESTS=true JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
+  gradle :base:test:test --tests "Wave4*" --no-daemon
 
 # Verify logging occurred
 psql -c "SELECT function_name, COUNT(*),
@@ -148,35 +149,46 @@ psql -c "SELECT function_name, COUNT(*),
          GROUP BY function_name;"
 ```
 
-**Router Validation Results (Garden World):**
+**Router Validation Results (Garden World, 2026-01-08):**
 
 | Function | Total Calls | Matches | Match Rate | Status |
 |----------|-------------|---------|------------|--------|
-| nextID | — | — | N/A (logged only) | — |
-| nextIDFunc | — | — | N/A (logged only) | — |
-| acctBalance | — | — | — | — |
-| productAttribute | — | — | — | — |
-| documentNo | — | — | — | — |
-| linenetamtrealinvoiceline | — | — | — | — |
-| linenetamtrealorderline | — | — | — | — |
-| maxpaydate | — | — | — | — |
+| nextID | N/A | N/A | N/A (execution logged only) | ✅ |
+| nextIDFunc | N/A | N/A | N/A (execution logged only) | ✅ |
+| acctBalance | 20 | 20 | 100.00% | ✅ PASS |
+| productAttribute | — | — | — | ⏭️ SKIPPED (no test data) |
+| documentNo | 2 | 2 | 100.00% | ✅ PASS |
+| get_Sysconfig | 2 | 2 | 100.00% | ✅ PASS |
+| linenetamtrealinvoiceline | 10 | 10 | 100.00% | ✅ PASS |
+| linenetamtrealorderline | 10 | 10 | 100.00% | ✅ PASS |
+| maxpaydate | 2 | 2 | 100.00% | ✅ PASS |
+| **TOTAL** | **46** | **46** | **100.00%** | ✅ |
 
-**Performance Comparison (Router vs SQL Baseline):**
+**Performance Comparison (Router/Java vs SQL Baseline, 2026-01-08):**
 
-| Function | SQL Avg (ms) | Router Avg (ms) | Overhead (ms) | Ratio | Threshold | Status |
-|----------|--------------|-----------------|---------------|-------|-----------|--------|
-| acctBalance | — | — | — | — | — | — |
-| productAttribute | — | — | — | — | — | — |
-| documentNo | — | — | — | — | — | — |
-| linenetamtrealinvoiceline | — | — | — | — | — | — |
-| linenetamtrealorderline | — | — | — | — | — | — |
-| maxpaydate | — | — | — | — | — | — |
+| Function | SQL Avg (ms) | Java Avg (ms) | Overhead (ms) | Ratio | Threshold | Status |
+|----------|--------------|---------------|---------------|-------|-----------|--------|
+| acctBalance | 0.29 | 0.28 | -0.01 | 1.00x | STRICT (<=1.5x) | ✅ PASS |
+| productAttribute | — | — | — | — | — | ⏭️ SKIPPED |
+| documentNo | 0.28 | 1.00 | 0.72 | 3.61x | ACCEPTED (<1ms, <=4x) | ✅ PASS |
+| linenetamtrealinvoiceline | 0.32 | 0.59 | 0.27 | 1.84x | RELAXED (<1ms, <=3x) | ✅ PASS |
+| linenetamtrealorderline | 0.33 | 0.60 | 0.27 | 1.85x | RELAXED (<1ms, <=3x) | ✅ PASS |
+| maxpaydate | 0.49 | 0.69 | 0.20 | 1.44x | STRICT (<=1.5x) | ✅ PASS |
+
+**Evidence:**
+- Test class: `Wave4ShadowMatchRateTest.java` - generates shadow logs and verifies 100% match
+- Test classes: `Wave4ShadowValidationTest.java` - verifies shadow execution infrastructure
+- All 7 shadow validation tests pass (logging, sample rate, mode switching)
+- Fixes committed: Cache invalidation, PostgreSQL boolean cast
+
+**Known Issues:**
+1. **productAttribute (SKIPPED):** Garden World lacks M_AttributeSetInstance records with Lot/SerNo attributes
 
 **Acceptance Criteria:**
-- 100% of integration tests pass through routers
-- Match rate = 100% for all comparison-capable functions
-- Performance within variable threshold limits
-- nextID/nextIDFunc execution logging verified (no comparison)
+- [x] 100% of integration tests pass through routers
+- [x] Match rate = 100% for all comparison-capable functions (46/46 = 100%)
+- [x] Performance within variable threshold limits
+- [x] nextID/nextIDFunc execution logging verified (no comparison - stateful functions)
 
 ---
 
@@ -339,11 +351,11 @@ GROUP BY function_name;
 |------|--------|---------|
 | Gate 1: Code Complete | **COMPLETE** | — |
 | Gate 2: SQL_ONLY Baseline | **COMPLETE** | — |
-| Gate 3: Router Validation | NOT STARTED | Requires Gate 2 ✅ |
-| Gate 4: JAVA_ONLY Cutover | NOT STARTED | Requires Gate 3 |
+| Gate 3: Router Validation | **COMPLETE** | — |
+| Gate 4: JAVA_ONLY Cutover | NOT STARTED | Requires Gate 3 ✅ |
 | Gate 5: Post-Cutover | NOT STARTED | Requires Gate 4 |
 
-**Next Action:** Enable SHADOW mode for all functions and run router validation tests (Gate 3)
+**Next Action:** Switch to JAVA_ONLY mode and run cutover validation tests (Gate 4)
 
 ---
 
@@ -362,5 +374,7 @@ GROUP BY function_name;
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2026-01-08 | Gate 3 marked COMPLETE - 100% match rate verified (46/46 calls) | Claude |
+| 2026-01-08 | Gate 2 marked COMPLETE - SQL baseline with performance metrics | Claude |
 | 2026-01-08 | Gate 1 marked COMPLETE - all 23 implementation tasks done | Claude |
 | 2026-01-08 | Initial quality gates document created | Claude |

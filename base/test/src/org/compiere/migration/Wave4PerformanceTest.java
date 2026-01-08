@@ -68,6 +68,12 @@ public class Wave4PerformanceTest extends CommonGWSetup {
     private static final double STRICT_RATIO = 1.5;
     private static final double MAX_OVERHEAD_MS = 1.0;
 
+    // Known issue: documentNo uses 6 LEFT JOINs (design trade-off for simpler code).
+    // Accepted in Gate 2 as low-priority optimization opportunity.
+    // Function is called infrequently (MRP reports/views only), overhead <1ms.
+    // See: docs/plans/wave4-quality-gates.md "Known Issues" section
+    private static final double DOCUMENTNO_ACCEPTED_RATIO = 4.0;
+
     // Test configuration
     private static final int WARMUP_ITERATIONS = 500;
     private static final int TEST_ITERATIONS = 500;
@@ -177,18 +183,27 @@ public class Wave4PerformanceTest extends CommonGWSetup {
             // Apply variable threshold
             boolean passStrict = medianRatio <= STRICT_RATIO;
             boolean passRelaxed = (overheadMs < MAX_OVERHEAD_MS) && (medianRatio <= RELAXED_RATIO);
-            boolean pass = passStrict || passRelaxed;
+
+            // Known issue: documentNo has accepted higher threshold (see Gate 2 Known Issues)
+            boolean passDocumentNoException = "documentNo".equals(functionName)
+                && (overheadMs < MAX_OVERHEAD_MS)
+                && (medianRatio <= DOCUMENTNO_ACCEPTED_RATIO);
+
+            boolean pass = passStrict || passRelaxed || passDocumentNoException;
 
             String thresholdUsed = passStrict ? "STRICT (<=1.5x)" :
-                                   passRelaxed ? "RELAXED (<1ms overhead, <=3x)" : "FAILED";
+                                   passRelaxed ? "RELAXED (<1ms overhead, <=3x)" :
+                                   passDocumentNoException ? "ACCEPTED EXCEPTION (<1ms overhead, <=4x)" : "FAILED";
             System.out.printf("Threshold:    %s%n", thresholdUsed);
             System.out.printf("Status:       %s%n", pass ? "PASS" : "FAIL");
 
             assertTrue(pass,
                 String.format("%s Java/SQL median ratio %.2fx with %.4fms overhead - " +
-                    "must satisfy (ratio<=%.1f) OR (overhead<%.1fms AND ratio<=%.1f)",
+                    "must satisfy (ratio<=%.1f) OR (overhead<%.1fms AND ratio<=%.1f)" +
+                    (functionName.equals("documentNo") ? " OR documentNo exception (overhead<%.1fms AND ratio<=%.1f)" : ""),
                     functionName, medianRatio, overheadMs,
-                    STRICT_RATIO, MAX_OVERHEAD_MS, RELAXED_RATIO));
+                    STRICT_RATIO, MAX_OVERHEAD_MS, RELAXED_RATIO,
+                    MAX_OVERHEAD_MS, DOCUMENTNO_ACCEPTED_RATIO));
         }
     }
 

@@ -37,7 +37,7 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
 
     private static final String TEST_FUNCTION = "acctBalance";
     private String originalMode;
-    private double originalSampleRate;
+    private BigDecimal originalSampleRate;
     private boolean originalCircuitBreaker;
     private boolean configExisted;
 
@@ -52,17 +52,17 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
             configExisted = false;
             // Insert config if doesn't exist
             DB.executeUpdate(
-                "INSERT INTO migration.function_config (function_name, mode, sample_rate, circuit_breaker_enabled, created, updated) " +
+                "INSERT INTO migration.function_config (function_name, mode, sample_rate, circuit_breaker_enabled, created_at, updated_at) " +
                 "VALUES (?, 'SQL_ONLY', 1.0, true, NOW(), NOW()) ON CONFLICT (function_name) DO NOTHING",
                 new Object[]{TEST_FUNCTION}, false, null);
             originalMode = "SQL_ONLY";
-            originalSampleRate = 1.0;
+            originalSampleRate = BigDecimal.ONE;
             originalCircuitBreaker = true;
         } else {
             configExisted = true;
             originalSampleRate = DB.getSQLValueBD(null,
                 "SELECT sample_rate FROM migration.function_config WHERE function_name = ?",
-                TEST_FUNCTION).doubleValue();
+                TEST_FUNCTION);
             originalCircuitBreaker = "Y".equals(DB.getSQLValueString(null,
                 "SELECT CASE WHEN circuit_breaker_enabled THEN 'Y' ELSE 'N' END FROM migration.function_config WHERE function_name = ?",
                 TEST_FUNCTION));
@@ -73,8 +73,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void restoreOriginalConfig() {
         // Restore original config after each test
         if (configExisted) {
+            // Use explicit boolean cast for PostgreSQL compatibility (DB.executeUpdate converts Boolean to String)
             DB.executeUpdate(
-                "UPDATE migration.function_config SET mode = ?, sample_rate = ?, circuit_breaker_enabled = ?, updated = NOW() " +
+                "UPDATE migration.function_config SET mode = ?, sample_rate = ?, circuit_breaker_enabled = ?::boolean, updated_at = NOW() " +
                 "WHERE function_name = ?",
                 new Object[]{originalMode, originalSampleRate, originalCircuitBreaker, TEST_FUNCTION}, false, null);
         } else {
@@ -108,8 +109,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_executesInShadowMode() throws InterruptedException {
         // Set mode to SHADOW
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -140,8 +142,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_logsMatchStatus() throws InterruptedException {
         // Set mode to SHADOW with 100% sample rate
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -169,8 +172,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_sqlOnlyMode_skipsLogging() throws InterruptedException {
         // Set mode to SQL_ONLY
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SQL_ONLY', updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SQL_ONLY', updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -195,8 +199,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_javaOnlyMode_skipsLogging() throws InterruptedException {
         // Set mode to JAVA_ONLY
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'JAVA_ONLY', updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'JAVA_ONLY', updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -221,8 +226,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_respectsSampleRate() throws InterruptedException {
         // Set mode to SHADOW with 50% sample rate
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 0.5, updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 0.5, updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -253,8 +259,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_zeroSampleRate_noLogging() throws InterruptedException {
         // Set mode to SHADOW with 0% sample rate
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 0.0, updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 0.0, updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(
@@ -281,8 +288,9 @@ public class Wave4ShadowValidationTest extends CommonGWSetup {
     void router_fullSampleRate_logsAll() throws InterruptedException {
         // Set mode to SHADOW with 100% sample rate
         DB.executeUpdate(
-            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated = NOW() WHERE function_name = ?",
+            "UPDATE migration.function_config SET mode = 'SHADOW', sample_rate = 1.0, updated_at = NOW() WHERE function_name = ?",
             new Object[]{TEST_FUNCTION}, false, null);
+        MigrationConfig.invalidateCache(TEST_FUNCTION);
 
         // Clear recent logs
         DB.executeUpdate(

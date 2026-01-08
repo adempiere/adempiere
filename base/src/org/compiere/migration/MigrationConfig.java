@@ -122,6 +122,22 @@ public class MigrationConfig {
         return new MigrationConfig(functionName, MigrationMode.SQL_ONLY, 1.0, true);
     }
 
+    /**
+     * Invalidate cache for a specific function.
+     * Use after directly updating migration.function_config in tests.
+     */
+    public static void invalidateCache(String functionName) {
+        cache.remove(functionName);
+    }
+
+    /**
+     * Clear entire cache.
+     * Use in test setup/teardown.
+     */
+    public static void clearCache() {
+        cache.clear();
+    }
+
     public String getFunctionName() { return functionName; }
     public MigrationMode getMode() { return mode; }
     /** Used by ShadowExecutor in Part 2 for probabilistic sampling. */
