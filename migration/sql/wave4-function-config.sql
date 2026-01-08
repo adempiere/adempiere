@@ -22,13 +22,30 @@ ON CONFLICT (function_name) DO UPDATE SET
     circuit_breaker_enabled = EXCLUDED.circuit_breaker_enabled;
 
 -- ========================================================
--- Enable SHADOW mode for Wave 4 Functions (except nextID/nextIDFunc which start in SHADOW)
--- Run this after code deployment to start validation
+-- GATE 3: Enable SHADOW Mode for Router Validation
+-- ========================================================
+--
+-- Prerequisites:
+--   - Gate 2 (SQL_ONLY Baseline) complete
+--   - Java implementations deployed
+--   - Tests pass against SQL functions
+--
+-- This enables SHADOW mode where both Java and SQL are executed,
+-- results are compared, and mismatches are logged for analysis.
+--
+-- Note: nextID/nextIDFunc already start in SHADOW mode (lines 10-11)
+--       because they are sequence functions requiring immediate validation.
+--
+-- For a complete Gate 3 setup script with verification, use:
+--   psql -f migration/sql/wave4-gate3-shadow-mode.sql
+--
 -- ========================================================
 
--- Enable SHADOW mode:
+-- Enable SHADOW mode for all Wave 4 functions:
 UPDATE migration.function_config
-SET mode = 'SHADOW', sample_rate = 1.0
+SET mode = 'SHADOW',
+    sample_rate = 1.0,
+    updated_at = NOW()
 WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
                         'get_Sysconfig', 'linenetamtrealinvoiceline',
                         'linenetamtrealorderline', 'maxpaydate');
@@ -38,7 +55,11 @@ WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
 -- FROM migration.function_config
 -- WHERE function_name IN ('nextID', 'nextIDFunc', 'acctBalance', 'productAttribute',
 --                         'documentNo', 'get_Sysconfig', 'linenetamtrealinvoiceline',
---                         'linenetamtrealorderline', 'maxpaydate');
+--                         'linenetamtrealorderline', 'maxpaydate')
+-- ORDER BY function_name;
+--
+-- For comprehensive verification queries, use:
+--   psql -f migration/sql/wave4-gate3-verify.sql
 
 -- ========================================================
 -- get_Sysconfig: Already Java-implemented (No Routing Needed)
@@ -62,7 +83,7 @@ WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
 --
 -- Set to JAVA_ONLY immediately (no shadow mode needed):
 -- UPDATE migration.function_config
--- SET mode = 'JAVA_ONLY', updated = NOW()
+-- SET mode = 'JAVA_ONLY', updated_at = NOW()
 -- WHERE function_name = 'get_Sysconfig';
 
 -- ========================================================
