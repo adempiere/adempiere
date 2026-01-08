@@ -71,7 +71,8 @@ test {
     jvmArgs = [
         '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-        '-Dfile.encoding=UTF-8'
+        '-Dfile.encoding=UTF-8',
+        '-Djava.awt.headless=true'
     ]
 
     // Test logging
@@ -108,7 +109,8 @@ task integrationTest(type: Test) {
     jvmArgs = [
         '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-        '-Dfile.encoding=UTF-8'
+        '-Dfile.encoding=UTF-8',
+        '-Djava.awt.headless=true'
     ]
 
     testLogging {

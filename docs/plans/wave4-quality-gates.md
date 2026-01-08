@@ -18,20 +18,29 @@ This document defines the quality gates for Wave 4 standalone functions migratio
 
 ## Gate 1: Code Complete
 
-- [ ] All 9 Java implementations complete in Wave4Functions.java
-- [ ] StringComparator infrastructure created
-- [ ] SqlFunctionCaller methods added for all 7 SQL-callable functions
-- [ ] NextIDRouter created with execution logging
-- [ ] Wave4FunctionRouter created with ShadowExecutor integration
-- [ ] Unit tests pass for all functions
-- [ ] View dependency analysis complete (Task 0.2)
+- [x] All 9 Java implementations complete in Wave4Functions.java
+- [x] StringComparator infrastructure created
+- [x] SqlFunctionCaller methods added for all 7 SQL-callable functions
+- [x] NextIDRouter created with execution logging
+- [x] Wave4FunctionRouter created with ShadowExecutor integration
+- [x] Unit tests pass for all functions
+- [x] View dependency analysis complete (Task 0.2)
 
-**Status:** NOT STARTED
+**Status:** COMPLETE (2026-01-08)
 
-**Evidence Required:**
-- Commits for each task group (0-5)
-- Unit test results: `Wave4FunctionsTest`, `NextIDRouterTest`, `Wave4FunctionRouterTest`
-- View dependency documentation in design doc
+**Evidence:**
+- All 23 tasks committed (see git log on `wave4` branch)
+- Unit tests: `Wave4FunctionsTest`, `NextIDRouterTest`, `Wave4FunctionRouterTest`
+- Integration tests: `Wave4IntegrationTest`, `Wave4ShadowValidationTest`
+- Call sites documented in `docs/plans/wave4-call-sites.md`
+
+**Key Commits:**
+- `083adfb77` - Quality gates document
+- `31f2a2209` - Wave4FunctionRouter with shadow execution
+- `22240d1a9` - MSequence wired to NextIDRouter
+- `61dc0a982` - acctBalance implementation
+- `18e3c170c` - productAttribute implementation
+- `bb980e1d3` - documentNo implementation
 
 ---
 
@@ -322,13 +331,13 @@ GROUP BY function_name;
 
 | Gate | Status | Blocker |
 |------|--------|---------|
-| Gate 1: Code Complete | NOT STARTED | Implementation in progress |
-| Gate 2: SQL_ONLY Baseline | NOT STARTED | Requires Gate 1, Performance tests needed |
+| Gate 1: Code Complete | **COMPLETE** | — |
+| Gate 2: SQL_ONLY Baseline | NOT STARTED | Performance tests needed |
 | Gate 3: Router Validation | NOT STARTED | Requires Gate 2 |
 | Gate 4: JAVA_ONLY Cutover | NOT STARTED | Requires Gate 3 |
 | Gate 5: Post-Cutover | NOT STARTED | Requires Gate 4 |
 
-**Next Action:** Complete Gate 1 (all 23 tasks in implementation plan)
+**Next Action:** Create `Wave4PerformanceTest.java` and establish SQL baseline (Gate 2)
 
 ---
 
@@ -347,4 +356,5 @@ GROUP BY function_name;
 
 | Date | Change | Author |
 |------|--------|--------|
+| 2026-01-08 | Gate 1 marked COMPLETE - all 23 implementation tasks done | Claude |
 | 2026-01-08 | Initial quality gates document created | Claude |

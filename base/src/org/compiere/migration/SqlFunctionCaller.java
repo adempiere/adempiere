@@ -508,11 +508,11 @@ public class SqlFunctionCaller {
     }
 
     /**
-     * Call acct_balance(p_Account_ID, p_AmtDr, p_AmtCr)
+     * Call acctbalance(p_Account_ID, p_AmtDr, p_AmtCr)
      * @return balance amount
      */
     public static BigDecimal callAcctBalance(Integer accountId, BigDecimal amtDr, BigDecimal amtCr) {
-        String sql = "SELECT acct_balance(?, ?, ?)";
+        String sql = "SELECT acctbalance(?, ?, ?)";
         try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
             pstmt.setObject(1, accountId, Types.INTEGER);
             pstmt.setBigDecimal(2, amtDr);
