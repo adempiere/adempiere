@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
 import org.adempiere.test.CommonGWSetup;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,10 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * Performance tests for Wave 4 standalone functions.
@@ -60,13 +61,15 @@ import java.util.List;
 @Execution(ExecutionMode.SAME_THREAD)
 public class Wave4PerformanceTest extends CommonGWSetup {
 
+    private static final CLogger log = CLogger.getCLogger(Wave4PerformanceTest.class);
+
     // Variable threshold constants (from quality gates)
     private static final double RELAXED_RATIO = 3.0;
     private static final double STRICT_RATIO = 1.5;
     private static final double MAX_OVERHEAD_MS = 1.0;
 
     // Test configuration
-    private static final int WARMUP_ITERATIONS = 100;
+    private static final int WARMUP_ITERATIONS = 500;
     private static final int TEST_ITERATIONS = 500;
     private static final int MEASUREMENT_ROUNDS = 5;
 
@@ -128,7 +131,7 @@ public class Wave4PerformanceTest extends CommonGWSetup {
                 ids.add(rs.getInt(1));
             }
         } catch (Exception e) {
-            // Return empty array if query fails
+            log.log(Level.WARNING, "Failed to query test IDs: " + sql, e);
         }
         return ids.stream().mapToInt(Integer::intValue).toArray();
     }
@@ -148,7 +151,7 @@ public class Wave4PerformanceTest extends CommonGWSetup {
      */
     private void validatePerformance(String functionName, RepetitionInfo info,
                                       long javaTimeNs, long sqlTimeNs) {
-        double ratio = (double) javaTimeNs / sqlTimeNs;
+        double ratio = (sqlTimeNs > 0) ? (double) javaTimeNs / sqlTimeNs : Double.MAX_VALUE;
         ratioAccumulator[info.getCurrentRepetition() - 1] = ratio;
         sqlTimesNs[info.getCurrentRepetition() - 1] = sqlTimeNs;
         javaTimesNs[info.getCurrentRepetition() - 1] = javaTimeNs;
