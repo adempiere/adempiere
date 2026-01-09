@@ -495,6 +495,28 @@ public class Wave5Functions {
     }
 
     /**
+     * Calculate BOM quantity ordered.
+     * Equivalent to PostgreSQL bomqtyordered function.
+     *
+     * @param productId M_Product_ID
+     * @param warehouseId M_Warehouse_ID (may be null if locatorId provided)
+     * @param locatorId M_Locator_ID fallback
+     * @return Ordered quantity for BOM components
+     */
+    public static BigDecimal bomQtyOrdered(Integer productId, Integer warehouseId, Integer locatorId) {
+        if (productId == null || productId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        Integer resolvedWarehouse = resolveWarehouse(warehouseId, locatorId);
+        if (resolvedWarehouse == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return calculateBomQty(productId, resolvedWarehouse, "QtyOrdered");
+    }
+
+    /**
      * Generic BOM quantity calculator for OnHand, Reserved, Ordered.
      *
      * Stocked BOM Product Handling:
