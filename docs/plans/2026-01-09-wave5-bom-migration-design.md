@@ -8,7 +8,7 @@
 
 **Tech Stack:** Java 17, ADempiere model layer, JUnit 5
 
-**Review Status:** Approved with changes per `docs/plans/2026-01-09-wave5-bom-migration-design-critical-review-2.md`
+**Review Status:** Approved with changes per `docs/plans/2026-01-09-wave5-bom-migration-design-critical-review-3.md`
 
 ---
 
@@ -511,18 +511,29 @@ private record PriceStackEntry(
  * Generic BOM price calculator supporting PriceLimit, PriceList, and PriceStd.
  * Uses batch-loaded tree with ancestor-path circular detection.
  *
+ * Query optimization:
+ * - 1 query: Load BOM tree (CTE)
+ * - 1 query: Batch load all product prices
+ * - Total: 2 queries regardless of BOM depth or component count
+ *
  * Note: Retry/circuit breaker logic is handled by ShadowExecutor.
  * Individual function methods fail fast; ShadowExecutor manages fallback to SQL.
  */
 private static BigDecimal calculateBomPrice(int productId, int priceListVersionId, String priceColumn) {
-    // First try direct price lookup
-    BigDecimal directPrice = getProductPrice(productId, priceListVersionId, priceColumn);
-    if (directPrice != null && directPrice.compareTo(BigDecimal.ZERO) != 0) {
+    // Load entire BOM tree in single query
+    Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
+
+    // Pre-load all product prices in single query (eliminates N+1 pattern)
+    Set<Integer> allProductIds = collectAllProductIds(bomTree);
+    allProductIds.add(productId); // Include root
+    Map<Integer, BigDecimal> prices = getProductPricesBatch(allProductIds, priceListVersionId, priceColumn);
+
+    // Check root price first
+    BigDecimal directPrice = prices.getOrDefault(productId, BigDecimal.ZERO);
+    if (directPrice.compareTo(BigDecimal.ZERO) != 0) {
         return directPrice;
     }
 
-    // Load entire BOM tree in single query
-    Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
     if (bomTree.isEmpty()) {
         return BigDecimal.ZERO;
     }
@@ -543,9 +554,9 @@ private static BigDecimal calculateBomPrice(int productId, int priceListVersionI
             continue;
         }
 
-        // Try to get direct price for this component
-        BigDecimal componentPrice = getProductPrice(entry.productId, priceListVersionId, priceColumn);
-        if (componentPrice != null && componentPrice.compareTo(BigDecimal.ZERO) != 0) {
+        // Try to get price from pre-loaded batch
+        BigDecimal componentPrice = prices.getOrDefault(entry.productId, BigDecimal.ZERO);
+        if (componentPrice.compareTo(BigDecimal.ZERO) != 0) {
             totalPrice = totalPrice.add(componentPrice.multiply(entry.multiplier));
         } else {
             // No direct price - process BOM children from pre-loaded tree
@@ -592,6 +603,63 @@ private static BigDecimal getProductPrice(int productId, int priceListVersionId,
         log.log(Level.WARNING, "Error getting product price for " + productId, e);
     }
     return null;
+}
+
+/**
+ * Load product prices for multiple products in single query.
+ * Eliminates N+1 pattern for price lookups during BOM traversal.
+ *
+ * Uses PostgreSQL array binding for scalability.
+ *
+ * @param productIds Set of M_Product_IDs to query
+ * @param priceListVersionId M_PriceList_Version_ID
+ * @param priceColumn PriceLimit, PriceList, or PriceStd
+ * @return Map of productId -> price
+ */
+private static Map<Integer, BigDecimal> getProductPricesBatch(
+        Set<Integer> productIds, int priceListVersionId, String priceColumn) {
+    if (productIds.isEmpty()) {
+        return Collections.emptyMap();
+    }
+
+    if (!priceColumn.matches("^(PriceLimit|PriceList|PriceStd)$")) {
+        throw new IllegalArgumentException("Invalid price column: " + priceColumn);
+    }
+
+    String sql = "SELECT M_Product_ID, COALESCE(" + priceColumn + ", 0) AS price " +
+        "FROM M_ProductPrice " +
+        "WHERE M_PriceList_Version_ID = ? " +
+        "AND M_Product_ID = ANY(?)";
+
+    Map<Integer, BigDecimal> result = new HashMap<>();
+    try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+        if (pstmt == null) return result;
+        pstmt.setInt(1, priceListVersionId);
+        Integer[] productArray = productIds.toArray(new Integer[0]);
+        pstmt.setArray(2, pstmt.getConnection().createArrayOf("integer", productArray));
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                result.put(rs.getInt("M_Product_ID"), rs.getBigDecimal("price"));
+            }
+        }
+    } catch (SQLException e) {
+        log.log(Level.WARNING, "Error batch loading product prices", e);
+    }
+    return result;
+}
+
+/**
+ * Collect all product IDs from pre-loaded BOM tree (not just stocked).
+ * Used for batch price loading.
+ */
+private static Set<Integer> collectAllProductIds(Map<Integer, List<BOMComponent>> bomTree) {
+    Set<Integer> result = new HashSet<>(bomTree.keySet()); // All parents
+    for (List<BOMComponent> children : bomTree.values()) {
+        for (BOMComponent child : children) {
+            result.add(child.productId());
+        }
+    }
+    return result;
 }
 ```
 
@@ -1112,6 +1180,11 @@ private static BigDecimal getStorageQty(int productId, int warehouseId, String q
  * Load storage quantities for multiple products in single query.
  * Eliminates N+1 pattern for stocked component lookups.
  *
+ * Uses PostgreSQL array binding for scalability:
+ * - Single placeholder regardless of set size
+ * - Query plan can be cached and reused
+ * - No SQL string length scaling issues
+ *
  * @param productIds Set of M_Product_IDs to query
  * @param warehouseId M_Warehouse_ID
  * @param qtyColumn QtyOnHand, QtyReserved, or QtyOrdered
@@ -1127,10 +1200,10 @@ private static Map<Integer, BigDecimal> getStorageQtyBatch(
         throw new IllegalArgumentException("Invalid qty column: " + qtyColumn);
     }
 
-    String placeholders = String.join(",", Collections.nCopies(productIds.size(), "?"));
+    // Use PostgreSQL array binding - single placeholder, scales to any size
     String sql = "SELECT M_Product_ID, COALESCE(SUM(" + qtyColumn + "), 0) AS qty " +
         "FROM M_Storage s " +
-        "WHERE M_Product_ID IN (" + placeholders + ") " +
+        "WHERE M_Product_ID = ANY(?) " +
         "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
         "AND l.M_Warehouse_ID = ?) " +
         "GROUP BY M_Product_ID";
@@ -1138,11 +1211,10 @@ private static Map<Integer, BigDecimal> getStorageQtyBatch(
     Map<Integer, BigDecimal> result = new HashMap<>();
     try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
         if (pstmt == null) return result;
-        int idx = 1;
-        for (Integer productId : productIds) {
-            pstmt.setInt(idx++, productId);
-        }
-        pstmt.setInt(idx, warehouseId);
+        // Convert Set to Integer array for PostgreSQL
+        Integer[] productArray = productIds.toArray(new Integer[0]);
+        pstmt.setArray(1, pstmt.getConnection().createArrayOf("integer", productArray));
+        pstmt.setInt(2, warehouseId);
         try (ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 result.put(rs.getInt("M_Product_ID"), rs.getBigDecimal("qty"));
@@ -1150,6 +1222,49 @@ private static Map<Integer, BigDecimal> getStorageQtyBatch(
         }
     } catch (SQLException e) {
         log.log(Level.WARNING, "Error batch loading storage quantities", e);
+    }
+    return result;
+}
+
+/**
+ * Batch load both OnHand and Reserved quantities in single query.
+ * Reduces bomQtyAvailable from 3 queries to 2 (CTE + this).
+ *
+ * @param productIds Set of M_Product_IDs to query
+ * @param warehouseId M_Warehouse_ID
+ * @return Map of productId -> [QtyOnHand, QtyReserved] pair
+ */
+private static Map<Integer, BigDecimal[]> getStorageQtyBatchBoth(
+        Set<Integer> productIds, int warehouseId) {
+    if (productIds.isEmpty()) {
+        return Collections.emptyMap();
+    }
+
+    String sql = "SELECT M_Product_ID, " +
+        "COALESCE(SUM(QtyOnHand), 0) AS qty_on_hand, " +
+        "COALESCE(SUM(QtyReserved), 0) AS qty_reserved " +
+        "FROM M_Storage s " +
+        "WHERE M_Product_ID = ANY(?) " +
+        "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
+        "AND l.M_Warehouse_ID = ?) " +
+        "GROUP BY M_Product_ID";
+
+    Map<Integer, BigDecimal[]> result = new HashMap<>();
+    try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+        if (pstmt == null) return result;
+        Integer[] productArray = productIds.toArray(new Integer[0]);
+        pstmt.setArray(1, pstmt.getConnection().createArrayOf("integer", productArray));
+        pstmt.setInt(2, warehouseId);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                result.put(rs.getInt("M_Product_ID"), new BigDecimal[] {
+                    rs.getBigDecimal("qty_on_hand"),
+                    rs.getBigDecimal("qty_reserved")
+                });
+            }
+        }
+    } catch (SQLException e) {
+        log.log(Level.WARNING, "Error batch loading storage quantities (both)", e);
     }
     return result;
 }
@@ -1389,8 +1504,10 @@ Expected: FAIL with "method bomQtyAvailable not found"
  * Calculate BOM quantity available (OnHand - Reserved).
  * Equivalent to PostgreSQL bomqtyavailable function.
  *
- * Optimized to load BOM tree once and calculate both quantities,
- * avoiding double traversal.
+ * Query optimization:
+ * - 1 query: Load BOM tree (CTE)
+ * - 1 query: Batch load both OnHand AND Reserved in single query
+ * - Total: 2 queries (same as other qty functions)
  *
  * @param productId M_Product_ID
  * @param warehouseId M_Warehouse_ID (may be null if locatorId provided)
@@ -1425,12 +1542,72 @@ public static BigDecimal bomQtyAvailable(Integer productId, Integer warehouseId,
         return onHand.subtract(reserved);
     }
 
-    // BOM: load tree once, calculate both quantities
+    // BOM: load tree once, load both qty columns in single query
     Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
-    BigDecimal onHand = calculateBomQtyFromTree(productId, resolvedWarehouse, "QtyOnHand", bomTree);
-    BigDecimal reserved = calculateBomQtyFromTree(productId, resolvedWarehouse, "QtyReserved", bomTree);
+    Set<Integer> stockedProductIds = collectStockedProductIds(bomTree);
+    Map<Integer, BigDecimal[]> storageQtys = getStorageQtyBatchBoth(stockedProductIds, resolvedWarehouse);
+
+    BigDecimal onHand = calculateBomQtyWithPreloadedBoth(productId, bomTree, storageQtys, 0);
+    BigDecimal reserved = calculateBomQtyWithPreloadedBoth(productId, bomTree, storageQtys, 1);
 
     return onHand.subtract(reserved);
+}
+
+/**
+ * Calculate BOM quantity using pre-loaded both-column storage data.
+ * @param qtyIndex 0 for QtyOnHand, 1 for QtyReserved
+ */
+private static BigDecimal calculateBomQtyWithPreloadedBoth(
+        int rootProductId,
+        Map<Integer, List<BOMComponent>> bomTree,
+        Map<Integer, BigDecimal[]> storageQtys,
+        int qtyIndex) {
+
+    BigDecimal minQty = UNLIMITED_QTY;
+    Deque<QtyStackEntry> stack = new ArrayDeque<>();
+    stack.push(new QtyStackEntry(rootProductId, BigDecimal.ONE, Set.of()));
+
+    while (!stack.isEmpty()) {
+        QtyStackEntry entry = stack.pop();
+
+        if (entry.ancestorPath.contains(entry.productId)) {
+            continue;
+        }
+
+        List<BOMComponent> children = bomTree.getOrDefault(entry.productId, Collections.emptyList());
+        Set<Integer> childAncestorPath = new HashSet<>(entry.ancestorPath);
+        childAncestorPath.add(entry.productId);
+
+        for (BOMComponent child : children) {
+            if (child.isStockedItem()) {
+                BigDecimal[] qtys = storageQtys.getOrDefault(child.productId(),
+                    new BigDecimal[] { BigDecimal.ZERO, BigDecimal.ZERO });
+                BigDecimal storageQty = qtys[qtyIndex];
+                int precision = child.uomPrecision();
+                BigDecimal effectiveBomQty = entry.multiplier.multiply(child.bomQty());
+
+                if (effectiveBomQty.compareTo(BigDecimal.ZERO) > 0) {
+                    BigDecimal assemblable = storageQty.divide(effectiveBomQty, precision, RoundingMode.DOWN);
+                    if (assemblable.compareTo(minQty) < 0) {
+                        minQty = assemblable;
+                    }
+                }
+            } else if (child.isBOM()) {
+                stack.push(new QtyStackEntry(
+                    child.productId(),
+                    entry.multiplier.multiply(child.bomQty()),
+                    childAncestorPath
+                ));
+            }
+        }
+    }
+
+    if (minQty.compareTo(UNLIMITED_QTY) == 0) {
+        return qtyIndex == 0 ? BigDecimal.ZERO : BigDecimal.ZERO; // OnHand=0, Reserved=0 if no stocked
+    }
+
+    int precision = getUOMPrecision(rootProductId);
+    return minQty.setScale(precision, RoundingMode.DOWN);
 }
 ```
 
@@ -2069,6 +2246,7 @@ package org.compiere.migration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import org.compiere.util.DB;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
@@ -2082,6 +2260,10 @@ class Wave5PerformanceTest extends AbstractMigrationTest {
     // Performance tier: Reporting (allows up to 100% latency increase)
     private static final double MAX_LATENCY_RATIO = 2.0;
 
+    private static final int WARMUP_ITERATIONS = 100;  // More warmup for JIT
+    private static final int MEASUREMENT_ROUNDS = 10;  // Multiple rounds for statistics
+    private static final int ITERATIONS_PER_ROUND = 100;
+
     @Test
     @EnabledIfEnvironmentVariable(named = "RUN_PERF_TESTS", matches = "true")
     void testBomPriceLimit_performance() {
@@ -2089,29 +2271,44 @@ class Wave5PerformanceTest extends AbstractMigrationTest {
         Integer plvId = getAnyPriceListVersion();
         if (productId == null || plvId == null) return;
 
-        // Warm up
-        for (int i = 0; i < 10; i++) {
+        // Extended warmup for JIT compilation
+        for (int i = 0; i < WARMUP_ITERATIONS; i++) {
             Wave5Functions.bomPriceLimit(productId, plvId);
             SqlFunctionCaller.callBomPriceLimit(productId, plvId);
         }
 
-        // Measure Java
-        long javaStart = System.nanoTime();
-        for (int i = 0; i < 100; i++) {
-            Wave5Functions.bomPriceLimit(productId, plvId);
-        }
-        long javaMs = (System.nanoTime() - javaStart) / 1_000_000;
+        // Multiple measurement rounds for statistical significance
+        long[] javaTimes = new long[MEASUREMENT_ROUNDS];
+        long[] sqlTimes = new long[MEASUREMENT_ROUNDS];
 
-        // Measure SQL
-        long sqlStart = System.nanoTime();
-        for (int i = 0; i < 100; i++) {
-            SqlFunctionCaller.callBomPriceLimit(productId, plvId);
-        }
-        long sqlMs = (System.nanoTime() - sqlStart) / 1_000_000;
+        for (int round = 0; round < MEASUREMENT_ROUNDS; round++) {
+            // Measure Java
+            long javaStart = System.nanoTime();
+            for (int i = 0; i < ITERATIONS_PER_ROUND; i++) {
+                Wave5Functions.bomPriceLimit(productId, plvId);
+            }
+            javaTimes[round] = System.nanoTime() - javaStart;
 
-        double ratio = (double) javaMs / sqlMs;
-        System.out.println("bomPriceLimit performance: Java=" + javaMs + "ms, SQL=" + sqlMs +
-            "ms, ratio=" + String.format("%.2f", ratio));
+            // Measure SQL
+            long sqlStart = System.nanoTime();
+            for (int i = 0; i < ITERATIONS_PER_ROUND; i++) {
+                SqlFunctionCaller.callBomPriceLimit(productId, plvId);
+            }
+            sqlTimes[round] = System.nanoTime() - sqlStart;
+        }
+
+        // Calculate median (more robust than mean)
+        Arrays.sort(javaTimes);
+        Arrays.sort(sqlTimes);
+        long javaMedianNs = javaTimes[MEASUREMENT_ROUNDS / 2];
+        long sqlMedianNs = sqlTimes[MEASUREMENT_ROUNDS / 2];
+
+        double javaMedianMs = javaMedianNs / 1_000_000.0;
+        double sqlMedianMs = sqlMedianNs / 1_000_000.0;
+        double ratio = javaMedianMs / sqlMedianMs;
+
+        System.out.printf("bomPriceLimit performance: Java=%.2fms, SQL=%.2fms, ratio=%.2f%n",
+            javaMedianMs, sqlMedianMs, ratio);
 
         assertTrue(ratio <= MAX_LATENCY_RATIO,
             "Java implementation too slow: ratio=" + ratio + " (max=" + MAX_LATENCY_RATIO + ")");
@@ -2295,10 +2492,13 @@ This plan implements all 7 Wave 5 BOM functions following the established Wave 4
 
 Key design decisions:
 - **Batch CTE query** loads entire BOM tree in single DB round-trip (eliminates N+1 pattern)
+- **Batch price loading** via `getProductPricesBatch()` with PostgreSQL array binding
+- **Batch storage loading** via `getStorageQtyBatch()` with PostgreSQL array binding
+- **Combined storage query** for bomQtyAvailable loads both OnHand and Reserved in single query
 - **Ancestor-path tracking** for accurate circular detection (distinguishes true cycles from shared components)
 - **BOMComponent validation** handles null/negative bomQty safely
-- **Tree reuse** in bomQtyAvailable avoids double traversal
 - **JUnit Assumptions** provide proper SKIPPED reporting when test data unavailable
+- **Statistical performance testing** with 100 warmup iterations, 10 measurement rounds, median reporting
 - Cache descoped - batch approach makes per-request caching unnecessary
 - 100% shadow sampling for thorough validation
 - Reporting tier performance (allows 100% latency increase over SQL)
@@ -2324,6 +2524,15 @@ Key design decisions:
 | Config table dependency | P4 | Added comment documenting dependency on 001_create_migration_schema.sql |
 | Missing circular BOM test | P3 | Added `testCircularBOM_handledGracefully()` integration test |
 
-**Query Count After Optimization:**
-- Before: 1 (CTE) + N (storage) + N (UOM) = 2N+1 queries for N stocked components
-- After: 1 (CTE with UOM) + 1 (batch storage) = 2 queries total
+**Review Changes Applied (Critical Review 3):**
+| Issue | Priority | Resolution |
+|-------|----------|------------|
+| Placeholder SQL construction in getStorageQtyBatch | P1 | Replaced with PostgreSQL array binding `= ANY(?)` |
+| Price lookups not batched | P2 | Added `getProductPricesBatch()` and `collectAllProductIds()` helpers |
+| Performance test methodology weak | P3 | Increased warmup to 100 iterations, added 10 measurement rounds with median |
+| bomQtyAvailable uses 3 queries | P3 | Added `getStorageQtyBatchBoth()` to load OnHand+Reserved in single query |
+
+**Query Count After All Optimizations:**
+- Price functions: 1 (CTE) + 1 (batch prices) = 2 queries total
+- Qty functions: 1 (CTE with UOM) + 1 (batch storage) = 2 queries total
+- bomQtyAvailable: 1 (CTE) + 1 (batch storage for both columns) = 2 queries total
