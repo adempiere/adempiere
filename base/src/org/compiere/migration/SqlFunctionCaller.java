@@ -644,4 +644,151 @@ public class SqlFunctionCaller {
         }
         return null;
     }
+
+    // ===== Wave 5 BOM Functions =====
+    // These will be properly implemented in Task 4.2
+
+    /**
+     * Call bomPriceLimit(p_m_product_id, p_m_pricelist_version_id)
+     * @return BOM price limit
+     */
+    public static BigDecimal callBomPriceLimit(Integer productId, Integer priceListVersionId) {
+        String sql = "SELECT bomPriceLimit(?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, priceListVersionId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomPriceLimit", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomPriceList(p_m_product_id, p_m_pricelist_version_id)
+     * @return BOM price list
+     */
+    public static BigDecimal callBomPriceList(Integer productId, Integer priceListVersionId) {
+        String sql = "SELECT bomPriceList(?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, priceListVersionId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomPriceList", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomPriceStd(p_m_product_id, p_m_pricelist_version_id)
+     * @return BOM standard price
+     */
+    public static BigDecimal callBomPriceStd(Integer productId, Integer priceListVersionId) {
+        String sql = "SELECT bomPriceStd(?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, priceListVersionId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomPriceStd", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomQtyOnHand(p_m_product_id, p_m_warehouse_id, p_m_locator_id)
+     * @return BOM quantity on hand
+     */
+    public static BigDecimal callBomQtyOnHand(Integer productId, Integer warehouseId, Integer locatorId) {
+        String sql = "SELECT bomQtyOnHand(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, warehouseId, Types.INTEGER);
+            pstmt.setObject(3, locatorId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomQtyOnHand", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomQtyReserved(p_m_product_id, p_m_warehouse_id, p_m_locator_id)
+     * @return BOM quantity reserved
+     */
+    public static BigDecimal callBomQtyReserved(Integer productId, Integer warehouseId, Integer locatorId) {
+        String sql = "SELECT bomQtyReserved(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, warehouseId, Types.INTEGER);
+            pstmt.setObject(3, locatorId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomQtyReserved", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomQtyOrdered(p_m_product_id, p_m_warehouse_id, p_m_locator_id)
+     * @return BOM quantity ordered
+     */
+    public static BigDecimal callBomQtyOrdered(Integer productId, Integer warehouseId, Integer locatorId) {
+        String sql = "SELECT bomQtyOrdered(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, warehouseId, Types.INTEGER);
+            pstmt.setObject(3, locatorId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomQtyOrdered", e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Call bomQtyAvailable(p_m_product_id, p_m_warehouse_id, p_m_locator_id)
+     * @return BOM quantity available
+     */
+    public static BigDecimal callBomQtyAvailable(Integer productId, Integer warehouseId, Integer locatorId) {
+        String sql = "SELECT bomQtyAvailable(?, ?, ?)";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            pstmt.setObject(1, productId, Types.INTEGER);
+            pstmt.setObject(2, warehouseId, Types.INTEGER);
+            pstmt.setObject(3, locatorId, Types.INTEGER);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            throw new SqlFunctionException("bomQtyAvailable", e);
+        }
+        return BigDecimal.ZERO;
+    }
 }
