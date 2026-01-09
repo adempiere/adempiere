@@ -473,6 +473,28 @@ public class Wave5Functions {
     }
 
     /**
+     * Calculate BOM quantity reserved.
+     * Equivalent to PostgreSQL bomqtyreserved function.
+     *
+     * @param productId M_Product_ID
+     * @param warehouseId M_Warehouse_ID (may be null if locatorId provided)
+     * @param locatorId M_Locator_ID fallback
+     * @return Reserved quantity for BOM components
+     */
+    public static BigDecimal bomQtyReserved(Integer productId, Integer warehouseId, Integer locatorId) {
+        if (productId == null || productId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        Integer resolvedWarehouse = resolveWarehouse(warehouseId, locatorId);
+        if (resolvedWarehouse == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return calculateBomQty(productId, resolvedWarehouse, "QtyReserved");
+    }
+
+    /**
      * Generic BOM quantity calculator for OnHand, Reserved, Ordered.
      *
      * Stocked BOM Product Handling:

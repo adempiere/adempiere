@@ -130,4 +130,10 @@ class Wave5FunctionsTest {
         BigDecimal result = Wave5Functions.bomQtyOnHand(-1, 100, null);
         assertEquals(BigDecimal.ZERO, result);
     }
+
+    @Test
+    void testBomQtyReserved_nullInputs() {
+        BigDecimal result = Wave5Functions.bomQtyReserved(null, null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
 }
