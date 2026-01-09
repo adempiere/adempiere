@@ -100,4 +100,16 @@ class Wave5FunctionsTest {
         BigDecimal result = Wave5Functions.bomPriceList(-1, -1);
         assertEquals(BigDecimal.ZERO, result);
     }
+
+    @Test
+    void testBomPriceStd_nullInputs() {
+        BigDecimal result = Wave5Functions.bomPriceStd(null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void testBomPriceStd_invalidInputs() {
+        BigDecimal result = Wave5Functions.bomPriceStd(-1, -1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
 }

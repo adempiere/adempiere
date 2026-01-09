@@ -298,6 +298,21 @@ public class Wave5Functions {
     }
 
     /**
+     * Calculate BOM standard price by recursively summing component standard prices.
+     * Equivalent to PostgreSQL bompricestd function.
+     *
+     * @param productId M_Product_ID
+     * @param priceListVersionId M_PriceList_Version_ID
+     * @return Sum of standard prices, ZERO if not found or invalid inputs
+     */
+    public static BigDecimal bomPriceStd(Integer productId, Integer priceListVersionId) {
+        if (productId == null || productId <= 0 || priceListVersionId == null || priceListVersionId <= 0) {
+            return BigDecimal.ZERO;
+        }
+        return calculateBomPrice(productId, priceListVersionId, "PriceStd");
+    }
+
+    /**
      * Generic BOM price calculator supporting PriceLimit, PriceList, and PriceStd.
      * Uses batch-loaded tree with ancestor-path circular detection.
      *
