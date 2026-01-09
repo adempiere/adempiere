@@ -1,105 +1,35 @@
 -- Wave 4: Standalone Functions Configuration
 -- Run this after Wave 4 Java implementation is deployed
 
--- Initial mode configuration:
--- - nextID/nextIDFunc: Start in SHADOW mode with circuit_breaker_enabled=false
---   (sequence functions cannot use circuit breaker as each call consumes a sequence value)
--- - All other functions: Start in SQL_ONLY mode (safe default)
-INSERT INTO migration.function_config (function_name, mode, sample_rate, circuit_breaker_enabled)
+-- Initial mode: SQL_ONLY (safe default)
+-- Note: nextID/nextIDFunc use circuit_breaker_enabled=false because sequence
+-- functions cannot use circuit breaker (each call consumes a sequence value).
+-- They also start in SHADOW mode with special handling (execute Java, log for validation).
+INSERT INTO migration.function_config (function_name, mode, sample_rate, circuit_breaker_enabled, created_at, updated_at)
 VALUES
-    ('nextID', 'SHADOW', 1.0, false),
-    ('nextIDFunc', 'SHADOW', 1.0, false),
-    ('acctBalance', 'SQL_ONLY', 1.0, true),
-    ('productAttribute', 'SQL_ONLY', 1.0, true),
-    ('documentNo', 'SQL_ONLY', 0.1, true),
-    ('get_Sysconfig', 'SQL_ONLY', 1.0, true),
-    ('linenetamtrealinvoiceline', 'SQL_ONLY', 1.0, true),
-    ('linenetamtrealorderline', 'SQL_ONLY', 1.0, true),
-    ('maxpaydate', 'SQL_ONLY', 1.0, true)
+    ('nextID', 'SHADOW', 1.0, false, NOW(), NOW()),
+    ('nextIDFunc', 'SHADOW', 1.0, false, NOW(), NOW()),
+    ('acctBalance', 'SQL_ONLY', 1.0, true, NOW(), NOW()),
+    ('productAttribute', 'SQL_ONLY', 1.0, true, NOW(), NOW()),
+    ('documentNo', 'SQL_ONLY', 0.1, true, NOW(), NOW()),
+    ('get_Sysconfig', 'SQL_ONLY', 1.0, true, NOW(), NOW()),
+    ('linenetamtrealinvoiceline', 'SQL_ONLY', 1.0, true, NOW(), NOW()),
+    ('linenetamtrealorderline', 'SQL_ONLY', 1.0, true, NOW(), NOW()),
+    ('maxpaydate', 'SQL_ONLY', 1.0, true, NOW(), NOW())
 ON CONFLICT (function_name) DO UPDATE SET
     mode = EXCLUDED.mode,
     sample_rate = EXCLUDED.sample_rate,
-    circuit_breaker_enabled = EXCLUDED.circuit_breaker_enabled;
+    circuit_breaker_enabled = EXCLUDED.circuit_breaker_enabled,
+    updated_at = NOW();
 
--- ========================================================
--- GATE 3: Enable SHADOW Mode for Router Validation
--- ========================================================
---
--- Prerequisites:
---   - Gate 2 (SQL_ONLY Baseline) complete
---   - Java implementations deployed
---   - Tests pass against SQL functions
---
--- This enables SHADOW mode where both Java and SQL are executed,
--- results are compared, and mismatches are logged for analysis.
---
--- Note: nextID/nextIDFunc already start in SHADOW mode (lines 10-11)
---       because they are sequence functions requiring immediate validation.
---
--- For a complete Gate 3 setup script with verification, use:
---   psql -f migration/sql/wave4-gate3-shadow-mode.sql
---
--- ========================================================
+-- Transition to SHADOW mode (run after deployment verified)
+-- UPDATE migration.function_config SET mode = 'SHADOW', updated_at = NOW()
+-- WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
+--                         'get_Sysconfig', 'linenetamtrealinvoiceline',
+--                         'linenetamtrealorderline', 'maxpaydate');
 
--- Enable SHADOW mode for all Wave 4 functions:
-UPDATE migration.function_config
-SET mode = 'SHADOW',
-    sample_rate = 1.0,
-    updated_at = NOW()
-WHERE function_name IN ('acctBalance', 'productAttribute', 'documentNo',
-                        'get_Sysconfig', 'linenetamtrealinvoiceline',
-                        'linenetamtrealorderline', 'maxpaydate');
-
--- Verify configuration:
--- SELECT function_name, mode, sample_rate, circuit_breaker_enabled
--- FROM migration.function_config
+-- Transition to JAVA_ONLY (run after 7 days at 99.9% match rate)
+-- UPDATE migration.function_config SET mode = 'JAVA_ONLY', updated_at = NOW()
 -- WHERE function_name IN ('nextID', 'nextIDFunc', 'acctBalance', 'productAttribute',
 --                         'documentNo', 'get_Sysconfig', 'linenetamtrealinvoiceline',
---                         'linenetamtrealorderline', 'maxpaydate')
--- ORDER BY function_name;
---
--- For comprehensive verification queries, use:
---   psql -f migration/sql/wave4-gate3-verify.sql
-
--- ========================================================
--- get_Sysconfig: Already Java-implemented (No Routing Needed)
--- ========================================================
---
--- MSysConfig.getValue() already implements equivalent logic with caching:
--- - Same precedence logic: ORDER BY AD_Client_ID DESC, AD_Org_ID DESC
---   Priority: (client, org) > (client, 0) > (0, org) > (0, 0)
--- - Returns default value when not found
--- - Java enhancement: CCache for performance (no database hit on repeated calls)
---
--- The SQL function (db/ddlutils/postgresql/functions/get_Sysconfig.sql) uses:
---   SELECT Value FROM AD_SysConfig
---   WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?)
---   ORDER BY AD_Client_ID DESC, AD_Org_ID DESC LIMIT 1
---
--- MSysConfig.getValue() (base/src/org/compiere/model/MSysConfig.java) uses:
---   SELECT Value FROM AD_SysConfig
---   WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive='Y'
---   ORDER BY AD_Client_ID DESC, AD_Org_ID DESC
---
--- Set to JAVA_ONLY immediately (no shadow mode needed):
--- UPDATE migration.function_config
--- SET mode = 'JAVA_ONLY', updated_at = NOW()
--- WHERE function_name = 'get_Sysconfig';
-
--- ========================================================
--- Cutover to JAVA_ONLY (after 7 days at 99.9% match rate)
--- ========================================================
---
--- QUALITY GATES CHECKLIST - All must be verified before running:
--- [ ] 99.9% match rate for 7 consecutive days
--- [ ] No critical mismatches
--- [ ] Performance within tier budget (5% for CRITICAL, 30% for STANDARD)
--- [ ] Rollback tested
---
--- This SQL should only be run after human verification of the above quality gates.
---
-UPDATE migration.function_config
-SET mode = 'JAVA_ONLY'
-WHERE function_name IN ('nextID', 'nextIDFunc', 'acctBalance', 'productAttribute',
-                        'documentNo', 'get_Sysconfig', 'linenetamtrealinvoiceline',
-                        'linenetamtrealorderline', 'maxpaydate');
+--                         'linenetamtrealorderline', 'maxpaydate');
