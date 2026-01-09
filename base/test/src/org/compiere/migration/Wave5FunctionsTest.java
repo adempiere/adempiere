@@ -3,6 +3,8 @@ package org.compiere.migration;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 class Wave5FunctionsTest {
@@ -42,5 +44,24 @@ class Wave5FunctionsTest {
             100, percentageQty, false, true, "I", 2);
 
         assertEquals(new BigDecimal("0.50"), comp.bomQty());
+    }
+
+    @Test
+    void testLoadBOMTree_nullProduct() {
+        Map<Integer, List<Wave5Functions.BOMComponent>> tree = Wave5Functions.loadBOMTree(null);
+        assertTrue(tree.isEmpty());
+    }
+
+    @Test
+    void testLoadBOMTree_invalidProduct() {
+        Map<Integer, List<Wave5Functions.BOMComponent>> tree = Wave5Functions.loadBOMTree(-1);
+        assertTrue(tree.isEmpty());
+    }
+
+    @Test
+    void testLoadBOMTree_returnsMapStructure() {
+        // Even with no BOM, should return empty map, not null
+        Map<Integer, List<Wave5Functions.BOMComponent>> tree = Wave5Functions.loadBOMTree(99999999);
+        assertNotNull(tree);
     }
 }
