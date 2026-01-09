@@ -43,15 +43,21 @@ public class Wave5Functions {
      * - bomQty is never negative (throws IllegalArgumentException)
      * - uomPrecision defaults to 0 if not available
      */
-    public record BOMComponent(
-        int productId,
-        BigDecimal bomQty,
-        boolean isBOM,
-        boolean isStocked,
-        String productType,
-        int uomPrecision
-    ) {
-        public BOMComponent {
+    public static final class BOMComponent {
+        private final int productId;
+        private final BigDecimal bomQty;
+        private final boolean isBOM;
+        private final boolean isStocked;
+        private final String productType;
+        private final int uomPrecision;
+
+        public BOMComponent(
+                int productId,
+                BigDecimal bomQty,
+                boolean isBOM,
+                boolean isStocked,
+                String productType,
+                int uomPrecision) {
             // Null handling: default to 1 (one unit of component)
             if (bomQty == null) {
                 log.fine("BOM component " + productId + " has null bomQty, defaulting to 1");
@@ -62,7 +68,20 @@ public class Wave5Functions {
                 throw new IllegalArgumentException(
                     "BOM component " + productId + " has negative bomQty: " + bomQty);
             }
+            this.productId = productId;
+            this.bomQty = bomQty;
+            this.isBOM = isBOM;
+            this.isStocked = isStocked;
+            this.productType = productType;
+            this.uomPrecision = uomPrecision;
         }
+
+        public int productId() { return productId; }
+        public BigDecimal bomQty() { return bomQty; }
+        public boolean isBOM() { return isBOM; }
+        public boolean isStocked() { return isStocked; }
+        public String productType() { return productType; }
+        public int uomPrecision() { return uomPrecision; }
 
         public boolean isStockedItem() {
             return "I".equals(productType) && isStocked;
@@ -101,51 +120,48 @@ public class Wave5Functions {
 
         int maxDepth = getMaxDepth();
 
-        String sql = """
-            WITH RECURSIVE bom_tree AS (
-                -- Anchor: direct children of root product
-                SELECT b.M_Product_ID AS parent_id,
-                       bl.M_Product_ID AS child_id,
-                       CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM
-                            ELSE COALESCE(bl.QtyBatch, 0) / 100 END AS BomQty,
-                       p.IsBOM, p.IsStocked, p.ProductType,
-                       COALESCE(u.StdPrecision, 0) AS uom_precision,
-                       1 AS depth,
-                       ARRAY[b.M_Product_ID] AS path,
-                       false AS is_cycle
-                FROM PP_Product_BOM b
-                INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID
-                INNER JOIN M_Product p ON p.M_Product_ID = bl.M_Product_ID
-                LEFT JOIN C_UOM u ON u.C_UOM_ID = p.C_UOM_ID
-                WHERE b.M_Product_ID = ?
-                  AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'
-
-                UNION ALL
-
-                -- Recursive: children's children (with cycle detection)
-                SELECT b.M_Product_ID AS parent_id,
-                       bl.M_Product_ID AS child_id,
-                       CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM
-                            ELSE COALESCE(bl.QtyBatch, 0) / 100 END AS BomQty,
-                       p.IsBOM, p.IsStocked, p.ProductType,
-                       COALESCE(u.StdPrecision, 0) AS uom_precision,
-                       bt.depth + 1,
-                       bt.path || b.M_Product_ID,
-                       b.M_Product_ID = ANY(bt.path) AS is_cycle
-                FROM bom_tree bt
-                INNER JOIN PP_Product_BOM b ON b.M_Product_ID = bt.child_id
-                INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID
-                INNER JOIN M_Product p ON p.M_Product_ID = bl.M_Product_ID
-                LEFT JOIN C_UOM u ON u.C_UOM_ID = p.C_UOM_ID
-                WHERE bt.depth < ?
-                  AND NOT bt.is_cycle
-                  AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'
-            )
-            SELECT parent_id, child_id, BomQty, IsBOM, IsStocked, ProductType, uom_precision, depth
-            FROM bom_tree
-            WHERE NOT is_cycle
-            ORDER BY depth, parent_id
-            """;
+        String sql =
+            "WITH RECURSIVE bom_tree AS (" +
+            "    -- Anchor: direct children of root product" +
+            "    SELECT b.M_Product_ID AS parent_id," +
+            "           bl.M_Product_ID AS child_id," +
+            "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
+            "                ELSE COALESCE(bl.QtyBatch, 0) / 100 END AS BomQty," +
+            "           p.IsBOM, p.IsStocked, p.ProductType," +
+            "           COALESCE(u.StdPrecision, 0) AS uom_precision," +
+            "           1 AS depth," +
+            "           ARRAY[b.M_Product_ID] AS path," +
+            "           false AS is_cycle" +
+            "    FROM PP_Product_BOM b" +
+            "    INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID" +
+            "    INNER JOIN M_Product p ON p.M_Product_ID = bl.M_Product_ID" +
+            "    LEFT JOIN C_UOM u ON u.C_UOM_ID = p.C_UOM_ID" +
+            "    WHERE b.M_Product_ID = ?" +
+            "      AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'" +
+            "    UNION ALL" +
+            "    -- Recursive: children's children (with cycle detection)" +
+            "    SELECT b.M_Product_ID AS parent_id," +
+            "           bl.M_Product_ID AS child_id," +
+            "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
+            "                ELSE COALESCE(bl.QtyBatch, 0) / 100 END AS BomQty," +
+            "           p.IsBOM, p.IsStocked, p.ProductType," +
+            "           COALESCE(u.StdPrecision, 0) AS uom_precision," +
+            "           bt.depth + 1," +
+            "           bt.path || b.M_Product_ID," +
+            "           b.M_Product_ID = ANY(bt.path) AS is_cycle" +
+            "    FROM bom_tree bt" +
+            "    INNER JOIN PP_Product_BOM b ON b.M_Product_ID = bt.child_id" +
+            "    INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID" +
+            "    INNER JOIN M_Product p ON p.M_Product_ID = bl.M_Product_ID" +
+            "    LEFT JOIN C_UOM u ON u.C_UOM_ID = p.C_UOM_ID" +
+            "    WHERE bt.depth < ?" +
+            "      AND NOT bt.is_cycle" +
+            "      AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'" +
+            ") " +
+            "SELECT parent_id, child_id, BomQty, IsBOM, IsStocked, ProductType, uom_precision, depth " +
+            "FROM bom_tree " +
+            "WHERE NOT is_cycle " +
+            "ORDER BY depth, parent_id";
 
         Map<Integer, List<BOMComponent>> tree = new HashMap<>();
 
@@ -174,9 +190,6 @@ public class Wave5Functions {
             }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Error loading BOM tree for product " + rootProductId, e);
-        } catch (Exception e) {
-            // Handle DB unavailable (NPE from prepareStatement when no connection)
-            log.log(Level.WARNING, "DB unavailable for loadBOMTree", e);
         }
 
         return tree;
