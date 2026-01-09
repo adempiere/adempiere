@@ -36,6 +36,10 @@ class Wave5PricingIntegrationTest extends CommonGWSetup {
     private int[] testProductIds;
     private int[] testPriceListVersionIds;
 
+    // Products with actual BOM structures for traversal testing
+    private int[] bomProductIds;
+    private int[] bomPlvIds;
+
     @BeforeAll
     void loadTestData() {
         // Discover products with prices
@@ -51,6 +55,9 @@ class Wave5PricingIntegrationTest extends CommonGWSetup {
             testProductIds = new int[0];
             testPriceListVersionIds = new int[0];
         }
+
+        // Discover products with BOM structures for traversal testing
+        loadBOMProductTestData();
     }
 
     private List<int[]> queryProductPriceData() {
@@ -69,6 +76,41 @@ class Wave5PricingIntegrationTest extends CommonGWSetup {
             // Return empty list if query fails
         }
         return results;
+    }
+
+    /**
+     * Find products that have actual BOM structures for testing traversal logic.
+     * Returns products that have PP_Product_BOM entries with at least one BOMLine.
+     */
+    private void loadBOMProductTestData() {
+        List<int[]> results = new ArrayList<>();
+        String sql = "SELECT DISTINCT b.M_Product_ID, pp.M_PriceList_Version_ID " +
+                     "FROM PP_Product_BOM b " +
+                     "INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID " +
+                     "INNER JOIN M_ProductPrice pp ON pp.M_Product_ID = b.M_Product_ID " +
+                     "INNER JOIN M_PriceList_Version plv ON plv.M_PriceList_Version_ID = pp.M_PriceList_Version_ID " +
+                     "WHERE b.IsActive = 'Y' AND bl.IsActive = 'Y' AND plv.IsActive = 'Y' " +
+                     "FETCH FIRST 3 ROWS ONLY";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                results.add(new int[] { rs.getInt(1), rs.getInt(2) });
+            }
+        } catch (Exception e) {
+            // Return empty arrays if query fails (BOM tables may not exist)
+        }
+
+        if (!results.isEmpty()) {
+            bomProductIds = new int[results.size()];
+            bomPlvIds = new int[results.size()];
+            for (int i = 0; i < results.size(); i++) {
+                bomProductIds[i] = results.get(i)[0];
+                bomPlvIds[i] = results.get(i)[1];
+            }
+        } else {
+            bomProductIds = new int[0];
+            bomPlvIds = new int[0];
+        }
     }
 
     // ==================== bomPriceLimit Tests ====================
@@ -173,6 +215,62 @@ class Wave5PricingIntegrationTest extends CommonGWSetup {
 
             assertEquals(0, javaResult.compareTo(sqlResult),
                 () -> "bomPriceStd mismatch for product " + productId +
+                      ": Java=" + javaResult + ", SQL=" + sqlResult);
+        }
+    }
+
+    // ==================== BOM Traversal Tests ====================
+
+    @Test
+    void testBomPriceLimit_withActualBOM_matchesSql() {
+        assumeTrue(bomProductIds != null && bomProductIds.length > 0,
+            "Skipping: No products with BOM structure available in test database");
+
+        for (int i = 0; i < bomProductIds.length; i++) {
+            Integer productId = bomProductIds[i];
+            Integer plvId = bomPlvIds[i];
+
+            BigDecimal javaResult = Wave5Functions.bomPriceLimit(productId, plvId);
+            BigDecimal sqlResult = callSqlFunction("bompricelimit", productId, plvId);
+
+            assertEquals(0, javaResult.compareTo(sqlResult),
+                () -> "bomPriceLimit BOM traversal mismatch for product " + productId +
+                      ": Java=" + javaResult + ", SQL=" + sqlResult);
+        }
+    }
+
+    @Test
+    void testBomPriceList_withActualBOM_matchesSql() {
+        assumeTrue(bomProductIds != null && bomProductIds.length > 0,
+            "Skipping: No products with BOM structure available in test database");
+
+        for (int i = 0; i < bomProductIds.length; i++) {
+            Integer productId = bomProductIds[i];
+            Integer plvId = bomPlvIds[i];
+
+            BigDecimal javaResult = Wave5Functions.bomPriceList(productId, plvId);
+            BigDecimal sqlResult = callSqlFunction("bompricelist", productId, plvId);
+
+            assertEquals(0, javaResult.compareTo(sqlResult),
+                () -> "bomPriceList BOM traversal mismatch for product " + productId +
+                      ": Java=" + javaResult + ", SQL=" + sqlResult);
+        }
+    }
+
+    @Test
+    void testBomPriceStd_withActualBOM_matchesSql() {
+        assumeTrue(bomProductIds != null && bomProductIds.length > 0,
+            "Skipping: No products with BOM structure available in test database");
+
+        for (int i = 0; i < bomProductIds.length; i++) {
+            Integer productId = bomProductIds[i];
+            Integer plvId = bomPlvIds[i];
+
+            BigDecimal javaResult = Wave5Functions.bomPriceStd(productId, plvId);
+            BigDecimal sqlResult = callSqlFunction("bompricestd", productId, plvId);
+
+            assertEquals(0, javaResult.compareTo(sqlResult),
+                () -> "bomPriceStd BOM traversal mismatch for product " + productId +
                       ": Java=" + javaResult + ", SQL=" + sqlResult);
         }
     }
