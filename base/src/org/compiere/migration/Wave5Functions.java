@@ -823,6 +823,116 @@ public class Wave5Functions {
     }
 
     /**
+     * Calculate BOM quantity available (OnHand - Reserved).
+     * Equivalent to PostgreSQL bomqtyavailable function.
+     *
+     * Query optimization:
+     * - 1 query: Load BOM tree (CTE)
+     * - 1 query: Batch load both OnHand AND Reserved in single query
+     * - Total: 2 queries (same as other qty functions)
+     *
+     * @param productId M_Product_ID
+     * @param warehouseId M_Warehouse_ID (may be null if locatorId provided)
+     * @param locatorId M_Locator_ID fallback
+     * @return Available quantity (OnHand minus Reserved)
+     */
+    public static BigDecimal bomQtyAvailable(Integer productId, Integer warehouseId, Integer locatorId) {
+        if (productId == null || productId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        Integer resolvedWarehouse = resolveWarehouse(warehouseId, locatorId);
+        if (resolvedWarehouse == null) {
+            return BigDecimal.ZERO;
+        }
+
+        // Check product info first
+        ProductInfo info = getProductInfo(productId);
+        if (info == null) {
+            return BigDecimal.ZERO;
+        }
+
+        // Non-stocked non-BOM = unlimited - 0 = unlimited
+        if (!info.isBOM && (!"I".equals(info.productType) || !info.isStocked)) {
+            return UNLIMITED_QTY;
+        }
+
+        // Stocked item = direct calculation
+        if (info.isStocked) {
+            BigDecimal onHand = getStorageQty(productId, resolvedWarehouse, "QtyOnHand");
+            BigDecimal reserved = getStorageQty(productId, resolvedWarehouse, "QtyReserved");
+            return onHand.subtract(reserved);
+        }
+
+        // BOM: load tree once, load both qty columns in single query
+        Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
+        Set<Integer> stockedProductIds = collectStockedProductIds(bomTree);
+        Map<Integer, BigDecimal[]> storageQtys = getStorageQtyBatchBoth(stockedProductIds, resolvedWarehouse);
+
+        BigDecimal onHand = calculateBomQtyWithPreloadedBoth(productId, bomTree, storageQtys, 0);
+        BigDecimal reserved = calculateBomQtyWithPreloadedBoth(productId, bomTree, storageQtys, 1);
+
+        return onHand.subtract(reserved);
+    }
+
+    /**
+     * Calculate BOM quantity using pre-loaded both-column storage data.
+     * @param qtyIndex 0 for QtyOnHand, 1 for QtyReserved
+     */
+    private static BigDecimal calculateBomQtyWithPreloadedBoth(
+            int rootProductId,
+            Map<Integer, List<BOMComponent>> bomTree,
+            Map<Integer, BigDecimal[]> storageQtys,
+            int qtyIndex) {
+
+        BigDecimal minQty = UNLIMITED_QTY;
+        Deque<QtyStackEntry> stack = new ArrayDeque<>();
+        stack.push(new QtyStackEntry(rootProductId, BigDecimal.ONE, Set.of()));
+
+        while (!stack.isEmpty()) {
+            QtyStackEntry entry = stack.pop();
+
+            if (entry.ancestorPath().contains(entry.productId())) {
+                continue;
+            }
+
+            List<BOMComponent> children = bomTree.getOrDefault(entry.productId(), Collections.emptyList());
+            Set<Integer> childAncestorPath = new HashSet<>(entry.ancestorPath());
+            childAncestorPath.add(entry.productId());
+
+            for (BOMComponent child : children) {
+                if (child.isStockedItem()) {
+                    BigDecimal[] qtys = storageQtys.getOrDefault(child.productId(),
+                        new BigDecimal[] { BigDecimal.ZERO, BigDecimal.ZERO });
+                    BigDecimal storageQty = qtys[qtyIndex];
+                    int precision = child.uomPrecision();
+                    BigDecimal effectiveBomQty = entry.multiplier().multiply(child.bomQty());
+
+                    if (effectiveBomQty.compareTo(BigDecimal.ZERO) > 0) {
+                        BigDecimal assemblable = storageQty.divide(effectiveBomQty, precision, RoundingMode.DOWN);
+                        if (assemblable.compareTo(minQty) < 0) {
+                            minQty = assemblable;
+                        }
+                    }
+                } else if (child.isBOM()) {
+                    stack.push(new QtyStackEntry(
+                        child.productId(),
+                        entry.multiplier().multiply(child.bomQty()),
+                        childAncestorPath
+                    ));
+                }
+            }
+        }
+
+        if (minQty.compareTo(UNLIMITED_QTY) == 0) {
+            return BigDecimal.ZERO; // OnHand=0, Reserved=0 if no stocked
+        }
+
+        int precision = getUOMPrecision(rootProductId);
+        return minQty.setScale(precision, RoundingMode.DOWN);
+    }
+
+    /**
      * Get UOM precision for a product.
      * Note: Only used for root product final rounding. Component UOM precision
      * is loaded via BOMComponent record from the CTE query.

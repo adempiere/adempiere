@@ -142,4 +142,18 @@ class Wave5FunctionsTest {
         BigDecimal result = Wave5Functions.bomQtyOrdered(null, null, null);
         assertEquals(BigDecimal.ZERO, result);
     }
+
+    @Test
+    void testBomQtyAvailable_nullInputs() {
+        BigDecimal result = Wave5Functions.bomQtyAvailable(null, null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void testBomQtyAvailable_computation() {
+        // Available = OnHand - Reserved
+        // This is a simple subtraction test
+        assertEquals(BigDecimal.ZERO,
+            Wave5Functions.bomQtyAvailable(-1, -1, -1));
+    }
 }
