@@ -176,20 +176,28 @@ public class Wave5Functions {
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     int parentId = rs.getInt("parent_id");
-                    BOMComponent child = new BOMComponent(
-                        rs.getInt("child_id"),
-                        rs.getBigDecimal("BomQty"),
-                        "Y".equals(rs.getString("IsBOM")),
-                        "Y".equals(rs.getString("IsStocked")),
-                        rs.getString("ProductType"),
-                        rs.getInt("uom_precision")
-                    );
-
-                    tree.computeIfAbsent(parentId, k -> new ArrayList<>()).add(child);
+                    int childId = rs.getInt("child_id");
+                    try {
+                        BOMComponent child = new BOMComponent(
+                            childId,
+                            rs.getBigDecimal("BomQty"),
+                            "Y".equals(rs.getString("IsBOM")),
+                            "Y".equals(rs.getString("IsStocked")),
+                            rs.getString("ProductType"),
+                            rs.getInt("uom_precision")
+                        );
+                        tree.computeIfAbsent(parentId, k -> new ArrayList<>()).add(child);
+                    } catch (IllegalArgumentException e) {
+                        // Skip components with invalid data (e.g., negative bomQty)
+                        log.warning("Skipping invalid BOM component " + childId + ": " + e.getMessage());
+                    }
                 }
             }
         } catch (SQLException e) {
             log.log(Level.WARNING, "Error loading BOM tree for product " + rootProductId, e);
+        } catch (NullPointerException e) {
+            // DB.prepareStatement throws NPE when database connection is unavailable
+            log.warning("DB unavailable for loadBOMTree: " + e.getMessage());
         }
 
         return tree;
