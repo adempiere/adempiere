@@ -181,4 +181,39 @@ public class Wave5Functions {
 
         return tree;
     }
+
+    /**
+     * Resolve warehouse ID from parameters.
+     * If warehouseId is null but locatorId is provided, looks up warehouse from locator.
+     * Matches PostgreSQL logic: IF (myWarehouse_ID IS NULL) THEN ... FROM M_LOCATOR ...
+     *
+     * @param warehouseId M_Warehouse_ID (may be null)
+     * @param locatorId M_Locator_ID (fallback, may be null)
+     * @return Resolved warehouse ID, or null if cannot resolve
+     */
+    public static Integer resolveWarehouse(Integer warehouseId, Integer locatorId) {
+        if (warehouseId != null) {
+            return warehouseId;
+        }
+        if (locatorId == null) {
+            return null;
+        }
+
+        // Lookup warehouse from locator
+        String sql = "SELECT M_Warehouse_ID FROM M_Locator WHERE M_Locator_ID = ?";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) {
+                return null;
+            }
+            pstmt.setInt(1, locatorId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("M_Warehouse_ID");
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error resolving warehouse from locator " + locatorId, e);
+        }
+        return null;
+    }
 }

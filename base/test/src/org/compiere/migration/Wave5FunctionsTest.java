@@ -64,4 +64,16 @@ class Wave5FunctionsTest {
         Map<Integer, List<Wave5Functions.BOMComponent>> tree = Wave5Functions.loadBOMTree(99999999);
         assertNotNull(tree);
     }
+
+    @Test
+    void testResolveWarehouse_warehouseProvided() {
+        Integer result = Wave5Functions.resolveWarehouse(100, 200);
+        assertEquals(100, result);
+    }
+
+    @Test
+    void testResolveWarehouse_bothNull() {
+        Integer result = Wave5Functions.resolveWarehouse(null, null);
+        assertNull(result);
+    }
 }
