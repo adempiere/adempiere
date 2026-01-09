@@ -1,6 +1,7 @@
 package org.compiere.migration;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -437,5 +438,367 @@ public class Wave5Functions {
             }
         }
         return result;
+    }
+
+    // ============================================================
+    // BOM Quantity Functions
+    // ============================================================
+
+    /**
+     * Calculate BOM quantity on hand.
+     * Equivalent to PostgreSQL bomqtyonhand function.
+     *
+     * Algorithm:
+     * 1. Resolve warehouse from parameters
+     * 2. Check if product is stocked - if yes, return direct qty
+     * 3. If BOM, find minimum qty that can be assembled from components
+     * 4. Non-stocked non-BOM items return unlimited (99999)
+     *
+     * @param productId M_Product_ID
+     * @param warehouseId M_Warehouse_ID (may be null if locatorId provided)
+     * @param locatorId M_Locator_ID fallback
+     * @return Quantity on hand (how many BOMs can be assembled)
+     */
+    public static BigDecimal bomQtyOnHand(Integer productId, Integer warehouseId, Integer locatorId) {
+        if (productId == null || productId <= 0) {
+            return BigDecimal.ZERO;
+        }
+
+        Integer resolvedWarehouse = resolveWarehouse(warehouseId, locatorId);
+        if (resolvedWarehouse == null) {
+            return BigDecimal.ZERO;
+        }
+
+        return calculateBomQty(productId, resolvedWarehouse, "QtyOnHand");
+    }
+
+    /**
+     * Generic BOM quantity calculator for OnHand, Reserved, Ordered.
+     *
+     * Stocked BOM Product Handling:
+     * If a product is both stocked (IsStocked='Y') AND has a BOM (IsBOM='Y'),
+     * this returns the direct storage quantity without exploding the BOM.
+     * This matches PostgreSQL function behavior where stocked products use
+     * their actual inventory, not calculated BOM component quantities.
+     * Rationale: A stocked BOM product (built-to-stock assembly) should
+     * report its physical on-hand count, not what could theoretically be
+     * assembled from components.
+     */
+    private static BigDecimal calculateBomQty(int productId, int warehouseId, String qtyColumn) {
+        // First check product attributes
+        ProductInfo info = getProductInfo(productId);
+        if (info == null) {
+            return BigDecimal.ZERO;
+        }
+
+        // Non-stocked non-BOM = unlimited capacity
+        if (!info.isBOM && (!"I".equals(info.productType) || !info.isStocked)) {
+            if ("QtyOnHand".equals(qtyColumn)) {
+                return UNLIMITED_QTY;
+            }
+            return BigDecimal.ZERO; // Reserved/Ordered return 0 for non-stocked
+        }
+
+        // Stocked item = get direct quantity (even if also a BOM)
+        // PostgreSQL behavior: stocked products use physical inventory
+        if (info.isStocked) {
+            return getStorageQty(productId, warehouseId, qtyColumn);
+        }
+
+        // Load BOM tree once and calculate
+        Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
+        return calculateBomQtyFromTree(productId, warehouseId, qtyColumn, bomTree);
+    }
+
+    /**
+     * Stack entry for quantity calculation traversal.
+     * Tracks ancestor path for accurate circular detection.
+     */
+    private static final class QtyStackEntry {
+        private final int productId;
+        private final BigDecimal multiplier;
+        private final Set<Integer> ancestorPath;
+
+        QtyStackEntry(int productId, BigDecimal multiplier, Set<Integer> ancestorPath) {
+            this.productId = productId;
+            this.multiplier = multiplier;
+            this.ancestorPath = ancestorPath;
+        }
+
+        int productId() { return productId; }
+        BigDecimal multiplier() { return multiplier; }
+        Set<Integer> ancestorPath() { return ancestorPath; }
+    }
+
+    /**
+     * Traverse pre-loaded BOM tree to calculate minimum assemblable quantity.
+     * Uses ancestor-path tracking for accurate circular detection.
+     * Pre-loads all storage quantities in single batch query to eliminate N+1 pattern.
+     */
+    private static BigDecimal calculateBomQtyFromTree(
+            int rootProductId,
+            int warehouseId,
+            String qtyColumn,
+            Map<Integer, List<BOMComponent>> bomTree) {
+
+        // Pre-load all storage quantities in single query (eliminates N+1 pattern)
+        Set<Integer> stockedProductIds = collectStockedProductIds(bomTree);
+        Map<Integer, BigDecimal> storageQtys = getStorageQtyBatch(stockedProductIds, warehouseId, qtyColumn);
+
+        BigDecimal minQty = UNLIMITED_QTY;
+        Deque<QtyStackEntry> stack = new ArrayDeque<>();
+        stack.push(new QtyStackEntry(rootProductId, BigDecimal.ONE, Set.of()));
+
+        while (!stack.isEmpty()) {
+            QtyStackEntry entry = stack.pop();
+
+            // Circular detection: check ancestor path
+            if (entry.ancestorPath().contains(entry.productId())) {
+                log.warning("Circular BOM detected: product " + entry.productId() +
+                            " in path " + entry.ancestorPath());
+                continue;
+            }
+
+            List<BOMComponent> children = bomTree.getOrDefault(entry.productId(), Collections.emptyList());
+
+            // Build ancestor path for children
+            Set<Integer> childAncestorPath = new HashSet<>(entry.ancestorPath());
+            childAncestorPath.add(entry.productId());
+
+            for (BOMComponent child : children) {
+                if (child.isStockedItem()) {
+                    // Leaf node: calculate qty / bomQty
+                    // Use pre-loaded storage qty instead of per-item query
+                    BigDecimal storageQty = storageQtys.getOrDefault(child.productId(), BigDecimal.ZERO);
+                    // Use UOM precision from BOMComponent (loaded via CTE)
+                    int precision = child.uomPrecision();
+                    BigDecimal effectiveBomQty = entry.multiplier().multiply(child.bomQty());
+
+                    if (effectiveBomQty.compareTo(BigDecimal.ZERO) > 0) {
+                        BigDecimal assemblable = storageQty.divide(effectiveBomQty, precision, RoundingMode.DOWN);
+                        if (assemblable.compareTo(minQty) < 0) {
+                            minQty = assemblable;
+                        }
+                    }
+                } else if (child.isBOM()) {
+                    // Recurse into child BOM
+                    stack.push(new QtyStackEntry(
+                        child.productId(),
+                        entry.multiplier().multiply(child.bomQty()),
+                        childAncestorPath
+                    ));
+                }
+                // Non-stocked non-BOM: unlimited capacity, skip
+            }
+        }
+
+        if (minQty.compareTo(UNLIMITED_QTY) == 0) {
+            return BigDecimal.ZERO;
+        }
+
+        // Round final result to root product UOM precision (need lookup for root)
+        int precision = getUOMPrecision(rootProductId);
+        return minQty.setScale(precision, RoundingMode.DOWN);
+    }
+
+    /**
+     * Product info record for BOM calculations.
+     */
+    private static final class ProductInfo {
+        private final boolean isBOM;
+        private final boolean isStocked;
+        private final String productType;
+
+        ProductInfo(boolean isBOM, boolean isStocked, String productType) {
+            this.isBOM = isBOM;
+            this.isStocked = isStocked;
+            this.productType = productType;
+        }
+    }
+
+    /**
+     * Get product info for BOM quantity calculations.
+     */
+    private static ProductInfo getProductInfo(int productId) {
+        String sql = "SELECT IsBOM, IsStocked, ProductType FROM M_Product WHERE M_Product_ID = ? AND IsActive = 'Y'";
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return null;
+            pstmt.setInt(1, productId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new ProductInfo(
+                        "Y".equals(rs.getString("IsBOM")),
+                        "Y".equals(rs.getString("IsStocked")),
+                        rs.getString("ProductType")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error getting product info for " + productId, e);
+        }
+        return null;
+    }
+
+    /**
+     * Get storage quantity for a single product.
+     */
+    private static BigDecimal getStorageQty(int productId, int warehouseId, String qtyColumn) {
+        if (!qtyColumn.matches("^(QtyOnHand|QtyReserved|QtyOrdered)$")) {
+            throw new IllegalArgumentException("Invalid qty column: " + qtyColumn);
+        }
+
+        String sql = "SELECT COALESCE(SUM(" + qtyColumn + "), 0) FROM M_Storage s "
+            + "WHERE M_Product_ID = ? "
+            + "AND s.IsActive = 'Y' "
+            + "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID "
+            + "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y')";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return BigDecimal.ZERO;
+            pstmt.setInt(1, productId);
+            pstmt.setInt(2, warehouseId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBigDecimal(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error getting storage qty for product " + productId, e);
+        }
+        return BigDecimal.ZERO;
+    }
+
+    /**
+     * Load storage quantities for multiple products in single query.
+     * Eliminates N+1 pattern for stocked component lookups.
+     *
+     * Uses PostgreSQL array binding for scalability:
+     * - Single placeholder regardless of set size
+     * - Query plan can be cached and reused
+     * - No SQL string length scaling issues
+     *
+     * @param productIds Set of M_Product_IDs to query
+     * @param warehouseId M_Warehouse_ID
+     * @param qtyColumn QtyOnHand, QtyReserved, or QtyOrdered
+     * @return Map of productId -> quantity
+     */
+    private static Map<Integer, BigDecimal> getStorageQtyBatch(
+            Set<Integer> productIds, int warehouseId, String qtyColumn) {
+        if (productIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        if (!qtyColumn.matches("^(QtyOnHand|QtyReserved|QtyOrdered)$")) {
+            throw new IllegalArgumentException("Invalid qty column: " + qtyColumn);
+        }
+
+        // Use PostgreSQL array binding - single placeholder, scales to any size
+        String sql = "SELECT M_Product_ID, COALESCE(SUM(" + qtyColumn + "), 0) AS qty " +
+            "FROM M_Storage s " +
+            "WHERE M_Product_ID = ANY(?) " +
+            "AND s.IsActive = 'Y' " +
+            "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
+            "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y') " +
+            "GROUP BY M_Product_ID";
+
+        Map<Integer, BigDecimal> result = new HashMap<>();
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return result;
+            // Convert Set to Integer array for PostgreSQL
+            Integer[] productArray = productIds.toArray(new Integer[0]);
+            pstmt.setArray(1, pstmt.getConnection().createArrayOf("integer", productArray));
+            pstmt.setInt(2, warehouseId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    result.put(rs.getInt("M_Product_ID"), rs.getBigDecimal("qty"));
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error batch loading storage quantities", e);
+        }
+        return result;
+    }
+
+    /**
+     * Batch load both OnHand and Reserved quantities in single query.
+     * Reduces bomQtyAvailable from 3 queries to 2 (CTE + this).
+     *
+     * @param productIds Set of M_Product_IDs to query
+     * @param warehouseId M_Warehouse_ID
+     * @return Map of productId -> [QtyOnHand, QtyReserved] pair
+     */
+    private static Map<Integer, BigDecimal[]> getStorageQtyBatchBoth(
+            Set<Integer> productIds, int warehouseId) {
+        if (productIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        String sql = "SELECT M_Product_ID, " +
+            "COALESCE(SUM(QtyOnHand), 0) AS qty_on_hand, " +
+            "COALESCE(SUM(QtyReserved), 0) AS qty_reserved " +
+            "FROM M_Storage s " +
+            "WHERE M_Product_ID = ANY(?) " +
+            "AND s.IsActive = 'Y' " +
+            "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
+            "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y') " +
+            "GROUP BY M_Product_ID";
+
+        Map<Integer, BigDecimal[]> result = new HashMap<>();
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return result;
+            Integer[] productArray = productIds.toArray(new Integer[0]);
+            pstmt.setArray(1, pstmt.getConnection().createArrayOf("integer", productArray));
+            pstmt.setInt(2, warehouseId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    result.put(rs.getInt("M_Product_ID"), new BigDecimal[] {
+                        rs.getBigDecimal("qty_on_hand"),
+                        rs.getBigDecimal("qty_reserved")
+                    });
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error batch loading storage quantities (both)", e);
+        }
+        return result;
+    }
+
+    /**
+     * Collect all stocked product IDs from pre-loaded BOM tree.
+     */
+    private static Set<Integer> collectStockedProductIds(Map<Integer, List<BOMComponent>> bomTree) {
+        Set<Integer> result = new HashSet<>();
+        for (List<BOMComponent> children : bomTree.values()) {
+            for (BOMComponent child : children) {
+                if (child.isStockedItem()) {
+                    result.add(child.productId());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get UOM precision for a product.
+     * Note: Only used for root product final rounding. Component UOM precision
+     * is loaded via BOMComponent record from the CTE query.
+     */
+    private static int getUOMPrecision(int productId) {
+        String sql = "SELECT COALESCE(u.StdPrecision, 0) FROM C_UOM u " +
+            "INNER JOIN M_Product p ON u.C_UOM_ID = p.C_UOM_ID " +
+            "WHERE p.M_Product_ID = ?";
+
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return 0;
+            pstmt.setInt(1, productId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error getting UOM precision for product " + productId, e);
+        }
+        return 0;
     }
 }

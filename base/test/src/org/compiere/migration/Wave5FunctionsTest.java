@@ -112,4 +112,22 @@ class Wave5FunctionsTest {
         BigDecimal result = Wave5Functions.bomPriceStd(-1, -1);
         assertEquals(BigDecimal.ZERO, result);
     }
+
+    @Test
+    void testBomQtyOnHand_nullInputs() {
+        BigDecimal result = Wave5Functions.bomQtyOnHand(null, null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void testBomQtyOnHand_noWarehouseOrLocator() {
+        BigDecimal result = Wave5Functions.bomQtyOnHand(100, null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void testBomQtyOnHand_invalidProductId() {
+        BigDecimal result = Wave5Functions.bomQtyOnHand(-1, 100, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
 }
