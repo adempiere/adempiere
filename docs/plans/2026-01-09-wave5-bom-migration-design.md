@@ -8,7 +8,9 @@
 
 **Tech Stack:** Java 17, ADempiere model layer, JUnit 5
 
-**Review Status:** Approved with changes per `docs/plans/2026-01-09-wave5-bom-migration-design-critical-review-3.md`
+**Review Status:** Approved with changes per `docs/plans/2026-01-09-wave5-bom-migration-design-critical-review-4.md`
+
+**Multi-Tenant Security Assumption:** These functions do not include AD_Client_ID or AD_Org_ID filtering in their queries. This matches the behavior of the PostgreSQL functions being replaced, which rely on the database connection having appropriate tenant context set via `SET search_path` or row-level security policies. If multi-tenant isolation is required at the application level, callers must ensure appropriate context is established before invoking these functions. The shadow validation will compare Java and SQL results under identical tenant contexts.
 
 ---
 
@@ -626,10 +628,12 @@ private static Map<Integer, BigDecimal> getProductPricesBatch(
         throw new IllegalArgumentException("Invalid price column: " + priceColumn);
     }
 
-    String sql = "SELECT M_Product_ID, COALESCE(" + priceColumn + ", 0) AS price " +
+    String sql = "SELECT M_Product_ID, COALESCE(SUM(" + priceColumn + "), 0) AS price " +
         "FROM M_ProductPrice " +
         "WHERE M_PriceList_Version_ID = ? " +
-        "AND M_Product_ID = ANY(?)";
+        "AND M_Product_ID = ANY(?) " +
+        "AND IsActive = 'Y' " +
+        "GROUP BY M_Product_ID";
 
     Map<Integer, BigDecimal> result = new HashMap<>();
     try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
@@ -865,8 +869,8 @@ class Wave5PricingIntegrationTest extends AbstractMigrationTest {
         Integer productId = getAnyProductWithPrice();
         Integer plvId = getAnyPriceListVersion();
 
-        assumeTrue(productId != null, "Skipping: No product with price available in test database");
-        assumeTrue(plvId != null, "Skipping: No price list version available in test database");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with price available in test database");
+        assumeTrue(plvId != null && plvId > 0, "Skipping: No price list version available in test database");
 
         BigDecimal javaResult = Wave5Functions.bomPriceLimit(productId, plvId);
         BigDecimal sqlResult = callSqlFunction("bompricelimit", productId, plvId);
@@ -881,8 +885,8 @@ class Wave5PricingIntegrationTest extends AbstractMigrationTest {
         Integer productId = getAnyProductWithPrice();
         Integer plvId = getAnyPriceListVersion();
 
-        assumeTrue(productId != null, "Skipping: No product with price available");
-        assumeTrue(plvId != null, "Skipping: No price list version available");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with price available");
+        assumeTrue(plvId != null && plvId > 0, "Skipping: No price list version available");
 
         BigDecimal javaResult = Wave5Functions.bomPriceList(productId, plvId);
         BigDecimal sqlResult = callSqlFunction("bompricelist", productId, plvId);
@@ -896,8 +900,8 @@ class Wave5PricingIntegrationTest extends AbstractMigrationTest {
         Integer productId = getAnyProductWithPrice();
         Integer plvId = getAnyPriceListVersion();
 
-        assumeTrue(productId != null, "Skipping: No product with price available");
-        assumeTrue(plvId != null, "Skipping: No price list version available");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with price available");
+        assumeTrue(plvId != null && plvId > 0, "Skipping: No price list version available");
 
         BigDecimal javaResult = Wave5Functions.bomPriceStd(productId, plvId);
         BigDecimal sqlResult = callSqlFunction("bompricestd", productId, plvId);
@@ -1022,6 +1026,15 @@ public static BigDecimal bomQtyOnHand(Integer productId, Integer warehouseId, In
 
 /**
  * Generic BOM quantity calculator for OnHand, Reserved, Ordered.
+ *
+ * Stocked BOM Product Handling:
+ * If a product is both stocked (IsStocked='Y') AND has a BOM (IsBOM='Y'),
+ * this returns the direct storage quantity without exploding the BOM.
+ * This matches PostgreSQL function behavior where stocked products use
+ * their actual inventory, not calculated BOM component quantities.
+ * Rationale: A stocked BOM product (built-to-stock assembly) should
+ * report its physical on-hand count, not what could theoretically be
+ * assembled from components.
  */
 private static BigDecimal calculateBomQty(int productId, int warehouseId, String qtyColumn) {
     // First check product attributes
@@ -1038,7 +1051,8 @@ private static BigDecimal calculateBomQty(int productId, int warehouseId, String
         return BigDecimal.ZERO; // Reserved/Ordered return 0 for non-stocked
     }
 
-    // Stocked item = get direct quantity
+    // Stocked item = get direct quantity (even if also a BOM)
+    // PostgreSQL behavior: stocked products use physical inventory
     if (info.isStocked) {
         return getStorageQty(productId, warehouseId, qtyColumn);
     }
@@ -1158,8 +1172,9 @@ private static BigDecimal getStorageQty(int productId, int warehouseId, String q
 
     String sql = "SELECT COALESCE(SUM(" + qtyColumn + "), 0) FROM M_Storage s "
         + "WHERE M_Product_ID = ? "
+        + "AND s.IsActive = 'Y' "
         + "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID "
-        + "AND l.M_Warehouse_ID = ?)";
+        + "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y')";
 
     try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
         if (pstmt == null) return BigDecimal.ZERO;
@@ -1204,8 +1219,9 @@ private static Map<Integer, BigDecimal> getStorageQtyBatch(
     String sql = "SELECT M_Product_ID, COALESCE(SUM(" + qtyColumn + "), 0) AS qty " +
         "FROM M_Storage s " +
         "WHERE M_Product_ID = ANY(?) " +
+        "AND s.IsActive = 'Y' " +
         "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
-        "AND l.M_Warehouse_ID = ?) " +
+        "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y') " +
         "GROUP BY M_Product_ID";
 
     Map<Integer, BigDecimal> result = new HashMap<>();
@@ -1245,8 +1261,9 @@ private static Map<Integer, BigDecimal[]> getStorageQtyBatchBoth(
         "COALESCE(SUM(QtyReserved), 0) AS qty_reserved " +
         "FROM M_Storage s " +
         "WHERE M_Product_ID = ANY(?) " +
+        "AND s.IsActive = 'Y' " +
         "AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID = l.M_Locator_ID " +
-        "AND l.M_Warehouse_ID = ?) " +
+        "AND l.M_Warehouse_ID = ? AND l.IsActive = 'Y') " +
         "GROUP BY M_Product_ID";
 
     Map<Integer, BigDecimal[]> result = new HashMap<>();
@@ -1284,9 +1301,15 @@ private static Set<Integer> collectStockedProductIds(Map<Integer, List<BOMCompon
     return result;
 }
 
+/**
+ * Get UOM precision for a product.
+ * Note: Only used for root product final rounding. Component UOM precision
+ * is loaded via BOMComponent record from the CTE query.
+ */
 private static int getUOMPrecision(int productId) {
-    String sql = "SELECT COALESCE(MAX(u.StdPrecision), 0) FROM C_UOM u, M_Product p "
-        + "WHERE u.C_UOM_ID = p.C_UOM_ID AND p.M_Product_ID = ?";
+    String sql = "SELECT COALESCE(u.StdPrecision, 0) FROM C_UOM u " +
+        "INNER JOIN M_Product p ON u.C_UOM_ID = p.C_UOM_ID " +
+        "WHERE p.M_Product_ID = ?";
 
     try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
         if (pstmt == null) return 0;
@@ -2011,8 +2034,8 @@ class Wave5ShadowValidationTest extends AbstractMigrationTest {
         Integer productId = getProductWithBOM();
         Integer plvId = getAnyPriceListVersion();
 
-        assumeTrue(productId != null, "Skipping: No product with BOM available");
-        assumeTrue(plvId != null, "Skipping: No price list version available");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with BOM available");
+        assumeTrue(plvId != null && plvId > 0, "Skipping: No price list version available");
 
         BigDecimal javaResult = Wave5Functions.bomPriceLimit(productId, plvId);
         BigDecimal sqlResult = SqlFunctionCaller.callBomPriceLimit(productId, plvId);
@@ -2027,8 +2050,8 @@ class Wave5ShadowValidationTest extends AbstractMigrationTest {
         Integer productId = getProductWithBOM();
         Integer warehouseId = getAnyWarehouse();
 
-        assumeTrue(productId != null, "Skipping: No product with BOM available");
-        assumeTrue(warehouseId != null, "Skipping: No warehouse available");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with BOM available");
+        assumeTrue(warehouseId != null && warehouseId > 0, "Skipping: No warehouse available");
 
         BigDecimal javaResult = Wave5Functions.bomQtyOnHand(productId, warehouseId, null);
         BigDecimal sqlResult = SqlFunctionCaller.callBomQtyOnHand(productId, warehouseId, null);
@@ -2043,8 +2066,8 @@ class Wave5ShadowValidationTest extends AbstractMigrationTest {
         Integer productId = getProductWithBOM();
         Integer warehouseId = getAnyWarehouse();
 
-        assumeTrue(productId != null, "Skipping: No product with BOM available");
-        assumeTrue(warehouseId != null, "Skipping: No warehouse available");
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with BOM available");
+        assumeTrue(warehouseId != null && warehouseId > 0, "Skipping: No warehouse available");
 
         BigDecimal javaResult = Wave5Functions.bomQtyAvailable(productId, warehouseId, null);
         BigDecimal sqlResult = SqlFunctionCaller.callBomQtyAvailable(productId, warehouseId, null);
@@ -2060,10 +2083,10 @@ class Wave5ShadowValidationTest extends AbstractMigrationTest {
         // The CTE's cycle detection should prevent duplicate rows
         Integer productId = getProductWithCircularBOM();
 
-        assumeTrue(productId != null, "Skipping: No circular BOM in test data");
+        assumeTrue(productId != null && productId > 0, "Skipping: No circular BOM in test data");
 
         Integer warehouseId = getAnyWarehouse();
-        assumeTrue(warehouseId != null, "Skipping: No warehouse available");
+        assumeTrue(warehouseId != null && warehouseId > 0, "Skipping: No warehouse available");
 
         // Should complete without hanging or throwing
         BigDecimal result = Wave5Functions.bomQtyOnHand(productId, warehouseId, null);
@@ -2298,10 +2321,12 @@ class Wave5PerformanceTest extends AbstractMigrationTest {
         }
 
         // Calculate median (more robust than mean)
+        // For even-length arrays, use average of middle two elements
         Arrays.sort(javaTimes);
         Arrays.sort(sqlTimes);
-        long javaMedianNs = javaTimes[MEASUREMENT_ROUNDS / 2];
-        long sqlMedianNs = sqlTimes[MEASUREMENT_ROUNDS / 2];
+        int mid = MEASUREMENT_ROUNDS / 2;
+        long javaMedianNs = (javaTimes[mid - 1] + javaTimes[mid]) / 2;
+        long sqlMedianNs = (sqlTimes[mid - 1] + sqlTimes[mid]) / 2;
 
         double javaMedianMs = javaMedianNs / 1_000_000.0;
         double sqlMedianMs = sqlMedianNs / 1_000_000.0;
@@ -2531,6 +2556,18 @@ Key design decisions:
 | Price lookups not batched | P2 | Added `getProductPricesBatch()` and `collectAllProductIds()` helpers |
 | Performance test methodology weak | P3 | Increased warmup to 100 iterations, added 10 measurement rounds with median |
 | bomQtyAvailable uses 3 queries | P3 | Added `getStorageQtyBatchBoth()` to load OnHand+Reserved in single query |
+
+**Review Changes Applied (Critical Review 4):**
+| Issue | Priority | Resolution |
+|-------|----------|------------|
+| Batch price missing GROUP BY | P1 | Added `SUM()` and `GROUP BY M_Product_ID` to match single-lookup semantics |
+| Missing M_ProductPrice IsActive | P2 | Added `AND IsActive = 'Y'` to batch price query |
+| Missing M_Storage IsActive | P2 | Added `AND s.IsActive = 'Y'` and `AND l.IsActive = 'Y'` to all storage queries |
+| Stocked BOM product handling | P2 | Documented: stocked products use physical inventory, not BOM explosion |
+| Test helper -1 vs null | P3 | Changed `assumeTrue` checks to `productId != null && productId > 0` |
+| MAX in getUOMPrecision | P3 | Simplified query to use direct `COALESCE` without unnecessary MAX |
+| AD_Client_ID filtering | P3 | Documented multi-tenant security assumption in header |
+| Median calculation | P4 | Fixed to use average of middle two elements for even-length arrays |
 
 **Query Count After All Optimizations:**
 - Price functions: 1 (CTE) + 1 (batch prices) = 2 queries total
