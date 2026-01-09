@@ -283,6 +283,21 @@ public class Wave5Functions {
     }
 
     /**
+     * Calculate BOM list price by recursively summing component list prices.
+     * Equivalent to PostgreSQL bompricelist function.
+     *
+     * @param productId M_Product_ID
+     * @param priceListVersionId M_PriceList_Version_ID
+     * @return Sum of list prices, ZERO if not found or invalid inputs
+     */
+    public static BigDecimal bomPriceList(Integer productId, Integer priceListVersionId) {
+        if (productId == null || productId <= 0 || priceListVersionId == null || priceListVersionId <= 0) {
+            return BigDecimal.ZERO;
+        }
+        return calculateBomPrice(productId, priceListVersionId, "PriceList");
+    }
+
+    /**
      * Generic BOM price calculator supporting PriceLimit, PriceList, and PriceStd.
      * Uses batch-loaded tree with ancestor-path circular detection.
      *
