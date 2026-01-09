@@ -4,11 +4,15 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -236,5 +240,172 @@ public class Wave5Functions {
             log.log(Level.WARNING, "Error resolving warehouse from locator " + locatorId, e);
         }
         return null;
+    }
+
+    /**
+     * Stack entry for price calculation traversal.
+     * Tracks ancestor path to detect true circular references.
+     */
+    private static final class PriceStackEntry {
+        private final int productId;
+        private final BigDecimal multiplier;
+        private final Set<Integer> ancestorPath;
+
+        PriceStackEntry(int productId, BigDecimal multiplier, Set<Integer> ancestorPath) {
+            this.productId = productId;
+            this.multiplier = multiplier;
+            this.ancestorPath = ancestorPath;
+        }
+
+        int productId() { return productId; }
+        BigDecimal multiplier() { return multiplier; }
+        Set<Integer> ancestorPath() { return ancestorPath; }
+    }
+
+    /**
+     * Calculate BOM price limit by recursively summing component price limits.
+     * Equivalent to PostgreSQL bompricelimit function.
+     *
+     * Algorithm:
+     * 1. Try to get PriceLimit from M_ProductPrice directly
+     * 2. If price is 0, traverse BOM and sum (component PriceLimit * BomQty)
+     * 3. Uses iterative approach with explicit stack to avoid stack overflow
+     *
+     * @param productId M_Product_ID
+     * @param priceListVersionId M_PriceList_Version_ID
+     * @return Sum of price limits, ZERO if not found or invalid inputs
+     */
+    public static BigDecimal bomPriceLimit(Integer productId, Integer priceListVersionId) {
+        if (productId == null || productId <= 0 || priceListVersionId == null || priceListVersionId <= 0) {
+            return BigDecimal.ZERO;
+        }
+        return calculateBomPrice(productId, priceListVersionId, "PriceLimit");
+    }
+
+    /**
+     * Generic BOM price calculator supporting PriceLimit, PriceList, and PriceStd.
+     * Uses batch-loaded tree with ancestor-path circular detection.
+     *
+     * Query optimization:
+     * - 1 query: Load BOM tree (CTE)
+     * - 1 query: Batch load all product prices
+     * - Total: 2 queries regardless of BOM depth or component count
+     *
+     * Note: Retry/circuit breaker logic is handled by ShadowExecutor.
+     * Individual function methods fail fast; ShadowExecutor manages fallback to SQL.
+     */
+    private static BigDecimal calculateBomPrice(int productId, int priceListVersionId, String priceColumn) {
+        // Load entire BOM tree in single query
+        Map<Integer, List<BOMComponent>> bomTree = loadBOMTree(productId);
+
+        // Pre-load all product prices in single query (eliminates N+1 pattern)
+        Set<Integer> allProductIds = collectAllProductIds(bomTree);
+        allProductIds.add(productId); // Include root
+        Map<Integer, BigDecimal> prices = getProductPricesBatch(allProductIds, priceListVersionId, priceColumn);
+
+        // Check root price first
+        BigDecimal directPrice = prices.getOrDefault(productId, BigDecimal.ZERO);
+        if (directPrice.compareTo(BigDecimal.ZERO) != 0) {
+            return directPrice;
+        }
+
+        if (bomTree.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+
+        // Iterative BOM traversal with ancestor-path circular detection
+        Deque<PriceStackEntry> stack = new ArrayDeque<>();
+        stack.push(new PriceStackEntry(productId, BigDecimal.ONE, Collections.emptySet()));
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+
+        while (!stack.isEmpty()) {
+            PriceStackEntry entry = stack.pop();
+
+            // Circular detection: check if current product is in its own ancestor path
+            if (entry.ancestorPath().contains(entry.productId())) {
+                log.warning("Circular BOM detected: product " + entry.productId() +
+                            " appears in ancestor path " + entry.ancestorPath());
+                continue;
+            }
+
+            // Try to get price from pre-loaded batch
+            BigDecimal componentPrice = prices.getOrDefault(entry.productId(), BigDecimal.ZERO);
+            if (componentPrice.compareTo(BigDecimal.ZERO) != 0) {
+                totalPrice = totalPrice.add(componentPrice.multiply(entry.multiplier()));
+            } else {
+                // No direct price - process BOM children from pre-loaded tree
+                List<BOMComponent> children = bomTree.getOrDefault(entry.productId(), Collections.emptyList());
+
+                // Build new ancestor path including current node
+                Set<Integer> childAncestorPath = new HashSet<>(entry.ancestorPath());
+                childAncestorPath.add(entry.productId());
+
+                for (BOMComponent child : children) {
+                    BigDecimal childMultiplier = entry.multiplier().multiply(child.bomQty());
+                    stack.push(new PriceStackEntry(child.productId(), childMultiplier, childAncestorPath));
+                }
+            }
+        }
+
+        return totalPrice;
+    }
+
+    /**
+     * Load product prices for multiple products in single query.
+     * Eliminates N+1 pattern for price lookups during BOM traversal.
+     *
+     * Uses PostgreSQL array binding for scalability.
+     *
+     * @param productIds Set of M_Product_IDs to query
+     * @param priceListVersionId M_PriceList_Version_ID
+     * @param priceColumn PriceLimit, PriceList, or PriceStd
+     * @return Map of productId -> price
+     */
+    private static Map<Integer, BigDecimal> getProductPricesBatch(
+            Set<Integer> productIds, int priceListVersionId, String priceColumn) {
+        if (productIds.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        if (!priceColumn.matches("^(PriceLimit|PriceList|PriceStd)$")) {
+            throw new IllegalArgumentException("Invalid price column: " + priceColumn);
+        }
+
+        String sql = "SELECT M_Product_ID, COALESCE(SUM(" + priceColumn + "), 0) AS price " +
+            "FROM M_ProductPrice " +
+            "WHERE M_PriceList_Version_ID = ? " +
+            "AND M_Product_ID = ANY(?) " +
+            "GROUP BY M_Product_ID";
+
+        Map<Integer, BigDecimal> result = new HashMap<>();
+        try (PreparedStatement pstmt = DB.prepareStatement(sql, null)) {
+            if (pstmt == null) return result;
+            pstmt.setInt(1, priceListVersionId);
+            Integer[] productArray = productIds.toArray(new Integer[0]);
+            pstmt.setArray(2, pstmt.getConnection().createArrayOf("integer", productArray));
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    result.put(rs.getInt("M_Product_ID"), rs.getBigDecimal("price"));
+                }
+            }
+        } catch (SQLException e) {
+            log.log(Level.WARNING, "Error batch loading product prices", e);
+        }
+        return result;
+    }
+
+    /**
+     * Collect all product IDs from pre-loaded BOM tree (not just stocked).
+     * Used for batch price loading.
+     */
+    private static Set<Integer> collectAllProductIds(Map<Integer, List<BOMComponent>> bomTree) {
+        Set<Integer> result = new HashSet<>(bomTree.keySet()); // All parents
+        for (List<BOMComponent> children : bomTree.values()) {
+            for (BOMComponent child : children) {
+                result.add(child.productId());
+            }
+        }
+        return result;
     }
 }

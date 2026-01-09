@@ -76,4 +76,16 @@ class Wave5FunctionsTest {
         Integer result = Wave5Functions.resolveWarehouse(null, null);
         assertNull(result);
     }
+
+    @Test
+    void testBomPriceLimit_nullInputs() {
+        BigDecimal result = Wave5Functions.bomPriceLimit(null, null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void testBomPriceLimit_invalidInputs() {
+        BigDecimal result = Wave5Functions.bomPriceLimit(-1, -1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
 }
