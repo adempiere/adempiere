@@ -127,7 +127,6 @@ public class Wave5Functions {
 
         String sql =
             "WITH RECURSIVE bom_tree AS (" +
-            "    -- Anchor: direct children of root product\n" +
             "    SELECT b.M_Product_ID AS parent_id," +
             "           bl.M_Product_ID AS child_id," +
             "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
@@ -135,7 +134,7 @@ public class Wave5Functions {
             "           p.IsBOM, p.IsStocked, p.ProductType," +
             "           COALESCE(u.StdPrecision, 0) AS uom_precision," +
             "           1 AS depth," +
-            "           ARRAY[b.M_Product_ID] AS path," +
+            "           ARRAY[b.M_Product_ID]::numeric[] AS path," +
             "           false AS is_cycle" +
             "    FROM PP_Product_BOM b" +
             "    INNER JOIN PP_Product_BOMLine bl ON bl.PP_Product_BOM_ID = b.PP_Product_BOM_ID" +
@@ -143,8 +142,7 @@ public class Wave5Functions {
             "    LEFT JOIN C_UOM u ON u.C_UOM_ID = p.C_UOM_ID" +
             "    WHERE b.M_Product_ID = ?" +
             "      AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'" +
-            "    UNION ALL" +
-            "    -- Recursive: children's children (with cycle detection)\n" +
+            "    UNION ALL " +
             "    SELECT b.M_Product_ID AS parent_id," +
             "           bl.M_Product_ID AS child_id," +
             "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
