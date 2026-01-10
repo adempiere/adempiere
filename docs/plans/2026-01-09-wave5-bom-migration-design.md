@@ -10,6 +10,8 @@
 
 **Review Status:** Approved with changes per `docs/plans/2026-01-09-wave5-bom-migration-design-critical-review-4.md`
 
+**Quality Gates:** See `docs/plans/wave5-quality-gates.md` for Gate 1-5 progression (Code Complete → SQL Baseline → Shadow → JAVA_ONLY → Post-Cutover)
+
 **Multi-Tenant Security Assumption:** These functions do not include AD_Client_ID or AD_Org_ID filtering in their queries. This matches the behavior of the PostgreSQL functions being replaced, which rely on the database connection having appropriate tenant context set via `SET search_path` or row-level security policies. If multi-tenant isolation is required at the application level, callers must ensure appropriate context is established before invoking these functions. The shadow validation will compare Java and SQL results under identical tenant contexts.
 
 ---
@@ -2446,57 +2448,53 @@ EOF
 
 ---
 
-### Task 6.3: Create Gate 1 Checklist
+### Task 6.3: Update Quality Gates Document - Gate 1 Complete
 
 **Files:**
-- Create: `docs/plans/wave5-gate1-checklist.md`
+- Modify: `docs/plans/wave5-quality-gates.md`
 
-```markdown
-# Wave 5 Gate 1: Code Complete Checklist
+**Quality Gates Document:** Wave 5 uses a comprehensive quality gates document (`docs/plans/wave5-quality-gates.md`) that tracks all 5 gates:
+- Gate 1: Code Complete
+- Gate 2: SQL_ONLY Baseline
+- Gate 3: Router Validation (SHADOW mode)
+- Gate 4: JAVA_ONLY Cutover
+- Gate 5: Post-Cutover (7-day monitoring)
 
-## Functions Implemented
-- [x] bomPriceLimit - Iterative price limit calculation
-- [x] bomPriceList - Iterative list price calculation
-- [x] bomPriceStd - Iterative standard price calculation
-- [x] bomQtyOnHand - Iterative on-hand quantity
-- [x] bomQtyReserved - Iterative reserved quantity
-- [x] bomQtyOrdered - Iterative ordered quantity
-- [x] bomQtyAvailable - OnHand - Reserved composition
+**Step 1: Update Gate 1 status in quality gates document**
 
-## Recursion Safeguards
-- [x] Maximum depth limit (configurable via AD_SysConfig)
-- [x] Circular detection via HashSet
-- [x] Iterative traversal (no stack overflow risk)
+Mark all Gate 1 checklist items as complete:
+- All 7 Java implementations complete
+- BOMComponent record with validation
+- loadBOMTree batch CTE method
+- Wave5FunctionRouter created
+- SqlFunctionCaller methods added
+- All unit tests passing
 
-## Testing
-- [x] Unit tests for null/invalid inputs
-- [x] Integration tests comparing Java vs SQL
-- [x] Shadow validation tests
-- [x] Performance baseline tests
+Update status from "NOT STARTED" to "COMPLETE" and add evidence (commit hashes).
 
-## Code Quality
-- [x] Follows Wave 4 patterns (Functions + Router + ShadowExecutor)
-- [x] Proper error handling and logging
-- [x] SQL injection prevention for column names
+**Step 2: Update Current Status Summary table**
 
-## Ready for Gate 2: Shadow Deployment
-```
+Change Gate 1 row from "NOT STARTED" to "COMPLETE".
 
-**Step 1: Create the file**
-
-**Step 2: Commit**
+**Step 3: Commit**
 
 ```bash
-git add docs/plans/wave5-gate1-checklist.md
+git add docs/plans/wave5-quality-gates.md
 git commit -m "$(cat <<'EOF'
-docs(wave5): add Gate 1 code complete checklist
+docs(wave5): mark Gate 1 code complete in quality gates
 
-Tracks completion of all Wave 5 implementation requirements.
+Updates wave5-quality-gates.md with Gate 1 completion status.
+All implementation tasks done, unit tests passing.
 
 Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```
+
+**Next Steps After Gate 1:**
+- Proceed to Gate 2: SQL_ONLY Baseline (performance testing)
+- Configure functions as SQL_ONLY in migration.function_config
+- Capture performance baseline for all 7 functions
 
 ---
 
@@ -2511,7 +2509,7 @@ This plan implements all 7 Wave 5 BOM functions following the established Wave 4
 | 3 | 4 | BOM Quantity: bomQtyOnHand, bomQtyReserved, bomQtyOrdered, bomQtyAvailable |
 | 4 | 4 | Router and Shadow: Wave5FunctionRouter, SqlFunctionCaller, config, shadow tests |
 | 5 | 3 | Edge Cases: circular detection, deep BOM, performance tests |
-| 6 | 3 | Quality Gates: full test suite, documentation, Gate 1 checklist |
+| 6 | 3 | Quality Gates: full test suite, documentation, update wave5-quality-gates.md |
 
 **Total: 21 tasks in 6 groups**
 
