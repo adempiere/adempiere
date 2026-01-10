@@ -194,7 +194,7 @@ paymentTermDiscount (Wave 2) ◄── invoiceDiscount
 
 ---
 
-## Wave 5: BOM Functions (Complex)
+## Wave 5: BOM Functions (Complex) - IMPLEMENTATION COMPLETE
 
 **Goal:** Migrate recursive BOM functions - most complex wave
 **Effort:** 9-12 days
@@ -268,6 +268,19 @@ bomPriceLimit, bomPriceList, bomPriceStd (all independent)
 
 **Views Affected:**
 - RV_WAREHOUSEPRICE.sql (all 7 BOM functions)
+
+**Implementation Notes:**
+- All 7 functions use iterative stack-based traversal (no recursion)
+- Circular BOM detection via HashSet tracking
+- Max depth configurable via AD_SysConfig `BOM_MAX_DEPTH`
+- Shadow mode at 100% for validation
+- Performance tier: Reporting (allows 100% latency increase)
+
+**Files Added:**
+- `base/src/org/compiere/migration/Wave5Functions.java`
+- `base/src/org/compiere/migration/Wave5FunctionRouter.java`
+- `base/test/src/org/compiere/migration/Wave5FunctionsTest.java`
+- `base/test/src/org/compiere/migration/Wave5ShadowValidationTest.java`
 
 ---
 
