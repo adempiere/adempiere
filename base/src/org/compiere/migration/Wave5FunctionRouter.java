@@ -6,6 +6,12 @@ import org.compiere.migration.comparators.BigDecimalComparator;
 /**
  * Router for Wave 5 BOM functions.
  * Delegates to ShadowExecutor for shadow validation.
+ *
+ * <p><b>Comparator Choice:</b> Uses CURRENCY (6 decimal tolerance) for all functions
+ * because BOM calculations involve division (e.g., qty/bomQty) which can produce
+ * minor rounding differences between Java and SQL implementations. The 6 decimal
+ * tolerance is sufficient to catch real mismatches while allowing for acceptable
+ * floating-point precision differences.
  */
 public class Wave5FunctionRouter {
 
