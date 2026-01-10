@@ -60,12 +60,13 @@ This document defines the quality gates for Wave 5 BOM function migration from P
 All tests must pass against PostgreSQL functions using test database.
 
 - [ ] All functions configured as SQL_ONLY in migration.function_config
-- [ ] Performance tests created (`Wave5PerformanceTest.java`)
-- [ ] Performance tests use Reporting tier threshold (<=2.0x ratio)
-- [ ] Integration tests pass against SQL functions
-- [ ] Performance baseline captured for each function
+- [x] Performance tests created (`Wave5PerformanceTest.java`)
+- [x] Performance tests use Reporting tier threshold (<=2.0x ratio)
+- [x] Integration tests pass against SQL functions
+- [x] Performance baseline captured for each function
+- [ ] **BLOCKER**: Performance meets Reporting tier threshold (currently 2.7x-7.4x)
 
-**Status:** NOT STARTED
+**Status:** BLOCKED - Performance optimization required
 
 **Prerequisites:**
 - Gate 1 must be complete
@@ -97,16 +98,19 @@ RUN_PERF_TESTS=true mvn test -pl base -Dtest=Wave5PerformanceTest -q
 
 | Function | SQL Avg (ms) | Java Avg (ms) | Overhead (ms) | Ratio | Threshold | Status |
 |----------|--------------|---------------|---------------|-------|-----------|--------|
-| bomPriceLimit | — | — | — | — | <=2.0x | — |
-| bomPriceList | — | — | — | — | <=2.0x | — |
-| bomPriceStd | — | — | — | — | <=2.0x | — |
-| bomQtyOnHand | — | — | — | — | <=2.0x | — |
-| bomQtyReserved | — | — | — | — | <=2.0x | — |
-| bomQtyOrdered | — | — | — | — | <=2.0x | — |
-| bomQtyAvailable | — | — | — | — | <=2.0x | — |
+| bomPriceLimit | 43.61 | 315.47 | 271.86 | 7.23x | <=2.0x | FAIL |
+| bomPriceList | 42.85 | 302.46 | 259.61 | 7.06x | <=2.0x | FAIL |
+| bomPriceStd | 40.54 | 299.29 | 258.75 | 7.38x | <=2.0x | FAIL |
+| bomQtyOnHand | 34.40 | 98.42 | 64.02 | 2.86x | <=2.0x | FAIL |
+| bomQtyReserved | 26.87 | 77.84 | 50.97 | 2.90x | <=2.0x | FAIL |
+| bomQtyOrdered | 28.25 | 76.73 | 48.48 | 2.72x | <=2.0x | FAIL |
+| bomQtyAvailable | 37.44 | 156.13 | 118.69 | 4.17x | <=2.0x | FAIL |
 
 **Known Issues:**
-- *To be documented during baseline testing*
+- **BLOCKER**: All functions exceed 2.0x threshold
+- Pricing functions (bomPrice*) are 7x slower - likely due to repeated database calls for price lookups
+- Quantity functions (bomQty*) are 2.7-4.2x slower - better but still exceeds threshold
+- Root cause: Java implementation makes individual SQL calls per BOM component, while SQL function uses optimized CTE
 
 **Acceptance Criteria:**
 - 100% of integration tests pass against test database
@@ -380,12 +384,12 @@ LIMIT 20;
 | Gate | Status | Blocker |
 |------|--------|---------|
 | Gate 1: Code Complete | COMPLETE | — |
-| Gate 2: SQL_ONLY Baseline | NOT STARTED | — |
+| Gate 2: SQL_ONLY Baseline | BLOCKED | Performance 2.7x-7.4x exceeds 2.0x threshold |
 | Gate 3: Router Validation | NOT STARTED | Depends on Gate 2 |
 | Gate 4: JAVA_ONLY Cutover | NOT STARTED | Depends on Gate 3 |
 | Gate 5: Post-Cutover | NOT STARTED | Depends on Gate 4 |
 
-**Next Action:** Begin Gate 2: SQL_ONLY Baseline testing
+**Next Action:** Optimize Java implementation performance to meet 2.0x threshold
 
 ---
 
