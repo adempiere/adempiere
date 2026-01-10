@@ -127,7 +127,7 @@ public class Wave5Functions {
 
         String sql =
             "WITH RECURSIVE bom_tree AS (" +
-            "    -- Anchor: direct children of root product" +
+            "    -- Anchor: direct children of root product\n" +
             "    SELECT b.M_Product_ID AS parent_id," +
             "           bl.M_Product_ID AS child_id," +
             "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
@@ -144,7 +144,7 @@ public class Wave5Functions {
             "    WHERE b.M_Product_ID = ?" +
             "      AND b.IsActive = 'Y' AND bl.IsActive = 'Y' AND p.IsActive = 'Y'" +
             "    UNION ALL" +
-            "    -- Recursive: children's children (with cycle detection)" +
+            "    -- Recursive: children's children (with cycle detection)\n" +
             "    SELECT b.M_Product_ID AS parent_id," +
             "           bl.M_Product_ID AS child_id," +
             "           CASE WHEN bl.IsQtyPercentage = 'N' THEN bl.QtyBOM" +
