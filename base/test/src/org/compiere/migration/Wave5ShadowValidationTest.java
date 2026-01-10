@@ -73,6 +73,38 @@ class Wave5ShadowValidationTest extends CommonGWSetup {
     }
 
     @Test
+    void testBomQtyReserved_shadowValidation() {
+        Integer productId = getProductWithBOM();
+        Integer warehouseId = getAnyWarehouse();
+
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with BOM available");
+        assumeTrue(warehouseId != null && warehouseId > 0, "Skipping: No warehouse available");
+
+        BigDecimal javaResult = Wave5Functions.bomQtyReserved(productId, warehouseId, null);
+        BigDecimal sqlResult = SqlFunctionCaller.callBomQtyReserved(productId, warehouseId, null);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            () -> "bomQtyReserved mismatch for product " + productId +
+                  ": Java=" + javaResult + ", SQL=" + sqlResult);
+    }
+
+    @Test
+    void testBomQtyOrdered_shadowValidation() {
+        Integer productId = getProductWithBOM();
+        Integer warehouseId = getAnyWarehouse();
+
+        assumeTrue(productId != null && productId > 0, "Skipping: No product with BOM available");
+        assumeTrue(warehouseId != null && warehouseId > 0, "Skipping: No warehouse available");
+
+        BigDecimal javaResult = Wave5Functions.bomQtyOrdered(productId, warehouseId, null);
+        BigDecimal sqlResult = SqlFunctionCaller.callBomQtyOrdered(productId, warehouseId, null);
+
+        assertEquals(0, javaResult.compareTo(sqlResult),
+            () -> "bomQtyOrdered mismatch for product " + productId +
+                  ": Java=" + javaResult + ", SQL=" + sqlResult);
+    }
+
+    @Test
     void testCircularBOM_handledGracefully() {
         // Verify that circular BOMs don't cause infinite loops or exceptions
         // The CTE's cycle detection should prevent duplicate rows

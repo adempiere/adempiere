@@ -192,14 +192,14 @@
   <target name="compile.test" depends="compile, clean.tests"
   	    if="${test.performTests}">
     <mkdir dir="${test.build.dir}"/>
-    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false"
-    	destdir="${test.build.dir}" deprecation="on" debug="on" 
+    <javac source="17" target="17" encoding="UTF-8" fork="true" includeantruntime="false"
+    	destdir="${test.build.dir}" deprecation="on" debug="on"
     	memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>
       <src path="../org.adempiere.test/src/test/java"/>
       <classpath refid="test.class.path"/>
       <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
-    </javac>		
+    </javac>
   </target>
 	
   <target name="alertIfUnitTestSkipped" depends="check.tests" unless="unitTests.run">
