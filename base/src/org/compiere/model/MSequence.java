@@ -38,6 +38,7 @@ import org.adempiere.core.domains.models.X_AD_Sequence;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
+import org.compiere.migration.NextIDRouter;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -224,24 +225,8 @@ public class MSequence extends X_AD_Sequence
 						}
 						else
 						{
-							PreparedStatement updateSQL;
-							int incrementNo = rs.getInt(3);
-							if (adempiereSys) {
-								updateSQL = conn
-										.prepareStatement("UPDATE AD_Sequence SET CurrentNextSys = CurrentNextSys + ? WHERE AD_Sequence_ID = ?");
-								retValue = rs.getInt(2);
-							} else {
-								updateSQL = conn
-										.prepareStatement("UPDATE AD_Sequence SET CurrentNext = CurrentNext + ? WHERE AD_Sequence_ID = ?");
-								retValue = rs.getInt(1);
-							}
-							try {
-								updateSQL.setInt(1, incrementNo);
-								updateSQL.setInt(2, AD_Sequence_ID);
-								updateSQL.executeUpdate();
-							} finally {
-								updateSQL.close();
-							}
+							// PostgreSQL path - use migration router for Java implementation
+							retValue = NextIDRouter.nextID(AD_Sequence_ID, adempiereSys ? "Y" : "N", trxName);
 						}
 					}
 

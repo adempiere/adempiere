@@ -81,6 +81,8 @@ dependencies {
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.3'
     // https://mvnrepository.com/artifact/org.beanshell/bsh
     implementation group: 'org.beanshell', name: 'bsh', version: '2.0b5'
+    // https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
 
 	//  Local
 	api project(path: ':tools')
