@@ -30,8 +30,13 @@ dependencies {
 	api project(path: ':org.adempiere.test')
 
     // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
-	// testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     api 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+
+    // JUnit 5 runtime for test execution
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+
+    // Mockito inline for static mocking support
+    testImplementation 'org.mockito:mockito-inline:3.6.0'
 }
 
 sourceSets {
@@ -40,6 +45,77 @@ sourceSets {
 			srcDirs = ['src']
 		}
 	}
+	test {
+		java {
+			srcDirs = ['src']
+		}
+		resources {
+			srcDirs = ['src/test/resources']
+		}
+	}
+}
+
+// Test task configuration for running integration tests with Garden World
+test {
+    useJUnitPlatform()
+
+    // Pass system properties for ADempiere configuration
+    systemProperty 'ADEMPIERE_HOME', System.getenv('ADEMPIERE_HOME') ?: project.rootDir.absolutePath
+
+    // Forward runIntegrationTests property for @EnabledIfSystemProperty tests
+    if (System.getProperty('runIntegrationTests') != null) {
+        systemProperty 'runIntegrationTests', System.getProperty('runIntegrationTests')
+    }
+
+    // JVM arguments required by ADempiere
+    jvmArgs = [
+        '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
+        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+        '-Dfile.encoding=UTF-8'
+    ]
+
+    // Test logging
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+    // Fail on no tests found (useful for CI)
+    failFast = false
+}
+
+// Separate task for unit tests only (no database required)
+task unitTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'UnitTest'
+        excludeTags 'IntegrationTest'
+    }
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Task to run all tests including integration tests
+task integrationTest(type: Test) {
+    useJUnitPlatform {
+        includeTags 'IntegrationTest'
+    }
+
+    systemProperty 'ADEMPIERE_HOME', System.getenv('ADEMPIERE_HOME') ?: project.rootDir.absolutePath
+
+    jvmArgs = [
+        '--add-exports', 'java.base/jdk.internal.misc=ALL-UNNAMED',
+        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+        '-Dfile.encoding=UTF-8'
+    ]
+
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
 }
 
 java {
@@ -121,8 +197,6 @@ task cleanBuildPublishLocal(type: GradleBuild) {
 
 signing {
 	def isReleaseVersion = !version.toString().startsWith("local") && !version.toString().endsWith("-SNAPSHOT")
-
-	sign configurations.archives
 
 	setRequired {
 		// signing is required if this is a release version and the artifacts are to be published
