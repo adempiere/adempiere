@@ -1,0 +1,278 @@
+package org.compiere.migration;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
+import org.junit.jupiter.api.Test;
+
+public class Wave4FunctionsTest {
+
+    @Test
+    void nextID_methodExists() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod(
+                "nextID", Integer.class, String.class, String.class);
+            assertNotNull(method);
+        });
+    }
+
+    @Test
+    void nextIDFunc_methodExists() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod(
+                "nextIDFunc", Integer.class, String.class, String.class);
+            assertNotNull(method);
+        });
+    }
+
+    // ========== acctBalance Tests ==========
+
+    // NOTE: DB-dependent acctBalance tests moved to Wave4IntegrationTest
+    // which extends CommonGWSetup and properly initializes the DB connection.
+    // See: acctBalance_javaMatchesSql() in Wave4IntegrationTest
+
+    @Test
+    void acctBalance_nullAccount_defaultCalculation() {
+        // No DB lookup needed - null account uses default calculation
+        BigDecimal result = Wave4Functions.acctBalance(
+            null, new BigDecimal("100.00"), new BigDecimal("30.00"));
+        assertEquals(0, new BigDecimal("70.00").compareTo(result), "Balance should be 70.00");
+    }
+
+    @Test
+    void acctBalance_zeroAccount_defaultCalculation() {
+        BigDecimal result = Wave4Functions.acctBalance(
+            0, new BigDecimal("100.00"), new BigDecimal("30.00"));
+        assertEquals(0, new BigDecimal("70.00").compareTo(result));
+    }
+
+    @Test
+    void acctBalance_negativeAccount_defaultCalculation() {
+        BigDecimal result = Wave4Functions.acctBalance(
+            -1, new BigDecimal("100.00"), new BigDecimal("30.00"));
+        assertEquals(0, new BigDecimal("70.00").compareTo(result));
+    }
+
+    @Test
+    void acctBalance_nullAmounts_treatedAsZero() {
+        BigDecimal result = Wave4Functions.acctBalance(null, null, null);
+        assertEquals(0, BigDecimal.ZERO.compareTo(result));
+    }
+
+    // ========== getSysconfig Tests ==========
+
+    // NOTE: DB-dependent getSysconfig tests moved to Wave4IntegrationTest
+    // which extends CommonGWSetup and properly initializes the DB connection.
+    // See: getSysconfig_javaMatchesSql() in Wave4IntegrationTest
+
+    @Test
+    void getSysconfig_methodSignature() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod(
+                "getSysconfig", String.class, String.class, Integer.class, Integer.class);
+            assertEquals(String.class, method.getReturnType());
+        });
+    }
+
+    @Test
+    void getSysconfig_nullName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig(null, "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_emptyName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig("", "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_whitespaceOnlyName_returnsDefault() {
+        String result = Wave4Functions.getSysconfig("   ", "default_value", 0, 0);
+        assertEquals("default_value", result);
+    }
+
+    @Test
+    void getSysconfig_nullClientAndOrg_defaultsToZero() {
+        String result = Wave4Functions.getSysconfig(
+            "NONEXISTENT_CONFIG", "default_value", null, null);
+        assertEquals("default_value", result);
+    }
+
+    // ========== maxpaydate Tests ==========
+
+    @Test
+    void maxpaydate_nullInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(null);
+        assertNull(result);
+    }
+
+    @Test
+    void maxpaydate_invalidInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(-1);
+        assertNull(result);
+    }
+
+    @Test
+    void maxpaydate_zeroInvoice_returnsNull() {
+        Timestamp result = Wave4Functions.maxpaydate(0);
+        assertNull(result);
+    }
+
+    @Test
+    void maxpaydate_methodSignature() {
+        assertDoesNotThrow(() -> {
+            var method = Wave4Functions.class.getMethod("maxpaydate", Integer.class);
+            assertEquals(Timestamp.class, method.getReturnType());
+        });
+    }
+
+    // ========== linenetamtrealinvoiceline Tests ==========
+
+    @Test
+    void linenetamtrealinvoiceline_nullId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealinvoiceline_invalidId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(-1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealinvoiceline_zeroId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealinvoiceline(0);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    // ========== calculateTaxExclusiveAmount Tests ==========
+
+    @Test
+    void calculateTaxExclusiveAmount_nullAmount_returnsZero() {
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            null, true, new BigDecimal("10"), 2);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_notTaxIncluded_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, false, new BigDecimal("10"), 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_nullRate_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, null, 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_zeroRate_returnsOriginal() {
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, BigDecimal.ZERO, 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_calculatesCorrectly() {
+        // 110.00 with 10% tax -> 100.00
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("110.00"), true, new BigDecimal("10"), 2);
+        assertEquals(0, new BigDecimal("100.00").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_respectsPrecision() {
+        // 119.00 with 19% tax -> 100.00 exactly
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("119.00"), true, new BigDecimal("19"), 2);
+        assertEquals(0, new BigDecimal("100.00").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_taxIncluded_roundsCorrectly() {
+        // 123.45 with 19% tax -> 103.73... rounds to 103.74 (HALF_UP)
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            new BigDecimal("123.45"), true, new BigDecimal("19"), 2);
+        assertEquals(0, new BigDecimal("103.74").compareTo(result));
+    }
+
+    @Test
+    void calculateTaxExclusiveAmount_negativeTaxRate100_returnsOriginal() {
+        // Edge case: -100% rate would produce zero divisor
+        BigDecimal lineNetAmt = new BigDecimal("100.00");
+        BigDecimal result = Wave4Functions.calculateTaxExclusiveAmount(
+            lineNetAmt, true, new BigDecimal("-100"), 2);
+        assertEquals(0, lineNetAmt.compareTo(result));
+    }
+
+    // ========== linenetamtrealorderline Tests ==========
+
+    @Test
+    void linenetamtrealorderline_nullId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(null);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealorderline_invalidId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(-1);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    @Test
+    void linenetamtrealorderline_zeroId_returnsZero() {
+        BigDecimal result = Wave4Functions.linenetamtrealorderline(0);
+        assertEquals(BigDecimal.ZERO, result);
+    }
+
+    // ========== productAttribute Tests ==========
+
+    @Test
+    void productAttribute_nullId_returnsEmptyString() {
+        // PostgreSQL: IF (p_M_AttributeSetInstance_ID > 0) is false for NULL, returns ''
+        String result = Wave4Functions.productAttribute(null);
+        assertEquals("", result);
+    }
+
+    @Test
+    void productAttribute_zeroId_returnsEmptyString() {
+        String result = Wave4Functions.productAttribute(0);
+        assertEquals("", result);
+    }
+
+    @Test
+    void productAttribute_negativeId_returnsEmptyString() {
+        String result = Wave4Functions.productAttribute(-1);
+        assertEquals("", result);
+    }
+
+    // ========== documentNo Tests ==========
+
+    @Test
+    void documentNo_nullId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(null);
+        assertEquals("", result);
+    }
+
+    @Test
+    void documentNo_zeroId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(0);
+        assertEquals("", result);
+    }
+
+    @Test
+    void documentNo_negativeId_returnsEmptyString() {
+        String result = Wave4Functions.documentNo(-1);
+        assertEquals("", result);
+    }
+}

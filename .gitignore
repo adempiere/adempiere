@@ -72,3 +72,6 @@ utils_dev/mytest.properties
 .gradle/**
 **/bin/**
 /.gradle/
+docs/plans/2026-01-02-wave0-implementation-plan.md
+docs/plans/2026-01-07-wave4-design.md
+docs/plans/*-critical-review*.md

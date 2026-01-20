@@ -34,11 +34,11 @@ import org.junit.jupiter.api.Test;
 @Tag("UnitTest")
 class UT_MPriceListVersion extends CommonGWSetup {
 
-	static MPriceList priceList = null;
+	private MPriceList priceList = null;
 
 
 	@BeforeEach
-	static void beforeEach() {
+	void beforeEach() {
 		// Standard
 		priceList = new MPriceList(ctx, 102, trxName);
 	}
