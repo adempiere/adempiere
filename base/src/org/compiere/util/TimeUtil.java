@@ -19,7 +19,11 @@ package org.compiere.util;
 import static java.util.Objects.requireNonNull;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -62,6 +66,205 @@ public class TimeUtil
 		cal.set(Calendar.MILLISECOND, 0);
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	getDay
+
+	/**
+	 * Get current timestamp (equivalent to PostgreSQL getDate() function).
+	 * Unlike getDay(), this returns the full timestamp with time component.
+	 * @return current timestamp, never null
+	 */
+	static public Timestamp getDate() {
+		return new Timestamp(System.currentTimeMillis());
+	}
+
+	/**
+	 * Calculate days between two dates using SQL semantics.
+	 * Equivalent to PostgreSQL: CAST(p_date1 AS DATE) - CAST(p_date2 AS DATE)
+	 *
+	 * Uses java.time API which correctly handles DST transitions
+	 * (counts calendar days, not 24-hour periods).
+	 *
+	 * @param date1 first date (minuend), may be null
+	 * @param date2 second date (subtrahend), may be null
+	 * @return difference in days (date1 - date2), or null if either input is null
+	 */
+	static public Integer daysBetweenSql(Timestamp date1, Timestamp date2) {
+		if (date1 == null || date2 == null) {
+			return null;
+		}
+
+		// Use java.time API which handles DST correctly
+		LocalDate ld1 = date1.toLocalDateTime().toLocalDate();
+		LocalDate ld2 = date2.toLocalDateTime().toLocalDate();
+		return (int) ChronoUnit.DAYS.between(ld2, ld1);
+	}
+
+	/**
+	 * Add days to timestamp, returning a Date (SQL semantics).
+	 * Equivalent to PostgreSQL: cast(date_trunc('day',datetime) + cast(days || ' day' as interval) as date)
+	 *
+	 * @param datetime timestamp to add to, may be null
+	 * @param days number of days to add (must be whole number), may be null
+	 * @return resulting date, or null if either input is null
+	 * @throws IllegalArgumentException if days has fractional component
+	 */
+	static public Date addDaysSql(Timestamp datetime, BigDecimal days) {
+		if (datetime == null || days == null) {
+			return null;
+		}
+
+		// Validate no fractional days
+		BigDecimal stripped = days.stripTrailingZeros();
+		if (stripped.scale() > 0) {
+			throw new IllegalArgumentException("Fractional days not supported: " + days);
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		LocalDate result = date.plusDays(days.longValue());
+		return Date.valueOf(result);
+	}
+
+	/**
+	 * Subtract days from timestamp, returning a Date (SQL semantics).
+	 * Equivalent to PostgreSQL: subtractDays(day, days) which calls addDays(day, days * -1)
+	 *
+	 * @param datetime timestamp to subtract from, may be null
+	 * @param days number of days to subtract, may be null
+	 * @return resulting date, or null if either input is null
+	 * @throws IllegalArgumentException if days has fractional component
+	 */
+	static public Date subtractDaysSql(Timestamp datetime, BigDecimal days) {
+		if (days == null) {
+			return null;
+		}
+		return addDaysSql(datetime, days.negate());
+	}
+
+	/**
+	 * Truncate timestamp to date (SQL semantics).
+	 * Equivalent to PostgreSQL: CAST(datetime AS DATE)
+	 *
+	 * @param datetime timestamp to truncate, may be null
+	 * @return truncated date, or null if datetime is null
+	 */
+	static public Date truncSql(Timestamp datetime) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		return Date.valueOf(date);
+	}
+
+	/**
+	 * Truncate timestamp to specified date part (SQL semantics).
+	 * Equivalent to PostgreSQL: trunc(datetime, format)
+	 *
+	 * Supported formats:
+	 * - Q: Quarter
+	 * - Y, YEAR: Year
+	 * - MM, MONTH: Month
+	 * - DD, DY: Day
+	 *
+	 * @param datetime timestamp to truncate, may be null
+	 * @param format format code (required, must be one of: Q, Y, YEAR, MM, MONTH, DD, DY)
+	 * @return truncated date, or null if datetime is null
+	 * @throws IllegalArgumentException if format is null or unrecognized
+	 */
+	static public Date truncSql(Timestamp datetime, String format) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+		LocalDate result;
+
+		if ("Q".equals(format)) {
+			// Quarter: truncate to first day of quarter
+			int quarterMonth = ((date.getMonthValue() - 1) / 3) * 3 + 1;
+			result = date.withMonth(quarterMonth).withDayOfMonth(1);
+		} else if ("Y".equals(format) || "YEAR".equals(format)) {
+			result = date.withDayOfYear(1);
+		} else if ("MM".equals(format) || "MONTH".equals(format)) {
+			result = date.withDayOfMonth(1);
+		} else if ("DD".equals(format) || "DY".equals(format)) {
+			result = date;
+		} else {
+			throw new IllegalArgumentException(
+				"Unknown trunc format: " + format +
+				". Valid formats: Q, Y, YEAR, MM, MONTH, DD, DY");
+		}
+
+		return Date.valueOf(result);
+	}
+
+	/**
+	 * Get first date of specified period (SQL/Oracle semantics).
+	 * Equivalent to PostgreSQL firstOf() function with Oracle-compatible format codes.
+	 * Uses java.time API for locale-independent week calculations.
+	 * Format codes are case-insensitive.
+	 *
+	 * Supported formats:
+	 * - IYYY, IY, I, SYYYY, YYYY, YEAR, SYEAR, YYY, YY, Y: First of year
+	 * - Q: First of quarter
+	 * - MONTH, MON, MM, RM: First of month
+	 * - IW, W: First of week (ISO week, Monday start)
+	 * - DDD, DD, J: Day (unchanged)
+	 * - DAY, DY, D: First of week (Sunday start, Oracle compatible)
+	 * - HH, HH12, HH24: Hour (returns date at that hour)
+	 * - MI: Minute (returns date)
+	 *
+	 * @param datetime timestamp (may be null)
+	 * @param datePart format code (may be null, returns date as-is)
+	 * @return first date of the period, or null if datetime is null
+	 */
+	static public Date firstOf(Timestamp datetime, String datePart) {
+		if (datetime == null) {
+			return null;
+		}
+
+		LocalDate date = datetime.toLocalDateTime().toLocalDate();
+
+		if (datePart == null || datePart.isEmpty()) {
+			return Date.valueOf(date);
+		}
+
+		String fmt = datePart.toUpperCase();
+		LocalDate result;
+
+		if ("IYYY".equals(fmt) || "IY".equals(fmt) || "I".equals(fmt) ||
+				   "SYYYY".equals(fmt) || "YYYY".equals(fmt) || "YEAR".equals(fmt) ||
+				   "SYEAR".equals(fmt) || "YYY".equals(fmt) || "YY".equals(fmt) ||
+				   "Y".equals(fmt)) {
+			// First of year
+			result = date.withDayOfYear(1);
+		} else if ("Q".equals(fmt)) {
+			// First of quarter
+			int quarterMonth = ((date.getMonthValue() - 1) / 3) * 3 + 1;
+			result = date.withMonth(quarterMonth).withDayOfMonth(1);
+		} else if ("MONTH".equals(fmt) || "MON".equals(fmt) ||
+				   "MM".equals(fmt) || "RM".equals(fmt)) {
+			// First of month
+			result = date.withDayOfMonth(1);
+		} else if ("IW".equals(fmt) || "W".equals(fmt)) {
+			// ISO week (Monday start)
+			result = date.with(DayOfWeek.MONDAY);
+		} else if ("DAY".equals(fmt) || "DY".equals(fmt) || "D".equals(fmt)) {
+			// Oracle week (Sunday start) = ISO Monday - 1
+			result = date.with(DayOfWeek.MONDAY).minusDays(1);
+		} else if ("DDD".equals(fmt) || "DD".equals(fmt) || "J".equals(fmt)) {
+			// Day - no change
+			result = date;
+		} else if ("HH".equals(fmt) || "HH12".equals(fmt) || "HH24".equals(fmt) ||
+				   "MI".equals(fmt)) {
+			// Hour/Minute - just return the date
+			result = date;
+		} else {
+			// Unknown format - return date as-is
+			result = date;
+		}
+
+		return Date.valueOf(result);
+	}
 
 	/**
 	 * 	Get earliest time of a day (truncate)

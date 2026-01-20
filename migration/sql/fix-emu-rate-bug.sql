@@ -1,3 +1,17 @@
+-- migration/sql/fix-emu-rate-bug.sql
+-- Fix EMU-to-EMU rate check bug in currencyRate function
+--
+-- BUG: Line ~110 checks cf_IsEMUMember twice instead of checking both currencies
+-- BEFORE: IF (cf_IsEMUMember = 'Y' AND cf_IsEMUMember ='Y'
+-- AFTER:  IF (cf_IsEMUMember = 'Y' AND ct_IsEMUMember = 'Y'
+--
+-- Decision documented in: docs/plans/2026-01-03-wave1-currency-implementation.md
+--
+-- NOTE: Production query for EMU-to-EMU conversion usage was not performed
+-- due to lack of database access. The fix is applied based on the documented
+-- SQL bug at line 110. DBAs should verify minimal EMU-to-EMU usage before
+-- applying this migration.
+
 CREATE OR REPLACE FUNCTION currencyRate(
 	p_CurFrom_ID		NUMERIC,
 	p_CurTo_ID		NUMERIC,
