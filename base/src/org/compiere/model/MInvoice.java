@@ -54,6 +54,7 @@ import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.InvoiceFunctions;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
@@ -392,9 +393,6 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setC_BPartner_Location_ID(line.getC_BPartner_Location_ID());
 		setAD_User_ID(line.getAD_User_ID());
 	}	//	MInvoice
-
-	/**	Open Amount				*/
-	private BigDecimal openAmount = null;
 
 	/**	Invoice Lines			*/
 	private MInvoiceLine[] InvoiceLines;
@@ -1201,42 +1199,29 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	}	//	setIsPaid
 
 	/**
-	 * 	Get Open Amount.
-	 * 	Used by web interface
-	 * 	@return Open Amt
+	 * Get Open Amount.
+	 * Uses InvoiceFunctions.invoiceOpen() for shadow validation.
+	 * @return Open Amt
 	 */
-	public BigDecimal getOpenAmt ()
-	{
-		return getOpenAmt (true, null);
+	public BigDecimal getOpenAmt() {
+		return getOpenAmt(true, null);
 	}	//	getOpenAmt
 
 	/**
-	 * 	Get Open Amount
-	 * 	@param creditMemoAdjusted adjusted for CM (negative)
-	 * 	@param paymentDate ignored Payment Date
-	 * 	@return Open Amt
+	 * Get Open Amount
+	 * @param creditMemoAdjusted adjusted for CM (negative)
+	 * @param paymentDate ignored Payment Date
+	 * @return Open Amt
 	 */
-	public BigDecimal getOpenAmt (boolean creditMemoAdjusted, Timestamp paymentDate)
-	{
+	public BigDecimal getOpenAmt(boolean creditMemoAdjusted, Timestamp paymentDate) {
 		if (isPaid())
 			return Env.ZERO;
-		//
+
+		// Delegate to InvoiceFunctions for shadow validation
+		BigDecimal openAmount = InvoiceFunctions.invoiceOpen(getC_Invoice_ID(), null);
 		if (openAmount == null)
-		{
-			openAmount = getGrandTotal();
-			if (paymentDate != null)
-			{
-				//	Payment Discount
-				//	Payment Schedule
-			}
-			BigDecimal allocated = getAllocatedAmt(true); // Include Allocation processed
-			if (allocated != null)
-			{
-				allocated = allocated.abs();	//	is absolute
-				openAmount = openAmount.subtract(allocated);
-			}
-		}
-		//
+			openAmount = Env.ZERO;
+
 		if (!creditMemoAdjusted)
 			return openAmount;
 		if (isCreditMemo())

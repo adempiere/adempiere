@@ -107,7 +107,7 @@ BEGIN
 	END IF;
 
 	--	Fixed - From EMU to EMU
-	IF (cf_IsEMUMember = 'Y' AND cf_IsEMUMember ='Y'
+	IF (cf_IsEMUMember = 'Y' AND ct_IsEMUMember = 'Y'
 			AND v_ConvDate >= cf_EMUEntryDate AND v_ConvDate >= ct_EMUEntryDate) THEN
 		RETURN ct_EMURate / cf_EMURate;
 	END IF;
