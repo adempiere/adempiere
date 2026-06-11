@@ -106,8 +106,10 @@ public class ServerReportCtl {
 		else
 			trx = null;
 		MPrintFormat format = reportEngine.getPrintFormat();
-		ProcessInfo jasperProcessInfo = new ProcessInfo ("", format.getJasperProcess_ID());
-		jasperProcessInfo.setPrintPreview( !isDirectPrint );
+        assert processInfo != null;
+        ProcessInfo jasperProcessInfo = new ProcessInfo ("", format.getJasperProcess_ID(), processInfo.isManagedTransaction());
+		jasperProcessInfo.setIsBatch(processInfo.isBatch());
+		jasperProcessInfo.setPrintPreview( processInfo.isPrintPreview());
 		MQuery query = reportEngine.getQuery();
 		if (query != null )
 			recordId = (Integer) query.getCode(0);
