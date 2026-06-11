@@ -86,6 +86,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 
 	private final Language language = Language.getLoginLanguage();
 	private final SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, language);
+	private final DecimalFormat decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount, language);
+	private final DecimalFormat integerFormat = DisplayType.getNumberFormat(DisplayType.Integer, language);
 
     class ColumnAttributes {
 
@@ -263,8 +265,8 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			else if (field instanceof Number)
 			{
 				DecimalFormat format = field instanceof BigDecimal
-					? DisplayType.getNumberFormat(DisplayType.Amount, language)
-				    : DisplayType.getNumberFormat(DisplayType.Integer, language);
+					? decimalFormat
+				    : integerFormat;
 
 				// set cell value to allow sorting
 				listcell.setValue(field.toString());
