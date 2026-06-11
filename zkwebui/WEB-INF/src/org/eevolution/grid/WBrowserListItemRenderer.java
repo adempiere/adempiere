@@ -32,7 +32,6 @@ import java.util.Set;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.model.MBrowseField;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.Combobox;
@@ -53,6 +52,7 @@ import org.compiere.minigrid.IDColumn;
 import org.compiere.model.GridField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
 import org.compiere.util.MSort;
 import org.compiere.util.NamePair;
 import org.compiere.util.Util;
@@ -112,6 +112,11 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 	
 	private static final int MAX_TEXT_LENGTH = 60;
 
+	private final Language language = Language.getLoginLanguage();
+	private final SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, language);
+	private final DecimalFormat decimalFormat = DisplayType.getNumberFormat(DisplayType.Amount, language);
+	private final DecimalFormat integerFormat = DisplayType.getNumberFormat(DisplayType.Integer, language);
+	
 	class ColumnAttributes {
 
 		protected Object headerValue;
@@ -239,12 +244,11 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
     	}
 		else if (DisplayType.isDate(gridField.getDisplayType()))
     	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))
     	{
-    		return DisplayType.getNumberFormat(gridField.getDisplayType(), AEnv.getLanguage(Env.getCtx())).format(value);
+    		return decimalFormat.format(value);
     	}
     	else if (DisplayType.Button == gridField.getDisplayType())
     	{
@@ -382,8 +386,8 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 			else if ((DisplayType.isNumeric(browseField.getAD_Reference_ID())) && !browseField.isKey())
 			{
 				DecimalFormat format = field instanceof BigDecimal
-					? DisplayType.getNumberFormat(DisplayType.Amount, AEnv.getLanguage(Env.getCtx()))
-				    : DisplayType.getNumberFormat(DisplayType.Integer, AEnv.getLanguage(Env.getCtx()));
+					? decimalFormat
+				    : integerFormat;
 
 				// set cell value to allow sorting
 				listcell.setValue((field == null ? "0" : field.toString()));
