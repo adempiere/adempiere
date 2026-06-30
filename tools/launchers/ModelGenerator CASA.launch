@@ -2,7 +2,7 @@
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
     <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-        <listEntry value="/adempiere/base/src/org/adempiere/util/ModelClassGenerator.java"/>
+        <listEntry value="/adempiere/base/src/org/adempiere/util/GenerateModel.java"/>
     </listAttribute>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
         <listEntry value="1"/>
@@ -14,9 +14,9 @@
     </listAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
-    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.adempiere.util.ModelClassGenerator"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.adempiere.util.GenerateModel"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="adempiere"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="D:\AJAH\Clientes\AJAH\clases\models&#13;&#10;org.ajah.domains.models&#13;&#10;&quot;'AJ02'&quot;"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="D:\AJAH\Clientes\AJAH\clases\models&#13;&#10;org.ajah.domains.models&#13;&#10;'AJ02'&#13;&#10;'AJ_FixedAssetProcessLine'"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="adempiere"/>
     <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=D:\AJAH\workspaces\394\adempiere\adempiere\Adempiere\Adempiere.properties"/>
 </launchConfiguration>

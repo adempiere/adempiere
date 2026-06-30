@@ -191,8 +191,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         }
 
         if (!isEmbedded()) {
-        	if (keyListener != null)
-        		keyListener.detach();
+        	detachKeyListener();
         	keyListener = new Keylistener();
         	statusBar.appendChild(keyListener);
         	keyListener.setCtrlKeys("#f1#f2$#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x");
@@ -266,6 +265,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
 
 		public void onClose(Tabpanel tabPanel) {
 			if (ADWindowPanel.this.onExit()) {
+				detachKeyListener();
 				Tab tab = tabPanel.getLinkedTab();
 				Tabbox tabbox = (Tabbox) tab.getTabbox();
 				if (tabbox.getSelectedTab() == tab) {
@@ -284,6 +284,15 @@ public class ADWindowPanel extends AbstractADWindowPanel
 				if (getWindowNo() > 0)
 					SessionManager.getAppDesktop().unregisterWindow(getWindowNo());
 			}
+		}
+	}
+
+	private void detachKeyListener() {
+		if (keyListener != null) {
+			keyListener.removeEventListener(Events.ON_CTRL_KEY, toolbar);
+			keyListener.removeEventListener(Events.ON_CTRL_KEY, this);
+			keyListener.detach();
+			keyListener = null;
 		}
 	}
 }

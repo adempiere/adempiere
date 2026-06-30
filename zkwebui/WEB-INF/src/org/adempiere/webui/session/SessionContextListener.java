@@ -233,7 +233,7 @@ public class SessionContextListener implements ExecutionInit,
             return false;
         }
 
-        Optional<Properties> maybeSessionContext = Optional.of(SessionManager.getSessionContext(httpSession.getId()));
+        Optional<Properties> maybeSessionContext = Optional.ofNullable(SessionManager.getSessionContext(httpSession.getId()));
         return maybeSessionContext.map(sessionContext -> {
             if (Env.getAD_Client_ID(sessionContext) != Env.getAD_Client_ID(ctx)) {
                 return false;
@@ -254,9 +254,36 @@ public class SessionContextListener implements ExecutionInit,
      * @param execution Execution
      */
     public synchronized static void setContextForSession(Execution execution) {
-        Session session = execution.getDesktop().getSession();
+        if (execution == null) {
+            return;
+        }
+        setContextForDesktop(execution.getDesktop());
+    }
+
+    /**
+     * get servlet thread local context from desktop
+     *
+     * @param desktop Desktop
+     * @return true when the context was restored
+     */
+    public synchronized static boolean setContextForDesktop(Desktop desktop) {
+        if (desktop == null || desktop.getSession() == null) {
+            return false;
+        }
+
+        Session session = desktop.getSession();
         HttpSession httpSession = (HttpSession) session.getNativeSession();
-        ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
-        Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
+        if (httpSession == null) {
+            return false;
+        }
+
+        Properties sessionContext = SessionManager.getSessionContext(httpSession.getId());
+        if (sessionContext == null) {
+            return false;
+        }
+
+        ServerContext.setCurrentInstance(sessionContext);
+        Locales.setThreadLocal(Env.getLanguage(sessionContext).getLocale());
+        return true;
     }
 }
