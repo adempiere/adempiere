@@ -51,6 +51,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.DropEvent;
@@ -451,10 +452,15 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	}
 
 	public void logout() {
-		if (dashboardRunnable.isRunning()) {
+		if (dashboardRunnable != null && dashboardRunnable.isRunning()) {
 			dashboardRunnable.interrupt();
-			portalLayout.getDesktop().enableServerPush(false);
-			portalLayout = null;
+			if (portalLayout != null) {
+				Desktop desktop = portalLayout.getDesktop();
+				if (desktop != null && desktop.isAlive()) {
+					desktop.enableServerPush(false);
+				}
+				portalLayout = null;
+			}
 		}
 	}
 

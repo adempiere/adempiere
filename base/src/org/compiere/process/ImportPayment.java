@@ -452,8 +452,8 @@ public class ImportPayment extends SvrProcess
 		
 		//Import Bank Statement
 		sql = new StringBuffer("SELECT * FROM I_Payment"
-			+ " WHERE I_IsImported='N'"
-			+ " ORDER BY C_BankAccount_ID, CheckNo, DateTrx, R_AuthCode");
+				+ " WHERE I_IsImported='N' ").append(clientCheck)
+				.append(" ORDER BY C_BankAccount_ID, CheckNo, DateTrx, R_AuthCode");
 			
 		MBankAccount account = null;
 		PreparedStatement pstmt = null;
