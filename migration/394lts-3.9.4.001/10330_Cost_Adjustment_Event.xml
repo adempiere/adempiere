@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Cost Adjustment Event for negative inventory landed costs closed periods" ReleaseNo="3.9.4" SeqNo="10330">
+    <Comments>Auditable cost adjustment model: C_CostAdjustmentEvent / C_CostAdjustmentLine. Closed periods stay immutable; late costs post in an open period split between Inventory and COGS. See CostAdjustmentEngine + Doc_CostAdjustmentEvent.</Comments>
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE TABLE C_CostAdjustmentEvent (C_CostAdjustmentEvent_ID NUMERIC(10) NOT NULL, AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' NOT NULL, Created TIMESTAMP DEFAULT NOW() NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Updated TIMESTAMP DEFAULT NOW() NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, DocumentNo VARCHAR(30), C_DocType_ID NUMERIC(10), DateAcct TIMESTAMP, DateTrx TIMESTAMP, M_Product_ID NUMERIC(10), C_AcctSchema_ID NUMERIC(10), M_CostType_ID NUMERIC(10), M_CostElement_ID NUMERIC(10), CostAdjustmentType CHAR(3) DEFAULT 'MAN', M_InOutLine_ID NUMERIC(10), C_InvoiceLine_ID NUMERIC(10), C_LandedCostAllocation_ID NUMERIC(10), M_CostDetail_ID NUMERIC(10), OldCostPrice NUMERIC DEFAULT 0, NewCostPrice NUMERIC DEFAULT 0, QtyOnHand NUMERIC DEFAULT 0, QtyAlreadySold NUMERIC DEFAULT 0, AdjustmentAmt NUMERIC DEFAULT 0, InventoryAmt NUMERIC DEFAULT 0, COGSAmt NUMERIC DEFAULT 0, Description VARCHAR(255), Processed CHAR(1) DEFAULT 'N' NOT NULL, Posted CHAR(1) DEFAULT 'N' NOT NULL, DocStatus CHAR(2) DEFAULT 'DR', DocAction CHAR(2) DEFAULT 'CO', CONSTRAINT C_CostAdjustmentEvent_Key PRIMARY KEY (C_CostAdjustmentEvent_ID))</SQLStatement>
+      <RollbackStatement>DROP TABLE C_CostAdjustmentEvent</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>CREATE TABLE C_CostAdjustmentEvent (C_CostAdjustmentEvent_ID NUMBER(10) NOT NULL, AD_Client_ID NUMBER(10) NOT NULL, AD_Org_ID NUMBER(10) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' NOT NULL, Created DATE DEFAULT SYSDATE NOT NULL, CreatedBy NUMBER(10) NOT NULL, Updated DATE DEFAULT SYSDATE NOT NULL, UpdatedBy NUMBER(10) NOT NULL, DocumentNo NVARCHAR2(30), C_DocType_ID NUMBER(10), DateAcct DATE, DateTrx DATE, M_Product_ID NUMBER(10), C_AcctSchema_ID NUMBER(10), M_CostType_ID NUMBER(10), M_CostElement_ID NUMBER(10), CostAdjustmentType CHAR(3) DEFAULT 'MAN', M_InOutLine_ID NUMBER(10), C_InvoiceLine_ID NUMBER(10), C_LandedCostAllocation_ID NUMBER(10), M_CostDetail_ID NUMBER(10), OldCostPrice NUMBER DEFAULT 0, NewCostPrice NUMBER DEFAULT 0, QtyOnHand NUMBER DEFAULT 0, QtyAlreadySold NUMBER DEFAULT 0, AdjustmentAmt NUMBER DEFAULT 0, InventoryAmt NUMBER DEFAULT 0, COGSAmt NUMBER DEFAULT 0, Description NVARCHAR2(255), Processed CHAR(1) DEFAULT 'N' NOT NULL, Posted CHAR(1) DEFAULT 'N' NOT NULL, DocStatus CHAR(2) DEFAULT 'DR', DocAction CHAR(2) DEFAULT 'CO', CONSTRAINT C_CostAdjustmentEvent_Key PRIMARY KEY (C_CostAdjustmentEvent_ID))</SQLStatement>
+      <RollbackStatement>DROP TABLE C_CostAdjustmentEvent</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>CREATE TABLE C_CostAdjustmentLine (C_CostAdjustmentLine_ID NUMERIC(10) NOT NULL, AD_Client_ID NUMERIC(10) NOT NULL, AD_Org_ID NUMERIC(10) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' NOT NULL, Created TIMESTAMP DEFAULT NOW() NOT NULL, CreatedBy NUMERIC(10) NOT NULL, Updated TIMESTAMP DEFAULT NOW() NOT NULL, UpdatedBy NUMERIC(10) NOT NULL, C_CostAdjustmentEvent_ID NUMERIC(10) NOT NULL, Line NUMERIC(10) DEFAULT 10 NOT NULL, AdjustmentLineType CHAR(4) DEFAULT 'INV' NOT NULL, Amt NUMERIC DEFAULT 0 NOT NULL, Qty NUMERIC DEFAULT 0, Description VARCHAR(255), CONSTRAINT C_CostAdjustmentLine_Key PRIMARY KEY (C_CostAdjustmentLine_ID), CONSTRAINT C_CostAdjLine_Event_FK FOREIGN KEY (C_CostAdjustmentEvent_ID) REFERENCES C_CostAdjustmentEvent (C_CostAdjustmentEvent_ID) ON DELETE CASCADE)</SQLStatement>
+      <RollbackStatement>DROP TABLE C_CostAdjustmentLine</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="40" StepType="SQL">
+      <SQLStatement>CREATE TABLE C_CostAdjustmentLine (C_CostAdjustmentLine_ID NUMBER(10) NOT NULL, AD_Client_ID NUMBER(10) NOT NULL, AD_Org_ID NUMBER(10) NOT NULL, IsActive CHAR(1) DEFAULT 'Y' NOT NULL, Created DATE DEFAULT SYSDATE NOT NULL, CreatedBy NUMBER(10) NOT NULL, Updated DATE DEFAULT SYSDATE NOT NULL, UpdatedBy NUMBER(10) NOT NULL, C_CostAdjustmentEvent_ID NUMBER(10) NOT NULL, Line NUMBER(10) DEFAULT 10 NOT NULL, AdjustmentLineType CHAR(4) DEFAULT 'INV' NOT NULL, Amt NUMBER DEFAULT 0 NOT NULL, Qty NUMBER DEFAULT 0, Description NVARCHAR2(255), CONSTRAINT C_CostAdjustmentLine_Key PRIMARY KEY (C_CostAdjustmentLine_ID), CONSTRAINT C_CostAdjLine_Event_FK FOREIGN KEY (C_CostAdjustmentEvent_ID) REFERENCES C_CostAdjustmentEvent (C_CostAdjustmentEvent_ID) ON DELETE CASCADE)</SQLStatement>
+      <RollbackStatement>DROP TABLE C_CostAdjustmentLine</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="50" StepType="SQL">
+      <SQLStatement>CREATE INDEX C_CostAdjEvent_Product ON C_CostAdjustmentEvent (M_Product_ID); CREATE INDEX C_CostAdjEvent_CostDetail ON C_CostAdjustmentEvent (M_CostDetail_ID); CREATE INDEX C_CostAdjLine_Event ON C_CostAdjustmentLine (C_CostAdjustmentEvent_ID)</SQLStatement>
+      <RollbackStatement>DROP INDEX C_CostAdjEvent_Product; DROP INDEX C_CostAdjEvent_CostDetail; DROP INDEX C_CostAdjLine_Event</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
+      <SQLStatement>CREATE INDEX C_CostAdjEvent_Product ON C_CostAdjustmentEvent (M_Product_ID)</SQLStatement>
+      <RollbackStatement>DROP INDEX C_CostAdjEvent_Product</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="70" StepType="SQL">
+      <SQLStatement>CREATE INDEX C_CostAdjEvent_CostDetail ON C_CostAdjustmentEvent (M_CostDetail_ID)</SQLStatement>
+      <RollbackStatement>DROP INDEX C_CostAdjEvent_CostDetail</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="80" StepType="SQL">
+      <SQLStatement>CREATE INDEX C_CostAdjLine_Event ON C_CostAdjustmentLine (C_CostAdjustmentEvent_ID)</SQLStatement>
+      <RollbackStatement>DROP INDEX C_CostAdjLine_Event</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

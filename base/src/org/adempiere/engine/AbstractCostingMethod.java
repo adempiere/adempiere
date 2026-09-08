@@ -392,8 +392,11 @@ public abstract class AbstractCostingMethod implements ICostingMethod {
 		MDocType docType = MDocType.get(cost.getCtx(), documentLine.getC_DocType_ID());
 		Boolean openPeriod = MPeriod.isOpen(cost.getCtx(),  cost.getDateAcct() ,  docType .getDocBaseType(),  cost.getAD_Org_ID());
 		
-		if(!openPeriod)
+		if(!openPeriod) {
+			log.warning("clearAccounting blocked: period closed for M_CostDetail_ID="
+					+ cost.getM_CostDetail_ID() + ". Use CostAdjustmentEngine instead.");
 			return;
+		}
 
 		String sqldelete = "DELETE FROM Fact_Acct WHERE Record_ID =? AND AD_Table_ID=?";
 		int tableId = 0;
