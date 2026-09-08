@@ -965,12 +965,62 @@ public class MCostDetail extends X_M_CostDetail
 		dateAcct = DB.getSQLValueTSEx(get_TrxName(), sql, param1);
 		setDateAcct(dateAcct);
 	}
-	
+
 	/**
-	 * Restore the Posting to that document can be posting again
+	 * Check whether un-posting / re-posting is allowed for this cost detail.
+	 * Reposting is only allowed when the accounting period of the cost detail
+	 * date is open. Closed periods must use a cost adjustment event instead.
+	 * @return true if the period is open (or no date/doc type can be resolved)
+	 */
+	public boolean isRepostingAllowed()
+	{
+		try {
+			Timestamp dateAcct = getDateAcct();
+			if (dateAcct == null)
+				return true;
+			String docBaseType = null;
+			int docTypeId = 0;
+			if (getC_InvoiceLine_ID() > 0) {
+				docTypeId = DB.getSQLValue(get_TrxName(),
+						"SELECT i.C_DocType_ID FROM C_InvoiceLine il"
+						+ " INNER JOIN C_Invoice i ON (i.C_Invoice_ID=il.C_Invoice_ID)"
+						+ " WHERE il.C_InvoiceLine_ID=?", getC_InvoiceLine_ID());
+			} else if (getM_InOutLine_ID() > 0) {
+				docTypeId = DB.getSQLValue(get_TrxName(),
+						"SELECT i.C_DocType_ID FROM M_InOutLine il"
+						+ " INNER JOIN M_InOut i ON (i.M_InOut_ID=il.M_InOut_ID)"
+						+ " WHERE il.M_InOutLine_ID=?", getM_InOutLine_ID());
+			}
+			if (docTypeId > 0) {
+				MDocType dt = MDocType.get(getCtx(), docTypeId);
+				if (dt != null)
+					docBaseType = dt.getDocBaseType();
+			}
+			if (docBaseType == null)
+				docBaseType = MDocType.DOCBASETYPE_MaterialReceipt;
+			boolean open = MPeriod.isOpen(getCtx(), dateAcct, docBaseType, getAD_Org_ID());
+			if (!open)
+				s_log.warning("rePosted blocked: period closed for M_CostDetail_ID="
+						+ getM_CostDetail_ID() + " DateAcct=" + dateAcct
+						+ ". Create a C_CostAdjustmentEvent in an open period instead.");
+			return open;
+		} catch (Exception e) {
+			s_log.warning("isRepostingAllowed check failed, allowing repost: " + e.getMessage());
+			return true;
+		}
+	}
+
+	/**
+	 * Restore the Posting so that document can be posted again.
+	 * <p>Closed periods are immutable: when the cost detail accounting date
+	 * falls in a closed period this method does nothing. Late costs must be
+	 * recorded as a {@code C_CostAdjustmentEvent} in an open period instead
+	 * (see {@code org.adempiere.engine.CostAdjustmentEngine}).</p>
 	 */
 	private void rePosted()
-	{		
+	{
+		if (!isRepostingAllowed())
+			return;
 		if (getC_InvoiceLine_ID() > 0)
 		{
 			int id = DB.getSQLValue(get_TrxName(), "SELECT M_MatchInv_ID FROM M_MatchInv WHERE C_InvoiceLine_ID=?", getC_InvoiceLine_ID());

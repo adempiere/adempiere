@@ -812,8 +812,13 @@ public class CostEngine {
 			
 		Boolean openPeriod = MPeriod.isOpen(model.getCtx(), dateAcct , docBaseType ,  model.getAD_Org_ID());
 		if (!openPeriod)
-		{	
-			System.out.println("Period closed.");
+		{
+			// Closed period must remain immutable: never delete Fact_Acct here.
+			// Callers must record a C_CostAdjustmentEvent in an open period instead.
+			// See CostAdjustmentEngine#assertRepostingAllowed / #recordUnitCostChange.
+			log.warning("Reposting blocked: period closed for " + dateAcct
+					+ " docBaseType=" + docBaseType + " " + model
+					+ ". Use CostAdjustmentEngine instead of reposting.");
 			return false;
 		}	
 
