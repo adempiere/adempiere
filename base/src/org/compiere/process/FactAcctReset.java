@@ -42,6 +42,7 @@ import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
 import org.compiere.model.MClient;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInventory;
 import org.compiere.model.MInvoice;
@@ -93,9 +94,10 @@ public class FactAcctReset extends FactAcctResetAbstract {
                 .ifPresent(accountingSchemaDefault -> {
                     Arrays.stream(getAccountingDocumentTablesIds()).forEach(tableId -> {
                         MTable table = MTable.get(getCtx(), tableId);
-                        if (isDeletePosting())
+                        if (isDeletePosting()) {
                             delete(accountingSchemaDefault, table);
-                        else
+                            reset(accountingSchemaDefault, table);
+                        } else
                             reset(accountingSchemaDefault, table);
                     });
                 });
@@ -153,7 +155,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
                 .append(getClientId()).append(" AND (Processing<>'N' OR Processing IS NULL)");
 
         AtomicInteger unlocked = new AtomicInteger(0);
-        Trx.run(trxName -> unlocked.set(DB.executeUpdate(resetProcessing.toString(), trxName)));
         final StringBuilder resetUpdate = new StringBuilder();
         resetUpdate.append("UPDATE ").append(accountingDocumentTable.getTableName())
                 .append(" SET Posted='N' WHERE AD_Client_ID=").append(getClientId())
@@ -169,9 +170,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
         if (getDateAcctTo() != null)
             resetUpdate.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
         resetUpdate.append(")");
-
-        AtomicInteger invalid = new AtomicInteger(0);
-        Trx.run(trxName -> invalid.set(DB.executeUpdate(resetUpdate.toString(), trxName)));
 
         // Validate that document is posted
         StringBuilder resetUpdateMarkedAsPosted = new StringBuilder();
@@ -189,8 +187,13 @@ public class FactAcctReset extends FactAcctResetAbstract {
             resetUpdateMarkedAsPosted.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
         resetUpdateMarkedAsPosted.append(")");
 
+        AtomicInteger invalid = new AtomicInteger(0);
         AtomicInteger invalidMarkedAsPosted = new AtomicInteger(0);
-        Trx.run(trxName -> invalidMarkedAsPosted.set(DB.executeUpdate(resetUpdateMarkedAsPosted.toString(), trxName)));
+        Trx.run(trxName -> {
+            unlocked.set(DB.executeUpdate(resetProcessing.toString(), trxName));
+            invalid.set(DB.executeUpdate(resetUpdate.toString(), trxName));
+            invalidMarkedAsPosted.set(DB.executeUpdate(resetUpdateMarkedAsPosted.toString(), trxName));
+        });
 
         if (unlocked.get() + invalid.get() + invalidMarkedAsPosted.get() != 0)
             log.fine(accountingDocumentTable.getTableName() + " - Unlocked=" + unlocked.get() + " - Invalid=" + invalid.get() + " Invalid marked as posted=" + invalidMarkedAsPosted.get());
@@ -218,10 +221,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
             }
         }
 
-        reset(accountingSchemaDefault, accountingDocumentTable);
-        countReset = 0;
-        //
-        String dateAccountingColumn = getDateAcct(accountingDocumentTable.get_ID());
         String docBaseType = getDocumentBaseType(accountingDocumentTable.get_ID(), accountingDocumentTable.getTableName());
         if (docBaseType == null) {
             String s = accountingDocumentTable.getTableName() + ": Unknown DocBaseType";
@@ -232,34 +231,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
         } else
             docBaseType = " AND pc.DocBaseType " + docBaseType;
 
-        final StringBuilder updateStatement = new StringBuilder();
-        updateStatement
-                .append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Posted='N', Processing='N'").append(" WHERE ")
-                .append(accountingDocumentTable.getTableName()).append(".").append("AD_Client_ID=").append(getClientId())
-                .append(" AND (").append(accountingDocumentTable.getTableName()).append(".Posted<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Posted IS NULL OR ")
-                .append(accountingDocumentTable.getTableName()).append(".Processing<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Processing IS NULL)")
-                .append(" AND NOT EXISTS (SELECT 1 FROM Fact_Acct fact WHERE fact.AD_Table_ID=").append(accountingDocumentTable.get_ID()).append(" AND fact.Record_ID=")
-                .append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID)");
-
-        if (!accountingSchemaDefault.isAutoPeriodControl())
-        	updateStatement.append(" AND EXISTS (SELECT 1 FROM  C_Period p INNER JOIN C_PeriodControl pc ON (p.C_Period_ID=pc.C_Period_ID) WHERE ")
-        					.append("p.AD_Client_ID=").append(getClientId()).append(" AND ")	
-        					.append(dateAccountingColumn).append(" >= p.StartDate AND ").append(dateAccountingColumn).append(" <= p.EndDate ")
-        					.append(" AND pc.PeriodStatus = 'O' ").append(docBaseType)
-        					.append(")");
-        if (getDateAcct() != null)
-        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
-        
-
-        
-
-        // Validate that document is posted
-        log.log(Level.FINE, updateStatement.toString());
-
-        AtomicInteger reset = new AtomicInteger(0);
-        Trx.run(trxName -> reset.set(DB.executeUpdate(updateStatement.toString(), trxName)));
         //	Fact
         final StringBuilder deleteStatement = new StringBuilder("DELETE FROM Fact_Acct ");
         deleteStatement.append("WHERE Fact_Acct.AD_Client_ID=").append(getClientId()).append(" AND AD_Table_ID=").append(accountingDocumentTable.get_ID());
@@ -280,16 +251,15 @@ public class FactAcctReset extends FactAcctResetAbstract {
         Trx.run(trxName -> deleted.set(DB.executeUpdate(deleteStatement.toString(), trxName)));
 
         //
-        log.info(accountingDocumentTable.getTableName() + "( ID : " + accountingDocumentTable.get_ID() + ") - Reset=" + reset.get() + " - Deleted=" + deleted.get());
-        String s = "@" + accountingDocumentTable.getTableName() + "_ID@ - @Reset@=" + reset + " - @Deleted@=" + deleted;
+        log.info(accountingDocumentTable.getTableName() + "( ID : " + accountingDocumentTable.get_ID() + ") - Deleted=" + deleted.get());
+        String s = "@" + accountingDocumentTable.getTableName() + "_ID@ - @Deleted@=" + deleted;
         addLog(s);
         //
-        countReset += reset.get();
         countDelete += deleted.get();
     }    //	delete
 
     public String getDateAcct(int tableId) {
-        return Doc.getDateAcctColumnName(MTable.getTableName(getCtx(), tableId));
+        return Optional.ofNullable(Doc.getDateAcctColumnName(MTable.getTableName(getCtx(), tableId))).orElse(MFactAcct.COLUMNNAME_DateAcct);
     }
 
     public String getDocumentBaseType(int tableId, String tableName) {
