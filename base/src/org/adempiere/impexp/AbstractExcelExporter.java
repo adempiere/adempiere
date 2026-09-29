@@ -39,6 +39,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.compiere.Adempiere;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -51,6 +52,7 @@ import org.compiere.util.Util;
 /**
  * Abstract MS Excel Format (xls) Exporter
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
+ * @author Victor Perez, www.e-evolution.com
  */
 public abstract class AbstractExcelExporter
 {
@@ -126,15 +128,22 @@ public abstract class AbstractExcelExporter
 	/** Logger */
 	protected final CLogger log = CLogger.getCLogger(getClass());
 	//
-	private Workbook m_workbook;
+	private SXSSFWorkbook m_workbook;  // Use SXSSFWorkbook specifically for streaming
 	private DataFormat m_dataFormat;
 	private Font m_fontHeader = null;
 	private Font m_fontDefault = null;
+	private Font m_fontFunction = null;  // Cache function row font
 	private Language m_lang = null;
 	private int m_sheetCount = 0;
 	protected boolean dataIncludeHeader = false;
 
 	public boolean isXLSX = false;
+	
+	// Performance optimization settings
+	private static final int SXSSF_WINDOW_SIZE = 100;  // Keep 100 rows in memory
+	private static final int ROW_FLUSH_INTERVAL = 100;  // Flush every 100 rows
+	private boolean autoSizeColumns = MSysConfig.getBooleanValue("AUTO_FIT_COLUMNS_ON_EXCEL_EXPORT", false , Env.getAD_Client_ID(Env.getCtx()));  // Make autoSizeColumn optional (default: false for performance)
+	private static final int DEFAULT_COLUMN_WIDTH = 4000;  // Default width when not auto-sizing (~15 chars)
 
 	//
 	private int m_colSplit = 1;
@@ -143,8 +152,28 @@ public abstract class AbstractExcelExporter
 	private HashMap<String, CellStyle> m_styles = new HashMap<String, CellStyle>();
 
 	public AbstractExcelExporter() {
-		m_workbook = new XSSFWorkbook();
+		initWorkbook();
+	}
+	
+	/**
+	 * Initialize workbook with optimized settings
+	 */
+	private void initWorkbook() {
+		// Dispose of any existing workbook to free resources
+		if (m_workbook != null) {
+			try {
+				m_workbook.dispose();
+			} catch (Exception e) {
+				// Ignore disposal errors
+			}
+		}
+		// Use SXSSFWorkbook with window size for better memory management
+		m_workbook = new SXSSFWorkbook(SXSSF_WINDOW_SIZE);
+		// Set compression for temp files
+		m_workbook.setCompressTempFiles(true);
 		m_dataFormat = m_workbook.createDataFormat();
+		// Clear style cache when creating new workbook
+		m_styles.clear();
 	}
 
 	protected Properties getCtx() {
@@ -167,6 +196,14 @@ public abstract class AbstractExcelExporter
 			m_lang = Env.getLanguage(getCtx());
 		return m_lang;
 	}
+	
+	/**
+	 * Set whether to auto size columns (expensive operation)
+	 * @param autoSize true to enable auto sizing
+	 */
+	public void setAutoSizeColumns(boolean autoSize) {
+		this.autoSizeColumns = autoSize;
+	}
 
 	private Font getFont(boolean isHeader) {
 		Font font = null;
@@ -178,9 +215,13 @@ public abstract class AbstractExcelExporter
 			font = m_fontHeader;
 		}
 		else if (isFunctionRow()) {
-			font = m_workbook.createFont();
-			font.setBold(true);
-			font.setItalic(true);
+			// Cache function row font to avoid creating new instances
+			if (m_fontFunction == null) {
+				m_fontFunction = m_workbook.createFont();
+				m_fontFunction.setBold(true);
+				m_fontFunction.setItalic(true);
+			}
+			font = m_fontFunction;
 		}
 		else {
 			if (m_fontDefault == null) {
@@ -232,7 +273,22 @@ public abstract class AbstractExcelExporter
 
 	private CellStyle getStyle(int row, int col) {
 		int displayType = getDisplayType(row, col);
-		String key = "cell-"+col+"-"+displayType;
+		boolean isFunction = isFunctionRow();
+		String formatPattern = getFormatPattern(col);
+		
+		// Build cache key with all style parameters
+		// Use StringBuilder for better performance in string concatenation
+		StringBuilder keyBuilder = new StringBuilder(32);
+		keyBuilder.append("c").append(col)
+			.append("-").append(displayType);
+		if (isFunction) {
+			keyBuilder.append("-fn");
+		}
+		if (formatPattern != null) {
+			keyBuilder.append("-").append(formatPattern.hashCode());
+		}
+		String key = keyBuilder.toString();
+		
 		CellStyle cs = m_styles.get(key);
 		if (cs == null) {
 			boolean isHighlightNegativeNumbers = true;
@@ -244,7 +300,6 @@ public abstract class AbstractExcelExporter
 			cs.setBorderTop(BorderStyle.THIN);
 			cs.setBorderRight(BorderStyle.THIN);
 			cs.setBorderBottom(BorderStyle.THIN);
-			String formatPattern = getFormatPattern(col);
 			//
 			if (DisplayType.isDate(displayType)) {
 				//cs.setDataFormat(m_dataFormat.getFormat("DD.MM.YYYY"));
@@ -291,9 +346,35 @@ public abstract class AbstractExcelExporter
 
 	private void fixColumnWidth(SXSSFSheet sheet, int lastColumnIndex)
 	{
-		for (short colnum = 0; colnum < lastColumnIndex; colnum++)
-		{
-			sheet.autoSizeColumn(colnum);
+		// Only auto-size if explicitly enabled (expensive operation)
+		if (autoSizeColumns) {
+			// Auto-size only tracked columns
+			// Note: This is still expensive for large sheets
+			for (short colnum = 0; colnum < lastColumnIndex; colnum++)
+			{
+				try {
+					// Only auto-size if column was tracked
+					sheet.autoSizeColumn(colnum, false); // false = don't merge cells
+				} catch (Exception e) {
+					// If auto-size fails, set default width
+					try {
+						sheet.setColumnWidth(colnum, DEFAULT_COLUMN_WIDTH);
+					} catch (Exception ex) {
+						// Ignore column width errors
+					}
+				}
+			}
+		} else {
+			// Set reasonable default widths - much more efficient than auto-sizing
+			// This provides consistent column widths without the computational cost
+			for (short colnum = 0; colnum < lastColumnIndex; colnum++)
+			{
+				try {
+					sheet.setColumnWidth(colnum, DEFAULT_COLUMN_WIDTH);
+				} catch (Exception e) {
+					// Ignore column width errors
+				}
+			}
 		}
 	}
 
@@ -317,9 +398,24 @@ public abstract class AbstractExcelExporter
 	}
 	private SXSSFSheet createTableSheet()
 	{
-		SXSSFSheet sheet= (SXSSFSheet) m_workbook.createSheet();
+		SXSSFSheet sheet = (SXSSFSheet) m_workbook.createSheet();
 		formatPage(sheet);
-		sheet.trackAllColumnsForAutoSizing();
+		// Only track columns if auto-sizing is explicitly enabled
+		// This is memory intensive and should be avoided for large exports
+		if (autoSizeColumns) {
+			try {
+				// Track only visible columns to reduce memory overhead
+				for (int col = 0; col < getColumnCount(); col++) {
+					if (isColumnPrinted(col)) {
+						sheet.trackColumnForAutoSizing(col);
+					}
+				}
+			} catch (Exception e) {
+				log.log(Level.FINE, "Could not track columns for auto-sizing", e);
+				// Disable auto-sizing if tracking fails
+				autoSizeColumns = false;
+			}
+		}
 		createHeaderFooter(sheet);
 		if (!dataIncludeHeader)
 			createTableHeader(sheet);
@@ -385,86 +481,164 @@ public abstract class AbstractExcelExporter
 	 */
 	private void export(OutputStream out) throws Exception
 	{
-		SXSSFSheet sheet= createTableSheet();
-		String sheetName = null;
-		//
-		int colnumMax = 0;
-		for (int rownum = 0, xls_rownum = 1; rownum < getRowCount(); rownum++, xls_rownum++)
-		{
-			setCurrentRow(rownum);
-
-			boolean isPageBreak = false;
-			Row row = sheet.createRow(xls_rownum);
-			//	for all columns
-			int colnum = 0;
-			for (int col = 0; col < getColumnCount(); col++)
-			{
-				if (colnum > colnumMax)
-					colnumMax = colnum;
-				//
-				if (isColumnPrinted(col))
-				{
-					Cell cell = row.createCell(colnum);
-					
-					// line row
-					Object obj = getValueAt(rownum, col);
-					int displayType = getDisplayType(rownum, col);
-					if (obj == null)
-						;
-					else if (DisplayType.isDate(displayType)) {
-						Timestamp value = (Timestamp)obj;
-						cell.setCellValue(value);
-					}
-					else if (DisplayType.isNumeric(displayType)) {
-						double value = 0;
-						if (obj instanceof Number) {
-							value = ((Number)obj).doubleValue();
-						}
-						cell.setCellValue(value);
-					}
-					else if (DisplayType.YesNo == displayType) {
-						boolean value = false;
-						if (obj instanceof Boolean)
-							value = (Boolean)obj;
-						else
-							value = "Y".equals(obj);
-						cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(
-								Msg.getMsg(getLanguage(), value == true ? "Y" : "N")));
-					}
-					else {
-						String value = fixString(obj.toString());	//	formatted
-						cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(value));
-					}
-					//
-					CellStyle style = getStyle(rownum, col);
-					cell.setCellStyle(style);
-					// Page break
-					if (isPageBreak(rownum, col)) {
-						isPageBreak = true;
-						sheetName = fixString(cell.getRichStringCellValue().getString());
-					}
-					//
-					colnum++;
-				}	//	printed
-			}	//	for all columns
+		SXSSFSheet sheet = null;
+		try {
+			sheet = createTableSheet();
+			String sheetName = null;
 			//
-			// Page Break
-			if (isPageBreak) {
-				closeTableSheet(sheet, sheetName, colnumMax);
-				sheet = createTableSheet();
-				xls_rownum = 0;
-				isPageBreak = false;
+			int totalRows = getRowCount();
+			int totalColumns = getColumnCount();
+			
+			// Pre-calculate column visibility for performance (this is consistent across all rows)
+			boolean[] columnPrinted = new boolean[totalColumns];
+			int colnumMax = 0;
+			
+			// Pre-calculate which columns are printed/visible
+			for (int col = 0; col < totalColumns; col++) {
+				columnPrinted[col] = isColumnPrinted(col);
+				if (columnPrinted[col]) {
+					colnumMax++;
+				}
 			}
-		}	//	for all rows
-		closeTableSheet(sheet, sheetName, colnumMax);
-		//
-		m_workbook.write(out);
-		out.close();
-		//
+		
+			// Process rows with optimized batching
+			int lastFlushedRow = 0;
+			for (int rownum = 0, xls_rownum = 1; rownum < totalRows; rownum++, xls_rownum++)
+			{
+				setCurrentRow(rownum);
+
+				boolean isPageBreak = false;
+				Row row = sheet.createRow(xls_rownum);
+				//	for all columns
+				int colnum = 0;
+				for (int col = 0; col < totalColumns; col++)
+				{
+					// Use cached column visibility
+					if (columnPrinted[col])
+					{
+						Cell cell = row.createCell(colnum);
+						
+						// line row
+						Object obj = getValueAt(rownum, col);
+						
+						// Evaluate display type for each individual cell to handle varying types per row
+						int displayType = getDisplayType(rownum, col);
+						
+						if (obj == null) {
+							// Leave cell empty
+						}
+						else if (DisplayType.isDate(displayType)) {
+							if (obj instanceof Timestamp) {
+								cell.setCellValue((Timestamp)obj);
+							} else {
+								// Fallback for unexpected data type
+								String value = fixString(obj.toString());
+								cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(value));
+							}
+						}
+						else if (DisplayType.isNumeric(displayType)) {
+							if (obj instanceof Number) {
+								cell.setCellValue(((Number)obj).doubleValue());
+							} else {
+								// Fallback for non-numeric in numeric column
+								try {
+									cell.setCellValue(Double.parseDouble(obj.toString()));
+								} catch (NumberFormatException e) {
+									cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(obj.toString()));
+								}
+							}
+						}
+						else if (DisplayType.YesNo == displayType) {
+							boolean value = false;
+							if (obj instanceof Boolean)
+								value = (Boolean)obj;
+							else
+								value = "Y".equals(obj);
+							cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(
+									Msg.getMsg(getLanguage(), value ? "Y" : "N")));
+						}
+						else {
+							// String or other types
+							String value = fixString(obj.toString());	//	formatted
+							cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(value));
+						}
+						//
+						CellStyle style = getStyle(rownum, col);
+						cell.setCellStyle(style);
+						// Page break check
+						if (isPageBreak(rownum, col)) {
+							isPageBreak = true;
+							// Only get string value if we have text content
+							if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								sheetName = fixString(cell.getRichStringCellValue().getString());
+							}
+						}
+						//
+						colnum++;
+					}	//	printed
+				}	//	for all columns
+			
+				// Periodic row flushing to free memory - more aggressive flushing for large datasets
+				if (rownum > 0 && rownum % ROW_FLUSH_INTERVAL == 0 && rownum > lastFlushedRow) {
+					try {
+						// Calculate rows to flush (keep only window_size rows in memory)
+						// This is more memory efficient
+						int rowsToKeep = Math.min(SXSSF_WINDOW_SIZE, totalRows - rownum);
+						int rowsToFlush = Math.max(0, rownum - rowsToKeep);
+						if (rowsToFlush > lastFlushedRow) {
+							sheet.flushRows(rowsToFlush - lastFlushedRow);
+							lastFlushedRow = rowsToFlush;
+						}
+					} catch (Exception e) {
+						// If flush fails, continue without it
+						log.log(Level.FINE, "Could not flush rows at row " + rownum, e);
+					}
+				}
+				//
+				// Page Break
+				if (isPageBreak) {
+					// Flush remaining rows before creating new sheet
+					try {
+						sheet.flushRows();
+					} catch (Exception e) {
+						log.log(Level.FINE, "Could not flush before page break", e);
+					}
+					closeTableSheet(sheet, sheetName, colnumMax);
+					sheet = createTableSheet();
+					xls_rownum = 0;
+					isPageBreak = false;
+					lastFlushedRow = 0; // Reset for new sheet
+				}
+			}	//	for all rows
+			
+			// Final flush before closing
+			try {
+				if (sheet != null) {
+					sheet.flushRows();
+				}
+			} catch (Exception e) {
+				log.log(Level.FINE, "Could not perform final flush", e);
+			}
+			
+			closeTableSheet(sheet, sheetName, colnumMax);
+			//
+			m_workbook.write(out);
+			out.close();
+		} finally {
+			// Clean up resources in finally block to ensure disposal even on errors
+			if (m_workbook != null) {
+				try {
+					m_workbook.dispose();
+				} catch (Exception e) {
+					log.log(Level.FINE, "Error disposing workbook", e);
+				}
+				m_workbook = null;
+			}
+		}
+		
 		// Workbook Info
 		if (CLogMgt.isLevelFine()) {
-			log.fine("Sheets #"+m_sheetCount);
-			log.fine("Styles used #"+m_styles.size());
+			log.fine("Export completed - Sheets: " + m_sheetCount + ", Styles cached: " + m_styles.size());
 		}
 	}
 
@@ -489,10 +663,10 @@ public abstract class AbstractExcelExporter
 	public void export(File file, Language language, boolean autoOpen) throws Exception
 	{
 		m_lang = language;
-		m_workbook = new SXSSFWorkbook();
-		m_dataFormat =  m_workbook.createDataFormat();
+		// Reinitialize workbook with optimized settings
+		initWorkbook();
 		if (file == null)
-			file = File.createTempFile("Report_", ".xls");
+			file = File.createTempFile("Report_", ".xlsx");
 		FileOutputStream out = new FileOutputStream(file);
 		export(out);
 		if (autoOpen && Ini.isClient())
@@ -506,7 +680,9 @@ public abstract class AbstractExcelExporter
 	public File export() throws Exception
 	{
 		m_lang = Env.getLanguage(getCtx());
-		File file = File.createTempFile("Report_", ".xls");
+		// Reinitialize workbook with optimized settings
+		initWorkbook();
+		File file = File.createTempFile("Report_", ".xlsx");
 		FileOutputStream out = new FileOutputStream(file);
 		export(out);
 		return file;
