@@ -620,9 +620,9 @@ public class X_M_ProductionLine extends PO implements I_M_ProductionLine, I_Pers
 		return bd;
 	}
 
-	public org.adempiere.core.domains.models.I_M_InOutLine getReversalLine() throws RuntimeException
+	public org.adempiere.core.domains.models.I_M_ProductionLine getReversalLine() throws RuntimeException
     {
-		return (org.adempiere.core.domains.models.I_M_InOutLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_InOutLine.Table_Name)
+		return (org.adempiere.core.domains.models.I_M_ProductionLine)MTable.get(getCtx(), org.adempiere.core.domains.models.I_M_ProductionLine.Table_Name)
 			.getPO(getReversalLine_ID(), get_TrxName());	}
 
 	/** Set Reversal Line.
