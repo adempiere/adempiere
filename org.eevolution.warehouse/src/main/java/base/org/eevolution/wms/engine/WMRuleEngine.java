@@ -413,8 +413,8 @@ public class WMRuleEngine {
 			List<MLocator> locators = maybeImplementation.map(implementation -> {
 				return implementation.getLocator(
 						strategy.getCtx(),
-						productId,
 						strategy.getM_Warehouse_ID(),
+						productId,
 						warehouseAreaTypeId,
 						warehouseSectionTypeId,
 						strategy.get_TrxName()
