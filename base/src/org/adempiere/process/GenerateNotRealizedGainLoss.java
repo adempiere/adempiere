@@ -116,8 +116,8 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                                 groupingBy(X_T_InvoiceGL::getAD_Org_ID,
                                         groupingBy(X_T_InvoiceGL::getAccount_ID,
                                                 groupingBy(X_T_InvoiceGL::getC_Currency_ID))))).entrySet().stream()
-                .forEach(organizationEntry -> organizationEntry.getValue().entrySet().stream()
-                        .forEach(accountSchemeEntry -> accountSchemeEntry.getValue().entrySet().stream()
+                .forEach(accountSchemeEntry -> accountSchemeEntry.getValue().entrySet().stream()
+                        .forEach(organizationEntry -> organizationEntry.getValue().entrySet().stream()
                                 .forEach(accountEntry -> accountEntry.getValue()
                                         .entrySet().stream().map(currencyEntry -> {
                                             BigDecimal sourceAmountBalance = currencyEntry.getValue().stream()
