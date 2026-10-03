@@ -419,7 +419,15 @@ public abstract class Doc
 		accountingSchemes = ass;
 		m_ctx = new Properties(accountingSchemes[0].getCtx());
 		m_ctx.setProperty("#AD_Client_ID", String.valueOf(accountingSchemes[0].getAD_Client_ID()));
-		
+		m_trxName = trxName;
+		if (m_trxName == null) {
+			m_trxName = Trx.createTrxName("Post_" + clazz.getName());
+			Trx.get(m_trxName, true);
+			m_manageLocalTrx = true;
+		} else {
+			m_manageLocalTrx = false;
+		}
+
 		String className = clazz.getName();
 		className = className.substring(className.lastIndexOf('.')+1);
 		try
@@ -433,23 +441,10 @@ public abstract class Doc
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
-		
-		//	DocStatus
-		//int index = p_po.get_ColumnIndex("DocStatus");
-		//if (index != -1)
-		//	m_DocStatus = (String)p_po.get_Value(index);
 		getDocStatus();
-		
+
 		//	Document Type
 		setDocumentType (defaultDocumentType);
-		m_trxName = trxName;
-		m_manageLocalTrx = false;
-		if (m_trxName == null) {
-			m_trxName = "Post" + m_DocumentType + p_po.get_ID();
-			m_manageLocalTrx = true;
-		}
-		p_po.set_TrxName(m_trxName);
-
 		//	Amounts
 		m_Amounts[0] = Env.ZERO;
 		m_Amounts[1] = Env.ZERO;
@@ -568,9 +563,7 @@ public abstract class Doc
 	}	//	getPO
 	
 	public final String postImmediate(boolean force) {
-	    
         return post (force, true);  //  repost
-        
 	}
 	
 	/**
@@ -799,7 +792,7 @@ public abstract class Doc
 		String sql = "DELETE Fact_Acct"
 		        + " WHERE AD_Table_ID=" + get_Table_ID()
 		        + " AND Record_ID=" + p_po.get_ID();
-		int no = DB.executeUpdate(sql, getTrxName());
+		int no = DB.executeUpdateEx(sql, getTrxName());
 		if (no != 0)
 			log.info("deleted=" + no);
 		return no;
@@ -898,6 +891,9 @@ public abstract class Doc
 		log.info("Sta=" + status + " DT=" + getDocumentType() 
 			+ " ID=" +  p_po.get_ID());
 		p_Status = status;
+        if (m_trxName == null) {
+            m_trxName = "Post" + m_DocumentType + p_po.get_ID();
+        }
 
 		Trx trx = Trx.get(getTrxName(), true);
 		try
