@@ -21,6 +21,9 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v3
 
+      - name: Validate Gradle CI configuration
+        run: python3 .github/test_gradle_ci.py
+
       - name: Set up Java JDK 11
         uses: actions/setup-java@v3
         with:
@@ -30,7 +33,7 @@ jobs:
           architecture: x64
 
       - name: Publish with Gradle
-        run: gradle publish
+        run: ./gradlew publish
         env:
           ADEMPIERE_LIBRARY_VERSION: ${{ github.event.release.tag_name }}
           ORG_GRADLE_PROJECT_signingKey: ${{ secrets.PGP_SECRET }}
