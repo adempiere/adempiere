@@ -17,10 +17,9 @@
 package org.eevolution.test
 
 import org.adempiere.core.domains.models.X_WM_Rule
-import org.compiere.model.{MLocator, MWarehouse}
+import org.eevolution.dsl.*
 import org.eevolution.services.ProductService
 import org.eevolution.wms.engine.WMRuleEngine
-import org.eevolution.wms.model.{MWMArea, MWMRule, MWMSection, MWMSectionDetail, MWMStrategy, MWMStrategyDetail}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -29,6 +28,10 @@ import org.scalatest.featurespec.AnyFeatureSpec
   * strategy warehouse ID as warehouseId and the selected product ID as
   * productId to the WM rule implementation. With the swapped arguments the
   * rule searched areas by the product ID and returned no locators.
+  *
+  * Written against the DSL types (org.eevolution.dsl) rather than the
+  * underlying model implementations, so a model class swap only touches
+  * the DSL, not the tests.
   */
 class ValidateWmRuleLocatorArgumentOrder extends AnyFeatureSpec
   with AdempiereTestCase
@@ -40,42 +43,42 @@ class ValidateWmRuleLocatorArgumentOrder extends AnyFeatureSpec
 
     Scenario("The locator rule searches the strategy warehouse, not the product") {
       Given("a warehouse with an area, a section and a locator wired through a section detail")
-      val warehouse = new MWarehouse(Context, 0, trxName)
+      val warehouse = new Warehouse(Context, 0, trxName)
       warehouse.setName("WMS Locator Rule Test Warehouse")
       warehouse.save()
 
-      val locator = new MLocator(Context, 0, trxName)
+      val locator = new Locator(Context, 0, trxName)
       locator.setValue("WMS Locator Rule Test")
       locator.setM_Warehouse_ID(warehouse.getM_Warehouse_ID)
       locator.save()
 
-      val area = new MWMArea(Context, 0, trxName)
+      val area = new WMArea(Context, 0, trxName)
       area.setName("WMS Locator Rule Test Area")
       area.setM_Warehouse_ID(warehouse.getM_Warehouse_ID)
       area.save()
 
-      val section = new MWMSection(Context, 0, trxName)
+      val section = new WMSection(Context, 0, trxName)
       section.setName("WMS Locator Rule Test Section")
       section.setWM_Area_ID(area.getWM_Area_ID)
       section.save()
 
-      val sectionDetail = new MWMSectionDetail(Context, 0, trxName)
+      val sectionDetail = new WMSectionDetail(Context, 0, trxName)
       sectionDetail.setWM_Section_ID(section.getWM_Section_ID)
       sectionDetail.setM_Locator_ID(locator.getM_Locator_ID)
       sectionDetail.save()
 
       Given("a strategy bound to the warehouse with the FIFO rule")
-      val rule = new MWMRule(Context, 0, trxName)
+      val rule = new WMRule(Context, 0, trxName)
       rule.setName("WMS Locator Rule Test FIFO")
       rule.setInOutBoundRule(X_WM_Rule.INOUTBOUNDRULE_ForTheMaterialOldestUsingFIFO)
       rule.save()
 
-      val strategy = new MWMStrategy(Context, 0, trxName)
+      val strategy = new WMStrategy(Context, 0, trxName)
       strategy.setName("WMS Locator Rule Test Strategy")
       strategy.setM_Warehouse_ID(warehouse.getM_Warehouse_ID)
       strategy.save()
 
-      val strategyDetail = new MWMStrategyDetail(Context, 0, trxName)
+      val strategyDetail = new WMStrategyDetail(Context, 0, trxName)
       strategyDetail.setWM_Strategy_ID(strategy.getWM_Strategy_ID)
       strategyDetail.setWM_Rule_ID(rule.getWM_Rule_ID)
       strategyDetail.save()
