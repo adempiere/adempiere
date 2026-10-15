@@ -25,6 +25,7 @@ import org.compiere.util.Trx
 import org.eevolution.model.*
 import org.eevolution.distribution.model.*
 import org.eevolution.manufacturing.model.*
+import org.eevolution.wms.model.*
 
 /*
  * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 06/01/16.
@@ -74,6 +75,15 @@ package object dsl {
   type ProjectClass = MProjectClass
   type ProjectType = MProjectType
   type SystemConfig = MSysConfig
+
+  // WMS (Warehouse Management System) types
+  type Locator = MLocator
+  type WarehouseRule = MWMRule
+  type WarehouseStrategy = MWMStrategy
+  type WarehouseStrategyDetail = MWMStrategyDetail
+  type WarehouseArea = MWMArea
+  type WarehouseSection = MWMSection
+  type WarehouseSectionDetail = MWMSectionDetail
 
   sealed trait Optional
   sealed trait Mandatory extends Optional
