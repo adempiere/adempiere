@@ -78,12 +78,12 @@ package object dsl {
 
   // WMS (Warehouse Management System) types
   type Locator = MLocator
-  type WMRule = MWMRule
-  type WMStrategy = MWMStrategy
-  type WMStrategyDetail = MWMStrategyDetail
-  type WMArea = MWMArea
-  type WMSection = MWMSection
-  type WMSectionDetail = MWMSectionDetail
+  type WarehouseRule = MWMRule
+  type WarehouseStrategy = MWMStrategy
+  type WarehouseStrategyDetail = MWMStrategyDetail
+  type WarehouseArea = MWMArea
+  type WarehouseSection = MWMSection
+  type WarehouseSectionDetail = MWMSectionDetail
 
   sealed trait Optional
   sealed trait Mandatory extends Optional
