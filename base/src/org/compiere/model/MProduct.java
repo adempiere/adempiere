@@ -1040,7 +1040,7 @@ public class MProduct extends X_M_Product
 		{
 			// Check compatibility of the instance with the product - they have to use the same set.
 			MAttributeSetInstance masi = MAttributeSetInstance.get(Env.getCtx(),M_AttributeSetInstance_ID,this.getM_Product_ID());
-			if (masi.getMAttributeSet().get_ID() != this.getAttributeSet().get_ID())
+			if (masi == null || masi.getM_AttributeSet_ID() != getM_AttributeSet_ID())
 				M_AttributeSetInstance_ID = 0;  
 		}
 		if (M_AttributeSetInstance_ID != 0)
