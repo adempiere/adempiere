@@ -169,6 +169,10 @@ public class AProcessActionModel
 			return true;
 		}
 
+		if (process.getClassname() != null && process.getClassname().contains("@script:")){
+			return true;
+		}
+		
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		if (classLoader == null)
 		{
