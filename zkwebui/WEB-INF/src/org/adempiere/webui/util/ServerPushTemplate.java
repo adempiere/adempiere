@@ -41,11 +41,18 @@ public class ServerPushTemplate {
 	 * @param callback
 	 */
 	public void execute(IServerPushCallback callback) {
+		if (!isDesktopAvailable()) {
+			throw new DesktopUnavailableException("Desktop is no longer available.");
+		}
+
 		boolean inUIThread = Executions.getCurrent() != null;
 		boolean desktopActivated = false;
 
 		try {
 	    	if (!inUIThread) {
+	    		if (!isDesktopAvailable()) {
+	    			throw new DesktopUnavailableException("Desktop is no longer available.");
+	    		}
 	    		//10 minutes timeout
 	    		if (Executions.activate(desktop, 10 * 60 * 1000)) {
 	    			desktopActivated = true;
@@ -71,5 +78,9 @@ public class ServerPushTemplate {
 	 */
 	public Desktop getDesktop() {
 		return desktop;
+	}
+
+	private boolean isDesktopAvailable() {
+		return desktop != null && desktop.isAlive();
 	}
 }

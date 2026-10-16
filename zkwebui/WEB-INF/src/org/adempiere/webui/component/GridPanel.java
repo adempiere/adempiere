@@ -976,6 +976,15 @@ public class GridPanel extends Borderlayout implements EventListener
 	public void addKeyListener() {
 		if(renderer == null)
 			return;
+		if (keyListener != null && windowPanel != null && windowPanel.getStatusBar() != null) {
+			Component statusBar = windowPanel.getStatusBar();
+			if (keyListener.getDesktop() != null && statusBar.getDesktop() != null
+					&& keyListener.getDesktop() != statusBar.getDesktop()) {
+				detachKeyListener();
+			} else if (keyListener.getParent() == null) {
+				statusBar.appendChild(keyListener);
+			}
+		}
 		if(keyListener == null) { 
 			keyListener = new Keylistener();
 			if (windowPanel != null)
@@ -986,12 +995,19 @@ public class GridPanel extends Borderlayout implements EventListener
 		else 
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
 		
+		keyListener.removeEventListener(Events.ON_CTRL_KEY, this);
 		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
 	}
 
 	public void removeKeyListener() {
+		detachKeyListener();
+	}
+
+	private void detachKeyListener() {
 		if (keyListener != null) {
-			keyListener.setCtrlKeys(null);
+			keyListener.removeEventListener(Events.ON_CTRL_KEY, this);
+			keyListener.detach();
+			keyListener = null;
 		}
 	}
 	

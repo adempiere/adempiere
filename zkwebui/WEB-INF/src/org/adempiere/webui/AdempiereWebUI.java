@@ -360,10 +360,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(Env.getCtx(), SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
 		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 		SessionManager.clearSession(httpSession.getId());
-		SessionManager.removeExecutionCarryOver(httpSession.getId());
-		SessionManager.removeDestop(httpSession.getId());
+		SessionManager.cleanSessionBackground(httpSession.getId());
 		SessionManager.removeUserAuthentication(httpSession.getId());
-		SessionManager.removeApplication(httpSession.getId());
 		Executions.sendRedirect("index.zul");
     }
 
@@ -426,7 +424,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	}
 
 	public void clearDesktop(){
-		//Reset the password
+		if (keyListener != null) {
+			keyListener.detach();
+		}
 		keyListener = null;
 		clientInfo = null;
 		loginDesktop = null;

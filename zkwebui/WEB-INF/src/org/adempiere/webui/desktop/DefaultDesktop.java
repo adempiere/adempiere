@@ -487,10 +487,10 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 			dashboardRunnable.interrupt();
 			if (portalLayout != null) {
 				Desktop desktop = portalLayout.getDesktop();
-				if (desktop != null) {
+				if (desktop != null && desktop.isAlive()) {
 					desktop.enableServerPush(false);
-					portalLayout = null;
 				}
+				portalLayout = null;
 			}
 		}
 	}

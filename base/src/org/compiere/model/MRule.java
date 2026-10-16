@@ -127,9 +127,8 @@ public class MRule extends X_AD_Rule
 	private static CLogger	s_log	= CLogger.getCLogger (MRule.class);
 	
 	/* Engine Manager */
-	private ScriptEngineManager factory = null;
-	/* The Engine */
-	ScriptEngine engine = null;
+	private static final ScriptEngineManager SCRIPT_ENGINE_MANAGER =
+			new ScriptEngineManager(MRule.class.getClassLoader());
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -196,11 +195,10 @@ public class MRule extends X_AD_Rule
 	 *	@return ScriptEngine
 	 */
 	public ScriptEngine getScriptEngine() {
-		factory = new ScriptEngineManager();
 		String engineName = getEngineName();
 		if (engineName != null)
-			engine = factory.getEngineByName(engineName);
-		return engine;
+			return SCRIPT_ENGINE_MANAGER.getEngineByName(engineName);
+		return null;
 	}
 
 	public String getEngineName() {
