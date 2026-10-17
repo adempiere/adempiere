@@ -94,6 +94,26 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   /** ORDER BY clause of the statement (the outer one): same entries, same sequence, same DESC, same positions */
   private def orderBy(sql: String): String = OrderByStart.findAllMatchIn(sql).toVector.lastOption.map(m => " ORDER BY " + sql.substring(m.end)).getOrElse("")
 
+  /** Key column of the table when it has exactly one active real key column (dictionary oracle of the tie-break) */
+  private def singleKey(table: String): Option[String] = {
+    val statement = DB.prepareStatement(
+      "SELECT c.ColumnName, c.ColumnSQL FROM AD_Column c INNER JOIN AD_Table t ON (t.AD_Table_ID=c.AD_Table_ID) " +
+        "WHERE UPPER(t.TableName)=UPPER(?) AND c.IsKey='Y' AND c.IsActive='Y'", null)
+    statement.setString(1, table)
+    val rs = statement.executeQuery()
+    val keys = try Iterator.continually(rs).takeWhile(_.next()).map(r => (r.getString(1), Option(r.getString(2)).exists(_.trim.nonEmpty))).toVector
+    finally DB.close(rs, statement)
+    keys match {
+      case Vector((column, false)) => Some(column)
+      case _ => None
+    }
+  }
+
+  /** ORDER BY of the join path for a legacy statement without sort and without GROUP BY: the single key of the base table */
+  private def tieBreak(legacy: PrintData): Option[String] =
+    if (orderBy(legacy.getSQL).nonEmpty || legacy.getSQL.contains(" GROUP BY ")) None
+    else singleKey(legacy.getTableName).map(key => s" ORDER BY ${legacy.getTableName}.$key")
+
   /** ORDER BY starts after a space (legacy statement) or at the start of a line (join statement) */
   private val OrderByStart = """[ \n]ORDER BY """.r
 
@@ -223,7 +243,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           // group breaks and function rows (PrintDataGroup) are on the same rows
           if (functionRows(l) != functionRows(j)) problems += s"function rows differ: ${functionRows(l)} <> ${functionRows(j)}"
         }
-        if (orderBy(l.getSQL) != orderBy(j.getSQL)) problems += s"ORDER BY differs: ${orderBy(l.getSQL)} <> ${orderBy(j.getSQL)}"
+        // a format without sort columns gets the key of the base table on the join path (S26), nothing else changes
+        val expectedOrderBy = tieBreak(l).getOrElse(orderBy(l.getSQL))
+        if (expectedOrderBy != orderBy(j.getSQL)) problems += s"ORDER BY differs: expected $expectedOrderBy, join ${orderBy(j.getSQL)}"
         if (l.getRowCount == 0 && sqlFails(l.getSQL) != sqlFails(j.getSQL))
           problems += s"legacy SQL fails=${sqlFails(l.getSQL)} but join SQL fails=${sqlFails(j.getSQL)}"
     }
@@ -942,7 +964,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
             assert(lines.count(_.startsWith("FROM ")) == 1)
             And("there is one line per join and one for the ORDER BY, none inside the statement of the report")
             assert(lines.count(_.startsWith("LEFT OUTER JOIN ")) == lookupJoins(sql).size + TranslationJoin.findAllMatchIn(sql).size)
-            assert(lines.count(_.startsWith("ORDER BY ")) == (if (result.legacy.sql.contains(" ORDER BY ")) 1 else 0))
+            assert(lines.count(_.startsWith("ORDER BY ")) == (if (result.legacy.sql.contains(" ORDER BY ") || tieBreak(result.legacy.pd.get).isDefined) 1 else 0))
             assert(!sql.contains("\r") && !sql.contains("\n\n"))
             assert(lines.tail.head.contains(") " + result.join.pd.get.getTableName), "the statement of the report is on the FROM line")
           }
@@ -1164,6 +1186,65 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(legacy.sql.contains("C_DocType_Trl.Name"))
       }
     }
+  }
+
+  Feature("A report without sort columns has a deterministic order on the join path") {
+
+    Scenario("A format without sort columns ends with ORDER BY on the single key column of its base table") {
+      withTrx { trx =>
+        Given("print formats of C_Order without sort columns (with lookups and without), a sorted one and a grouped one")
+        val withLookups = insertFormat(trx, "RLJ Tie Lookups", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("C_BPartner_ID", seqNo = 20)))
+        val plain = insertFormat(trx, "RLJ Tie Plain", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("GrandTotal", seqNo = 20)))
+        val sorted = insertFormat(trx, "RLJ Tie Sorted", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10, sortNo = 10, isDesc = true), Item("C_BPartner_ID", seqNo = 20)))
+        val groupedView = insertReportView(trx, "RLJ Tie Grouped", "C_Order", Seq(("GrandTotal", "SUM(@)")))
+        val grouped = insertFormat(trx, "RLJ Tie Grouped", "C_Order", groupedView, Seq(Item("C_BPartner_ID", seqNo = 10), Item("GrandTotal", seqNo = 20)))
+        assert(singleKey("C_Order").contains("C_Order_ID"))
+        def compareFormat(formatId: Int, lang: String) = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+        Seq(English, Spanish).foreach { lang =>
+          When(s"they are generated in $lang by both strategies")
+          val lookups = compareFormat(withLookups, lang)
+          val flat = compareFormat(plain, lang)
+          val ordered = compareFormat(sorted, lang)
+          val summed = compareFormat(grouped, lang)
+          assertNoProblems(Vector(lookups, flat, ordered, summed))
+          Then("the statement with lookups ends with the key of the base table on its own line")
+          assert(lookups.join.sql.endsWith("\nORDER BY C_Order.C_Order_ID"), lookups.join.sql)
+          assert(lookups.join.sql.indexOf("ORDER BY") == lookups.join.sql.lastIndexOf("ORDER BY"))
+          And("so does the statement without lookups, on the same line")
+          assert(flat.join.sql.endsWith(" ORDER BY C_Order.C_Order_ID") && !flat.join.sql.contains("\n"), flat.join.sql)
+          And("the rows come in the order of the key")
+          val documents = cells(lookups.join.pd.get).flatMap(_.find(_.name == "DocumentNo")).map(_.value)
+          val byKey = documentsByKey.filter(documents.toSet.contains)
+          assert(documents.distinct.size == documents.size && documents == byKey, s"$documents / $byKey")
+          And("a sorted format keeps its ORDER BY, without the key")
+          assert(orderBy(ordered.join.sql) == orderBy(ordered.legacy.sql) && !orderBy(ordered.join.sql).contains("C_Order_ID"), ordered.join.sql)
+          And("a grouped format gets nothing")
+          assert(!summed.join.sql.contains("ORDER BY") && !summed.legacy.sql.contains("ORDER BY"), summed.join.sql)
+          And("the legacy statements are as before: no ORDER BY without sort columns")
+          assert(!lookups.legacy.sql.contains("ORDER BY") && !flat.legacy.sql.contains("ORDER BY"))
+        }
+      }
+    }
+
+    Scenario("A view without a single key column gets no ORDER BY, a table with one gets it, in every table based format") {
+      Given("the print formats without sort columns and GROUP BY, in English and in es_MX")
+      val results = (sweep(English) ++ sweep(Spanish)).filter(_.compared).filter(r => !r.legacy.sql.contains(" ORDER BY ") && !r.legacy.sql.contains(" GROUP BY "))
+      assert(results.nonEmpty)
+      Then("those whose base table has one key column end with it, the others have no ORDER BY")
+      val (keyed, keyless) = results.partition(r => singleKey(r.join.pd.get.getTableName).isDefined)
+      info(s"${keyed.size} statements with the key of the base table, ${keyless.size} without a single key column")
+      assert(keyed.nonEmpty && keyless.nonEmpty)
+      assert(keyed.forall(r => orderBy(r.join.sql) == tieBreak(r.legacy.pd.get).get), keyed.map(_.formatId).toString)
+      assert(keyless.forall(r => !r.join.sql.contains("ORDER BY")), keyless.map(_.formatId).toString)
+      assertNoProblems(results)
+    }
+  }
+
+  /** DocumentNo of every order of the clients 0 and 11 by C_Order_ID */
+  private def documentsByKey: Vector[String] = {
+    val statement = DB.prepareStatement("SELECT DocumentNo FROM C_Order WHERE AD_Client_ID IN (0,11) ORDER BY C_Order_ID", null)
+    val rs = statement.executeQuery()
+    try Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(rs, statement)
   }
 
   /** Every row of the statement as text, the statement is run outside of any transaction */

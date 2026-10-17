@@ -313,6 +313,23 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       check(!sqlOf(1000003, English, join = false, Some(true)).contains("OFFSET"))
     }
 
+    Scenario("A cached definition carries the key ORDER BY of a report without sort columns") {
+      Given("the table based print formats whose legacy statement has no ORDER BY and no GROUP BY")
+      resetDefinitions()
+      val unsorted = tableBasedFormats.filter { id =>
+        val legacy = sqlOf(id, English, join = false, Some(false))
+        legacy.nonEmpty && !legacy.contains(" ORDER BY ") && !legacy.contains(" GROUP BY ")
+      }
+      val keyed = unsorted.filter(id => sqlOf(id, English, join = true, Some(false)).matches("(?s).*[ \n]ORDER BY \\w+\\.\\w+$"))
+      info(s"${unsorted.size} print formats without sort columns, ${keyed.size} of them ordered by the key of the base table")
+      check(keyed.nonEmpty)
+      Then("a cold and a warm cache give the statement of the dictionary, key included")
+      keyed.foreach { id =>
+        val off = sqlOf(id, English, join = true, Some(false))
+        check(sqlOf(id, English, join = true, Some(true)) == off && sqlOf(id, English, join = true, Some(true)) == off, s"format $id")
+      }
+    }
+
     Scenario("A warm getPrintData runs no dictionary query for the definition") {
       val stats = statements()
       assume(stats.isDefined, "pg_stat_statements is not available: the number of queries cannot be observed outside the cache")

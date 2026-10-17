@@ -966,6 +966,29 @@ public class DataEngine
 		//	Table ID PrintColumn is needed but not present, manually add a dummy column
 		boolean addTableID = isTableIDRequired && !isTableIDPresent;
 		boolean lookupJoined = lookupPlan != null && !lookupPlan.isEmpty();
+		//	No sort column: the key of the base table gives the statement of the lookup joins a deterministic order
+		String tieBreakKey = null;
+		ReportLookupItem tieBreakItem = null;
+		if (lookupJoin && orderAD_Column_IDs.length == 0 && !IsGroupedBy)
+			tieBreakKey = readSingleKeyColumn(tableName, b);
+		if (tieBreakKey != null && lookupJoined)
+		{
+			//	the derived table exposes the key: the printed column, otherwise a hidden one
+			String keyExpression = tableName + "." + tieBreakKey;
+			for (ReportLookupItem item : items)
+			{
+				if (item.join == null && keyExpression.equalsIgnoreCase(item.expression))
+				{
+					tieBreakItem = item;
+					break;
+				}
+			}
+			if (tieBreakItem == null)
+			{
+				tieBreakItem = new ReportLookupItem(keyExpression, null, tieBreakKey, true);
+				items.add(tieBreakItem);
+			}
+		}
 		if (lookupJoined)
 		{
 			//	derived table with the statement of the report, the lookups are joined to it
@@ -1041,6 +1064,11 @@ public class DataEngine
 				by = String.valueOf(i+1);
 			orderBy.append(by);
 		}	//	order by
+		if (tieBreakKey != null && orderColumns.size() == 0)
+		{
+			orderBy.append(" ORDER BY ").append(tableName).append(".")
+				.append(tieBreakItem != null ? tieBreakItem.innerName : tieBreakKey);
+		}
 		b.orderBy = orderBy.toString();
 
 		//	Tag of the report for the DBA
@@ -1049,6 +1077,48 @@ public class DataEngine
 
 		return b.build();
 	}	//	readDefinition
+
+	/**
+	 * 	Read the key column of a table, for the ORDER BY of a report without sort columns.
+	 * 	@param tableName table of the report
+	 * 	@param b the definition, marked as incomplete when the dictionary cannot be read
+	 * 	@return the column if the table has exactly one active key column and it is not virtual, otherwise null
+	 */
+	private String readSingleKeyColumn (String tableName, ReportDefinition.Builder b)
+	{
+		String sql = "SELECT c.ColumnName, c.ColumnSQL FROM AD_Column c"
+			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
+			+ "WHERE UPPER(t.TableName)=UPPER(?) AND c.IsKey='Y' AND c.IsActive='Y'";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String key = null;
+		int keys = 0;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, m_trxName);
+			pstmt.setString(1, tableName);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				keys++;
+				String columnSQL = rs.getString(2);
+				key = columnSQL == null || columnSQL.trim().length() == 0 ? rs.getString(1) : null;
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, sql + " - " + tableName, e);
+			b.complete = false;
+			return null;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null;
+			pstmt = null;
+		}
+		return keys == 1 ? key : null;
+	}	//	readSingleKeyColumn
 
 	/**
 	 *	Next Synonym.
