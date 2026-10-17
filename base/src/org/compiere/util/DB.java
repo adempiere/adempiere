@@ -413,6 +413,17 @@ public final class DB
 	}	//	getConnectionRO
 
 	/**
+	 *	Return a connection of the short running pool AdempiereSRDS: read only, read committed, from the pool that serves the reports.
+	 *	The connection must be closed explicitly by the application; with autoCommit=false roll back before closing.
+	 *	@param autoCommit false to read in a transaction (a PostgreSQL cursor streams a result only then)
+	 *	@return Connection or null when the pool gives none (the caller uses {@link #getConnectionRO()})
+	 */
+	public static Connection getConnectionShortRunning (boolean autoCommit)
+	{
+		return s_cc.getConnectionShortRunning(autoCommit, true, Connection.TRANSACTION_READ_COMMITTED);
+	}	//	getConnectionShortRunning
+
+	/**
 	 *	Create new Connection.
 	 *  The connection must be closed explicitly by the application
 	 *

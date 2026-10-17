@@ -1423,89 +1423,58 @@ public class CConnection implements Serializable, Cloneable
 	}	//  getConnection
 
 	/**
-	 *  Create Connection - no not close.
-	 * 	Sets m_dbException
+	 *  Create Connection of the short running pool (AdempiereSRDS) - do not forget to close it.
+	 *  The pool serves the reports and declares its own state (read only, autoCommit, READ_COMMITTED), so nothing is
+	 *  set on every checkout, because each setting that differs costs a round trip.
+	 *  A pool that gives no connection does not mean that the database is down: m_dbException and the database status
+	 *  are not touched, and the caller is expected to use {@link #getConnection(boolean, int)}.
+	 *  The failure is logged as a warning once, until the pool gives a connection again.
 	 *  @param autoCommit true if autocommit connection
-	 *  @param readOnly
+	 *  @param readOnly informative: the pool declares it (see AdempiereDatabase#configureShortRunningPool), it is not set here
 	 *  @param transactionIsolation Connection transaction level
-	 *  @return Connection
+	 *  @return Connection or null when the pool gives none
 	 */
-	public Connection getConnectionShortRunning (boolean autoCommit,boolean readOnly ,  int transactionIsolation)
+	public Connection getConnectionShortRunning (boolean autoCommit, boolean readOnly, int transactionIsolation)
 	{
-		Connection connection = null;
-		m_dbException = null;
-		m_okDB = false;
-		//
 		getDatabase (); //  updates m_db
 		if (m_db == null)
-		{
-			m_dbException = new IllegalStateException("No Database Connector");
 			return null;
-		}
 		//
-
+		Connection connection = null;
 		try
 		{
-			Exception ee = null;
-			try
-			{
-				connection = m_db.getFromConnectionPoolShortRunning(this, autoCommit, transactionIsolation);
-			}
-			catch (Exception exception)
-			{
-				log.severe(exception.getMessage());
-				ee = exception;
-			}
-			//	Verify Connection (isolation: see getConnection)
-			if (connection != null)
-			{
-				if (connection.getAutoCommit() != autoCommit)
-					connection.setAutoCommit (autoCommit);
-				m_okDB = true;
-			}
-		}
-		catch (UnsatisfiedLinkError ule)
-		{
-			String msg = ule.getLocalizedMessage()
-					+ " -> Did you set the LD_LIBRARY_PATH ? - " + getConnectionURL();
-			m_dbException = new Exception(msg);
-			log.severe(msg);
-		}
-		catch (SQLException ex)
-		{
-			m_dbException = ex;
+			connection = m_db.getFromConnectionPoolShortRunning(this, autoCommit, transactionIsolation);
 			if (connection == null)
-			{
-				System.err.println(getConnectionURL ()
-						+ ", (1) AutoCommit=" + autoCommit + ",TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
-						+ " - " + ex.getMessage());
-			}
-			else
+				throw new IllegalStateException("the pool gave no connection");
+			//	Verify Connection (isolation: see getConnection)
+			if (connection.getAutoCommit() != autoCommit)
+				connection.setAutoCommit (autoCommit);
+			m_shortRunningFailed = false;
+			return connection;
+		}
+		catch (Exception | UnsatisfiedLinkError e)
+		{
+			if (connection != null)
 			{
 				try
 				{
-					log.severe(getConnectionURL ()
-							+ ", (2) AutoCommit=" + connection.getAutoCommit() + "->" + autoCommit
-							+ ", TrxIso=" + getTransactionIsolationInfo(connection.getTransactionIsolation()) + "->" + getTransactionIsolationInfo(transactionIsolation)
-							//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
-							+ " - " + ex.getMessage());
+					connection.close();
 				}
-				catch (Exception ee)
+				catch (Exception ignored)
 				{
-					log.severe(getConnectionURL ()
-							+ ", (3) AutoCommit=" + autoCommit + ", TrxIso=" + getTransactionIsolationInfo(transactionIsolation)
-							//	+ " (" + getDbUid() + "/" + getDbPwd() + ")"
-							+ " - " + ex.getMessage());
 				}
 			}
+			if (!m_shortRunningFailed)
+			{
+				m_shortRunningFailed = true;
+				log.warning("AdempiereSRDS gives no connection, the reports use AdempiereDS until it does: " + e);
+			}
+			return null;
 		}
-		catch (Exception ex)
-		{
-			m_dbException = ex;
-			System.err.println(getConnectionURL() + " - " + ex.getLocalizedMessage());
-		}
-		return connection;
-	}	//  getConnection
+	}	//  getConnectionShortRunning
+
+	/** The short running pool failed the last time it was asked for a connection (it is logged once) */
+	private volatile boolean m_shortRunningFailed = false;
 
 	/**
 	 *  Get Database Exception of last connection attempt

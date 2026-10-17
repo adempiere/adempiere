@@ -18,6 +18,7 @@ package org.compiere.print;
 
 import java.io.Serializable;
 import java.sql.Clob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -1151,6 +1152,37 @@ public class DataEngine
 		}
 	}	//	setOneOff
 
+	/**
+	 * 	Give back the connection that the report read from the pool AdempiereSRDS: a read in a transaction
+	 * 	(streaming) ends with a rollback, nothing was written.
+	 * 	@param connection connection of the pool or null
+	 */
+	private void closeReadConnection (Connection connection)
+	{
+		if (connection == null)
+			return;
+		try
+		{
+			if (!connection.getAutoCommit())
+				connection.rollback();
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.WARNING, "rollback", e);
+		}
+		finally
+		{
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException e)
+			{
+				log.log(Level.WARNING, "close", e);
+			}
+		}
+	}	//	closeReadConnection
+
 	/**************************************************************************
 	 * 	Load Data into PrintData
 	 * 	@param pd print data with SQL and ColumnInfo set
@@ -1171,17 +1203,31 @@ public class DataEngine
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Trx readTrx = null;
+		Connection readConnection = null;
 		try
 		{
 			String trxName = m_trxName;
 			int fetchSize = getFetchSize(format.getCtx());
 			//	pgjdbc streams a result only with autoCommit=false: read inside a short transaction of its own
-			if (fetchSize > 0 && trxName == null && DB.isPostgreSQL())
+			boolean streaming = fetchSize > 0 && DB.isPostgreSQL();
+			//	outside a transaction of the caller the report reads from the read only pool AdempiereSRDS
+			if (trxName == null)
+				readConnection = DB.getConnectionShortRunning(!streaming);
+			if (readConnection != null)
 			{
-				readTrx = Trx.get(Trx.createTrxName("RptRead_"), true);
-				trxName = readTrx.getTrxName();
+				pstmt = readConnection.prepareStatement(DB.getDatabase().convertStatement(pd.getSQL()),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			}
-			pstmt = DB.prepareStatement(pd.getSQL(), trxName);
+			else
+			{
+				//	the pool gives no connection (CConnection warned) or the caller has a transaction: as always
+				if (streaming && trxName == null)
+				{
+					readTrx = Trx.get(Trx.createTrxName("RptRead_"), true);
+					trxName = readTrx.getTrxName();
+				}
+				pstmt = DB.prepareStatement(pd.getSQL(), trxName);
+			}
 			setOneOff(pstmt);
 			if (fetchSize > 0)
 				pstmt.setFetchSize(fetchSize);
@@ -1386,6 +1432,7 @@ public class DataEngine
 				readTrx.rollback();
 				readTrx.close();
 			}
+			closeReadConnection(readConnection);
 		}
 
 		//	Add Total Lines
