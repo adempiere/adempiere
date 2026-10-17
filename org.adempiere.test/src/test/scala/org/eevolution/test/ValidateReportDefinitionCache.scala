@@ -127,6 +127,18 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       "ORDER BY pf.AD_PrintFormat_ID"
   )
 
+  /**
+    * The values of the columns that a second run without cache also changes (views that select the current timestamp)
+    * cannot be compared; every other column must have the same values. Without volatile columns this is a plain comparison.
+    */
+  private def differsOutsideVolatile(expected: Snapshot, actual: Snapshot, control: Snapshot): Boolean = {
+    def column(snapshot: Snapshot, index: Int) = multiset(snapshot.rows.map(row => row.lift(index).map(_.value)))
+    val width = (expected.rows ++ actual.rows ++ control.rows).map(_.size).maxOption.getOrElse(0)
+    val stable = (0 until width).filter(index => column(expected, index) == column(control, index))
+    def project(snapshot: Snapshot) = multiset(snapshot.rows.map(row => stable.map(index => row.lift(index))))
+    project(expected) != project(actual)
+  }
+
   /** Same data, or (views that select the current timestamp) the same data as a second run without cache */
   private def sameData(expected: Snapshot, actual: Snapshot, control: () => Snapshot): Vector[String] = {
     val problems = ArrayBuffer.empty[String]
@@ -137,7 +149,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     if (expected.columns != actual.columns) problems += "columns differ"
     if (expected.functionRows != actual.functionRows) problems += "function rows differ"
     if (expected.rows.size != actual.rows.size) problems += s"row count ${expected.rows.size} <> ${actual.rows.size}"
-    else if (multiset(expected.rows) != multiset(actual.rows) && multiset(expected.rows) == multiset(control().rows))
+    else if (multiset(expected.rows) != multiset(actual.rows) && differsOutsideVolatile(expected, actual, control()))
       problems += "cell values differ"
     else if (expected.rows != actual.rows && multiset(expected.rows) == multiset(actual.rows)) {
       // same cells in another order: only a problem when the control keeps the order
@@ -243,6 +255,19 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     """(?:C_Order\.|AS )(\w+)""".r.findAllMatchIn(sql.substring(0, sql.indexOf(" FROM "))).map(_.group(1)).toVector
 
   Feature("Report definition cache") {
+
+    Scenario("The comparison of the data ignores the columns that change between two runs and no other") {
+      Given("a view whose first column is the current timestamp and whose second column is stable")
+      def snap(stamp: String, value: String) = Snapshot("SELECT", Vector.empty,
+        Vector(Vector(Cell("Now", "", stamp, stamp, false, 0), Cell("Name", "", value, value, false, 0))), Vector.empty)
+      val expected = snap("t1", "A")
+      val control = () => snap("t2", "A")
+      Then("a new timestamp is not a difference")
+      check(sameData(expected, snap("t3", "A"), control).isEmpty)
+      And("a changed stable column is a difference, even when the timestamp changed too")
+      check(sameData(expected, snap("t3", "B"), control).contains("cell values differ"))
+      check(sameData(expected, snap("t1", "B"), control).contains("cell values differ"))
+    }
 
     Scenario("Cache on, cache off and a cache hit generate the same SQL and the same data for every table based print format") {
       Given("the active table based print formats of clients 0 and 11, in en_US and es_MX, with subselects and with joins")

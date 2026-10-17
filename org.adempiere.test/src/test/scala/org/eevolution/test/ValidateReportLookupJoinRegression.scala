@@ -366,6 +366,21 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       assert(legacy.exists { case (_, run) => run.sql.contains("(SELECT NVL(") })
     }
 
+    Scenario("The names of the derived table stay unique and within 30 characters when output names repeat") {
+      Given("select items whose output names repeat, are long, or equal the table of the report")
+      val long = "A" * ReportLookupAlias.MAX_LENGTH
+      val outputs = Seq("Name", "Name", long, long, long, "A" * (ReportLookupAlias.MAX_LENGTH - 2) + "_1", "C_Order", "C_Order")
+      When("the plan names them in the inner select")
+      val names = innerNames("C_Order", outputs)
+      Then("every name is unique, has at most 30 characters and is not the table of the report")
+      assert(names.map(_.toUpperCase).distinct.size == names.size, s"names repeat: ${names.mkString(", ")}")
+      assert(names.forall(_.length <= ReportLookupAlias.MAX_LENGTH), s"name over 30 characters: ${names.mkString(", ")}")
+      assert(!names.exists(_.equalsIgnoreCase("C_Order")), s"name equals the base table: ${names.mkString(", ")}")
+      And("the names that fit keep the numbered form of the legacy statement")
+      assert(names.take(2) == Seq("Name", "Name_1"))
+      assert(names(2) == long)
+    }
+
     Scenario("All table based print formats return the same data in English") {
       Given("the active table based print formats of clients 0 and 11")
       assert(tableBasedFormats.nonEmpty)
@@ -411,11 +426,10 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("A second unqualified ReportView raw WHERE (C_Payment_v) returns the same rows") {
       Given("ReportView 155 with DocStatus IN ('CO','CL') AND IsAllocated='N' on C_Payment_v")
-      val trx = Trx_name("payment")
-      val tableId = MTable.getTable_ID("C_Payment_v")
-      val format = MPrintFormat.createFromTable(Env.getCtx, tableId, 0, trx)
-      assert(format != null)
-      try {
+      withTrx { trx =>
+        val tableId = MTable.getTable_ID("C_Payment_v")
+        val format = MPrintFormat.createFromTable(Env.getCtx, tableId, 0, trx)
+        assert(format != null)
         When("a print format of the view is generated with the ReportView WHERE")
         val result = compare(() => format, format.get_ID, language(English), reportViewId = PaymentViewReportView, trx = trx)
         Then("the data is identical")
@@ -423,7 +437,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(result.compared)
         assert(result.join.sql.contains("DocStatus IN ('CO','CL')"))
         info(s"rows=${result.legacy.pd.get.getRowCount}, lookups joined=${joinedLookups(result.join)}")
-      } finally org.compiere.util.Trx.get(trx, false).rollback()
+      }
     }
 
     Scenario("A ReportView WHERE qualified with the table name returns the same rows") {
@@ -855,5 +869,21 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
   private def yn(flag: Boolean): String = if (flag) "Y" else "N"
 
-  private def Trx_name(name: String): String = org.compiere.util.Trx.createTrxName(s"ReportLookupJoin_$name")
+  /** Names that ReportLookupPlan.innerSelect gives to select items, through reflection: the plan is package private */
+  private def innerNames(baseTable: String, outputNames: Seq[String]): Seq[String] = {
+    val itemClass = Class.forName("org.compiere.print.ReportLookupItem")
+    val planClass = Class.forName("org.compiere.print.ReportLookupPlan")
+    val itemConstructor = itemClass.getDeclaredConstructor(classOf[String], classOf[String], classOf[String])
+    itemConstructor.setAccessible(true)
+    val planConstructor = planClass.getDeclaredConstructor(classOf[Language], classOf[String])
+    planConstructor.setAccessible(true)
+    val items = new java.util.ArrayList[Object]()
+    outputNames.foreach(name => items.add(itemConstructor.newInstance(s"$baseTable.$name", null, name).asInstanceOf[Object]))
+    val innerSelect = planClass.getDeclaredMethod("innerSelect", classOf[java.util.List[_]])
+    innerSelect.setAccessible(true)
+    innerSelect.invoke(planConstructor.newInstance(Language.getBaseLanguage, baseTable), items)
+    val innerName = itemClass.getDeclaredField("innerName")
+    innerName.setAccessible(true)
+    (0 until items.size).map(i => innerName.get(items.get(i)).asInstanceOf[String])
+  }
 }

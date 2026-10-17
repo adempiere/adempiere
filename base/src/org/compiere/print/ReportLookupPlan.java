@@ -141,13 +141,8 @@ final class ReportLookupPlan
 	{
 		String table = embed.getTableName();
 		boolean translated = embed.isTranslationJoin();
-		String alias = parent == null && path.indexOf('_') < 0
-			? ReportLookupAlias.lookup(table, Integer.parseInt(path), baseTable)
-			: ReportLookupAlias.lookup(table, path, baseTable);
-		String translationAlias = !translated ? null
-			: parent == null && path.indexOf('_') < 0
-				? ReportLookupAlias.translation(table, Integer.parseInt(path), baseTable)
-				: ReportLookupAlias.translation(table, path, baseTable);
+		String alias = ReportLookupAlias.lookup(table, path, baseTable);
+		String translationAlias = translated ? ReportLookupAlias.translation(table, path, baseTable) : null;
 		return new Join(table, embed.getKeyColumn(), foreignKey, parent, column, path, alias, translationAlias);
 	}
 
@@ -232,8 +227,8 @@ final class ReportLookupPlan
 			if (item.join != null)
 				continue;
 			String name = item.outputName;
-			for (int i = 1; !names.add(name.toUpperCase()); i++)
-				name = item.outputName + "_" + i;
+			for (int i = 1; name.equalsIgnoreCase(baseTable) || !names.add(name.toUpperCase()); i++)
+				name = uniqueName(item.outputName, "_" + i);
 			item.innerName = name;
 			if (select.length() > 0)
 				select.append(",");
@@ -243,6 +238,16 @@ final class ReportLookupPlan
 				select.append(item.expression).append(" AS ").append(name);
 		}
 		return select.toString();
+	}
+
+	/**
+	 * 	Name with a numeric suffix. The name is cut, not the suffix, so the result has at most
+	 * 	{@link ReportLookupAlias#MAX_LENGTH} characters (Oracle before 12.2) and stays unique.
+	 */
+	private static String uniqueName(String name, String suffix)
+	{
+		int max = ReportLookupAlias.MAX_LENGTH - suffix.length();
+		return (name.length() > max ? name.substring(0, max) : name) + suffix;
 	}
 
 	/**

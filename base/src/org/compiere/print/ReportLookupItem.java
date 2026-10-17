@@ -30,11 +30,11 @@ final class ReportLookupItem
 	/** Item is only exposed to ORDER BY (sort column that is not printed), never projected */
 	final boolean hidden;
 
-	/** Name of the item in the derived table, unique inside it */
+	/** Name of the item in the derived table, unique inside it. Assigned by {@link ReportLookupPlan#innerSelect(java.util.List)}, which must run before the outer statement is built. */
 	String innerName;
-	/** Join that resolves the display value of the item, null = item is selected as it is */
+	/** Join that resolves the display value of the item, null = item is selected as it is. Assigned by {@link ReportLookupPlan#lookup} */
 	ReportLookupPlan.Join join;
-	/** Display expression of the joined identifier */
+	/** Display expression of the joined identifier. Assigned together with {@link #join} */
 	String display;
 
 	ReportLookupItem(String expression, String alias, String outputName)

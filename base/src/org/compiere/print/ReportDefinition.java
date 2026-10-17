@@ -183,7 +183,9 @@ final class ReportDefinition
 		boolean tableIDRequired = false;
 		boolean tableIDPresent = false;
 		boolean hasLevelNo = false;
+		/** the join strategy was requested (part of the cache key) */
 		boolean lookupJoin = false;
+		/** at least one lookup was joined: the statement is wrapped by {@link #outerPrefix} and {@link #outerSuffix} */
 		boolean lookupJoined = false;
 		String head;
 		String groupBy = "";
@@ -209,7 +211,9 @@ final class ReportDefinition
 	final boolean tableIDRequired;
 	final boolean tableIDPresent;
 	final boolean hasLevelNo;
+	/** the join strategy was requested */
 	final boolean lookupJoin;
+	/** at least one lookup was joined, so {@link #finish(String)} wraps the statement */
 	final boolean lookupJoined;
 	/** SELECT list and FROM clause (with the joins of the Table, List and special lookups) */
 	final String head;
