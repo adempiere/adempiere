@@ -9,7 +9,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2026 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
+
 package org.compiere.print;
 
 import java.util.ArrayList;
@@ -25,6 +29,8 @@ import java.util.List;
  * Every run creates its own mutable PrintDataColumn and PrintDataGroup from the specs, and appends to
  * {@link #head} the WHERE and role access of the run; {@link #finish(String)} adds the rest of the statement.
  * Nothing in here is modified after construction, so one instance is shared by all threads.
+ *
+ * @author Victor Perez, victor.perez@e-evolution.com, http://www.e-evolution.com
  */
 final class ReportDefinition
 {

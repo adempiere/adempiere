@@ -9,7 +9,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2026 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
+
 package org.compiere.print;
 
 /**
@@ -18,6 +22,8 @@ package org.compiere.print;
  * Text of the legacy statement is <code>expression [AS alias]</code>. When the lookups are resolved
  * with joins the statement has an inner SELECT (this items, without the joined display columns) wrapped
  * by an outer SELECT that adds the lookup joins.
+ *
+ * @author Victor Perez, victor.perez@e-evolution.com, http://www.e-evolution.com
  */
 final class ReportLookupItem
 {

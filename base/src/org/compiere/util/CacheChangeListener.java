@@ -9,7 +9,11 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2026 e-Evolution,SC. All Rights Reserved.               *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
+
 package org.compiere.util;
 
 /**
@@ -20,6 +24,8 @@ package org.compiere.util;
  * 	<p>
  * 	An implementation is called in the thread that saved the record, so it must be thread safe, fast and must not
  * 	save or delete records. An exception it throws is logged and ignored, it never fails the save.
+ *
+ * @author Victor Perez, victor.perez@e-evolution.com, http://www.e-evolution.com
  */
 public interface CacheChangeListener
 {
