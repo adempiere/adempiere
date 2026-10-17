@@ -780,9 +780,12 @@ public class DataEngine
 					}
 					else
 					{
-						//	=> A.Name AS AName,
-						items.add(new ReportLookupItem(m_synonym + ".Name", m_synonym + "Name", m_synonym + "Name"));
-						groupByColumns.add(m_synonym+".Name");
+						//	=> A.Name AS AName, with the lookup joins the name of the list when the translation is missing
+						String listName = m_synonym + ".Name";
+						if (lookupJoin)
+							listName = "NVL(" + m_synonym + ".Name,X" + m_synonym + ".Name)";
+						items.add(new ReportLookupItem(listName, m_synonym + "Name", m_synonym + "Name"));
+						groupByColumns.add(listName);
 						orderName = m_synonym + "Name";
 
 						//	LEFT OUTER JOIN AD_Ref_List XA ON (AD_Table.EntityType=XA.Value AND XA.AD_Reference_ID=245)
@@ -795,7 +798,8 @@ public class DataEngine
 							.append(lookupSQL).append("=X")
 							.append(m_synonym).append(".Value AND X").append(m_synonym).append(".AD_Reference_ID=").append(referenceValueId)
 							.append(")");
-						if (isMandatory)
+						//	the lookup joins keep the row of the list value when its translation is missing
+						if (isMandatory && !lookupJoin)
 							sqlFROM.append(" INNER JOIN ");
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");

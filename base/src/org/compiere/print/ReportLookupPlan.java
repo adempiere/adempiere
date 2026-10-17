@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.compiere.model.MLookupFactory;
 import org.compiere.util.CLogger;
@@ -44,7 +46,8 @@ import org.compiere.util.Language;
  * trace; the statement of the report (the derived table) stays on one line. On PostgreSQL the derived table ends with
  * OFFSET 0, so that the planner does not merge it with the lookups.
  * <p>
- * The CASE keeps the NULL of the subselect when there is no foreign key, no row or no translation.
+ * The CASE keeps the NULL of the subselect when there is no foreign key or no row. A translated column whose
+ * translation is missing shows the column of the base table: <code>NVL(Product_Trl_1.Name,Product_1.Name)</code>.
  * <p>
  * A display of one column that the database declares NOT NULL needs no CASE: the LEFT OUTER JOIN gives NULL
  * when the row is missing, so the column is selected as it is (<code>BPartner_1.Name</code>). The displays of several
@@ -91,13 +94,23 @@ final class ReportLookupPlan
 			this.translationAlias = translationAlias;
 		}
 
-		/** @return CASE that gives NULL, as the embedded SELECT does, when the row (or its translation) is missing */
+		/**
+		 * 	@return CASE that gives NULL, as the embedded SELECT does, when the row of the lookup is missing.
+		 * 	A translated column falls back to the column of the base table when its translation is missing
+		 */
 		String guard(String expression)
 		{
-			StringBuilder sql = new StringBuilder("CASE WHEN ").append(alias).append(".").append(key).append(" IS NOT NULL");
-			if (translationAlias != null)
-				sql.append(" AND ").append(translationAlias).append(".").append(key).append(" IS NOT NULL");
-			return sql.append(" THEN ").append(expression).append(" END").toString();
+			StringBuilder sql = new StringBuilder("CASE WHEN ").append(alias).append(".").append(key).append(" IS NOT NULL THEN ");
+			sql.append(translationAlias == null ? expression : withFallback(expression));
+			return sql.append(" END").toString();
+		}
+
+		/** @return the expression with NVL(Translation.Column,Table.Column) in place of each Translation.Column */
+		private String withFallback(String expression)
+		{
+			Pattern translated = Pattern.compile("(?<![A-Za-z0-9_$#.])" + Pattern.quote(translationAlias) + "\\.([A-Za-z0-9_]+)");
+			return translated.matcher(expression).replaceAll(Matcher.quoteReplacement("NVL(" + translationAlias + ".") + "$1,"
+				+ Matcher.quoteReplacement(alias + ".") + "$1)");
 		}
 	}
 

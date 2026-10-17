@@ -631,7 +631,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       }
     }
 
-    Scenario("A product without translation shows NULL on both paths") {
+    Scenario("A product without translation shows its base display on the join path and NULL on the legacy path") {
       Given("the delivery print format in es_MX that prints M_Product_ID as TableDir")
       withTrx { trx =>
         val format = () => new MPrintFormat(Env.getCtx, DeliveryDetailFormat, trx)
@@ -641,18 +641,29 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         val shown = productCells(before.legacy).flatten
         assert(shown.nonEmpty)
         val product = shown.head
-        val rowsOfProduct = productCells(before.legacy).count(_.exists(_.key == product.key))
+        // the demo translation has the same text as the base name: give it its own text to tell them apart
+        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), trx) == 1)
+        val translatedBefore = compare(format, DeliveryDetailFormat, language(Spanish), trx = trx)
+        assertNoProblems(Vector(translatedBefore))
+        val rowsOfProduct = productCells(translatedBefore.legacy).count(_.exists(_.key == product.key))
         When(s"the es_MX translation of product ${product.key} is deleted inside the transaction")
         assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), trx) == 1)
         val after = compare(format, DeliveryDetailFormat, language(Spanish), trx = trx)
-        Then("the display is NULL on both paths: the lookup cell is absent in the same rows")
-        assertNoProblems(Vector(after))
-        assert(productCells(after.legacy).count(_.isEmpty) == productCells(before.legacy).count(_.isEmpty) + rowsOfProduct)
-        assert(productCells(after.join).count(_.isEmpty) == productCells(after.legacy).count(_.isEmpty))
-        And("the join keeps the translation guard of the lookup, the same as the inner join of the subselect")
+        Then("the legacy path shows NULL there: the lookup cell is absent")
+        assert(after.legacy.pd.isDefined && after.join.pd.isDefined)
+        assert(productCells(after.legacy).count(_.isEmpty) == productCells(translatedBefore.legacy).count(_.isEmpty) + rowsOfProduct)
+        And("the join path shows the display of the product in the base language (S25), the other rows are the same")
+        val base = DB.getSQLValueStringEx(trx, "SELECT Value||' - '||Name FROM M_Product WHERE M_Product_ID=?", Integer.valueOf(product.key))
+        assert(base != null && !base.endsWith("RLJ Traducido"), base)
+        assert(productCells(translatedBefore.join).flatten.exists(c => c.key == product.key && c.value.endsWith("RLJ Traducido")))
+        assert(productCells(after.join).count(_.isEmpty) == productCells(translatedBefore.join).count(_.isEmpty))
+        assert(multiset(productCells(after.join).flatten.map(c => (c.key, c.value))) ==
+          multiset(productCells(translatedBefore.join).flatten.map(c => (c.key, if (c.key == product.key) base else c.value))))
+        And("the join keeps the guard of the lookup row only and falls back per translated column")
         val alias = """LEFT OUTER JOIN M_Product_Trl (\w+) ON \(""".r.findFirstMatchIn(after.join.sql).map(_.group(1))
         assert(alias.isDefined, "M_Product translation is not joined")
-        assert(after.join.sql.contains(s"AND ${alias.get}.M_Product_ID IS NOT NULL THEN"))
+        assert(after.join.sql.contains(s"NVL(${alias.get}.Name,"))
+        assert(!after.join.sql.contains(s"AND ${alias.get}.M_Product_ID IS NOT NULL THEN"))
         info(s"rows of the product: $rowsOfProduct")
       }
     }
@@ -722,13 +733,15 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       }
     }
 
-    Scenario("A nested translated identifier is joined by language and keeps the guard in es_MX") {
+    Scenario("A nested translated identifier is joined by language and falls back to the base value in es_MX") {
       withTrx { trx =>
         Given("a lot of a translated product used by the only order detail row with an attribute set instance")
         val client = Env.getAD_Client_ID(Env.getCtx)
         val lot = DB.getNextID(client, "M_Lot", null)
         insert("INSERT INTO M_Lot (M_Lot_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Name,M_Product_ID) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ Lot',134)", trx, Integer.valueOf(lot), Integer.valueOf(client))
         assert(DB.executeUpdateEx("UPDATE M_AttributeSetInstance SET M_Lot_ID=? WHERE M_AttributeSetInstance_ID=1000000", Array[Object](Integer.valueOf(lot)), trx) == 1)
+        // the demo translation has the same text as the base name: give it its own text to tell them apart
+        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), trx) == 1)
         When("the order detail print format is generated in es_MX by both strategies")
         val format = () => new MPrintFormat(Env.getCtx, OrderDetailFormat, trx)
         val before = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
@@ -739,18 +752,22 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         val trl = s"""LEFT OUTER JOIN M_Product_Trl (\\w+) ON \\(${product.alias}\\.M_Product_ID=""".r.findFirstMatchIn(before.join.sql).map(_.group(1))
         assert(trl.contains(ReportLookupAlias.translation("M_Product", product.path, "RV_OrderDetail")), trl.toString)
         assert(before.join.sql.contains(s"${trl.get}.AD_Language='$Spanish'"))
-        assert(before.join.sql.contains(s"CASE WHEN ${product.alias}.M_Product_ID IS NOT NULL AND ${trl.get}.M_Product_ID IS NOT NULL THEN "))
+        assert(before.join.sql.contains(s"CASE WHEN ${product.alias}.M_Product_ID IS NOT NULL THEN "))
+        assert(before.join.sql.contains(s"NVL(${trl.get}.Name,${product.alias}.Name)"))
         val lots = cells(before.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
         info(s"lot display: ${lots.mkString(" | ")}")
-        assert(lots.exists(_.contains("RLJ Lot")))
-        And("without the es_MX translation of the product both paths show the same display")
+        assert(lots.exists(_.contains("RLJ Lot")) && lots.exists(_.contains("RLJ Traducido")))
+        And("without the es_MX translation of the product the join path shows the base name and the legacy path the empty display")
         assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), trx) == 1)
         val after = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
-        assertNoProblems(Vector(after))
+        assert(after.compared && joinSqlProblems(OrderDetailFormat, after.join).isEmpty)
         val lotsAfter = cells(after.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
         info(s"lot display without translation: ${lotsAfter.mkString(" | ")}")
-        assert(lotsAfter == cells(after.legacy.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value))
-        assert(lotsAfter != lots, "the missing translation changes the display, as it does with the subselect")
+        val lotsLegacy = cells(after.legacy.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        assert(lotsAfter != lots && lotsLegacy != lots, "the missing translation changes the display")
+        assert(lotsAfter.exists(_.contains("RLJ Lot")))
+        val baseName = DB.getSQLValueStringEx(trx, "SELECT Name FROM M_Product WHERE M_Product_ID=134")
+        assert(lotsAfter.exists(_.contains(baseName)) && !lotsLegacy.exists(_.contains(baseName)), s"$lotsAfter / $lotsLegacy")
       }
     }
 
@@ -879,8 +896,8 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           if (lang == English)
             assert(charged.matches(BareLookupText), charged)
           else {
-            And("a translated display keeps the guard on its translation row")
-            assert(charged.startsWith("CASE WHEN ") && charged.contains("_Trl_") && charged.contains(" AND "), charged)
+            And("a translated display keeps the guard on the row of the lookup and falls back to its column")
+            assert(charged.startsWith("CASE WHEN ") && charged.contains("_Trl_") && charged.contains("THEN NVL(") && !charged.contains(" AND "), charged)
           }
         }
       }
@@ -1014,6 +1031,137 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
             }
           }
         }
+      }
+    }
+  }
+
+  Feature("A missing translation falls back to the base name on the join path") {
+    info("The legacy path keeps dropping the row (List) or showing NULL (translated lookup)")
+
+    /** C_Order print format with a List column (DocStatus, mandatory), a translated lookup (C_DocType_ID) and a sort */
+    def fallbackFormat(trx: String): Int =
+      insertFormat(trx, "RLJ Fallback", "C_Order", 0, Seq(
+        Item("DocumentNo", seqNo = 10, sortNo = 10), Item("DocStatus", seqNo = 20), Item("C_DocType_ID", seqNo = 30)))
+
+    def text(trx: String, sql: String, params: Object*): String = DB.getSQLValueStringEx(trx, sql, params: _*)
+
+    /** (DocumentNo, display of the column) of every row, None where the cell is absent (NULL) */
+    def pairs(run: Run, column: String): Vector[(Option[String], Option[String])] =
+      cells(run.pd.get).map(row => (row.find(_.name == "DocumentNo").map(_.display), row.find(_.name == column).map(_.value)))
+
+    lazy val DocStatusReference = MColumn.get(Env.getCtx, MColumn.getColumn_ID("C_Order", "DocStatus")).getAD_Reference_Value_ID
+    val ListName = "SELECT %s FROM AD_Ref_List l LEFT OUTER JOIN AD_Ref_List_Trl t ON (t.AD_Ref_List_ID=l.AD_Ref_List_ID AND t.AD_Language='" + Spanish + "') " +
+      "WHERE l.AD_Reference_ID=? AND l.Value='DR'"
+    val Draft = "DocStatus"
+
+    Scenario("A list value without translation keeps its row and shows the base name") {
+      withTrx { trx =>
+        Given("the order print format with a mandatory List column in es_MX, and the es_MX name of the draft status")
+        val formatId = fallbackFormat(trx)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
+        val before = compare(format, formatId, language(Spanish), trx = trx)
+        assertNoProblems(Vector(before))
+        val translated = text(trx, ListName.format("t.Name"), Integer.valueOf(DocStatusReference))
+        val base = text(trx, ListName.format("l.Name"), Integer.valueOf(DocStatusReference))
+        assert(translated != null && base != null && translated != base)
+        val shown = pairs(before.legacy, Draft)
+        val draftRows = shown.count(_._2.contains(translated))
+        assert(draftRows > 0 && shown.forall(_._2.isDefined))
+        When("the es_MX translation of the draft status is deleted inside the transaction")
+        assert(DB.executeUpdateEx("DELETE FROM AD_Ref_List_Trl WHERE AD_Language=? AND AD_Ref_List_ID=" +
+          "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), trx) == 1)
+        val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
+        val join = runEngine(format, language(Spanish), Some(true), trx = trx)
+        Then("the join path still reports the rows, with the base name")
+        assert(joinSqlProblems(formatId, join).isEmpty, joinSqlProblems(formatId, join).toString)
+        assert(multiset(pairs(join, Draft)) == multiset(shown.map { case (document, status) => (document, if (status.contains(translated)) Some(base) else status) }))
+        And("the legacy path drops them, as before")
+        assert(multiset(pairs(legacy, Draft)) == multiset(shown.filterNot(_._2.contains(translated))))
+        assert(legacy.pd.get.getRowCount == before.legacy.pd.get.getRowCount - draftRows)
+        And("the translation is a LEFT OUTER JOIN, the list value is still an INNER JOIN and the display falls back to the list name")
+        assert("""LEFT OUTER JOIN\s+AD_Ref_List_Trl """.r.findFirstIn(join.sql).isDefined, join.sql)
+        assert("""INNER JOIN\s+AD_Ref_List_Trl """.r.findFirstIn(join.sql).isEmpty, join.sql)
+        assert("""INNER JOIN\s+AD_Ref_List X\w+ ON""".r.findFirstIn(join.sql).isDefined, join.sql)
+        assert("""NVL\((\w+)\.Name,X\1\.Name\) AS \1Name""".r.findFirstIn(join.sql).isDefined, join.sql)
+        assert("""INNER JOIN\s+AD_Ref_List_Trl """.r.findFirstIn(legacy.sql).isDefined && !legacy.sql.contains("NVL(A.Name,XA.Name)"))
+      }
+    }
+
+    Scenario("The access SQL of a role parses the join of the list translation and the report keeps the rows") {
+      withTrx { trx =>
+        Given("the order print format in es_MX, run by a non administrator role")
+        val formatId = fallbackFormat(trx)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
+        withRole(Some(GardenWorldUserRole)) {
+          val result = compare(format, formatId, language(Spanish), trx = trx)
+          assertNoProblems(Vector(result))
+          Then("the statement of the report, up to the derived table alias, has the three tables for the role")
+          val sql = result.join.sql
+          val inner = sql.substring(sql.indexOf("\nFROM (") + "\nFROM (".length, sql.indexOf(s") ${result.join.pd.get.getTableName}\n"))
+          val parser = new org.compiere.model.AccessSqlParser(inner.replace(" OFFSET 0", ""))
+          assert(parser.parse() || parser.getNoSqlStatments > 0)
+          val tables = parser.getTableInfo(parser.getMainSqlIndex).map(_.getTableName).toVector
+          assert(Seq("C_Order", "AD_Ref_List", "AD_Ref_List_Trl").forall(tables.contains), tables.toString)
+          And("the role gets the rows of the join path, which are at least the rows of the legacy path, when a translation is missing")
+          assert(DB.executeUpdateEx("DELETE FROM AD_Ref_List_Trl WHERE AD_Language=? AND AD_Ref_List_ID=" +
+            "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), trx) == 1)
+          val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
+          val join = runEngine(format, language(Spanish), Some(true), trx = trx)
+          assert(join.pd.get.getRowCount >= legacy.pd.get.getRowCount)
+        }
+      }
+    }
+
+    Scenario("A grouped report groups by the list name it selects") {
+      withTrx { trx =>
+        Given("a report view with SUM(GrandTotal) and the List column DocStatus, in es_MX")
+        val reportView = insertReportView(trx, "RLJ Fallback Group", "C_Order", Seq(("GrandTotal", "SUM(@)")))
+        val formatId = insertFormat(trx, "RLJ Fallback Group", "C_Order", reportView, Seq(
+          Item("DocStatus", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
+        When("the statement is generated (the database rejects a List column in a grouped view with both strategies: the key column DocStatus is not grouped)")
+        val join = runEngine(() => new MPrintFormat(Env.getCtx, formatId, trx), language(Spanish), Some(true), trx = trx)
+        Then("the selected display and the grouped expression are the same fallback")
+        assert(join.pd.isDefined, join.error.toString)
+        val sql = join.sql
+        val display = """NVL\((\w+)\.Name,X\1\.Name\)""".r.findFirstIn(sql)
+        assert(display.isDefined, sql)
+        assert(sql.contains(s"${display.get} AS "), sql)
+        val groupBy = sql.substring(sql.indexOf(" GROUP BY ")).takeWhile(_ != '\n')
+        assert(groupBy.contains(display.get), groupBy)
+      }
+    }
+
+    Scenario("A translated lookup without translation shows the base value, a missing lookup row stays NULL") {
+      withTrx { trx =>
+        Given("the order print format in es_MX, whose C_DocType_ID is a translated lookup, and an order whose document type does not exist")
+        assert(DB.executeUpdateEx("UPDATE C_Order SET C_DocType_ID=99999999 WHERE C_Order_ID=(SELECT MIN(C_Order_ID) FROM C_Order WHERE AD_Client_ID=?)",
+          Array[Object](Integer.valueOf(Env.getAD_Client_ID(Env.getCtx))), trx) == 1)
+        val formatId = fallbackFormat(trx)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
+        val before = compare(format, formatId, language(Spanish), trx = trx)
+        assertNoProblems(Vector(before))
+        val shown = pairs(before.legacy, "C_DocType_ID")
+        assert(shown.count(_._2.isEmpty) == 1, "the order of the missing document type is NULL")
+        val docType = cells(before.legacy.pd.get).flatMap(_.find(_.name == "C_DocType_ID")).head
+        val base = text(trx, "SELECT Name FROM C_DocType WHERE C_DocType_ID=?", Integer.valueOf(docType.key))
+        assert(base != null && base != docType.value, s"${docType.value} / $base")
+        val rows = shown.count(_._2.contains(docType.value))
+        When(s"the es_MX translation of document type ${docType.key} is deleted inside the transaction")
+        assert(DB.executeUpdateEx("DELETE FROM C_DocType_Trl WHERE C_DocType_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(docType.key), Spanish), trx) == 1)
+        val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
+        val join = runEngine(format, language(Spanish), Some(true), trx = trx)
+        Then("the join path shows the base name in those rows")
+        assert(joinSqlProblems(formatId, join).isEmpty)
+        assert(multiset(pairs(join, "C_DocType_ID")) == multiset(shown.map { case (document, name) => (document, if (name.contains(docType.value)) Some(base) else name) }))
+        And("the legacy path shows NULL there, as before")
+        assert(multiset(pairs(legacy, "C_DocType_ID")) == multiset(shown.map { case (document, name) => (document, if (name.contains(docType.value)) None else name) }))
+        And("the order of the missing document type row is NULL on both paths")
+        assert(pairs(join, "C_DocType_ID").count(_._2.isEmpty) == 1)
+        assert(pairs(legacy, "C_DocType_ID").count(_._2.isEmpty) == 1 + rows)
+        And("the guard checks the row of the lookup only and the display falls back to its column")
+        assert("""CASE WHEN (\w+)\.C_DocType_ID IS NOT NULL THEN NVL\((\w+_Trl_\d+)\.Name,\1\.Name\) END""".r.findFirstIn(join.sql).isDefined, join.sql)
+        assert("""AND \w+_Trl_\d+\.C_DocType_ID IS NOT NULL""".r.findFirstIn(join.sql).isEmpty)
+        assert(legacy.sql.contains("C_DocType_Trl.Name"))
       }
     }
   }
