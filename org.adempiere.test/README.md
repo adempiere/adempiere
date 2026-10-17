@@ -39,8 +39,12 @@ No CI job calls sbt, so the root `build.sbt` is a developer tool.
 3. **A PostgreSQL (or Oracle) database with the GardenWorld demo client**, user `SuperUser`/`System`, role
    `GardenWorld Admin`, organization `HQ` (see `AdempiereStartup.scala`). The tests read and write this database;
    most of them roll their transaction back, but do not use a production database.
-4. **An `Adempiere.properties` file** that points to that database. The `Connection=CConnection[...]` entry must
-   say `type=PostgreSQL` when the database is PostgreSQL: a file with `type=Oracle` connects with the wrong driver.
+4. **The connection to that database.** By default the build generates
+   `target/adempiere-test/Adempiere.properties` for PostgreSQL on `localhost:5432`, database `adempiere`, user
+   `adempiere` (change them with the `ADEMPIERE_DB_*` variables below). To use your own `Adempiere.properties`
+   instead, set `ADEMPIERE_PROPERTY_FILE`; its `Connection=CConnection[...]` entry must say `type=PostgreSQL` when
+   the database is PostgreSQL: a file with `type=Oracle` connects with the wrong driver. The tests never read
+   `~/Adempiere.properties`, which may point to another database.
 5. **Every class registered in `AD_ModelValidator` must be on the classpath**, otherwise the login of
    `AdempiereStartup` is refused (`Login.validateLogin: Refused ... ClassNotFoundException`, the test JVM
    exits with no test run). A database that was used with another ADempiere distribution can reference classes that
@@ -61,7 +65,12 @@ The property wins over the variable.
 
 | Variable | Property | Default | Meaning |
 |---|---|---|---|
-| `ADEMPIERE_PROPERTY_FILE` | `adempiere.propertyFile` | `<repo>/install/build/Adempiere/Adempiere.properties` | `Adempiere.properties` handed to the tests as `-DPropertyFile`. The test run stops with a message when the file does not exist. |
+| `ADEMPIERE_PROPERTY_FILE` | `adempiere.propertyFile` | `<repo>/install/build/Adempiere/Adempiere.properties` when it exists, otherwise the generated `<repo>/target/adempiere-test/Adempiere.properties` | `Adempiere.properties` handed to the tests as `-DPropertyFile`. The test run stops with a message when a configured file does not exist. |
+| `ADEMPIERE_DB_HOST` | `adempiere.dbHost` | `localhost` | PostgreSQL host of the generated property file. |
+| `ADEMPIERE_DB_PORT` | `adempiere.dbPort` | `5432` | PostgreSQL port of the generated property file. |
+| `ADEMPIERE_DB_NAME` | `adempiere.dbName` | `adempiere` | Database of the generated property file. |
+| `ADEMPIERE_DB_USER` | `adempiere.dbUser` | `adempiere` | Database user of the generated property file. |
+| `ADEMPIERE_DB_PASSWORD` | `adempiere.dbPassword` | empty | Database password of the generated property file (empty works with `trust` authentication). |
 | `ADEMPIERE_JAVA_HOME` | `adempiere.javaHome` | JDK that runs sbt | JDK 17 used to compile the Java and to fork the tests. |
 | `ADEMPIERE_TEST_CLASSPATH` | `adempiere.testClasspath` | empty | Extra classpath entries (separator `:` on macOS/Linux) for the test JVM, for example the model validator classes of point 5. |
 | `ADEMPIERE_HOME` | `adempiere.home` | `<repo>/target/adempiere-home` | Directory where the test JVM writes the ADempiere logs. |
@@ -74,7 +83,9 @@ Run them from the repository root.
 
 ```bash
 export JAVA_HOME=/path/to/jdk-17
-export ADEMPIERE_PROPERTY_FILE=$HOME/Adempiere.properties        # your database
+# database: localhost:5432, DB adempiere, user adempiere by default; or your own property file
+# export ADEMPIERE_DB_PASSWORD=...
+# export ADEMPIERE_PROPERTY_FILE=/path/to/Adempiere.properties
 
 # compile everything (Java modules, Scala DSL, Scala and Java tests)
 sbt Test/compile
@@ -116,7 +127,6 @@ subselects (`setLookupJoin(false)`, legacy) and `LEFT OUTER JOIN` (`setLookupJoi
 
 ```bash
 export JAVA_HOME=/path/to/jdk-17
-export ADEMPIERE_PROPERTY_FILE=$HOME/Adempiere.properties
 ADEMPIERE_BENCHMARK=true sbt "testOnly org.eevolution.test.ValidateReportLookupJoinPerformance"
 ```
 
