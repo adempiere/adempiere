@@ -284,6 +284,34 @@ class ResetAccountingDeletesFactsAndUnpostsDocument
       assert(!processInfo.isError)
       info("Process summary: " + processInfo.getSummary)
     }    //	Scenario
+
+    Scenario("a physical inventory whose accounting date is the movement date is unposted by the reset") {
+      val client = Env.getContextAsInt(Context, "#AD_Client_ID")
+      val inventoryTableId = adTableId("M_Inventory")
+
+      Given("a posted physical inventory without accounting facts, with its movement date in an open month")
+      val (dateAcct, periodId, inventoryId, createdPeriodControl) = seedPostedMInventoryWithoutFacts(client)
+
+      try {
+        When("the Reset Accounting process is executed for the inventory month")
+        val processInfo = ProcessBuilder.create(Context)
+          .process(FactAcctResetAbstract.getProcessValue)
+          .withParameter(FactAcctResetAbstract.AD_CLIENT_ID, client)
+          .withParameter(FactAcctResetAbstract.AD_TABLE_ID, inventoryTableId)
+          .withParameter(FactAcctResetAbstract.DATEACCT, dateAcct, dateAcct)
+          .withParameter(FactAcctResetAbstract.DELETEPOSTING, false)
+          .execute()
+
+        Then("the process executed without errors")
+        assert(!processInfo.isError)
+        info("Process summary: " + processInfo.getSummary)
+
+        And("the inventory is unposted through its movement date, so the accounting engine re-evaluates it")
+        assert(!isMInventoryPosted(inventoryId))
+      } finally {
+        cleanupMInventory(client, inventoryId, periodId, createdPeriodControl)
+      }
+    }    //	Scenario
   }    //	Feature
 
   private def openMonthDateAcct(client: Int): Date = {
@@ -715,6 +743,130 @@ class ResetAccountingDeletesFactsAndUnpostsDocument
     * Toggle the automatic period control flag of the client's default schema.
     * The schema is cached, so the cache is cleared afterwards.
     */
+  /**
+    * Seed a posted physical inventory without accounting facts on the 14th of the most recent
+    * open month without m_inventory rows, so the process only touches the seeded row.
+    * M_Inventory has no accounting date column; its Doc class (Doc_Inventory) uses the
+    * movement date as the accounting date, so the reset must resolve the date column to
+    * MovementDate from the table metadata and unpost through it.
+    */
+  private def seedPostedMInventoryWithoutFacts(client: Int): (Date, Int, Int, Boolean) = {
+    var inventoryId = 0
+    var dateAcct: Date = null
+    var periodId = 0
+    var createdPeriodControl = false
+    Trx.run { name =>
+      val rs = execQuery(
+        "SELECT cp.startdate, cp.c_period_id, " +
+        "(SELECT coalesce(max(m_inventory_id), 0) + 1000000 FROM m_inventory), " +
+        "(SELECT min(m_warehouse_id) FROM m_warehouse WHERE ad_client_id = ? AND isactive = 'Y'), " +
+        "(SELECT min(c_doctype_id) FROM c_doctype WHERE ad_client_id = ? AND isactive = 'Y') " +
+        "FROM c_period cp " +
+        "JOIN c_periodcontrol cpc ON cpc.c_period_id = cp.c_period_id " +
+        "AND cpc.ad_client_id = ? AND cpc.docbasetype IN ('APC','API','ARI','ARC','ARF') AND cpc.periodstatus = 'O' " +
+        "WHERE cp.ad_client_id = ? AND cp.startdate <= " +
+        "DATE(now() - interval '15 days') + " +
+        "(SELECT coalesce(s.period_openfuture, 0) - 15 FROM ad_clientinfo ci " +
+        "JOIN c_acctschema s ON s.c_acctschema_id = ci.c_acctschema1_id " +
+        "WHERE ci.ad_client_id = ?) " +
+        "AND NOT EXISTS (SELECT 1 FROM m_inventory i WHERE i.ad_client_id = ? " +
+        "AND i.movementdate >= cp.startdate AND i.movementdate <= cp.enddate) " +
+        "ORDER BY cp.startdate DESC LIMIT 1",
+        Array[AnyRef](
+          Integer.valueOf(client),
+          Integer.valueOf(client),
+          Integer.valueOf(client),
+          Integer.valueOf(client),
+          Integer.valueOf(client),
+          Integer.valueOf(client)))
+      rs.next()
+      val startDate = rs.getTimestamp(1)
+      periodId = rs.getInt(2)
+      inventoryId = rs.getInt(3)
+      val warehouseId = rs.getInt(4)
+      val docType = rs.getInt(5)
+      DB.close(rs)
+
+      val calendar = Calendar.getInstance()
+      calendar.setTime(startDate)
+      calendar.add(Calendar.DAY_OF_YEAR, 14)
+      dateAcct = new Date(calendar.getTimeInMillis)
+      val orgId = Organization.getAD_Org_ID
+
+      // The reset is scoped by the MMI period control; make sure the seeded month has one, and
+      // remember to remove it if the seed created it.
+      val rsControl = execQuery(
+        "SELECT count(*) FROM c_periodcontrol WHERE c_period_id = ? AND ad_client_id = ? AND docbasetype = 'MMI'",
+        Array[AnyRef](Integer.valueOf(periodId), Integer.valueOf(client)))
+      rsControl.next()
+      val hasExistingControl = rsControl.getInt(1) > 0
+      DB.close(rsControl)
+      if (!hasExistingControl) {
+        createdPeriodControl = true
+        val rsControlId = execQuery(
+          "SELECT coalesce(max(c_periodcontrol_id), 0) + 1000000 FROM c_periodcontrol",
+          Array[AnyRef]())
+        rsControlId.next()
+        val controlId = rsControlId.getInt(1)
+        DB.close(rsControlId)
+        DB.executeUpdate(
+          "INSERT INTO c_periodcontrol (c_periodcontrol_id, c_period_id, ad_client_id, ad_org_id, " +
+          "isactive, created, updated, createdby, updatedby, docbasetype, periodstatus, periodaction) " +
+          "VALUES (?, ?, ?, ?, 'Y', now(), now(), 101, 101, 'MMI', 'O', 'A')",
+          Array[AnyRef](
+            Integer.valueOf(controlId),
+            Integer.valueOf(periodId),
+            Integer.valueOf(client),
+            Integer.valueOf(orgId)),
+          false, name)
+      }
+
+      DB.executeUpdate(
+        "INSERT INTO m_inventory (m_inventory_id, ad_client_id, ad_org_id, createdby, updatedby, " +
+        "created, updated, isactive, isapproved, documentno, docstatus, docaction, processed, posted, " +
+        "c_doctype_id, m_warehouse_id, movementdate, processing) " +
+        "VALUES (?, ?, ?, 101, 101, now(), now(), 'Y', 'N', 'INVENTORY-TEST-4430', 'CO', 'CL', 'N', 'Y', ?, ?, ?, 'N')",
+        Array[AnyRef](
+          Integer.valueOf(inventoryId),
+          Integer.valueOf(client),
+          Integer.valueOf(orgId),
+          Integer.valueOf(docType),
+          Integer.valueOf(warehouseId),
+          dateAcct),
+        false, name)
+    }
+    (dateAcct, periodId, inventoryId, createdPeriodControl)
+  }    //	seedPostedMInventoryWithoutFacts
+
+  private def isMInventoryPosted(inventoryId: Int): Boolean = {
+    var posted = false
+    Trx.run { name =>
+      val rs = execQuery(
+        "SELECT posted FROM m_inventory WHERE m_inventory_id = ?",
+        Array[AnyRef](Integer.valueOf(inventoryId)))
+      rs.next()
+      posted = "Y".equals(rs.getString(1))
+      DB.close(rs)
+    }
+    posted
+  }    //	isMInventoryPosted
+
+  private def cleanupMInventory(client: Int, inventoryId: Int, periodId: Int, createdPeriodControl: Boolean): Unit = {
+    if (inventoryId == 0) return
+    Trx.run { name =>
+      DB.executeUpdate(
+        "DELETE FROM m_inventory WHERE m_inventory_id = ?",
+        Array[AnyRef](Integer.valueOf(inventoryId)),
+        false, name)
+      if (createdPeriodControl) {
+        DB.executeUpdate(
+          "DELETE FROM c_periodcontrol WHERE c_period_id = ? AND ad_client_id = ? AND docbasetype = 'MMI' AND periodstatus = 'O'",
+          Array[AnyRef](Integer.valueOf(periodId), Integer.valueOf(client)),
+          false, name)
+      }
+    }
+  }    //	cleanupMInventory
+
   private def setAutoPeriodControl(client: Int, enabled: Boolean): Unit = {
     Trx.run { name =>
       val rs = execQuery(

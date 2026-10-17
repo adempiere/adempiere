@@ -328,9 +328,12 @@ public class FactAcctReset extends FactAcctResetAbstract {
             return MFactAcct.COLUMNNAME_DateAcct;
         // Some posted document tables have no accounting date column (e.g. PP_Order, DD_Order,
         // C_BankStatement). Fall back to the first business date column registered for the
-        // table; return null when the table has none, so the caller can skip it instead of
-        // building an update against a column that does not exist.
-        for (String candidate : new String[]{"DateOrdered", "MvtDate", "StatementDate", "DatePromised", "DateInvoiced"})
+        // table that its Doc class uses as the accounting date (Doc_PPOrder/Doc_DDOrder use
+        // DateOrdered, Doc_Movement/Doc_Inventory/Doc_Production/Doc_ProductionBatch/
+        // Doc_ProjectIssue use MovementDate, Doc_Requisition uses DateDoc, Doc_BankStatement
+        // uses StatementDate). Return null when the table has none, so the caller can skip it
+        // instead of building an update against a column that does not exist.
+        for (String candidate : new String[]{"DateOrdered", "MvtDate", "MovementDate", "StatementDate", "DateDoc", "DatePromised", "DateInvoiced"})
             if (hasActiveColumn(tableId, candidate))
                 return candidate;
         return null;
@@ -340,9 +343,10 @@ public class FactAcctReset extends FactAcctResetAbstract {
         String whereClause = I_AD_Column.COLUMNNAME_AD_Table_ID + "=? "
                 + "AND " + I_AD_Column.COLUMNNAME_ColumnName + "=? "
                 + "AND " + I_AD_Column.COLUMNNAME_IsActive + "=?";
+        // Query.firstId() returns -1 (not 0) when the query matches no row, so test > 0.
         return new Query(getCtx(), I_AD_Column.Table_Name, whereClause, get_TrxName())
                 .setParameters(tableId, columnName, "Y")
-                .firstId() != 0;
+                .firstId() > 0;
     }
 
     public String getDocumentBaseType(int tableId, String tableName) {
