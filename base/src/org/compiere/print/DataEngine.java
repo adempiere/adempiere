@@ -1188,8 +1188,10 @@ public class DataEngine
 				pstmt.setFetchSize(fetchSize);
 			rs = pstmt.executeQuery();
 			//	Row Loop
+			boolean hasRows = false;
 			while (rs.next())
 			{
+				hasRows = true;
 				if (hasLevelNo)
 				{
 					levelNo = rs.getInt("LevelNo");
@@ -1364,8 +1366,8 @@ public class DataEngine
 			}	//	for all rows
 			
 			//	--	we have all rows - add the group functions, if any.
-			//	Check last Group Change
-			if (group.getGroupColumnCount() > 1)	//	one is TOTAL
+			//	Check last Group Change (without rows the result set is not positioned on a row)
+			if (hasRows && group.getGroupColumnCount() > 1)	//	one is TOTAL
 			{
 				// Check for changes and add summary rows - force the groups to change
 				int firstColumn = getFirstColumnIndexInGroupOrder();
