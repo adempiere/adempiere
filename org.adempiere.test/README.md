@@ -115,7 +115,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
 | `ValidateWmRuleLocatorArgumentOrder` | 1 | pass | Creates its own WM area type and section type: GardenWorld has none. |
 | `ValidateReportWithoutCloseTrxConnection` | 2 | pass | Needs `ServerReportCtl`/`ReportExportHandler` to accept the `AD_PInstance.ReportType` list values (`P`, `C`, `H`, `X`, `XX`); the second scenario checks that an unknown type produces no file and no `NullPointerException`. |
-| `ValidateReportDefinitionCache` | 11 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
+| `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
@@ -129,6 +129,13 @@ metadata): a warm `getPrintData` reads nothing from `AD_PrintFormat`, `AD_PrintF
 `DataEngine.setDefinitionCache(Boolean)` switch it. It is dropped when a row of `AD_PrintFormat`,
 `AD_PrintFormatItem`, `AD_Column`, `AD_Table`, `AD_Ref_Table`, `AD_Reference`, `AD_ReportView` or
 `AD_ReportView_Col` is created, changed or deleted, and every 60 minutes (`ReportDefinitionCache.setExpireMillis`).
+
+The change is reported by `PO`: after a successful save (new records included) and a successful delete it calls
+`CacheMgt.fireChange(tableName, recordId, trxName, newRecord, deleted)`, which tells every `CacheChangeListener`
+registered with `CacheMgt.addChangeListener` (a copy-on-write list, so a save never meets a listener that is being
+registered). `ReportDefinitionCache` registers one listener that ignores every table but those eight. A listener that
+throws is logged and never fails a save. The existing `CacheMgt.reset` calls of `PO` are unchanged, so no other cache
+behaves differently. Other JVMs have no shared reset: expiry bounds the staleness.
 
 `ValidateReportDefinitionCache` compares the engine with the cache switched off (the oracle) against a cold build and
 a cache hit, then changes the dictionary and checks that the next run reflects it:
@@ -145,7 +152,13 @@ a cache hit, then changes the dictionary and checks that the next run reflects i
 * a change inside a transaction that is rolled back leaves no stale definition, and a transaction that commits is
   visible after the commit (`org.compiere.util.Trx` has no commit or rollback listener; a transaction with an
   uncommitted dictionary change is "dirty": no run reads from or writes to the cache until it ends);
-* 8 threads x 25 runs on one print format and on different print formats with a cold cache return the single-thread result.
+* 8 threads x 25 runs on one print format and on different print formats with a cold cache return the single-thread result;
+* 4 threads save `AD_PrintFormatItem` changes (each in its own transaction, rolled back) while 4 threads run cold
+  `getPrintData` for four formats and four client contexts (two of them never ran a report): no exception on either
+  side, and the reports and the dictionary are correct afterwards;
+* saving, updating and deleting a `C_Order` (rolled back) is seen by a change listener but leaves the cache warm: the next
+  `getPrintData` runs no dictionary statement (`pg_stat_statements`);
+* a change listener that throws does not fail the save, the update or the delete, and the listeners after it are still called.
 
 The scenarios that change the dictionary create a print format of `C_Order` (and, for the last scenario, an
 `AD_ReportView`) with committed saves, so the model events reach the cache like in production, and delete them in a

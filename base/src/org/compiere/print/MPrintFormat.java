@@ -125,31 +125,6 @@ public class MPrintFormat extends X_AD_PrintFormat
 	}	//	getLanguage
 
 	/**
-	 * 	After Save: the report definition cache holds this format
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
-	protected boolean afterSave (boolean newRecord, boolean success)
-	{
-		if (success)
-			ReportDefinitionCache.invalidate(get_TrxName());
-		return success;
-	}	//	afterSave
-
-	/**
-	 * 	After Delete: the report definition cache holds this format
-	 *	@param success success
-	 *	@return success
-	 */
-	protected boolean afterDelete (boolean success)
-	{
-		if (success)
-			ReportDefinitionCache.invalidate(get_TrxName());
-		return success;
-	}	//	afterDelete
-
-	/**
 	 * 	Get AD_Column_ID of Order Columns
 	 * 	@return Array of AD_Column_IDs in Sort Order
 	 */

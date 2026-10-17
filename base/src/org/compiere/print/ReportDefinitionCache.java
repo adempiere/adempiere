@@ -12,21 +12,16 @@
  *****************************************************************************/
 package org.compiere.print;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 
-import org.compiere.model.MClient;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
-import org.compiere.model.PO;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
+import org.compiere.util.CacheChangeListener;
+import org.compiere.util.CacheMgt;
 import org.compiere.util.Trx;
 
 /**
@@ -46,8 +41,10 @@ import org.compiere.util.Trx;
  * <li>{@link CCache} objects named as those tables, registered with {@link org.compiere.util.CacheMgt}: the reset
  * that <code>PO</code> fires after an update or a delete (<code>PO.saveFinish</code> does not fire it for a new
  * record) and the cache reset process reach the cache by table name;</li>
- * <li>a {@link ModelValidator} per client that listens to the three model events of those tables, new record
- * included, and knows the transaction of the change;</li>
+ * <li>a {@link CacheChangeListener} registered once with {@link CacheMgt#addChangeListener}: <code>PO</code> tells
+ * it about every record saved (new records included) or deleted, with the transaction of the change, and it
+ * ignores the tables that are not in {@link #TABLES}. It is a copy-on-write list, so a save never meets a
+ * listener that is being registered;</li>
  * <li>and a time to live ({@link #getExpireMillis()}), the only protection against rows changed with plain SQL
  * and against other JVMs, which have no shared reset.</li>
  * </ul>
@@ -67,14 +64,15 @@ public final class ReportDefinitionCache
 		"AD_Ref_Table", "AD_Reference", "AD_ReportView", "AD_ReportView_Col"
 	};
 
+	/** {@link #TABLES} as an immutable set, what the change listener filters with */
+	private static final Set<String> TABLE_SET = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(TABLES)));
+
 	/** Default time to live of an entry: 60 minutes, as the other dictionary caches (AD_Ref_Table) */
 	public static final long DEFAULT_EXPIRE_MILLIS = 60L * 60L * 1000L;
 
 	/** Upper bound of the entries (about 6 per print format, language and path): when it is reached the expired entries
 	 *  are dropped and, if that is not enough, everything is */
 	public static final int MAX_ENTRIES = 20000;
-
-	private static final CLogger log = CLogger.getCLogger(ReportDefinitionCache.class);
 
 	private static final class Entry
 	{
@@ -101,14 +99,11 @@ public final class ReportDefinitionCache
 	/** The scope of the DataEngine run of this thread */
 	private static final ThreadLocal<Scope> s_scope = new ThreadLocal<Scope>();
 
-	/** Clients that have the model change listeners */
-	private static final Set<Integer> s_clients = new HashSet<Integer>();
-	private static boolean s_allClients = false;
-
 	static
 	{
 		for (String table : TABLES)
 			new Invalidator(table);
+		CacheMgt.get().addChangeListener(new DictionaryListener());
 	}
 
 	private ReportDefinitionCache()
@@ -119,10 +114,9 @@ public final class ReportDefinitionCache
 	 * 	Open the cache scope of a DataEngine run in this thread. Close it in a finally block.
 	 * 	@param enabled false = nothing is read from or stored in the cache in this scope
 	 * 	@param trxName transaction the dictionary is read with (null = committed state)
-	 * 	@param clientIds clients whose dictionary rows can be part of the definition
 	 * 	@return scope
 	 */
-	public static Scope open (boolean enabled, String trxName, int... clientIds)
+	public static Scope open (boolean enabled, String trxName)
 	{
 		Scope previous = s_scope.get();
 		Scope scope;
@@ -130,7 +124,6 @@ public final class ReportDefinitionCache
 			scope = new Scope(false, 0, previous);
 		else
 		{
-			ensureListeners(clientIds);
 			synchronized (LOCK)
 			{
 				purgeFinished();
@@ -336,114 +329,16 @@ public final class ReportDefinitionCache
 	}	//	Invalidator
 
 	/**
-	 * 	Listens to the model events of the dictionary tables of one client
+	 * 	Listens to the records that <code>PO</code> saves and deletes: a row of a dictionary table drops the definitions
 	 */
-	private static final class Listener implements ModelValidator
+	private static final class DictionaryListener implements CacheChangeListener
 	{
-		private final int clientId;
-
-		Listener (int clientId)
-		{
-			this.clientId = clientId;
-		}
-
 		@Override
-		public void initialize (ModelValidationEngine engine, MClient client)
+		public void changed (String tableName, int recordId, String trxName, boolean newRecord, boolean deleted)
 		{
+			if (TABLE_SET.contains(tableName))
+				ReportDefinitionCache.invalidate(trxName);
 		}
-
-		@Override
-		public int getAD_Client_ID ()
-		{
-			return clientId;
-		}
-
-		@Override
-		public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
-		{
-			return null;
-		}
-
-		@Override
-		public String modelChange (PO po, int type) throws Exception
-		{
-			switch (type)
-			{
-				case TYPE_AFTER_NEW:
-				case TYPE_AFTER_NEW_REPLICATION:
-				case TYPE_AFTER_CHANGE:
-				case TYPE_AFTER_CHANGE_REPLICATION:
-				case TYPE_AFTER_DELETE:
-					ReportDefinitionCache.invalidate(po.get_TrxName());
-					break;
-				default:
-					break;
-			}
-			return null;
-		}
-
-		@Override
-		public String docValidate (PO po, int timing)
-		{
-			return null;
-		}
-	}	//	Listener
-
-	/**
-	 * 	Register the model change listeners of the clients: all clients the first time, and the given ones later
-	 * 	(a client created after the first report).
-	 */
-	private static void ensureListeners (int... clientIds)
-	{
-		synchronized (s_clients)
-		{
-			boolean missing = !s_allClients;
-			for (int i = 0; !missing && clientIds != null && i < clientIds.length; i++)
-				missing = !s_clients.contains(Integer.valueOf(clientIds[i]));
-			if (!missing)
-				return;
-			if (!s_allClients)
-			{
-				s_allClients = true;
-				register(0);
-				PreparedStatement pstmt = null;
-				ResultSet rs = null;
-				try
-				{
-					pstmt = DB.prepareStatement("SELECT AD_Client_ID FROM AD_Client", null);
-					rs = pstmt.executeQuery();
-					while (rs.next())
-						register(rs.getInt(1));
-				}
-				catch (Exception e)
-				{
-					log.log(Level.WARNING, "Clients of the report definition cache listeners", e);
-				}
-				finally
-				{
-					DB.close(rs, pstmt);
-				}
-			}
-			for (int i = 0; clientIds != null && i < clientIds.length; i++)
-				register(clientIds[i]);
-		}
-	}	//	ensureListeners
-
-	private static void register (int clientId)
-	{
-		if (!s_clients.add(Integer.valueOf(clientId)))
-			return;
-		try
-		{
-			ModelValidationEngine engine = ModelValidationEngine.get();
-			Listener listener = new Listener(clientId);
-			for (String table : TABLES)
-				engine.addModelChange(table, listener);
-		}
-		catch (Exception e)
-		{
-			log.log(Level.WARNING, "Report definition cache listener for client " + clientId, e);
-		}
-	}	//	register
+	}	//	DictionaryListener
 
 }	//	ReportDefinitionCache

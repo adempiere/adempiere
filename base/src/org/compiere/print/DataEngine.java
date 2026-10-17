@@ -262,8 +262,7 @@ public class DataEngine
 
 		//	The definition of the report (dictionary) is read through the report definition cache
 		PrintData pd = null;
-		try (ReportDefinitionCache.Scope scope = ReportDefinitionCache.open(isDefinitionCache(ctx), m_trxName,
-				Env.getAD_Client_ID(ctx), format.getAD_Client_ID()))
+		try (ReportDefinitionCache.Scope scope = ReportDefinitionCache.open(isDefinitionCache(ctx), m_trxName))
 		{
 			pd = createPrintData(ctx, format, query, summary, p_AD_ReportView_ID);
 		}

@@ -16,12 +16,13 @@
 package org.eevolution.test
 
 import java.sql.Connection
+import java.util.Properties
 import java.util.concurrent.{Callable, Executors, TimeUnit}
 
 import org.adempiere.core.domains.models.{I_AD_Column, I_AD_PrintFormatItem, I_AD_Ref_Table, X_AD_Ref_Table, X_AD_ReportView, X_AD_ReportView_Col}
-import org.compiere.model.{MColumn, MQuery, MTable, Query}
+import org.compiere.model.{MBPartner, MColumn, MOrder, MQuery, MTable, Query}
 import org.compiere.print.{DataEngine, MPrintFormat, MPrintFormatItem, PrintData, PrintDataElement, ReportDefinitionCache}
-import org.compiere.util.{CacheMgt, DB, Env, Language, Trx}
+import org.compiere.util.{CacheChangeListener, CacheMgt, DB, Env, Language, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -90,14 +91,15 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       join: Boolean,
       cache: Option[Boolean],
       trx: String = null,
-      restrict: MQuery => Unit = _ => ()
+      restrict: MQuery => Unit = _ => (),
+      ctx: Properties = Env.getCtx
   ): Option[PrintData] = {
     val query = new MQuery()
     restrict(query)
     val engine = new DataEngine(language(lang), trx)
     engine.setLookupJoin(join)
     cache.foreach(flag => engine.setDefinitionCache(flag))
-    Option(engine.getPrintData(Env.getCtx, format, query, false, 0))
+    Option(engine.getPrintData(ctx, format, query, false, 0))
   }
 
   private def sqlOf(formatId: Int, lang: String, join: Boolean, cache: Option[Boolean], trx: String = null): String =
@@ -587,6 +589,153 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
           check(problems.isEmpty, problems.distinct.take(10).mkString("\n  "))
         } finally pool.shutdownNow()
       }
+    }
+
+    Scenario("Concurrent saves of print format items and cold reports of several clients raise no exception and leave a correct cache") {
+      withTemporaryFormat { (formatId, _) =>
+        val clients = Vector(11, 0, 900001, 900002) // GardenWorld, System and two clients that never ran a report
+        val formats = Vector(1000003, 1000004, 1000008, formatId)
+        val itemColumns = Vector("DocumentNo", "Description", "DateOrdered", "GrandTotal")
+        val savers = 4
+        val reporters = 4
+        val iterations = 40
+        def contextOf(client: Int): Properties = {
+          val ctx = new Properties()
+          ctx.putAll(Env.getCtx)
+          Env.setContext(ctx, "#AD_Client_ID", client)
+          ctx
+        }
+        Given(s"${formats.size} print formats x ${clients.size} client contexts, computed once without cache as the baseline")
+        val variants = for (f <- formats; c <- clients) yield (f, c)
+        val baseline = variants.flatMap { case (f, c) =>
+          Try(snapshot(run(storedFormat(f), English, join = true, Some(false), ctx = contextOf(c)).get)).toOption.map((f, c) -> _)
+        }.toMap
+        check(baseline.size == variants.size, s"baseline failed for ${variants.filterNot(baseline.contains)}")
+        val seqNos = itemColumns.map(c => c -> itemOf(formatId, c).getSeqNo)
+        When(s"$savers threads save AD_PrintFormatItem changes, each in its own transaction that is rolled back, while $reporters threads run cold getPrintData, $iterations iterations each")
+        resetDefinitions()
+        val pool = Executors.newFixedThreadPool(savers + reporters)
+        try {
+          val saverTasks = (0 until savers).map { t =>
+            pool.submit(new Callable[Vector[String]] {
+              def call(): Vector[String] = (0 until iterations).flatMap { i =>
+                val trx = Trx.createTrxName("RDCSave")
+                try {
+                  val item = itemOf(formatId, itemColumns(t), trx)
+                  item.setSeqNo(item.getSeqNo + 1 + i % 3)
+                  item.saveEx()
+                  None
+                } catch { case e: Throwable => Some(s"saver $t iteration $i: $e") }
+                finally Option(Trx.get(trx, false)).foreach { x => x.rollback(); x.close() }
+              }.toVector
+            })
+          }
+          val reporterTasks = (0 until reporters).map { t =>
+            pool.submit(new Callable[Vector[String]] {
+              def call(): Vector[String] = (0 until iterations).flatMap { i =>
+                if (t == 0 && i % 5 == 0) resetDefinitions() // cold again
+                val variant = variants((t * 5 + i) % variants.size)
+                Try {
+                  val result = snapshot(run(storedFormat(variant._1), English, join = true, Some(true), ctx = contextOf(variant._2)).get)
+                  val expected = baseline(variant)
+                  if (result.sql != expected.sql) Some(s"reporter $t: SQL differs for $variant")
+                  else if (result.columns != expected.columns || multiset(result.rows) != multiset(expected.rows)) Some(s"reporter $t: data differs for $variant")
+                  else None
+                }.recover { case e: Throwable => Some(s"reporter $t iteration $i: $e") }.get
+              }.toVector
+            })
+          }
+          val problems = (saverTasks ++ reporterTasks).flatMap(_.get(5, TimeUnit.MINUTES))
+          Then("no saver and no reporter raised an exception, and every report equals the baseline")
+          check(problems.isEmpty, problems.distinct.take(10).mkString("\n  "))
+        } finally pool.shutdownNow()
+        And("the rolled back saves left the dictionary and the cache as they were")
+        check(itemColumns.map(c => c -> itemOf(formatId, c).getSeqNo) == seqNos)
+        assertMatchesDictionary(formatId, "after concurrent saves")
+        variants.foreach { case (f, c) =>
+          val cached = snapshot(run(storedFormat(f), English, join = true, Some(true), ctx = contextOf(c)).get)
+          check(cached.sql == baseline((f, c)).sql, s"stale SQL after the saves for $f/$c")
+        }
+      }
+    }
+
+    /** A C_Order saved in the transaction: a table that no report definition depends on */
+    def saveOrder(trx: String): MOrder = {
+      val order = new MOrder(Env.getCtx, 0, trx)
+      order.setAD_Org_ID(11)
+      order.setBPartner(new MBPartner(Env.getCtx, 117, trx))
+      order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard)
+      order.setIsSOTrx(true)
+      order.setM_Warehouse_ID(103)
+      order.saveEx()
+      order
+    }
+
+    Scenario("Saving and deleting records of other tables leaves the cached definitions alone") {
+      val stats = statements()
+      assume(stats.isDefined, "pg_stat_statements is not available: the number of queries cannot be observed outside the cache")
+      Given(s"a warm cache for print formats ${ProfileFormats.mkString(", ")} and a listener that records every change")
+      val formats = ProfileFormats.map(id => storedFormat(id))
+      resetDefinitions()
+      measureRun(formats, English, join = true, cache = true)
+      check(measureRun(formats, English, join = true, cache = true).get.filter(isDictionary).isEmpty, "the cache is not warm")
+      val seen = ArrayBuffer.empty[(String, Boolean, Boolean)]
+      val listener = new CacheChangeListener {
+        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+          seen.synchronized { seen += ((tableName, newRecord, deleted)) }
+      }
+      CacheMgt.get().addChangeListener(listener)
+      val trx = Trx.createTrxName("RDCOrder")
+      try {
+        When("a C_Order is inserted, updated and deleted inside a transaction that is rolled back")
+        val order = saveOrder(trx)
+        order.setDescription("RDC no side effect")
+        order.saveEx()
+        order.deleteEx(true)
+      } finally {
+        CacheMgt.get().removeChangeListener(listener)
+        Option(Trx.get(trx, false)).foreach { t => t.rollback(); t.close() }
+      }
+      val changes = seen.synchronized(seen.toVector)
+      info(s"changes seen by the listener: ${changes.distinct.mkString(", ")}")
+      check(changes.contains(("C_Order", true, false)) && changes.contains(("C_Order", false, false)) && changes.contains(("C_Order", false, true)),
+        s"the listener did not see the insert, the update and the delete: $changes")
+      Then("the next warm getPrintData still runs no dictionary statement")
+      val warm = measureRun(formats, English, join = true, cache = true).get
+      check(warm.filter(isDictionary).isEmpty, "dictionary statements after saving a C_Order:\n  " + warm.filter(isDictionary).map(s => s"${s.calls} x ${s.query.take(120)}").mkString("\n  "))
+    }
+
+    Scenario("A listener that throws does not fail the save and does not stop the other listeners") {
+      Given("a listener that throws and a listener that counts")
+      var counted = 0
+      val failing = new CacheChangeListener {
+        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+          throw new IllegalStateException("listener failure on purpose")
+      }
+      val counting = new CacheChangeListener {
+        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+          if (tableName == "C_Order") counted += 1
+      }
+      val manager = CacheMgt.get()
+      check(manager.addChangeListener(failing) && manager.addChangeListener(counting))
+      val trx = Trx.createTrxName("RDCFailing")
+      try {
+        When("a record is saved and deleted")
+        val order = saveOrder(trx)
+        Then("the save succeeded")
+        check(order.get_ID > 0, "the save failed because of the listener")
+        order.setDescription("RDC failing listener")
+        check(order.save(), "the update failed because of the listener")
+        And("the delete succeeded")
+        check(order.delete(true), "the delete failed because of the listener")
+        And("the listener after the failing one was still called for the insert, the update and the delete")
+        check(counted == 3, s"the counting listener saw $counted changes instead of 3")
+      } finally {
+        manager.removeChangeListener(failing)
+        manager.removeChangeListener(counting)
+        Option(Trx.get(trx, false)).foreach { t => t.rollback(); t.close() }
+      }
+      check(!manager.removeChangeListener(failing), "the listener was not removed")
     }
 
     Scenario("With the cache switched off the engine reads the dictionary on every run and generates the same SQL") {
