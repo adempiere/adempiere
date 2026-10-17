@@ -104,8 +104,61 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
 | `ValidateWmRuleLocatorArgumentOrder` | 1 | pass | Creates its own WM area type and section type: GardenWorld has none. |
 | `ValidateReportWithoutCloseTrxConnection` | 2 | pass | Needs `ServerReportCtl`/`ReportExportHandler` to accept the `AD_PInstance.ReportType` list values (`P`, `C`, `H`, `X`, `XX`); the second scenario checks that an unknown type produces no file and no `NullPointerException`. |
+| `ValidateReportLookupJoinPerformance` | 5 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
+
+## Performance benchmark of the report lookups
+
+`ValidateReportLookupJoinPerformance` compares the two report lookup strategies of `DataEngine`: correlated
+subselects (`setLookupJoin(false)`, legacy) and `LEFT OUTER JOIN` (`setLookupJoin(true)`, join). It is opt-in: without
+`ADEMPIERE_BENCHMARK=true` all its scenarios are cancelled (they show as `canceled`, not as failures).
+
+```bash
+export JAVA_HOME=/path/to/jdk-17
+export ADEMPIERE_PROPERTY_FILE=$HOME/Adempiere.properties
+ADEMPIERE_BENCHMARK=true sbt "testOnly org.eevolution.test.ValidateReportLookupJoinPerformance"
+```
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `ADEMPIERE_BENCHMARK` | unset | `true` enables the benchmark. |
+| `ADEMPIERE_BENCHMARK_SCALE` | `200` | Factor that multiplies the rows of `Fact_Acct` and `C_OrderLine` in the scaled scenario. `1` copies nothing. |
+| `ADEMPIERE_BENCHMARK_REPORT` | `org.adempiere.test/target/report-lookup-join-benchmark.md` | Where the markdown report is written. It is also printed. |
+| `ADEMPIERE_BENCHMARK_SQL_DIR` | unset | When set, the SQL of both paths (as PostgreSQL receives it) is saved as `<format>-legacy.sql` / `<format>-join.sql`, so a DBA can run `EXPLAIN` by hand. |
+
+What it measures, for each of four GardenWorld print formats (chosen because they have the most top-level
+TableDir / Search lookups: `Fact_Acct` 1000007, `C_OrderLine` 1000008, `RV_OrderDetail` 1000004, `C_Order` 1000003):
+
+* `EXPLAIN (ANALYZE, BUFFERS)` of the exact `PrintData` SQL through the JDBC connection of the test transaction:
+  planning and execution time, number of `SubPlan` nodes, total loops of those SubPlans and shared buffers.
+  PostgreSQL only; on another database the columns show `n/a`.
+* The JDBC full fetch of that SQL (execute plus reading every cell): 3 warmup runs, then 15 runs interleaved
+  legacy/join/legacy/join; median and p95.
+* The end-to-end `new DataEngine(lang, trx).getPrintData(...)` time, median of 5.
+
+The natural GardenWorld volume is tiny (`Fact_Acct` 144 rows), so a second, scaled scenario copies the rows of
+`Fact_Acct` and `C_OrderLine` `ADEMPIERE_BENCHMARK_SCALE - 1` more times with `INSERT ... SELECT` and repeats the
+measurements on that data:
+
+* It happens inside a transaction that is always rolled back; there is no DDL and no `ANALYZE` (it would update
+  `pg_class` outside the transaction). The benchmark refuses to run when the connection autocommits, and stops when
+  a second connection sees the new rows. The report states the row counts before the run and after the rollback.
+* New keys start 1,000,000 above the highest existing key; every other column, foreign keys included, is copied as it is.
+* Rolled back rows leave dead tuples that autovacuum removes; the visible rows are exactly the same as before.
+* The scaled scenario needs PostgreSQL (`generate_series`); on another database it is cancelled.
+
+How to read the report: the summary table lists, per format and volume, the speedup `legacy / join` of the fetch
+median, the fetch p95, the `EXPLAIN` execution time and the end-to-end time (greater than `1.00x`: the join path is
+faster). The table of each format adds rows, `SubPlan` nodes and their loops (the work that the join removes), planning
+time (the join SQL has more joins and is planned slower) and the absolute milliseconds.
+Judge the speedup by the fetch median and the execution time of the scaled volume; at the natural volume the
+differences are a few milliseconds and the p95 is noise. If the fetch median is far above the `EXPLAIN` execution time,
+something else was using the machine or the database: run it again.
+
+The test fails only on a clear regression (join fetch median above the legacy median times 1.20 and more than 20 ms
+worse) or when the two paths return a different number of rows. Improvements are reported, never asserted, because
+timings are not deterministic.
 
 ## Data left in the database
 
