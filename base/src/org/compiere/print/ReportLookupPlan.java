@@ -43,8 +43,8 @@ import org.compiere.util.Language;
  *   LEFT OUTER JOIN C_BPartner BPartner_1 ON (C_Order.C_BPartner_ID=BPartner_1.C_BPartner_ID)
  * </pre>
  * The outer statement has a line break before FROM, each LEFT OUTER JOIN and ORDER BY, so that a DBA reads it in the
- * trace; the statement of the report (the derived table) stays on one line. On PostgreSQL the derived table ends with
- * OFFSET 0, so that the planner does not merge it with the lookups.
+ * trace; the statement of the report (the derived table) stays on one line. On PostgreSQL and Oracle (12c+) the derived
+ * table ends with the SQL:2008 clause OFFSET 0 ROWS, so that the planner does not merge it with the lookups.
  * <p>
  * The CASE keeps the NULL of the subselect when there is no foreign key or no row. A translated column whose
  * translation is missing shows the column of the base table: <code>NVL(Product_Trl_1.Name,Product_1.Name)</code>.
@@ -431,13 +431,14 @@ final class ReportLookupPlan
 
 	/**
 	 * 	End of the statement of the report: the closing parenthesis of the inner statement, its alias and the lookup joins.
-	 * 	On PostgreSQL the inner statement ends with OFFSET 0, a planning fence: the planner plans it apart from the
-	 * 	lookups of the outer statement, and the rows and their order do not change.
+	 * 	On PostgreSQL and Oracle (12c+) the inner statement ends with the SQL:2008 clause OFFSET 0 ROWS, a planning fence:
+	 * 	the planner plans it apart from the lookups of the outer statement, and the rows and their order do not change.
+	 * 	MySQL and MariaDB get no clause.
 	 * 	@return text after the inner statement
 	 */
 	String outerSuffix()
 	{
-		StringBuilder sql = new StringBuilder(DB.isPostgreSQL() ? " OFFSET 0) " : ") ").append(baseTable);
+		StringBuilder sql = new StringBuilder(DB.isPostgreSQL() || DB.isOracle() ? " OFFSET 0 ROWS) " : ") ").append(baseTable);
 		for (Join join : joins)
 		{
 			String parentColumn = join.parent == null

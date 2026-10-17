@@ -252,15 +252,18 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     problems.toVector
   }
 
+  /** The database has the OFFSET 0 ROWS fence: PostgreSQL and Oracle 12c+ (SQL:2008), not MySQL/MariaDB */
+  private def fenced: Boolean = DB.isPostgreSQL || DB.isOracle
+
   /** SQL contract of the join path. Returns the problems found. */
   private def joinSqlProblems(formatId: Int, run: Run): Vector[String] = {
     val problems = ArrayBuffer.empty[String]
     run.pd.foreach { pd =>
       val sql = pd.getSQL
       if (!sql.startsWith(s"$Tag$formatId */ ")) problems += s"SQL does not start with the tag: ${sql.take(60)}"
-      // the derived table is closed by OFFSET 0 on PostgreSQL, and only there
-      if (sql.contains("\nFROM (") && sql.contains(s" OFFSET 0) ${pd.getTableName}\n") != DB.isPostgreSQL)
-        problems += s"OFFSET 0 closing the derived table: expected ${DB.isPostgreSQL}, SQL ${sql.take(60)}"
+      // the derived table is closed by OFFSET 0 ROWS on PostgreSQL and Oracle, and only there
+      if (sql.contains("\nFROM (") && sql.contains(s" OFFSET 0 ROWS) ${pd.getTableName}\n") != fenced)
+        problems += s"OFFSET 0 ROWS closing the derived table: expected $fenced, SQL ${sql.take(60)}"
       if (sql.contains(" AS ")) {
         // semantic aliases only: TableName_n / TableName_Trl_n, at most 30 characters
         val baseTable = pd.getTableName
@@ -1014,9 +1017,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
   }
 
-  Feature("The derived table of the join statement is a planning fence on PostgreSQL") {
+  Feature("The derived table of the join statement is a planning fence on PostgreSQL and Oracle") {
 
-    Scenario("On PostgreSQL the derived table is closed by OFFSET 0 and the report keeps its rows") {
+    Scenario("On PostgreSQL and Oracle the derived table is closed by OFFSET 0 ROWS and the report keeps its rows") {
       withTrx { trx =>
         Given("print formats with joins, with an ORDER BY and with a GROUP BY, in English and in es_MX")
         val grouped = insertFormat(trx, "RLJ Fence", "C_Order", insertReportView(trx, "RLJ Fence", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
@@ -1028,11 +1031,11 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
             assertNoProblems(Vector(result))
             val sql = result.join.sql
             val table = result.join.pd.get.getTableName
-            val closing = s" OFFSET 0) $table\n"
+            val closing = s" OFFSET 0 ROWS) $table\n"
             Then("the legacy statement has no OFFSET")
             assert(!result.legacy.sql.contains("OFFSET"))
-            if (!DB.isPostgreSQL) {
-              And("no other database gets it")
+            if (!fenced) {
+              And("MySQL and MariaDB do not get it")
               assert(!sql.contains("OFFSET"))
             } else {
               And("the join statement closes the derived table with it, after the GROUP BY and before the outer joins and ORDER BY")
@@ -1045,9 +1048,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
               assert(sql.startsWith(s"$Tag$formatId */ ") && sql.split("\n", -1).tail.head.startsWith("FROM (SELECT "))
               And("the conversion of the database port leaves it in the statement")
               val converted = DB.getDatabase.convertStatement(sql)
-              assert(converted.contains(s" OFFSET 0) $table"), converted)
+              assert(converted.contains(s" OFFSET 0 ROWS) $table"), converted)
               And("the rows are the same without it")
-              val without = sql.replace(" OFFSET 0)", ")")
+              val without = sql.replace(" OFFSET 0 ROWS)", ")")
               assert(without != sql)
               assert(multiset(rowsOf(sql)) == multiset(rowsOf(without)))
             }
@@ -1120,7 +1123,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           Then("the statement of the report, up to the derived table alias, has the three tables for the role")
           val sql = result.join.sql
           val inner = sql.substring(sql.indexOf("\nFROM (") + "\nFROM (".length, sql.indexOf(s") ${result.join.pd.get.getTableName}\n"))
-          val parser = new org.compiere.model.AccessSqlParser(inner.replace(" OFFSET 0", ""))
+          val parser = new org.compiere.model.AccessSqlParser(inner.replace(" OFFSET 0 ROWS", ""))
           assert(parser.parse() || parser.getNoSqlStatments > 0)
           val tables = parser.getTableInfo(parser.getMainSqlIndex).map(_.getTableName).toVector
           assert(Seq("C_Order", "AD_Ref_List", "AD_Ref_List_Trl").forall(tables.contains), tables.toString)

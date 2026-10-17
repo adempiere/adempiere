@@ -301,14 +301,14 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       check(problems.isEmpty, problems.take(10).mkString("\n  "))
     }
 
-    Scenario("A cached definition carries the OFFSET 0 fence of the join statement") {
+    Scenario("A cached definition carries the OFFSET 0 ROWS fence of the join statement") {
       Given("the sales order print format with a cold and then a warm definition cache")
       resetDefinitions()
       val cold = sqlOf(1000003, English, join = true, Some(true))
       val warm = sqlOf(1000003, English, join = true, Some(true))
-      Then("the warm statement is the cold one and closes its derived table with OFFSET 0 on PostgreSQL only")
+      Then("the warm statement is the cold one and closes its derived table with OFFSET 0 ROWS on PostgreSQL and Oracle only")
       check(cold.nonEmpty && cold == warm)
-      check(warm.contains(" OFFSET 0) C_Order\n") == DB.isPostgreSQL, warm)
+      check(warm.contains(" OFFSET 0 ROWS) C_Order\n") == (DB.isPostgreSQL || DB.isOracle), warm)
       And("the legacy statement has no OFFSET")
       check(!sqlOf(1000003, English, join = false, Some(true)).contains("OFFSET"))
     }
