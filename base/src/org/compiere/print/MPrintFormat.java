@@ -194,7 +194,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ " AND NOT EXISTS (SELECT * FROM AD_Field f "
 				+ "WHERE pfi.AD_Column_ID=f.AD_Column_ID"
 				+ " AND (f.IsEncrypted='Y' OR f.ObscureType IS NOT NULL))" 
-			+ "ORDER BY SeqNo";
+			+ "ORDER BY SeqNo, AD_PrintFormatItem_ID";
 		MRole role = MRole.getDefault(getCtx(), false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

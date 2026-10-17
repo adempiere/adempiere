@@ -134,7 +134,7 @@ public class DataEngine
 				+ "','"
 				+ MPrintFormatItem.PRINTFORMATTYPE_PrintFormat
 				+ "') "
-			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo";
+			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo, pfi.AD_PrintFormatItem_ID";
 
 
 	/**	Synonym							*/
