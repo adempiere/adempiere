@@ -819,7 +819,7 @@ public class DB_Oracle implements AdempiereDatabase
         try
         {
             if (datasourceShortRunning == null)
-                getDataSource(connection);
+                getDataSourceShortRunning(connection);
 
             //
             try

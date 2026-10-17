@@ -18,7 +18,7 @@ package org.eevolution.test
 import java.sql.Connection
 
 import com.zaxxer.hikari.HikariDataSource
-import org.compiere.db.{CConnection, DB_PostgreSQL}
+import org.compiere.db.{CConnection, DB_Oracle, DB_PostgreSQL}
 import org.compiere.model.MQuery
 import org.compiere.print.{DataEngine, MPrintFormat}
 import org.compiere.util.{DB, Env, Language, Trx}
@@ -312,6 +312,22 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
       } finally { System.clearProperty(PoolPrefix + "maximumPoolSize"); System.clearProperty(PoolPrefix + "minimumIdle") }
     }
   }
+  Feature("The short running pool AdempiereSRDS") {
+
+    Scenario("Oracle takes its short running connection from the short running pool, not from the long running one") {
+      val asked = scala.collection.mutable.ArrayBuffer.empty[String]
+      val oracle = new DB_Oracle {
+        override def getDataSource(connection: CConnection): javax.sql.DataSource = { asked += "AdempiereDS"; null }
+        override def getDataSourceShortRunning(connection: CConnection): javax.sql.DataSource = { asked += "AdempiereSRDS"; null }
+      }
+      When("Oracle is asked for a short running connection and no pool can be built")
+      val outcome = Try(oracle.getFromConnectionPoolShortRunning(CConnection.get(), true, Connection.TRANSACTION_READ_COMMITTED))
+      Then("only the short running pool was asked for (the long running one is never built for it)")
+      info(s"pools asked for: ${asked.mkString(", ")}; outcome: $outcome")
+      check(asked.toList == List("AdempiereSRDS"), s"pools asked for: ${asked.mkString(", ")}")
+    }
+  }
+
   Feature("Cost of the connection layer for a report (opt-in benchmark)") {
 
     Scenario("A cold getPrintData with the definition cache off, in statements and milliseconds") {
