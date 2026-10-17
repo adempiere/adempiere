@@ -24,6 +24,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -133,6 +134,42 @@ public class DataEngine
 
 	private static final String REPORT_DISPLAY_YES_NO = "REPORT_DISPLAY_YES_NO";
 
+	/** SysConfig: Y (default) resolves TableDir lookups with LEFT OUTER JOINs, N keeps the correlated subselects */
+	public static final String REPORT_LOOKUP_JOIN = "REPORT_LOOKUP_JOIN";
+
+	/** Override of the REPORT_LOOKUP_JOIN SysConfig, null = use SysConfig */
+	private Boolean m_lookupJoinOverride = null;
+
+	/** The report reads a translation view (..._vt), lookups are not joined */
+	private boolean m_translationView = false;
+
+	/**
+	 * 	Force the lookup strategy of this engine, independent of the REPORT_LOOKUP_JOIN SysConfig.
+	 * 	@param lookupJoin true = LEFT OUTER JOINs, false = correlated subselects, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setLookupJoin (Boolean lookupJoin)
+	{
+		m_lookupJoinOverride = lookupJoin;
+		return this;
+	}	//	setLookupJoin
+
+	/**
+	 * 	Are the TableDir lookups of the report resolved with LEFT OUTER JOINs?
+	 * 	Not for the report tables (T_Report*, AD_PInstance*) and the translation views.
+	 * 	@param ctx context
+	 * 	@param tableName table of the report
+	 * 	@return true if joins are used
+	 */
+	private boolean isLookupJoin (Properties ctx, String tableName)
+	{
+		if (tableName.startsWith("T_Report") || tableName.startsWith("AD_PInstance") || m_translationView)
+			return false;
+		if (m_lookupJoinOverride != null)
+			return m_lookupJoinOverride.booleanValue();
+		return MSysConfig.getBooleanValue(REPORT_LOOKUP_JOIN, true, Env.getAD_Client_ID(ctx));
+	}	//	isLookupJoin
+
 
 	/**************************************************************************
 	 * 	Load Data
@@ -165,6 +202,7 @@ public class DataEngine
 
 		/** Report Summary FR [ 2011569 ]**/ 
 		m_summary = !format.isForm() && summary;
+		m_translationView = false;
 		String tableName = null;
 		String reportName = format.getName();
 		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
@@ -224,6 +262,7 @@ public class DataEngine
 			if (hasVT)
 			{
 				tableName += "t";
+				m_translationView = true;
 				format.setTranslationViewQuery (query);
 			}
 		}
@@ -267,6 +306,10 @@ public class DataEngine
 
 		//	Direct SQL w/o Reference Info
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
+		//	Items of the SELECT list, the lookups of the report are joined when the plan is set
+		List<ReportLookupItem> items = new ArrayList<ReportLookupItem>();
+		boolean lookupJoin = isLookupJoin(ctx, tableName);
+		ReportLookupPlan lookupPlan = lookupJoin ? new ReportLookupPlan(m_language, tableName) : null;
 		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
 		ArrayList<String> groupByColumns = new ArrayList<String>();
 		
@@ -384,7 +427,7 @@ public class DataEngine
 				if (isKey)
 				{
 					//	=>	Table.Column,
-					sqlSELECT.append(tableName).append(".").append(columnName).append(",");
+					items.add(new ReportLookupItem(tableName + "." + columnName, null, columnName));
 					groupByColumns.add(tableName+"."+columnName);
 					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isHideGrandTotal);	//	KeyColumn
 				}
@@ -401,17 +444,8 @@ public class DataEngine
 
 					//  Creates Embedded SQL in the form
 					//  SELECT ColumnTable.Name FROM ColumnTable WHERE TableName.ColumnName=ColumnTable.ColumnName
-					String eSql;
-
 					if (columnSQL.length() > 0)
-					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName, "(" + columnSQL + ")");
 						lookupSQL = columnSQL;
-					}
-					else
-					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName);
-					}
 
 					//	TableName
 					String table = columnName;
@@ -419,9 +453,27 @@ public class DataEngine
 						table = table.substring(0, table.length()-3);
 					//  DisplayColumn
 					String display = columnName;
+					ReportLookupItem foreignKey = new ReportLookupItem(lookupSQL, columnName, columnName);
+					ReportLookupItem displayItem = null;
+					//	=> LEFT OUTER JOIN lookup, CASE .. END AS AName, Table.ID,
+					if (lookupPlan != null)
+					{
+						ReportLookupItem joined = new ReportLookupItem(null, m_synonym + display, m_synonym + display);
+						if (lookupPlan.lookup(joined, foreignKey, MLookupFactory.getTableDirEmbed(m_language, columnName)))
+							displayItem = joined;
+					}
 					//	=> (..) AS AName, Table.ID,
-					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
-							.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					if (displayItem == null)
+					{
+						String eSql;
+						if (columnSQL.length() > 0)
+							eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName, "(" + columnSQL + ")");
+						else
+							eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName);
+						displayItem = new ReportLookupItem("(" + eSql + ")", m_synonym + display, m_synonym + display);
+					}
+					items.add(displayItem);
+					items.add(foreignKey);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 					//
@@ -446,11 +498,9 @@ public class DataEngine
 					TableReference tr = getTableReference(referenceValueId);
 					String display = tr.DisplayColumn;
 					//	=> A.Name AS AName, Table.ID,
-					if (tr.IsValueDisplayed)
-						sqlSELECT.append(m_synonym).append(".Value||'-'||");
-					sqlSELECT.append(m_synonym).append(".").append(display);
-					sqlSELECT.append(" AS ").append(m_synonym).append(display).append(",")
-						.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					items.add(new ReportLookupItem((tr.IsValueDisplayed ? m_synonym + ".Value||'-'||" : "")
+						+ m_synonym + "." + display, m_synonym + display, m_synonym + display));
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
 					groupByColumns.add(m_synonym+display);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
@@ -479,7 +529,7 @@ public class DataEngine
 					if (Env.isBaseLanguage(m_language, "AD_Ref_List"))
 					{
 						//	=> A.Name AS AName,
-						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
+						items.add(new ReportLookupItem(m_synonym + ".Name", m_synonym + "Name", m_synonym + "Name"));
 						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 						//	=> x JOIN AD_Ref_List A ON (x.KeyColumn=A.Value AND A.AD_Reference_ID=123)
@@ -494,7 +544,7 @@ public class DataEngine
 					else
 					{
 						//	=> A.Name AS AName,
-						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
+						items.add(new ReportLookupItem(m_synonym + ".Name", m_synonym + "Name", m_synonym + "Name"));
 						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 
@@ -517,7 +567,7 @@ public class DataEngine
 							.append(" AND ").append(m_synonym).append(".AD_Language='").append(m_language.getAD_Language()).append("')");
 					}
 					// 	TableName.ColumnName,
-					sqlSELECT.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
 					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
@@ -571,9 +621,8 @@ public class DataEngine
 						synonym = display;
 
 					//	=> A.Name AS AName, table.ID,
-					sqlSELECT.append(m_synonym).append(".").append(display).append(" AS ")
-						.append(m_synonym).append(synonym).append(",")
-						.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					items.add(new ReportLookupItem(m_synonym + "." + display, m_synonym + synonym, m_synonym + synonym));
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
 					groupByColumns.add(m_synonym+"."+synonym);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + synonym;
@@ -597,7 +646,7 @@ public class DataEngine
 					if (columnSQL != null && columnSQL.length() > 0)
 					{
 					//	=> ColumnSQL AS ColumnName
-						sqlSELECT.append(columnSQL).append(" AS ").append(columnName).append(",");
+						items.add(new ReportLookupItem(columnSQL, columnName, columnName));
 						if (!isGroupFunction)
 							groupByColumns.add(columnSQL);
 						orderName = columnName;		//	no prefix for synonym
@@ -607,7 +656,7 @@ public class DataEngine
 					//	=> Table.Column,
 						StringBuffer sb = new StringBuffer();
 						sb.append(tableName).append(".").append(columnName);
-						sqlSELECT.append(sb).append(",");
+						items.add(new ReportLookupItem(sb.toString(), null, columnName));
 						if (!isGroupFunction)
 							groupByColumns.add(sb.toString());
 					}
@@ -618,7 +667,7 @@ public class DataEngine
 						sb.append(functionColumn.substring(0, index))
 							.append(tableName).append(".").append(columnName)
 							.append(functionColumn.substring(index+1));
-						sqlSELECT.append(sb).append(" AS ").append(columnName).append(",");
+						items.add(new ReportLookupItem(sb.toString(), columnName, columnName));
 						if (!isGroupFunction)
 							groupByColumns.add(sb.toString());
 						orderName = columnName;		//	no prefix for synonym
@@ -640,6 +689,9 @@ public class DataEngine
 						{
 							groupByColumns.add(tableName+"."+columnName);
 						}
+						//	the sort column is selected by the derived table to be sorted by the outer SELECT
+						if (!IsPrinted)
+							items.add(new ReportLookupItem(tableName + "." + columnName, null, columnName, true));
 						break;
 					}
 				}
@@ -673,6 +725,25 @@ public class DataEngine
 			return null;
 		}
 
+		//	Table ID PrintColumn is needed but not present, manually add a dummy column
+		boolean addTableID = isTableIDRequired && !isTableIDPresent;
+		boolean lookupJoined = lookupPlan != null && !lookupPlan.isEmpty();
+		if (lookupJoined)
+		{
+			//	derived table with the statement of the report, the lookups are joined to it
+			if (addTableID)
+				items.add(new ReportLookupItem(tableName + "." + MFactAcct.COLUMNNAME_AD_Table_ID, null, MFactAcct.COLUMNNAME_AD_Table_ID));
+			sqlSELECT.append(lookupPlan.innerSelect(items)).append(",");
+		}
+		else
+		{
+			for (ReportLookupItem item : items)
+			{
+				if (!item.hidden)
+					sqlSELECT.append(item.legacyText()).append(",");
+			}
+		}
+
 		boolean hasLevelNo = false;
 		if (tableName.startsWith("T_Report"))
 		{
@@ -686,7 +757,7 @@ public class DataEngine
 		}
 
 		//Table ID PrintColumn is needed but not present, manually add a dummy column
-		if (isTableIDRequired && !isTableIDPresent) {
+		if (addTableID && !lookupJoined) {
 			sqlSELECT.append(tableName).append(".").append(MFactAcct.COLUMNNAME_AD_Table_ID).append(",");
 		}
 		
@@ -754,6 +825,10 @@ public class DataEngine
 			}
 		}
 
+		//	Lookups joined to the statement of the report
+		if (lookupJoined)
+			finalSQL = new StringBuffer(lookupPlan.outerSelect(items, finalSQL.toString()));
+
 		//	Add ORDER BY clause
 		if (orderColumns != null)
 		{
@@ -770,6 +845,9 @@ public class DataEngine
 			}
 		}	//	order by
 
+		//	Tag of the report for the DBA
+		if (lookupJoin)
+			finalSQL.insert("SELECT ".length(), "/* AD_PrintFormat_ID=" + format.get_ID() + " */ ");
 
 		//	Print Data
 		PrintData pd = new PrintData (ctx, reportName);
