@@ -312,7 +312,64 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
       } finally { System.clearProperty(PoolPrefix + "maximumPoolSize"); System.clearProperty(PoolPrefix + "minimumIdle") }
     }
   }
+  /** a second short running pool, built by the database as it does without JNDI (the pool of the test JVM is not touched) */
+  private def shortRunningPool(): HikariDataSource =
+    new DB_PostgreSQL().getDataSourceShortRunning(CConnection.get()).asInstanceOf[HikariDataSource]
+
   Feature("The short running pool AdempiereSRDS") {
+
+    Scenario("The pool built by the database is read only, declares its state and names itself") {
+      assume(DB.isPostgreSQL, "the pool settings are asserted on the PostgreSQL pool")
+      val pool = shortRunningPool()
+      try {
+        info(s"max ${pool.getMaximumPoolSize}, minIdle ${pool.getMinimumIdle}, idle ${pool.getIdleTimeout}, keepalive ${pool.getKeepaliveTime}, readOnly ${pool.isReadOnly}")
+        check(pool.getPoolName == "AdempiereSRDS")
+        check(pool.isReadOnly, "readOnly=true")
+        check(pool.isAutoCommit)
+        check(pool.getTransactionIsolation == "TRANSACTION_READ_COMMITTED", s"transactionIsolation = ${pool.getTransactionIsolation}")
+        check(pool.getConnectionTestQuery == null, "JDBC4 isValid must validate the connections")
+        check(pool.getKeepaliveTime == 0L || pool.getKeepaliveTime >= 30000L, s"keepaliveTime ${pool.getKeepaliveTime} is below the Hikari minimum")
+        check(pool.getDataSourceProperties.getProperty("ApplicationName") == "ADempiere AdempiereSRDS")
+        Then("a connection of the pool reports it in the database and refuses to write")
+        val connection = pool.getConnection
+        try {
+          check(connection.isReadOnly, "the connection is read only")
+          check(connection.getAutoCommit && connection.getTransactionIsolation == Connection.TRANSACTION_READ_COMMITTED)
+          check(scalar(connection, "SELECT application_name FROM pg_stat_activity WHERE pid = pg_backend_pid()") == "ADempiere AdempiereSRDS")
+          check(scalar(connection, "SHOW transaction_read_only") == "on", "the server session is read only also in autoCommit")
+          val statement = connection.createStatement()
+          val write = Try(statement.execute("CREATE TEMPORARY TABLE rlj_srds_write_probe (id INTEGER)"))
+          statement.close()
+          check(write.isFailure, "a write on the short running pool must be rejected")
+        } finally connection.close()
+      } finally pool.close()
+    }
+
+    Scenario("The pool built by the database does not keep idle connections that nobody asked for") {
+      assume(DB.isPostgreSQL, "the pool settings are asserted on the PostgreSQL pool")
+      val pool = shortRunningPool()
+      try {
+        Thread.sleep(1000) // Hikari fills the pool up to minimumIdle in the background
+        val total = pool.getHikariPoolMXBean.getTotalConnections
+        info(s"connections of a pool that nobody used: $total (minimumIdle ${pool.getMinimumIdle}, max ${pool.getMaximumPoolSize})")
+        check(pool.getMinimumIdle == 1)
+        check(total == 1, s"$total connections held for nothing")
+      } finally pool.close()
+    }
+
+    Scenario("The poolShortRunning system properties still override the pool settings") {
+      assume(DB.isPostgreSQL, "the pool settings are asserted on the PostgreSQL pool")
+      val prefix = "org.adempiere.db.poolShortRunning."
+      val overrides = Map("maximumPoolSize" -> "4", "minimumIdle" -> "2", "keepaliveTime" -> "45000", "idleTimeout" -> "30000")
+      overrides.foreach { case (name, value) => System.setProperty(prefix + name, value) }
+      try {
+        val pool = shortRunningPool()
+        try {
+          check(pool.getMaximumPoolSize == 4 && pool.getMinimumIdle == 2 && pool.getKeepaliveTime == 45000L && pool.getIdleTimeout == 30000L)
+          check(pool.isReadOnly && pool.getPoolName == "AdempiereSRDS", "the overrides do not undo what the pool declares")
+        } finally pool.close()
+      } finally overrides.keys.foreach(name => System.clearProperty(prefix + name))
+    }
 
     Scenario("Oracle takes its short running connection from the short running pool, not from the long running one") {
       val asked = scala.collection.mutable.ArrayBuffer.empty[String]

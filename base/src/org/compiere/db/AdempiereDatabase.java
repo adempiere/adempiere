@@ -378,6 +378,25 @@ public interface AdempiereDatabase
 		override(propertyPrefix, "maxLifetime", config::setMaxLifetime);
 	}
 
+	/** Idle connections that the short running pool keeps: it is created on the first report and a client may never use it again */
+	public final static int SHORT_RUNNING_MINIMUM_IDLE = 1;
+
+	/**
+	 * Configure the pool AdempiereSRDS that a database builds when the application server does not give it (JNDI):
+	 * the state defaults of {@link #configurePool}, read only (it serves the report engine), and few idle connections.
+	 * Hikari sets the read only flag once per physical connection, not on every checkout. Call it after the size
+	 * settings of the database; the {@link #POOL_PROPERTY_PREFIX_SHORT_RUNNING} system properties still win.
+	 * keepaliveTime is not set: Hikari leaves it disabled (a value below 30 s is ignored) and validates a connection that
+	 * stayed idle when it is borrowed.
+	 * @param config pool configuration
+	 */
+	public static void configureShortRunningPool(HikariConfig config)
+	{
+		config.setReadOnly(true);
+		config.setMinimumIdle(SHORT_RUNNING_MINIMUM_IDLE);
+		configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+	}
+
 	/**
 	 * Apply the value of a pool system property, when it is set.
 	 * A value that is not a number, or that Hikari refuses, is logged and the default stays.

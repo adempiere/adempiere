@@ -691,7 +691,7 @@ public class DB_Oracle implements AdempiereDatabase
                 config.setPoolName("AdempiereSRDS");
                 config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
                 config.setMaximumPoolSize(10);
-                AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+                AdempiereDatabase.configureShortRunningPool(config);
                 configureDriver(config, "AdempiereSRDS");
                 HikariDataSource cpds = new HikariDataSource(config);
                 datasourceShortRunning = cpds;
@@ -730,7 +730,7 @@ public class DB_Oracle implements AdempiereDatabase
                             config.setPoolName("AdempiereSRDS");
                             config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
                             config.setMaximumPoolSize(5);
-                            AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+                            AdempiereDatabase.configureShortRunningPool(config);
                             configureDriver(config, "AdempiereSRDS");
                             return new HikariDataSource(config);
                         }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));

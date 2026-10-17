@@ -663,8 +663,10 @@ public class DB_PostgreSQL implements AdempiereDatabase
 				config.setPoolName("AdempiereSRDS");
 				config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
 				config.setMaximumPoolSize(10);
-				AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+				AdempiereDatabase.configureShortRunningPool(config);
 				config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereSRDS");
+				//	setReadOnly alone does not stop a write in autoCommit mode with the default readOnlyMode
+				config.addDataSourceProperty("readOnlyMode", "always");
 				HikariDataSource cpds = new HikariDataSource(config);
 				datasourceShortRunning = cpds;
 				log.warning("Starting Client Hikari Connection Pool");
@@ -702,8 +704,10 @@ public class DB_PostgreSQL implements AdempiereDatabase
 							config.setPoolName("AdempiereSRDS");
 							config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
 							config.setMaximumPoolSize(5);
-							AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+							AdempiereDatabase.configureShortRunningPool(config);
 							config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereSRDS");
+							//	setReadOnly alone does not stop a write in autoCommit mode with the default readOnlyMode
+							config.addDataSourceProperty("readOnlyMode", "always");
 							return new HikariDataSource(config);
 						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));
 			}
