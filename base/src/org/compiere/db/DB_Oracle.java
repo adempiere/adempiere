@@ -29,6 +29,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import javax.naming.Context;
@@ -37,6 +38,7 @@ import javax.sql.DataSource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import oracle.jdbc.OracleConnection;
 import oracle.jdbc.OracleDriver;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
@@ -556,6 +558,43 @@ public class DB_Oracle implements AdempiereDatabase
         return null;
     }   //  getCommands
 
+    /** System property: rows that the driver fetches per round trip (ojdbc default 10) */
+    public static final String      PROPERTY_DEFAULT_ROW_PREFETCH = "org.adempiere.db.oracle.defaultRowPrefetch";
+
+    /** Default of {@link #PROPERTY_DEFAULT_ROW_PREFETCH}: 100 rows */
+    public static final int         DEFAULT_ROW_PREFETCH = 100;
+
+    /** System property: size of the implicit statement cache of every connection (ojdbc default 0, off) */
+    public static final String      PROPERTY_IMPLICIT_STATEMENT_CACHE_SIZE = "org.adempiere.db.oracle.implicitStatementCacheSize";
+
+    /**
+     *  Driver properties of the Oracle pools (ojdbc6 11.2 connection properties, see oracle.jdbc.OracleConnection):
+     *  <ul>
+     *  <li><code>v$session.program</code>: the pool shows as the program of the session in v$session.</li>
+     *  <li><code>defaultRowPrefetch</code>: the driver default is 10 rows per round trip, which makes a report that reads
+     *  thousands of rows wait for the network again and again. 100 rows (set {@link #PROPERTY_DEFAULT_ROW_PREFETCH}
+     *  to change it) cuts the round trips of a large result by 10 and holds about 100 rows of a statement in memory;
+     *  the gain shrinks as the value grows while the memory of every open statement keeps growing (Oracle JDBC
+     *  Developer's Guide, row prefetching).</li>
+     *  <li><code>oracle.jdbc.implicitStatementCacheSize</code>: implicit statement cache. Off by default, because it keeps
+     *  open cursors per connection and has not been measured on this code; set
+     *  {@link #PROPERTY_IMPLICIT_STATEMENT_CACHE_SIZE} (for example 50, below open_cursors) to enable it.</li>
+     *  </ul>
+     *  The prepared statement cache properties of MySQL (cachePrepStmts and others) have no effect on this driver.
+     *  @param config pool configuration
+     *  @param poolName name of the pool
+     */
+    private static void configureDriver(HikariConfig config, String poolName)
+    {
+        config.addDataSourceProperty(OracleConnection.CONNECTION_PROPERTY_THIN_VSESSION_PROGRAM, "ADempiere " + poolName);
+        int prefetch = Integer.getInteger(PROPERTY_DEFAULT_ROW_PREFETCH, DEFAULT_ROW_PREFETCH);
+        if (prefetch > 0)
+            config.addDataSourceProperty(OracleConnection.CONNECTION_PROPERTY_DEFAULT_ROW_PREFETCH, Integer.toString(prefetch));
+        int statementCache = Integer.getInteger(PROPERTY_IMPLICIT_STATEMENT_CACHE_SIZE, 0);
+        if (statementCache > 0)
+            config.addDataSourceProperty(OracleConnection.CONNECTION_PROPERTY_IMPLICIT_STATEMENT_CACHE_SIZE, Integer.toString(statementCache));
+    }
+
     /**
      *  Create DataSource
      *  @param connection connection
@@ -574,14 +613,12 @@ public class DB_Oracle implements AdempiereDatabase
                 config.setJdbcUrl(getConnectionURL(connection));
                 config.setUsername(connection.getDbUid());
                 config.setPassword(connection.getDbPwd());
-                config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
                 config.setIdleTimeout(0);
                 config.setMinimumIdle(15);
                 config.setMaximumPoolSize(150);
                 config.setPoolName("AdempiereDS");
-                config.addDataSourceProperty( "cachePrepStmts" , "true" );
-                config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-                config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+                AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
+                configureDriver(config, "AdempiereDS");
                 datasourceLongRunning = new HikariDataSource(config);
                 log.warning("Starting Client Hikari Connection Pool");
             } else {
@@ -615,15 +652,13 @@ public class DB_Oracle implements AdempiereDatabase
                             config.setJdbcUrl(getConnectionURL(connection));
                             config.setUsername(connection.getDbUid());
                             config.setPassword(connection.getDbPwd());
-                            config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
                             config.setIdleTimeout(60000);
                             config.setKeepaliveTime(30000);
                             config.setMinimumIdle(15);
                             config.setMaximumPoolSize(150);
                             config.setPoolName("AdempiereDS");
-                            config.addDataSourceProperty( "cachePrepStmts" , "true" );
-                            config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-                            config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+                            AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
+                            configureDriver(config, "AdempiereDS");
                             return new HikariDataSource(config);
                         }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
             }
@@ -653,13 +688,11 @@ public class DB_Oracle implements AdempiereDatabase
                 config.setJdbcUrl(getConnectionURL(connection));
                 config.setUsername(connection.getDbUid());
                 config.setPassword(connection.getDbPwd());
-                config.addDataSourceProperty( "poolName" , "AdempiereSRDS" );
-                config.addDataSourceProperty( "cachePrepStmts" , "true" );
-                config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-                config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-                config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-                config.addDataSourceProperty( "idleTimeout" , "1200" );
-                config.addDataSourceProperty("maximumPoolSize", "10");
+                config.setPoolName("AdempiereSRDS");
+                config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
+                config.setMaximumPoolSize(10);
+                AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+                configureDriver(config, "AdempiereSRDS");
                 HikariDataSource cpds = new HikariDataSource(config);
                 datasourceShortRunning = cpds;
                 log.warning("Starting Client Hikari Connection Pool");
@@ -694,13 +727,11 @@ public class DB_Oracle implements AdempiereDatabase
                             config.setJdbcUrl(getConnectionURL(connection));
                             config.setUsername(connection.getDbUid());
                             config.setPassword(connection.getDbPwd());
-                            config.addDataSourceProperty("poolName", "AdempiereSRDS");
-                            config.addDataSourceProperty("cachePrepStmts", "true");
-                            config.addDataSourceProperty("prepStmtCacheSize", "250");
-                            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-                            config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-                            config.addDataSourceProperty("idleTimeout", "1200");
-                            config.addDataSourceProperty("maximumPoolSize", "5");
+                            config.setPoolName("AdempiereSRDS");
+                            config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
+                            config.setMaximumPoolSize(5);
+                            AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX_SHORT_RUNNING);
+                            configureDriver(config, "AdempiereSRDS");
                             return new HikariDataSource(config);
                         }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));
             }
@@ -737,10 +768,9 @@ public class DB_Oracle implements AdempiereDatabase
                 conn = (Connection) datasourceLongRunning.getConnection();
                 if (conn != null)
                 {
-                    if (conn.getTransactionIsolation() != transactionIsolation)
-                        conn.setTransactionIsolation(transactionIsolation);
-                    if (conn.getAutoCommit() != autoCommit)
-                        conn.setAutoCommit(autoCommit);
+                    //  only what differs from the pool defaults costs a round trip
+                    AdempiereDatabase.applyConnectionState(conn, autoCommit, transactionIsolation,
+                            AdempiereDatabase.getPoolTransactionIsolation(datasourceLongRunning));
                 }
             }
             catch (Exception e)
@@ -797,10 +827,9 @@ public class DB_Oracle implements AdempiereDatabase
                 localConnection = datasourceShortRunning.getConnection();
                 if (localConnection != null)
                 {
-                    if (localConnection.getTransactionIsolation() != transactionIsolation)
-                        localConnection.setTransactionIsolation(transactionIsolation);
-                    if (localConnection.getAutoCommit() != autoCommit)
-                        localConnection.setAutoCommit(autoCommit);
+                    //  only what differs from the pool defaults costs a round trip
+                    AdempiereDatabase.applyConnectionState(localConnection, autoCommit, transactionIsolation,
+                            AdempiereDatabase.getPoolTransactionIsolation(datasourceShortRunning));
                 }
             }
             catch (Exception e)

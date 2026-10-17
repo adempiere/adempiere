@@ -461,9 +461,9 @@ public class DB_MariaDB implements AdempiereDatabase {
 		//
 		Connection conn = datasourceLongRunning.getConnection();
 		if (conn != null) {
-			//
-			conn.setAutoCommit(autoCommit);
-			conn.setTransactionIsolation(transactionIsolation);
+			//	only what differs from the pool defaults costs a round trip
+			AdempiereDatabase.applyConnectionState(conn, autoCommit, transactionIsolation,
+					AdempiereDatabase.getPoolTransactionIsolation(datasourceLongRunning));
 		}
 		return conn;
 	}
@@ -486,9 +486,9 @@ public class DB_MariaDB implements AdempiereDatabase {
 		//
 		Connection localConnection = datasourceShortRunning.getConnection();
 		if (localConnection != null) {
-			//
-			localConnection.setAutoCommit(autoCommit);
-			localConnection.setTransactionIsolation(transactionIsolation);
+			//	only what differs from the pool defaults costs a round trip
+			AdempiereDatabase.applyConnectionState(localConnection, autoCommit, transactionIsolation,
+					AdempiereDatabase.getPoolTransactionIsolation(datasourceShortRunning));
 		}
 		return localConnection;
 	}
@@ -517,6 +517,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 				config.setMinimumIdle(15);
 				config.setMaximumPoolSize(150);
 				config.setPoolName("AdempiereDS");
+				AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 				config.addDataSourceProperty( "cachePrepStmts" , "true" );
 				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
@@ -559,6 +560,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 							config.setMinimumIdle(15);
 							config.setMaximumPoolSize(150);
 							config.setPoolName("AdempiereDS");
+							AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 							config.addDataSourceProperty( "cachePrepStmts" , "true" );
 							config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 							config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );

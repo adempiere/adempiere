@@ -117,6 +117,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidateReportWithoutCloseTrxConnection` | 2 | pass | Needs `ServerReportCtl`/`ReportExportHandler` to accept the `AD_PInstance.ReportType` list values (`P`, `C`, `H`, `X`, `XX`); the second scenario checks that an unknown type produces no file and no `NullPointerException`. |
 | `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
+| `ValidateConnectionPool` | 13 | pass | Connection layer (see below): no per-checkout round trips, state after the pool, `ApplicationName`, pool settings. Three scenarios count statements with `pg_stat_statements` (cancelled without it; run it while nobody else uses the database); the last one is an opt-in measurement (`ADEMPIERE_BENCHMARK=true`) and is cancelled otherwise. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
 
@@ -234,6 +235,54 @@ four formats above it measures, with the cache **off** (dictionary read on every
 
 The report is appended to the markdown file of the lookup comparison. The scenarios fail only when a warm run executes a
 dictionary statement, when the rows differ, or when a cache hit is clearly slower than reading the dictionary.
+
+## Connection pool
+
+The pools of `DB_PostgreSQL`, `DB_Oracle`, `DB_MySQL` and `DB_MariaDB` (HikariCP 5.0.1) are configured by `AdempiereDatabase.configurePool`
+and `ValidateConnectionPool` checks them.
+
+* **Connection state.** The pool gives every connection `autoCommit=true` and `TRANSACTION_READ_COMMITTED`, and Hikari restores both
+  (and rolls back uncommitted work) when a connection returns to the pool. `getFromConnectionPool` therefore calls `setAutoCommit` /
+  `setTransactionIsolation` only when the request differs from the pool default (`AdempiereDatabase.applyConnectionState`), and
+  `CConnection.getConnection` no longer reads `getTransactionIsolation()`. In PostgreSQL that were two round trips
+  (`SET SESSION CHARACTERISTICS` and `SHOW TRANSACTION ISOLATION LEVEL`) on every statement outside a transaction. A datasource from JNDI that
+  does not declare `transactionIsolation` is not known, so its isolation is still always set (as before); the template of
+  `install/Adempiere/build.xml` declares it.
+* **Validation.** PostgreSQL and Oracle pools have no `connectionTestQuery`: Hikari validates with the JDBC4 `Connection.isValid`.
+  MySQL and MariaDB keep the query.
+* **`ApplicationName`.** PostgreSQL connections show `ADempiere AdempiereDS` (`AdempiereSRDS` for the short running pool) in
+  `pg_stat_activity.application_name`; Oracle shows it as `v$session.program`.
+* **No MySQL properties.** `cachePrepStmts`, `prepStmtCacheSize` and `prepStmtCacheSqlLimit` only exist in the MySQL driver; pgjdbc and
+  ojdbc ignore them, so only the MySQL and MariaDB pools keep them. pgjdbc prepares a statement on the server after 5 executions
+  (`prepareThreshold`) and keeps its own 256 statement cache; ojdbc has the implicit statement cache (below).
+
+### Pool settings (JVM system properties)
+
+The standalone and client pool `AdempiereDS` read these properties, so the pool can be tuned without a rebuild (for example
+`JAVA_TOOL_OPTIONS="-Dorg.adempiere.db.pool.maximumPoolSize=50"`). Times are in milliseconds. A property that is not set, is not a number or is
+refused by Hikari (it is logged) leaves the default. The short running pool uses the prefix `org.adempiere.db.poolShortRunning.`.
+A datasource from JNDI (`install/Adempiere/build.xml`, Jetty or Tomcat) is configured by its `Resource` entry, not by these properties.
+
+| Property (`org.adempiere.db.pool.` + name) | Default |
+|---|---|
+| `maximumPoolSize` | 150 |
+| `minimumIdle` | 15 |
+| `idleTimeout` | 0 (client), 60000 (standalone) |
+| `keepaliveTime` | 0 (client), 30000 (standalone) |
+| `connectionTimeout` | 30000 (Hikari default) |
+| `leakDetectionThreshold` | 0 (off); a value below 2000 is refused by Hikari. Set it to find connections that are not closed |
+| `maxLifetime` | 1800000 (Hikari default) |
+
+Oracle only (not run here, only compiled):
+
+| Property | Default | Meaning |
+|---|---|---|
+| `org.adempiere.db.oracle.defaultRowPrefetch` | 100 | Rows per round trip. The driver default of 10 is low for a report that reads thousands of rows; 100 divides the round trips by 10 and keeps about 100 rows per open statement in memory. `0` leaves the driver default. |
+| `org.adempiere.db.oracle.implicitStatementCacheSize` | 0 (off) | Size of the ojdbc implicit statement cache (`oracle.jdbc.implicitStatementCacheSize`, an ojdbc6 11.2 property). Off until it is measured on Oracle, because every cached statement keeps an open cursor (keep it below `open_cursors`). |
+
+`ValidateConnectionPool` builds a second pool with `new DB_PostgreSQL()` to prove an override and closes it; the pool of the test JVM is not touched.
+Its opt-in scenario (`ADEMPIERE_BENCHMARK=true`) prints, for four print formats with the definition cache off, the statements, the
+connection round trips and the time of a cold `getPrintData`.
 
 ## Data left in the database
 

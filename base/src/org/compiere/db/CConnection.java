@@ -1367,11 +1367,13 @@ public class CConnection implements Serializable, Cloneable
 				log.severe(exception.getMessage());
 				ee = exception;
 			}
-			//	Verify Connection
+			//	Verify Connection.
+			//	The transaction isolation is not read back: getTransactionIsolation() is a round trip to the
+			//	database (SHOW TRANSACTION ISOLATION LEVEL in PostgreSQL) on every checkout. It only repeated what
+			//	AdempiereDatabase.getFromConnectionPool guarantees (applyConnectionState), so the check stays
+			//	there, where the value that the pool gives is known. autoCommit is read from the driver (local).
 			if (connection != null)
 			{
-				if (connection.getTransactionIsolation() != transactionIsolation)
-					connection.setTransactionIsolation (transactionIsolation);
 				if (connection.getAutoCommit() != autoCommit)
 					connection.setAutoCommit (autoCommit);
 				m_okDB = true;
@@ -1454,11 +1456,9 @@ public class CConnection implements Serializable, Cloneable
 				log.severe(exception.getMessage());
 				ee = exception;
 			}
-			//	Verify Connection
+			//	Verify Connection (isolation: see getConnection)
 			if (connection != null)
 			{
-				if (connection.getTransactionIsolation() != transactionIsolation)
-					connection.setTransactionIsolation (transactionIsolation);
 				if (connection.getAutoCommit() != autoCommit)
 					connection.setAutoCommit (autoCommit);
 				m_okDB = true;
