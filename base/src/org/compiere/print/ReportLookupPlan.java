@@ -43,19 +43,112 @@ final class ReportLookupPlan
 	{
 		final String table;
 		final String key;
+		/** item that selects the foreign key, null for a nested join */
 		final ReportLookupItem foreignKey;
+		/** join of the table that holds the foreign key, null for a top level join */
+		final Join parent;
+		/** foreign key column of the parent table, null for a top level join */
+		final String column;
+		/** 1 for a top level join, 2 for a join nested in it, and so on */
+		final int depth;
+		/** lookup numbers inside the alias: n for a top level join, n_m for a nested one */
+		final String path;
 		final String alias;
 		/** alias of the translation table, null if the identifier is not read from it */
 		final String translationAlias;
+		/** nested joins already numbered under this join */
+		int children;
 
-		private Join(String table, String key, ReportLookupItem foreignKey, String alias, String translationAlias)
+		private Join(String table, String key, ReportLookupItem foreignKey, Join parent, String column, String path,
+			String alias, String translationAlias)
 		{
 			this.table = table;
 			this.key = key;
 			this.foreignKey = foreignKey;
+			this.parent = parent;
+			this.column = column;
+			this.depth = parent == null ? 1 : parent.depth + 1;
+			this.path = path;
 			this.alias = alias;
 			this.translationAlias = translationAlias;
 		}
+
+		/** @return CASE that gives NULL, as the embedded SELECT does, when the row (or its translation) is missing */
+		String guard(String expression)
+		{
+			StringBuilder sql = new StringBuilder("CASE WHEN ").append(alias).append(".").append(key).append(" IS NOT NULL");
+			if (translationAlias != null)
+				sql.append(" AND ").append(translationAlias).append(".").append(key).append(" IS NOT NULL");
+			return sql.append(" THEN ").append(expression).append(" END").toString();
+		}
+	}
+
+	/** Deepest level of nested lookups that is joined, deeper ones stay correlated SELECTs */
+	static final int MAX_DEPTH = 3;
+
+	/**
+	 * 	Joins the nested TableDir columns of the identifier of one join.
+	 * 	A nested join is reused only for the same parent alias and the same column.
+	 */
+	private final class NestedJoins implements MLookupFactory.NestedLookups
+	{
+		private final Join parent;
+
+		private NestedJoins(Join parent)
+		{
+			this.parent = parent;
+		}
+
+		@Override
+		public String join(MLookupFactory.TableDirEmbed nested, String parentAlias, String column)
+		{
+			if (parent.depth >= MAX_DEPTH || nested.hasVirtualColumn() || !nested.isJoinable())
+				return null;
+			Join join = null;
+			for (Join existing : joins)
+			{
+				if (existing.parent == parent && existing.column.equals(column))
+				{
+					join = existing;
+					break;
+				}
+			}
+			int mark = joins.size();
+			boolean isNew = join == null;
+			if (isNew)
+			{
+				String path = parent.path + "_" + (parent.children + 1);
+				join = newJoin(nested, null, parent, column, path);
+				parent.children++;
+				joins.add(join);
+			}
+			String expression = nested.getDisplayExpression(join.alias, join.translationAlias, new NestedJoins(join));
+			if (expression == null)
+			{
+				if (isNew)
+				{
+					parent.children--;
+					while (joins.size() > mark)
+						joins.remove(joins.size() - 1);
+				}
+				return null;
+			}
+			return join.guard(expression);
+		}
+	}
+
+	private Join newJoin(MLookupFactory.TableDirEmbed embed, ReportLookupItem foreignKey, Join parent, String column, String path)
+	{
+		String table = embed.getTableName();
+		boolean translated = embed.isTranslationJoin();
+		String alias = parent == null && path.indexOf('_') < 0
+			? ReportLookupAlias.lookup(table, Integer.parseInt(path), baseTable)
+			: ReportLookupAlias.lookup(table, path, baseTable);
+		String translationAlias = !translated ? null
+			: parent == null && path.indexOf('_') < 0
+				? ReportLookupAlias.translation(table, Integer.parseInt(path), baseTable)
+				: ReportLookupAlias.translation(table, path, baseTable);
+		return new Join(table, embed.getKeyColumn(), foreignKey, parent, column, path, alias, translationAlias);
 	}
 
 	private final Language language;
@@ -95,25 +188,31 @@ final class ReportLookupPlan
 		Join join = null;
 		for (Join existing : joins)
 		{
-			if (existing.table.equals(table) && existing.foreignKey.expression.equals(foreignKey.expression))
+			if (existing.parent == null && existing.table.equals(table)
+				&& existing.foreignKey.expression.equals(foreignKey.expression))
 			{
 				join = existing;
 				break;
 			}
 		}
 		boolean isNew = join == null;
+		int mark = joins.size();
 		if (isNew)
 		{
-			int n = joins.size() + 1;
-			join = new Join(table, embed.getKeyColumn(), foreignKey,
-				ReportLookupAlias.lookup(table, n, baseTable),
-				embed.isTranslationJoin() ? ReportLookupAlias.translation(table, n, baseTable) : null);
-		}
-		String expression = embed.getDisplayExpression(join.alias, join.translationAlias);
-		if (expression == null)
-			return false;
-		if (isNew)
+			int n = 1;
+			for (Join existing : joins)
+				if (existing.parent == null)
+					n++;
+			join = newJoin(embed, foreignKey, null, null, String.valueOf(n));
 			joins.add(join);
+		}
+		String expression = embed.getDisplayExpression(join.alias, join.translationAlias, new NestedJoins(join));
+		if (expression == null)
+		{
+			while (joins.size() > mark)
+				joins.remove(joins.size() - 1);
+			return false;
+		}
 		display.join = join;
 		display.display = expression;
 		return true;
@@ -166,11 +265,7 @@ final class ReportLookupPlan
 			first = false;
 			if (item.join != null)
 			{
-				Join join = item.join;
-				sql.append("CASE WHEN ").append(join.alias).append(".").append(join.key).append(" IS NOT NULL");
-				if (join.translationAlias != null)
-					sql.append(" AND ").append(join.translationAlias).append(".").append(join.key).append(" IS NOT NULL");
-				sql.append(" THEN ").append(item.display).append(" END AS ").append(item.alias);
+				sql.append(item.join.guard(item.display)).append(" AS ").append(item.alias);
 			}
 			else
 			{
@@ -182,8 +277,11 @@ final class ReportLookupPlan
 		sql.append(" FROM (").append(inner).append(") ").append(baseTable);
 		for (Join join : joins)
 		{
+			String parentColumn = join.parent == null
+				? baseTable + "." + join.foreignKey.innerName
+				: join.parent.alias + "." + join.column;
 			sql.append(" LEFT OUTER JOIN ").append(join.table).append(" ").append(join.alias)
-				.append(" ON (").append(baseTable).append(".").append(join.foreignKey.innerName)
+				.append(" ON (").append(parentColumn)
 				.append("=").append(join.alias).append(".").append(join.key).append(")");
 			if (join.translationAlias != null)
 			{

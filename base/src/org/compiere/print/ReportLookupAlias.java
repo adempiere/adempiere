@@ -49,6 +49,31 @@ public final class ReportLookupAlias
 	}
 
 	/**
+	 * Alias of a nested lookup table
+	 * @param tableName lookup table name
+	 * @param path lookup path: number of the top level lookup, then the number of the nested lookup in its
+	 * parent, and so on (3_1_2)
+	 * @param baseTable table of the report, the alias is never equal to it
+	 * @return alias in the form Word_n_m (Word_n_m_k deeper)
+	 */
+	public static String lookup(String tableName, String path, String baseTable)
+	{
+		return build(tableName, "_" + path, baseTable);
+	}
+
+	/**
+	 * Alias of the translation table of a nested lookup table
+	 * @param tableName lookup table name (not the _Trl table)
+	 * @param path lookup path, see {@link #lookup(String, String, String)}
+	 * @param baseTable table of the report, the alias is never equal to it
+	 * @return alias in the form Word_Trl_n_m
+	 */
+	public static String translation(String tableName, String path, String baseTable)
+	{
+		return build(tableName, "_Trl_" + path, baseTable);
+	}
+
+	/**
 	 * Alias of the translation table of a lookup table
 	 * @param tableName lookup table name (not the _Trl table)
 	 * @param n lookup number (1-based)

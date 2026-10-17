@@ -931,6 +931,22 @@ public class MLookupFactory
 	}	//  getTableDirEmbed
 
 	/**
+	 * 	Resolves a nested TableDir/Search(_ID) identifier column of a lookup table with a join instead of
+	 * 	a correlated SELECT.
+	 */
+	public interface NestedLookups
+	{
+		/**
+		 * 	@param nested identifier definition of the table the nested column references
+		 * 	@param parentAlias alias of the table that holds the column
+		 * 	@param column nested column (foreign key)
+		 * 	@return CASE expression over the joined tables that has the NULLs of the embedded SELECT,
+		 * 		or null to keep the embedded SELECT correlated to parentAlias
+		 */
+		String join (TableDirEmbed nested, String parentAlias, String column);
+	}
+
+	/**
 	 * 	Identifier definition of the table referenced by a TableDir column.
 	 */
 	static public class TableDirEmbed
@@ -1031,8 +1047,23 @@ public class MLookupFactory
 		 */
 		public String getDisplayExpression (String tableAlias, String translationAlias)
 		{
+			return getDisplayExpression(tableAlias, translationAlias, (NestedLookups)null);
+		}
+
+		/**
+		 * 	Display expression of the identifier columns for the given table aliases, as used in a LEFT OUTER JOIN.
+		 * 	Nested TableDir/Search(_ID) identifier columns are offered to the resolver, which may answer with a
+		 * 	joined expression; when it answers null (or there is no resolver) they stay embedded SELECTs
+		 * 	correlated to the table alias.
+		 * 	@param tableAlias alias of the referenced table
+		 * 	@param translationAlias alias of the translation table (used if {@link #isTranslationJoin()})
+		 * 	@param nested resolver of nested TableDir lookups or null
+		 * 	@return expression or null when it cannot be produced
+		 */
+		public String getDisplayExpression (String tableAlias, String translationAlias, NestedLookups nested)
+		{
 			boolean[] failed = new boolean[1];
-			String expression = getDisplayExpression(tableAlias, translationAlias, failed);
+			String expression = getDisplayExpression(tableAlias, translationAlias, nested, failed);
 			return failed[0] ? null : expression;
 		}
 
@@ -1042,7 +1073,7 @@ public class MLookupFactory
 		private String getEmbedSQL (String BaseTable, String BaseColumn)
 		{
 			StringBuffer embedSQL = new StringBuffer("SELECT ");
-			embedSQL.append(getDisplayExpression(tableName, tableName + "_Trl", new boolean[1]));
+			embedSQL.append(getDisplayExpression(tableName, tableName + "_Trl", null, new boolean[1]));
 			embedSQL.append(" FROM ").append(tableName);
 			//  Translation
 			if (isTranslationJoin())
@@ -1066,7 +1097,7 @@ public class MLookupFactory
 			return embedSQL.toString();
 		}
 
-		private String getDisplayExpression (String tableRef, String trlRef, boolean[] failed)
+		private String getDisplayExpression (String tableRef, String trlRef, NestedLookups nested, boolean[] failed)
 		{
 			StringBuffer embedSQL = new StringBuffer();
 			int size = columns.size();
@@ -1091,14 +1122,30 @@ public class MLookupFactory
 				else if ((ldc.DisplayType == DisplayType.TableDir || ldc.DisplayType == DisplayType.Search)
 				  && ldc.ColumnName.endsWith("_ID"))
 				{
-					String embeddedSQL;
-					if (ldc.IsVirtual)
-						embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef, ldc.ColumnSQL);
+					String joined = null;
+					if (nested != null && !ldc.IsVirtual)
+					{
+						TableDirEmbed nestedEmbed = getTableDirEmbed(language, ldc.ColumnName);
+						if (nestedEmbed == null)
+							failed[0] = true;
+						else
+							joined = nested.join(nestedEmbed, tableRef, ldc.ColumnName);
+					}
+					if (joined != null)
+					{
+						embedSQL.append("NVL(").append(joined).append(",'')");
+					}
 					else
-						embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef);
-					if (Util.isEmpty(embeddedSQL))
-						failed[0] = true;
-					embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
+					{
+						String embeddedSQL;
+						if (ldc.IsVirtual)
+							embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef, ldc.ColumnSQL);
+						else
+							embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef);
+						if (Util.isEmpty(embeddedSQL))
+							failed[0] = true;
+						embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
+					}
 				}
 				//	Table - teo_sarca [ 1714261 ]
 				else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)

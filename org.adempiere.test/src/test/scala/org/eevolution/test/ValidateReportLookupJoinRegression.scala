@@ -43,6 +43,8 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   private val GardenWorldUserRole = 103
   private val DeliveryDetailFormat = 1000005 // RV_InOutDetails, ReportView 151: IsSOTrx='Y' (unqualified)
   private val SalesOrderFormat = 1000003 // C_Order
+  private val OrderLineFormat = 1000008 // C_OrderLine: S_ContractLine_ID chains S_Contract, C_BPartner and C_DocType
+  private val OrderDetailFormat = 1000004 // RV_OrderDetail: M_Lot_ID chains M_Product (translated)
   private val QualifiedWhereFormat = 50016 // A_Depreciation_Exp, ReportView 53009: A_Depreciation_Exp.A_Entry_Type='TRN'
   private val PaymentViewReportView = 155 // C_Payment_v: DocStatus IN ('CO','CL') AND IsAllocated='N' (unqualified)
 
@@ -116,7 +118,68 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
   private val LookupJoin = """LEFT OUTER JOIN (\w+(?<!_Trl)) (\w+_\d+) ON \(""".r
-  private val TranslationJoin = """LEFT OUTER JOIN (\w+_Trl) (\w+_Trl_\d+) ON \(""".r
+  private val TranslationJoin = """LEFT OUTER JOIN (\w+_Trl) (\w+_Trl_\d+(?:_\d+)*) ON \(""".r
+  private val AnyJoin = """LEFT OUTER JOIN (\w+(?<!_Trl)) (\w+) ON \((\w+)\.(\w+)=(\w+)\.(\w+)\)""".r
+  private val AliasPath = """^(.+?)((?:_\d+)+)$""".r
+  private val TranslationPath = """_Trl_(\d+(?:_\d+)*)$""".r
+
+  /** Join of a lookup table with a semantic alias <Word>_<n>[_<m>[_<k>]]; a nested one hangs on the alias of its parent */
+  private case class JoinRow(table: String, alias: String, parentAlias: String, column: String, key: String) {
+    val path: String = alias match {
+      case AliasPath(_, numbers) => numbers.drop(1)
+      case _ => ""
+    }
+    def isLookup: Boolean = path.nonEmpty
+    def depth: Int = if (path.isEmpty) 0 else path.split("_").length
+  }
+
+  private def lookupJoins(sql: String): Vector[JoinRow] =
+    AnyJoin.findAllMatchIn(sql).map(m => JoinRow(m.group(1), m.group(2), m.group(3), m.group(4), m.group(6))).toVector.filter(_.isLookup)
+
+  /** The join of a lookup table: top level (parent = the derived table) or nested on the alias of its parent */
+  private def joinOf(sql: String, table: String, parentAlias: String): JoinRow =
+    lookupJoins(sql).find(j => j.table == table && j.parentAlias == parentAlias).getOrElse(fail(s"$table is not joined on $parentAlias"))
+
+  /** Nested TableDir / Search(_ID) identifier columns of a table that the join path chains (dictionary oracle, base language) */
+  private val nestedColumnCache = scala.collection.mutable.Map.empty[String, Vector[String]]
+  private def nestedColumns(table: String): Vector[String] = nestedColumnCache.getOrElseUpdate(table, {
+    val statement = DB.prepareStatement(
+      "SELECT c.ColumnName FROM AD_Table t INNER JOIN AD_Column c ON (c.AD_Table_ID=t.AD_Table_ID) " +
+        "WHERE t.TableName=? AND c.IsIdentifier='Y' AND c.AD_Reference_ID IN (19,30) AND c.ColumnName LIKE '%\\_ID' " +
+        "AND (c.ColumnSQL IS NULL OR TRIM(c.ColumnSQL)='') ORDER BY c.SeqNo", null)
+    statement.setString(1, table)
+    val rs = statement.executeQuery()
+    val columns = try Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(rs, statement)
+    columns.filter { column =>
+      val embed = org.compiere.model.MLookupFactory.getTableDirEmbed(language(English), column)
+      embed != null && embed.isJoinable && !embed.hasVirtualColumn
+    }
+  })
+
+  /** The nested TableDir columns of every joined lookup are LEFT OUTER JOINs up to depth 3 and correlated subselects below it */
+  private def nestedJoinProblems(sql: String): Vector[String] = {
+    val problems = ArrayBuffer.empty[String]
+    val rows = lookupJoins(sql)
+    rows.foreach { parent =>
+      nestedColumns(parent.table).foreach { column =>
+        val child = rows.find(r => r.parentAlias == parent.alias && r.column == column)
+        val subselect = sql.contains(s" WHERE ${parent.alias}.$column=")
+        if (parent.depth < 3) {
+          if (child.isEmpty) problems += s"${parent.alias}.$column is not joined"
+          if (subselect) problems += s"${parent.alias}.$column keeps a nested display subselect"
+          child.foreach { c =>
+            val expected = s"${parent.path}_${rows.filter(_.parentAlias == parent.alias).indexOf(c) + 1}"
+            if (c.path != expected) problems += s"${c.alias} should have the path $expected"
+            if (c.key != c.column) problems += s"${c.alias} is joined by ${c.key}, not by $column"
+          }
+        } else {
+          if (child.isDefined) problems += s"${parent.alias}.$column is joined below the depth limit"
+          if (!subselect) problems += s"${parent.alias}.$column must stay a subselect correlated to ${parent.alias}"
+        }
+      }
+    }
+    problems.toVector
+  }
 
   /** Compare the PrintData built by both strategies. Returns the problems found (empty = identical). */
   private def differences(legacy: Run, join: Run): Vector[String] = {
@@ -172,18 +235,19 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       if (sql.contains(" AS ")) {
         // semantic aliases only: TableName_n / TableName_Trl_n, at most 30 characters
         val baseTable = pd.getTableName
-        LookupJoin.findAllMatchIn(sql).foreach { m =>
-          val (table, alias) = (m.group(1), m.group(2))
-          val n = alias.substring(alias.lastIndexOf('_') + 1).toInt
-          if (alias != ReportLookupAlias.lookup(table, n, baseTable)) problems += s"unexpected lookup alias $alias for $table"
-          if (alias.length > 30) problems += s"alias longer than 30 characters: $alias"
-          if (alias.equalsIgnoreCase(baseTable)) problems += s"alias equals the base table: $alias"
+        lookupJoins(sql).foreach { row =>
+          if (row.alias != ReportLookupAlias.lookup(row.table, row.path, baseTable)) problems += s"unexpected lookup alias ${row.alias} for ${row.table}"
+          if (row.alias.length > 30) problems += s"alias longer than 30 characters: ${row.alias}"
+          if (row.alias.equalsIgnoreCase(baseTable)) problems += s"alias equals the base table: ${row.alias}"
+          if (row.depth > 3) problems += s"join deeper than the depth limit: ${row.alias}"
+          if (row.depth > 1 && !lookupJoins(sql).exists(p => p.alias == row.parentAlias && p.path == row.path.substring(0, row.path.lastIndexOf('_'))))
+            problems += s"nested join ${row.alias} is not on a parent join: ${row.parentAlias}"
         }
         TranslationJoin.findAllMatchIn(sql).foreach { m =>
           val (trlTable, alias) = (m.group(1), m.group(2))
-          val n = alias.substring(alias.lastIndexOf('_') + 1).toInt
+          val path = TranslationPath.findFirstMatchIn(alias).map(_.group(1)).getOrElse("")
           val table = trlTable.substring(0, trlTable.length - "_Trl".length)
-          if (alias != ReportLookupAlias.translation(table, n, baseTable)) problems += s"unexpected translation alias $alias for $trlTable"
+          if (alias != ReportLookupAlias.translation(table, path, baseTable)) problems += s"unexpected translation alias $alias for $trlTable"
           if (alias.length > 30) problems += s"alias longer than 30 characters: $alias"
         }
       }
@@ -406,21 +470,24 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(lookups.nonEmpty)
         assert(subselectLookups(result.join) == 0, "no top level TableDir display subselect expected")
         assert(joinedLookups(result.join) == lookups.size)
-        val joins = LookupJoin.findAllMatchIn(sql).toVector
+        val joins = lookupJoins(sql)
+        val topLevel = joins.filter(_.depth == 1)
         // join reuse: one join per distinct foreign key, never more than lookups
-        assert(joins.nonEmpty && joins.size <= lookups.size)
-        assert(joins.map(_.group(2)).distinct.size == joins.size)
+        assert(topLevel.nonEmpty && topLevel.size <= lookups.size)
+        assert(joins.map(_.alias).distinct.size == joins.size)
       }
       And("the lookups are joined by foreign key with the domain word of the table as alias, e.g. LEFT OUTER JOIN C_BPartner BPartner_1")
-      val joinOn = """LEFT OUTER JOIN (\w+) (\w+_\d+) ON \((\w+)\.(\w+)=(\w+_\d+)\.(\w+)\)""".r
       results.foreach { result =>
-        val matches = joinOn.findAllMatchIn(result.join.sql).toVector
-        assert(matches.nonEmpty)
-        matches.foreach { m =>
-          assert(m.group(3) == result.join.pd.get.getTableName, s"join must start from the derived table: ${m.matched}")
-          assert(m.group(5) == m.group(2) && m.group(4) == m.group(6), m.matched)
-          val word = ReportLookupAlias.word(m.group(1))
-          assert(m.group(2).startsWith(word.take(ReportLookupAlias.MAX_LENGTH - s"_${m.group(2).split("_").last}".length)), m.matched)
+        val joins = lookupJoins(result.join.sql)
+        assert(joins.nonEmpty)
+        joins.foreach { join =>
+          if (join.depth == 1)
+            assert(join.parentAlias == result.join.pd.get.getTableName, s"join must start from the derived table: ${join.alias}")
+          else
+            assert(joins.exists(_.alias == join.parentAlias), s"nested join must start from a join: ${join.alias}")
+          assert(join.column == join.key, join.alias)
+          val word = ReportLookupAlias.word(join.table)
+          assert(join.alias.startsWith(word.take(ReportLookupAlias.MAX_LENGTH - s"_${join.path}".length)), join.alias)
         }
       }
       val bpartner = ReportLookupAlias.word("C_BPartner")
@@ -527,6 +594,125 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(alias.isDefined, "M_Product translation is not joined")
         assert(after.join.sql.contains(s"AND ${alias.get}.M_Product_ID IS NOT NULL THEN"))
         info(s"rows of the product: $rowsOfProduct")
+      }
+    }
+
+
+    Scenario("Nested TableDir identifiers are chained LEFT OUTER JOINs") {
+      Given("the order line, order detail and order print formats, whose lookups have TableDir identifier columns")
+      val results = Vector(OrderLineFormat, OrderDetailFormat, SalesOrderFormat).map(id => compare(storedFormat(id), id, language(English)))
+      Then("the data is identical")
+      assertNoProblems(results)
+      And("no nested display subselect is left up to depth 3, and the joins hang on the alias of their parent")
+      results.foreach { result =>
+        val joins = lookupJoins(result.join.sql)
+        info(s"format ${result.formatId}: ${joins.count(_.depth == 1)} joins, ${joins.count(_.depth == 2)} nested, ${joins.count(_.depth == 3)} at depth 3")
+        assert(joins.exists(_.depth >= 2), s"format ${result.formatId} has no nested join")
+        assert(nestedJoinProblems(result.join.sql).isEmpty, nestedJoinProblems(result.join.sql).mkString("; "))
+        assert(!result.join.sql.substring(result.join.sql.indexOf(") " + result.join.pd.get.getTableName)).contains("(SELECT"),
+          "the outer statement must not have subselects for these formats")
+      }
+      And("S_ContractLine chains S_Contract, which chains C_BPartner and C_DocType, as <Word>_<n>_<m> aliases")
+      val sql = results.head.join.sql
+      val joins = lookupJoins(sql)
+      val line = joinOf(sql, "S_ContractLine", "C_OrderLine")
+      val contract = joinOf(sql, "S_Contract", line.alias)
+      val partner = joinOf(sql, "C_BPartner", contract.alias)
+      val docType = joinOf(sql, "C_DocType", contract.alias)
+      assert(line.depth == 1 && contract.depth == 2 && partner.depth == 3 && docType.depth == 3)
+      assert(contract.alias == ReportLookupAlias.lookup("S_Contract", s"${line.path}_1", "C_OrderLine"))
+      assert(partner.alias == ReportLookupAlias.lookup("C_BPartner", s"${line.path}_1_1", "C_OrderLine"))
+      assert(docType.alias == ReportLookupAlias.lookup("C_DocType", s"${line.path}_1_2", "C_OrderLine"))
+      assert(sql.contains(s"LEFT OUTER JOIN S_Contract ${contract.alias} ON (${line.alias}.S_Contract_ID=${contract.alias}.S_Contract_ID)"))
+      info(s"${line.alias} -> ${contract.alias} -> ${partner.alias}, ${docType.alias}")
+    }
+
+    Scenario("Every table based print format chains its nested lookups the same way") {
+      val results = sweep(English)
+      val problems = results.filter(_.compared).flatMap(r => nestedJoinProblems(r.join.sql).map(p => s"format ${r.formatId}: $p"))
+      assert(problems.isEmpty, problems.mkString("\n  "))
+      val nested = results.filter(_.compared).map(r => lookupJoins(r.join.sql).count(_.depth >= 2)).sum
+      info(s"$nested nested joins in ${results.count(_.compared)} print formats")
+      assert(nested > 0)
+    }
+
+    Scenario("A nested lookup whose foreign key is NULL shows what the subselect shows") {
+      withTrx { trx =>
+        Given("order lines of projects whose C_ProjectStatus_ID is NULL, and of a project that has a status")
+        val status = DB.getNextID(Env.getAD_Client_ID(Env.getCtx), "C_ProjectStatus", null)
+        insert("INSERT INTO C_ProjectStatus (C_ProjectStatus_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Value,Name,SeqNo) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ','RLJ Status',7)",
+          trx, Integer.valueOf(status), Integer.valueOf(Env.getAD_Client_ID(Env.getCtx)))
+        assert(DB.executeUpdateEx("UPDATE C_Project SET C_ProjectStatus_ID=? WHERE C_Project_ID=101", Array[Object](Integer.valueOf(status)), trx) == 1)
+        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=100 WHERE C_OrderLine_ID=105", Array[Object](), trx) == 1)
+        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=101 WHERE C_OrderLine_ID=106", Array[Object](), trx) == 1)
+        When("the order line print format is generated by both strategies")
+        val result = compare(() => new MPrintFormat(Env.getCtx, OrderLineFormat, trx), OrderLineFormat, language(English), trx = trx)
+        Then("the data is identical, NULL and empty display values included")
+        assertNoProblems(Vector(result))
+        val programs = cells(result.legacy.pd.get).flatMap(_.find(_.name == "C_Project_ID")).map(_.value)
+        info(s"project displays: ${programs.distinct.mkString(" | ")}")
+        assert(programs.contains("Standard - Standard -  - "), "the project without status shows an empty nested display")
+        assert(programs.exists(_.contains(" - RLJ - RLJ Status - ")), "the project with status shows the nested display")
+        And("the status is joined below the project, with the CASE guard that keeps the NULL of the subselect")
+        val project = joinOf(result.join.sql, "C_Project", "C_OrderLine")
+        val nested = joinOf(result.join.sql, "C_ProjectStatus", project.alias)
+        assert(result.join.sql.contains(s"NVL(CASE WHEN ${nested.alias}.C_ProjectStatus_ID IS NOT NULL THEN "))
+        assert(result.join.sql.contains(s"LEFT OUTER JOIN C_ProjectStatus ${nested.alias} ON (${project.alias}.C_ProjectStatus_ID=${nested.alias}.C_ProjectStatus_ID)"))
+        assert(!result.join.sql.contains(s"INNER JOIN C_ProjectStatus"))
+      }
+    }
+
+    Scenario("A nested translated identifier is joined by language and keeps the guard in es_MX") {
+      withTrx { trx =>
+        Given("a lot of a translated product used by the only order detail row with an attribute set instance")
+        val client = Env.getAD_Client_ID(Env.getCtx)
+        val lot = DB.getNextID(client, "M_Lot", null)
+        insert("INSERT INTO M_Lot (M_Lot_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Name,M_Product_ID) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ Lot',134)", trx, Integer.valueOf(lot), Integer.valueOf(client))
+        assert(DB.executeUpdateEx("UPDATE M_AttributeSetInstance SET M_Lot_ID=? WHERE M_AttributeSetInstance_ID=1000000", Array[Object](Integer.valueOf(lot)), trx) == 1)
+        When("the order detail print format is generated in es_MX by both strategies")
+        val format = () => new MPrintFormat(Env.getCtx, OrderDetailFormat, trx)
+        val before = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
+        Then("the data is identical and the product of the lot is read from M_Product_Trl")
+        assertNoProblems(Vector(before))
+        val lotJoin = joinOf(before.join.sql, "M_Lot", "RV_OrderDetail")
+        val product = joinOf(before.join.sql, "M_Product", lotJoin.alias)
+        val trl = s"""LEFT OUTER JOIN M_Product_Trl (\\w+) ON \\(${product.alias}\\.M_Product_ID=""".r.findFirstMatchIn(before.join.sql).map(_.group(1))
+        assert(trl.contains(ReportLookupAlias.translation("M_Product", product.path, "RV_OrderDetail")), trl.toString)
+        assert(before.join.sql.contains(s"${trl.get}.AD_Language='$Spanish'"))
+        assert(before.join.sql.contains(s"CASE WHEN ${product.alias}.M_Product_ID IS NOT NULL AND ${trl.get}.M_Product_ID IS NOT NULL THEN "))
+        val lots = cells(before.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        info(s"lot display: ${lots.mkString(" | ")}")
+        assert(lots.exists(_.contains("RLJ Lot")))
+        And("without the es_MX translation of the product both paths show the same display")
+        assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), trx) == 1)
+        val after = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
+        assertNoProblems(Vector(after))
+        val lotsAfter = cells(after.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        info(s"lot display without translation: ${lotsAfter.mkString(" | ")}")
+        assert(lotsAfter == cells(after.legacy.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value))
+        assert(lotsAfter != lots, "the missing translation changes the display, as it does with the subselect")
+      }
+    }
+
+    Scenario("Nested lookups below depth 3 stay subselects correlated to the deepest alias") {
+      withTrx { trx =>
+        Given("a print format of RV_M_Transaction_Costing that prints M_CostDetail_ID, whose identifier chains C_LandedCostAllocation, C_InvoiceLine and C_Invoice")
+        val formatId = insertFormat(trx, "RLJ Depth", "RV_M_Transaction_Costing", 0, Seq(
+          Item("M_CostDetail_ID", seqNo = 10), Item("M_Product_ID", seqNo = 20)))
+        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(English), trx = trx)
+        Then("the data is identical")
+        assertNoProblems(Vector(result))
+        val joins = lookupJoins(result.join.sql)
+        val costDetail = joinOf(result.join.sql, "M_CostDetail", "RV_M_Transaction_Costing")
+        val allocation = joinOf(result.join.sql, "C_LandedCostAllocation", costDetail.alias)
+        val invoiceLine = joinOf(result.join.sql, "C_InvoiceLine", allocation.alias)
+        info(s"${costDetail.alias} -> ${allocation.alias} -> ${invoiceLine.alias}")
+        assert(Seq(costDetail, allocation, invoiceLine).map(_.depth) == Seq(1, 2, 3))
+        And("C_Invoice, the fourth level, is a subselect correlated to the depth 3 alias, not a join")
+        assert(!joins.exists(_.table == "C_Invoice"))
+        assert(result.join.sql.contains(s"WHERE ${invoiceLine.alias}.C_Invoice_ID=C_Invoice.C_Invoice_ID"))
+        assert(joins.forall(_.depth <= 3))
+        assert(nestedJoinProblems(result.join.sql).isEmpty, nestedJoinProblems(result.join.sql).mkString("; "))
       }
     }
 

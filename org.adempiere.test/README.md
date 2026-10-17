@@ -99,7 +99,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 
 | Test class | Scenarios | Status | Notes |
 |---|---|---|---|
-| `ValidateReportLookupJoinRegression` | 17 | pass | Report lookups as LEFT JOINs: same rows, NULLs, GROUP BY and ORDER BY as the legacy subselects. |
+| `ValidateReportLookupJoinRegression` | 22 | pass | Report lookups as LEFT JOINs, nested TableDir identifiers chained up to depth 3 (`<Word>_<n>_<m>_<k>`): same rows, NULLs, GROUP BY and ORDER BY as the legacy subselects. |
 | `CreateSalesOrder` | 1 | pass | |
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
 | `ValidateWmRuleLocatorArgumentOrder` | 1 | pass | Creates its own WM area type and section type: GardenWorld has none. |
