@@ -16,10 +16,11 @@
 package org.eevolution.test
 
 import java.sql.ResultSet
+import java.util.logging.{Handler, Level, LogRecord}
 
 import org.compiere.model.{MColumn, MQuery, MTable}
 import org.compiere.print.{DataEngine, MPrintFormat, PrintData, PrintDataElement, ReportLookupAlias}
-import org.compiere.util.{DB, DisplayType, Env, Language, Trx}
+import org.compiere.util.{CLogger, DB, DisplayType, Env, Language, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -91,7 +92,10 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   private def functionRows(pd: PrintData): Vector[Int] = (0 until pd.getRowCount).filter(i => pd.isFunctionRow(i)).toVector
 
   /** ORDER BY clause of the statement (the outer one): same entries, same sequence, same DESC, same positions */
-  private def orderBy(sql: String): String = if (sql.contains(" ORDER BY ")) sql.substring(sql.lastIndexOf(" ORDER BY ")) else ""
+  private def orderBy(sql: String): String = OrderByStart.findAllMatchIn(sql).toVector.lastOption.map(m => " ORDER BY " + sql.substring(m.end)).getOrElse("")
+
+  /** ORDER BY starts after a space (legacy statement) or at the start of a line (join statement) */
+  private val OrderByStart = """[ \n]ORDER BY """.r
 
   private def multiset[T](values: Vector[T]): Map[T, Int] = values.groupBy(identity).view.mapValues(_.size).toMap
 
@@ -519,7 +523,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         val lookups = tableDirColumns(pd)
         info(sql)
         assert(sql.startsWith(s"$Tag${result.formatId} */ SELECT") || sql.startsWith(s"$Tag${result.formatId} */ "))
-        assert(sql.contains(s" FROM (SELECT "))
+        assert(sql.contains(s"\nFROM (SELECT "))
         assert(lookups.nonEmpty)
         assert(subselectLookups(result.join) == 0, "no top level TableDir display subselect expected")
         assert(joinedLookups(result.join) == lookups.size)
@@ -895,6 +899,76 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       info(s"bare lookups: $bare, guarded single columns: ${guarded.size}")
       assert(bare > 0)
       assert(results.exists(_.join.sql.contains("||' - '||")))
+    }
+
+    Scenario("The outer statement of the join SQL has a line break before FROM, LEFT OUTER JOIN and ORDER BY") {
+      Given("print formats with joins, with translation joins, with an ORDER BY and with a GROUP BY")
+      withTrx { trx =>
+        val grouped = insertFormat(trx, "RLJ Lines", "C_Order", insertReportView(trx, "RLJ Lines", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
+          Item("C_BPartner_ID", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
+        val formats = Vector(SalesOrderFormat, DeliveryDetailFormat, OrderLineFormat, grouped)
+        formats.foreach { formatId =>
+          Seq(English, Spanish).foreach { lang =>
+            When(s"format $formatId is generated in $lang")
+            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+            Then("the data is the same and the statement is accepted by the database")
+            assertNoProblems(Vector(result))
+            val sql = result.join.sql
+            val lines = sql.split("\n", -1).toVector
+            And("the first line is the tagged SELECT list and every other line starts with FROM, LEFT OUTER JOIN or ORDER BY")
+            assert(lines.head.startsWith(s"$Tag$formatId */ "), lines.head.take(80))
+            assert(lines.tail.forall(l => l.startsWith("FROM (SELECT ") || l.startsWith("LEFT OUTER JOIN ") || l.startsWith("ORDER BY ")), sql)
+            assert(lines.tail.head.startsWith("FROM (SELECT "), "FROM is on the second line")
+            assert(lines.count(_.startsWith("FROM ")) == 1)
+            And("there is one line per join and one for the ORDER BY, none inside the statement of the report")
+            assert(lines.count(_.startsWith("LEFT OUTER JOIN ")) == lookupJoins(sql).size + TranslationJoin.findAllMatchIn(sql).size)
+            assert(lines.count(_.startsWith("ORDER BY ")) == (if (result.legacy.sql.contains(" ORDER BY ")) 1 else 0))
+            assert(!sql.contains("\r") && !sql.contains("\n\n"))
+            assert(lines.tail.head.contains(") " + result.join.pd.get.getTableName), "the statement of the report is on the FROM line")
+          }
+        }
+      }
+    }
+
+    Scenario("The legacy statement has no line breaks") {
+      Given("every table based print format generated with setLookupJoin(false)")
+      val legacy = sweep(English).filter(_.legacy.pd.isDefined)
+      Then("the statement is a single line, as before")
+      assert(legacy.nonEmpty)
+      assert(legacy.forall(r => !r.legacy.sql.contains("\n") && !r.legacy.sql.contains("\r")))
+    }
+
+    Scenario("The final SQL is logged once, at FINE, by DataEngine.getPrintDataInfo") {
+      Given("a handler on the logger of DataEngine at FINE")
+      val logger = CLogger.getCLogger(classOf[DataEngine])
+      case class Logged(level: Level, message: String, method: String)
+      val records = ArrayBuffer.empty[Logged]
+      val handler = new Handler {
+        // the caller is inferred from the stack of the logging call, so it is read here
+        override def publish(record: LogRecord): Unit = records.synchronized(records += Logged(record.getLevel, record.getMessage, record.getSourceMethodName))
+        override def flush(): Unit = ()
+        override def close(): Unit = ()
+      }
+      val level = logger.getLevel
+      logger.addHandler(handler)
+      logger.setLevel(Level.FINE)
+      try {
+        Seq(true, false).foreach { join =>
+          records.clear()
+          When(s"a report is generated (lookup join $join)")
+          val run = runEngine(storedFormat(SalesOrderFormat), language(English), Some(join))
+          Then("the statement appears in exactly one record")
+          val sql = run.pd.get.getSQL
+          val logged = records.synchronized(records.toVector).filter(_.message != null).filter(_.message.contains(sql))
+          assert(logged.size == 1, s"${logged.size} records contain the SQL: ${logged.map(r => s"${r.level} ${r.method}")}")
+          And("it is logged at FINE by getPrintDataInfo")
+          assert(logged.head.level == Level.FINE && logged.head.method == "getPrintDataInfo", s"${logged.head.level} ${logged.head.method}")
+          assert(!records.exists(r => r.message != null && r.message.startsWith("SQL: ")), "loadPrintData does not repeat the SQL")
+        }
+      } finally {
+        logger.removeHandler(handler)
+        logger.setLevel(level)
+      }
     }
   }
 

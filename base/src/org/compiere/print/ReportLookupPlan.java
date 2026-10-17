@@ -40,6 +40,9 @@ import org.compiere.util.Language;
  * FROM (SELECT C_Order.C_BPartner_ID AS C_BPartner_ID ... FROM C_Order WHERE ...) C_Order
  *   LEFT OUTER JOIN C_BPartner BPartner_1 ON (C_Order.C_BPartner_ID=BPartner_1.C_BPartner_ID)
  * </pre>
+ * The outer statement has a line break before FROM, each LEFT OUTER JOIN and ORDER BY, so that a DBA reads it in the
+ * trace; the statement of the report (the derived table) stays on one line.
+ * <p>
  * The CASE keeps the NULL of the subselect when there is no foreign key, no row or no translation.
  * <p>
  * A display of one column that the database declares NOT NULL needs no CASE: the LEFT OUTER JOIN gives NULL
@@ -409,7 +412,7 @@ final class ReportLookupPlan
 					sql.append(" AS ").append(item.outputName);
 			}
 		}
-		return sql.append(" FROM (").toString();
+		return sql.append("\nFROM (").toString();
 	}
 
 	/**
@@ -424,12 +427,12 @@ final class ReportLookupPlan
 			String parentColumn = join.parent == null
 				? baseTable + "." + join.foreignKey.innerName
 				: join.parent.alias + "." + join.column;
-			sql.append(" LEFT OUTER JOIN ").append(join.table).append(" ").append(join.alias)
+			sql.append("\nLEFT OUTER JOIN ").append(join.table).append(" ").append(join.alias)
 				.append(" ON (").append(parentColumn)
 				.append("=").append(join.alias).append(".").append(join.key).append(")");
 			if (join.translationAlias != null)
 			{
-				sql.append(" LEFT OUTER JOIN ").append(join.table).append("_Trl ").append(join.translationAlias)
+				sql.append("\nLEFT OUTER JOIN ").append(join.table).append("_Trl ").append(join.translationAlias)
 					.append(" ON (").append(join.alias).append(".").append(join.key)
 					.append("=").append(join.translationAlias).append(".").append(join.key)
 					.append(" AND ").append(join.translationAlias).append(".AD_Language=")

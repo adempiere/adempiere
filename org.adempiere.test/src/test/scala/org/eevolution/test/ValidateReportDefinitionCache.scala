@@ -249,10 +249,10 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     }
   }
 
-  private def orderByOf(sql: String): String = if (sql.contains(" ORDER BY ")) sql.substring(sql.lastIndexOf(" ORDER BY ")) else ""
+  private def orderByOf(sql: String): String = """[ \n]ORDER BY """.r.findAllMatchIn(sql).toVector.lastOption.map(m => sql.substring(m.start + 1)).getOrElse("")
 
   private def printedColumns(sql: String): Vector[String] =
-    """(?:C_Order\.|AS )(\w+)""".r.findAllMatchIn(sql.substring(0, sql.indexOf(" FROM "))).map(_.group(1)).toVector
+    """(?:C_Order\.|AS )(\w+)""".r.findAllMatchIn(sql.substring(0, """\sFROM\s""".r.findFirstMatchIn(sql).get.start)).map(_.group(1)).toVector
 
   Feature("Report definition cache") {
 

@@ -290,7 +290,11 @@ final class ReportDefinition
 		StringBuffer sql = new StringBuffer(filtered).append(groupBy);
 		if (lookupJoined)
 			sql = new StringBuffer(outerPrefix).append(sql).append(outerSuffix);
-		sql.append(orderBy);
+		//	the ORDER BY of the statement with joins starts a line, the legacy statement stays on one line
+		if (lookupJoined && orderBy.length() > 0)
+			sql.append("\n").append(orderBy.substring(1));
+		else
+			sql.append(orderBy);
 		//	the DBA tag goes right after the leading SELECT keyword, a statement that does not start with it stays untagged
 		if (tag.length() > 0 && sql.length() >= SELECT_KEYWORD.length()
 			&& SELECT_KEYWORD.equalsIgnoreCase(sql.substring(0, SELECT_KEYWORD.length())))

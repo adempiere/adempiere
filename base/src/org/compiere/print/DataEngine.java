@@ -526,7 +526,7 @@ public class DataEngine
 			pd.setHasDummyTableID(true);
 		}
 		
-		log.finest (finalStatement);
+		log.fine (finalStatement);
 		log.finest ("Group=" + group);
 		return pd;
 	}	//	getPrintDataInfo
@@ -1166,7 +1166,6 @@ public class DataEngine
 		boolean hasLevelNo = pd.hasLevelNo();
 		int levelNo = 0;
 		int reportLineId = 0;
-		log.log(Level.FINE, "SQL: " +pd.getSQL());
 		printData = pd;
 		//
 		PreparedStatement pstmt = null;
