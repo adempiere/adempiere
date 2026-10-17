@@ -223,7 +223,104 @@ class ResetAccountingDeletesFactsAndUnpostsDocument
         cleanup(client, invoiceId, invoiceTableId)
       }
     }    //	Scenario
+
+    Scenario("a document table without an accounting date column is reset without error") {
+      val client = Env.getContextAsInt(Context, "#AD_Client_ID")
+      val orderTableId = adTableId("PP_Order")
+
+      Given("an accounting document table whose model has no dateacct column")
+      val dateAcct = openMonthDateAcct(client)
+      val sqlInWindow = "SELECT count(*) FROM pp_order WHERE ad_client_id = ? " +
+        "AND dateordered >= ?::date AND dateordered <= ?::date + interval '1 day'"
+      val before = Trx.run(name => {
+        val rs = execQuery(sqlInWindow,
+          Array[AnyRef](Integer.valueOf(client), dateAcct, dateAcct))
+        rs.next()
+        val count = rs.getInt(1)
+        DB.close(rs)
+        count
+      })
+
+      When("the Reset Accounting process is executed for that table only")
+      val processInfo = ProcessBuilder.create(Context)
+        .process(FactAcctResetAbstract.getProcessValue)
+        .withParameter(FactAcctResetAbstract.AD_CLIENT_ID, client)
+        .withParameter(FactAcctResetAbstract.AD_TABLE_ID, orderTableId)
+        .withParameter(FactAcctResetAbstract.DATEACCT, dateAcct, dateAcct)
+        .withParameter(FactAcctResetAbstract.DELETEPOSTING, true)
+        .execute()
+
+      Then("the process executed without errors")
+      assert(!processInfo.isError)
+      info("Process summary: " + processInfo.getSummary)
+
+      And("the manufacturing orders of the month are untouched")
+      val after = Trx.run(name => {
+        val rs = execQuery(sqlInWindow,
+          Array[AnyRef](Integer.valueOf(client), dateAcct, dateAcct))
+        rs.next()
+        val count = rs.getInt(1)
+        DB.close(rs)
+        count
+      })
+      assert(after == before)
+    }    //	Scenario
+
+    Scenario("the process runs over every accounting document table without error") {
+      val client = Env.getContextAsInt(Context, "#AD_Client_ID")
+
+      Given("a month with the default schema period control")
+      val dateAcct = openMonthDateAcct(client)
+
+      When("the Reset Accounting process is executed without a table filter")
+      val processInfo = ProcessBuilder.create(Context)
+        .process(FactAcctResetAbstract.getProcessValue)
+        .withParameter(FactAcctResetAbstract.AD_CLIENT_ID, client)
+        .withParameter(FactAcctResetAbstract.DATEACCT, dateAcct, dateAcct)
+        .withParameter(FactAcctResetAbstract.DELETEPOSTING, false)
+        .execute()
+
+      Then("the process executed without errors")
+      assert(!processInfo.isError)
+      info("Process summary: " + processInfo.getSummary)
+    }    //	Scenario
   }    //	Feature
+
+  private def openMonthDateAcct(client: Int): Date = {
+    var startDate: Date = null
+    Trx.run { name =>
+      val calendar = Calendar.getInstance()
+      val rsSchema = execQuery(
+        "SELECT s.period_openfuture FROM ad_clientinfo c " +
+        "JOIN c_acctschema s ON s.c_acctschema_id = c.c_acctschema1_id " +
+        "WHERE c.ad_client_id = ?",
+        Array[AnyRef](Integer.valueOf(client)))
+      rsSchema.next()
+      val openFuture = rsSchema.getInt(1)
+      DB.close(rsSchema)
+      calendar.add(Calendar.DAY_OF_YEAR, openFuture - 15)
+      val maxStart = new Timestamp(calendar.getTimeInMillis)
+
+      val rs = execQuery(
+        "SELECT cp.startdate FROM c_period cp " +
+        "JOIN c_periodcontrol cpc ON cpc.c_period_id = cp.c_period_id " +
+        "AND cpc.ad_client_id = ? AND cpc.docbasetype IN ('APC','API','ARI','ARC','ARF') " +
+        "AND cpc.periodstatus = 'O' " +
+        "WHERE cp.ad_client_id = ? AND cp.startdate <= ? " +
+        "ORDER BY cp.startdate DESC LIMIT 1",
+        Array[AnyRef](
+          Integer.valueOf(client),
+          Integer.valueOf(client),
+          maxStart))
+      if (rs.next())
+        startDate = new Date(rs.getTimestamp(1).getTime)
+      DB.close(rs)
+    }
+    val calendar = Calendar.getInstance()
+    calendar.setTime(startDate)
+    calendar.add(Calendar.DAY_OF_YEAR, 14)
+    new Date(calendar.getTimeInMillis)
+  }    //	openMonthDateAcct
 
   /**
     * Pick the most recent month whose period control is open for sales invoices,

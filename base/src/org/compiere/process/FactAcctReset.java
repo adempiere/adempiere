@@ -36,13 +36,12 @@ import org.adempiere.core.domains.models.X_M_Production;
 import org.adempiere.core.domains.models.X_M_ProductionBatch;
 import org.adempiere.core.domains.models.X_PP_Cost_Collector;
 import org.adempiere.core.domains.models.X_PP_Order;
-import org.compiere.acct.Doc;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
 import org.compiere.model.MClient;
-import org.compiere.model.MFactAcct;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInventory;
 import org.compiere.model.MInvoice;
@@ -158,6 +157,19 @@ public class FactAcctReset extends FactAcctResetAbstract {
                 : " AND pc.PeriodStatus = ?";
 
         resetProcessing.append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Processing=? WHERE AD_Client_ID=? AND (Processing<>? OR Processing IS NULL)");
+
+        if (dateAccountingColumn == null) {
+            // The table has no accounting or business date column to scope the period filter on;
+            // only unlock the documents and leave every posted document untouched.
+            Trx.run(trxName -> {
+                AtomicInteger unlockedOnly = new AtomicInteger(0);
+                unlockedOnly.set(DB.executeUpdate(resetProcessing.toString(), new Object[]{"N", getClientId(), "N"}, false, trxName));
+                log.fine(accountingDocumentTable.getTableName() + " - Unlocked=" + unlockedOnly.get()
+                        + " - no date column available, posted documents left untouched");
+            });
+            log.warning(accountingDocumentTable.getTableName() + " has no accounting date column; the accounting reset was skipped for this table");
+            return;
+        }
 
         AtomicInteger unlocked = new AtomicInteger(0);
         // Runtime values are bound as parameters; only structural names (table, column) and the
@@ -306,7 +318,31 @@ public class FactAcctReset extends FactAcctResetAbstract {
     }    //	delete
 
     public String getDateAcct(int tableId) {
-        return Optional.ofNullable(Doc.getDateAcctColumnName(MTable.getTableName(getCtx(), tableId))).orElse(MFactAcct.COLUMNNAME_DateAcct);
+        // Resolve the accounting date column from AD_Column metadata instead of reflecting over
+        // the document Doc class (Doc.getDateAcctColumnName -> Class.forName). Reflection is
+        // unreliable here: a table whose Doc class is absent (PP_Cost_Collector) or whose Doc
+        // class depends on a package that is not on the classpath (A_Asset_Disposed) makes
+        // Class.forName return null or throw a NoClassDefFoundError (a LinkageError, not a
+        // ClassNotFoundException), which would abort the reset for the whole table.
+        if (hasActiveColumn(tableId, MFactAcct.COLUMNNAME_DateAcct))
+            return MFactAcct.COLUMNNAME_DateAcct;
+        // Some posted document tables have no accounting date column (e.g. PP_Order, DD_Order,
+        // C_BankStatement). Fall back to the first business date column registered for the
+        // table; return null when the table has none, so the caller can skip it instead of
+        // building an update against a column that does not exist.
+        for (String candidate : new String[]{"DateOrdered", "MvtDate", "StatementDate", "DatePromised", "DateInvoiced"})
+            if (hasActiveColumn(tableId, candidate))
+                return candidate;
+        return null;
+    }
+
+    private boolean hasActiveColumn(int tableId, String columnName) {
+        String whereClause = I_AD_Column.COLUMNNAME_AD_Table_ID + "=? "
+                + "AND " + I_AD_Column.COLUMNNAME_ColumnName + "=? "
+                + "AND " + I_AD_Column.COLUMNNAME_IsActive + "=?";
+        return new Query(getCtx(), I_AD_Column.Table_Name, whereClause, get_TrxName())
+                .setParameters(tableId, columnName, "Y")
+                .firstId() != 0;
     }
 
     public String getDocumentBaseType(int tableId, String tableName) {
