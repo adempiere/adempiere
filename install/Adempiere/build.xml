@@ -703,6 +703,7 @@ $CATALINA_HOME/bin/shutdown.sh
 						  maximumPoolSize="150"
 						  idleTimeout="60000"
 						  keepaliveTime="30000"
+						  registerMbeans="true"
 						  closeMethod = "close"
 						  socketFactory="com.google.cloud.sql.postgres.SocketFactory"
 						  cloudSqlInstance="INSTANCE_CONNECTION_NAME"
@@ -712,6 +713,8 @@ $CATALINA_HOME/bin/shutdown.sh
 						  dataSource.portNumber="@ADEMPIERE_DB_PORT@"
 						  dataSource.databaseName="@ADEMPIERE_DB_NAME@"
 						  dataSource.ApplicationName="ADempiere AdempiereDS"
+						  dataSource.tcpKeepAlive="true"
+						  dataSource.assumeMinServerVersion="10"
 						  dataSource.user="@ADEMPIERE_DB_USER@"
 						  dataSource.password="@ADEMPIERE_DB_PASSWORD@"/>
 
@@ -727,6 +730,7 @@ $CATALINA_HOME/bin/shutdown.sh
 						  maximumPoolSize="20"
 						  idleTimeout="30000"
 						  keepaliveTime="30000"
+						  registerMbeans="true"
 						  closeMethod = "close"
 						  socketFactory="com.google.cloud.sql.postgres.SocketFactory"
 						  cloudSqlInstance="INSTANCE_CONNECTION_NAME"
@@ -736,6 +740,8 @@ $CATALINA_HOME/bin/shutdown.sh
 						  dataSource.portNumber="@ADEMPIERE_DB_PORT@"
 						  dataSource.databaseName="@ADEMPIERE_DB_NAME@"
 						  dataSource.ApplicationName="ADempiere AdempiereSRDS"
+						  dataSource.tcpKeepAlive="true"
+						  dataSource.assumeMinServerVersion="10"
 						  dataSource.readOnlyMode="always"
 						  dataSource.user="@ADEMPIERE_DB_USER@"
 						  dataSource.password="@ADEMPIERE_DB_PASSWORD@"/>

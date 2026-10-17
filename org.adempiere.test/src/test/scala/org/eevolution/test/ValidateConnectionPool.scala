@@ -135,6 +135,9 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
   private def poolOf(database: org.compiere.db.AdempiereDatabase): HikariDataSource =
     database.getDataSource(CConnection.get()).asInstanceOf[HikariDataSource]
 
+  private def shortRunningPoolOf(database: DB_PostgreSQL): HikariDataSource =
+    database.getDataSourceShortRunning(CConnection.get()).asInstanceOf[HikariDataSource]
+
   Feature("Checkout from the pool outside a transaction") {
 
     Scenario("A statement outside a transaction costs no isolation round trip") {
@@ -246,6 +249,67 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
         info(s"application_name = $name")
         check(name == "ADempiere AdempiereDS", s"application_name = '$name'")
       } finally connection.close()
+    }
+  }
+
+  /** the pool the JVM itself uses (the one registered in JMX under its name) */
+  private def jvmPool(shortRunning: Boolean): HikariDataSource =
+    (if (shortRunning) DB.getDatabase.asInstanceOf[DB_PostgreSQL].getDataSourceShortRunning(CConnection.get()) else DB.getDatabase.getDataSource(CConnection.get()))
+      .asInstanceOf[HikariDataSource]
+
+  private def poolMBean(name: String) =
+    new javax.management.ObjectName(s"com.zaxxer.hikari:type=Pool ($name)")
+
+  /** pgjdbc has no public getter for tcpKeepAlive: it is read from the socket of the connection (what the driver configured) */
+  private def socketKeepAlive(connection: Connection): Boolean = {
+    val executor = connection.unwrap(classOf[org.postgresql.jdbc.PgConnection]).getQueryExecutor
+    val field = classOf[org.postgresql.core.QueryExecutorBase].getDeclaredField("pgStream")
+    field.setAccessible(true)
+    field.get(executor).asInstanceOf[org.postgresql.core.PGStream].getSocket.getKeepAlive
+  }
+
+  Feature("Pool properties from the Hikari and pgjdbc documentation (S23)") {
+
+    // These scenarios come first on purpose: Hikari registers one MBean per pool name, and a second pool with the
+    // same name does not register but unregisters the first one when it closes (the scenarios below build such pools).
+    Scenario("The pools of the JVM are registered in JMX and their connections keep the TCP connection alive") {
+      assume(DB.isPostgreSQL, "tcpKeepAlive and assumeMinServerVersion are pgjdbc properties")
+      val server = java.lang.management.ManagementFactory.getPlatformMBeanServer
+      Seq((false, "AdempiereDS"), (true, "AdempiereSRDS")).foreach { case (shortRunning, name) =>
+        val pool = jvmPool(shortRunning)
+        check(pool.getPoolName == name)
+        check(pool.isRegisterMbeans, s"$name: registerMbeans")
+        check(server.isRegistered(poolMBean(name)), s"$name: MBean ${poolMBean(name)} is not registered")
+        val connection = pool.getConnection
+        try check(socketKeepAlive(connection), s"$name: tcpKeepAlive is not set on the socket")
+        finally connection.close()
+      }
+    }
+
+    Scenario("The pools built by the database declare the three properties") {
+      assume(DB.isPostgreSQL, "tcpKeepAlive and assumeMinServerVersion are pgjdbc properties")
+      val database = new DB_PostgreSQL()
+      val pools = Seq(poolOf(database), shortRunningPoolOf(database))
+      try pools.foreach { pool =>
+        val properties = pool.getDataSourceProperties
+        info(s"${pool.getPoolName}: registerMbeans ${pool.isRegisterMbeans}, tcpKeepAlive ${properties.get("tcpKeepAlive")}, assumeMinServerVersion ${properties.get("assumeMinServerVersion")}")
+        check(pool.isRegisterMbeans, s"${pool.getPoolName}: registerMbeans")
+        check(properties.get("tcpKeepAlive") == "true", s"${pool.getPoolName}: tcpKeepAlive")
+        check(properties.get("assumeMinServerVersion") == "10", s"${pool.getPoolName}: assumeMinServerVersion")
+        check(properties.getProperty("ApplicationName").startsWith("ADempiere Adempiere"), "the existing properties stay")
+      } finally pools.foreach(_.close())
+    }
+
+    Scenario("The system properties still override the pool settings") {
+      assume(DB.isPostgreSQL, "the pool settings are asserted on the PostgreSQL pool")
+      System.setProperty(PoolPrefix + "maximumPoolSize", "9")
+      try {
+        val pool = poolOf(new DB_PostgreSQL())
+        try {
+          check(pool.getMaximumPoolSize == 9)
+          check(pool.isRegisterMbeans && pool.getDataSourceProperties.get("tcpKeepAlive") == "true")
+        } finally pool.close()
+      } finally System.clearProperty(PoolPrefix + "maximumPoolSize")
     }
   }
 

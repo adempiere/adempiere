@@ -4,6 +4,8 @@
         <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
         <driver>AdempiereSLib.jar</driver>
         <connection-property name="ApplicationName">ADempiere AdempiereDS</connection-property>
+        <connection-property name="tcpKeepAlive">true</connection-property>
+        <connection-property name="assumeMinServerVersion">10</connection-property>
         <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
         <pool>
             <min-pool-size>11</min-pool-size>
@@ -31,6 +33,8 @@
         <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
         <driver>AdempiereSLib.jar</driver>
         <connection-property name="ApplicationName">ADempiere AdempiereSRDS</connection-property>
+        <connection-property name="tcpKeepAlive">true</connection-property>
+        <connection-property name="assumeMinServerVersion">10</connection-property>
         <connection-property name="readOnly">true</connection-property>
         <connection-property name="readOnlyMode">always</connection-property>
         <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>

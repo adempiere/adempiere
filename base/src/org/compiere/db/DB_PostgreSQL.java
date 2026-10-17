@@ -568,6 +568,17 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	
 
 	/**
+	 * 	Configure the pgjdbc driver properties of a Hikari pool built without JNDI (the same as the JNDI templates):
+	 * 	tcpKeepAlive keeps the TCP connections of an idle pool open through firewalls and NAT, and
+	 * 	assumeMinServerVersion saves the server version round trip per new connection (PostgreSQL 10 or later).
+	 *	@param config pool configuration
+	 */
+	private static void configurePgjdbc(HikariConfig config) {
+		config.addDataSourceProperty("tcpKeepAlive", "true");
+		config.addDataSourceProperty("assumeMinServerVersion", "10");
+	}
+
+	/**
 	 * 	Create DataSource (Client)
 	 *	@param connection connection
 	 *	@return data dource
@@ -591,6 +602,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 				config.setPoolName("AdempiereDS");
 				AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 				config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereDS");
+				configurePgjdbc(config);
 				datasourceLongRunning = new HikariDataSource(config);;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
@@ -631,6 +643,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 							config.setPoolName("AdempiereDS");
 							AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 							config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereDS");
+							configurePgjdbc(config);
 							return new HikariDataSource(config);
 						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
 			}
@@ -665,6 +678,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 				config.setMaximumPoolSize(10);
 				AdempiereDatabase.configureShortRunningPool(config);
 				config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereSRDS");
+				configurePgjdbc(config);
 				//	setReadOnly alone does not stop a write in autoCommit mode with the default readOnlyMode
 				config.addDataSourceProperty("readOnlyMode", "always");
 				HikariDataSource cpds = new HikariDataSource(config);
@@ -706,6 +720,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 							config.setMaximumPoolSize(5);
 							AdempiereDatabase.configureShortRunningPool(config);
 							config.addDataSourceProperty("ApplicationName", "ADempiere AdempiereSRDS");
+							configurePgjdbc(config);
 							//	setReadOnly alone does not stop a write in autoCommit mode with the default readOnlyMode
 							config.addDataSourceProperty("readOnlyMode", "always");
 							return new HikariDataSource(config);

@@ -361,6 +361,7 @@ public interface AdempiereDatabase
 
 	/**
 	 * Configure the connection state defaults of a Hikari pool and apply the overrides of the JVM system properties.
+	 * The pool registers its MBean (<code>com.zaxxer.hikari:type=Pool (poolName)</code>) so that waits and usage can be monitored through JMX.
 	 * Call it after the settings of the database, so that a system property wins.
 	 * @param config pool configuration
 	 * @param propertyPrefix {@link #POOL_PROPERTY_PREFIX} or {@link #POOL_PROPERTY_PREFIX_SHORT_RUNNING}
@@ -369,6 +370,7 @@ public interface AdempiereDatabase
 	{
 		config.setAutoCommit(POOL_DEFAULT_AUTO_COMMIT);
 		config.setTransactionIsolation("TRANSACTION_READ_COMMITTED");
+		config.setRegisterMbeans(true);
 		override(propertyPrefix, "maximumPoolSize", value -> config.setMaximumPoolSize(Math.toIntExact(value)));
 		override(propertyPrefix, "minimumIdle", value -> config.setMinimumIdle(Math.toIntExact(value)));
 		override(propertyPrefix, "idleTimeout", config::setIdleTimeout);

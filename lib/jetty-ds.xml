@@ -20,9 +20,18 @@
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">60000</Set>
                         <Set name="keepaliveTime">30000</Set>
+                        <Set name="registerMbeans">true</Set>
                         <Call name="addDataSourceProperty">
                             <Arg>ApplicationName</Arg>
                             <Arg>ADempiere AdempiereDS</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>tcpKeepAlive</Arg>
+                            <Arg>true</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>assumeMinServerVersion</Arg>
+                            <Arg>10</Arg>
                         </Call>
                     </New>
                 </Arg>
@@ -49,9 +58,18 @@
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">30000</Set>
                         <Set name="keepaliveTime">30000</Set>
+                        <Set name="registerMbeans">true</Set>
                         <Call name="addDataSourceProperty">
                             <Arg>ApplicationName</Arg>
                             <Arg>ADempiere AdempiereSRDS</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>tcpKeepAlive</Arg>
+                            <Arg>true</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>assumeMinServerVersion</Arg>
+                            <Arg>10</Arg>
                         </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>readOnlyMode</Arg>
