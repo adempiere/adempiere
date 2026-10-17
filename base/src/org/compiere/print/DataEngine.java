@@ -45,8 +45,10 @@ import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
+import org.postgresql.PGStatement;
 
 /**
  * Data Engine.
@@ -179,6 +181,39 @@ public class DataEngine
 
 	/** Override of the REPORT_DEFINITION_CACHE SysConfig, null = use SysConfig */
 	private Boolean m_definitionCacheOverride = null;
+
+	/** SysConfig: rows per round trip of the report read, 0 reads the whole result at once (no fetch size) */
+	public static final String REPORT_FETCH_SIZE = "REPORT_FETCH_SIZE";
+
+	/** Default of REPORT_FETCH_SIZE: 1000 rows per round trip bounds the driver buffer to about 1000 result rows (about a MB for a wide
+	 *  report row) while a report of 100,000 rows still needs only 100 round trips; 0 restores the whole-result read */
+	public static final int DEFAULT_FETCH_SIZE = 1000;
+
+	/** Override of the REPORT_FETCH_SIZE SysConfig, null = use SysConfig */
+	private Integer m_fetchSizeOverride = null;
+
+	/**
+	 * 	Force the fetch size of the report read of this engine, independent of the REPORT_FETCH_SIZE SysConfig.
+	 * 	@param fetchSize rows per round trip, 0 = read the whole result at once, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setFetchSize (Integer fetchSize)
+	{
+		m_fetchSizeOverride = fetchSize;
+		return this;
+	}	//	setFetchSize
+
+	/**
+	 * 	Fetch size of the report read
+	 * 	@param ctx context
+	 * 	@return rows per round trip, 0 = whole result at once
+	 */
+	public int getFetchSize (Properties ctx)
+	{
+		int fetchSize = m_fetchSizeOverride != null ? m_fetchSizeOverride.intValue()
+			: MSysConfig.getIntValue(REPORT_FETCH_SIZE, DEFAULT_FETCH_SIZE, Env.getAD_Client_ID(ctx));
+		return Math.max(fetchSize, 0);
+	}	//	getFetchSize
 
 	/**
 	 * 	Force the report definition cache of this engine, independent of the REPORT_DEFINITION_CACHE SysConfig.
@@ -1095,6 +1130,27 @@ public class DataEngine
 	}	//  getTableReference
 
 	
+	/**
+	 * 	The report SQL runs once with the literals of its filters: PostgreSQL must not keep a server-side prepared statement
+	 * 	(pgjdbc prepares one after 5 executions of the same SQL on a connection), because its plan, made for a small volume,
+	 * 	would be reused on a large one. Sets prepareThreshold=0 on this statement only.
+	 * 	@param pstmt report statement
+	 */
+	private void setOneOff (PreparedStatement pstmt)
+	{
+		if (!DB.isPostgreSQL())
+			return;
+		try
+		{
+			if (pstmt.isWrapperFor(PGStatement.class))
+				pstmt.unwrap(PGStatement.class).setPrepareThreshold(0);
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.FINE, "prepareThreshold", e);
+		}
+	}	//	setOneOff
+
 	/**************************************************************************
 	 * 	Load Data into PrintData
 	 * 	@param pd print data with SQL and ColumnInfo set
@@ -1115,9 +1171,21 @@ public class DataEngine
 		//
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Trx readTrx = null;
 		try
 		{
-			pstmt = DB.prepareStatement(pd.getSQL(), m_trxName);
+			String trxName = m_trxName;
+			int fetchSize = getFetchSize(format.getCtx());
+			//	pgjdbc streams a result only with autoCommit=false: read inside a short transaction of its own
+			if (fetchSize > 0 && trxName == null && DB.isPostgreSQL())
+			{
+				readTrx = Trx.get(Trx.createTrxName("RptRead_"), true);
+				trxName = readTrx.getTrxName();
+			}
+			pstmt = DB.prepareStatement(pd.getSQL(), trxName);
+			setOneOff(pstmt);
+			if (fetchSize > 0)
+				pstmt.setFetchSize(fetchSize);
 			rs = pstmt.executeQuery();
 			//	Row Loop
 			while (rs.next())
@@ -1312,6 +1380,11 @@ public class DataEngine
 		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
+			if (readTrx != null)
+			{
+				readTrx.rollback();
+				readTrx.close();
+			}
 		}
 
 		//	Add Total Lines

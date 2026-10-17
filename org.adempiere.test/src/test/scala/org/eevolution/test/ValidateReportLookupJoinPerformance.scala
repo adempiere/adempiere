@@ -16,6 +16,7 @@
 package org.eevolution.test
 
 import java.io.File
+import java.lang.management.ManagementFactory
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.sql.{Connection, ResultSet}
@@ -500,6 +501,103 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     }
   }
 
+  // ---- report read: fetch size ---------------------------------------------------------------------------------------
+
+  private val ReadRuns = 5
+  private val ReadFetchSize = 1000
+  private case class ReadMeasure(rows: Int, peakHeapMb: Double, allocatedMb: Double, endToEndMs: Double)
+  private case class ReadComparison(target: Target, volume: String, whole: ReadMeasure, batched: ReadMeasure)
+
+  private val readComparisons = ArrayBuffer.empty[ReadComparison]
+  private val readNotes = ArrayBuffer.empty[String]
+
+  private def usedHeap(): Long = { val r = Runtime.getRuntime; r.totalMemory - r.freeMemory }
+
+  private val threadBean = ManagementFactory.getThreadMXBean match {
+    case b: com.sun.management.ThreadMXBean => Some(b)
+    case _ => None
+  }
+
+  /** One report read. Returns rows, peak heap above the heap in use before the read (a sampler thread polls the heap while
+    * getPrintData runs; garbage is included), bytes allocated by this thread and the end-to-end time.
+    */
+  private def readOnce(format: MPrintFormat, fetchSize: Int, trxName: String): (Int, Double, Double, Double) = {
+    System.gc()
+    val baseline = usedHeap()
+    @volatile var peak = baseline
+    @volatile var running = true
+    val sampler = new Thread(() => while (running) { peak = math.max(peak, usedHeap()); Thread.`yield`() })
+    sampler.setDaemon(true)
+    val allocatedBefore = threadBean.map(_.getThreadAllocatedBytes(Thread.currentThread.getId)).getOrElse(0L)
+    sampler.start()
+    val start = System.nanoTime()
+    val rows =
+      try new DataEngine(language, trxName).setLookupJoin(true).setFetchSize(fetchSize)
+        .getPrintData(Env.getCtx, format, new MQuery(), false, 0).getRowCount
+      finally running = false
+    val elapsed = (System.nanoTime() - start) / 1e6
+    sampler.join()
+    val allocated = threadBean.map(_.getThreadAllocatedBytes(Thread.currentThread.getId)).getOrElse(0L) - allocatedBefore
+    (rows, math.max(peak - baseline, 0L) / 1048576.0, allocated / 1048576.0, elapsed)
+  }
+
+  /** fetch size 0 and fetch size 1000 interleaved: median of ReadRuns runs each */
+  private def measureRead(target: Target, volume: String, trxName: String): ReadComparison = {
+    val format = MPrintFormat.get(Env.getCtx, target.formatId, true)
+    readOnce(format, 0, trxName); readOnce(format, ReadFetchSize, trxName) // warmup
+    val runs = (1 to ReadRuns).map(_ => (readOnce(format, 0, trxName), readOnce(format, ReadFetchSize, trxName)))
+    def summary(pick: ((Int, Double, Double, Double), (Int, Double, Double, Double)) => (Int, Double, Double, Double)) = {
+      val values = runs.map(r => pick(r._1, r._2))
+      ReadMeasure(values.head._1, median(values.map(_._2)), median(values.map(_._3)), median(values.map(_._4)))
+    }
+    ReadComparison(target, volume, summary((a, _) => a), summary((_, b) => b))
+  }
+
+  private def assertSameReadRows(c: ReadComparison): Unit =
+    assert(c.whole.rows == c.batched.rows, s"${c.target.table} ${c.volume}: ${c.whole.rows} rows with fetch size 0, ${c.batched.rows} with $ReadFetchSize")
+
+  Feature("Report read: fetch size 0 (whole result at once) against REPORT_FETCH_SIZE 1000") {
+    info("Opt-in: set ADEMPIERE_BENCHMARK=true. Peak heap is sampled while DataEngine.getPrintData runs; end-to-end time is the median of 5 runs")
+
+    targets.foreach { target =>
+      Scenario(s"Report read, natural volume: ${target.table} (print format ${target.formatId})") {
+        requireEnabled()
+        Given("the production path: no transaction (with fetch size the engine reads inside a short transaction of its own)")
+        val comparison = measureRead(target, "natural", null)
+        readComparisons += comparison
+        info(s"${comparison.whole.rows} rows, peak heap ${fmt(comparison.whole.peakHeapMb)} -> ${fmt(comparison.batched.peakHeapMb)} MB, " +
+          s"time ${fmt(comparison.whole.endToEndMs)} -> ${fmt(comparison.batched.endToEndMs)} ms")
+        Then("both read the same number of rows")
+        assertSameReadRows(comparison)
+      }
+    }
+
+    Scenario("Report read, scaled volume: rows multiplied inside a transaction that is always rolled back") {
+      requireEnabled()
+      assume(DB.isPostgreSQL, "The scaled scenario needs PostgreSQL (generate_series); skipped on this database")
+      val before = scaleTables.map(t => t.name -> count(t.name))
+      val outcome = Try {
+        inRolledBackTrx { trx =>
+          scaleTables.foreach { t =>
+            scaleTable(t, trx)
+            if (count(t.name) != before.toMap.apply(t.name))
+              throw new IllegalStateException(s"Refusing to continue: ${t.name} rows are visible outside the transaction")
+          }
+          readNotes += s"Scale $scale: " + scaleTables.map(t => s"${t.name} ${before.toMap.apply(t.name)} -> ${count(t.name, trx)} rows").mkString(", ")
+          targets.map(target => measureRead(target, s"scaled x$scale", trx.getTrxName))
+        }
+      }
+      val after = scaleTables.map(t => t.name -> count(t.name))
+      Then("no row is left behind")
+      assert(after == before, s"rows left in the database: before $before, after $after")
+      val scaled = outcome.get
+      readComparisons ++= scaled
+      And("both read the same number of rows")
+      scaled.foreach(c => info(s"${c.target.table}: ${c.whole.rows} rows, peak heap ${fmt(c.whole.peakHeapMb)} -> ${fmt(c.batched.peakHeapMb)} MB, time ${fmt(c.whole.endToEndMs)} -> ${fmt(c.batched.endToEndMs)} ms"))
+      scaled.foreach(assertSameReadRows)
+    }
+  }
+
   private def fmt(value: Double): String = String.format(Locale.ROOT, "%.2f", Double.box(value))
 
   private def ratio(legacy: Double, join: Double): String = if (join <= 0) "n/a" else String.format(Locale.ROOT, "%.2fx", Double.box(legacy / join))
@@ -594,8 +692,30 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     out.toString
   }
 
-  private def writeReport(): Unit = if (comparisons.nonEmpty || cacheComparisons.nonEmpty) {
-    val text = (if (comparisons.nonEmpty) report else "") + (if (cacheComparisons.nonEmpty) cacheReport else "")
+  private def readReport: String = {
+    val out = new StringBuilder
+    def line(text: String = ""): Unit = out.append(text).append('\n')
+    line()
+    line(s"# Report read: whole result at once (fetch size 0) against fetch size $ReadFetchSize")
+    line()
+    line(s"* Natural volume: no transaction (the engine opens a short read transaction of its own for the fetch size). Scaled volume: inside the rolled back transaction of the scale (factor $scale)")
+    line(s"* Median of $ReadRuns runs each, interleaved, after a warmup; `System.gc()` before each run")
+    line("* Peak heap = the highest heap in use that a sampler thread saw while `getPrintData` ran, minus the heap in use before it (garbage included, so indicative); both runs keep the same `PrintData` result")
+    line("* Allocated = bytes allocated by the thread that runs the report (`ThreadMXBean`); n/a when the JVM does not provide it")
+    readNotes.foreach(n => line(s"* $n"))
+    line("* Ratio = fetch size 0 / fetch size " + ReadFetchSize + " (greater than 1.00x: the fetch size is better)")
+    line()
+    line("| Format | Table | Volume | Rows | Peak heap MB (0) | Peak heap MB (1000) | Heap ratio | Allocated MB (0) | Allocated MB (1000) | Time ms (0) | Time ms (1000) | Time ratio |")
+    line("|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
+    readComparisons.foreach { c =>
+      line(s"| ${c.target.formatId} | ${c.target.table} | ${c.volume} | ${c.whole.rows} | ${fmt(c.whole.peakHeapMb)} | ${fmt(c.batched.peakHeapMb)} | ${ratio(c.whole.peakHeapMb, c.batched.peakHeapMb)} | " +
+        s"${fmt(c.whole.allocatedMb)} | ${fmt(c.batched.allocatedMb)} | ${fmt(c.whole.endToEndMs)} | ${fmt(c.batched.endToEndMs)} | ${ratio(c.whole.endToEndMs, c.batched.endToEndMs)} |")
+    }
+    out.toString
+  }
+
+  private def writeReport(): Unit = if (comparisons.nonEmpty || cacheComparisons.nonEmpty || readComparisons.nonEmpty) {
+    val text = (if (comparisons.nonEmpty) report else "") + (if (cacheComparisons.nonEmpty) cacheReport else "") + (if (readComparisons.nonEmpty) readReport else "")
     val path = sys.env.get("ADEMPIERE_BENCHMARK_REPORT").filter(_.trim.nonEmpty).map(new File(_)).getOrElse {
       val module = new File("org.adempiere.test")
       new File(if (module.isDirectory) "org.adempiere.test/target" else "target", "report-lookup-join-benchmark.md")

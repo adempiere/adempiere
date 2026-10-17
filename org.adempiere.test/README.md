@@ -307,3 +307,35 @@ you see, and create the master data your database may lack (the demo GardenWorld
 * sbt-dotenv prints an `InaccessibleObjectException` stack trace when it loads `.env` on JDK 17. It is harmless.
 * Tests that depend on the data of your database (for example the print formats, the warehouse rules or the
   process definitions) can fail on a database that is not the standard GardenWorld.
+
+## Report read tuning (`ValidateReportReadTuning`)
+
+`DataEngine.loadPrintData` reads the data of a report with two PostgreSQL-oriented settings:
+
+* **One-off statement.** The report SQL carries the literals of its filters and runs once, so its statement gets
+  `prepareThreshold=0` (`PGStatement.setPrepareThreshold(0)` through `unwrap`, on that statement only). pgjdbc would
+  otherwise server-side prepare it at the 5th execution on a pooled connection and reuse a plan built for a small volume
+  on a large one. Dictionary statements keep the driver default.
+* **Fetch size.** `SysConfig` `REPORT_FETCH_SIZE` (default `1000`, `0` = read the whole result at once, as before) and
+  `DataEngine.setFetchSize(Integer)` (public override, `null` = SysConfig). pgjdbc only streams with `autoCommit=false`:
+  inside a `Trx` the fetch size is set on the statement; without a `Trx` (and on PostgreSQL) the engine reads inside a
+  short transaction of its own (READ COMMITTED, like every `Trx`) that is always rolled back and closed in `finally`.
+  Other databases only get `setFetchSize`. Data, order and row count do not change.
+
+`ValidateReportReadTuning` (6 scenarios) checks:
+
+* after 7 runs of the same report through one transaction, `pg_prepared_statements` of that connection holds no
+  statement with the `/* AD_PrintFormat_ID=<id> */` tag (a control statement of an ordinary query is prepared, so the
+  detector works); PostgreSQL only;
+* the fetch size comes from `REPORT_FETCH_SIZE` or the override (negative values mean 0);
+* SQL, columns, cells and order are identical for fetch size 0, 1000 and 7, with and without a transaction, on four
+  formats;
+* a read without a transaction leaves no registered `Trx` behind, also when the report SQL fails;
+* `Fact_Acct` multiplied by 20 inside a rolled back transaction (2,880 rows) returns every row for fetch size 0, 1000
+  and 100.
+
+The opt-in benchmark `ValidateReportLookupJoinPerformance` has a third feature, `Report read`, that compares fetch size
+0 with 1000 (interleaved, median of 5) at the natural volume (no transaction) and at the scaled volume (inside the
+rolled back transaction): peak heap above the heap in use before the read (sampled while `getPrintData` runs, garbage
+included, so indicative and noisy), bytes allocated by the thread and end-to-end time. The table is appended to the same
+markdown report. The heap figure moves with garbage collection timing: repeat the run before drawing conclusions.
