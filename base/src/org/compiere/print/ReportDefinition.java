@@ -28,6 +28,9 @@ import java.util.List;
  */
 final class ReportDefinition
 {
+	/** Leading keyword of every report statement, the DBA tag is inserted after it */
+	private static final String SELECT_KEYWORD = "SELECT ";
+
 	/**
 	 * 	Every input that changes the result of the definition
 	 */
@@ -288,8 +291,10 @@ final class ReportDefinition
 		if (lookupJoined)
 			sql = new StringBuffer(outerPrefix).append(sql).append(outerSuffix);
 		sql.append(orderBy);
-		if (tag.length() > 0)
-			sql.insert("SELECT ".length(), tag);
+		//	the DBA tag goes right after the leading SELECT keyword, a statement that does not start with it stays untagged
+		if (tag.length() > 0 && sql.length() >= SELECT_KEYWORD.length()
+			&& SELECT_KEYWORD.equalsIgnoreCase(sql.substring(0, SELECT_KEYWORD.length())))
+			sql.insert(SELECT_KEYWORD.length(), tag);
 		return sql.toString();
 	}	//	finish
 
