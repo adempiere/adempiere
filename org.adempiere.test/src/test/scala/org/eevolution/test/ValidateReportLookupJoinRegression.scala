@@ -236,6 +236,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     run.pd.foreach { pd =>
       val sql = pd.getSQL
       if (!sql.startsWith(s"$Tag$formatId */ ")) problems += s"SQL does not start with the tag: ${sql.take(60)}"
+      // the derived table is closed by OFFSET 0 on PostgreSQL, and only there
+      if (sql.contains("\nFROM (") && sql.contains(s" OFFSET 0) ${pd.getTableName}\n") != DB.isPostgreSQL)
+        problems += s"OFFSET 0 closing the derived table: expected ${DB.isPostgreSQL}, SQL ${sql.take(60)}"
       if (sql.contains(" AS ")) {
         // semantic aliases only: TableName_n / TableName_Trl_n, at most 30 characters
         val baseTable = pd.getTableName
@@ -970,6 +973,59 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         logger.setLevel(level)
       }
     }
+  }
+
+  Feature("The derived table of the join statement is a planning fence on PostgreSQL") {
+
+    Scenario("On PostgreSQL the derived table is closed by OFFSET 0 and the report keeps its rows") {
+      withTrx { trx =>
+        Given("print formats with joins, with an ORDER BY and with a GROUP BY, in English and in es_MX")
+        val grouped = insertFormat(trx, "RLJ Fence", "C_Order", insertReportView(trx, "RLJ Fence", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
+          Item("C_BPartner_ID", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
+        Vector(SalesOrderFormat, DeliveryDetailFormat, OrderLineFormat, grouped).foreach { formatId =>
+          Seq(English, Spanish).foreach { lang =>
+            When(s"format $formatId is generated in $lang by both strategies")
+            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+            assertNoProblems(Vector(result))
+            val sql = result.join.sql
+            val table = result.join.pd.get.getTableName
+            val closing = s" OFFSET 0) $table\n"
+            Then("the legacy statement has no OFFSET")
+            assert(!result.legacy.sql.contains("OFFSET"))
+            if (!DB.isPostgreSQL) {
+              And("no other database gets it")
+              assert(!sql.contains("OFFSET"))
+            } else {
+              And("the join statement closes the derived table with it, after the GROUP BY and before the outer joins and ORDER BY")
+              assert(sql.contains(closing), sql)
+              assert("OFFSET".r.findAllMatchIn(sql).size == 1, sql)
+              assert(sql.indexOf(closing) < sql.indexOf("\nLEFT OUTER JOIN "), sql)
+              if (sql.contains(" GROUP BY ")) assert(sql.indexOf(" GROUP BY ") < sql.indexOf(closing), sql)
+              if (sql.contains("\nORDER BY ")) assert(sql.indexOf(closing) < sql.indexOf("\nORDER BY "), sql)
+              And("the tag and the line breaks of the statement are kept")
+              assert(sql.startsWith(s"$Tag$formatId */ ") && sql.split("\n", -1).tail.head.startsWith("FROM (SELECT "))
+              And("the conversion of the database port leaves it in the statement")
+              val converted = DB.getDatabase.convertStatement(sql)
+              assert(converted.contains(s" OFFSET 0) $table"), converted)
+              And("the rows are the same without it")
+              val without = sql.replace(" OFFSET 0)", ")")
+              assert(without != sql)
+              assert(multiset(rowsOf(sql)) == multiset(rowsOf(without)))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /** Every row of the statement as text, the statement is run outside of any transaction */
+  private def rowsOf(sql: String): Vector[Vector[String]] = {
+    val statement = DB.prepareStatement(sql, null)
+    val rs = statement.executeQuery()
+    try {
+      val width = rs.getMetaData.getColumnCount
+      Iterator.continually(rs).takeWhile(_.next()).map(row => (1 to width).map(i => String.valueOf(row.getString(i))).toVector).toVector
+    } finally DB.close(rs, statement)
   }
 
   private case class Item(
