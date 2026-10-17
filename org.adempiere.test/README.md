@@ -115,9 +115,42 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
 | `ValidateWmRuleLocatorArgumentOrder` | 1 | pass | Creates its own WM area type and section type: GardenWorld has none. |
 | `ValidateReportWithoutCloseTrxConnection` | 2 | pass | Needs `ServerReportCtl`/`ReportExportHandler` to accept the `AD_PInstance.ReportType` list values (`P`, `C`, `H`, `X`, `XX`); the second scenario checks that an unknown type produces no file and no `NullPointerException`. |
-| `ValidateReportLookupJoinPerformance` | 5 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
+| `ValidateReportDefinitionCache` | 11 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
+| `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
+
+## Report definition cache
+
+`DataEngine` caches what the dictionary says about a report (print format items, columns, group and function specs,
+the lookup join plan, the SQL fragments that do not depend on the user, the role or the query, and the per-lookup
+metadata): a warm `getPrintData` reads nothing from `AD_PrintFormat`, `AD_PrintFormatItem`, `AD_Column`, `AD_Table`,
+`AD_Ref_Table` or `AD_ReportView`. `SysConfig` `REPORT_DEFINITION_CACHE` (default `Y`, per client) and
+`DataEngine.setDefinitionCache(Boolean)` switch it. It is dropped when a row of `AD_PrintFormat`,
+`AD_PrintFormatItem`, `AD_Column`, `AD_Table`, `AD_Ref_Table`, `AD_Reference`, `AD_ReportView` or
+`AD_ReportView_Col` is created, changed or deleted, and every 60 minutes (`ReportDefinitionCache.setExpireMillis`).
+
+`ValidateReportDefinitionCache` compares the engine with the cache switched off (the oracle) against a cold build and
+a cache hit, then changes the dictionary and checks that the next run reflects it:
+
+* the SQL and the `PrintData` of every table based print format are identical with the cache on and off, in en_US and
+  es_MX, with subselects and with joins;
+* a warm run executes no dictionary statement. This is observed with `pg_stat_statements` (a delta of the statements of
+  the database), never through the storage of the cache; without the extension the two scenarios that count statements
+  are cancelled. The extension must be in `shared_preload_libraries` and created in the database
+  (`CREATE EXTENSION pg_stat_statements`);
+* update (IsPrinted, SeqNo, SortNo), insert and delete of a print format item, a change of `AD_PrintFormatItem_Trl`,
+  of an `AD_Column` identifier, of an `AD_Ref_Table` and an insert and delete of an `AD_ReportView_Col` are visible in
+  the next run;
+* a change inside a transaction that is rolled back leaves no stale definition, and a transaction that commits is
+  visible after the commit (`org.compiere.util.Trx` has no commit or rollback listener; a transaction with an
+  uncommitted dictionary change is "dirty": no run reads from or writes to the cache until it ends);
+* 8 threads x 25 runs on one print format and on different print formats with a cold cache return the single-thread result.
+
+The scenarios that change the dictionary create a print format of `C_Order` (and, for the last scenario, an
+`AD_ReportView`) with committed saves, so the model events reach the cache like in production, and delete them in a
+`finally` block; two dictionary rows (`C_PaymentTerm.Description` and the `SalesRep_ID` reference table) are changed and
+restored. Only consumed sequence numbers stay behind. Do not run them on a database that other people are using.
 
 ## Performance benchmark of the report lookups
 
@@ -169,6 +202,25 @@ something else was using the machine or the database: run it again.
 The test fails only on a clear regression (join fetch median above the legacy median times 1.20 and more than 20 ms
 worse) or when the two paths return a different number of rows. Improvements are reported, never asserted, because
 timings are not deterministic.
+
+The lookup comparison runs with the definition cache off (`setDefinitionCache(false)`), so its figures keep meaning
+"definition read from the dictionary on every run" and stay comparable with the figures before the cache existed.
+
+### Benchmark of the report definition cache
+
+The same opt-in class has a second feature (`Definition cache: ...` scenarios, same `ADEMPIERE_BENCHMARK=true`). For the
+four formats above it measures, with the cache **off** (dictionary read on every run), **cold** (the cache and the
+`MTable`/`MColumn` caches emptied before every run: build and store) and **warm** (hits):
+
+* the definition time: `getPrintData` of a query that returns no row (median of 20 runs), so what remains is reading
+  and building the definition;
+* the end-to-end `getPrintData` time with the real query (median of 5 runs);
+* the dictionary statements of one run, from `pg_stat_statements` (`n/a` without it);
+* one pass over every active table based print format (definition only), and the heap held by the cache after
+  172 formats x 2 languages x 2 paths (`System.gc()` before and after, indicative).
+
+The report is appended to the markdown file of the lookup comparison. The scenarios fail only when a warm run executes a
+dictionary statement, when the rows differ, or when a cache hit is clearly slower than reading the dictionary.
 
 ## Data left in the database
 

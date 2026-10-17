@@ -644,8 +644,24 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 			log.fine("translations updated #" + no);
 		}
 
+		//	The report definition cache holds the items of this format
+		if (success)
+			ReportDefinitionCache.invalidate(get_TrxName());
 		return success;
 	}	//	afterSave
+
+	/**
+	 * 	After Delete
+	 *	@param success success
+	 *	@return success
+	 */
+	protected boolean afterDelete (boolean success)
+	{
+		//	The report definition cache holds the items of this format
+		if (success)
+			ReportDefinitionCache.invalidate(get_TrxName());
+		return success;
+	}	//	afterDelete
 	
 	public int[] getExecuteProcess ()
 	{

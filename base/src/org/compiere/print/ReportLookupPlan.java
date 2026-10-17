@@ -254,6 +254,17 @@ final class ReportLookupPlan
 	 */
 	String outerSelect(List<ReportLookupItem> items, String inner)
 	{
+		return outerPrefix(items) + inner + outerSuffix();
+	}
+
+	/**
+	 * 	Start of the statement of the report, up to the opening parenthesis of the inner statement.
+	 * 	Call {@link #innerSelect(List)} first.
+	 * 	@param items select items of the report
+	 * 	@return SELECT list and FROM (
+	 */
+	String outerPrefix(List<ReportLookupItem> items)
+	{
 		StringBuilder sql = new StringBuilder("SELECT ");
 		boolean first = true;
 		for (ReportLookupItem item : items)
@@ -274,7 +285,16 @@ final class ReportLookupPlan
 					sql.append(" AS ").append(item.outputName);
 			}
 		}
-		sql.append(" FROM (").append(inner).append(") ").append(baseTable);
+		return sql.append(" FROM (").toString();
+	}
+
+	/**
+	 * 	End of the statement of the report: the closing parenthesis of the inner statement, its alias and the lookup joins.
+	 * 	@return text after the inner statement
+	 */
+	String outerSuffix()
+	{
+		StringBuilder sql = new StringBuilder(") ").append(baseTable);
 		for (Join join : joins)
 		{
 			String parentColumn = join.parent == null

@@ -20,9 +20,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.print.ReportDefinitionCache;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -562,6 +565,34 @@ public class MLookupFactory
 	static public String getLookup_TableEmbed (Language language,
 		String BaseColumn, String BaseTable, int AD_Reference_Value_ID)
 	{
+		//	A report run reads it once (report definition cache), any other caller reads the dictionary
+		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
+		List<Object> key = null;
+		if (scope != null && scope.isUsable())
+		{
+			key = Arrays.<Object>asList("TableEmbed", language.getAD_Language(), BaseColumn, BaseTable,
+				Integer.valueOf(AD_Reference_Value_ID));
+			String cached = (String)scope.get(key);
+			if (cached != null)
+				return cached;
+		}
+		String embed = readLookup_TableEmbed(language, BaseColumn, BaseTable, AD_Reference_Value_ID);
+		if (key != null && embed != null)
+			scope.put(key, embed);
+		return embed;
+	}	//	getLookup_TableEmbed
+
+	/**
+	 *	Read the Embedded Lookup SQL for Table Lookup from the dictionary
+	 *  @param language report language
+	 * 	@param BaseColumn base column name
+	 * 	@param BaseTable base table name
+	 *  @param AD_Reference_Value_ID reference value
+	 *	@return	SELECT Name FROM Table or null
+	 */
+	static private String readLookup_TableEmbed (Language language,
+		String BaseColumn, String BaseTable, int AD_Reference_Value_ID)
+	{
 		String sql = "SELECT t.TableName,ck.ColumnName AS KeyColumn,"
 			+ "cd.ColumnName AS DisplayColumn,rt.isValueDisplayed,cd.IsTranslated,"
 			+ "rt.DisplaySQL "
@@ -656,7 +687,7 @@ public class MLookupFactory
 		embedSQL.append("=").append(TableNameAlias).append(".").append(KeyColumn);
 
 		return embedSQL.toString();
-	}	//	getLookup_TableEmbed
+	}	//	readLookup_TableEmbed
 
 
 	/**************************************************************************
@@ -876,6 +907,30 @@ public class MLookupFactory
 	 */
 	static public TableDirEmbed getTableDirEmbed (Language language, String ColumnName)
 	{
+		//	A report run reads it once (report definition cache), any other caller reads the dictionary
+		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
+		List<Object> key = null;
+		if (scope != null && scope.isUsable())
+		{
+			key = Arrays.<Object>asList("TableDirEmbed", language.getAD_Language(), ColumnName);
+			TableDirEmbed cached = (TableDirEmbed)scope.get(key);
+			if (cached != null)
+				return cached;
+		}
+		TableDirEmbed embed = readTableDirEmbed(language, ColumnName);
+		if (key != null && embed != null)
+			scope.put(key, embed);
+		return embed;
+	}	//  getTableDirEmbed
+
+	/**
+	 * 	Read the identifier definition of the table referenced by a TableDir column from the dictionary.
+	 *  @param language report language
+	 *  @param ColumnName column name (foreign key)
+	 *  @return identifier definition or null when it cannot be read (the error is logged)
+	 */
+	static private TableDirEmbed readTableDirEmbed (Language language, String ColumnName)
+	{
 		String KeyColumn = MQuery.getZoomColumnName(ColumnName);
 		String TableName = MQuery.getZoomTableName(ColumnName);
 
@@ -928,7 +983,7 @@ public class MLookupFactory
 			return null;
 		}
 		return new TableDirEmbed(language, ColumnName, KeyColumn, TableName, list, isTranslated);
-	}	//  getTableDirEmbed
+	}	//  readTableDirEmbed
 
 	/**
 	 * 	Resolves a nested TableDir/Search(_ID) identifier column of a lookup table with a join instead of
@@ -1003,8 +1058,25 @@ public class MLookupFactory
 		 */
 		public boolean isJoinable ()
 		{
+			Boolean memo = joinable;
+			if (memo == null)
+			{
+				memo = readJoinable();
+				if (memo == null)	//	the dictionary could not be read, the error is logged
+					return false;
+				joinable = memo;
+			}
+			return memo.booleanValue();
+		}
+
+		/** isJoinable, read from the dictionary once: the definition is shared and never changes */
+		private volatile Boolean joinable = null;
+
+		/** @return true/false as {@link #isJoinable()}, null if the dictionary could not be read */
+		private Boolean readJoinable ()
+		{
 			if (!columnName.equals(keyColumn))
-				return false;
+				return Boolean.FALSE;
 			String sql = "SELECT t.IsView, k.ColumnName FROM AD_Table t"
 				+ " INNER JOIN AD_Column k ON (k.AD_Table_ID=t.AD_Table_ID) "
 				+ "WHERE t.TableName=? AND k.IsKey='Y' AND k.IsActive='Y'";
@@ -1027,7 +1099,7 @@ public class MLookupFactory
 			catch (SQLException e)
 			{
 				s_log.log(Level.SEVERE, sql, e);
-				return false;
+				return null;
 			}
 			finally
 			{
@@ -1035,7 +1107,7 @@ public class MLookupFactory
 				rs = null;
 				pstmt = null;
 			}
-			return ok && keys == 1;
+			return Boolean.valueOf(ok && keys == 1);
 		}
 
 		/**

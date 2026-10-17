@@ -18,13 +18,14 @@ package org.eevolution.test
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
-import java.sql.ResultSet
+import java.sql.{Connection, ResultSet}
 import java.time.LocalDateTime
 import java.util.Locale
 
 import org.compiere.model.MQuery
 import org.compiere.print.{DataEngine, MPrintFormat}
-import org.compiere.util.{DB, Env, Language, Trx}
+import org.compiere.print.ReportDefinitionCache
+import org.compiere.util.{CacheMgt, DB, Env, Language, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -133,6 +134,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   private def loadData(format: MPrintFormat, join: Boolean, trx: Trx) = {
     val engine = new DataEngine(language, trx.getTrxName)
     engine.setLookupJoin(join)
+    engine.setDefinitionCache(false) // the lookup strategies are compared with the definition read on every run, as before the cache existed
     engine.getPrintData(Env.getCtx, format, new MQuery(), false, 0)
   }
 
@@ -349,6 +351,155 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     }
   }
 
+  // ---- report definition cache -------------------------------------------------------------------------------------
+
+  private val DefinitionRuns = 20
+  /** the data statement of a joined report starts with this tag; it may read AD_Table as a lookup (Fact_Acct), it is not a definition statement */
+  private val DataTag = "/* AD_PrintFormat_ID="
+  private val DictionaryTables = Vector("AD_PrintFormat", "AD_PrintFormatItem", "AD_Table", "AD_Column", "AD_Ref_Table", "AD_ReportView")
+  private val DictionaryPattern = """(?i)\b(ad_printformat|ad_printformatitem|ad_reportview|ad_reportview_col|ad_ref_table|ad_column|ad_table)\b""".r
+
+  /** definition = getPrintData of a query that returns no row (what is left is the definition), endToEnd = the real query */
+  private case class CacheMeasure(mode: String, definitionMs: Double, endToEndMs: Double, dictionaryStatements: Option[Long], rows: Int)
+  private case class CacheComparison(target: Target, off: CacheMeasure, cold: CacheMeasure, warm: CacheMeasure)
+  private case class SweepRow(mode: String, formats: Int, totalMs: Double)
+
+  private val cacheComparisons = ArrayBuffer.empty[CacheComparison]
+  private val sweepRows = ArrayBuffer.empty[SweepRow]
+  private val cacheNotes = ArrayBuffer.empty[String]
+
+  private def emptyQuery(): MQuery = { val query = new MQuery(); query.addRestriction("1=2"); query }
+
+  private def resetDefinitions(): Unit = DictionaryTables.foreach(t => CacheMgt.get().reset(t))
+
+  private def statementCalls(): Option[Map[Long, (String, Long)]] =
+    if (!DB.isPostgreSQL) None
+    else Try {
+      val connection = DB.createConnection(true, Connection.TRANSACTION_READ_COMMITTED)
+      try {
+        val statement = connection.createStatement()
+        val rs = statement.executeQuery(
+          "SELECT queryid, query, calls FROM pg_stat_statements WHERE dbid = (SELECT oid FROM pg_database WHERE datname = current_database()) " +
+            "AND query NOT ILIKE '%pg_stat_statements%'")
+        try Iterator.continually(rs).takeWhile(_.next()).map(r => r.getLong(1) -> (r.getString(2), r.getLong(3))).toMap
+        finally { rs.close(); statement.close() }
+      } finally connection.close()
+    }.toOption
+
+  /** dictionary statements (calls) between two snapshots of pg_stat_statements */
+  private def dictionaryStatements(before: Option[Map[Long, (String, Long)]], after: Option[Map[Long, (String, Long)]]): Option[Long] =
+    for (b <- before; a <- after) yield a.toVector.map { case (id, (query, calls)) =>
+      if (DictionaryPattern.findFirstIn(query).isDefined && !query.contains(DataTag)) calls - b.get(id).map(_._2).getOrElse(0L) else 0L
+    }.sum
+
+  private def runDefinition(format: MPrintFormat, cache: Boolean, restrictToNothing: Boolean): (Int, Double) = {
+    val query = new MQuery()
+    if (restrictToNothing) query.addRestriction("1=2")
+    val engine = new DataEngine(language, null)
+    engine.setLookupJoin(true)
+    engine.setDefinitionCache(cache)
+    val start = System.nanoTime
+    val data = engine.getPrintData(Env.getCtx, format, query, false, 0)
+    (data.getRowCount, (System.nanoTime - start) / 1e6)
+  }
+
+  /** mode: off = the dictionary is read on every run, cold = the cache is emptied before every run, warm = cache hits */
+  private def measureCache(target: Target, mode: String): CacheMeasure = {
+    val format = MPrintFormat.get(Env.getCtx, target.formatId, true)
+    val cache = mode != "off"
+    def prepare(): Unit = if (mode == "cold") resetDefinitions()
+    if (mode == "warm") { runDefinition(format, cache, restrictToNothing = true); runDefinition(format, cache, restrictToNothing = false) }
+    val before = statementCalls()
+    prepare()
+    runDefinition(format, cache, restrictToNothing = true)
+    val statements = dictionaryStatements(before, statementCalls())
+    val definition = (1 to DefinitionRuns).map { _ => prepare(); runDefinition(format, cache, restrictToNothing = true)._2 }
+    var rows = 0
+    val endToEnd = (1 to EndToEndRuns).map { _ => prepare(); val (r, t) = runDefinition(format, cache, restrictToNothing = false); rows = r; t }
+    CacheMeasure(mode, median(definition), median(endToEnd), statements, rows)
+  }
+
+  private lazy val tableBasedFormats: Vector[Int] = {
+    val statement = DB.prepareStatement(
+      "SELECT pf.AD_PrintFormat_ID FROM AD_PrintFormat pf" +
+        " INNER JOIN AD_Table t ON (t.AD_Table_ID=pf.AD_Table_ID)" +
+        " LEFT OUTER JOIN AD_ReportView rv ON (rv.AD_ReportView_ID=pf.AD_ReportView_ID)" +
+        " LEFT OUTER JOIN AD_Table rt ON (rt.AD_Table_ID=rv.AD_Table_ID) " +
+        "WHERE pf.IsActive='Y' AND pf.IsTableBased='Y' AND pf.AD_Client_ID IN (0,11)" +
+        " AND t.TableName NOT LIKE 'T\\_Report%' AND t.TableName NOT LIKE 'AD\\_PInstance%'" +
+        " AND COALESCE(rt.TableName,t.TableName) NOT LIKE 'T\\_Report%'" +
+        " AND COALESCE(rt.TableName,t.TableName) NOT LIKE 'AD\\_PInstance%' " +
+        "ORDER BY pf.AD_PrintFormat_ID", null)
+    val rs = statement.executeQuery()
+    try Iterator.continually(rs).takeWhile(_.next()).map(_.getInt(1)).toVector finally DB.close(rs, statement)
+  }
+
+  Feature("Report definition cache: reading the definition of the report from the dictionary against from the cache") {
+    info("Opt-in: set ADEMPIERE_BENCHMARK=true. The report is written to org.adempiere.test/target/report-lookup-join-benchmark.md")
+
+    targets.foreach { target =>
+      Scenario(s"Definition cache: ${target.table} (print format ${target.formatId})") {
+        requireEnabled()
+        Given(s"the print format ${target.formatId} on ${target.table}: ${target.why}")
+        When("the definition is read on every run (cache off), after emptying the cache before every run (cold) and from the cache (warm)")
+        val off = measureCache(target, "off")
+        val cold = measureCache(target, "cold")
+        val warm = measureCache(target, "warm")
+        cacheComparisons += CacheComparison(target, off, cold, warm)
+        Then("the same rows are returned and the warm definition does not read the dictionary")
+        info(s"definition: off ${fmt(off.definitionMs)} ms, cold ${fmt(cold.definitionMs)} ms, warm ${fmt(warm.definitionMs)} ms; " +
+          s"dictionary statements: off ${off.dictionaryStatements.getOrElse("n/a")}, cold ${cold.dictionaryStatements.getOrElse("n/a")}, warm ${warm.dictionaryStatements.getOrElse("n/a")}")
+        assert(off.rows == cold.rows && cold.rows == warm.rows, s"rows: off ${off.rows}, cold ${cold.rows}, warm ${warm.rows}")
+        warm.dictionaryStatements.foreach(n => assert(n == 0, s"a warm run executed $n dictionary statements"))
+        assert(warm.definitionMs <= off.definitionMs * RegressionFactor + RegressionMillis, "a cache hit is slower than reading the dictionary")
+      }
+    }
+
+    Scenario("Definition cache: every table based print format, one pass in en_US with joins") {
+      requireEnabled()
+      Given(s"the ${tableBasedFormats.size} active table based print formats of clients 0 and 11")
+      val formats = tableBasedFormats.map(id => MPrintFormat.get(Env.getCtx, id, true))
+      def pass(cache: Boolean): Double = {
+        val start = System.nanoTime
+        formats.foreach { format =>
+          val engine = new DataEngine(language, null)
+          engine.setLookupJoin(true)
+          engine.setDefinitionCache(cache)
+          scala.util.Try(engine.getPrintData(Env.getCtx, format, emptyQuery(), false, 0))
+        }
+        (System.nanoTime - start) / 1e6
+      }
+      pass(cache = false) // JIT and connection warm-up, not measured
+      val off = (1 to 3).map(_ => pass(cache = false))
+      val cold = (1 to 3).map { _ => resetDefinitions(); pass(cache = true) }
+      val warm = (1 to 3).map(_ => pass(cache = true))
+      sweepRows += SweepRow("off (dictionary read on every run)", formats.size, median(off))
+      sweepRows += SweepRow("cold (cache emptied before the pass)", formats.size, median(cold))
+      sweepRows += SweepRow("warm (cache hits)", formats.size, median(warm))
+      Then("a warm pass is not slower than reading the dictionary")
+      info(s"${formats.size} formats, no rows fetched: off ${fmt(median(off))} ms, cold ${fmt(median(cold))} ms, warm ${fmt(median(warm))} ms")
+      assert(median(warm) <= median(off) * RegressionFactor + RegressionMillis)
+      And("the memory held by the cache is reported")
+      def used(): Long = { System.gc(); System.gc(); Thread.sleep(200); System.gc(); Runtime.getRuntime.totalMemory - Runtime.getRuntime.freeMemory }
+      resetDefinitions()
+      val heapBefore = used()
+      Seq("en_US", "es_MX").foreach { lang =>
+        Seq(true, false).foreach { join =>
+          formats.foreach { format =>
+            val engine = new DataEngine(Language.getLanguage(lang), null)
+            engine.setLookupJoin(join)
+            engine.setDefinitionCache(true)
+            scala.util.Try(engine.getPrintData(Env.getCtx, format, emptyQuery(), false, 0))
+          }
+        }
+      }
+      val heapAfter = used()
+      val entries = ReportDefinitionCache.size()
+      cacheNotes += f"Memory: ${entries} cache entries after ${formats.size} formats x 2 languages x 2 paths, heap +${(heapAfter - heapBefore) / 1048576.0}%.1f MB (System.gc() before and after, indicative)"
+      info(cacheNotes.last)
+    }
+  }
+
   private def fmt(value: Double): String = String.format(Locale.ROOT, "%.2f", Double.box(value))
 
   private def ratio(legacy: Double, join: Double): String = if (join <= 0) "n/a" else String.format(Locale.ROOT, "%.2fx", Double.box(legacy / join))
@@ -410,8 +561,41 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     out.toString
   }
 
-  private def writeReport(): Unit = if (comparisons.nonEmpty) {
-    val text = report
+  private def cacheReport: String = {
+    val out = new StringBuilder
+    def line(text: String = ""): Unit = out.append(text).append('\n')
+    line()
+    line("# Report definition cache: dictionary read on every run (off) against the cache")
+    line()
+    line(s"* Definition = `DataEngine.getPrintData` of a query that returns no row (what remains is reading and building the definition): median of $DefinitionRuns runs")
+    line(s"* End-to-end = the real query, median of $EndToEndRuns runs, joins, en_US, committed data, no transaction")
+    line("* off: the dictionary is read on every run. cold: the cache (and the MTable/MColumn caches) is emptied before every run, so the definition is built and stored. warm: cache hits")
+    line("* Dictionary statements = statements on AD_PrintFormat, AD_PrintFormatItem, AD_Column, AD_Table, AD_Ref_Table, AD_ReportView and AD_ReportView_Col of one run, from `pg_stat_statements` (n/a without it)")
+    cacheNotes.foreach(n => line(s"* $n"))
+    line("* Speedup = off / warm")
+    line()
+    line("| Format | Table | Mode | Dictionary statements | Definition ms | End-to-end ms | Rows |")
+    line("|---|---|---|---:|---:|---:|---:|")
+    cacheComparisons.foreach { c =>
+      Seq(c.off, c.cold, c.warm).foreach { m =>
+        line(s"| ${c.target.formatId} | ${c.target.table} | ${m.mode} | ${m.dictionaryStatements.map(_.toString).getOrElse("n/a")} | ${fmt(m.definitionMs)} | ${fmt(m.endToEndMs)} | ${m.rows} |")
+      }
+      line(s"| ${c.target.formatId} | ${c.target.table} | **speedup off/warm** | | ${ratio(c.off.definitionMs, c.warm.definitionMs)} | ${ratio(c.off.endToEndMs, c.warm.endToEndMs)} | |")
+    }
+    if (sweepRows.nonEmpty) {
+      line()
+      line("## All table based print formats, one pass (definition only)")
+      line()
+      line("| Mode | Print formats | Pass ms | Per format ms |")
+      line("|---|---:|---:|---:|")
+      sweepRows.foreach(r => line(s"| ${r.mode} | ${r.formats} | ${fmt(r.totalMs)} | ${fmt(r.totalMs / r.formats)} |"))
+      if (sweepRows.size == 3) line(s"| **speedup off/warm** | | ${ratio(sweepRows.head.totalMs, sweepRows.last.totalMs)} | |")
+    }
+    out.toString
+  }
+
+  private def writeReport(): Unit = if (comparisons.nonEmpty || cacheComparisons.nonEmpty) {
+    val text = (if (comparisons.nonEmpty) report else "") + (if (cacheComparisons.nonEmpty) cacheReport else "")
     val path = sys.env.get("ADEMPIERE_BENCHMARK_REPORT").filter(_.trim.nonEmpty).map(new File(_)).getOrElse {
       val module = new File("org.adempiere.test")
       new File(if (module.isDirectory) "org.adempiere.test/target" else "target", "report-lookup-join-benchmark.md")
