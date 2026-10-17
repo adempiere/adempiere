@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.Properties;
 
 import org.adempiere.core.domains.models.X_M_SerNoCtl;
@@ -75,7 +76,11 @@ public class MSerNoCtl extends X_M_SerNoCtl
 		if (getPrefix() != null)
 			name.append(getPrefix());
 		int no = getCurrentNext();
-		name.append(no);
+		String decimalPattern = get_ValueAsString("DecimalPattern");
+		if (decimalPattern != null && !decimalPattern.isEmpty())
+			name.append(new DecimalFormat(decimalPattern).format(no));
+		else
+			name.append(no);
 		if (getSuffix() != null)
 			name.append(getSuffix());
 		//
