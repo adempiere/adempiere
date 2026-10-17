@@ -133,8 +133,14 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           val joinRows = cells(j)
           // The ORDER BY key sequence must be identical (DESC and display sorts included). Rows that share the same
           // key are a tie group: neither path defines their order, so each tie group is compared as a multiset.
-          val sortColumns = l.getColumnInfo.toVector.filter(_.getSortOrderIndex > 0).sortBy(_.getSortOrderIndex).map(_.getColumnName)
-          def sortKey(row: Vector[Cell]) = sortColumns.map(name => row.find(_.name == name).map(c => (c.key, c.display)))
+          val sortColumns = l.getColumnInfo.toVector.filter(_.getSortOrderIndex > 0).sortBy(_.getSortOrderIndex)
+            .map(c => (c.getColumnName, c.hasAlias && c.getAlias != DataEngine.KEY))
+          // The ORDER BY sorts a lookup column by its display (synthetic alias), not by its ID: two IDs with the same
+          // display (e.g. two cost elements named "Material") are tied, so the key of a lookup column is its display
+          // only. Other columns sort by their value. The per-tie-group multiset below still checks the ID/display pairs.
+          def sortKey(row: Vector[Cell]) = sortColumns.map { case (name, isLookup) =>
+            row.find(_.name == name).map(c => if (isLookup) c.value else (c.key, c.value))
+          }
           val legacyKeys = legacyRows.map(sortKey)
           val joinKeys = joinRows.map(sortKey)
           if (legacyKeys != joinKeys) problems += s"sort order differs by ${sortColumns.mkString(",")}"

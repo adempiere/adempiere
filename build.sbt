@@ -176,23 +176,6 @@ val adempiereExports = Seq(
   "--add-exports=java.base/sun.security.x509=ALL-UNNAMED"
 )
 
-/** Scala tests written against classes that this branch does not have (they follow another ADempiere branch:
-  * `org.compiere.util.PO`, `X_M_DiscountSchema` in `org.compiere.model`, `PO.query`, ...). They do not compile
-  * here and are outside the T7 scope, so the default test build skips them. Set
-  * `-Dadempiere.includeBrokenTests=true` to compile them again and see the errors.
-  */
-val brokenScalaTests = Set(
-  "CreateSalesOrder.scala",
-  "ValidateMProductEnvAttributeSetInstance.scala",
-  "ValidatePriceListAndDiscountFunctionality.scala",
-  "ValidateProductionLineReversalReference.scala"
-)
-Test / unmanagedSources := {
-  val all = (Test / unmanagedSources).value
-  if (sys.props.get("adempiere.includeBrokenTests").contains("true")) all
-  else all.filterNot(f => brokenScalaTests.contains(f.getName))
-}
-
 Test / javaOptions := Seq(adempiereProperties, "-DADEMPIERE_HOME=" + adempiereHome) ++ adempiereExports
 Test / javaHome := adempiereJavaHome
 // Without ADEMPIERE_APPS_TYPE the database layer refuses to create its connection pool; "standalone" is the

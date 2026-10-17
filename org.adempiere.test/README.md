@@ -68,8 +68,6 @@ The property wins over the variable.
 | `ADEMPIERE_SOURCE_DIR` | `adempiere.sourceDir` | the sbt build root | Source tree to compile; only change it if you build another checkout. |
 | `ADEMPIERE_APPS_TYPE` | - | `standalone` | Set by the build for the test JVM; ADempiere refuses to open the connection pool without it. |
 
-Also: `-Dadempiere.includeBrokenTests=true` compiles the Scala tests that are skipped by default (below).
-
 ## Commands
 
 Run them from the repository root.
@@ -94,13 +92,38 @@ sbt test
 The first build compiles about 4,500 Java sources (about 30 s); later runs reuse the incremental analysis
 (a run with no source change starts testing in a few seconds). `sbt clean` forces a full rebuild.
 
-## Tests skipped by default
+## Tests and status
 
-These Scala tests were written against classes that do not exist on this branch (another ADempiere branch:
-`org.compiere.util.PO`, `X_M_DiscountSchema` in `org.compiere.model`, `PO.query`, `ProcessBuilder` changes, ...).
-They do not compile, so `build.sbt` excludes them (`brokenScalaTests`):
-`CreateSalesOrder`, `ValidateMProductEnvAttributeSetInstance`, `ValidatePriceListAndDiscountFunctionality`,
-`ValidateProductionLineReversalReference`. Fix them and remove them from that list.
+Every Scala test class is compiled and run by `sbt test`. Status on a local GardenWorld database
+(PostgreSQL, JDK 17, validator stubs on `ADEMPIERE_TEST_CLASSPATH`):
+
+| Test class | Scenarios | Status | Notes |
+|---|---|---|---|
+| `ValidateReportLookupJoinRegression` | 17 | pass | Report lookups as LEFT JOINs: same rows, NULLs, GROUP BY and ORDER BY as the legacy subselects. |
+| `CreateSalesOrder` | 1 | pass | |
+| `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
+| `ValidateWmRuleLocatorArgumentOrder` | 1 | pass | Creates its own WM area type and section type: GardenWorld has none. |
+| `ValidateReportWithoutCloseTrxConnection` | 2 | pass | Needs `ServerReportCtl`/`ReportExportHandler` to accept the `AD_PInstance.ReportType` list values (`P`, `C`, `H`, `X`, `XX`); the second scenario checks that an unknown type produces no file and no `NullPointerException`. |
+
+`AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
+
+## Data left in the database
+
+The tests share the transaction `trxName` of `AdempiereTestCase`, rolled back in `afterAll`, so the records they
+create (warehouses, productions, orders, discount schemas, prices, ...) never reach the database. What does stay
+after every run: `AD_PInstance` rows (and their log) that `ProcessBuilder` creates outside that transaction (one per
+`Rpt C_Order` execution) and the document number sequences that were consumed. Nothing else accumulates.
+
+The regression test compares `ORDER BY` keys by what the statement sorts: the display of a lookup column, not its
+ID. Two IDs with the same display (for example the cost elements 100 and 1000000, both named `Material`) are a tie,
+and neither strategy defines the order inside a tie.
+
+## Writing tests that create data
+
+`PO.save()` returns `false` when the insert fails and, on PostgreSQL, the failed statement aborts the whole
+transaction, so every later `save()` fails too. A test that ignores the result only fails far away, for example
+with a `null` rule or a reference that resolves to ID 0. Use `saveEx()` for fixtures so the first error is the one
+you see, and create the master data your database may lack (the demo GardenWorld has no WM area or section types).
 
 ## Notes
 
