@@ -12,12 +12,20 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.compiere.model.MLookupFactory;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
 
@@ -33,6 +41,12 @@ import org.compiere.util.Language;
  *   LEFT OUTER JOIN C_BPartner BPartner_1 ON (C_Order.C_BPartner_ID=BPartner_1.C_BPartner_ID)
  * </pre>
  * The CASE keeps the NULL of the subselect when there is no foreign key, no row or no translation.
+ * <p>
+ * A display of one column that the database declares NOT NULL needs no CASE: the LEFT OUTER JOIN gives NULL
+ * when the row is missing, so the column is selected as it is (<code>BPartner_1.Name</code>). The displays of several
+ * columns (Oracle concatenates NULL as an empty string), the translated ones and the nullable columns keep the CASE.
+ * The nullability is read from the database catalog while the statement is built, so it is cached with the
+ * report definition.
  */
 final class ReportLookupPlan
 {
@@ -133,9 +147,11 @@ final class ReportLookupPlan
 				}
 				return null;
 			}
-			return join.guard(expression);
+			return select(join, expression);
 		}
 	}
+
+	private static final CLogger log = CLogger.getCLogger(ReportLookupPlan.class);
 
 	private Join newJoin(MLookupFactory.TableDirEmbed embed, ReportLookupItem foreignKey, Join parent, String column, String path)
 	{
@@ -149,6 +165,8 @@ final class ReportLookupPlan
 	private final Language language;
 	private final String baseTable;
 	private final ArrayList<Join> joins = new ArrayList<Join>();
+	/** Columns that the database declares NOT NULL by table, upper case, read from the catalog when first needed */
+	private final Map<String, Set<String>> notNullColumns = new HashMap<String, Set<String>>();
 
 	/**
 	 * 	@param language language of the report
@@ -211,6 +229,107 @@ final class ReportLookupPlan
 		display.join = join;
 		display.display = expression;
 		return true;
+	}
+
+	/**
+	 * 	Select text of the display of a join: the column itself when the display is one NOT NULL column of the join table,
+	 * 	otherwise the display with the CASE guard of the join.
+	 * 	@param join join of the display
+	 * 	@param expression display expression of the join
+	 * 	@return select text
+	 */
+	private String select(Join join, String expression)
+	{
+		String column = singleColumn(join, expression);
+		if (column != null && isNotNull(join.table, column))
+			return join.alias + "." + column;
+		return join.guard(expression);
+	}
+
+	/**
+	 * 	@return the column when the display is NVL(alias.Column,'') of the join table, null for any other display
+	 * 		(several columns, translation, date or number, nested lookup)
+	 */
+	private static String singleColumn(Join join, String expression)
+	{
+		if (join.translationAlias != null)
+			return null;
+		String start = "NVL(" + join.alias + ".";
+		String end = ",'')";
+		if (!expression.startsWith(start) || !expression.endsWith(end))
+			return null;
+		String column = expression.substring(start.length(), expression.length() - end.length());
+		if (column.length() == 0)
+			return null;
+		for (int i = 0; i < column.length(); i++)
+		{
+			char c = column.charAt(i);
+			if (!Character.isLetterOrDigit(c) && c != '_')
+				return null;
+		}
+		return column;
+	}
+
+	/**
+	 * 	@return true if the database declares the column NOT NULL
+	 */
+	private boolean isNotNull(String table, String column)
+	{
+		String key = table.toUpperCase();
+		Set<String> columns = notNullColumns.get(key);
+		if (columns == null)
+		{
+			columns = readNotNullColumns(table);
+			notNullColumns.put(key, columns);
+		}
+		return columns.contains(column.toUpperCase());
+	}
+
+	/**
+	 * 	Read the NOT NULL columns of a table from the database metadata (Oracle and PostgreSQL).
+	 * 	@return columns in upper case; empty if the catalog cannot be read, so the guard stays
+	 */
+	private static Set<String> readNotNullColumns(String table)
+	{
+		Set<String> columns = new HashSet<String>();
+		Connection conn = DB.getConnectionRO();
+		if (conn == null)
+			return columns;
+		ResultSet rs = null;
+		try
+		{
+			DatabaseMetaData md = conn.getMetaData();
+			String tableName = table;
+			if (md.storesUpperCaseIdentifiers())
+				tableName = table.toUpperCase();
+			else if (md.storesLowerCaseIdentifiers())
+				tableName = table.toLowerCase();
+			rs = md.getColumns(DB.getDatabase().getCatalog(), DB.getDatabase().getSchema(), tableName, null);
+			while (rs.next())
+			{
+				//	the table name is a pattern: _ matches any character
+				if (table.equalsIgnoreCase(rs.getString("TABLE_NAME")) && "NO".equals(rs.getString("IS_NULLABLE")))
+					columns.add(rs.getString("COLUMN_NAME").toUpperCase());
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.WARNING, "Cannot read the NOT NULL columns of " + table, e);
+			columns.clear();
+		}
+		finally
+		{
+			DB.close(rs);
+			try
+			{
+				conn.close();
+			}
+			catch (SQLException e)
+			{
+				log.log(Level.FINE, "Close", e);
+			}
+		}
+		return columns;
 	}
 
 	/**
@@ -281,7 +400,7 @@ final class ReportLookupPlan
 			first = false;
 			if (item.join != null)
 			{
-				sql.append(item.join.guard(item.display)).append(" AS ").append(item.alias);
+				sql.append(select(item.join, item.display)).append(" AS ").append(item.alias);
 			}
 			else
 			{
