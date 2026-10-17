@@ -159,7 +159,10 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
         val connection = trx.getConnection
         assume(!connection.getAutoCommit, "the transaction must not autocommit")
         val natural = read(FactAcctFormat, trx.getTrxName, Some(0)).getRowCount
-        Given(s"Fact_Acct multiplied by 20 inside the transaction ($natural rows read before)")
+        assume(natural > 0, "the report needs Fact_Acct rows to scale")
+        // enough copies for more than 2000 rows (several batches of 1000), whatever the accounting data of the database
+        val copies = math.max(20, 2000 / natural + 1)
+        Given(s"Fact_Acct multiplied by $copies inside the transaction ($natural rows read before)")
         val rows = outside
         val maxKey = DB.getSQLValueBD(trx.getTrxName, "SELECT MAX(Fact_Acct_ID) FROM Fact_Acct").longValue
         val statement = connection.createStatement()
@@ -170,7 +173,7 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
           statement.executeUpdate(
             s"INSERT INTO Fact_Acct (${columns.mkString(",")}) SELECT ${select.mkString(",")} " +
               "FROM (SELECT x.*, ROW_NUMBER() OVER (ORDER BY x.Fact_Acct_ID) AS rn FROM Fact_Acct x) s " +
-              "CROSS JOIN generate_series(1, 19) AS g(n)")
+              s"CROSS JOIN generate_series(1, ${copies - 1}) AS g(n)")
         } finally statement.close()
         check(DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct") == outside, "the scaled rows must not be visible outside the transaction")
 
