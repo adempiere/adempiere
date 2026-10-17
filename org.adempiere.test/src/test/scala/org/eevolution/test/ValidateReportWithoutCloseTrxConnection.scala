@@ -103,5 +103,33 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
       val trx = Trx.get(trxName, false)
       assert(trx.isActive)
     }
+
+    Scenario("An unknown report type produces no file instead of a NullPointerException") {
+      Given("a sales order")
+      import X_C_DocType.*
+      import org.eevolution.dsl.builder.OrderBuilder
+      val order = OrderBuilder(Context, trxName)
+        .AddLine(getProductByValue("Oak"), BigDecimal(1))
+        .withOrganization(Organization)
+        .withPartner(MBPartner.get(Context, "JoeBlock"))
+        .withWarehouse(Warehouse)
+        .withPriceList(MPriceList.getDefault(Context, true))
+        .withBaseDocumentType(DOCBASETYPE_SalesOrder)
+        .withSubType(DOCSUBTYPESO_StandardOrder).build()
+      When("the sales order report is requested with a report type that has no exporter")
+      import org.eevolution.services.dsl.*
+      val result = Try(ProcessBuilder.create(Context)
+        .process("Rpt C_Order")
+        .withTitle("Print Ticket")
+        .withRecordId(I_C_Order.Table_ID, order.getC_Order_ID)
+        .withReportExportFormat("NOT_A_REPORT_TYPE")
+        .withoutTransactionClose()
+        .execute(trxName))
+      Then("the report ends without a NullPointerException and without a report file")
+      result match {
+        case Failure(e) => assert(!e.isInstanceOf[NullPointerException], e.toString)
+        case Success(processInfo) => assert(processInfo.getReportAsFile == null, String.valueOf(processInfo.getReportAsFile))
+      }
+    }
   }
 }
