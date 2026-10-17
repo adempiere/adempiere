@@ -1449,10 +1449,10 @@ public class CConnection implements Serializable, Cloneable
 			//	Verify Connection (isolation: see getConnection)
 			if (connection.getAutoCommit() != autoCommit)
 				connection.setAutoCommit (autoCommit);
-			m_shortRunningFailed = false;
+			isShortRunningPoolFailing = false;
 			return connection;
 		}
-		catch (Exception | UnsatisfiedLinkError e)
+		catch (Exception | UnsatisfiedLinkError exception)
 		{
 			if (connection != null)
 			{
@@ -1464,17 +1464,17 @@ public class CConnection implements Serializable, Cloneable
 				{
 				}
 			}
-			if (!m_shortRunningFailed)
+			if (!isShortRunningPoolFailing)
 			{
-				m_shortRunningFailed = true;
-				log.warning("AdempiereSRDS gives no connection, the reports use AdempiereDS until it does: " + e);
+				isShortRunningPoolFailing = true;
+				log.warning("AdempiereSRDS gives no connection, the reports use AdempiereDS until it does: " + exception);
 			}
 			return null;
 		}
 	}	//  getConnectionShortRunning
 
 	/** The short running pool failed the last time it was asked for a connection (it is logged once) */
-	private volatile boolean m_shortRunningFailed = false;
+	private volatile boolean isShortRunningPoolFailing = false;
 
 	/**
 	 *  Get Database Exception of last connection attempt

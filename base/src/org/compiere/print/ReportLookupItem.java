@@ -28,7 +28,7 @@ final class ReportLookupItem
 	/** Column name the item has in the result of the legacy statement */
 	final String outputName;
 	/** Item is only exposed to ORDER BY (sort column that is not printed), never projected */
-	final boolean hidden;
+	final boolean isHidden;
 
 	/** Name of the item in the derived table, unique inside it. Assigned by {@link ReportLookupPlan#innerSelect(java.util.List)}, which must run before the outer statement is built. */
 	String innerName;
@@ -42,12 +42,12 @@ final class ReportLookupItem
 		this(expression, alias, outputName, false);
 	}
 
-	ReportLookupItem(String expression, String alias, String outputName, boolean hidden)
+	ReportLookupItem(String expression, String alias, String outputName, boolean isHidden)
 	{
 		this.expression = expression;
 		this.alias = alias;
 		this.outputName = outputName;
-		this.hidden = hidden;
+		this.isHidden = isHidden;
 		this.innerName = outputName;
 	}
 

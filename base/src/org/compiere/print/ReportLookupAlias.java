@@ -43,9 +43,9 @@ public final class ReportLookupAlias
 	 * @param baseTable table of the report, the alias is never equal to it
 	 * @return alias in the form Word_n
 	 */
-	public static String lookup(String tableName, int n, String baseTable)
+	public static String lookup(String tableName, int lookupNumber, String baseTable)
 	{
-		return build(tableName, "_" + n, baseTable);
+		return build(tableName, "_" + lookupNumber, baseTable);
 	}
 
 	/**
@@ -80,9 +80,9 @@ public final class ReportLookupAlias
 	 * @param baseTable table of the report, the alias is never equal to it
 	 * @return alias in the form Word_Trl_n
 	 */
-	public static String translation(String tableName, int n, String baseTable)
+	public static String translation(String tableName, int lookupNumber, String baseTable)
 	{
-		return build(tableName, "_Trl_" + n, baseTable);
+		return build(tableName, "_Trl_" + lookupNumber, baseTable);
 	}
 
 	/**
@@ -134,9 +134,9 @@ public final class ReportLookupAlias
 		return camel.toString();
 	}
 
-	private static boolean isAsciiLetter(char c)
+	private static boolean isAsciiLetter(char character)
 	{
-		return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+		return (character >= 'A' && character <= 'Z') || (character >= 'a' && character <= 'z');
 	}
 
 	private static String build(String tableName, String suffix, String baseTable)
@@ -150,9 +150,9 @@ public final class ReportLookupAlias
 
 	private static String truncate(String word, String suffix)
 	{
-		int max = MAX_LENGTH - suffix.length();
-		if (word.length() > max)
-			word = word.substring(0, max);
+		int maximumLength = MAX_LENGTH - suffix.length();
+		if (word.length() > maximumLength)
+			word = word.substring(0, maximumLength);
 		return word + suffix;
 	}
 }	//	ReportLookupAlias

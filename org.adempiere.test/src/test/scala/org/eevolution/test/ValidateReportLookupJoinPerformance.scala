@@ -61,7 +61,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   private val KeyGap = 1000000L // new keys start this far above the highest existing key
 
   private val enabled: Boolean = sys.env.get("ADEMPIERE_BENCHMARK").exists(_.trim.equalsIgnoreCase("true"))
-  private val scale: Int = sys.env.get("ADEMPIERE_BENCHMARK_SCALE").flatMap(v => Try(v.trim.toInt).toOption).filter(_ >= 1).getOrElse(200)
+  private val scale: Int = sys.env.get("ADEMPIERE_BENCHMARK_SCALE").flatMap(value => Try(value.trim.toInt).toOption).filter(_ >= 1).getOrElse(200)
 
   /** A print format under test and why it was chosen */
   private case class Target(formatId: Int, table: String, why: String)
@@ -105,26 +105,26 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   private def language = Language.getLanguage(English)
 
   /** Runs the body in a fresh transaction that is always rolled back. Refuses to run when the connection autocommits. */
-  private def inRolledBackTrx[T](body: Trx => T): T = {
-    val trx = Trx.get(Trx.createTrxName("RLJBenchmark_"), true)
+  private def inRolledBackTransaction[T](body: Trx => T): T = {
+    val transaction = Trx.get(Trx.createTrxName("RLJBenchmark_"), true)
     try {
-      val connection = trx.getConnection
+      val connection = transaction.getConnection
       if (connection == null || connection.getAutoCommit)
         throw new IllegalStateException("Refusing to run: the benchmark transaction would not be rolled back (autocommit connection)")
-      body(trx)
+      body(transaction)
     } finally {
-      trx.rollback()
-      trx.close()
+      transaction.rollback()
+      transaction.close()
     }
   }
 
-  private def count(table: String, trx: Trx = null): Int =
-    DB.getSQLValue(if (trx == null) null else trx.getTrxName, s"SELECT COUNT(*) FROM $table")
+  private def count(table: String, transaction: Trx = null): Int =
+    DB.getSQLValue(if (transaction == null) null else transaction.getTrxName, s"SELECT COUNT(*) FROM $table")
 
   private def median(values: Seq[Double]): Double = {
     val sorted = values.sorted
-    val n = sorted.size
-    if (n % 2 == 1) sorted(n / 2) else (sorted(n / 2 - 1) + sorted(n / 2)) / 2
+    val size = sorted.size
+    if (size % 2 == 1) sorted(size / 2) else (sorted(size / 2 - 1) + sorted(size / 2)) / 2
   }
 
   private def percentile95(values: Seq[Double]): Double = {
@@ -132,8 +132,8 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     sorted(math.ceil(0.95 * sorted.size).toInt - 1)
   }
 
-  private def loadData(format: MPrintFormat, join: Boolean, trx: Trx) = {
-    val engine = new DataEngine(language, trx.getTrxName)
+  private def loadData(format: MPrintFormat, join: Boolean, transaction: Trx) = {
+    val engine = new DataEngine(language, transaction.getTrxName)
     engine.setLookupJoin(join)
     engine.setDefinitionCache(false) // the lookup strategies are compared with the definition read on every run, as before the cache existed
     engine.getPrintData(Env.getCtx, format, new MQuery(), false, 0)
@@ -145,49 +145,49 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   private val SharedBuffers = """(?:hit|read)=(\d+)""".r
 
   /** EXPLAIN (ANALYZE, BUFFERS) of the SQL as the database receives it, through the connection of the transaction */
-  private def explain(sql: String, trx: Trx): Option[Explain] =
+  private def explain(sql: String, transaction: Trx): Option[Explain] =
     if (!DB.isPostgreSQL) None
     else {
-      val statement = trx.getConnection.createStatement()
-      var rs: ResultSet = null
+      val statement = transaction.getConnection.createStatement()
+      var resultSet: ResultSet = null
       try {
-        rs = statement.executeQuery("EXPLAIN (ANALYZE, BUFFERS) " + DB.getDatabase.convertStatement(sql))
-        val lines = Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector
-        val times = lines.flatMap(l => Time.findFirstMatchIn(l).map(m => m.group(1) -> m.group(2).toDouble)).toMap
-        val subPlanStarts = lines.indices.filter(i => SubPlanHeader.matches(lines(i).trim))
+        resultSet = statement.executeQuery("EXPLAIN (ANALYZE, BUFFERS) " + DB.getDatabase.convertStatement(sql))
+        val lines = Iterator.continually(resultSet).takeWhile(_.next()).map(_.getString(1)).toVector
+        val times = lines.flatMap(line => Time.findFirstMatchIn(line).map(timeMatch => timeMatch.group(1) -> timeMatch.group(2).toDouble)).toMap
+        val subPlanStarts = lines.indices.filter(lineIndex => SubPlanHeader.matches(lines(lineIndex).trim))
         // the loops of a SubPlan are the loops of its first child node
-        val loops = subPlanStarts.map { i =>
-          lines.drop(i + 1).find(_.contains("->")).map { child =>
+        val loops = subPlanStarts.map { lineIndex =>
+          lines.drop(lineIndex + 1).find(_.contains("->")).map { child =>
             if (child.contains("never executed")) 0L else Loops.findFirstMatchIn(child).map(_.group(1).toLong).getOrElse(0L)
           }.getOrElse(0L)
         }
         // shared buffers (hit + read) of the top plan node: the whole statement, SubPlans included
-        val buffers = lines.find(_.trim.startsWith("Buffers:")).map { l =>
-          SharedBuffers.findAllMatchIn(l.substring(l.indexOf("shared")).takeWhile(_ != ',')).map(_.group(1).toLong).sum
+        val buffers = lines.find(_.trim.startsWith("Buffers:")).map { line =>
+          SharedBuffers.findAllMatchIn(line.substring(line.indexOf("shared")).takeWhile(_ != ',')).map(_.group(1).toLong).sum
         }.getOrElse(0L)
         Some(Explain(times.getOrElse("Planning", 0.0), times.getOrElse("Execution", 0.0), subPlanStarts.size, loops.sum, buffers))
-      } finally DB.close(rs, statement)
+      } finally DB.close(resultSet, statement)
     }
 
   /** Executes the SQL and reads every cell of every row. Only the execution and the fetch are timed. */
-  private def fetchAll(sql: String, trx: Trx): (Int, Double) = {
-    val statement = DB.prepareStatement(sql, trx.getTrxName)
-    var rs: ResultSet = null
+  private def fetchAll(sql: String, transaction: Trx): (Int, Double) = {
+    val statement = DB.prepareStatement(sql, transaction.getTrxName)
+    var resultSet: ResultSet = null
     var rows = 0
     try {
       val start = System.nanoTime
-      rs = statement.executeQuery()
-      val columns = rs.getMetaData.getColumnCount
-      while (rs.next()) {
-        var i = 1
-        while (i <= columns) {
-          rs.getObject(i)
-          i += 1
+      resultSet = statement.executeQuery()
+      val columns = resultSet.getMetaData.getColumnCount
+      while (resultSet.next()) {
+        var columnIndex = 1
+        while (columnIndex <= columns) {
+          resultSet.getObject(columnIndex)
+          columnIndex += 1
         }
         rows += 1
       }
       (rows, (System.nanoTime - start) / 1e6)
-    } finally DB.close(rs, statement)
+    } finally DB.close(resultSet, statement)
   }
 
   /** With ADEMPIERE_BENCHMARK_SQL_DIR the SQL of both paths, as the database receives it, is saved so a DBA can run EXPLAIN by hand */
@@ -202,50 +202,50 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     * transaction. Its plan has no parameters, so it is never re-planned: a plan made for the natural volume would be reused on the
     * scaled data (hashed SubPlans and join strategies chosen for 27 rows). DISCARD PLANS only invalidates the plan cache of the session.
     */
-  private def discardCachedPlans(trx: Trx): Unit = if (DB.isPostgreSQL) {
-    val statement = trx.getConnection.createStatement()
+  private def discardCachedPlans(transaction: Trx): Unit = if (DB.isPostgreSQL) {
+    val statement = transaction.getConnection.createStatement()
     try statement.execute("DISCARD PLANS")
     finally statement.close()
   }
 
-  private def measure(target: Target, volume: String, trx: Trx): Comparison = {
-    discardCachedPlans(trx)
+  private def measure(target: Target, volume: String, transaction: Trx): Comparison = {
+    discardCachedPlans(transaction)
     val format = MPrintFormat.get(Env.getCtx, target.formatId, true)
-    val legacyData = loadData(format, join = false, trx)
-    val joinData = loadData(format, join = true, trx)
+    val legacyData = loadData(format, join = false, transaction)
+    val joinData = loadData(format, join = true, transaction)
     val legacySql = legacyData.getSQL
     val joinSql = joinData.getSQL
     dumpSql(target, legacySql, joinSql)
-    val legacyExplain = explain(legacySql, trx)
-    val joinExplain = explain(joinSql, trx)
+    val legacyExplain = explain(legacySql, transaction)
+    val joinExplain = explain(joinSql, transaction)
 
     // warmup, then measured iterations interleaved legacy/join to spread the cache effects over both paths
     (1 to WarmupRuns).foreach { _ =>
-      fetchAll(legacySql, trx)
-      fetchAll(joinSql, trx)
+      fetchAll(legacySql, transaction)
+      fetchAll(joinSql, transaction)
     }
     val legacyFetch = ArrayBuffer.empty[Double]
     val joinFetch = ArrayBuffer.empty[Double]
     var legacyRows = 0
     var joinRows = 0
     (1 to MeasuredRuns).foreach { _ =>
-      val (lr, lt) = fetchAll(legacySql, trx)
-      val (jr, jt) = fetchAll(joinSql, trx)
-      legacyRows = lr
-      joinRows = jr
-      legacyFetch += lt
-      joinFetch += jt
+      val (legacyRowCount, legacyFetchMillis) = fetchAll(legacySql, transaction)
+      val (joinRowCount, joinFetchMillis) = fetchAll(joinSql, transaction)
+      legacyRows = legacyRowCount
+      joinRows = joinRowCount
+      legacyFetch += legacyFetchMillis
+      joinFetch += joinFetchMillis
     }
 
     val legacyEndToEnd = ArrayBuffer.empty[Double]
     val joinEndToEnd = ArrayBuffer.empty[Double]
     (1 to EndToEndRuns).foreach { _ =>
-      val l0 = System.nanoTime
-      loadData(format, join = false, trx)
-      legacyEndToEnd += (System.nanoTime - l0) / 1e6
-      val j0 = System.nanoTime
-      loadData(format, join = true, trx)
-      joinEndToEnd += (System.nanoTime - j0) / 1e6
+      val legacyStart = System.nanoTime
+      loadData(format, join = false, transaction)
+      legacyEndToEnd += (System.nanoTime - legacyStart) / 1e6
+      val joinStart = System.nanoTime
+      loadData(format, join = true, transaction)
+      joinEndToEnd += (System.nanoTime - joinStart) / 1e6
     }
 
     Comparison(
@@ -256,37 +256,37 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     )
   }
 
-  private def assertSameRows(c: Comparison): Unit =
+  private def assertSameRows(comparison: Comparison): Unit =
     assert(
-      c.legacy.rows == c.join.rows,
-      s"format ${c.target.formatId} (${c.volume}): legacy fetched ${c.legacy.rows} rows, join fetched ${c.join.rows}"
+      comparison.legacy.rows == comparison.join.rows,
+      s"format ${comparison.target.formatId} (${comparison.volume}): legacy fetched ${comparison.legacy.rows} rows, join fetched ${comparison.join.rows}"
     )
 
-  private def regression(c: Comparison): Option[String] = {
-    val legacy = c.legacy.fetch.medianMs
-    val join = c.join.fetch.medianMs
+  private def regression(comparison: Comparison): Option[String] = {
+    val legacy = comparison.legacy.fetch.medianMs
+    val join = comparison.join.fetch.medianMs
     if (join > legacy * RegressionFactor && join - legacy > RegressionMillis)
-      Some(f"format ${c.target.formatId} ${c.target.table} (${c.volume}): join fetch median $join%.2f ms vs legacy $legacy%.2f ms")
+      Some(f"format ${comparison.target.formatId} ${comparison.target.table} (${comparison.volume}): join fetch median $join%.2f ms vs legacy $legacy%.2f ms")
     else None
   }
 
-  private def assertNoRegression(cs: Seq[Comparison]): Unit = {
-    val regressions = cs.flatMap(regression)
+  private def assertNoRegression(comparisons: Seq[Comparison]): Unit = {
+    val regressions = comparisons.flatMap(regression)
     assert(regressions.isEmpty, "join path regression: " + regressions.mkString("; "))
   }
 
   /** Copies every row of the table scale-1 more times with new keys above the existing ones. Foreign keys stay valid
     * because they are copied as they are. Returns the rows inserted. Only DML: no DDL, no ANALYZE (it would update pg_class outside the transaction).
     */
-  private def scaleTable(table: ScaleTable, trx: Trx): Int = {
-    val connection = trx.getConnection
+  private def scaleTable(table: ScaleTable, transaction: Trx): Int = {
+    val connection = transaction.getConnection
     if (connection.getAutoCommit) throw new IllegalStateException(s"Refusing to scale ${table.name}: the transaction would not be rolled back")
     val statement = connection.createStatement()
     try {
       val metaData = statement.executeQuery(s"SELECT * FROM ${table.name} WHERE 1=0").getMetaData
       val columns = (1 to metaData.getColumnCount).map(metaData.getColumnName)
-      val rows = count(table.name, trx)
-      val maxKey = DB.getSQLValueBD(trx.getTrxName, s"SELECT MAX(${table.key}) FROM ${table.name}").longValue
+      val rows = count(table.name, transaction)
+      val maxKey = DB.getSQLValueBD(transaction.getTrxName, s"SELECT MAX(${table.key}) FROM ${table.name}").longValue
       val base = maxKey + KeyGap
       val select = columns.map { column =>
         if (column.equalsIgnoreCase(table.key)) s"$base + (g.n - 1) * $rows + s.rn" else s"s.$column"
@@ -307,10 +307,10 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
         requireEnabled()
         Given(s"the print format ${target.formatId} on ${target.table}: ${target.why}")
         When("both paths are measured in a read-only transaction that is rolled back")
-        val comparison = inRolledBackTrx(trx => measure(target, "natural", trx))
+        val comparison = inRolledBackTransaction(transaction => measure(target, "natural", transaction))
         comparisons += comparison
         Then("both paths return the same number of rows and the join path is not clearly slower")
-        info(s"${comparison.legacy.rows} rows, fetch median legacy ${fmt(comparison.legacy.fetch.medianMs)} ms, join ${fmt(comparison.join.fetch.medianMs)} ms")
+        info(s"${comparison.legacy.rows} rows, fetch median legacy ${formatNumber(comparison.legacy.fetch.medianMs)} ms, join ${formatNumber(comparison.join.fetch.medianMs)} ms")
         assertSameRows(comparison)
         assertNoRegression(Seq(comparison))
       }
@@ -320,33 +320,33 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
       requireEnabled()
       assume(DB.isPostgreSQL, "The scaled scenario needs PostgreSQL (generate_series); skipped on this database")
       Given(s"${scaleTables.map(_.name).mkString(" and ")} multiplied by $scale with INSERT ... SELECT in the test transaction")
-      val before = scaleTables.map(t => t.name -> count(t.name))
+      val before = scaleTables.map(scaledTable => scaledTable.name -> count(scaledTable.name))
       val outcome = Try {
-        inRolledBackTrx { trx =>
-          val inserted = scaleTables.map { t =>
-            val rows = scaleTable(t, trx)
-            val outside = count(t.name)
+        inRolledBackTransaction { transaction =>
+          val inserted = scaleTables.map { scaledTable =>
+            val rows = scaleTable(scaledTable, transaction)
+            val outside = count(scaledTable.name)
             // a second connection must not see the rows: this proves that nothing was committed
-            if (outside != before.toMap.apply(t.name))
-              throw new IllegalStateException(s"Refusing to continue: ${t.name} rows are visible outside the transaction ($outside)")
-            t.name -> rows
+            if (outside != before.toMap.apply(scaledTable.name))
+              throw new IllegalStateException(s"Refusing to continue: ${scaledTable.name} rows are visible outside the transaction ($outside)")
+            scaledTable.name -> rows
           }
-          val scaledCounts = scaleTables.map(t => t.name -> count(t.name, trx))
-          notes += s"Scale $scale: " + scaleTables.indices.map { i =>
-            s"${scaleTables(i).name} ${before(i)._2} -> ${scaledCounts(i)._2} rows (+${inserted(i)._2})"
+          val scaledCounts = scaleTables.map(scaledTable => scaledTable.name -> count(scaledTable.name, transaction))
+          notes += s"Scale $scale: " + scaleTables.indices.map { tableIndex =>
+            s"${scaleTables(tableIndex).name} ${before(tableIndex)._2} -> ${scaledCounts(tableIndex)._2} rows (+${inserted(tableIndex)._2})"
           }.mkString(", ")
-          targets.map(target => measure(target, s"scaled x$scale", trx))
+          targets.map(target => measure(target, s"scaled x$scale", transaction))
         }
       }
-      val after = scaleTables.map(t => t.name -> count(t.name))
+      val after = scaleTables.map(scaledTable => scaledTable.name -> count(scaledTable.name))
       Then("no row is left behind: the counts before and after the rolled back transaction are equal")
-      notes += "Row counts outside the transaction before: " + before.map { case (t, c) => s"$t=$c" }.mkString(", ") +
-        "; after the rollback: " + after.map { case (t, c) => s"$t=$c" }.mkString(", ")
+      notes += "Row counts outside the transaction before: " + before.map { case (tableName, rowCount) => s"$tableName=$rowCount" }.mkString(", ") +
+        "; after the rollback: " + after.map { case (tableName, rowCount) => s"$tableName=$rowCount" }.mkString(", ")
       assert(after == before, s"rows left in the database: before $before, after $after")
       val scaled = outcome.get
       comparisons ++= scaled
       And("both paths return the same number of rows and the join path is not clearly slower")
-      scaled.foreach(c => info(s"${c.target.table}: ${c.legacy.rows} rows, fetch median legacy ${fmt(c.legacy.fetch.medianMs)} ms, join ${fmt(c.join.fetch.medianMs)} ms"))
+      scaled.foreach(comparison => info(s"${comparison.target.table}: ${comparison.legacy.rows} rows, fetch median legacy ${formatNumber(comparison.legacy.fetch.medianMs)} ms, join ${formatNumber(comparison.join.fetch.medianMs)} ms"))
       scaled.foreach(assertSameRows)
       assertNoRegression(scaled)
     }
@@ -371,7 +371,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
 
   private def emptyQuery(): MQuery = { val query = new MQuery(); query.addRestriction("1=2"); query }
 
-  private def resetDefinitions(): Unit = DictionaryTables.foreach(t => CacheMgt.get().reset(t))
+  private def resetDefinitions(): Unit = DictionaryTables.foreach(tableName => CacheMgt.get().reset(tableName))
 
   private def statementCalls(): Option[Map[Long, (String, Long)]] =
     if (!DB.isPostgreSQL) None
@@ -379,18 +379,18 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
       val connection = DB.createConnection(true, Connection.TRANSACTION_READ_COMMITTED)
       try {
         val statement = connection.createStatement()
-        val rs = statement.executeQuery(
+        val resultSet = statement.executeQuery(
           "SELECT queryid, query, calls FROM pg_stat_statements WHERE dbid = (SELECT oid FROM pg_database WHERE datname = current_database()) " +
             "AND query NOT ILIKE '%pg_stat_statements%'")
-        try Iterator.continually(rs).takeWhile(_.next()).map(r => r.getLong(1) -> (r.getString(2), r.getLong(3))).toMap
-        finally { rs.close(); statement.close() }
+        try Iterator.continually(resultSet).takeWhile(_.next()).map(row => row.getLong(1) -> (row.getString(2), row.getLong(3))).toMap
+        finally { resultSet.close(); statement.close() }
       } finally connection.close()
     }.toOption
 
   /** dictionary statements (calls) between two snapshots of pg_stat_statements */
   private def dictionaryStatements(before: Option[Map[Long, (String, Long)]], after: Option[Map[Long, (String, Long)]]): Option[Long] =
-    for (b <- before; a <- after) yield a.toVector.map { case (id, (query, calls)) =>
-      if (DictionaryPattern.findFirstIn(query).isDefined && !query.contains(DataTag)) calls - b.get(id).map(_._2).getOrElse(0L) else 0L
+    for (beforeSnapshot <- before; afterSnapshot <- after) yield afterSnapshot.toVector.map { case (id, (query, calls)) =>
+      if (DictionaryPattern.findFirstIn(query).isDefined && !query.contains(DataTag)) calls - beforeSnapshot.get(id).map(_._2).getOrElse(0L) else 0L
     }.sum
 
   private def runDefinition(format: MPrintFormat, cache: Boolean, restrictToNothing: Boolean): (Int, Double) = {
@@ -416,7 +416,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     val statements = dictionaryStatements(before, statementCalls())
     val definition = (1 to DefinitionRuns).map { _ => prepare(); runDefinition(format, cache, restrictToNothing = true)._2 }
     var rows = 0
-    val endToEnd = (1 to EndToEndRuns).map { _ => prepare(); val (r, t) = runDefinition(format, cache, restrictToNothing = false); rows = r; t }
+    val endToEnd = (1 to EndToEndRuns).map { _ => prepare(); val (fetchedRows, elapsedMillis) = runDefinition(format, cache, restrictToNothing = false); rows = fetchedRows; elapsedMillis }
     CacheMeasure(mode, median(definition), median(endToEnd), statements, rows)
   }
 
@@ -431,8 +431,8 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
         " AND COALESCE(rt.TableName,t.TableName) NOT LIKE 'T\\_Report%'" +
         " AND COALESCE(rt.TableName,t.TableName) NOT LIKE 'AD\\_PInstance%' " +
         "ORDER BY pf.AD_PrintFormat_ID", null)
-    val rs = statement.executeQuery()
-    try Iterator.continually(rs).takeWhile(_.next()).map(_.getInt(1)).toVector finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getInt(1)).toVector finally DB.close(resultSet, statement)
   }
 
   Feature("Report definition cache: reading the definition of the report from the dictionary against from the cache") {
@@ -448,10 +448,10 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
         val warm = measureCache(target, "warm")
         cacheComparisons += CacheComparison(target, off, cold, warm)
         Then("the same rows are returned and the warm definition does not read the dictionary")
-        info(s"definition: off ${fmt(off.definitionMs)} ms, cold ${fmt(cold.definitionMs)} ms, warm ${fmt(warm.definitionMs)} ms; " +
+        info(s"definition: off ${formatNumber(off.definitionMs)} ms, cold ${formatNumber(cold.definitionMs)} ms, warm ${formatNumber(warm.definitionMs)} ms; " +
           s"dictionary statements: off ${off.dictionaryStatements.getOrElse("n/a")}, cold ${cold.dictionaryStatements.getOrElse("n/a")}, warm ${warm.dictionaryStatements.getOrElse("n/a")}")
         assert(off.rows == cold.rows && cold.rows == warm.rows, s"rows: off ${off.rows}, cold ${cold.rows}, warm ${warm.rows}")
-        warm.dictionaryStatements.foreach(n => assert(n == 0, s"a warm run executed $n dictionary statements"))
+        warm.dictionaryStatements.foreach(statementCount => assert(statementCount == 0, s"a warm run executed $statementCount dictionary statements"))
         assert(warm.definitionMs <= off.definitionMs * RegressionFactor + RegressionMillis, "a cache hit is slower than reading the dictionary")
       }
     }
@@ -478,16 +478,16 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
       sweepRows += SweepRow("cold (cache emptied before the pass)", formats.size, median(cold))
       sweepRows += SweepRow("warm (cache hits)", formats.size, median(warm))
       Then("a warm pass is not slower than reading the dictionary")
-      info(s"${formats.size} formats, no rows fetched: off ${fmt(median(off))} ms, cold ${fmt(median(cold))} ms, warm ${fmt(median(warm))} ms")
+      info(s"${formats.size} formats, no rows fetched: off ${formatNumber(median(off))} ms, cold ${formatNumber(median(cold))} ms, warm ${formatNumber(median(warm))} ms")
       assert(median(warm) <= median(off) * RegressionFactor + RegressionMillis)
       And("the memory held by the cache is reported")
       def used(): Long = { System.gc(); System.gc(); Thread.sleep(200); System.gc(); Runtime.getRuntime.totalMemory - Runtime.getRuntime.freeMemory }
       resetDefinitions()
       val heapBefore = used()
-      Seq("en_US", "es_MX").foreach { lang =>
+      Seq("en_US", "es_MX").foreach { languageCode =>
         Seq(true, false).foreach { join =>
           formats.foreach { format =>
-            val engine = new DataEngine(Language.getLanguage(lang), null)
+            val engine = new DataEngine(Language.getLanguage(languageCode), null)
             engine.setLookupJoin(join)
             engine.setDefinitionCache(true)
             scala.util.Try(engine.getPrintData(Env.getCtx, format, emptyQuery(), false, 0))
@@ -511,17 +511,17 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   private val readComparisons = ArrayBuffer.empty[ReadComparison]
   private val readNotes = ArrayBuffer.empty[String]
 
-  private def usedHeap(): Long = { val r = Runtime.getRuntime; r.totalMemory - r.freeMemory }
+  private def usedHeap(): Long = { val runtime = Runtime.getRuntime; runtime.totalMemory - runtime.freeMemory }
 
   private val threadBean = ManagementFactory.getThreadMXBean match {
-    case b: com.sun.management.ThreadMXBean => Some(b)
+    case threadMxBean: com.sun.management.ThreadMXBean => Some(threadMxBean)
     case _ => None
   }
 
   /** One report read. Returns rows, peak heap above the heap in use before the read (a sampler thread polls the heap while
     * getPrintData runs; garbage is included), bytes allocated by this thread and the end-to-end time.
     */
-  private def readOnce(format: MPrintFormat, fetchSize: Int, trxName: String): (Int, Double, Double, Double) = {
+  private def readOnce(format: MPrintFormat, fetchSize: Int, transactionName: String): (Int, Double, Double, Double) = {
     System.gc()
     val baseline = usedHeap()
     @volatile var peak = baseline
@@ -532,7 +532,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     sampler.start()
     val start = System.nanoTime()
     val rows =
-      try new DataEngine(language, trxName).setLookupJoin(true).setFetchSize(fetchSize)
+      try new DataEngine(language, transactionName).setLookupJoin(true).setFetchSize(fetchSize)
         .getPrintData(Env.getCtx, format, new MQuery(), false, 0).getRowCount
       finally running = false
     val elapsed = (System.nanoTime() - start) / 1e6
@@ -542,19 +542,19 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
   }
 
   /** fetch size 0 and fetch size 1000 interleaved: median of ReadRuns runs each */
-  private def measureRead(target: Target, volume: String, trxName: String): ReadComparison = {
+  private def measureRead(target: Target, volume: String, transactionName: String): ReadComparison = {
     val format = MPrintFormat.get(Env.getCtx, target.formatId, true)
-    readOnce(format, 0, trxName); readOnce(format, ReadFetchSize, trxName) // warmup
-    val runs = (1 to ReadRuns).map(_ => (readOnce(format, 0, trxName), readOnce(format, ReadFetchSize, trxName)))
+    readOnce(format, 0, transactionName); readOnce(format, ReadFetchSize, transactionName) // warmup
+    val runs = (1 to ReadRuns).map(_ => (readOnce(format, 0, transactionName), readOnce(format, ReadFetchSize, transactionName)))
     def summary(pick: ((Int, Double, Double, Double), (Int, Double, Double, Double)) => (Int, Double, Double, Double)) = {
-      val values = runs.map(r => pick(r._1, r._2))
+      val values = runs.map(run => pick(run._1, run._2))
       ReadMeasure(values.head._1, median(values.map(_._2)), median(values.map(_._3)), median(values.map(_._4)))
     }
-    ReadComparison(target, volume, summary((a, _) => a), summary((_, b) => b))
+    ReadComparison(target, volume, summary((whole, _) => whole), summary((_, batched) => batched))
   }
 
-  private def assertSameReadRows(c: ReadComparison): Unit =
-    assert(c.whole.rows == c.batched.rows, s"${c.target.table} ${c.volume}: ${c.whole.rows} rows with fetch size 0, ${c.batched.rows} with $ReadFetchSize")
+  private def assertSameReadRows(comparison: ReadComparison): Unit =
+    assert(comparison.whole.rows == comparison.batched.rows, s"${comparison.target.table} ${comparison.volume}: ${comparison.whole.rows} rows with fetch size 0, ${comparison.batched.rows} with $ReadFetchSize")
 
   Feature("Report read: fetch size 0 (whole result at once) against REPORT_FETCH_SIZE 1000") {
     info("Opt-in: set ADEMPIERE_BENCHMARK=true. Peak heap is sampled while DataEngine.getPrintData runs; end-to-end time is the median of 5 runs")
@@ -565,8 +565,8 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
         Given("the production path: no transaction (with fetch size the engine reads inside a short transaction of its own)")
         val comparison = measureRead(target, "natural", null)
         readComparisons += comparison
-        info(s"${comparison.whole.rows} rows, peak heap ${fmt(comparison.whole.peakHeapMb)} -> ${fmt(comparison.batched.peakHeapMb)} MB, " +
-          s"time ${fmt(comparison.whole.endToEndMs)} -> ${fmt(comparison.batched.endToEndMs)} ms")
+        info(s"${comparison.whole.rows} rows, peak heap ${formatNumber(comparison.whole.peakHeapMb)} -> ${formatNumber(comparison.batched.peakHeapMb)} MB, " +
+          s"time ${formatNumber(comparison.whole.endToEndMs)} -> ${formatNumber(comparison.batched.endToEndMs)} ms")
         Then("both read the same number of rows")
         assertSameReadRows(comparison)
       }
@@ -575,34 +575,34 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     Scenario("Report read, scaled volume: rows multiplied inside a transaction that is always rolled back") {
       requireEnabled()
       assume(DB.isPostgreSQL, "The scaled scenario needs PostgreSQL (generate_series); skipped on this database")
-      val before = scaleTables.map(t => t.name -> count(t.name))
+      val before = scaleTables.map(scaledTable => scaledTable.name -> count(scaledTable.name))
       val outcome = Try {
-        inRolledBackTrx { trx =>
-          scaleTables.foreach { t =>
-            scaleTable(t, trx)
-            if (count(t.name) != before.toMap.apply(t.name))
-              throw new IllegalStateException(s"Refusing to continue: ${t.name} rows are visible outside the transaction")
+        inRolledBackTransaction { transaction =>
+          scaleTables.foreach { scaledTable =>
+            scaleTable(scaledTable, transaction)
+            if (count(scaledTable.name) != before.toMap.apply(scaledTable.name))
+              throw new IllegalStateException(s"Refusing to continue: ${scaledTable.name} rows are visible outside the transaction")
           }
-          readNotes += s"Scale $scale: " + scaleTables.map(t => s"${t.name} ${before.toMap.apply(t.name)} -> ${count(t.name, trx)} rows").mkString(", ")
-          targets.map(target => measureRead(target, s"scaled x$scale", trx.getTrxName))
+          readNotes += s"Scale $scale: " + scaleTables.map(scaledTable => s"${scaledTable.name} ${before.toMap.apply(scaledTable.name)} -> ${count(scaledTable.name, transaction)} rows").mkString(", ")
+          targets.map(target => measureRead(target, s"scaled x$scale", transaction.getTrxName))
         }
       }
-      val after = scaleTables.map(t => t.name -> count(t.name))
+      val after = scaleTables.map(scaledTable => scaledTable.name -> count(scaledTable.name))
       Then("no row is left behind")
       assert(after == before, s"rows left in the database: before $before, after $after")
       val scaled = outcome.get
       readComparisons ++= scaled
       And("both read the same number of rows")
-      scaled.foreach(c => info(s"${c.target.table}: ${c.whole.rows} rows, peak heap ${fmt(c.whole.peakHeapMb)} -> ${fmt(c.batched.peakHeapMb)} MB, time ${fmt(c.whole.endToEndMs)} -> ${fmt(c.batched.endToEndMs)} ms"))
+      scaled.foreach(comparison => info(s"${comparison.target.table}: ${comparison.whole.rows} rows, peak heap ${formatNumber(comparison.whole.peakHeapMb)} -> ${formatNumber(comparison.batched.peakHeapMb)} MB, time ${formatNumber(comparison.whole.endToEndMs)} -> ${formatNumber(comparison.batched.endToEndMs)} ms"))
       scaled.foreach(assertSameReadRows)
     }
   }
 
-  private def fmt(value: Double): String = String.format(Locale.ROOT, "%.2f", Double.box(value))
+  private def formatNumber(value: Double): String = String.format(Locale.ROOT, "%.2f", Double.box(value))
 
   private def ratio(legacy: Double, join: Double): String = if (join <= 0) "n/a" else String.format(Locale.ROOT, "%.2fx", Double.box(legacy / join))
 
-  private def explainCell(e: Option[Explain])(f: Explain => String): String = e.map(f).getOrElse("n/a")
+  private def explainCell(explain: Option[Explain])(projection: Explain => String): String = explain.map(projection).getOrElse("n/a")
 
   private def report: String = {
     val out = new StringBuilder
@@ -616,20 +616,20 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     line(s"* End-to-end: median of $EndToEndRuns `DataEngine.getPrintData` calls; EXPLAIN: `EXPLAIN (ANALYZE, BUFFERS)` of the exact PrintData SQL")
     line(s"* Scale factor ADEMPIERE_BENCHMARK_SCALE: $scale")
     line("* `DISCARD PLANS` runs before each format; planner statistics are not refreshed on the scaled rows (ANALYZE would change pg_class outside the transaction)")
-    notes.foreach(n => line(s"* $n"))
+    notes.foreach(note => line(s"* $note"))
     line("* Speedup = legacy / join (greater than 1.00x: the join path is faster)")
     line()
     line("## Summary")
     line()
     line("| Format | Table | Volume | Rows | Fetch median speedup | Fetch p95 speedup | Execution speedup | End-to-end speedup |")
     line("|---|---|---|---:|---:|---:|---:|---:|")
-    comparisons.foreach { c =>
-      val executionSpeedup = (c.legacy.explain, c.join.explain) match {
-        case (Some(l), Some(j)) => ratio(l.executionMs, j.executionMs)
+    comparisons.foreach { comparison =>
+      val executionSpeedup = (comparison.legacy.explain, comparison.join.explain) match {
+        case (Some(legacyExplain), Some(joinExplain)) => ratio(legacyExplain.executionMs, joinExplain.executionMs)
         case _ => "n/a"
       }
-      line(s"| ${c.target.formatId} | ${c.target.table} | ${c.volume} | ${c.legacy.rows} | ${ratio(c.legacy.fetch.medianMs, c.join.fetch.medianMs)} | " +
-        s"${ratio(c.legacy.fetch.p95Ms, c.join.fetch.p95Ms)} | $executionSpeedup | ${ratio(c.legacy.endToEndMs, c.join.endToEndMs)} |")
+      line(s"| ${comparison.target.formatId} | ${comparison.target.table} | ${comparison.volume} | ${comparison.legacy.rows} | ${ratio(comparison.legacy.fetch.medianMs, comparison.join.fetch.medianMs)} | " +
+        s"${ratio(comparison.legacy.fetch.p95Ms, comparison.join.fetch.p95Ms)} | $executionSpeedup | ${ratio(comparison.legacy.endToEndMs, comparison.join.endToEndMs)} |")
     }
     targets.foreach { target =>
       val rows = comparisons.filter(_.target == target)
@@ -641,18 +641,18 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
         line()
         line("| Volume | Path | Rows | SubPlans | SubPlan loops | Buffers | Planning ms | Execution ms | Fetch median ms | Fetch p95 ms | End-to-end ms |")
         line("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
-        rows.foreach { c =>
-          Seq("legacy" -> c.legacy, "join" -> c.join).foreach { case (path, m) =>
-            line(s"| ${c.volume} | $path | ${m.rows} | ${explainCell(m.explain)(_.subPlans.toString)} | ${explainCell(m.explain)(_.subPlanLoops.toString)} | " +
-              s"${explainCell(m.explain)(_.buffers.toString)} | ${explainCell(m.explain)(e => fmt(e.planningMs))} | ${explainCell(m.explain)(e => fmt(e.executionMs))} | " +
-              s"${fmt(m.fetch.medianMs)} | ${fmt(m.fetch.p95Ms)} | ${fmt(m.endToEndMs)} |")
+        rows.foreach { comparison =>
+          Seq("legacy" -> comparison.legacy, "join" -> comparison.join).foreach { case (path, measurement) =>
+            line(s"| ${comparison.volume} | $path | ${measurement.rows} | ${explainCell(measurement.explain)(_.subPlans.toString)} | ${explainCell(measurement.explain)(_.subPlanLoops.toString)} | " +
+              s"${explainCell(measurement.explain)(_.buffers.toString)} | ${explainCell(measurement.explain)(explain => formatNumber(explain.planningMs))} | ${explainCell(measurement.explain)(explain => formatNumber(explain.executionMs))} | " +
+              s"${formatNumber(measurement.fetch.medianMs)} | ${formatNumber(measurement.fetch.p95Ms)} | ${formatNumber(measurement.endToEndMs)} |")
           }
-          val (planning, execution) = (c.legacy.explain, c.join.explain) match {
-            case (Some(l), Some(j)) => (ratio(l.planningMs, j.planningMs), ratio(l.executionMs, j.executionMs))
+          val (planning, execution) = (comparison.legacy.explain, comparison.join.explain) match {
+            case (Some(legacyExplain), Some(joinExplain)) => (ratio(legacyExplain.planningMs, joinExplain.planningMs), ratio(legacyExplain.executionMs, joinExplain.executionMs))
             case _ => ("n/a", "n/a")
           }
-          line(s"| ${c.volume} | **speedup** | | | | | $planning | $execution | ${ratio(c.legacy.fetch.medianMs, c.join.fetch.medianMs)} | " +
-            s"${ratio(c.legacy.fetch.p95Ms, c.join.fetch.p95Ms)} | ${ratio(c.legacy.endToEndMs, c.join.endToEndMs)} |")
+          line(s"| ${comparison.volume} | **speedup** | | | | | $planning | $execution | ${ratio(comparison.legacy.fetch.medianMs, comparison.join.fetch.medianMs)} | " +
+            s"${ratio(comparison.legacy.fetch.p95Ms, comparison.join.fetch.p95Ms)} | ${ratio(comparison.legacy.endToEndMs, comparison.join.endToEndMs)} |")
         }
       }
     }
@@ -669,16 +669,16 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     line(s"* End-to-end = the real query, median of $EndToEndRuns runs, joins, en_US, committed data, no transaction")
     line("* off: the dictionary is read on every run. cold: the cache (and the MTable/MColumn caches) is emptied before every run, so the definition is built and stored. warm: cache hits")
     line("* Dictionary statements = statements on AD_PrintFormat, AD_PrintFormatItem, AD_Column, AD_Table, AD_Ref_Table, AD_ReportView and AD_ReportView_Col of one run, from `pg_stat_statements` (n/a without it)")
-    cacheNotes.foreach(n => line(s"* $n"))
+    cacheNotes.foreach(note => line(s"* $note"))
     line("* Speedup = off / warm")
     line()
     line("| Format | Table | Mode | Dictionary statements | Definition ms | End-to-end ms | Rows |")
     line("|---|---|---|---:|---:|---:|---:|")
-    cacheComparisons.foreach { c =>
-      Seq(c.off, c.cold, c.warm).foreach { m =>
-        line(s"| ${c.target.formatId} | ${c.target.table} | ${m.mode} | ${m.dictionaryStatements.map(_.toString).getOrElse("n/a")} | ${fmt(m.definitionMs)} | ${fmt(m.endToEndMs)} | ${m.rows} |")
+    cacheComparisons.foreach { comparison =>
+      Seq(comparison.off, comparison.cold, comparison.warm).foreach { measurement =>
+        line(s"| ${comparison.target.formatId} | ${comparison.target.table} | ${measurement.mode} | ${measurement.dictionaryStatements.map(_.toString).getOrElse("n/a")} | ${formatNumber(measurement.definitionMs)} | ${formatNumber(measurement.endToEndMs)} | ${measurement.rows} |")
       }
-      line(s"| ${c.target.formatId} | ${c.target.table} | **speedup off/warm** | | ${ratio(c.off.definitionMs, c.warm.definitionMs)} | ${ratio(c.off.endToEndMs, c.warm.endToEndMs)} | |")
+      line(s"| ${comparison.target.formatId} | ${comparison.target.table} | **speedup off/warm** | | ${ratio(comparison.off.definitionMs, comparison.warm.definitionMs)} | ${ratio(comparison.off.endToEndMs, comparison.warm.endToEndMs)} | |")
     }
     if (sweepRows.nonEmpty) {
       line()
@@ -686,7 +686,7 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
       line()
       line("| Mode | Print formats | Pass ms | Per format ms |")
       line("|---|---:|---:|---:|")
-      sweepRows.foreach(r => line(s"| ${r.mode} | ${r.formats} | ${fmt(r.totalMs)} | ${fmt(r.totalMs / r.formats)} |"))
+      sweepRows.foreach(sweepRow => line(s"| ${sweepRow.mode} | ${sweepRow.formats} | ${formatNumber(sweepRow.totalMs)} | ${formatNumber(sweepRow.totalMs / sweepRow.formats)} |"))
       if (sweepRows.size == 3) line(s"| **speedup off/warm** | | ${ratio(sweepRows.head.totalMs, sweepRows.last.totalMs)} | |")
     }
     out.toString
@@ -702,14 +702,14 @@ class ValidateReportLookupJoinPerformance extends AnyFeatureSpec with AdempiereT
     line(s"* Median of $ReadRuns runs each, interleaved, after a warmup; `System.gc()` before each run")
     line("* Peak heap = the highest heap in use that a sampler thread saw while `getPrintData` ran, minus the heap in use before it (garbage included, so indicative); both runs keep the same `PrintData` result")
     line("* Allocated = bytes allocated by the thread that runs the report (`ThreadMXBean`); n/a when the JVM does not provide it")
-    readNotes.foreach(n => line(s"* $n"))
+    readNotes.foreach(note => line(s"* $note"))
     line("* Ratio = fetch size 0 / fetch size " + ReadFetchSize + " (greater than 1.00x: the fetch size is better)")
     line()
     line("| Format | Table | Volume | Rows | Peak heap MB (0) | Peak heap MB (1000) | Heap ratio | Allocated MB (0) | Allocated MB (1000) | Time ms (0) | Time ms (1000) | Time ratio |")
     line("|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|")
-    readComparisons.foreach { c =>
-      line(s"| ${c.target.formatId} | ${c.target.table} | ${c.volume} | ${c.whole.rows} | ${fmt(c.whole.peakHeapMb)} | ${fmt(c.batched.peakHeapMb)} | ${ratio(c.whole.peakHeapMb, c.batched.peakHeapMb)} | " +
-        s"${fmt(c.whole.allocatedMb)} | ${fmt(c.batched.allocatedMb)} | ${fmt(c.whole.endToEndMs)} | ${fmt(c.batched.endToEndMs)} | ${ratio(c.whole.endToEndMs, c.batched.endToEndMs)} |")
+    readComparisons.foreach { comparison =>
+      line(s"| ${comparison.target.formatId} | ${comparison.target.table} | ${comparison.volume} | ${comparison.whole.rows} | ${formatNumber(comparison.whole.peakHeapMb)} | ${formatNumber(comparison.batched.peakHeapMb)} | ${ratio(comparison.whole.peakHeapMb, comparison.batched.peakHeapMb)} | " +
+        s"${formatNumber(comparison.whole.allocatedMb)} | ${formatNumber(comparison.batched.allocatedMb)} | ${formatNumber(comparison.whole.endToEndMs)} | ${formatNumber(comparison.batched.endToEndMs)} | ${ratio(comparison.whole.endToEndMs, comparison.batched.endToEndMs)} |")
     }
     out.toString
   }

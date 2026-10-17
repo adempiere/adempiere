@@ -54,7 +54,7 @@ public class CacheMgt
 	/** List of Table Names				*/
 	private ArrayList<String>	m_tableNames = new ArrayList<String>();
 	/** Change listeners				*/
-	private final CopyOnWriteArrayList<CacheChangeListener>	m_changeListeners = new CopyOnWriteArrayList<CacheChangeListener>();
+	private final CopyOnWriteArrayList<CacheChangeListener>	changeListeners = new CopyOnWriteArrayList<CacheChangeListener>();
 	/** Logger							*/
 	private static CLogger		log = CLogger.getCLogger(CacheMgt.class);
 
@@ -107,7 +107,7 @@ public class CacheMgt
 	 */
 	public boolean addChangeListener (CacheChangeListener listener)
 	{
-		return listener != null && m_changeListeners.addIfAbsent(listener);
+		return listener != null && changeListeners.addIfAbsent(listener);
 	}	//	addChangeListener
 
 	/**
@@ -117,7 +117,7 @@ public class CacheMgt
 	 */
 	public boolean removeChangeListener (CacheChangeListener listener)
 	{
-		return listener != null && m_changeListeners.remove(listener);
+		return listener != null && changeListeners.remove(listener);
 	}	//	removeChangeListener
 
 	/**
@@ -125,23 +125,23 @@ public class CacheMgt
 	 * 	and does not stop the others nor the caller.
 	 * 	@param tableName table name
 	 * 	@param recordId record ID
-	 * 	@param trxName transaction of the change, null if there is none
-	 * 	@param newRecord true if the record was inserted
-	 * 	@param deleted true if the record was deleted
+	 * 	@param transactionName transaction of the change, null if there is none
+	 * 	@param isNewRecord true if the record was inserted
+	 * 	@param isDeleted true if the record was deleted
 	 */
-	public void fireChange (String tableName, int recordId, String trxName, boolean newRecord, boolean deleted)
+	public void fireChange (String tableName, int recordId, String transactionName, boolean isNewRecord, boolean isDeleted)
 	{
-		if (m_changeListeners.isEmpty())
+		if (changeListeners.isEmpty())
 			return;
-		for (CacheChangeListener listener : m_changeListeners)
+		for (CacheChangeListener listener : changeListeners)
 		{
 			try
 			{
-				listener.changed(tableName, recordId, trxName, newRecord, deleted);
+				listener.changed(tableName, recordId, transactionName, isNewRecord, isDeleted);
 			}
-			catch (RuntimeException e)
+			catch (RuntimeException exception)
 			{
-				log.log(Level.WARNING, "Change listener " + listener + " - " + tableName + "/" + recordId, e);
+				log.log(Level.WARNING, "Change listener " + listener + " - " + tableName + "/" + recordId, exception);
 			}
 		}
 	}	//	fireChange

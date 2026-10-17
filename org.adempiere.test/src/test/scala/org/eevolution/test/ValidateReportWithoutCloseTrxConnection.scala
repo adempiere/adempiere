@@ -127,7 +127,7 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
         .execute(trxName))
       Then("the report ends without a NullPointerException and without a report file")
       result match {
-        case Failure(e) => assert(!e.isInstanceOf[NullPointerException], e.toString)
+        case Failure(exception) => assert(!exception.isInstanceOf[NullPointerException], exception.toString)
         case Success(processInfo) => assert(processInfo.getReportAsFile == null, String.valueOf(processInfo.getReportAsFile))
       }
     }

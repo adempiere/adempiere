@@ -59,59 +59,59 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
   private def check(condition: Boolean, message: => String = "assertion failed"): Unit =
     if (!condition) fail(message)
 
-  private def cells(pd: PrintData): Vector[Vector[Cell]] =
-    (0 until pd.getRowCount).map { row =>
-      pd.setRowIndex(row)
-      (0 until pd.getNodeCount).map { index =>
-        pd.getNode(index) match {
-          case e: PrintDataElement =>
-            Cell(e.getColumnName, e.getValueKey, String.valueOf(e.getValue), e.getValueAsString, e.isPKey, e.getDisplayType)
+  private def cells(printData: PrintData): Vector[Vector[Cell]] =
+    (0 until printData.getRowCount).map { row =>
+      printData.setRowIndex(row)
+      (0 until printData.getNodeCount).map { index =>
+        printData.getNode(index) match {
+          case element: PrintDataElement =>
+            Cell(element.getColumnName, element.getValueKey, String.valueOf(element.getValue), element.getValueAsString, element.isPKey, element.getDisplayType)
           case other => Cell("#", "", String.valueOf(other), "", false, -1)
         }
       }.toVector
     }.toVector
 
-  private def snapshot(pd: PrintData): Snapshot =
+  private def snapshot(printData: PrintData): Snapshot =
     Snapshot(
-      pd.getSQL,
-      pd.getColumnInfo.toVector.map(c => (c.getAD_Column_ID, c.getColumnName, c.getAlias, c.hasAlias, c.getDisplayType)),
-      cells(pd),
-      (0 until pd.getRowCount).filter(i => pd.isFunctionRow(i)).toVector
+      printData.getSQL,
+      printData.getColumnInfo.toVector.map(column => (column.getAD_Column_ID, column.getColumnName, column.getAlias, column.hasAlias, column.getDisplayType)),
+      cells(printData),
+      (0 until printData.getRowCount).filter(rowIndex => printData.isFunctionRow(rowIndex)).toVector
     )
 
   private def multiset[T](values: Vector[T]): Map[T, Int] = values.groupBy(identity).view.mapValues(_.size).toMap
 
-  private def storedFormat(id: Int, trx: String = null): MPrintFormat =
-    if (trx == null) MPrintFormat.get(Env.getCtx, id, true) else new MPrintFormat(Env.getCtx, id, trx)
+  private def storedFormat(id: Int, transactionName: String = null): MPrintFormat =
+    if (transactionName == null) MPrintFormat.get(Env.getCtx, id, true) else new MPrintFormat(Env.getCtx, id, transactionName)
 
   /** One report run. cache = Some(flag) forces the definition cache, None keeps the SysConfig default (Y). */
   private def run(
       format: MPrintFormat,
-      lang: String,
+      languageCode: String,
       join: Boolean,
       cache: Option[Boolean],
-      trx: String = null,
+      transactionName: String = null,
       restrict: MQuery => Unit = _ => (),
-      ctx: Properties = Env.getCtx
+      context: Properties = Env.getCtx
   ): Option[PrintData] = {
     val query = new MQuery()
     restrict(query)
-    val engine = new DataEngine(language(lang), trx)
+    val engine = new DataEngine(language(languageCode), transactionName)
     engine.setLookupJoin(join)
     cache.foreach(flag => engine.setDefinitionCache(flag))
-    Option(engine.getPrintData(ctx, format, query, false, 0))
+    Option(engine.getPrintData(context, format, query, false, 0))
   }
 
-  private def sqlOf(formatId: Int, lang: String, join: Boolean, cache: Option[Boolean], trx: String = null): String =
-    run(storedFormat(formatId, trx), lang, join, cache, trx).map(_.getSQL).getOrElse("")
+  private def sqlOf(formatId: Int, languageCode: String, join: Boolean, cache: Option[Boolean], transactionName: String = null): String =
+    run(storedFormat(formatId, transactionName), languageCode, join, cache, transactionName).map(_.getSQL).getOrElse("")
 
-  private def resetDefinitions(): Unit = DictionaryTables.foreach(t => CacheMgt.get().reset(t))
+  private def resetDefinitions(): Unit = DictionaryTables.foreach(tableName => CacheMgt.get().reset(tableName))
 
   private def ids(sql: String): Vector[Int] = {
     val statement = DB.prepareStatement(sql, null)
-    val rs = statement.executeQuery()
-    try Iterator.continually(rs).takeWhile(_.next()).map(_.getInt(1)).toVector
-    finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getInt(1)).toVector
+    finally DB.close(resultSet, statement)
   }
 
   /** Active table based print formats of clients 0 and 11, T_Report* and AD_PInstance* excluded */
@@ -143,7 +143,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
   private def sameData(expected: Snapshot, actual: Snapshot, control: () => Snapshot): Vector[String] = {
     val problems = ArrayBuffer.empty[String]
     if (expected.sql != actual.sql) problems += {
-      val at = expected.sql.zip(actual.sql).indexWhere { case (a, b) => a != b } match { case -1 => math.min(expected.sql.length, actual.sql.length) case i => i }
+      val at = expected.sql.zip(actual.sql).indexWhere { case (expectedCharacter, actualCharacter) => expectedCharacter != actualCharacter } match { case -1 => math.min(expected.sql.length, actual.sql.length) case position => position }
       s"SQL differs at $at: off ...${expected.sql.slice(at - 30, at + 70)} / on ...${actual.sql.slice(at - 30, at + 70)}"
     }
     if (expected.columns != actual.columns) problems += "columns differ"
@@ -173,11 +173,11 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     if (!DB.isPostgreSQL) None
     else Try(withStatConnection { connection =>
       val statement = connection.createStatement()
-      val rs = statement.executeQuery(
+      val resultSet = statement.executeQuery(
         "SELECT queryid, query, calls, total_exec_time FROM pg_stat_statements " +
           "WHERE dbid = (SELECT oid FROM pg_database WHERE datname = current_database()) AND query NOT ILIKE '%pg_stat_statements%'")
-      try Iterator.continually(rs).takeWhile(_.next()).map(r => r.getLong(1) -> Stat(r.getString(2), r.getLong(3), r.getDouble(4))).toMap
-      finally { rs.close(); statement.close() }
+      try Iterator.continually(resultSet).takeWhile(_.next()).map(row => row.getLong(1) -> Stat(row.getString(2), row.getLong(3), row.getDouble(4))).toMap
+      finally { resultSet.close(); statement.close() }
     }).toOption
 
   private def delta(before: Map[Long, Stat], after: Map[Long, Stat]): Vector[Stat] =
@@ -193,12 +193,12 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
   private def isDictionary(stat: Stat): Boolean = DictionaryPattern.findFirstIn(stat.query).isDefined && !stat.query.contains("/* AD_PrintFormat_ID=")
 
   private def kind(stat: Stat): String = {
-    val q = stat.query.toLowerCase
-    if (q.contains("ad_printformatitem") && q.contains("ad_printformat ")) "print format + items + columns + report view columns"
-    else if (q.contains("ad_reportview ")) "AD_Table + AD_ReportView"
-    else if (q.contains("ad_ref_table")) "getTableReference"
-    else if (q.contains("isidentifier")) "getTableDirEmbed"
-    else if (q.contains("isview")) "TableDirEmbed.isJoinable"
+    val lowerCaseQuery = stat.query.toLowerCase
+    if (lowerCaseQuery.contains("ad_printformatitem") && lowerCaseQuery.contains("ad_printformat ")) "print format + items + columns + report view columns"
+    else if (lowerCaseQuery.contains("ad_reportview ")) "AD_Table + AD_ReportView"
+    else if (lowerCaseQuery.contains("ad_ref_table")) "getTableReference"
+    else if (lowerCaseQuery.contains("isidentifier")) "getTableDirEmbed"
+    else if (lowerCaseQuery.contains("isview")) "TableDirEmbed.isJoinable"
     else "MTable / MColumn / other dictionary"
   }
 
@@ -206,13 +206,13 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     val dictionary = deltas.filter(isDictionary)
     val byKind = dictionary.groupBy(kind).toVector.sortBy(-_._2.map(_.calls).sum)
     info(f"$title: ${deltas.map(_.calls).sum} statements (${deltas.map(_.ms).sum}%.1f ms), ${dictionary.map(_.calls).sum} dictionary statements (${dictionary.map(_.ms).sum}%.1f ms)")
-    byKind.foreach { case (k, stats) => info(f"    $k: ${stats.map(_.calls).sum} calls, ${stats.map(_.ms).sum}%.2f ms") }
-    deltas.filterNot(isDictionary).sortBy(-_.calls).take(4).foreach(s => info(f"    other: ${s.calls} x ${s.query.take(90).replace('\n', ' ')}"))
+    byKind.foreach { case (kind, stats) => info(f"    $kind: ${stats.map(_.calls).sum} calls, ${stats.map(_.ms).sum}%.2f ms") }
+    deltas.filterNot(isDictionary).sortBy(-_.calls).take(4).foreach(statistic => info(f"    other: ${statistic.calls} x ${statistic.query.take(90).replace('\n', ' ')}"))
   }
 
-  private def measureRun(formats: Seq[MPrintFormat], lang: String, join: Boolean, cache: Boolean): Option[Vector[Stat]] =
+  private def measureRun(formats: Seq[MPrintFormat], languageCode: String, join: Boolean, cache: Boolean): Option[Vector[Stat]] =
     statements().map { before =>
-      formats.foreach(f => run(f, lang, join, Some(cache)))
+      formats.foreach(printFormat => run(printFormat, languageCode, join, Some(cache)))
       delta(before, statements().get)
     }
 
@@ -231,20 +231,20 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
     }
   }
 
-  private def itemOf(formatId: Int, column: String, trx: String = null): MPrintFormatItem = {
+  private def itemOf(formatId: Int, column: String, transactionName: String = null): MPrintFormatItem = {
     val columnId = MColumn.getColumn_ID(OrderTable, column)
-    new Query(Env.getCtx, I_AD_PrintFormatItem.Table_Name, "AD_PrintFormat_ID=? AND AD_Column_ID=?", trx)
+    new Query(Env.getCtx, I_AD_PrintFormatItem.Table_Name, "AD_PrintFormat_ID=? AND AD_Column_ID=?", transactionName)
       .setParameters(Integer.valueOf(formatId), Integer.valueOf(columnId)).first[MPrintFormatItem]()
   }
 
   /** The SQL of the temporary format: join path and legacy path, cache on, after a warm-up run, against the oracle */
   private def assertMatchesDictionary(formatId: Int, why: String): Unit = {
     Seq(true, false).foreach { join =>
-      Seq(English, Spanish).foreach { lang =>
-        val oracle = snapshot(run(storedFormat(formatId), lang, join, Some(false)).get)
-        val cached = snapshot(run(storedFormat(formatId), lang, join, Some(true)).get)
-        val problems = sameData(oracle, cached, () => snapshot(run(storedFormat(formatId), lang, join, Some(false)).get))
-        check(problems.isEmpty, s"$why ($lang, join=$join): the cached definition is stale: ${problems.mkString("; ")}")
+      Seq(English, Spanish).foreach { languageCode =>
+        val oracle = snapshot(run(storedFormat(formatId), languageCode, join, Some(false)).get)
+        val cached = snapshot(run(storedFormat(formatId), languageCode, join, Some(true)).get)
+        val problems = sameData(oracle, cached, () => snapshot(run(storedFormat(formatId), languageCode, join, Some(false)).get))
+        check(problems.isEmpty, s"$why ($languageCode, join=$join): the cached definition is stale: ${problems.mkString("; ")}")
       }
     }
   }
@@ -275,23 +275,23 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       val problems = ArrayBuffer.empty[String]
       var compared = 0
       var rows = 0L
-      for (lang <- Seq(English, Spanish); join <- Seq(false, true)) {
+      for (languageCode <- Seq(English, Spanish); join <- Seq(false, true)) {
         resetDefinitions()
         tableBasedFormats.foreach { id =>
           val format = storedFormat(id)
-          val off = Try(run(format, lang, join, Some(false)))
-          val cold = Try(run(format, lang, join, Some(true)))
-          val warm = Try(run(format, lang, join, Some(true)))
+          val off = Try(run(format, languageCode, join, Some(false)))
+          val cold = Try(run(format, languageCode, join, Some(true)))
+          val warm = Try(run(format, languageCode, join, Some(true)))
           (off.toOption.flatten, cold.toOption.flatten, warm.toOption.flatten) match {
-            case (Some(o), Some(c), Some(w)) =>
+            case (Some(offPrintData), Some(coldPrintData), Some(warmPrintData)) =>
               compared += 1
-              rows += o.getRowCount
-              val expected = snapshot(o)
-              val control = () => snapshot(run(format, lang, join, Some(false)).get)
-              sameData(expected, snapshot(c), control).foreach(p => problems += s"format $id $lang join=$join cold: $p")
-              sameData(expected, snapshot(w), control).foreach(p => problems += s"format $id $lang join=$join warm: $p")
+              rows += offPrintData.getRowCount
+              val expected = snapshot(offPrintData)
+              val control = () => snapshot(run(format, languageCode, join, Some(false)).get)
+              sameData(expected, snapshot(coldPrintData), control).foreach(problem => problems += s"format $id $languageCode join=$join cold: $problem")
+              sameData(expected, snapshot(warmPrintData), control).foreach(problem => problems += s"format $id $languageCode join=$join warm: $problem")
             case (None, None, None) => ()
-            case other => problems += s"format $id $lang join=$join: off=${off.map(_.isDefined)} cold=${cold.map(_.isDefined)} warm=${warm.map(_.isDefined)}"
+            case other => problems += s"format $id $languageCode join=$join: off=${off.map(_.isDefined)} cold=${cold.map(_.isDefined)} warm=${warm.map(_.isDefined)}"
           }
         }
       }
@@ -343,7 +343,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       And("again with the cache warm")
       val warm = measureRun(formats, English, join = true, cache = true).get
       val warmDefault = statements().flatMap { before =>
-        formats.foreach(f => run(f, English, join = true, None)) // SysConfig default: the cache is on
+        formats.foreach(printFormat => run(printFormat, English, join = true, None)) // SysConfig default: the cache is on
         statements().map(after => delta(before, after))
       }.get
       profile("cache off (dictionary read on every run)", off)
@@ -352,7 +352,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       profile("cache on by default (no override), warm", warmDefault)
       Then("a warm run reads nothing from the dictionary and the data query is all that remains")
       check(off.filter(isDictionary).map(_.calls).sum > cold.filter(isDictionary).map(_.calls).sum || cold.filter(isDictionary).nonEmpty)
-      check(warm.filter(isDictionary).isEmpty, "dictionary statements on a warm run:\n  " + warm.filter(isDictionary).map(s => s"${s.calls} x ${s.query.take(120)}").mkString("\n  "))
+      check(warm.filter(isDictionary).isEmpty, "dictionary statements on a warm run:\n  " + warm.filter(isDictionary).map(statistic => s"${statistic.calls} x ${statistic.query.take(120)}").mkString("\n  "))
       check(warmDefault.filter(isDictionary).isEmpty, "the cache must be on by default")
       And("with the cache off every run reads the dictionary again")
       val offAgain = measureRun(formats, English, join = true, cache = false).get
@@ -499,19 +499,19 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
         check(printedColumns(committed).contains("Description"))
 
         When("an item is hidden inside a transaction and the report runs in that transaction")
-        val trx = Trx.createTrxName("ReportDefinitionCache")
+        val transactionName = Trx.createTrxName("ReportDefinitionCache")
         var inside = ""
         try {
-          val item = itemOf(formatId, "Description", trx)
+          val item = itemOf(formatId, "Description", transactionName)
           item.setIsPrinted(false)
           item.saveEx()
-          inside = sqlOf(formatId, English, join = true, Some(true), trx)
+          inside = sqlOf(formatId, English, join = true, Some(true), transactionName)
           Then("the report in the transaction sees the uncommitted definition")
           check(!printedColumns(inside).contains("Description"), "the transaction does not see its own change")
           And("another connection still sees the committed definition while the transaction is open")
           check(sqlOf(formatId, English, join = true, Some(true)) == committed, "uncommitted state leaked to another connection")
         } finally {
-          Option(Trx.get(trx, false)).foreach { t => t.rollback(); t.close() }
+          Option(Trx.get(transactionName, false)).foreach { transaction => transaction.rollback(); transaction.close() }
         }
         Then("after the rollback the next run shows the committed definition")
         check(sqlOf(formatId, English, join = true, Some(true)) == committed, "a rolled back change left a stale definition")
@@ -530,16 +530,16 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       withTemporaryFormat { (formatId, _) =>
         Given("a warm cache and a transaction that hides an item")
         assertMatchesDictionary(formatId, "baseline")
-        val trx = Trx.createTrxName("ReportDefinitionCacheCommit")
+        val transactionName = Trx.createTrxName("ReportDefinitionCacheCommit")
         try {
-          val item = itemOf(formatId, "Description", trx)
+          val item = itemOf(formatId, "Description", transactionName)
           item.setIsPrinted(false)
           item.saveEx()
           // another connection reads (and may cache) the committed state while the transaction is open
           check(printedColumns(sqlOf(formatId, English, join = true, Some(true))).contains("Description"))
           When("the transaction commits")
-          Trx.get(trx, false).commit(true)
-        } finally Option(Trx.get(trx, false)).foreach(_.close())
+          Trx.get(transactionName, false).commit(true)
+        } finally Option(Trx.get(transactionName, false)).foreach(_.close())
         Then("the next run does not select the column")
         check(!printedColumns(sqlOf(formatId, English, join = true, Some(true))).contains("Description"), "the committed change is not visible")
         assertMatchesDictionary(formatId, "after commit")
@@ -576,7 +576,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
           check(!sqlOf(formatId, English, join = true, Some(true)).contains(" GROUP BY "), "the deleted AD_ReportView_Col is still in the definition")
           assertMatchesDictionary(formatId, "AD_ReportView_Col delete")
         } finally {
-          Try(new MPrintFormat(Env.getCtx, formatId, null)).foreach { f => f.setAD_ReportView_ID(0); Try(f.saveEx()) }
+          Try(new MPrintFormat(Env.getCtx, formatId, null)).foreach { printFormat => printFormat.setAD_ReportView_ID(0); Try(printFormat.saveEx()) }
           Try(new Query(Env.getCtx, "AD_ReportView_Col", "AD_ReportView_ID=?", null).setParameters(Integer.valueOf(reportView.get_ID)).list[X_AD_ReportView_Col]().asScala.foreach(_.deleteEx(true)))
           Try(reportView.deleteEx(true))
           CacheMgt.get().reset("AD_ReportView")
@@ -611,9 +611,9 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
 
     Scenario("Threads running the same and different print formats with a cold cache get the single-thread result") {
       val formats = Vector(1000003, 1000004, 1000008, 1000007, 1000005) ++ tableBasedFormats.take(4)
-      val variants = for (f <- formats.distinct; lang <- Seq(English, Spanish); join <- Seq(true, false)) yield (f, lang, join)
+      val variants = for (variantFormatId <- formats.distinct; languageCode <- Seq(English, Spanish); join <- Seq(true, false)) yield (variantFormatId, languageCode, join)
       Given(s"${variants.size} format/language/path variants, computed once without cache as the single-thread baseline")
-      val baseline = variants.map { case (f, lang, join) => (f, lang, join) -> snapshot(run(storedFormat(f), lang, join, Some(false)).get) }.toMap
+      val baseline = variants.map { case (variantFormatId, languageCode, join) => (variantFormatId, languageCode, join) -> snapshot(run(storedFormat(variantFormatId), languageCode, join, Some(false)).get) }.toMap
       val threads = 8
       val runsPerThread = 25
       Seq("the same print format", "different print formats").foreach { mode =>
@@ -621,19 +621,19 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
         resetDefinitions()
         val pool = Executors.newFixedThreadPool(threads)
         try {
-          val tasks = (0 until threads).map { t =>
+          val tasks = (0 until threads).map { threadIndex =>
             pool.submit(new Callable[Vector[String]] {
-              def call(): Vector[String] = (0 until runsPerThread).flatMap { i =>
-                val variant = if (mode == "the same print format") variants.filter(_._1 == formats.head)(i % 4) else variants((t * 7 + i) % variants.size)
-                val (f, lang, join) = variant
+              def call(): Vector[String] = (0 until runsPerThread).flatMap { runIndex =>
+                val variant = if (mode == "the same print format") variants.filter(_._1 == formats.head)(runIndex % 4) else variants((threadIndex * 7 + runIndex) % variants.size)
+                val (f, languageCode, join) = variant
                 val problems = Try {
-                  val result = snapshot(run(storedFormat(f), lang, join, Some(true)).get)
+                  val result = snapshot(run(storedFormat(f), languageCode, join, Some(true)).get)
                   val expected = baseline(variant)
                   if (result.sql != expected.sql) Some(s"SQL differs for $variant")
                   else if (result.columns != expected.columns || result.functionRows != expected.functionRows || multiset(result.rows) != multiset(expected.rows))
                     Some(s"data differs for $variant")
                   else None
-                }.recover { case e: Throwable => Some(s"exception for $variant: $e") }.get
+                }.recover { case throwable: Throwable => Some(s"exception for $variant: $throwable") }.get
                 problems
               }.toVector
             })
@@ -654,48 +654,48 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
         val reporters = 4
         val iterations = 40
         def contextOf(client: Int): Properties = {
-          val ctx = new Properties()
-          ctx.putAll(Env.getCtx)
-          Env.setContext(ctx, "#AD_Client_ID", client)
-          ctx
+          val context = new Properties()
+          context.putAll(Env.getCtx)
+          Env.setContext(context, "#AD_Client_ID", client)
+          context
         }
         Given(s"${formats.size} print formats x ${clients.size} client contexts, computed once without cache as the baseline")
-        val variants = for (f <- formats; c <- clients) yield (f, c)
-        val baseline = variants.flatMap { case (f, c) =>
-          Try(snapshot(run(storedFormat(f), English, join = true, Some(false), ctx = contextOf(c)).get)).toOption.map((f, c) -> _)
+        val variants = for (variantFormatId <- formats; client <- clients) yield (variantFormatId, client)
+        val baseline = variants.flatMap { case (variantFormatId, client) =>
+          Try(snapshot(run(storedFormat(variantFormatId), English, join = true, Some(false), context = contextOf(client)).get)).toOption.map((variantFormatId, client) -> _)
         }.toMap
         check(baseline.size == variants.size, s"baseline failed for ${variants.filterNot(baseline.contains)}")
-        val seqNos = itemColumns.map(c => c -> itemOf(formatId, c).getSeqNo)
+        val seqNos = itemColumns.map(columnName => columnName -> itemOf(formatId, columnName).getSeqNo)
         When(s"$savers threads save AD_PrintFormatItem changes, each in its own transaction that is rolled back, while $reporters threads run cold getPrintData, $iterations iterations each")
         resetDefinitions()
         val pool = Executors.newFixedThreadPool(savers + reporters)
         try {
-          val saverTasks = (0 until savers).map { t =>
+          val saverTasks = (0 until savers).map { threadIndex =>
             pool.submit(new Callable[Vector[String]] {
-              def call(): Vector[String] = (0 until iterations).flatMap { i =>
-                val trx = Trx.createTrxName("RDCSave")
+              def call(): Vector[String] = (0 until iterations).flatMap { iteration =>
+                val transactionName = Trx.createTrxName("RDCSave")
                 try {
-                  val item = itemOf(formatId, itemColumns(t), trx)
-                  item.setSeqNo(item.getSeqNo + 1 + i % 3)
+                  val item = itemOf(formatId, itemColumns(threadIndex), transactionName)
+                  item.setSeqNo(item.getSeqNo + 1 + iteration % 3)
                   item.saveEx()
                   None
-                } catch { case e: Throwable => Some(s"saver $t iteration $i: $e") }
-                finally Option(Trx.get(trx, false)).foreach { x => x.rollback(); x.close() }
+                } catch { case throwable: Throwable => Some(s"saver $threadIndex iteration $iteration: $throwable") }
+                finally Option(Trx.get(transactionName, false)).foreach { transaction => transaction.rollback(); transaction.close() }
               }.toVector
             })
           }
-          val reporterTasks = (0 until reporters).map { t =>
+          val reporterTasks = (0 until reporters).map { threadIndex =>
             pool.submit(new Callable[Vector[String]] {
-              def call(): Vector[String] = (0 until iterations).flatMap { i =>
-                if (t == 0 && i % 5 == 0) resetDefinitions() // cold again
-                val variant = variants((t * 5 + i) % variants.size)
+              def call(): Vector[String] = (0 until iterations).flatMap { iteration =>
+                if (threadIndex == 0 && iteration % 5 == 0) resetDefinitions() // cold again
+                val variant = variants((threadIndex * 5 + iteration) % variants.size)
                 Try {
-                  val result = snapshot(run(storedFormat(variant._1), English, join = true, Some(true), ctx = contextOf(variant._2)).get)
+                  val result = snapshot(run(storedFormat(variant._1), English, join = true, Some(true), context = contextOf(variant._2)).get)
                   val expected = baseline(variant)
-                  if (result.sql != expected.sql) Some(s"reporter $t: SQL differs for $variant")
-                  else if (result.columns != expected.columns || multiset(result.rows) != multiset(expected.rows)) Some(s"reporter $t: data differs for $variant")
+                  if (result.sql != expected.sql) Some(s"reporter $threadIndex: SQL differs for $variant")
+                  else if (result.columns != expected.columns || multiset(result.rows) != multiset(expected.rows)) Some(s"reporter $threadIndex: data differs for $variant")
                   else None
-                }.recover { case e: Throwable => Some(s"reporter $t iteration $i: $e") }.get
+                }.recover { case throwable: Throwable => Some(s"reporter $threadIndex iteration $iteration: $throwable") }.get
               }.toVector
             })
           }
@@ -704,20 +704,20 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
           check(problems.isEmpty, problems.distinct.take(10).mkString("\n  "))
         } finally pool.shutdownNow()
         And("the rolled back saves left the dictionary and the cache as they were")
-        check(itemColumns.map(c => c -> itemOf(formatId, c).getSeqNo) == seqNos)
+        check(itemColumns.map(columnName => columnName -> itemOf(formatId, columnName).getSeqNo) == seqNos)
         assertMatchesDictionary(formatId, "after concurrent saves")
-        variants.foreach { case (f, c) =>
-          val cached = snapshot(run(storedFormat(f), English, join = true, Some(true), ctx = contextOf(c)).get)
-          check(cached.sql == baseline((f, c)).sql, s"stale SQL after the saves for $f/$c")
+        variants.foreach { case (variantFormatId, client) =>
+          val cached = snapshot(run(storedFormat(variantFormatId), English, join = true, Some(true), context = contextOf(client)).get)
+          check(cached.sql == baseline((variantFormatId, client)).sql, s"stale SQL after the saves for $variantFormatId/$client")
         }
       }
     }
 
     /** A C_Order saved in the transaction: a table that no report definition depends on */
-    def saveOrder(trx: String): MOrder = {
-      val order = new MOrder(Env.getCtx, 0, trx)
+    def saveOrder(transactionName: String): MOrder = {
+      val order = new MOrder(Env.getCtx, 0, transactionName)
       order.setAD_Org_ID(11)
-      order.setBPartner(new MBPartner(Env.getCtx, 117, trx))
+      order.setBPartner(new MBPartner(Env.getCtx, 117, transactionName))
       order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_Standard)
       order.setIsSOTrx(true)
       order.setM_Warehouse_ID(103)
@@ -735,20 +735,20 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       check(measureRun(formats, English, join = true, cache = true).get.filter(isDictionary).isEmpty, "the cache is not warm")
       val seen = ArrayBuffer.empty[(String, Boolean, Boolean)]
       val listener = new CacheChangeListener {
-        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+        override def changed(tableName: String, recordId: Int, transactionName: String, newRecord: Boolean, deleted: Boolean): Unit =
           seen.synchronized { seen += ((tableName, newRecord, deleted)) }
       }
       CacheMgt.get().addChangeListener(listener)
-      val trx = Trx.createTrxName("RDCOrder")
+      val transactionName = Trx.createTrxName("RDCOrder")
       try {
         When("a C_Order is inserted, updated and deleted inside a transaction that is rolled back")
-        val order = saveOrder(trx)
+        val order = saveOrder(transactionName)
         order.setDescription("RDC no side effect")
         order.saveEx()
         order.deleteEx(true)
       } finally {
         CacheMgt.get().removeChangeListener(listener)
-        Option(Trx.get(trx, false)).foreach { t => t.rollback(); t.close() }
+        Option(Trx.get(transactionName, false)).foreach { transaction => transaction.rollback(); transaction.close() }
       }
       val changes = seen.synchronized(seen.toVector)
       info(s"changes seen by the listener: ${changes.distinct.mkString(", ")}")
@@ -756,26 +756,26 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
         s"the listener did not see the insert, the update and the delete: $changes")
       Then("the next warm getPrintData still runs no dictionary statement")
       val warm = measureRun(formats, English, join = true, cache = true).get
-      check(warm.filter(isDictionary).isEmpty, "dictionary statements after saving a C_Order:\n  " + warm.filter(isDictionary).map(s => s"${s.calls} x ${s.query.take(120)}").mkString("\n  "))
+      check(warm.filter(isDictionary).isEmpty, "dictionary statements after saving a C_Order:\n  " + warm.filter(isDictionary).map(statistic => s"${statistic.calls} x ${statistic.query.take(120)}").mkString("\n  "))
     }
 
     Scenario("A listener that throws does not fail the save and does not stop the other listeners") {
       Given("a listener that throws and a listener that counts")
       var counted = 0
       val failing = new CacheChangeListener {
-        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+        override def changed(tableName: String, recordId: Int, transactionName: String, newRecord: Boolean, deleted: Boolean): Unit =
           throw new IllegalStateException("listener failure on purpose")
       }
       val counting = new CacheChangeListener {
-        override def changed(tableName: String, recordId: Int, trxName: String, newRecord: Boolean, deleted: Boolean): Unit =
+        override def changed(tableName: String, recordId: Int, transactionName: String, newRecord: Boolean, deleted: Boolean): Unit =
           if (tableName == "C_Order") counted += 1
       }
       val manager = CacheMgt.get()
       check(manager.addChangeListener(failing) && manager.addChangeListener(counting))
-      val trx = Trx.createTrxName("RDCFailing")
+      val transactionName = Trx.createTrxName("RDCFailing")
       try {
         When("a record is saved and deleted")
-        val order = saveOrder(trx)
+        val order = saveOrder(transactionName)
         Then("the save succeeded")
         check(order.get_ID > 0, "the save failed because of the listener")
         order.setDescription("RDC failing listener")
@@ -787,7 +787,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       } finally {
         manager.removeChangeListener(failing)
         manager.removeChangeListener(counting)
-        Option(Trx.get(trx, false)).foreach { t => t.rollback(); t.close() }
+        Option(Trx.get(transactionName, false)).foreach { transaction => transaction.rollback(); transaction.close() }
       }
       check(!manager.removeChangeListener(failing), "the listener was not removed")
     }
@@ -801,7 +801,7 @@ class ValidateReportDefinitionCache extends AnyFeatureSpec with AdempiereTestCas
       val first = measureRun(Seq(format), English, join = true, cache = false).get
       val second = measureRun(Seq(format), English, join = true, cache = false).get
       Then("the second run reads the definition again")
-      check(second.exists(s => kind(s) == "print format + items + columns + report view columns" && isDictionary(s)))
+      check(second.exists(statistic => kind(statistic) == "print format + items + columns + report view columns" && isDictionary(statistic)))
       check(second.filter(isDictionary).map(_.calls).sum >= 3, "toggle off: expected the definition queries on every run")
       And("the SQL equals the SQL of the cached run")
       check(sqlOf(1000003, English, join = true, Some(false)) == sqlOf(1000003, English, join = true, Some(true)))

@@ -62,7 +62,7 @@ class ValidateReportGroupWithoutRows extends AnyFeatureSpec with AdempiereTestCa
     } finally logger.removeHandler(collector)
   }
 
-  private def functionRows(pd: PrintData): Vector[Int] = (0 until pd.getRowCount).filter(pd.isFunctionRow).toVector
+  private def functionRows(printData: PrintData): Vector[Int] = (0 until printData.getRowCount).filter(printData.isFunctionRow).toVector
 
   Feature("A grouped report that returns no rows") {
 
@@ -70,14 +70,14 @@ class ValidateReportGroupWithoutRows extends AnyFeatureSpec with AdempiereTestCa
       Scenario(s"ends without error and without rows (lookup join $join)") {
         Given("a print format with group columns and a restriction that no row satisfies")
         When("the report data is built")
-        val (pd, severe, issues) = run(GroupedFormat, join, Some("1=2"))
+        val (printData, severe, issues) = run(GroupedFormat, join, Some("1=2"))
         Then("there is print data with its columns, no rows, no SEVERE and no AD_Issue")
-        assert(pd != null, "the report returned no print data")
-        assert(pd.getColumnInfo.nonEmpty)
+        assert(printData != null, "the report returned no print data")
+        assert(printData.getColumnInfo.nonEmpty)
         assert(severe.isEmpty, s"SEVERE: $severe")
         assert(issues == 0, s"$issues AD_Issue rows created")
-        assert(pd.getRowCount == 0, s"${pd.getRowCount} rows for a query without rows")
-        assert(pd.isEmpty || pd.getNodeCount == 0)
+        assert(printData.getRowCount == 0, s"${printData.getRowCount} rows for a query without rows")
+        assert(printData.isEmpty || printData.getNodeCount == 0)
       }
     }
 
@@ -104,14 +104,14 @@ class ValidateReportGroupWithoutRows extends AnyFeatureSpec with AdempiereTestCa
       assert(functionRows(joined).nonEmpty, "no group or total rows")
       assert(joined.getRowCount == legacy.getRowCount)
       assert(functionRows(joined) == functionRows(legacy))
-      assert((0 until joined.getRowCount).count(i => !joined.isFunctionRow(i)) > 0)
+      assert((0 until joined.getRowCount).count(rowIndex => !joined.isFunctionRow(rowIndex)) > 0)
     }
 
     Scenario("the last group is still closed after the final row") {
       Given("the grouped print format without restriction")
-      val (pd, _, _) = run(GroupedFormat, join = true, None)
+      val (printData, _, _) = run(GroupedFormat, join = true, None)
       Then("the last row of the report is a function row")
-      assert(pd.isFunctionRow(pd.getRowCount - 1), "the final forced group change did not add its function rows")
+      assert(printData.isFunctionRow(printData.getRowCount - 1), "the final forced group change did not add its function rows")
     }
   }
 }

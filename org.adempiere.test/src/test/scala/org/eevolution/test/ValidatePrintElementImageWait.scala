@@ -37,7 +37,7 @@ class ValidatePrintElementImageWait extends AnyFeatureSpec with GivenWhenThen {
 
   private class Element extends PrintElement {
     override protected def calculateSize(): Boolean = true
-    override def paint(g2D: Graphics2D, pageNo: Int, pageStart: Point2D, ctx: Properties, isView: Boolean): Unit = ()
+    override def paint(g2D: Graphics2D, pageNo: Int, pageStart: Point2D, context: Properties, isView: Boolean): Unit = ()
   }
 
   private def withTempFile[T](suffix: String)(write: File => Unit)(body: File => T): T = {
@@ -53,10 +53,10 @@ class ValidatePrintElementImageWait extends AnyFeatureSpec with GivenWhenThen {
 
   private def writePng(file: File): Unit = {
     val image = new BufferedImage(8, 8, BufferedImage.TYPE_INT_RGB)
-    val g = image.createGraphics()
-    g.setColor(Color.RED)
-    g.fillRect(0, 0, 8, 8)
-    g.dispose()
+    val graphics = image.createGraphics()
+    graphics.setColor(Color.RED)
+    graphics.fillRect(0, 0, 8, 8)
+    graphics.dispose()
     assert(ImageIO.write(image, "png", file))
   }
 

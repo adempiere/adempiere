@@ -65,7 +65,7 @@ public abstract class PrintElement implements ImageObserver, Serializable
 	/** Loading Flag				*/
 	private boolean					m_imageNotLoaded = true;
 	/** Image load failed (ERROR or ABORT)	*/
-	private volatile boolean		m_imageFailed = false;
+	private volatile boolean		hasImageLoadFailed = false;
 	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
@@ -274,7 +274,7 @@ public abstract class PrintElement implements ImageObserver, Serializable
 		//	copied from java.awt.component
 		m_imageNotLoaded = (infoflags & (ALLBITS|ABORT)) == 0;
 		if ((infoflags & (ERROR|ABORT)) != 0)
-			m_imageFailed = true;
+			hasImageLoadFailed = true;
 		if (CLogMgt.isLevelFinest())
 			log.finest("Flags=" + infoflags
 				+ ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height 
@@ -290,7 +290,7 @@ public abstract class PrintElement implements ImageObserver, Serializable
 	public boolean waitForLoad (Image image)
 	{
 		long start = System.currentTimeMillis();
-		m_imageFailed = false;
+		hasImageLoadFailed = false;
 		Thread.yield();
 		int count = 0;
 		try
@@ -299,7 +299,7 @@ public abstract class PrintElement implements ImageObserver, Serializable
 			while (!toolkit.prepareImage(image, -1, -1, this))	//	ImageObserver calls imageUpdate
 			{
 				//	Image failed to load (e.g. URL redirected to a page): no need to wait for the timeout
-				if (m_imageFailed)
+				if (hasImageLoadFailed)
 				{
 					log.warning (this + " - Image not loaded - "
 						+ (System.currentTimeMillis()-start) + "ms - #" + count);

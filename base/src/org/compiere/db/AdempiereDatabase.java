@@ -412,9 +412,9 @@ public interface AdempiereDatabase
 		{
 			setter.accept(Long.parseLong(value.trim()));
 		}
-		catch (RuntimeException e)
+		catch (RuntimeException exception)
 		{
-			CLogger.getCLogger(AdempiereDatabase.class).warning(prefix + name + "=" + value + " is not valid (" + e.getMessage() + "), the default stays");
+			CLogger.getCLogger(AdempiereDatabase.class).warning(prefix + name + "=" + value + " is not valid (" + exception.getMessage() + "), the default stays");
 		}
 	}
 

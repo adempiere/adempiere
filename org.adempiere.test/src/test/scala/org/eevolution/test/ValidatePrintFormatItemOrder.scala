@@ -43,28 +43,28 @@ class ValidatePrintFormatItemOrder extends AnyFeatureSpec with AdempiereTestCase
         "ORDER BY pfi.AD_PrintFormat_ID"
     val statement = DB.prepareStatement(sql, null)
     try {
-      val rs = statement.executeQuery()
+      val resultSet = statement.executeQuery()
       try {
-        assert(rs.next(), "GardenWorld has no print format with two printed String items")
-        (rs.getInt(1), rs.getInt(2), rs.getInt(3))
-      } finally rs.close()
+        assert(resultSet.next(), "GardenWorld has no print format with two printed String items")
+        (resultSet.getInt(1), resultSet.getInt(2), resultSet.getInt(3))
+      } finally resultSet.close()
     } finally statement.close()
   }
 
   /** Both items get the same SeqNo, the lower ID last, so its row version is the newest one in the table. */
-  private def tie(lowerItem: Int, higherItem: Int, trxName: String): Unit = {
+  private def tie(lowerItem: Int, higherItem: Int, transactionName: String): Unit = {
     DB.executeUpdateEx("UPDATE AD_PrintFormatItem SET SeqNo=? WHERE AD_PrintFormatItem_ID=?",
-      Array[AnyRef](Integer.valueOf(TiedSeqNo), Integer.valueOf(higherItem)), trxName)
+      Array[AnyRef](Integer.valueOf(TiedSeqNo), Integer.valueOf(higherItem)), transactionName)
     DB.executeUpdateEx("UPDATE AD_PrintFormatItem SET SeqNo=? WHERE AD_PrintFormatItem_ID=?",
-      Array[AnyRef](Integer.valueOf(TiedSeqNo), Integer.valueOf(lowerItem)), trxName)
+      Array[AnyRef](Integer.valueOf(TiedSeqNo), Integer.valueOf(lowerItem)), transactionName)
   }
 
-  private def inRolledBackTrx[T](body: String => T): T = {
-    val trx = Trx.get(Trx.createTrxName("PrintFormatItemOrder"), true)
-    try body(trx.getTrxName)
+  private def inRolledBackTransaction[T](body: String => T): T = {
+    val transaction = Trx.get(Trx.createTrxName("PrintFormatItemOrder"), true)
+    try body(transaction.getTrxName)
     finally {
-      trx.rollback()
-      trx.close()
+      transaction.rollback()
+      transaction.close()
     }
   }
 
@@ -73,12 +73,12 @@ class ValidatePrintFormatItemOrder extends AnyFeatureSpec with AdempiereTestCase
     Scenario("the report columns of tied items follow AD_PrintFormatItem_ID, with lookup joins and subselects") {
       val (formatId, lowerItem, higherItem) = formatWithTwoPrintedItems()
       Given(s"print format $formatId with items $lowerItem and $higherItem tied at SeqNo $TiedSeqNo")
-      inRolledBackTrx { trxName =>
-        tie(lowerItem, higherItem, trxName)
+      inRolledBackTransaction { transactionName =>
+        tie(lowerItem, higherItem, transactionName)
         Seq(true, false).foreach { join =>
           When(s"the report data is built (lookup join $join, no definition cache)")
-          val format = new MPrintFormat(Env.getCtx, formatId, trxName)
-          val engine = new DataEngine(Language.getLanguage("en_US"), trxName)
+          val format = new MPrintFormat(Env.getCtx, formatId, transactionName)
+          val engine = new DataEngine(Language.getLanguage("en_US"), transactionName)
           engine.setLookupJoin(join)
           engine.setDefinitionCache(false)
           val query = new MQuery(format.getAD_Table_ID)
@@ -97,10 +97,10 @@ class ValidatePrintFormatItemOrder extends AnyFeatureSpec with AdempiereTestCase
     Scenario("MPrintFormat.getItems returns tied items in AD_PrintFormatItem_ID order") {
       val (formatId, lowerItem, higherItem) = formatWithTwoPrintedItems()
       Given(s"print format $formatId with items $lowerItem and $higherItem tied at SeqNo $TiedSeqNo")
-      inRolledBackTrx { trxName =>
-        tie(lowerItem, higherItem, trxName)
+      inRolledBackTransaction { transactionName =>
+        tie(lowerItem, higherItem, transactionName)
         When("the items of the print format are loaded")
-        val items = new MPrintFormat(Env.getCtx, formatId, trxName).getItems.toVector.map(_.getAD_PrintFormatItem_ID)
+        val items = new MPrintFormat(Env.getCtx, formatId, transactionName).getItems.toVector.map(_.getAD_PrintFormatItem_ID)
         Then("the lower AD_PrintFormatItem_ID comes first")
         assert(items.indexOf(lowerItem) >= 0 && items.indexOf(higherItem) >= 0, s"items $items")
         assert(items.indexOf(lowerItem) < items.indexOf(higherItem),

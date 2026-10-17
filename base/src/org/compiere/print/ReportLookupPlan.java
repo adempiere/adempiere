@@ -108,8 +108,8 @@ final class ReportLookupPlan
 		/** @return the expression with NVL(Translation.Column,Table.Column) in place of each Translation.Column */
 		private String withFallback(String expression)
 		{
-			Pattern translated = Pattern.compile("(?<![A-Za-z0-9_$#.])" + Pattern.quote(translationAlias) + "\\.([A-Za-z0-9_]+)");
-			return translated.matcher(expression).replaceAll(Matcher.quoteReplacement("NVL(" + translationAlias + ".") + "$1,"
+			Pattern isTranslated = Pattern.compile("(?<![A-Za-z0-9_$#.])" + Pattern.quote(translationAlias) + "\\.([A-Za-z0-9_]+)");
+			return isTranslated.matcher(expression).replaceAll(Matcher.quoteReplacement("NVL(" + translationAlias + ".") + "$1,"
 				+ Matcher.quoteReplacement(alias + ".") + "$1)");
 		}
 	}
@@ -144,7 +144,7 @@ final class ReportLookupPlan
 					break;
 				}
 			}
-			int mark = joins.size();
+			int joinCountBeforeChange = joins.size();
 			boolean isNew = join == null;
 			if (isNew)
 			{
@@ -159,7 +159,7 @@ final class ReportLookupPlan
 				if (isNew)
 				{
 					parent.children--;
-					while (joins.size() > mark)
+					while (joins.size() > joinCountBeforeChange)
 						joins.remove(joins.size() - 1);
 				}
 				return null;
@@ -170,13 +170,13 @@ final class ReportLookupPlan
 
 	private static final CLogger log = CLogger.getCLogger(ReportLookupPlan.class);
 
-	private Join newJoin(MLookupFactory.TableDirEmbed embed, ReportLookupItem foreignKey, Join parent, String column, String path)
+	private Join newJoin(MLookupFactory.TableDirEmbed tableDirEmbed, ReportLookupItem foreignKey, Join parent, String column, String path)
 	{
-		String table = embed.getTableName();
-		boolean translated = embed.isTranslationJoin();
+		String table = tableDirEmbed.getTableName();
+		boolean isTranslated = tableDirEmbed.isTranslationJoin();
 		String alias = ReportLookupAlias.lookup(table, path, baseTable);
-		String translationAlias = translated ? ReportLookupAlias.translation(table, path, baseTable) : null;
-		return new Join(table, embed.getKeyColumn(), foreignKey, parent, column, path, alias, translationAlias);
+		String translationAlias = isTranslated ? ReportLookupAlias.translation(table, path, baseTable) : null;
+		return new Join(table, tableDirEmbed.getKeyColumn(), foreignKey, parent, column, path, alias, translationAlias);
 	}
 
 	private final Language language;
@@ -210,11 +210,11 @@ final class ReportLookupPlan
 	 * 	@param embed identifier definition of the lookup table, null if it could not be read
 	 * 	@return false if the column must keep the correlated subselect
 	 */
-	boolean lookup(ReportLookupItem display, ReportLookupItem foreignKey, MLookupFactory.TableDirEmbed embed)
+	boolean lookup(ReportLookupItem display, ReportLookupItem foreignKey, MLookupFactory.TableDirEmbed tableDirEmbed)
 	{
-		if (embed == null || embed.hasVirtualColumn() || !embed.isJoinable())
+		if (tableDirEmbed == null || tableDirEmbed.hasVirtualColumn() || !tableDirEmbed.isJoinable())
 			return false;
-		String table = embed.getTableName();
+		String table = tableDirEmbed.getTableName();
 		Join join = null;
 		for (Join existing : joins)
 		{
@@ -226,20 +226,20 @@ final class ReportLookupPlan
 			}
 		}
 		boolean isNew = join == null;
-		int mark = joins.size();
+		int joinCountBeforeChange = joins.size();
 		if (isNew)
 		{
-			int n = 1;
+			int lookupNumber = 1;
 			for (Join existing : joins)
 				if (existing.parent == null)
-					n++;
-			join = newJoin(embed, foreignKey, null, null, String.valueOf(n));
+					lookupNumber++;
+			join = newJoin(tableDirEmbed, foreignKey, null, null, String.valueOf(lookupNumber));
 			joins.add(join);
 		}
-		String expression = embed.getDisplayExpression(join.alias, join.translationAlias, new NestedJoins(join));
+		String expression = tableDirEmbed.getDisplayExpression(join.alias, join.translationAlias, new NestedJoins(join));
 		if (expression == null)
 		{
-			while (joins.size() > mark)
+			while (joins.size() > joinCountBeforeChange)
 				joins.remove(joins.size() - 1);
 			return false;
 		}
@@ -278,10 +278,10 @@ final class ReportLookupPlan
 		String column = expression.substring(start.length(), expression.length() - end.length());
 		if (column.length() == 0)
 			return null;
-		for (int i = 0; i < column.length(); i++)
+		for (int position = 0; position < column.length(); position++)
 		{
-			char c = column.charAt(i);
-			if (!Character.isLetterOrDigit(c) && c != '_')
+			char character = column.charAt(position);
+			if (!Character.isLetterOrDigit(character) && character != '_')
 				return null;
 		}
 		return column;
@@ -309,41 +309,41 @@ final class ReportLookupPlan
 	private static Set<String> readNotNullColumns(String table)
 	{
 		Set<String> columns = new HashSet<String>();
-		Connection conn = DB.getConnectionRO();
-		if (conn == null)
+		Connection connection = DB.getConnectionRO();
+		if (connection == null)
 			return columns;
-		ResultSet rs = null;
+		ResultSet resultSet = null;
 		try
 		{
-			DatabaseMetaData md = conn.getMetaData();
+			DatabaseMetaData metaData = connection.getMetaData();
 			String tableName = table;
-			if (md.storesUpperCaseIdentifiers())
+			if (metaData.storesUpperCaseIdentifiers())
 				tableName = table.toUpperCase();
-			else if (md.storesLowerCaseIdentifiers())
+			else if (metaData.storesLowerCaseIdentifiers())
 				tableName = table.toLowerCase();
-			rs = md.getColumns(DB.getDatabase().getCatalog(), DB.getDatabase().getSchema(), tableName, null);
-			while (rs.next())
+			resultSet = metaData.getColumns(DB.getDatabase().getCatalog(), DB.getDatabase().getSchema(), tableName, null);
+			while (resultSet.next())
 			{
 				//	the table name is a pattern: _ matches any character
-				if (table.equalsIgnoreCase(rs.getString("TABLE_NAME")) && "NO".equals(rs.getString("IS_NULLABLE")))
-					columns.add(rs.getString("COLUMN_NAME").toUpperCase());
+				if (table.equalsIgnoreCase(resultSet.getString("TABLE_NAME")) && "NO".equals(resultSet.getString("IS_NULLABLE")))
+					columns.add(resultSet.getString("COLUMN_NAME").toUpperCase());
 			}
 		}
-		catch (SQLException e)
+		catch (SQLException exception)
 		{
-			log.log(Level.WARNING, "Cannot read the NOT NULL columns of " + table, e);
+			log.log(Level.WARNING, "Cannot read the NOT NULL columns of " + table, exception);
 			columns.clear();
 		}
 		finally
 		{
-			DB.close(rs);
+			DB.close(resultSet);
 			try
 			{
-				conn.close();
+				connection.close();
 			}
-			catch (SQLException e)
+			catch (SQLException exception)
 			{
-				log.log(Level.FINE, "Close", e);
+				log.log(Level.FINE, "Close", exception);
 			}
 		}
 		return columns;
@@ -363,8 +363,8 @@ final class ReportLookupPlan
 			if (item.join != null)
 				continue;
 			String name = item.outputName;
-			for (int i = 1; name.equalsIgnoreCase(baseTable) || !names.add(name.toUpperCase()); i++)
-				name = uniqueName(item.outputName, "_" + i);
+			for (int suffixNumber = 1; name.equalsIgnoreCase(baseTable) || !names.add(name.toUpperCase()); suffixNumber++)
+				name = uniqueName(item.outputName, "_" + suffixNumber);
 			item.innerName = name;
 			if (select.length() > 0)
 				select.append(",");
@@ -382,8 +382,8 @@ final class ReportLookupPlan
 	 */
 	private static String uniqueName(String name, String suffix)
 	{
-		int max = ReportLookupAlias.MAX_LENGTH - suffix.length();
-		return (name.length() > max ? name.substring(0, max) : name) + suffix;
+		int maximumLength = ReportLookupAlias.MAX_LENGTH - suffix.length();
+		return (name.length() > maximumLength ? name.substring(0, maximumLength) : name) + suffix;
 	}
 
 	/**
@@ -393,9 +393,9 @@ final class ReportLookupPlan
 	 * 	@param inner statement of the report without lookup joins
 	 * 	@return statement without ORDER BY
 	 */
-	String outerSelect(List<ReportLookupItem> items, String inner)
+	String outerSelect(List<ReportLookupItem> items, String innerSelectList)
 	{
-		return outerPrefix(items) + inner + outerSuffix();
+		return outerPrefix(items) + innerSelectList + outerSuffix();
 	}
 
 	/**
@@ -407,14 +407,14 @@ final class ReportLookupPlan
 	String outerPrefix(List<ReportLookupItem> items)
 	{
 		StringBuilder sql = new StringBuilder("SELECT ");
-		boolean first = true;
+		boolean isFirst = true;
 		for (ReportLookupItem item : items)
 		{
-			if (item.hidden)
+			if (item.isHidden)
 				continue;
-			if (!first)
+			if (!isFirst)
 				sql.append(",");
-			first = false;
+			isFirst = false;
 			if (item.join != null)
 			{
 				sql.append(select(item.join, item.display)).append(" AS ").append(item.alias);

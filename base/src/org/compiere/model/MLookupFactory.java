@@ -567,19 +567,19 @@ public class MLookupFactory
 	{
 		//	A report run reads it once (report definition cache), any other caller reads the dictionary
 		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
-		List<Object> key = null;
+		List<Object> cacheKey = null;
 		if (scope != null && scope.isUsable())
 		{
-			key = Arrays.<Object>asList("TableEmbed", language.getAD_Language(), BaseColumn, BaseTable,
+			cacheKey = Arrays.<Object>asList("TableEmbed", language.getAD_Language(), BaseColumn, BaseTable,
 				Integer.valueOf(AD_Reference_Value_ID));
-			String cached = (String)scope.get(key);
+			String cached = (String)scope.get(cacheKey);
 			if (cached != null)
 				return cached;
 		}
-		String embed = readLookup_TableEmbed(language, BaseColumn, BaseTable, AD_Reference_Value_ID);
-		if (key != null && embed != null)
-			scope.put(key, embed);
-		return embed;
+		String embeddedSQL = readLookup_TableEmbed(language, BaseColumn, BaseTable, AD_Reference_Value_ID);
+		if (cacheKey != null && embeddedSQL != null)
+			scope.put(cacheKey, embeddedSQL);
+		return embeddedSQL;
 	}	//	getLookup_TableEmbed
 
 	/**
@@ -890,10 +890,10 @@ public class MLookupFactory
 	static public String getLookup_TableDirEmbed (Language language,
 		String ColumnName, String BaseTable, String BaseColumn)
 	{
-		TableDirEmbed embed = getTableDirEmbed(language, ColumnName);
-		if (embed == null)
+		TableDirEmbed tableDirEmbed = getTableDirEmbed(language, ColumnName);
+		if (tableDirEmbed == null)
 			return "";
-		return embed.getEmbedSQL(BaseTable, BaseColumn);
+		return tableDirEmbed.getEmbedSQL(BaseTable, BaseColumn);
 	}	//  getLookup_TableDirEmbed
 
 	/**
@@ -909,18 +909,18 @@ public class MLookupFactory
 	{
 		//	A report run reads it once (report definition cache), any other caller reads the dictionary
 		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
-		List<Object> key = null;
+		List<Object> cacheKey = null;
 		if (scope != null && scope.isUsable())
 		{
-			key = Arrays.<Object>asList("TableDirEmbed", language.getAD_Language(), ColumnName);
-			TableDirEmbed cached = (TableDirEmbed)scope.get(key);
+			cacheKey = Arrays.<Object>asList("TableDirEmbed", language.getAD_Language(), ColumnName);
+			TableDirEmbed cached = (TableDirEmbed)scope.get(cacheKey);
 			if (cached != null)
 				return cached;
 		}
-		TableDirEmbed embed = readTableDirEmbed(language, ColumnName);
-		if (key != null && embed != null)
-			scope.put(key, embed);
-		return embed;
+		TableDirEmbed tableDirEmbed = readTableDirEmbed(language, ColumnName);
+		if (cacheKey != null && tableDirEmbed != null)
+			scope.put(cacheKey, tableDirEmbed);
+		return tableDirEmbed;
 	}	//  getTableDirEmbed
 
 	/**
@@ -1011,17 +1011,17 @@ public class MLookupFactory
 		private final String keyColumn;
 		private final String tableName;
 		private final ArrayList<LookupDisplayColumn> columns;
-		private final boolean translated;
+		private final boolean isTranslated;
 
 		private TableDirEmbed (Language language, String columnName, String keyColumn, String tableName,
-			ArrayList<LookupDisplayColumn> columns, boolean translated)
+			ArrayList<LookupDisplayColumn> columns, boolean isTranslated)
 		{
 			this.language = language;
 			this.columnName = columnName;
 			this.keyColumn = keyColumn;
 			this.tableName = tableName;
 			this.columns = columns;
-			this.translated = translated;
+			this.isTranslated = isTranslated;
 		}
 
 		/** @return referenced table name */
@@ -1039,14 +1039,14 @@ public class MLookupFactory
 		/** @return true if the identifier is read from the _Trl table in the language of the report */
 		public boolean isTranslationJoin ()
 		{
-			return translated && !Env.isBaseLanguage(language, tableName);
+			return isTranslated && !Env.isBaseLanguage(language, tableName);
 		}
 
 		/** @return true if any identifier column is a virtual column (ColumnSQL) */
 		public boolean hasVirtualColumn ()
 		{
-			for (LookupDisplayColumn ldc : columns)
-				if (ldc.IsVirtual)
+			for (LookupDisplayColumn lookupDisplayColumn : columns)
+				if (lookupDisplayColumn.IsVirtual)
 					return true;
 			return false;
 		}
@@ -1058,15 +1058,15 @@ public class MLookupFactory
 		 */
 		public boolean isJoinable ()
 		{
-			Boolean memo = joinable;
-			if (memo == null)
+			Boolean cachedJoinable = joinable;
+			if (cachedJoinable == null)
 			{
-				memo = readJoinable();
-				if (memo == null)	//	the dictionary could not be read, the error is logged
+				cachedJoinable = readJoinable();
+				if (cachedJoinable == null)	//	the dictionary could not be read, the error is logged
 					return false;
-				joinable = memo;
+				joinable = cachedJoinable;
 			}
-			return memo.booleanValue();
+			return cachedJoinable.booleanValue();
 		}
 
 		/** isJoinable, read from the dictionary once: the definition is shared and never changes */
@@ -1080,34 +1080,34 @@ public class MLookupFactory
 			String sql = "SELECT t.IsView, k.ColumnName FROM AD_Table t"
 				+ " INNER JOIN AD_Column k ON (k.AD_Table_ID=t.AD_Table_ID) "
 				+ "WHERE t.TableName=? AND k.IsKey='Y' AND k.IsActive='Y'";
-			int keys = 0;
-			boolean ok = true;
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+			int keyCount = 0;
+			boolean isKeyColumnOfTable = true;
+			PreparedStatement statement = null;
+			ResultSet resultSet = null;
 			try
 			{
-				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setString(1, tableName);
-				rs = pstmt.executeQuery();
-				while (rs.next())
+				statement = DB.prepareStatement(sql, null);
+				statement.setString(1, tableName);
+				resultSet = statement.executeQuery();
+				while (resultSet.next())
 				{
-					keys++;
-					if ("Y".equals(rs.getString(1)) || !columnName.equals(rs.getString(2)))
-						ok = false;
+					keyCount++;
+					if ("Y".equals(resultSet.getString(1)) || !columnName.equals(resultSet.getString(2)))
+						isKeyColumnOfTable = false;
 				}
 			}
-			catch (SQLException e)
+			catch (SQLException exception)
 			{
-				s_log.log(Level.SEVERE, sql, e);
+				s_log.log(Level.SEVERE, sql, exception);
 				return null;
 			}
 			finally
 			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
+				DB.close(resultSet, statement);
+				resultSet = null;
+				statement = null;
 			}
-			return Boolean.valueOf(ok && keys == 1);
+			return Boolean.valueOf(isKeyColumnOfTable && keyCount == 1);
 		}
 
 		/**
@@ -1134,9 +1134,9 @@ public class MLookupFactory
 		 */
 		public String getDisplayExpression (String tableAlias, String translationAlias, NestedLookups nested)
 		{
-			boolean[] failed = new boolean[1];
-			String expression = getDisplayExpression(tableAlias, translationAlias, nested, failed);
-			return failed[0] ? null : expression;
+			boolean[] hasFailed = new boolean[1];
+			String expression = getDisplayExpression(tableAlias, translationAlias, nested, hasFailed);
+			return hasFailed[0] ? null : expression;
 		}
 
 		/**
@@ -1169,39 +1169,39 @@ public class MLookupFactory
 			return embedSQL.toString();
 		}
 
-		private String getDisplayExpression (String tableRef, String trlRef, NestedLookups nested, boolean[] failed)
+		private String getDisplayExpression (String tableAlias, String translationAlias, NestedLookups nested, boolean[] hasFailed)
 		{
 			StringBuffer embedSQL = new StringBuffer();
 			int size = columns.size();
-			for (int i = 0; i < size; i++)
+			for (int index = 0; index < size; index++)
 			{
-				if (i > 0)
+				if (index > 0)
 					embedSQL.append("||' - '||" );
-				LookupDisplayColumn ldc = (LookupDisplayColumn)columns.get(i);
-				String columnSQL = ldc.IsVirtual ? ldc.ColumnSQL : tableRef + "." + ldc.ColumnName;
+				LookupDisplayColumn lookupDisplayColumn = (LookupDisplayColumn)columns.get(index);
+				String columnSQL = lookupDisplayColumn.IsVirtual ? lookupDisplayColumn.ColumnSQL : tableAlias + "." + lookupDisplayColumn.ColumnName;
 
 				//  translated
-				if (ldc.IsTranslated && !Env.isBaseLanguage(language, tableName) && !ldc.IsVirtual)
+				if (lookupDisplayColumn.IsTranslated && !Env.isBaseLanguage(language, tableName) && !lookupDisplayColumn.IsVirtual)
 				{
-					embedSQL.append(trlRef).append(".").append(ldc.ColumnName);
+					embedSQL.append(translationAlias).append(".").append(lookupDisplayColumn.ColumnName);
 				}
 				//  date, number
-				else if (DisplayType.isDate(ldc.DisplayType) || DisplayType.isNumeric(ldc.DisplayType))
+				else if (DisplayType.isDate(lookupDisplayColumn.DisplayType) || DisplayType.isNumeric(lookupDisplayColumn.DisplayType))
 				{
-					embedSQL.append("NVL(" + DB.TO_CHAR(columnSQL, ldc.DisplayType, language.getAD_Language()) + ",'')");
+					embedSQL.append("NVL(" + DB.TO_CHAR(columnSQL, lookupDisplayColumn.DisplayType, language.getAD_Language()) + ",'')");
 				}
 				//  TableDir
-				else if ((ldc.DisplayType == DisplayType.TableDir || ldc.DisplayType == DisplayType.Search)
-				  && ldc.ColumnName.endsWith("_ID"))
+				else if ((lookupDisplayColumn.DisplayType == DisplayType.TableDir || lookupDisplayColumn.DisplayType == DisplayType.Search)
+				  && lookupDisplayColumn.ColumnName.endsWith("_ID"))
 				{
 					String joined = null;
-					if (nested != null && !ldc.IsVirtual)
+					if (nested != null && !lookupDisplayColumn.IsVirtual)
 					{
-						TableDirEmbed nestedEmbed = getTableDirEmbed(language, ldc.ColumnName);
+						TableDirEmbed nestedEmbed = getTableDirEmbed(language, lookupDisplayColumn.ColumnName);
 						if (nestedEmbed == null)
-							failed[0] = true;
+							hasFailed[0] = true;
 						else
-							joined = nested.join(nestedEmbed, tableRef, ldc.ColumnName);
+							joined = nested.join(nestedEmbed, tableAlias, lookupDisplayColumn.ColumnName);
 					}
 					if (joined != null)
 					{
@@ -1210,32 +1210,32 @@ public class MLookupFactory
 					else
 					{
 						String embeddedSQL;
-						if (ldc.IsVirtual)
-							embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef, ldc.ColumnSQL);
+						if (lookupDisplayColumn.IsVirtual)
+							embeddedSQL = getLookup_TableDirEmbed(language, lookupDisplayColumn.ColumnName, tableAlias, lookupDisplayColumn.ColumnSQL);
 						else
-							embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, tableRef);
+							embeddedSQL = getLookup_TableDirEmbed(language, lookupDisplayColumn.ColumnName, tableAlias);
 						if (Util.isEmpty(embeddedSQL))
-							failed[0] = true;
+							hasFailed[0] = true;
 						embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
 					}
 				}
 				//	Table - teo_sarca [ 1714261 ]
-				else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
+				else if (lookupDisplayColumn.DisplayType == DisplayType.Table && lookupDisplayColumn.AD_Reference_ID != 0)
 				{
 					String embeddedSQL;
-					if (ldc.IsVirtual)
-						embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnSQL, tableRef, ldc.AD_Reference_ID);
+					if (lookupDisplayColumn.IsVirtual)
+						embeddedSQL = getLookup_TableEmbed (language, lookupDisplayColumn.ColumnSQL, tableAlias, lookupDisplayColumn.AD_Reference_ID);
 					else
-						embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, tableRef, ldc.AD_Reference_ID);
+						embeddedSQL = getLookup_TableEmbed (language, lookupDisplayColumn.ColumnName, tableAlias, lookupDisplayColumn.AD_Reference_ID);
 					if (embeddedSQL != null)
 						embedSQL.append("(").append(embeddedSQL).append(")");
 					else
-						failed[0] = true;
+						hasFailed[0] = true;
 				}
 				//	ID
-				else if (DisplayType.isID(ldc.DisplayType))
+				else if (DisplayType.isID(lookupDisplayColumn.DisplayType))
 				{
-					embedSQL.append("NVL(" + DB.TO_CHAR(columnSQL, ldc.DisplayType, language.getAD_Language()) + ",'')");
+					embedSQL.append("NVL(" + DB.TO_CHAR(columnSQL, lookupDisplayColumn.DisplayType, language.getAD_Language()) + ",'')");
 				}
 				//  String
 				else

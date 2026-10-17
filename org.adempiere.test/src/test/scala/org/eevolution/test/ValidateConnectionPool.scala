@@ -72,8 +72,8 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
           "WHERE dbid = (SELECT oid FROM pg_database WHERE datname = current_database()) AND query ILIKE ?")
       try {
         statement.setString(1, prefix + "%")
-        val rs = statement.executeQuery()
-        try { rs.next(); rs.getLong(1) } finally rs.close()
+        val resultSet = statement.executeQuery()
+        try { resultSet.next(); resultSet.getLong(1) } finally resultSet.close()
       } finally statement.close()
     }).toOption
 
@@ -95,7 +95,7 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
     }
     val seen = scala.collection.mutable.ArrayBuffer.empty[RoundTrips]
     runs.take(5).takeWhile { run => seen += run; run.set != 0 || run.show != 0 }.foreach(_ => ())
-    seen.minBy(r => r.set + r.show)
+    seen.minBy(run => run.set + run.show)
   }
 
   // ---- state of a checkout -----------------------------------------------------------------------------------------
@@ -106,8 +106,8 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
     val statement = connection.createStatement()
     val pid =
       try {
-        val rs = statement.executeQuery("SELECT pg_backend_pid()")
-        try { rs.next(); rs.getInt(1) } finally rs.close()
+        val resultSet = statement.executeQuery("SELECT pg_backend_pid()")
+        try { resultSet.next(); resultSet.getInt(1) } finally resultSet.close()
       } finally statement.close()
     State(pid, connection.getAutoCommit, connection.getTransactionIsolation)
   }
@@ -115,8 +115,8 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
   private def scalar(connection: Connection, sql: String): String = {
     val statement = connection.createStatement()
     try {
-      val rs = statement.executeQuery(sql)
-      try { rs.next(); rs.getString(1) } finally rs.close()
+      val resultSet = statement.executeQuery(sql)
+      try { resultSet.next(); resultSet.getString(1) } finally resultSet.close()
     } finally statement.close()
   }
 
@@ -171,15 +171,15 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
   Feature("State of a connection after it returns to the pool") {
 
     Scenario("A transaction that commits leaves a connection with autoCommit and READ COMMITTED") {
-      val trx = Trx.get(Trx.createTrxName("ValidateConnectionPool_"), true)
-      val inTrx = stateOf(trx.getConnection)
-      check(!inTrx.autoCommit, "a Trx connection must not autocommit")
-      check(inTrx.isolation == Connection.TRANSACTION_READ_COMMITTED)
-      check(trx.commit(true))
-      trx.close()
+      val transaction = Trx.get(Trx.createTrxName("ValidateConnectionPool_"), true)
+      val inTransaction = stateOf(transaction.getConnection)
+      check(!inTransaction.autoCommit, "a Trx connection must not autocommit")
+      check(inTransaction.isolation == Connection.TRANSACTION_READ_COMMITTED)
+      check(transaction.commit(true))
+      transaction.close()
       val next = readOnlyCheckouts(5) :+ readWriteCheckout()
-      info(s"transaction connection pid ${inTrx.pid}; next checkouts: ${next.map(s => s"${s.pid}/${s.autoCommit}/${isolationName(s.isolation)}").mkString(", ")}")
-      check(next.exists(_.pid == inTrx.pid), "the connection of the transaction was not observed again")
+      info(s"transaction connection pid ${inTransaction.pid}; next checkouts: ${next.map(checkout => s"${checkout.pid}/${checkout.autoCommit}/${isolationName(checkout.isolation)}").mkString(", ")}")
+      check(next.exists(_.pid == inTransaction.pid), "the connection of the transaction was not observed again")
       Then("every next checkout, the one of the transaction included, has autoCommit and READ COMMITTED")
       check(next.forall(_.autoCommit), "autoCommit=false leaked to the next checkout")
       check(next.forall(_.isolation == Connection.TRANSACTION_READ_COMMITTED), "the isolation leaked to the next checkout")
@@ -188,15 +188,15 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
     Scenario("A transaction that rolls back leaves a connection with autoCommit and READ COMMITTED, and no data") {
       val original = DB.getSQLValueString(null, "SELECT Description FROM AD_System")
       val marker = "ValidateConnectionPool rolled back"
-      val trx = Trx.get(Trx.createTrxName("ValidateConnectionPool_"), true)
-      val inTrx = stateOf(trx.getConnection)
-      val updated = DB.executeUpdateEx("UPDATE AD_System SET Description = ?", Array[Object](marker), trx.getTrxName)
+      val transaction = Trx.get(Trx.createTrxName("ValidateConnectionPool_"), true)
+      val inTransaction = stateOf(transaction.getConnection)
+      val updated = DB.executeUpdateEx("UPDATE AD_System SET Description = ?", Array[Object](marker), transaction.getTrxName)
       check(updated == 1)
-      check(DB.getSQLValueString(trx.getTrxName, "SELECT Description FROM AD_System") == marker, "the change is not visible in its own transaction")
-      check(trx.rollback(true))
-      trx.close()
+      check(DB.getSQLValueString(transaction.getTrxName, "SELECT Description FROM AD_System") == marker, "the change is not visible in its own transaction")
+      check(transaction.rollback(true))
+      transaction.close()
       val next = readOnlyCheckouts(5) :+ readWriteCheckout()
-      check(next.exists(_.pid == inTrx.pid), "the connection of the transaction was not observed again")
+      check(next.exists(_.pid == inTransaction.pid), "the connection of the transaction was not observed again")
       check(next.forall(_.autoCommit) && next.forall(_.isolation == Connection.TRANSACTION_READ_COMMITTED))
       Then("the rolled back data is not visible")
       check(DB.getSQLValueString(null, "SELECT Description FROM AD_System") == original, "rolled back data is visible")
@@ -224,7 +224,7 @@ class ValidateConnectionPool extends AnyFeatureSpec with AdempiereTestCase with 
       check(!inUse.autoCommit)
       serializable.close()
       val next = readOnlyCheckouts(5) :+ readWriteCheckout()
-      info(s"serializable pid ${inUse.pid}; next: ${next.map(s => s"${s.pid}/${isolationName(s.isolation)}").mkString(", ")}")
+      info(s"serializable pid ${inUse.pid}; next: ${next.map(checkout => s"${checkout.pid}/${isolationName(checkout.isolation)}").mkString(", ")}")
       check(next.exists(_.pid == inUse.pid), "the SERIALIZABLE connection was not observed again")
       check(next.forall(_.isolation == Connection.TRANSACTION_READ_COMMITTED), "SERIALIZABLE leaked to the next checkout")
       check(next.forall(_.autoCommit))

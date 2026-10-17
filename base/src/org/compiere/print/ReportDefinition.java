@@ -40,9 +40,9 @@ final class ReportDefinition
 		private final String tableName;
 		private final String adLanguage;
 		private final int reportViewId;
-		private final boolean translationView;
-		private final boolean lookupJoin;
-		private final boolean fine;
+		private final boolean isTranslationView;
+		private final boolean isLookupJoinEnabled;
+		private final boolean isFine;
 		private final int[] orderColumnIds;
 
 		/**
@@ -55,44 +55,44 @@ final class ReportDefinition
 		 * 	@param fine log level is FINE or lower: the attribute set instance display adds the id
 		 * 	@param orderColumnIds AD_Column_IDs in sort order, as the print format object in memory has them
 		 */
-		Key (int printFormatId, String tableName, String adLanguage, int reportViewId, boolean translationView,
-			boolean lookupJoin, boolean fine, int[] orderColumnIds)
+		Key (int printFormatId, String tableName, String adLanguage, int reportViewId, boolean isTranslationView,
+			boolean isLookupJoinEnabled, boolean isFine, int[] orderColumnIds)
 		{
 			this.printFormatId = printFormatId;
 			this.tableName = tableName;
 			this.adLanguage = adLanguage;
 			this.reportViewId = reportViewId;
-			this.translationView = translationView;
-			this.lookupJoin = lookupJoin;
-			this.fine = fine;
+			this.isTranslationView = isTranslationView;
+			this.isLookupJoinEnabled = isLookupJoinEnabled;
+			this.isFine = isFine;
 			this.orderColumnIds = orderColumnIds.clone();
 		}
 
 		@Override
-		public boolean equals (Object o)
+		public boolean equals (Object object)
 		{
-			if (this == o)
+			if (this == object)
 				return true;
-			if (!(o instanceof Key))
+			if (!(object instanceof Key))
 				return false;
-			Key k = (Key)o;
-			return printFormatId == k.printFormatId && reportViewId == k.reportViewId
-				&& translationView == k.translationView && lookupJoin == k.lookupJoin && fine == k.fine
-				&& tableName.equals(k.tableName) && adLanguage.equals(k.adLanguage)
-				&& Arrays.equals(orderColumnIds, k.orderColumnIds);
+			Key otherKey = (Key)object;
+			return printFormatId == otherKey.printFormatId && reportViewId == otherKey.reportViewId
+				&& isTranslationView == otherKey.isTranslationView && isLookupJoinEnabled == otherKey.isLookupJoinEnabled && isFine == otherKey.isFine
+				&& tableName.equals(otherKey.tableName) && adLanguage.equals(otherKey.adLanguage)
+				&& Arrays.equals(orderColumnIds, otherKey.orderColumnIds);
 		}
 
 		@Override
 		public int hashCode ()
 		{
-			int h = printFormatId;
-			h = 31 * h + tableName.hashCode();
-			h = 31 * h + adLanguage.hashCode();
-			h = 31 * h + reportViewId;
-			h = 31 * h + (translationView ? 1 : 0);
-			h = 31 * h + (lookupJoin ? 1 : 0);
-			h = 31 * h + (fine ? 1 : 0);
-			return 31 * h + Arrays.hashCode(orderColumnIds);
+			int hash = printFormatId;
+			hash = 31 * hash + tableName.hashCode();
+			hash = 31 * hash + adLanguage.hashCode();
+			hash = 31 * hash + reportViewId;
+			hash = 31 * hash + (isTranslationView ? 1 : 0);
+			hash = 31 * hash + (isLookupJoinEnabled ? 1 : 0);
+			hash = 31 * hash + (isFine ? 1 : 0);
+			return 31 * hash + Arrays.hashCode(orderColumnIds);
 		}
 	}	//	Key
 
@@ -123,37 +123,37 @@ final class ReportDefinition
 		final int displayType;
 		final int fieldLength;
 		final String alias;
-		final boolean pageBreak;
+		final boolean isPageBreak;
 		final int printFormatItemId;
-		final boolean hideGrandTotal;
+		final boolean isGrandTotalHidden;
 		final String formatPattern;
 		final int sortOrderIndex;
 		final int displayOrderIndex;
 
-		Column (PrintDataColumn pdc, int fieldLength)
+		Column (PrintDataColumn printDataColumn, int fieldLength)
 		{
-			columnId = pdc.getAD_Column_ID();
-			columnName = pdc.getColumnName();
-			displayType = pdc.getDisplayType();
+			columnId = printDataColumn.getAD_Column_ID();
+			columnName = printDataColumn.getColumnName();
+			displayType = printDataColumn.getDisplayType();
 			this.fieldLength = fieldLength;
-			alias = pdc.getAlias();
-			pageBreak = pdc.isPageBreak();
-			printFormatItemId = pdc.getPrinformatItemId();
-			hideGrandTotal = pdc.isHideGrandTotal();
-			formatPattern = pdc.getFormatPattern();
-			sortOrderIndex = pdc.getSortOrderIndex();
-			displayOrderIndex = pdc.getDisplayOrderIndex();
+			alias = printDataColumn.getAlias();
+			isPageBreak = printDataColumn.isPageBreak();
+			printFormatItemId = printDataColumn.getPrinformatItemId();
+			isGrandTotalHidden = printDataColumn.isHideGrandTotal();
+			formatPattern = printDataColumn.getFormatPattern();
+			sortOrderIndex = printDataColumn.getSortOrderIndex();
+			displayOrderIndex = printDataColumn.getDisplayOrderIndex();
 		}
 
 		/** @return a new mutable column for one run */
 		PrintDataColumn newColumn ()
 		{
-			PrintDataColumn pdc = new PrintDataColumn(columnId, columnName, displayType, fieldLength, alias,
-				pageBreak, printFormatItemId, hideGrandTotal);
-			pdc.setFormatPattern(formatPattern);
-			pdc.setSortOrderIndex(sortOrderIndex);
-			pdc.setDisplayOrderIndex(displayOrderIndex);
-			return pdc;
+			PrintDataColumn printDataColumn = new PrintDataColumn(columnId, columnName, displayType, fieldLength, alias,
+				isPageBreak, printFormatItemId, isGrandTotalHidden);
+			printDataColumn.setFormatPattern(formatPattern);
+			printDataColumn.setSortOrderIndex(sortOrderIndex);
+			printDataColumn.setDisplayOrderIndex(displayOrderIndex);
+			return printDataColumn;
 		}
 	}	//	Column
 
@@ -183,13 +183,13 @@ final class ReportDefinition
 		final List<GroupSpec> groups = new ArrayList<GroupSpec>();
 		boolean hasRunningTotal = false;
 		int runningTotalLines = -1;
-		boolean tableIDRequired = false;
-		boolean tableIDPresent = false;
+		boolean isTableIdRequired = false;
+		boolean isTableIdPresent = false;
 		boolean hasLevelNo = false;
 		/** the join strategy was requested (part of the cache key) */
-		boolean lookupJoin = false;
+		boolean isLookupJoinEnabled = false;
 		/** at least one lookup was joined: the statement is wrapped by {@link #outerPrefix} and {@link #outerSuffix} */
-		boolean lookupJoined = false;
+		boolean isLookupJoined = false;
 		String head;
 		String groupBy = "";
 		String outerPrefix = "";
@@ -197,7 +197,7 @@ final class ReportDefinition
 		String orderBy = "";
 		String tag = "";
 		/** false when the dictionary could not be read completely (an error was logged): do not cache it */
-		boolean complete = true;
+		boolean isComplete = true;
 
 		ReportDefinition build ()
 		{
@@ -211,13 +211,13 @@ final class ReportDefinition
 	final boolean hasRunningTotal;
 	/** greatest RunningTotalLines of the items, meaningful when {@link #hasRunningTotal} */
 	final int runningTotalLines;
-	final boolean tableIDRequired;
-	final boolean tableIDPresent;
+	final boolean isTableIdRequired;
+	final boolean isTableIdPresent;
 	final boolean hasLevelNo;
 	/** the join strategy was requested */
-	final boolean lookupJoin;
+	final boolean isLookupJoinEnabled;
 	/** at least one lookup was joined, so {@link #finish(String)} wraps the statement */
-	final boolean lookupJoined;
+	final boolean isLookupJoined;
 	/** SELECT list and FROM clause (with the joins of the Table, List and special lookups) */
 	final String head;
 	/** GROUP BY clause or empty */
@@ -231,27 +231,27 @@ final class ReportDefinition
 	/** DBA tag inserted after SELECT, empty when the lookups are not joined */
 	final String tag;
 	/** false when the dictionary could not be read completely */
-	final boolean complete;
+	final boolean isComplete;
 
-	private ReportDefinition (Builder b)
+	private ReportDefinition (Builder builder)
 	{
-		tableName = b.tableName;
-		columns = Collections.unmodifiableList(new ArrayList<Column>(b.columns));
-		groups = Collections.unmodifiableList(new ArrayList<GroupSpec>(b.groups));
-		hasRunningTotal = b.hasRunningTotal;
-		runningTotalLines = b.runningTotalLines;
-		tableIDRequired = b.tableIDRequired;
-		tableIDPresent = b.tableIDPresent;
-		hasLevelNo = b.hasLevelNo;
-		lookupJoin = b.lookupJoin;
-		lookupJoined = b.lookupJoined;
-		head = b.head;
-		groupBy = b.groupBy;
-		outerPrefix = b.outerPrefix;
-		outerSuffix = b.outerSuffix;
-		orderBy = b.orderBy;
-		tag = b.tag;
-		complete = b.complete;
+		tableName = builder.tableName;
+		columns = Collections.unmodifiableList(new ArrayList<Column>(builder.columns));
+		groups = Collections.unmodifiableList(new ArrayList<GroupSpec>(builder.groups));
+		hasRunningTotal = builder.hasRunningTotal;
+		runningTotalLines = builder.runningTotalLines;
+		isTableIdRequired = builder.isTableIdRequired;
+		isTableIdPresent = builder.isTableIdPresent;
+		hasLevelNo = builder.hasLevelNo;
+		isLookupJoinEnabled = builder.isLookupJoinEnabled;
+		isLookupJoined = builder.isLookupJoined;
+		head = builder.head;
+		groupBy = builder.groupBy;
+		outerPrefix = builder.outerPrefix;
+		outerSuffix = builder.outerSuffix;
+		orderBy = builder.orderBy;
+		tag = builder.tag;
+		isComplete = builder.isComplete;
 	}
 
 	/**
@@ -274,10 +274,10 @@ final class ReportDefinition
 	 */
 	PrintDataColumn[] newColumns ()
 	{
-		PrintDataColumn[] info = new PrintDataColumn[columns.size()];
-		for (int i = 0; i < info.length; i++)
-			info[i] = columns.get(i).newColumn();
-		return info;
+		PrintDataColumn[] printDataColumns = new PrintDataColumn[columns.size()];
+		for (int index = 0; index < printDataColumns.length; index++)
+			printDataColumns[index] = columns.get(index).newColumn();
+		return printDataColumns;
 	}	//	newColumns
 
 	/**
@@ -288,10 +288,10 @@ final class ReportDefinition
 	String finish (String filtered)
 	{
 		StringBuffer sql = new StringBuffer(filtered).append(groupBy);
-		if (lookupJoined)
+		if (isLookupJoined)
 			sql = new StringBuffer(outerPrefix).append(sql).append(outerSuffix);
 		//	the ORDER BY of the statement with joins starts a line, the legacy statement stays on one line
-		if (lookupJoined && orderBy.length() > 0)
+		if (isLookupJoined && orderBy.length() > 0)
 			sql.append("\n").append(orderBy.substring(1));
 		else
 			sql.append(orderBy);

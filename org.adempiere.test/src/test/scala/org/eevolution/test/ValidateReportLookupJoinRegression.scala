@@ -50,49 +50,49 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   private val PaymentViewReportView = 155 // C_Payment_v: DocStatus IN ('CO','CL') AND IsAllocated='N' (unqualified)
 
   private case class Cell(name: String, key: String, value: String, display: String, pKey: Boolean, displayType: Int)
-  private case class Run(pd: Option[PrintData], error: Option[String]) {
-    def sql: String = pd.map(_.getSQL).getOrElse("")
+  private case class Run(printData: Option[PrintData], error: Option[String]) {
+    def sql: String = printData.map(_.getSQL).getOrElse("")
   }
   private case class Result(formatId: Int, legacy: Run, join: Run, problems: Vector[String]) {
-    def compared: Boolean = legacy.pd.isDefined && join.pd.isDefined
+    def compared: Boolean = legacy.printData.isDefined && join.printData.isDefined
   }
 
   private def language(name: String) = Language.getLanguage(name)
 
   private def runEngine(
       format: () => MPrintFormat,
-      lang: Language,
+      languageCode: Language,
       join: Option[Boolean],
       restrict: MQuery => Unit = _ => (),
       reportViewId: Int = 0,
-      trx: String = null
+      transactionName: String = null
   ): Run =
     Try {
       val query = new MQuery()
       restrict(query)
-      val engine = new DataEngine(lang, trx)
+      val engine = new DataEngine(languageCode, transactionName)
       join.foreach(flag => engine.setLookupJoin(flag))
       Run(Option(engine.getPrintData(Env.getCtx, format(), query, false, reportViewId)), None)
-    }.recover { case e: Throwable => Run(None, Some(e.toString)) }.get
+    }.recover { case throwable: Throwable => Run(None, Some(throwable.toString)) }.get
 
   private def storedFormat(id: Int): () => MPrintFormat = () => MPrintFormat.get(Env.getCtx, id, true)
 
-  private def cells(pd: PrintData): Vector[Vector[Cell]] =
-    (0 until pd.getRowCount).map { row =>
-      pd.setRowIndex(row)
-      (0 until pd.getNodeCount).map { index =>
-        pd.getNode(index) match {
-          case e: PrintDataElement =>
-            Cell(e.getColumnName, e.getValueKey, String.valueOf(e.getValue), e.getValueAsString, e.isPKey, e.getDisplayType)
+  private def cells(printData: PrintData): Vector[Vector[Cell]] =
+    (0 until printData.getRowCount).map { row =>
+      printData.setRowIndex(row)
+      (0 until printData.getNodeCount).map { index =>
+        printData.getNode(index) match {
+          case element: PrintDataElement =>
+            Cell(element.getColumnName, element.getValueKey, String.valueOf(element.getValue), element.getValueAsString, element.isPKey, element.getDisplayType)
           case other => Cell("#", "", String.valueOf(other), "", false, -1)
         }
       }.toVector
     }.toVector
 
-  private def functionRows(pd: PrintData): Vector[Int] = (0 until pd.getRowCount).filter(i => pd.isFunctionRow(i)).toVector
+  private def functionRows(printData: PrintData): Vector[Int] = (0 until printData.getRowCount).filter(rowIndex => printData.isFunctionRow(rowIndex)).toVector
 
   /** ORDER BY clause of the statement (the outer one): same entries, same sequence, same DESC, same positions */
-  private def orderBy(sql: String): String = OrderByStart.findAllMatchIn(sql).toVector.lastOption.map(m => " ORDER BY " + sql.substring(m.end)).getOrElse("")
+  private def orderBy(sql: String): String = OrderByStart.findAllMatchIn(sql).toVector.lastOption.map(orderByMatch => " ORDER BY " + sql.substring(orderByMatch.end)).getOrElse("")
 
   /** Key column of the table when it has exactly one active real key column (dictionary oracle of the tie-break) */
   private def singleKey(table: String): Option[String] = {
@@ -100,9 +100,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       "SELECT c.ColumnName, c.ColumnSQL FROM AD_Column c INNER JOIN AD_Table t ON (t.AD_Table_ID=c.AD_Table_ID) " +
         "WHERE UPPER(t.TableName)=UPPER(?) AND c.IsKey='Y' AND c.IsActive='Y'", null)
     statement.setString(1, table)
-    val rs = statement.executeQuery()
-    val keys = try Iterator.continually(rs).takeWhile(_.next()).map(r => (r.getString(1), Option(r.getString(2)).exists(_.trim.nonEmpty))).toVector
-    finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    val keys = try Iterator.continually(resultSet).takeWhile(_.next()).map(row => (row.getString(1), Option(row.getString(2)).exists(_.trim.nonEmpty))).toVector
+    finally DB.close(resultSet, statement)
     keys match {
       case Vector((column, false)) => Some(column)
       case _ => None
@@ -119,23 +119,23 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
   private def multiset[T](values: Vector[T]): Map[T, Int] = values.groupBy(identity).view.mapValues(_.size).toMap
 
-  private def columns(pd: PrintData) =
-    pd.getColumnInfo.toVector.map(c => (c.getAD_Column_ID, c.getColumnName, c.getAlias, c.hasAlias, c.getDisplayType))
+  private def columns(printData: PrintData) =
+    printData.getColumnInfo.toVector.map(printDataColumn => (printDataColumn.getAD_Column_ID, printDataColumn.getColumnName, printDataColumn.getAlias, printDataColumn.hasAlias, printDataColumn.getDisplayType))
 
   /** true when the statement is rejected by the database */
   private def sqlFails(sql: String): Boolean = Try {
     val statement = DB.prepareStatement(sql, null)
-    var rs: ResultSet = null
+    var resultSet: ResultSet = null
     try {
-      rs = statement.executeQuery()
-    } finally DB.close(rs, statement)
+      resultSet = statement.executeQuery()
+    } finally DB.close(resultSet, statement)
   }.isFailure
 
   /** Printed TableDir / Search (without reference value) columns that the join strategy resolves at top level */
-  private def tableDirColumns(pd: PrintData) =
-    pd.getColumnInfo.toVector.filter { c =>
-      c.getAlias != DataEngine.KEY && c.hasAlias && {
-        val column = MColumn.get(Env.getCtx, c.getAD_Column_ID)
+  private def tableDirColumns(printData: PrintData) =
+    printData.getColumnInfo.toVector.filter { printDataColumn =>
+      printDataColumn.getAlias != DataEngine.KEY && printDataColumn.hasAlias && {
+        val column = MColumn.get(Env.getCtx, printDataColumn.getAD_Column_ID)
         !column.isKey && (column.getAD_Reference_ID == DisplayType.TableDir ||
           (column.getAD_Reference_ID == DisplayType.Search && column.getAD_Reference_Value_ID == 0))
       }
@@ -158,11 +158,11 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   }
 
   private def lookupJoins(sql: String): Vector[JoinRow] =
-    AnyJoin.findAllMatchIn(sql).map(m => JoinRow(m.group(1), m.group(2), m.group(3), m.group(4), m.group(6))).toVector.filter(_.isLookup)
+    AnyJoin.findAllMatchIn(sql).map(joinMatch => JoinRow(joinMatch.group(1), joinMatch.group(2), joinMatch.group(3), joinMatch.group(4), joinMatch.group(6))).toVector.filter(_.isLookup)
 
   /** The join of a lookup table: top level (parent = the derived table) or nested on the alias of its parent */
   private def joinOf(sql: String, table: String, parentAlias: String): JoinRow =
-    lookupJoins(sql).find(j => j.table == table && j.parentAlias == parentAlias).getOrElse(fail(s"$table is not joined on $parentAlias"))
+    lookupJoins(sql).find(lookupJoin => lookupJoin.table == table && lookupJoin.parentAlias == parentAlias).getOrElse(fail(s"$table is not joined on $parentAlias"))
 
   /** Nested TableDir / Search(_ID) identifier columns of a table that the join path chains (dictionary oracle, base language) */
   private val nestedColumnCache = scala.collection.mutable.Map.empty[String, Vector[String]]
@@ -172,8 +172,8 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         "WHERE t.TableName=? AND c.IsIdentifier='Y' AND c.AD_Reference_ID IN (19,30) AND c.ColumnName LIKE '%\\_ID' " +
         "AND (c.ColumnSQL IS NULL OR TRIM(c.ColumnSQL)='') ORDER BY c.SeqNo", null)
     statement.setString(1, table)
-    val rs = statement.executeQuery()
-    val columns = try Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    val columns = try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(resultSet, statement)
     columns.filter { column =>
       val embed = org.compiere.model.MLookupFactory.getTableDirEmbed(language(English), column)
       embed != null && embed.isJoinable && !embed.hasVirtualColumn
@@ -186,15 +186,15 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     val rows = lookupJoins(sql)
     rows.foreach { parent =>
       nestedColumns(parent.table).foreach { column =>
-        val child = rows.find(r => r.parentAlias == parent.alias && r.column == column)
+        val child = rows.find(joinRow => joinRow.parentAlias == parent.alias && joinRow.column == column)
         val subselect = sql.contains(s" WHERE ${parent.alias}.$column=")
         if (parent.depth < 3) {
           if (child.isEmpty) problems += s"${parent.alias}.$column is not joined"
           if (subselect) problems += s"${parent.alias}.$column keeps a nested display subselect"
-          child.foreach { c =>
-            val expected = s"${parent.path}_${rows.filter(_.parentAlias == parent.alias).indexOf(c) + 1}"
-            if (c.path != expected) problems += s"${c.alias} should have the path $expected"
-            if (c.key != c.column) problems += s"${c.alias} is joined by ${c.key}, not by $column"
+          child.foreach { nestedJoin =>
+            val expected = s"${parent.path}_${rows.filter(_.parentAlias == parent.alias).indexOf(nestedJoin) + 1}"
+            if (nestedJoin.path != expected) problems += s"${nestedJoin.alias} should have the path $expected"
+            if (nestedJoin.key != nestedJoin.column) problems += s"${nestedJoin.alias} is joined by ${nestedJoin.key}, not by $column"
           }
         } else {
           if (child.isDefined) problems += s"${parent.alias}.$column is joined below the depth limit"
@@ -208,32 +208,32 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   /** Compare the PrintData built by both strategies. Returns the problems found (empty = identical). */
   private def differences(legacy: Run, join: Run): Vector[String] = {
     val problems = ArrayBuffer.empty[String]
-    (legacy.pd, join.pd) match {
+    (legacy.printData, join.printData) match {
       case (None, None) => ()
       case (Some(_), None) => problems += s"join path returned no PrintData (${join.error.getOrElse("null")}), legacy did"
       case (None, Some(_)) => problems += s"legacy path returned no PrintData (${legacy.error.getOrElse("null")}), join path did"
-      case (Some(l), Some(j)) =>
-        if (columns(l) != columns(j)) problems += s"columns differ: ${columns(l)} <> ${columns(j)}"
-        if (l.getRowCount != j.getRowCount) problems += s"row count differs: ${l.getRowCount} <> ${j.getRowCount}"
+      case (Some(legacyPrintData), Some(joinPrintData)) =>
+        if (columns(legacyPrintData) != columns(joinPrintData)) problems += s"columns differ: ${columns(legacyPrintData)} <> ${columns(joinPrintData)}"
+        if (legacyPrintData.getRowCount != joinPrintData.getRowCount) problems += s"row count differs: ${legacyPrintData.getRowCount} <> ${joinPrintData.getRowCount}"
         else {
-          val legacyRows = cells(l)
-          val joinRows = cells(j)
+          val legacyRows = cells(legacyPrintData)
+          val joinRows = cells(joinPrintData)
           // The ORDER BY key sequence must be identical (DESC and display sorts included). Rows that share the same
           // key are a tie group: neither path defines their order, so each tie group is compared as a multiset.
-          val sortColumns = l.getColumnInfo.toVector.filter(_.getSortOrderIndex > 0).sortBy(_.getSortOrderIndex)
-            .map(c => (c.getColumnName, c.hasAlias && c.getAlias != DataEngine.KEY))
+          val sortColumns = legacyPrintData.getColumnInfo.toVector.filter(_.getSortOrderIndex > 0).sortBy(_.getSortOrderIndex)
+            .map(printDataColumn => (printDataColumn.getColumnName, printDataColumn.hasAlias && printDataColumn.getAlias != DataEngine.KEY))
           // The ORDER BY sorts a lookup column by its display (synthetic alias), not by its ID: two IDs with the same
           // display (e.g. two cost elements named "Material") are tied, so the key of a lookup column is its display
           // only. Other columns sort by their value. The per-tie-group multiset below still checks the ID/display pairs.
           def sortKey(row: Vector[Cell]) = sortColumns.map { case (name, isLookup) =>
-            row.find(_.name == name).map(c => if (isLookup) c.value else (c.key, c.value))
+            row.find(_.name == name).map(cell => if (isLookup) cell.value else (cell.key, cell.value))
           }
           val legacyKeys = legacyRows.map(sortKey)
           val joinKeys = joinRows.map(sortKey)
           if (legacyKeys != joinKeys) problems += s"sort order differs by ${sortColumns.mkString(",")}"
           else {
-            val ties = legacyKeys.indices.foldLeft(Vector.empty[(Int, Int)]) { (groups, i) =>
-              if (groups.nonEmpty && legacyKeys(i) == legacyKeys(i - 1)) groups.init :+ ((groups.last._1, i + 1)) else groups :+ ((i, i + 1))
+            val ties = legacyKeys.indices.foldLeft(Vector.empty[(Int, Int)]) { (groups, keyIndex) =>
+              if (groups.nonEmpty && legacyKeys(keyIndex) == legacyKeys(keyIndex - 1)) groups.init :+ ((groups.last._1, keyIndex + 1)) else groups :+ ((keyIndex, keyIndex + 1))
             }
             val differing = ties.filter { case (from, until) => multiset(legacyRows.slice(from, until)) != multiset(joinRows.slice(from, until)) }
             if (differing.nonEmpty)
@@ -241,13 +241,13 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
                 s"legacy ${legacyRows.slice(differing.head._1, differing.head._2).headOption} <> join ${joinRows.slice(differing.head._1, differing.head._2).headOption}"
           }
           // group breaks and function rows (PrintDataGroup) are on the same rows
-          if (functionRows(l) != functionRows(j)) problems += s"function rows differ: ${functionRows(l)} <> ${functionRows(j)}"
+          if (functionRows(legacyPrintData) != functionRows(joinPrintData)) problems += s"function rows differ: ${functionRows(legacyPrintData)} <> ${functionRows(joinPrintData)}"
         }
         // a format without sort columns gets the key of the base table on the join path (S26), nothing else changes
-        val expectedOrderBy = tieBreak(l).getOrElse(orderBy(l.getSQL))
-        if (expectedOrderBy != orderBy(j.getSQL)) problems += s"ORDER BY differs: expected $expectedOrderBy, join ${orderBy(j.getSQL)}"
-        if (l.getRowCount == 0 && sqlFails(l.getSQL) != sqlFails(j.getSQL))
-          problems += s"legacy SQL fails=${sqlFails(l.getSQL)} but join SQL fails=${sqlFails(j.getSQL)}"
+        val expectedOrderBy = tieBreak(legacyPrintData).getOrElse(orderBy(legacyPrintData.getSQL))
+        if (expectedOrderBy != orderBy(joinPrintData.getSQL)) problems += s"ORDER BY differs: expected $expectedOrderBy, join ${orderBy(joinPrintData.getSQL)}"
+        if (legacyPrintData.getRowCount == 0 && sqlFails(legacyPrintData.getSQL) != sqlFails(joinPrintData.getSQL))
+          problems += s"legacy SQL fails=${sqlFails(legacyPrintData.getSQL)} but join SQL fails=${sqlFails(joinPrintData.getSQL)}"
     }
     problems.toVector
   }
@@ -258,25 +258,25 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   /** SQL contract of the join path. Returns the problems found. */
   private def joinSqlProblems(formatId: Int, run: Run): Vector[String] = {
     val problems = ArrayBuffer.empty[String]
-    run.pd.foreach { pd =>
-      val sql = pd.getSQL
+    run.printData.foreach { printData =>
+      val sql = printData.getSQL
       if (!sql.startsWith(s"$Tag$formatId */ ")) problems += s"SQL does not start with the tag: ${sql.take(60)}"
       // the derived table is closed by OFFSET 0 ROWS on PostgreSQL and Oracle, and only there
-      if (sql.contains("\nFROM (") && sql.contains(s" OFFSET 0 ROWS) ${pd.getTableName}\n") != fenced)
+      if (sql.contains("\nFROM (") && sql.contains(s" OFFSET 0 ROWS) ${printData.getTableName}\n") != fenced)
         problems += s"OFFSET 0 ROWS closing the derived table: expected $fenced, SQL ${sql.take(60)}"
       if (sql.contains(" AS ")) {
         // semantic aliases only: TableName_n / TableName_Trl_n, at most 30 characters
-        val baseTable = pd.getTableName
+        val baseTable = printData.getTableName
         lookupJoins(sql).foreach { row =>
           if (row.alias != ReportLookupAlias.lookup(row.table, row.path, baseTable)) problems += s"unexpected lookup alias ${row.alias} for ${row.table}"
           if (row.alias.length > 30) problems += s"alias longer than 30 characters: ${row.alias}"
           if (row.alias.equalsIgnoreCase(baseTable)) problems += s"alias equals the base table: ${row.alias}"
           if (row.depth > 3) problems += s"join deeper than the depth limit: ${row.alias}"
-          if (row.depth > 1 && !lookupJoins(sql).exists(p => p.alias == row.parentAlias && p.path == row.path.substring(0, row.path.lastIndexOf('_'))))
+          if (row.depth > 1 && !lookupJoins(sql).exists(parentJoin => parentJoin.alias == row.parentAlias && parentJoin.path == row.path.substring(0, row.path.lastIndexOf('_'))))
             problems += s"nested join ${row.alias} is not on a parent join: ${row.parentAlias}"
         }
-        TranslationJoin.findAllMatchIn(sql).foreach { m =>
-          val (trlTable, alias) = (m.group(1), m.group(2))
+        TranslationJoin.findAllMatchIn(sql).foreach { joinMatch =>
+          val (trlTable, alias) = (joinMatch.group(1), joinMatch.group(2))
           val path = TranslationPath.findFirstMatchIn(alias).map(_.group(1)).getOrElse("")
           val table = trlTable.substring(0, trlTable.length - "_Trl".length)
           if (alias != ReportLookupAlias.translation(table, path, baseTable)) problems += s"unexpected translation alias $alias for $trlTable"
@@ -284,9 +284,9 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         }
       }
       // every top-level TableDir column is either a join CASE or (fallback) the legacy subselect, never missing
-      tableDirColumns(pd).foreach { c =>
-        if (!isJoined(sql, c.getAlias) && !sql.contains(s") AS ${c.getAlias},"))
-          problems += s"TableDir column ${c.getColumnName} is not resolved as ${c.getAlias}"
+      tableDirColumns(printData).foreach { printDataColumn =>
+        if (!isJoined(sql, printDataColumn.getAlias) && !sql.contains(s") AS ${printDataColumn.getAlias},"))
+          problems += s"TableDir column ${printDataColumn.getColumnName} is not resolved as ${printDataColumn.getAlias}"
       }
     }
     problems.toVector
@@ -322,42 +322,42 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     try {
       val metadata = connection.getMetaData
       def fold(name: String) = if (metadata.storesUpperCaseIdentifiers) name.toUpperCase else if (metadata.storesLowerCaseIdentifiers) name.toLowerCase else name
-      val rs = metadata.getColumns(null, DB.getDatabase.getSchema, fold(table), fold(column))
+      val resultSet = metadata.getColumns(null, DB.getDatabase.getSchema, fold(table), fold(column))
       try {
-        val found = Iterator.continually(rs).takeWhile(_.next()).find(r => r.getString("TABLE_NAME").equalsIgnoreCase(table) && r.getString("COLUMN_NAME").equalsIgnoreCase(column))
+        val found = Iterator.continually(resultSet).takeWhile(_.next()).find(columnRow => columnRow.getString("TABLE_NAME").equalsIgnoreCase(table) && columnRow.getString("COLUMN_NAME").equalsIgnoreCase(column))
         assert(found.isDefined, s"$table.$column is not in the database catalog")
         found.get.getString("IS_NULLABLE") == "NO"
-      } finally rs.close()
+      } finally resultSet.close()
     } finally connection.close()
   }
 
-  private def joinedLookups(run: Run): Int = run.pd.map(pd => tableDirColumns(pd).count(c => isJoined(run.sql, c.getAlias))).getOrElse(0)
-  private def subselectLookups(run: Run): Int = run.pd.map(pd => tableDirColumns(pd).count(c => run.sql.contains(s") AS ${c.getAlias},"))).getOrElse(0)
+  private def joinedLookups(run: Run): Int = run.printData.map(printData => tableDirColumns(printData).count(printDataColumn => isJoined(run.sql, printDataColumn.getAlias))).getOrElse(0)
+  private def subselectLookups(run: Run): Int = run.printData.map(printData => tableDirColumns(printData).count(printDataColumn => run.sql.contains(s") AS ${printDataColumn.getAlias},"))).getOrElse(0)
 
   private def compare(
       format: () => MPrintFormat,
       formatId: Int,
-      lang: Language,
+      languageCode: Language,
       restrict: MQuery => Unit = _ => (),
       reportViewId: Int = 0,
-      trx: String = null
+      transactionName: String = null
   ): Result = {
-    val legacy = runEngine(format, lang, Some(false), restrict, reportViewId, trx)
-    val join = runEngine(format, lang, Some(true), restrict, reportViewId, trx)
+    val legacy = runEngine(format, languageCode, Some(false), restrict, reportViewId, transactionName)
+    val join = runEngine(format, languageCode, Some(true), restrict, reportViewId, transactionName)
     var problems = differences(legacy, join)
     // views that select the current timestamp differ between any two runs: the legacy path itself is the control
-    if (problems.exists(p => p.startsWith("cells differ") || p.startsWith("sort order"))) {
-      val control = runEngine(format, lang, Some(false), restrict, reportViewId, trx)
-      if (differences(legacy, control).nonEmpty) problems = problems.filterNot(p => p.startsWith("cells differ") || p.startsWith("sort order"))
+    if (problems.exists(problem => problem.startsWith("cells differ") || problem.startsWith("sort order"))) {
+      val control = runEngine(format, languageCode, Some(false), restrict, reportViewId, transactionName)
+      if (differences(legacy, control).nonEmpty) problems = problems.filterNot(problem => problem.startsWith("cells differ") || problem.startsWith("sort order"))
     }
     Result(formatId, legacy, join, problems ++ joinSqlProblems(formatId, join))
   }
 
   private def ids(sql: String): Vector[Int] = {
     val statement = DB.prepareStatement(sql, null)
-    val rs = statement.executeQuery()
-    try Iterator.continually(rs).takeWhile(_.next()).map(_.getInt(1)).toVector
-    finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getInt(1)).toVector
+    finally DB.close(resultSet, statement)
   }
 
   /** Active table based print formats of clients 0 and 11, T_Report* and AD_PInstance* excluded */
@@ -375,34 +375,34 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
   private val sweeps = scala.collection.mutable.Map.empty[String, Vector[Result]]
 
-  private def sweep(lang: String, role: Option[Int] = None): Vector[Result] =
-    sweeps.getOrElseUpdate(s"$lang/${role.getOrElse(0)}", {
+  private def sweep(languageCode: String, role: Option[Int] = None): Vector[Result] =
+    sweeps.getOrElseUpdate(s"$languageCode/${role.getOrElse(0)}", {
       withRole(role) {
-        tableBasedFormats.map(id => compare(storedFormat(id), id, language(lang)))
+        tableBasedFormats.map(id => compare(storedFormat(id), id, language(languageCode)))
       }
     })
 
   private def withRole[T](role: Option[Int])(body: => T): T = {
-    val ctx = Env.getCtx
-    val current = Env.getContext(ctx, "#AD_Role_ID")
-    role.foreach(id => Env.setContext(ctx, "#AD_Role_ID", id))
+    val context = Env.getCtx
+    val current = Env.getContext(context, "#AD_Role_ID")
+    role.foreach(id => Env.setContext(context, "#AD_Role_ID", id))
     try body
-    finally role.foreach(_ => Env.setContext(ctx, "#AD_Role_ID", current))
+    finally role.foreach(_ => Env.setContext(context, "#AD_Role_ID", current))
   }
 
   /** Rows of the join path where the lookup has no value (foreign key NULL): the cell is absent as it is with the subselect */
   private def nullLookupCells(results: Vector[Result]): Int =
-    results.filter(_.compared).map { r =>
-      val names = tableDirColumns(r.join.pd.get).map(_.getColumnName)
-      cells(r.join.pd.get).map(row => names.count(name => !row.exists(_.name == name))).sum
+    results.filter(_.compared).map { formatResult =>
+      val names = tableDirColumns(formatResult.join.printData.get).map(_.getColumnName)
+      cells(formatResult.join.printData.get).map(row => names.count(name => !row.exists(_.name == name))).sum
     }.sum
 
   private def report(title: String, results: Vector[Result]): Int = {
     val compared = results.filter(_.compared)
-    val bothNull = results.count(r => r.legacy.pd.isEmpty && r.join.pd.isEmpty)
-    val joined = compared.map(r => joinedLookups(r.join)).sum
-    val fallbacks = compared.map(r => subselectLookups(r.join)).sum
-    val rows = compared.map(_.legacy.pd.get.getRowCount.toLong).sum
+    val bothNull = results.count(formatResult => formatResult.legacy.printData.isEmpty && formatResult.join.printData.isEmpty)
+    val joined = compared.map(formatResult => joinedLookups(formatResult.join)).sum
+    val fallbacks = compared.map(formatResult => subselectLookups(formatResult.join)).sum
+    val rows = compared.map(_.legacy.printData.get.getRowCount.toLong).sum
     info(
       s"$title: ${results.size} print formats, ${compared.size} compared ($rows rows), " +
         s"$bothNull skipped because both paths return no PrintData, " +
@@ -417,7 +417,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     val failing = results.filter(_.problems.nonEmpty)
     assert(
       failing.isEmpty,
-      failing.map(r => s"\n  format ${r.formatId}: ${r.problems.mkString("; ")}").mkString
+      failing.map(formatResult => s"\n  format ${formatResult.formatId}: ${formatResult.problems.mkString("; ")}").mkString
     )
   }
 
@@ -426,7 +426,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("With the join strategy off the report keeps the correlated subselects") {
       Given("every table based print format generated with setLookupJoin(false)")
-      val legacy = tableBasedFormats.map(id => (id, runEngine(storedFormat(id), language(English), Some(false)))).filter(_._2.pd.isDefined)
+      val legacy = tableBasedFormats.map(id => (id, runEngine(storedFormat(id), language(English), Some(false)))).filter(_._2.printData.isDefined)
       Then("the SQL has no tag, no derived table around the statement and no semantic lookup join")
       assert(legacy.nonEmpty)
       val offending = legacy.collect {
@@ -463,7 +463,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       And("NULL foreign keys are part of the comparison")
       assert(nulls > 0)
       And("the join path resolved lookups")
-      assert(results.map(r => joinedLookups(r.join)).sum > 0)
+      assert(results.map(formatResult => joinedLookups(formatResult.join)).sum > 0)
     }
 
     Scenario("All table based print formats return the same data in the es_MX translation") {
@@ -474,11 +474,11 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       report("es_MX", results)
       assertNoProblems(results)
       And("the translation tables are joined by language")
-      val translated = results.filter(_.compared).flatMap(r => TranslationJoin.findAllMatchIn(r.join.sql).map(_.matched))
+      val translated = results.filter(_.compared).flatMap(formatResult => TranslationJoin.findAllMatchIn(formatResult.join.sql).map(_.matched))
       info(s"${translated.size} translation joins, e.g. ${translated.headOption.getOrElse("none")}")
       assert(translated.nonEmpty)
-      assert(results.filter(_.compared).forall(r => TranslationJoin.findAllMatchIn(r.join.sql).forall { m =>
-        r.join.sql.contains(s"${m.group(2)}.AD_Language='$Spanish'")
+      assert(results.filter(_.compared).forall(formatResult => TranslationJoin.findAllMatchIn(formatResult.join.sql).forall { joinMatch =>
+        formatResult.join.sql.contains(s"${joinMatch.group(2)}.AD_Language='$Spanish'")
       }))
     }
 
@@ -492,22 +492,22 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       assert(result.legacy.sql.contains("IsSOTrx='Y'"))
       assert(result.join.sql.contains("IsSOTrx='Y'"))
       assert(result.join.sql.indexOf("IsSOTrx='Y'") < result.join.sql.indexOf(") RV_InOutDetails"))
-      info(s"rows=${result.legacy.pd.get.getRowCount}, lookups joined=${joinedLookups(result.join)}")
+      info(s"rows=${result.legacy.printData.get.getRowCount}, lookups joined=${joinedLookups(result.join)}")
     }
 
     Scenario("A second unqualified ReportView raw WHERE (C_Payment_v) returns the same rows") {
       Given("ReportView 155 with DocStatus IN ('CO','CL') AND IsAllocated='N' on C_Payment_v")
-      withTrx { trx =>
+      withTransaction { transactionName =>
         val tableId = MTable.getTable_ID("C_Payment_v")
-        val format = MPrintFormat.createFromTable(Env.getCtx, tableId, 0, trx)
+        val format = MPrintFormat.createFromTable(Env.getCtx, tableId, 0, transactionName)
         assert(format != null)
         When("a print format of the view is generated with the ReportView WHERE")
-        val result = compare(() => format, format.get_ID, language(English), reportViewId = PaymentViewReportView, trx = trx)
+        val result = compare(() => format, format.get_ID, language(English), reportViewId = PaymentViewReportView, transactionName = transactionName)
         Then("the data is identical")
         assertNoProblems(Vector(result))
         assert(result.compared)
         assert(result.join.sql.contains("DocStatus IN ('CO','CL')"))
-        info(s"rows=${result.legacy.pd.get.getRowCount}, lookups joined=${joinedLookups(result.join)}")
+        info(s"rows=${result.legacy.printData.get.getRowCount}, lookups joined=${joinedLookups(result.join)}")
       }
     }
 
@@ -528,7 +528,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       assert(result.compared)
       assert(result.join.sql.contains("C_Order.DocStatus"))
       assert(result.join.sql.indexOf("C_Order.DocStatus") < result.join.sql.indexOf(") C_Order"))
-      info(s"rows=${result.legacy.pd.get.getRowCount}")
+      info(s"rows=${result.legacy.printData.get.getRowCount}")
     }
 
     Scenario("A non administrator role gets the same rows with both strategies") {
@@ -547,8 +547,8 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       assertNoProblems(results)
       results.foreach { result =>
         val sql = result.join.sql
-        val pd = result.join.pd.get
-        val lookups = tableDirColumns(pd)
+        val printData = result.join.printData.get
+        val lookups = tableDirColumns(printData)
         info(sql)
         assert(sql.startsWith(s"$Tag${result.formatId} */ SELECT") || sql.startsWith(s"$Tag${result.formatId} */ "))
         assert(sql.contains(s"\nFROM (SELECT "))
@@ -567,7 +567,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(joins.nonEmpty)
         joins.foreach { join =>
           if (join.depth == 1)
-            assert(join.parentAlias == result.join.pd.get.getTableName, s"join must start from the derived table: ${join.alias}")
+            assert(join.parentAlias == result.join.printData.get.getTableName, s"join must start from the derived table: ${join.alias}")
           else
             assert(joins.exists(_.alias == join.parentAlias), s"nested join must start from a join: ${join.alias}")
           assert(join.column == join.key, join.alias)
@@ -577,29 +577,29 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       }
       val bpartner = ReportLookupAlias.word("C_BPartner")
       info(s"alias word of C_BPartner in this dictionary: $bpartner")
-      assert(results.exists(r => s"""LEFT OUTER JOIN C_BPartner ${bpartner}_\\d+ ON \\(\\w+\\.C_BPartner_ID=${bpartner}_\\d+\\.C_BPartner_ID\\)""".r.findFirstIn(r.join.sql).isDefined))
+      assert(results.exists(formatResult => s"""LEFT OUTER JOIN C_BPartner ${bpartner}_\\d+ ON \\(\\w+\\.C_BPartner_ID=${bpartner}_\\d+\\.C_BPartner_ID\\)""".r.findFirstIn(formatResult.join.sql).isDefined))
       And("the SQL uses an alias without AS for the lookup tables")
-      assert(results.forall(r => LookupJoin.findFirstIn(r.join.sql).isDefined))
-      assert(results.forall(r => !r.join.sql.contains(" AS C_") || !r.join.sql.matches("(?s).*LEFT OUTER JOIN \\w+ AS .*")))
+      assert(results.forall(formatResult => LookupJoin.findFirstIn(formatResult.join.sql).isDefined))
+      assert(results.forall(formatResult => !formatResult.join.sql.contains(" AS C_") || !formatResult.join.sql.matches("(?s).*LEFT OUTER JOIN \\w+ AS .*")))
     }
 
     Scenario("A ReportView with group functions groups and orders as the subselect path does") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a ReportView of C_Order with SUM(GrandTotal) as group function, grouped by business partner and warehouse")
-        val reportView = insertReportView(trx, "RLJ Group Function", "C_Order", Seq(("GrandTotal", "SUM(@)")))
-        val formatId = insertFormat(trx, "RLJ Group Function", "C_Order", reportView, Seq(
+        val reportView = insertReportView(transactionName, "RLJ Group Function", "C_Order", Seq(("GrandTotal", "SUM(@)")))
+        val formatId = insertFormat(transactionName, "RLJ Group Function", "C_Order", reportView, Seq(
           Item("C_BPartner_ID", seqNo = 10, sortNo = 10),
           Item("M_Warehouse_ID", seqNo = 20, sortNo = 20, isDesc = true),
           Item("GrandTotal", seqNo = 30)
         ))
         When("it is generated by both strategies in the same transaction")
-        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(English), trx = trx)
+        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(English), transactionName = transactionName)
         Then("groups, values and order are identical")
         assertNoProblems(Vector(result))
         assert(result.compared)
-        val pd = result.legacy.pd.get
-        info(s"groups=${pd.getRowCount}")
-        assert(pd.getRowCount > 1)
+        val printData = result.legacy.printData.get
+        info(s"groups=${printData.getRowCount}")
+        assert(printData.getRowCount > 1)
         And("the grouping is in the derived table, the outer statement has no GROUP BY")
         val sql = result.join.sql
         assert(sql.contains(" GROUP BY ") && sql.indexOf(" GROUP BY ") == sql.lastIndexOf(" GROUP BY "))
@@ -611,24 +611,24 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(result.legacy.sql.substring(result.legacy.sql.indexOf(" GROUP BY ")).startsWith(groupBy))
         assert(sql.substring(sql.indexOf(" GROUP BY ")).startsWith(groupBy))
         And("the sums are the ones of the dictionary data")
-        val total = cells(pd).flatMap(_.find(_.name == "GrandTotal")).map(c => BigDecimal(c.value)).sum
+        val total = cells(printData).flatMap(_.find(_.name == "GrandTotal")).map(cell => BigDecimal(cell.value)).sum
         assert(total == BigDecimal(scalarDecimal("SELECT SUM(GrandTotal) FROM C_Order WHERE AD_Client_ID=" + Env.getAD_Client_ID(Env.getCtx))))
       }
     }
 
     Scenario("A print format with IsGroupBy, IsSummarized and IsCounted gets the same break and function rows") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a print format of C_Order grouped by business partner (descending), summarized and counted")
-        val formatId = insertFormat(trx, "RLJ Group Break", "C_Order", 0, Seq(
+        val formatId = insertFormat(transactionName, "RLJ Group Break", "C_Order", 0, Seq(
           Item("C_BPartner_ID", seqNo = 10, sortNo = 10, isDesc = true, groupBy = true),
           Item("DocumentNo", seqNo = 20, sortNo = 20),
           Item("GrandTotal", seqNo = 30, summarized = true, counted = true)
         ))
         When("it is generated by both strategies")
-        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(English), trx = trx)
+        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(English), transactionName = transactionName)
         Then("rows, group break rows and function rows are identical")
         assertNoProblems(Vector(result))
-        val (legacy, join) = (result.legacy.pd.get, result.join.pd.get)
+        val (legacy, join) = (result.legacy.printData.get, result.join.printData.get)
         info(s"rows=${legacy.getRowCount}, function rows=${functionRows(legacy).size}")
         assert(functionRows(legacy).nonEmpty && functionRows(legacy) == functionRows(join))
         assert(result.legacy.sql.contains(" ORDER BY ") && result.join.sql.contains(" DESC"))
@@ -637,53 +637,53 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
     Scenario("ORDER BY on a TableDir display and DESC keeps the same key sequence") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a print format of C_Order sorted by the business partner display (DESC) and the document number")
-        val formatId = insertFormat(trx, "RLJ Order By", "C_Order", 0, Seq(
+        val formatId = insertFormat(transactionName, "RLJ Order By", "C_Order", 0, Seq(
           Item("C_BPartner_ID", seqNo = 10, sortNo = 10, isDesc = true),
           Item("DocumentNo", seqNo = 20, sortNo = 20),
           Item("DocStatus", seqNo = 30)
         ))
-        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(English), trx = trx)
+        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(English), transactionName = transactionName)
         Then("the ORDER BY clause and the key sequence are identical")
         assertNoProblems(Vector(result))
         val clause = orderBy(result.join.sql)
         info(s"ORDER BY${clause.drop(" ORDER BY".length)}")
         assert(clause == orderBy(result.legacy.sql) && clause.contains(" DESC") && clause.contains("C_BPartner_ID"))
-        val keys = cells(result.join.pd.get).flatMap(_.find(_.name == "C_BPartner_ID")).map(_.display)
+        val keys = cells(result.join.printData.get).flatMap(_.find(_.name == "C_BPartner_ID")).map(_.display)
         assert(keys.distinct.size > 1)
-        assert(keys == cells(result.legacy.pd.get).flatMap(_.find(_.name == "C_BPartner_ID")).map(_.display))
+        assert(keys == cells(result.legacy.printData.get).flatMap(_.find(_.name == "C_BPartner_ID")).map(_.display))
       }
     }
 
     Scenario("A product without translation shows its base display on the join path and NULL on the legacy path") {
       Given("the delivery print format in es_MX that prints M_Product_ID as TableDir")
-      withTrx { trx =>
-        val format = () => new MPrintFormat(Env.getCtx, DeliveryDetailFormat, trx)
-        val before = compare(format, DeliveryDetailFormat, language(Spanish), trx = trx)
+      withTransaction { transactionName =>
+        val format = () => new MPrintFormat(Env.getCtx, DeliveryDetailFormat, transactionName)
+        val before = compare(format, DeliveryDetailFormat, language(Spanish), transactionName = transactionName)
         assertNoProblems(Vector(before))
-        def productCells(run: Run) = cells(run.pd.get).map(_.find(_.name == "M_Product_ID"))
+        def productCells(run: Run) = cells(run.printData.get).map(_.find(_.name == "M_Product_ID"))
         val shown = productCells(before.legacy).flatten
         assert(shown.nonEmpty)
         val product = shown.head
         // the demo translation has the same text as the base name: give it its own text to tell them apart
-        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), trx) == 1)
-        val translatedBefore = compare(format, DeliveryDetailFormat, language(Spanish), trx = trx)
+        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), transactionName) == 1)
+        val translatedBefore = compare(format, DeliveryDetailFormat, language(Spanish), transactionName = transactionName)
         assertNoProblems(Vector(translatedBefore))
         val rowsOfProduct = productCells(translatedBefore.legacy).count(_.exists(_.key == product.key))
         When(s"the es_MX translation of product ${product.key} is deleted inside the transaction")
-        assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), trx) == 1)
-        val after = compare(format, DeliveryDetailFormat, language(Spanish), trx = trx)
+        assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(product.key), Spanish), transactionName) == 1)
+        val after = compare(format, DeliveryDetailFormat, language(Spanish), transactionName = transactionName)
         Then("the legacy path shows NULL there: the lookup cell is absent")
-        assert(after.legacy.pd.isDefined && after.join.pd.isDefined)
+        assert(after.legacy.printData.isDefined && after.join.printData.isDefined)
         assert(productCells(after.legacy).count(_.isEmpty) == productCells(translatedBefore.legacy).count(_.isEmpty) + rowsOfProduct)
         And("the join path shows the display of the product in the base language (S25), the other rows are the same")
-        val base = DB.getSQLValueStringEx(trx, "SELECT Value||' - '||Name FROM M_Product WHERE M_Product_ID=?", Integer.valueOf(product.key))
+        val base = DB.getSQLValueStringEx(transactionName, "SELECT Value||' - '||Name FROM M_Product WHERE M_Product_ID=?", Integer.valueOf(product.key))
         assert(base != null && !base.endsWith("RLJ Traducido"), base)
-        assert(productCells(translatedBefore.join).flatten.exists(c => c.key == product.key && c.value.endsWith("RLJ Traducido")))
+        assert(productCells(translatedBefore.join).flatten.exists(cell => cell.key == product.key && cell.value.endsWith("RLJ Traducido")))
         assert(productCells(after.join).count(_.isEmpty) == productCells(translatedBefore.join).count(_.isEmpty))
-        assert(multiset(productCells(after.join).flatten.map(c => (c.key, c.value))) ==
-          multiset(productCells(translatedBefore.join).flatten.map(c => (c.key, if (c.key == product.key) base else c.value))))
+        assert(multiset(productCells(after.join).flatten.map(cell => (cell.key, cell.value))) ==
+          multiset(productCells(translatedBefore.join).flatten.map(cell => (cell.key, if (cell.key == product.key) base else cell.value))))
         And("the join keeps the guard of the lookup row only and falls back per translated column")
         val alias = """LEFT OUTER JOIN M_Product_Trl (\w+) ON \(""".r.findFirstMatchIn(after.join.sql).map(_.group(1))
         assert(alias.isDefined, "M_Product translation is not joined")
@@ -705,7 +705,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         info(s"format ${result.formatId}: ${joins.count(_.depth == 1)} joins, ${joins.count(_.depth == 2)} nested, ${joins.count(_.depth == 3)} at depth 3")
         assert(joins.exists(_.depth >= 2), s"format ${result.formatId} has no nested join")
         assert(nestedJoinProblems(result.join.sql).isEmpty, nestedJoinProblems(result.join.sql).mkString("; "))
-        assert(!result.join.sql.substring(result.join.sql.indexOf(") " + result.join.pd.get.getTableName)).contains("(SELECT"),
+        assert(!result.join.sql.substring(result.join.sql.indexOf(") " + result.join.printData.get.getTableName)).contains("(SELECT"),
           "the outer statement must not have subselects for these formats")
       }
       And("S_ContractLine chains S_Contract, which chains C_BPartner and C_DocType, as <Word>_<n>_<m> aliases")
@@ -725,27 +725,27 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("Every table based print format chains its nested lookups the same way") {
       val results = sweep(English)
-      val problems = results.filter(_.compared).flatMap(r => nestedJoinProblems(r.join.sql).map(p => s"format ${r.formatId}: $p"))
+      val problems = results.filter(_.compared).flatMap(formatResult => nestedJoinProblems(formatResult.join.sql).map(problem => s"format ${formatResult.formatId}: $problem"))
       assert(problems.isEmpty, problems.mkString("\n  "))
-      val nested = results.filter(_.compared).map(r => lookupJoins(r.join.sql).count(_.depth >= 2)).sum
+      val nested = results.filter(_.compared).map(formatResult => lookupJoins(formatResult.join.sql).count(_.depth >= 2)).sum
       info(s"$nested nested joins in ${results.count(_.compared)} print formats")
       assert(nested > 0)
     }
 
     Scenario("A nested lookup whose foreign key is NULL shows what the subselect shows") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("order lines of projects whose C_ProjectStatus_ID is NULL, and of a project that has a status")
         val status = DB.getNextID(Env.getAD_Client_ID(Env.getCtx), "C_ProjectStatus", null)
         insert("INSERT INTO C_ProjectStatus (C_ProjectStatus_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Value,Name,SeqNo) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ','RLJ Status',7)",
-          trx, Integer.valueOf(status), Integer.valueOf(Env.getAD_Client_ID(Env.getCtx)))
-        assert(DB.executeUpdateEx("UPDATE C_Project SET C_ProjectStatus_ID=? WHERE C_Project_ID=101", Array[Object](Integer.valueOf(status)), trx) == 1)
-        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=100 WHERE C_OrderLine_ID=105", Array[Object](), trx) == 1)
-        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=101 WHERE C_OrderLine_ID=106", Array[Object](), trx) == 1)
+          transactionName, Integer.valueOf(status), Integer.valueOf(Env.getAD_Client_ID(Env.getCtx)))
+        assert(DB.executeUpdateEx("UPDATE C_Project SET C_ProjectStatus_ID=? WHERE C_Project_ID=101", Array[Object](Integer.valueOf(status)), transactionName) == 1)
+        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=100 WHERE C_OrderLine_ID=105", Array[Object](), transactionName) == 1)
+        assert(DB.executeUpdateEx("UPDATE C_OrderLine SET C_Project_ID=101 WHERE C_OrderLine_ID=106", Array[Object](), transactionName) == 1)
         When("the order line print format is generated by both strategies")
-        val result = compare(() => new MPrintFormat(Env.getCtx, OrderLineFormat, trx), OrderLineFormat, language(English), trx = trx)
+        val result = compare(() => new MPrintFormat(Env.getCtx, OrderLineFormat, transactionName), OrderLineFormat, language(English), transactionName = transactionName)
         Then("the data is identical, NULL and empty display values included")
         assertNoProblems(Vector(result))
-        val programs = cells(result.legacy.pd.get).flatMap(_.find(_.name == "C_Project_ID")).map(_.value)
+        val programs = cells(result.legacy.printData.get).flatMap(_.find(_.name == "C_Project_ID")).map(_.value)
         info(s"project displays: ${programs.distinct.mkString(" | ")}")
         assert(programs.contains("Standard - Standard -  - "), "the project without status shows an empty nested display")
         assert(programs.exists(_.contains(" - RLJ - RLJ Status - ")), "the project with status shows the nested display")
@@ -759,17 +759,17 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
     Scenario("A nested translated identifier is joined by language and falls back to the base value in es_MX") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a lot of a translated product used by the only order detail row with an attribute set instance")
         val client = Env.getAD_Client_ID(Env.getCtx)
         val lot = DB.getNextID(client, "M_Lot", null)
-        insert("INSERT INTO M_Lot (M_Lot_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Name,M_Product_ID) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ Lot',134)", trx, Integer.valueOf(lot), Integer.valueOf(client))
-        assert(DB.executeUpdateEx("UPDATE M_AttributeSetInstance SET M_Lot_ID=? WHERE M_AttributeSetInstance_ID=1000000", Array[Object](Integer.valueOf(lot)), trx) == 1)
+        insert("INSERT INTO M_Lot (M_Lot_ID,AD_Client_ID,AD_Org_ID,Created,CreatedBy,Updated,UpdatedBy,Name,M_Product_ID) VALUES (?,?,0,CURRENT_TIMESTAMP,100,CURRENT_TIMESTAMP,100,'RLJ Lot',134)", transactionName, Integer.valueOf(lot), Integer.valueOf(client))
+        assert(DB.executeUpdateEx("UPDATE M_AttributeSetInstance SET M_Lot_ID=? WHERE M_AttributeSetInstance_ID=1000000", Array[Object](Integer.valueOf(lot)), transactionName) == 1)
         // the demo translation has the same text as the base name: give it its own text to tell them apart
-        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), trx) == 1)
+        assert(DB.executeUpdateEx("UPDATE M_Product_Trl SET Name='RLJ Traducido' WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), transactionName) == 1)
         When("the order detail print format is generated in es_MX by both strategies")
-        val format = () => new MPrintFormat(Env.getCtx, OrderDetailFormat, trx)
-        val before = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
+        val format = () => new MPrintFormat(Env.getCtx, OrderDetailFormat, transactionName)
+        val before = compare(format, OrderDetailFormat, language(Spanish), transactionName = transactionName)
         Then("the data is identical and the product of the lot is read from M_Product_Trl")
         assertNoProblems(Vector(before))
         val lotJoin = joinOf(before.join.sql, "M_Lot", "RV_OrderDetail")
@@ -779,29 +779,29 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         assert(before.join.sql.contains(s"${trl.get}.AD_Language='$Spanish'"))
         assert(before.join.sql.contains(s"CASE WHEN ${product.alias}.M_Product_ID IS NOT NULL THEN "))
         assert(before.join.sql.contains(s"NVL(${trl.get}.Name,${product.alias}.Name)"))
-        val lots = cells(before.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        val lots = cells(before.join.printData.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
         info(s"lot display: ${lots.mkString(" | ")}")
         assert(lots.exists(_.contains("RLJ Lot")) && lots.exists(_.contains("RLJ Traducido")))
         And("without the es_MX translation of the product the join path shows the base name and the legacy path the empty display")
-        assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), trx) == 1)
-        val after = compare(format, OrderDetailFormat, language(Spanish), trx = trx)
+        assert(DB.executeUpdateEx("DELETE FROM M_Product_Trl WHERE M_Product_ID=134 AND AD_Language=?", Array[Object](Spanish), transactionName) == 1)
+        val after = compare(format, OrderDetailFormat, language(Spanish), transactionName = transactionName)
         assert(after.compared && joinSqlProblems(OrderDetailFormat, after.join).isEmpty)
-        val lotsAfter = cells(after.join.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        val lotsAfter = cells(after.join.printData.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
         info(s"lot display without translation: ${lotsAfter.mkString(" | ")}")
-        val lotsLegacy = cells(after.legacy.pd.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
+        val lotsLegacy = cells(after.legacy.printData.get).flatMap(_.find(_.name == "M_Lot_ID")).map(_.value)
         assert(lotsAfter != lots && lotsLegacy != lots, "the missing translation changes the display")
         assert(lotsAfter.exists(_.contains("RLJ Lot")))
-        val baseName = DB.getSQLValueStringEx(trx, "SELECT Name FROM M_Product WHERE M_Product_ID=134")
+        val baseName = DB.getSQLValueStringEx(transactionName, "SELECT Name FROM M_Product WHERE M_Product_ID=134")
         assert(lotsAfter.exists(_.contains(baseName)) && !lotsLegacy.exists(_.contains(baseName)), s"$lotsAfter / $lotsLegacy")
       }
     }
 
     Scenario("Nested lookups below depth 3 stay subselects correlated to the deepest alias") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a print format of RV_M_Transaction_Costing that prints M_CostDetail_ID, whose identifier chains C_LandedCostAllocation, C_InvoiceLine and C_Invoice")
-        val formatId = insertFormat(trx, "RLJ Depth", "RV_M_Transaction_Costing", 0, Seq(
+        val formatId = insertFormat(transactionName, "RLJ Depth", "RV_M_Transaction_Costing", 0, Seq(
           Item("M_CostDetail_ID", seqNo = 10), Item("M_Product_ID", seqNo = 20)))
-        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(English), trx = trx)
+        val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(English), transactionName = transactionName)
         Then("the data is identical")
         assertNoProblems(Vector(result))
         val joins = lookupJoins(result.join.sql)
@@ -887,26 +887,26 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
     Scenario("A display of one NOT NULL column is the bare column and every other display keeps its guard") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a payment print format with lookups of one NOT NULL column, of a nullable column and of several columns, one payment with a charge")
         val charge = ids("SELECT MIN(C_Charge_ID) FROM C_Charge").head
         assert(DB.executeUpdateEx("UPDATE C_Payment SET C_Charge_ID=? WHERE C_Payment_ID=(SELECT MIN(C_Payment_ID) FROM C_Payment)",
-          Array[Object](Integer.valueOf(charge)), trx) == 1)
-        val formatId = insertFormat(trx, "RLJ Not Null", "C_Payment", 0, Seq(
+          Array[Object](Integer.valueOf(charge)), transactionName) == 1)
+        val formatId = insertFormat(transactionName, "RLJ Not Null", "C_Payment", 0, Seq(
           Item("DocumentNo", seqNo = 10), Item("C_Currency_ID", seqNo = 20), Item("C_BPartner_ID", seqNo = 30),
           Item("C_Charge_ID", seqNo = 40), Item("C_PaymentBatch_ID", seqNo = 50), Item("C_Project_ID", seqNo = 60)
         ))
         assert(isNotNullInDatabase("C_Currency", "ISO_Code") && isNotNullInDatabase("C_BPartner", "Name") && isNotNullInDatabase("C_Charge", "Name"))
         assert(!isNotNullInDatabase("C_PaymentBatch", "DocumentNo"), "the dictionary fixture needs a nullable identifier column")
-        def itemOf(run: Run, column: String) = itemText(run.sql, run.pd.get.getColumnInfo.find(_.getColumnName == column).get.getAlias)
-        Seq(English, Spanish).foreach { lang =>
-          When(s"it is generated by both strategies in $lang")
-          val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+        def itemOf(run: Run, column: String) = itemText(run.sql, run.printData.get.getColumnInfo.find(_.getColumnName == column).get.getAlias)
+        Seq(English, Spanish).foreach { languageCode =>
+          When(s"it is generated by both strategies in $languageCode")
+          val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(languageCode), transactionName = transactionName)
           info(result.join.sql)
           Then("the values, the NULL foreign keys and the NULL of a missing display are identical to the subselects")
           assertNoProblems(Vector(result))
           assert(nullLookupCells(Vector(result)) > 0, "payments without charge, batch or project are part of the comparison")
-          assert(cells(result.join.pd.get).exists(_.exists(_.name == "C_Charge_ID")), "the payment with a charge shows it")
+          assert(cells(result.join.printData.get).exists(_.exists(_.name == "C_Charge_ID")), "the payment with a charge shows it")
           And("a NOT NULL single column is the bare column of its join")
           assert(itemOf(result.join, "C_Currency_ID").matches(BareLookupText), itemOf(result.join, "C_Currency_ID"))
           assert(itemOf(result.join, "C_BPartner_ID").matches(BareLookupText), itemOf(result.join, "C_BPartner_ID"))
@@ -918,7 +918,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           And("the legacy statement keeps its subselects")
           assert(!result.legacy.sql.contains(" END AS ") && result.legacy.sql.contains("(SELECT NVL(C_Currency.ISO_Code,'')"))
           val charged = itemOf(result.join, "C_Charge_ID")
-          if (lang == English)
+          if (languageCode == English)
             assert(charged.matches(BareLookupText), charged)
           else {
             And("a translated display keeps the guard on the row of the lookup and falls back to its column")
@@ -930,17 +930,17 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("Every single column guard left in any print format protects a nullable column") {
       Given("the join SQL of every table based print format, in English and in es_MX")
-      val results = (sweep(English) ++ sweep(Spanish)).filter(_.join.pd.isDefined)
+      val results = (sweep(English) ++ sweep(Spanish)).filter(_.join.printData.isDefined)
       val SingleGuard = """CASE WHEN (\w+)\.(\w+) IS NOT NULL THEN NVL\((\w+)\.(\w+),''\) END""".r
-      val guarded = results.flatMap { r =>
-        val tables = AnyJoin.findAllMatchIn(r.join.sql).map(m => m.group(2) -> m.group(1)).toMap
-        SingleGuard.findAllMatchIn(r.join.sql).filter(m => m.group(1) == m.group(3)).map(m => (tables(m.group(3)), m.group(4)))
+      val guarded = results.flatMap { formatResult =>
+        val tables = AnyJoin.findAllMatchIn(formatResult.join.sql).map(joinMatch => joinMatch.group(2) -> joinMatch.group(1)).toMap
+        SingleGuard.findAllMatchIn(formatResult.join.sql).filter(joinMatch => joinMatch.group(1) == joinMatch.group(3)).map(joinMatch => (tables(joinMatch.group(3)), joinMatch.group(4)))
       }.distinct
       Then("none of the guarded columns is NOT NULL in the database")
       val removable = guarded.filter { case (table, column) => isNotNullInDatabase(table, column) }
       assert(removable.isEmpty, s"NOT NULL columns that still have a guard: $removable")
       And("the bare column is used and the guard of a display of several columns is still there")
-      val bare = results.map(r => tableDirColumns(r.join.pd.get).count(c => itemText(r.join.sql, c.getAlias).matches(BareLookupText))).sum
+      val bare = results.map(formatResult => tableDirColumns(formatResult.join.printData.get).count(printDataColumn => itemText(formatResult.join.sql, printDataColumn.getAlias).matches(BareLookupText))).sum
       info(s"bare lookups: $bare, guarded single columns: ${guarded.size}")
       assert(bare > 0)
       assert(results.exists(_.join.sql.contains("||' - '||")))
@@ -948,28 +948,28 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("The outer statement of the join SQL has a line break before FROM, LEFT OUTER JOIN and ORDER BY") {
       Given("print formats with joins, with translation joins, with an ORDER BY and with a GROUP BY")
-      withTrx { trx =>
-        val grouped = insertFormat(trx, "RLJ Lines", "C_Order", insertReportView(trx, "RLJ Lines", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
+      withTransaction { transactionName =>
+        val grouped = insertFormat(transactionName, "RLJ Lines", "C_Order", insertReportView(transactionName, "RLJ Lines", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
           Item("C_BPartner_ID", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
         val formats = Vector(SalesOrderFormat, DeliveryDetailFormat, OrderLineFormat, grouped)
         formats.foreach { formatId =>
-          Seq(English, Spanish).foreach { lang =>
-            When(s"format $formatId is generated in $lang")
-            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+          Seq(English, Spanish).foreach { languageCode =>
+            When(s"format $formatId is generated in $languageCode")
+            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(languageCode), transactionName = transactionName)
             Then("the data is the same and the statement is accepted by the database")
             assertNoProblems(Vector(result))
             val sql = result.join.sql
             val lines = sql.split("\n", -1).toVector
             And("the first line is the tagged SELECT list and every other line starts with FROM, LEFT OUTER JOIN or ORDER BY")
             assert(lines.head.startsWith(s"$Tag$formatId */ "), lines.head.take(80))
-            assert(lines.tail.forall(l => l.startsWith("FROM (SELECT ") || l.startsWith("LEFT OUTER JOIN ") || l.startsWith("ORDER BY ")), sql)
+            assert(lines.tail.forall(line => line.startsWith("FROM (SELECT ") || line.startsWith("LEFT OUTER JOIN ") || line.startsWith("ORDER BY ")), sql)
             assert(lines.tail.head.startsWith("FROM (SELECT "), "FROM is on the second line")
             assert(lines.count(_.startsWith("FROM ")) == 1)
             And("there is one line per join and one for the ORDER BY, none inside the statement of the report")
             assert(lines.count(_.startsWith("LEFT OUTER JOIN ")) == lookupJoins(sql).size + TranslationJoin.findAllMatchIn(sql).size)
-            assert(lines.count(_.startsWith("ORDER BY ")) == (if (result.legacy.sql.contains(" ORDER BY ") || tieBreak(result.legacy.pd.get).isDefined) 1 else 0))
+            assert(lines.count(_.startsWith("ORDER BY ")) == (if (result.legacy.sql.contains(" ORDER BY ") || tieBreak(result.legacy.printData.get).isDefined) 1 else 0))
             assert(!sql.contains("\r") && !sql.contains("\n\n"))
-            assert(lines.tail.head.contains(") " + result.join.pd.get.getTableName), "the statement of the report is on the FROM line")
+            assert(lines.tail.head.contains(") " + result.join.printData.get.getTableName), "the statement of the report is on the FROM line")
           }
         }
       }
@@ -977,10 +977,10 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("The legacy statement has no line breaks") {
       Given("every table based print format generated with setLookupJoin(false)")
-      val legacy = sweep(English).filter(_.legacy.pd.isDefined)
+      val legacy = sweep(English).filter(_.legacy.printData.isDefined)
       Then("the statement is a single line, as before")
       assert(legacy.nonEmpty)
-      assert(legacy.forall(r => !r.legacy.sql.contains("\n") && !r.legacy.sql.contains("\r")))
+      assert(legacy.forall(formatResult => !formatResult.legacy.sql.contains("\n") && !formatResult.legacy.sql.contains("\r")))
     }
 
     Scenario("The final SQL is logged once, at FINE, by DataEngine.getPrintDataInfo") {
@@ -1003,12 +1003,12 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           When(s"a report is generated (lookup join $join)")
           val run = runEngine(storedFormat(SalesOrderFormat), language(English), Some(join))
           Then("the statement appears in exactly one record")
-          val sql = run.pd.get.getSQL
+          val sql = run.printData.get.getSQL
           val logged = records.synchronized(records.toVector).filter(_.message != null).filter(_.message.contains(sql))
-          assert(logged.size == 1, s"${logged.size} records contain the SQL: ${logged.map(r => s"${r.level} ${r.method}")}")
+          assert(logged.size == 1, s"${logged.size} records contain the SQL: ${logged.map(record => s"${record.level} ${record.method}")}")
           And("it is logged at FINE by getPrintDataInfo")
           assert(logged.head.level == Level.FINE && logged.head.method == "getPrintDataInfo", s"${logged.head.level} ${logged.head.method}")
-          assert(!records.exists(r => r.message != null && r.message.startsWith("SQL: ")), "loadPrintData does not repeat the SQL")
+          assert(!records.exists(record => record.message != null && record.message.startsWith("SQL: ")), "loadPrintData does not repeat the SQL")
         }
       } finally {
         logger.removeHandler(handler)
@@ -1020,17 +1020,17 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   Feature("The derived table of the join statement is a planning fence on PostgreSQL and Oracle") {
 
     Scenario("On PostgreSQL and Oracle the derived table is closed by OFFSET 0 ROWS and the report keeps its rows") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("print formats with joins, with an ORDER BY and with a GROUP BY, in English and in es_MX")
-        val grouped = insertFormat(trx, "RLJ Fence", "C_Order", insertReportView(trx, "RLJ Fence", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
+        val grouped = insertFormat(transactionName, "RLJ Fence", "C_Order", insertReportView(transactionName, "RLJ Fence", "C_Order", Seq(("GrandTotal", "SUM(@)"))), Seq(
           Item("C_BPartner_ID", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
         Vector(SalesOrderFormat, DeliveryDetailFormat, OrderLineFormat, grouped).foreach { formatId =>
-          Seq(English, Spanish).foreach { lang =>
-            When(s"format $formatId is generated in $lang by both strategies")
-            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
+          Seq(English, Spanish).foreach { languageCode =>
+            When(s"format $formatId is generated in $languageCode by both strategies")
+            val result = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(languageCode), transactionName = transactionName)
             assertNoProblems(Vector(result))
             val sql = result.join.sql
-            val table = result.join.pd.get.getTableName
+            val table = result.join.printData.get.getTableName
             val closing = s" OFFSET 0 ROWS) $table\n"
             Then("the legacy statement has no OFFSET")
             assert(!result.legacy.sql.contains("OFFSET"))
@@ -1064,15 +1064,15 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     info("The legacy path keeps dropping the row (List) or showing NULL (translated lookup)")
 
     /** C_Order print format with a List column (DocStatus, mandatory), a translated lookup (C_DocType_ID) and a sort */
-    def fallbackFormat(trx: String): Int =
-      insertFormat(trx, "RLJ Fallback", "C_Order", 0, Seq(
+    def fallbackFormat(transactionName: String): Int =
+      insertFormat(transactionName, "RLJ Fallback", "C_Order", 0, Seq(
         Item("DocumentNo", seqNo = 10, sortNo = 10), Item("DocStatus", seqNo = 20), Item("C_DocType_ID", seqNo = 30)))
 
-    def text(trx: String, sql: String, params: Object*): String = DB.getSQLValueStringEx(trx, sql, params: _*)
+    def text(transactionName: String, sql: String, params: Object*): String = DB.getSQLValueStringEx(transactionName, sql, params: _*)
 
     /** (DocumentNo, display of the column) of every row, None where the cell is absent (NULL) */
     def pairs(run: Run, column: String): Vector[(Option[String], Option[String])] =
-      cells(run.pd.get).map(row => (row.find(_.name == "DocumentNo").map(_.display), row.find(_.name == column).map(_.value)))
+      cells(run.printData.get).map(row => (row.find(_.name == "DocumentNo").map(_.display), row.find(_.name == column).map(_.value)))
 
     lazy val DocStatusReference = MColumn.get(Env.getCtx, MColumn.getColumn_ID("C_Order", "DocStatus")).getAD_Reference_Value_ID
     val ListName = "SELECT %s FROM AD_Ref_List l LEFT OUTER JOIN AD_Ref_List_Trl t ON (t.AD_Ref_List_ID=l.AD_Ref_List_ID AND t.AD_Language='" + Spanish + "') " +
@@ -1080,29 +1080,29 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     val Draft = "DocStatus"
 
     Scenario("A list value without translation keeps its row and shows the base name") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("the order print format with a mandatory List column in es_MX, and the es_MX name of the draft status")
-        val formatId = fallbackFormat(trx)
-        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
-        val before = compare(format, formatId, language(Spanish), trx = trx)
+        val formatId = fallbackFormat(transactionName)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, transactionName)
+        val before = compare(format, formatId, language(Spanish), transactionName = transactionName)
         assertNoProblems(Vector(before))
-        val translated = text(trx, ListName.format("t.Name"), Integer.valueOf(DocStatusReference))
-        val base = text(trx, ListName.format("l.Name"), Integer.valueOf(DocStatusReference))
+        val translated = text(transactionName, ListName.format("t.Name"), Integer.valueOf(DocStatusReference))
+        val base = text(transactionName, ListName.format("l.Name"), Integer.valueOf(DocStatusReference))
         assert(translated != null && base != null && translated != base)
         val shown = pairs(before.legacy, Draft)
         val draftRows = shown.count(_._2.contains(translated))
         assert(draftRows > 0 && shown.forall(_._2.isDefined))
         When("the es_MX translation of the draft status is deleted inside the transaction")
         assert(DB.executeUpdateEx("DELETE FROM AD_Ref_List_Trl WHERE AD_Language=? AND AD_Ref_List_ID=" +
-          "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), trx) == 1)
-        val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
-        val join = runEngine(format, language(Spanish), Some(true), trx = trx)
+          "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), transactionName) == 1)
+        val legacy = runEngine(format, language(Spanish), Some(false), transactionName = transactionName)
+        val join = runEngine(format, language(Spanish), Some(true), transactionName = transactionName)
         Then("the join path still reports the rows, with the base name")
         assert(joinSqlProblems(formatId, join).isEmpty, joinSqlProblems(formatId, join).toString)
         assert(multiset(pairs(join, Draft)) == multiset(shown.map { case (document, status) => (document, if (status.contains(translated)) Some(base) else status) }))
         And("the legacy path drops them, as before")
         assert(multiset(pairs(legacy, Draft)) == multiset(shown.filterNot(_._2.contains(translated))))
-        assert(legacy.pd.get.getRowCount == before.legacy.pd.get.getRowCount - draftRows)
+        assert(legacy.printData.get.getRowCount == before.legacy.printData.get.getRowCount - draftRows)
         And("the translation is a LEFT OUTER JOIN, the list value is still an INNER JOIN and the display falls back to the list name")
         assert("""LEFT OUTER JOIN\s+AD_Ref_List_Trl """.r.findFirstIn(join.sql).isDefined, join.sql)
         assert("""INNER JOIN\s+AD_Ref_List_Trl """.r.findFirstIn(join.sql).isEmpty, join.sql)
@@ -1113,40 +1113,40 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
     Scenario("The access SQL of a role parses the join of the list translation and the report keeps the rows") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("the order print format in es_MX, run by a non administrator role")
-        val formatId = fallbackFormat(trx)
-        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
+        val formatId = fallbackFormat(transactionName)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, transactionName)
         withRole(Some(GardenWorldUserRole)) {
-          val result = compare(format, formatId, language(Spanish), trx = trx)
+          val result = compare(format, formatId, language(Spanish), transactionName = transactionName)
           assertNoProblems(Vector(result))
           Then("the statement of the report, up to the derived table alias, has the three tables for the role")
           val sql = result.join.sql
-          val inner = sql.substring(sql.indexOf("\nFROM (") + "\nFROM (".length, sql.indexOf(s") ${result.join.pd.get.getTableName}\n"))
+          val inner = sql.substring(sql.indexOf("\nFROM (") + "\nFROM (".length, sql.indexOf(s") ${result.join.printData.get.getTableName}\n"))
           val parser = new org.compiere.model.AccessSqlParser(inner.replace(" OFFSET 0 ROWS", ""))
           assert(parser.parse() || parser.getNoSqlStatments > 0)
           val tables = parser.getTableInfo(parser.getMainSqlIndex).map(_.getTableName).toVector
           assert(Seq("C_Order", "AD_Ref_List", "AD_Ref_List_Trl").forall(tables.contains), tables.toString)
           And("the role gets the rows of the join path, which are at least the rows of the legacy path, when a translation is missing")
           assert(DB.executeUpdateEx("DELETE FROM AD_Ref_List_Trl WHERE AD_Language=? AND AD_Ref_List_ID=" +
-            "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), trx) == 1)
-          val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
-          val join = runEngine(format, language(Spanish), Some(true), trx = trx)
-          assert(join.pd.get.getRowCount >= legacy.pd.get.getRowCount)
+            "(SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value='DR')", Array[Object](Spanish, Integer.valueOf(DocStatusReference)), transactionName) == 1)
+          val legacy = runEngine(format, language(Spanish), Some(false), transactionName = transactionName)
+          val join = runEngine(format, language(Spanish), Some(true), transactionName = transactionName)
+          assert(join.printData.get.getRowCount >= legacy.printData.get.getRowCount)
         }
       }
     }
 
     Scenario("A grouped report groups by the list name it selects") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("a report view with SUM(GrandTotal) and the List column DocStatus, in es_MX")
-        val reportView = insertReportView(trx, "RLJ Fallback Group", "C_Order", Seq(("GrandTotal", "SUM(@)")))
-        val formatId = insertFormat(trx, "RLJ Fallback Group", "C_Order", reportView, Seq(
+        val reportView = insertReportView(transactionName, "RLJ Fallback Group", "C_Order", Seq(("GrandTotal", "SUM(@)")))
+        val formatId = insertFormat(transactionName, "RLJ Fallback Group", "C_Order", reportView, Seq(
           Item("DocStatus", seqNo = 10, sortNo = 10), Item("GrandTotal", seqNo = 20)))
         When("the statement is generated (the database rejects a List column in a grouped view with both strategies: the key column DocStatus is not grouped)")
-        val join = runEngine(() => new MPrintFormat(Env.getCtx, formatId, trx), language(Spanish), Some(true), trx = trx)
+        val join = runEngine(() => new MPrintFormat(Env.getCtx, formatId, transactionName), language(Spanish), Some(true), transactionName = transactionName)
         Then("the selected display and the grouped expression are the same fallback")
-        assert(join.pd.isDefined, join.error.toString)
+        assert(join.printData.isDefined, join.error.toString)
         val sql = join.sql
         val display = """NVL\((\w+)\.Name,X\1\.Name\)""".r.findFirstIn(sql)
         assert(display.isDefined, sql)
@@ -1157,24 +1157,24 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     }
 
     Scenario("A translated lookup without translation shows the base value, a missing lookup row stays NULL") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("the order print format in es_MX, whose C_DocType_ID is a translated lookup, and an order whose document type does not exist")
         assert(DB.executeUpdateEx("UPDATE C_Order SET C_DocType_ID=99999999 WHERE C_Order_ID=(SELECT MIN(C_Order_ID) FROM C_Order WHERE AD_Client_ID=?)",
-          Array[Object](Integer.valueOf(Env.getAD_Client_ID(Env.getCtx))), trx) == 1)
-        val formatId = fallbackFormat(trx)
-        val format = () => new MPrintFormat(Env.getCtx, formatId, trx)
-        val before = compare(format, formatId, language(Spanish), trx = trx)
+          Array[Object](Integer.valueOf(Env.getAD_Client_ID(Env.getCtx))), transactionName) == 1)
+        val formatId = fallbackFormat(transactionName)
+        val format = () => new MPrintFormat(Env.getCtx, formatId, transactionName)
+        val before = compare(format, formatId, language(Spanish), transactionName = transactionName)
         assertNoProblems(Vector(before))
         val shown = pairs(before.legacy, "C_DocType_ID")
         assert(shown.count(_._2.isEmpty) == 1, "the order of the missing document type is NULL")
-        val docType = cells(before.legacy.pd.get).flatMap(_.find(_.name == "C_DocType_ID")).head
-        val base = text(trx, "SELECT Name FROM C_DocType WHERE C_DocType_ID=?", Integer.valueOf(docType.key))
+        val docType = cells(before.legacy.printData.get).flatMap(_.find(_.name == "C_DocType_ID")).head
+        val base = text(transactionName, "SELECT Name FROM C_DocType WHERE C_DocType_ID=?", Integer.valueOf(docType.key))
         assert(base != null && base != docType.value, s"${docType.value} / $base")
         val rows = shown.count(_._2.contains(docType.value))
         When(s"the es_MX translation of document type ${docType.key} is deleted inside the transaction")
-        assert(DB.executeUpdateEx("DELETE FROM C_DocType_Trl WHERE C_DocType_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(docType.key), Spanish), trx) == 1)
-        val legacy = runEngine(format, language(Spanish), Some(false), trx = trx)
-        val join = runEngine(format, language(Spanish), Some(true), trx = trx)
+        assert(DB.executeUpdateEx("DELETE FROM C_DocType_Trl WHERE C_DocType_ID=? AND AD_Language=?", Array[Object](Integer.valueOf(docType.key), Spanish), transactionName) == 1)
+        val legacy = runEngine(format, language(Spanish), Some(false), transactionName = transactionName)
+        val join = runEngine(format, language(Spanish), Some(true), transactionName = transactionName)
         Then("the join path shows the base name in those rows")
         assert(joinSqlProblems(formatId, join).isEmpty)
         assert(multiset(pairs(join, "C_DocType_ID")) == multiset(shown.map { case (document, name) => (document, if (name.contains(docType.value)) Some(base) else name) }))
@@ -1194,21 +1194,21 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   Feature("A report without sort columns has a deterministic order on the join path") {
 
     Scenario("A format without sort columns ends with ORDER BY on the single key column of its base table") {
-      withTrx { trx =>
+      withTransaction { transactionName =>
         Given("print formats of C_Order without sort columns (with lookups and without), a sorted one and a grouped one")
-        val withLookups = insertFormat(trx, "RLJ Tie Lookups", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("C_BPartner_ID", seqNo = 20)))
-        val plain = insertFormat(trx, "RLJ Tie Plain", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("GrandTotal", seqNo = 20)))
-        val sorted = insertFormat(trx, "RLJ Tie Sorted", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10, sortNo = 10, isDesc = true), Item("C_BPartner_ID", seqNo = 20)))
-        val groupedView = insertReportView(trx, "RLJ Tie Grouped", "C_Order", Seq(("GrandTotal", "SUM(@)")))
-        val grouped = insertFormat(trx, "RLJ Tie Grouped", "C_Order", groupedView, Seq(Item("C_BPartner_ID", seqNo = 10), Item("GrandTotal", seqNo = 20)))
+        val withLookups = insertFormat(transactionName, "RLJ Tie Lookups", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("C_BPartner_ID", seqNo = 20)))
+        val plain = insertFormat(transactionName, "RLJ Tie Plain", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10), Item("GrandTotal", seqNo = 20)))
+        val sorted = insertFormat(transactionName, "RLJ Tie Sorted", "C_Order", 0, Seq(Item("DocumentNo", seqNo = 10, sortNo = 10, isDesc = true), Item("C_BPartner_ID", seqNo = 20)))
+        val groupedView = insertReportView(transactionName, "RLJ Tie Grouped", "C_Order", Seq(("GrandTotal", "SUM(@)")))
+        val grouped = insertFormat(transactionName, "RLJ Tie Grouped", "C_Order", groupedView, Seq(Item("C_BPartner_ID", seqNo = 10), Item("GrandTotal", seqNo = 20)))
         assert(singleKey("C_Order").contains("C_Order_ID"))
-        def compareFormat(formatId: Int, lang: String) = compare(() => new MPrintFormat(Env.getCtx, formatId, trx), formatId, language(lang), trx = trx)
-        Seq(English, Spanish).foreach { lang =>
-          When(s"they are generated in $lang by both strategies")
-          val lookups = compareFormat(withLookups, lang)
-          val flat = compareFormat(plain, lang)
-          val ordered = compareFormat(sorted, lang)
-          val summed = compareFormat(grouped, lang)
+        def compareFormat(formatId: Int, languageCode: String) = compare(() => new MPrintFormat(Env.getCtx, formatId, transactionName), formatId, language(languageCode), transactionName = transactionName)
+        Seq(English, Spanish).foreach { languageCode =>
+          When(s"they are generated in $languageCode by both strategies")
+          val lookups = compareFormat(withLookups, languageCode)
+          val flat = compareFormat(plain, languageCode)
+          val ordered = compareFormat(sorted, languageCode)
+          val summed = compareFormat(grouped, languageCode)
           assertNoProblems(Vector(lookups, flat, ordered, summed))
           Then("the statement with lookups ends with the key of the base table on its own line")
           assert(lookups.join.sql.endsWith("\nORDER BY C_Order.C_Order_ID"), lookups.join.sql)
@@ -1216,7 +1216,7 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
           And("so does the statement without lookups, on the same line")
           assert(flat.join.sql.endsWith(" ORDER BY C_Order.C_Order_ID") && !flat.join.sql.contains("\n"), flat.join.sql)
           And("the rows come in the order of the key")
-          val documents = cells(lookups.join.pd.get).flatMap(_.find(_.name == "DocumentNo")).map(_.value)
+          val documents = cells(lookups.join.printData.get).flatMap(_.find(_.name == "DocumentNo")).map(_.value)
           val byKey = documentsByKey.filter(documents.toSet.contains)
           assert(documents.distinct.size == documents.size && documents == byKey, s"$documents / $byKey")
           And("a sorted format keeps its ORDER BY, without the key")
@@ -1231,14 +1231,14 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
 
     Scenario("A view without a single key column gets no ORDER BY, a table with one gets it, in every table based format") {
       Given("the print formats without sort columns and GROUP BY, in English and in es_MX")
-      val results = (sweep(English) ++ sweep(Spanish)).filter(_.compared).filter(r => !r.legacy.sql.contains(" ORDER BY ") && !r.legacy.sql.contains(" GROUP BY "))
+      val results = (sweep(English) ++ sweep(Spanish)).filter(_.compared).filter(formatResult => !formatResult.legacy.sql.contains(" ORDER BY ") && !formatResult.legacy.sql.contains(" GROUP BY "))
       assert(results.nonEmpty)
       Then("those whose base table has one key column end with it, the others have no ORDER BY")
-      val (keyed, keyless) = results.partition(r => singleKey(r.join.pd.get.getTableName).isDefined)
+      val (keyed, keyless) = results.partition(formatResult => singleKey(formatResult.join.printData.get.getTableName).isDefined)
       info(s"${keyed.size} statements with the key of the base table, ${keyless.size} without a single key column")
       assert(keyed.nonEmpty && keyless.nonEmpty)
-      assert(keyed.forall(r => orderBy(r.join.sql) == tieBreak(r.legacy.pd.get).get), keyed.map(_.formatId).toString)
-      assert(keyless.forall(r => !r.join.sql.contains("ORDER BY")), keyless.map(_.formatId).toString)
+      assert(keyed.forall(formatResult => orderBy(formatResult.join.sql) == tieBreak(formatResult.legacy.printData.get).get), keyed.map(_.formatId).toString)
+      assert(keyless.forall(formatResult => !formatResult.join.sql.contains("ORDER BY")), keyless.map(_.formatId).toString)
       assertNoProblems(results)
     }
   }
@@ -1246,18 +1246,18 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   /** DocumentNo of every order of the clients 0 and 11 by C_Order_ID */
   private def documentsByKey: Vector[String] = {
     val statement = DB.prepareStatement("SELECT DocumentNo FROM C_Order WHERE AD_Client_ID IN (0,11) ORDER BY C_Order_ID", null)
-    val rs = statement.executeQuery()
-    try Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getString(1)).toVector finally DB.close(resultSet, statement)
   }
 
   /** Every row of the statement as text, the statement is run outside of any transaction */
   private def rowsOf(sql: String): Vector[Vector[String]] = {
     val statement = DB.prepareStatement(sql, null)
-    val rs = statement.executeQuery()
+    val resultSet = statement.executeQuery()
     try {
-      val width = rs.getMetaData.getColumnCount
-      Iterator.continually(rs).takeWhile(_.next()).map(row => (1 to width).map(i => String.valueOf(row.getString(i))).toVector).toVector
-    } finally DB.close(rs, statement)
+      val width = resultSet.getMetaData.getColumnCount
+      Iterator.continually(resultSet).takeWhile(_.next()).map(row => (1 to width).map(columnIndex => String.valueOf(row.getString(columnIndex))).toVector).toVector
+    } finally DB.close(resultSet, statement)
   }
 
   private case class Item(
@@ -1271,42 +1271,42 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   )
 
   /** Runs the body in a new transaction that is always rolled back */
-  private def withTrx[T](body: String => T): T = {
-    val trxName = Trx.createTrxName("ReportLookupJoin")
-    val trx = Trx.get(trxName, true)
-    try body(trxName)
+  private def withTransaction[T](body: String => T): T = {
+    val transactionName = Trx.createTrxName("ReportLookupJoin")
+    val transaction = Trx.get(transactionName, true)
+    try body(transactionName)
     finally {
-      trx.rollback()
-      trx.close()
+      transaction.rollback()
+      transaction.close()
     }
   }
 
   private def scalarDecimal(sql: String): java.math.BigDecimal = {
     val statement = DB.prepareStatement(sql, null)
-    val rs = statement.executeQuery()
-    try { rs.next(); rs.getBigDecimal(1) } finally DB.close(rs, statement)
+    val resultSet = statement.executeQuery()
+    try { resultSet.next(); resultSet.getBigDecimal(1) } finally DB.close(resultSet, statement)
   }
 
-  private def insert(sql: String, trx: String, params: Object*): Unit =
-    DB.executeUpdateEx(sql, params.toArray, trx)
+  private def insert(sql: String, transactionName: String, params: Object*): Unit =
+    DB.executeUpdateEx(sql, params.toArray, transactionName)
 
   private def columnId(table: String, column: String): Integer =
     Integer.valueOf(ids(s"SELECT c.AD_Column_ID FROM AD_Column c INNER JOIN AD_Table t ON (t.AD_Table_ID=c.AD_Table_ID) WHERE t.TableName='$table' AND c.ColumnName='$column'").head)
 
-  private def insertReportView(trx: String, name: String, table: String, groupFunctions: Seq[(String, String)]): Int = {
+  private def insertReportView(transactionName: String, name: String, table: String, groupFunctions: Seq[(String, String)]): Int = {
     val client = Env.getAD_Client_ID(Env.getCtx)
     val id = DB.getNextID(client, "AD_ReportView", null)
     insert("INSERT INTO AD_ReportView (AD_ReportView_ID,AD_Client_ID,AD_Org_ID,CreatedBy,UpdatedBy,Name,AD_Table_ID) " +
-      "VALUES (?,?,0,100,100,?,?)", trx, Integer.valueOf(id), Integer.valueOf(client), name, Integer.valueOf(MTable.getTable_ID(table)))
+      "VALUES (?,?,0,100,100,?,?)", transactionName, Integer.valueOf(id), Integer.valueOf(client), name, Integer.valueOf(MTable.getTable_ID(table)))
     groupFunctions.foreach { case (column, function) =>
       insert("INSERT INTO AD_ReportView_Col (AD_ReportView_Col_ID,AD_Client_ID,AD_Org_ID,CreatedBy,UpdatedBy,AD_ReportView_ID,AD_Column_ID,IsGroupFunction,FunctionColumn) " +
-        "VALUES (?,?,0,100,100,?,?,'Y',?)", trx, Integer.valueOf(DB.getNextID(client, "AD_ReportView_Col", null)),
+        "VALUES (?,?,0,100,100,?,?,'Y',?)", transactionName, Integer.valueOf(DB.getNextID(client, "AD_ReportView_Col", null)),
         Integer.valueOf(client), Integer.valueOf(id), columnId(table, column), function)
     }
     id
   }
 
-  private def insertFormat(trx: String, name: String, table: String, reportView: Int, items: Seq[Item]): Int = {
+  private def insertFormat(transactionName: String, name: String, table: String, reportView: Int, items: Seq[Item]): Int = {
     val client = Env.getAD_Client_ID(Env.getCtx)
     val id = DB.getNextID(client, "AD_PrintFormat", null)
     insert("INSERT INTO AD_PrintFormat (AD_PrintFormat_ID,AD_Client_ID,AD_Org_ID,CreatedBy,UpdatedBy,Name,AD_Table_ID,AD_ReportView_ID," +
@@ -1314,14 +1314,14 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
       "VALUES (?,?,0,100,100,?,?,?,(SELECT MIN(AD_PrintPaper_ID) FROM AD_PrintPaper WHERE IsDefault='Y')," +
       "(SELECT MIN(AD_PrintColor_ID) FROM AD_PrintColor WHERE IsDefault='Y'),(SELECT MIN(AD_PrintFont_ID) FROM AD_PrintFont WHERE IsDefault='Y')," +
       "(SELECT MIN(AD_PrintTableFormat_ID) FROM AD_PrintFormat WHERE AD_PrintTableFormat_ID IS NOT NULL),0,0,'Y')",
-      trx, Integer.valueOf(id), Integer.valueOf(client), name, Integer.valueOf(MTable.getTable_ID(table)),
+      transactionName, Integer.valueOf(id), Integer.valueOf(client), name, Integer.valueOf(MTable.getTable_ID(table)),
       if (reportView > 0) Integer.valueOf(reportView) else null)
     items.foreach { item =>
       insert("INSERT INTO AD_PrintFormatItem (AD_PrintFormatItem_ID,AD_Client_ID,AD_Org_ID,CreatedBy,UpdatedBy,AD_PrintFormat_ID,AD_Column_ID,Name," +
         "PrintAreaType,SeqNo,PrintFormatType,XSpace,YSpace,XPosition,YPosition,MaxWidth,MaxHeight,FieldAlignmentType,LineAlignmentType," +
         "SortNo,IsPrinted,IsDesc,IsGroupBy,IsSummarized,IsCounted) " +
         "VALUES (?,?,0,100,100,?,?,?,'C',?,'F',0,0,0,0,0,0,'D','X',?,'Y',?,?,?,?)",
-        trx, Integer.valueOf(DB.getNextID(client, "AD_PrintFormatItem", null)), Integer.valueOf(client), Integer.valueOf(id),
+        transactionName, Integer.valueOf(DB.getNextID(client, "AD_PrintFormatItem", null)), Integer.valueOf(client), Integer.valueOf(id),
         columnId(table, item.column), item.column, Integer.valueOf(item.seqNo), Integer.valueOf(item.sortNo),
         yn(item.isDesc), yn(item.groupBy), yn(item.summarized), yn(item.counted))
     }
@@ -1345,6 +1345,6 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
     innerSelect.invoke(planConstructor.newInstance(Language.getBaseLanguage, baseTable), items)
     val innerName = itemClass.getDeclaredField("innerName")
     innerName.setAccessible(true)
-    (0 until items.size).map(i => innerName.get(items.get(i)).asInstanceOf[String])
+    (0 until items.size).map(itemIndex => innerName.get(items.get(itemIndex)).asInstanceOf[String])
   }
 }

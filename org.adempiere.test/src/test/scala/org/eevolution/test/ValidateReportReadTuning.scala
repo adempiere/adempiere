@@ -45,30 +45,30 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
 
   private def format(id: Int): MPrintFormat = MPrintFormat.get(Env.getCtx, id, true)
 
-  private def engine(trx: String, fetchSize: Option[Int]): DataEngine = {
-    val engine = new DataEngine(language, trx)
+  private def engine(transactionName: String, fetchSize: Option[Int]): DataEngine = {
+    val engine = new DataEngine(language, transactionName)
     engine.setLookupJoin(true)
     fetchSize.foreach(size => engine.setFetchSize(size))
     engine
   }
 
-  private def read(formatId: Int, trx: String, fetchSize: Option[Int]): PrintData =
-    engine(trx, fetchSize).getPrintData(Env.getCtx, format(formatId), new MQuery(), false, 0)
+  private def read(formatId: Int, transactionName: String, fetchSize: Option[Int]): PrintData =
+    engine(transactionName, fetchSize).getPrintData(Env.getCtx, format(formatId), new MQuery(), false, 0)
 
   /** SQL, columns and every cell in order: what must not change with the fetch size */
-  private def content(pd: PrintData): Vector[Vector[String]] =
-    (0 until pd.getRowCount).map { row =>
-      pd.setRowIndex(row)
-      (0 until pd.getNodeCount).map { index =>
-        pd.getNode(index) match {
-          case e: PrintDataElement => s"${e.getColumnName}|${e.getValueKey}|${e.getValue}|${e.getValueAsString}"
+  private def content(printData: PrintData): Vector[Vector[String]] =
+    (0 until printData.getRowCount).map { row =>
+      printData.setRowIndex(row)
+      (0 until printData.getNodeCount).map { index =>
+        printData.getNode(index) match {
+          case element: PrintDataElement => s"${element.getColumnName}|${element.getValueKey}|${element.getValue}|${element.getValueAsString}"
           case other => "#" + other
         }
       }.toVector
     }.toVector
 
-  private def preparedStatements(trx: String, like: String): Int =
-    DB.getSQLValue(trx, "SELECT COUNT(*) FROM pg_prepared_statements WHERE statement LIKE ?", like)
+  private def preparedStatements(transactionName: String, like: String): Int =
+    DB.getSQLValue(transactionName, "SELECT COUNT(*) FROM pg_prepared_statements WHERE statement LIKE ?", like)
 
   Feature("The one-off report SQL is never server-side prepared") {
     Scenario("Seven runs of the same report in one transaction leave no prepared statement of the report") {
@@ -103,44 +103,44 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
 
   Feature("The report read fetches in batches without changing the result") {
     Scenario("The fetch size comes from REPORT_FETCH_SIZE (default 1000) and a public override") {
-      val ctx = Env.getCtx
-      val configured = MSysConfig.getIntValue(DataEngine.REPORT_FETCH_SIZE, -1, Env.getAD_Client_ID(ctx))
+      val context = Env.getCtx
+      val configured = MSysConfig.getIntValue(DataEngine.REPORT_FETCH_SIZE, -1, Env.getAD_Client_ID(context))
       val expected = if (configured >= 0) configured else DataEngine.DEFAULT_FETCH_SIZE
       assert(DataEngine.DEFAULT_FETCH_SIZE == 1000)
-      assert(new DataEngine(language, null).getFetchSize(ctx) == expected)
-      assert(new DataEngine(language, null).setFetchSize(0).getFetchSize(ctx) == 0)
-      assert(new DataEngine(language, null).setFetchSize(25).getFetchSize(ctx) == 25)
-      assert(new DataEngine(language, null).setFetchSize(-5).getFetchSize(ctx) == 0)
-      assert(new DataEngine(language, null).setFetchSize(25).setFetchSize(null).getFetchSize(ctx) == expected)
+      assert(new DataEngine(language, null).getFetchSize(context) == expected)
+      assert(new DataEngine(language, null).setFetchSize(0).getFetchSize(context) == 0)
+      assert(new DataEngine(language, null).setFetchSize(25).getFetchSize(context) == 25)
+      assert(new DataEngine(language, null).setFetchSize(-5).getFetchSize(context) == 0)
+      assert(new DataEngine(language, null).setFetchSize(25).setFetchSize(null).getFetchSize(context) == expected)
     }
 
     Scenario("Same SQL, columns, rows and order with fetch size 0, 1000 and 7, with and without a transaction") {
       Formats.foreach { id =>
         Given(s"print format $id")
-        Seq(None, Some(trxName)).foreach { trx =>
-          val oracle = read(id, trx.orNull, Some(0))
+        Seq(None, Some(trxName)).foreach { optionalTransactionName =>
+          val oracle = read(id, optionalTransactionName.orNull, Some(0))
           val expected = content(oracle)
           check(expected.nonEmpty, s"format $id returns no row")
           Seq(1000, 7).foreach { size =>
-            val actual = read(id, trx.orNull, Some(size))
+            val actual = read(id, optionalTransactionName.orNull, Some(size))
             check(actual.getSQL == oracle.getSQL, s"SQL differs for $id, fetch size $size")
-            check(actual.getRowCount == oracle.getRowCount, s"row count $id, fetch size $size, trx ${trx.isDefined}: ${actual.getRowCount} <> ${oracle.getRowCount}")
+            check(actual.getRowCount == oracle.getRowCount, s"row count $id, fetch size $size, trx ${optionalTransactionName.isDefined}: ${actual.getRowCount} <> ${oracle.getRowCount}")
             // views that select the current timestamp differ between runs: compare the order of the keys and the other cells
-            check(content(actual) == expected, s"content differs for $id, fetch size $size, trx ${trx.isDefined}")
+            check(content(actual) == expected, s"content differs for $id, fetch size $size, trx ${optionalTransactionName.isDefined}")
           }
-          info(s"format $id, trx=${trx.isDefined}: ${oracle.getRowCount} rows identical for fetch size 0, 1000 and 7")
+          info(s"format $id, trx=${optionalTransactionName.isDefined}: ${oracle.getRowCount} rows identical for fetch size 0, 1000 and 7")
         }
       }
     }
 
     Scenario("A read without a transaction leaves no transaction behind, also when the report fails") {
-      def activeTrx: Set[String] = Trx.getActiveTransactions.map(_.getTrxName).toSet
-      val before = activeTrx
+      def activeTransaction: Set[String] = Trx.getActiveTransactions.map(_.getTrxName).toSet
+      val before = activeTransaction
       Given(s"${before.size} registered transactions")
       When("reports run without a transaction with a fetch size")
       Formats.foreach(id => read(id, null, Some(7)))
       Then("no transaction was left registered")
-      val after = activeTrx
+      val after = activeTransaction
       info(s"registered transactions before ${before.size}, after ${after.size}")
       assert(after == before)
       And("a failing report read also releases it")
@@ -148,28 +148,28 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
       broken.addRestriction("no_such_column=1")
       try engine(null, Some(7)).getPrintData(Env.getCtx, format(OrderFormat), broken, false, 0)
       catch { case _: Exception => () }
-      assert(activeTrx == before)
+      assert(activeTransaction == before)
     }
 
     Scenario("A report that reads more rows than the fetch size returns every row (scaled data inside a rolled back transaction)") {
       assume(DB.isPostgreSQL, "The scaled data needs PostgreSQL (generate_series)")
       val outside = DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct")
-      val trx = Trx.get(Trx.createTrxName("RLJReadTuning_"), true)
+      val transactionName = Trx.get(Trx.createTrxName("RLJReadTuning_"), true)
       try {
-        val connection = trx.getConnection
+        val connection = transactionName.getConnection
         assume(!connection.getAutoCommit, "the transaction must not autocommit")
-        val natural = read(FactAcctFormat, trx.getTrxName, Some(0)).getRowCount
+        val natural = read(FactAcctFormat, transactionName.getTrxName, Some(0)).getRowCount
         assume(natural > 0, "the report needs Fact_Acct rows to scale")
         // enough copies for more than 2000 rows (several batches of 1000), whatever the accounting data of the database
         val copies = math.max(20, 2000 / natural + 1)
         Given(s"Fact_Acct multiplied by $copies inside the transaction ($natural rows read before)")
         val rows = outside
-        val maxKey = DB.getSQLValueBD(trx.getTrxName, "SELECT MAX(Fact_Acct_ID) FROM Fact_Acct").longValue
+        val maxKey = DB.getSQLValueBD(transactionName.getTrxName, "SELECT MAX(Fact_Acct_ID) FROM Fact_Acct").longValue
         val statement = connection.createStatement()
         try {
           val metaData = statement.executeQuery("SELECT * FROM Fact_Acct WHERE 1=0").getMetaData
           val columns = (1 to metaData.getColumnCount).map(metaData.getColumnName)
-          val select = columns.map(c => if (c.equalsIgnoreCase("Fact_Acct_ID")) s"${maxKey + KeyGap} + (g.n - 1) * $rows + s.rn" else s"s.$c")
+          val select = columns.map(columnName => if (columnName.equalsIgnoreCase("Fact_Acct_ID")) s"${maxKey + KeyGap} + (g.n - 1) * $rows + s.rn" else s"s.$columnName")
           statement.executeUpdate(
             s"INSERT INTO Fact_Acct (${columns.mkString(",")}) SELECT ${select.mkString(",")} " +
               "FROM (SELECT x.*, ROW_NUMBER() OVER (ORDER BY x.Fact_Acct_ID) AS rn FROM Fact_Acct x) s " +
@@ -178,19 +178,19 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
         check(DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct") == outside, "the scaled rows must not be visible outside the transaction")
 
         When("the report reads them with fetch size 0, 1000 and 100 (several batches)")
-        val whole = read(FactAcctFormat, trx.getTrxName, Some(0))
+        val whole = read(FactAcctFormat, transactionName.getTrxName, Some(0))
         check(whole.getRowCount > 2000, s"expected more than 2000 rows, got ${whole.getRowCount}")
         val expected = content(whole)
         Then("every row comes back, in the same order")
         Seq(1000, 100).foreach { size =>
-          val actual = read(FactAcctFormat, trx.getTrxName, Some(size))
+          val actual = read(FactAcctFormat, transactionName.getTrxName, Some(size))
           info(s"fetch size $size: ${actual.getRowCount} rows (fetch size 0: ${whole.getRowCount})")
           assert(actual.getRowCount == whole.getRowCount)
           check(content(actual) == expected, s"content differs for fetch size $size")
         }
       } finally {
-        trx.rollback()
-        trx.close()
+        transactionName.rollback()
+        transactionName.close()
       }
       assert(DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct") == outside, "the rolled back rows must be gone")
     }

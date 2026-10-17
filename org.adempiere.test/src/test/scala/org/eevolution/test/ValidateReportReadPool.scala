@@ -56,8 +56,8 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
 
   private def format(id: Int): MPrintFormat = MPrintFormat.get(Env.getCtx, id, true)
 
-  private def read(formatId: Int, trx: String, restriction: Option[String] = None, fetchSize: Option[Int] = None): PrintData = {
-    val engine = new DataEngine(English, trx)
+  private def read(formatId: Int, transactionName: String, restriction: Option[String] = None, fetchSize: Option[Int] = None): PrintData = {
+    val engine = new DataEngine(English, transactionName)
     engine.setLookupJoin(true)
     fetchSize.foreach(size => engine.setFetchSize(size))
     val query = new MQuery(format(formatId).getAD_Table_ID)
@@ -66,12 +66,12 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
   }
 
   /** SQL, columns and every cell in order */
-  private def content(pd: PrintData): Vector[Vector[String]] =
-    (0 until pd.getRowCount).map { row =>
-      pd.setRowIndex(row)
-      (0 until pd.getNodeCount).map { index =>
-        pd.getNode(index) match {
-          case e: PrintDataElement => s"${e.getColumnName}|${e.getValueKey}|${e.getValue}|${e.getValueAsString}"
+  private def content(printData: PrintData): Vector[Vector[String]] =
+    (0 until printData.getRowCount).map { row =>
+      printData.setRowIndex(row)
+      (0 until printData.getNodeCount).map { index =>
+        printData.getNode(index) match {
+          case element: PrintDataElement => s"${element.getColumnName}|${element.getValueKey}|${element.getValue}|${element.getValueAsString}"
           case other => "#" + other
         }
       }.toVector
@@ -90,18 +90,18 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
         "AND state = 'active' AND query LIKE ?")
     try {
       statement.setString(1, s"%AD_PrintFormat_ID=$formatId */%")
-      val rs = statement.executeQuery()
-      try Iterator.continually(rs).takeWhile(_.next()).map(_.getString(1)).toVector finally rs.close()
+      val resultSet = statement.executeQuery()
+      try Iterator.continually(resultSet).takeWhile(_.next()).map(_.getString(1)).toVector finally resultSet.close()
     } finally statement.close()
   }
 
   /** runs the report in another thread and returns the application names of the backends seen executing its SQL */
-  private def observeReport(formatId: Int, trx: String): Vector[String] = {
+  private def observeReport(formatId: Int, transactionName: String): Vector[String] = {
     val executor = Executors.newSingleThreadExecutor()
     try {
       val report = executor.submit(new Callable[PrintData] {
         override def call(): PrintData = {
-          read(formatId, trx, Some(SleepRestriction))
+          read(formatId, transactionName, Some(SleepRestriction))
         }
       })
       val deadline = System.currentTimeMillis() + 20000
@@ -169,16 +169,16 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
     Scenario("Rows, columns and order are the same as the read of a transaction, with and without batches") {
       Formats.foreach { id =>
         Given(s"print format $id")
-        val viaTrx = read(id, trxName, fetchSize = Some(0))
-        val expected = content(viaTrx)
+        val viaTransaction = read(id, trxName, fetchSize = Some(0))
+        val expected = content(viaTransaction)
         check(expected.nonEmpty, s"format $id returns no row")
         Seq(0, 1000, 7).foreach { size =>
           val viaPool = read(id, null, fetchSize = Some(size))
-          check(viaPool.getSQL == viaTrx.getSQL, s"SQL differs for $id, fetch size $size")
-          check(viaPool.getRowCount == viaTrx.getRowCount, s"row count $id, fetch size $size: ${viaPool.getRowCount} <> ${viaTrx.getRowCount}")
+          check(viaPool.getSQL == viaTransaction.getSQL, s"SQL differs for $id, fetch size $size")
+          check(viaPool.getRowCount == viaTransaction.getRowCount, s"row count $id, fetch size $size: ${viaPool.getRowCount} <> ${viaTransaction.getRowCount}")
           check(content(viaPool) == expected, s"content differs for $id, fetch size $size")
         }
-        info(s"format $id: ${viaTrx.getRowCount} rows identical through the short running pool for fetch size 0, 1000 and 7")
+        info(s"format $id: ${viaTransaction.getRowCount} rows identical through the short running pool for fetch size 0, 1000 and 7")
       }
     }
 
@@ -193,7 +193,7 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
       When("reports run, and one fails in the database")
       Formats.foreach(id => read(id, null, fetchSize = Some(7)))
       val broken = Try(read(OrderFormat, null, Some("no_such_column=1")))
-      info(s"the failing report: ${broken.map(_ => "ended").recover { case e => e.getClass.getSimpleName }.get}")
+      info(s"the failing report: ${broken.map(_ => "ended").recover { case throwable => throwable.getClass.getSimpleName }.get}")
       Then("no transaction stays registered and every connection went back to the pool")
       assert(activeTransactions == transactions)
       assert(inUse == 0, s"$inUse connections of the short running pool still in use")
@@ -209,10 +209,10 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
           check(connection.getTransactionIsolation == Connection.TRANSACTION_READ_COMMITTED)
           val statement = connection.createStatement()
           try {
-            val rs = statement.executeQuery("SELECT application_name FROM pg_stat_activity WHERE pid = pg_backend_pid()")
-            rs.next()
-            check(rs.getString(1) == ReportPool, s"application_name = ${rs.getString(1)}")
-            rs.close()
+            val resultSet = statement.executeQuery("SELECT application_name FROM pg_stat_activity WHERE pid = pg_backend_pid()")
+            resultSet.next()
+            check(resultSet.getString(1) == ReportPool, s"application_name = ${resultSet.getString(1)}")
+            resultSet.close()
             val write = Try(statement.execute("CREATE TEMPORARY TABLE rlj_report_pool_probe (id INTEGER)"))
             check(write.isFailure, s"a write must be rejected (autoCommit $autoCommit)")
           } finally statement.close()
@@ -237,31 +237,31 @@ class ValidateReportReadPool extends AnyFeatureSpec with AdempiereTestCase with 
     Scenario("The report sees a row inserted by the transaction and not committed; the short running pool does not") {
       assume(DB.isPostgreSQL, "the scaled data needs PostgreSQL")
       val outside = DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct")
-      val trx = Trx.get(Trx.createTrxName("RLJReadPool_"), true)
+      val transaction = Trx.get(Trx.createTrxName("RLJReadPool_"), true)
       try {
-        val connection = trx.getConnection
-        val before = read(FactAcctFormat, trx.getTrxName).getRowCount
-        val maxKey = DB.getSQLValueBD(trx.getTrxName, "SELECT MAX(Fact_Acct_ID) FROM Fact_Acct").longValue
+        val connection = transaction.getConnection
+        val before = read(FactAcctFormat, transaction.getTrxName).getRowCount
+        val maxKey = DB.getSQLValueBD(transaction.getTrxName, "SELECT MAX(Fact_Acct_ID) FROM Fact_Acct").longValue
         val statement = connection.createStatement()
         try {
           val metaData = statement.executeQuery("SELECT * FROM Fact_Acct WHERE 1=0").getMetaData
           val columns = (1 to metaData.getColumnCount).map(metaData.getColumnName)
-          val select = columns.map(c => if (c.equalsIgnoreCase("Fact_Acct_ID")) s"${maxKey + KeyGap}" else s"s.$c")
+          val select = columns.map(columnName => if (columnName.equalsIgnoreCase("Fact_Acct_ID")) s"${maxKey + KeyGap}" else s"s.$columnName")
           statement.executeUpdate(
             s"INSERT INTO Fact_Acct (${columns.mkString(",")}) SELECT ${select.mkString(",")} " +
               "FROM Fact_Acct s WHERE s.Fact_Acct_ID = (SELECT MIN(Fact_Acct_ID) FROM Fact_Acct)")
         } finally statement.close()
         Given(s"a Fact_Acct row inserted in the transaction ($before rows seen by it before)")
         When("the report runs with the transaction and without it")
-        val inside = read(FactAcctFormat, trx.getTrxName).getRowCount
+        val inside = read(FactAcctFormat, transaction.getTrxName).getRowCount
         val viaPool = read(FactAcctFormat, null).getRowCount
         info(s"rows: with the transaction $inside (before $before), through the pool $viaPool")
         Then("the transaction sees its row and the short running pool sees only committed data")
         assert(inside == before + 1)
         assert(viaPool == before)
       } finally {
-        trx.rollback()
-        trx.close()
+        transaction.rollback()
+        transaction.close()
       }
       assert(DB.getSQLValue(null, "SELECT COUNT(*) FROM Fact_Acct") == outside, "the inserted row must be gone")
     }

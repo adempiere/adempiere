@@ -87,17 +87,17 @@ public final class ReportDefinitionCache
 	}
 
 	/** Entries by key: {@link ReportDefinition.Key}, report views and lookup metadata (keys are immutable values) */
-	private static final ConcurrentHashMap<Object, Entry> s_entries = new ConcurrentHashMap<Object, Entry>();
-	/** Guards the generation, the dirty transactions and every store into {@link #s_entries} */
+	private static final ConcurrentHashMap<Object, Entry> entries = new ConcurrentHashMap<Object, Entry>();
+	/** Guards the generation, the dirty transactions and every store into {@link #entries} */
 	private static final Object LOCK = new Object();
 	/** Changed by every invalidation. A run stores its results only if it is still the generation it started in */
-	private static long s_generation = 0;
+	private static long currentGeneration = 0;
 	/** Transactions that changed the dictionary and have not ended */
-	private static final Set<String> s_dirtyTrx = new HashSet<String>();
-	private static volatile long s_expireMillis = DEFAULT_EXPIRE_MILLIS;
+	private static final Set<String> dirtyTransactionNames = new HashSet<String>();
+	private static volatile long expireMillis = DEFAULT_EXPIRE_MILLIS;
 
 	/** The scope of the DataEngine run of this thread */
-	private static final ThreadLocal<Scope> s_scope = new ThreadLocal<Scope>();
+	private static final ThreadLocal<Scope> threadScope = new ThreadLocal<Scope>();
 
 	static
 	{
@@ -113,25 +113,25 @@ public final class ReportDefinitionCache
 	/**
 	 * 	Open the cache scope of a DataEngine run in this thread. Close it in a finally block.
 	 * 	@param enabled false = nothing is read from or stored in the cache in this scope
-	 * 	@param trxName transaction the dictionary is read with (null = committed state)
+	 * 	@param transactionName transaction the dictionary is read with (null = committed state)
 	 * 	@return scope
 	 */
-	public static Scope open (boolean enabled, String trxName)
+	public static Scope open (boolean isEnabled, String transactionName)
 	{
-		Scope previous = s_scope.get();
+		Scope previous = threadScope.get();
 		Scope scope;
-		if (!enabled)
+		if (!isEnabled)
 			scope = new Scope(false, 0, previous);
 		else
 		{
 			synchronized (LOCK)
 			{
 				purgeFinished();
-				boolean usable = trxName == null || !s_dirtyTrx.contains(trxName);
-				scope = new Scope(usable, s_generation, previous);
+				boolean isUsable = transactionName == null || !dirtyTransactionNames.contains(transactionName);
+				scope = new Scope(isUsable, currentGeneration, previous);
 			}
 		}
-		s_scope.set(scope);
+		threadScope.set(scope);
 		return scope;
 	}	//	open
 
@@ -140,21 +140,21 @@ public final class ReportDefinitionCache
 	 */
 	public static Scope current ()
 	{
-		return s_scope.get();
+		return threadScope.get();
 	}	//	current
 
 	/**
 	 * 	A dictionary row was created, changed or deleted: drop everything.
-	 * 	@param trxName transaction of the change, null if it is already committed
+	 * 	@param transactionName transaction of the change, null if it is already committed
 	 */
-	public static void invalidate (String trxName)
+	public static void invalidate (String transactionName)
 	{
 		synchronized (LOCK)
 		{
-			s_generation++;
-			s_entries.clear();
-			if (trxName != null && trxName.length() > 0)
-				s_dirtyTrx.add(trxName);
+			currentGeneration++;
+			entries.clear();
+			if (transactionName != null && transactionName.length() > 0)
+				dirtyTransactionNames.add(transactionName);
 		}
 	}	//	invalidate
 
@@ -163,7 +163,7 @@ public final class ReportDefinitionCache
 	 */
 	public static int size ()
 	{
-		return s_entries.size();
+		return entries.size();
 	}	//	size
 
 	/**
@@ -174,7 +174,7 @@ public final class ReportDefinitionCache
 	{
 		if (millis <= 0)
 			throw new IllegalArgumentException("millis <= 0");
-		s_expireMillis = millis;
+		expireMillis = millis;
 	}	//	setExpireMillis
 
 	/**
@@ -182,7 +182,7 @@ public final class ReportDefinitionCache
 	 */
 	public static long getExpireMillis ()
 	{
-		return s_expireMillis;
+		return expireMillis;
 	}	//	getExpireMillis
 
 	/**
@@ -190,23 +190,23 @@ public final class ReportDefinitionCache
 	 */
 	private static void purgeFinished ()
 	{
-		if (s_dirtyTrx.isEmpty())
+		if (dirtyTransactionNames.isEmpty())
 			return;
-		boolean ended = false;
-		for (Iterator<String> it = s_dirtyTrx.iterator(); it.hasNext();)
+		boolean hasEnded = false;
+		for (Iterator<String> iterator = dirtyTransactionNames.iterator(); iterator.hasNext();)
 		{
-			Trx trx = Trx.get(it.next(), false);
-			if (trx == null || !trx.isActive())
+			Trx transaction = Trx.get(iterator.next(), false);
+			if (transaction == null || !transaction.isActive())
 			{
-				it.remove();
-				ended = true;
+				iterator.remove();
+				hasEnded = true;
 			}
 		}
-		if (ended)
+		if (hasEnded)
 		{
 			//	what was committed (or rolled back) is the state to read again
-			s_generation++;
-			s_entries.clear();
+			currentGeneration++;
+			entries.clear();
 		}
 	}	//	purgeFinished
 
@@ -216,13 +216,13 @@ public final class ReportDefinitionCache
 	private static void trim ()
 	{
 		long now = System.currentTimeMillis();
-		for (Iterator<Entry> it = s_entries.values().iterator(); it.hasNext();)
+		for (Iterator<Entry> iterator = entries.values().iterator(); iterator.hasNext();)
 		{
-			if (it.next().expires < now)
-				it.remove();
+			if (iterator.next().expires < now)
+				iterator.remove();
 		}
-		if (s_entries.size() >= MAX_ENTRIES)
-			s_entries.clear();
+		if (entries.size() >= MAX_ENTRIES)
+			entries.clear();
 	}	//	trim
 
 	/**
@@ -230,13 +230,13 @@ public final class ReportDefinitionCache
 	 */
 	public static final class Scope implements AutoCloseable
 	{
-		private final boolean usable;
+		private final boolean isUsable;
 		private final long generation;
 		private final Scope previous;
 
-		private Scope (boolean usable, long generation, Scope previous)
+		private Scope (boolean isUsable, long generation, Scope previous)
 		{
-			this.usable = usable;
+			this.isUsable = isUsable;
 			this.generation = generation;
 			this.previous = previous;
 		}
@@ -246,7 +246,7 @@ public final class ReportDefinitionCache
 		 */
 		public boolean isUsable ()
 		{
-			return usable;
+			return isUsable;
 		}
 
 		/**
@@ -255,14 +255,14 @@ public final class ReportDefinitionCache
 		 */
 		public Object get (Object key)
 		{
-			if (!usable)
+			if (!isUsable)
 				return null;
-			Entry entry = s_entries.get(key);
+			Entry entry = entries.get(key);
 			if (entry == null)
 				return null;
 			if (entry.expires < System.currentTimeMillis())
 			{
-				s_entries.remove(key, entry);
+				entries.remove(key, entry);
 				return null;
 			}
 			return entry.value;
@@ -275,16 +275,16 @@ public final class ReportDefinitionCache
 		 */
 		public void put (Object key, Object value)
 		{
-			if (!usable || value == null)
+			if (!isUsable || value == null)
 				return;
 			synchronized (LOCK)
 			{
 				purgeFinished();
-				if (s_generation != generation || !s_dirtyTrx.isEmpty())
+				if (currentGeneration != generation || !dirtyTransactionNames.isEmpty())
 					return;
-				if (s_entries.size() >= MAX_ENTRIES)
+				if (entries.size() >= MAX_ENTRIES)
 					trim();
-				s_entries.put(key, new Entry(value, System.currentTimeMillis() + s_expireMillis));
+				entries.put(key, new Entry(value, System.currentTimeMillis() + expireMillis));
 			}
 		}	//	put
 
@@ -295,9 +295,9 @@ public final class ReportDefinitionCache
 		public void close ()
 		{
 			if (previous == null)
-				s_scope.remove();
+				threadScope.remove();
 			else
-				s_scope.set(previous);
+				threadScope.set(previous);
 		}	//	close
 	}	//	Scope
 
@@ -334,10 +334,10 @@ public final class ReportDefinitionCache
 	private static final class DictionaryListener implements CacheChangeListener
 	{
 		@Override
-		public void changed (String tableName, int recordId, String trxName, boolean newRecord, boolean deleted)
+		public void changed (String tableName, int recordId, String transactionName, boolean isNewRecord, boolean isDeleted)
 		{
 			if (TABLE_SET.contains(tableName))
-				ReportDefinitionCache.invalidate(trxName);
+				ReportDefinitionCache.invalidate(transactionName);
 		}
 	}	//	DictionaryListener
 

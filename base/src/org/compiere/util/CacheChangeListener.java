@@ -27,10 +27,10 @@ public interface CacheChangeListener
 	 * 	A record was saved (inserted or updated) or deleted successfully. The transaction may still roll back.
 	 * 	@param tableName table name
 	 * 	@param recordId record ID
-	 * 	@param trxName transaction of the change, null if there is none
-	 * 	@param newRecord true if the record was inserted
-	 * 	@param deleted true if the record was deleted
+	 * 	@param transactionName transaction of the change, null if there is none
+	 * 	@param isNewRecord true if the record was inserted
+	 * 	@param isDeleted true if the record was deleted
 	 */
-	void changed (String tableName, int recordId, String trxName, boolean newRecord, boolean deleted);
+	void changed (String tableName, int recordId, String transactionName, boolean isNewRecord, boolean isDeleted);
 
 }	//	CacheChangeListener
