@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -717,15 +718,17 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 		m_extendedWhere = where.toString();
 
-		//	Final Query
+		//	Final Query: the restrictions of the MQuery are bound, the rest of the text is literal
+		List<Object> whereParameters = new ArrayList<Object>();
 		if (m_query.isActive())
 		{
-			String q = validateQuery(m_query);
-			if (q != null)
+			MQuery.BoundWhereClause queryWhere = validateQuery(m_query);
+			if (queryWhere != null)
 			{
 				if (where.length() > 0 )
 					where.append(" AND ");
-				where.append(" (").append(q).append(")");
+				where.append(" (").append(queryWhere.getSql()).append(")");
+				whereParameters.addAll(queryWhere.getParameters());
 			}
 		}
 
@@ -738,11 +741,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (refresh)
 				m_mTable.dataRefreshAll();
 			else
-				m_mTable.dataRequery(where.toString(), m_vo.onlyCurrentRows && !isDetail(), onlyCurrentDays);
+				m_mTable.dataRequery(where.toString(), whereParameters, m_vo.onlyCurrentRows && !isDetail(), onlyCurrentDays);
 		}
 		else
 		{
-			m_mTable.setSelectWhereClause(where.toString(), m_vo.onlyCurrentRows && !isDetail(), onlyCurrentDays);
+			m_mTable.setSelectWhereClause(where.toString(), whereParameters, m_vo.onlyCurrentRows && !isDetail(), onlyCurrentDays);
 			m_mTable.open(maxRows);
 		}
 		//  Go to Record 0
@@ -753,9 +756,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 * 	Validate Query.
 	 *  If query column is not a tab column create EXISTS query
 	 * 	@param query query
-	 * 	@return where clause
+	 * 	@return where clause with the values of its placeholders, null if there is nothing to restrict.
+	 * 		The parameters are read after the query has been changed by the validation
 	 */
-	private String validateQuery (MQuery query)
+	private MQuery.BoundWhereClause validateQuery (MQuery query)
 	{
 		if (query == null || query.getRestrictionCount() == 0)
 			return null;
@@ -764,20 +768,20 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (query.getRestrictionCount() != 1)
 		{
 			log.fine("Ignored(More than 1 Restriction): " + query);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 
 		String colName = query.getColumnName(0);
 		if (colName == null)
 		{
 			log.fine("Ignored(No Column): " + query);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 		//	a '(' in the name = function - don't try to resolve
 		if (colName.indexOf('(') != -1)
 		{
 			log.fine("Ignored(Function): " + colName);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 		//	OK - Query is valid
 
@@ -793,7 +797,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (getField(refColName) != null)
 			{
 				log.fine("Column " + colName + " replaced with synonym " + refColName);
-				return query.getWhereClause();
+				return query.getBoundWhereClause(false);
 			}
 			refColName = null;
 		}
@@ -802,7 +806,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (getField(colName) != null)
 		{
 			log.fine("Field Found: " + colName);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 
 		//	Find Reference Column e.g. BillTo_ID -> C_BPartner_Location_ID
@@ -825,7 +829,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "(ref) - Column=" + colName, e);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 		//	Reference Column found
 		if (refColName != null)
@@ -834,7 +838,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (getField(refColName) != null)
 			{
 				log.fine("Column " + colName + " replaced with " + refColName);
-				return query.getWhereClause();
+				return query.getBoundWhereClause(false);
 			}
 			colName = refColName;
 		}
@@ -873,7 +877,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			//	Column=AccessLevel, Key=AD_Reference_ID, Query=AccessLevel='6'
 			sql = "SELECT AD_Reference_ID FROM AD_Column WHERE ColumnName=?";
 			int AD_Reference_ID = DB.getSQLValue(null, sql, colName);
-			return "AD_Reference_ID=" + AD_Reference_ID;
+			return new MQuery.BoundWhereClause("AD_Reference_ID=" + AD_Reference_ID, Collections.<Object>emptyList());
 		}
 
 		//	Causes could be functions in query
@@ -883,19 +887,20 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			log.info ("Not successfull - Column="
 				+ colName + ", Key=" + tabKeyColumn
 				+ ", Query=" + query);
-			return query.getWhereClause();
+			return query.getBoundWhereClause(false);
 		}
 
 		query.setTableName("xx");
 		// use IN instead of EXISTS as subquery should be highly selective
+		MQuery.BoundWhereClause subqueryWhere = query.getBoundWhereClause(true);
 		StringBuffer result = new StringBuffer (getTableName()).append(".").append(tabKeyColumn)
 			.append(" IN (SELECT xx.").append(tabKeyColumn)
 			.append(" FROM ")
 			.append(tableName).append(" xx WHERE ")
-			.append(query.getWhereClause(true))
+			.append(subqueryWhere.getSql())
 			.append(")");
 		log.fine(result.toString());
-		return result.toString();
+		return new MQuery.BoundWhereClause(result.toString(), subqueryWhere.getParameters());
 	}	//	validateQuery
 
 
