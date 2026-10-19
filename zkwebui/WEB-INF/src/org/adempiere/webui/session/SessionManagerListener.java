@@ -91,6 +91,5 @@ public class SessionManagerListener extends HttpSessionListener {
         }
         log.info("       Invalidate Session : " + httpSession.getId());
         log.info("------------------------------------------------");
-        httpSession.invalidate();
     }
 }
