@@ -1954,6 +1954,33 @@ public final class DB
 	 */
 	public static boolean isSOTrx (String TableName, String whereClause)
 	{
+		return isSOTrx(TableName, whereClause, null);
+	}	//	isSOTrx
+
+	/**
+	 * 	Is Sales Order Trx, for the restrictions of an MQuery.
+	 * 	Same as {@link #isSOTrx(String, String)}, but the values of the query are bound with
+	 * 	{@link #setQueryParameters(PreparedStatement, List)} instead of written in the text.
+	 *	@param TableName table
+	 *	@param boundWhereClause where clause and parameters of {@link org.compiere.model.MQuery#getBoundWhereClause(boolean)}
+	 *	@return true (default) or false if tested that not SO
+	 */
+	public static boolean isSOTrx (String TableName, org.compiere.model.MQuery.BoundWhereClause boundWhereClause)
+	{
+		if (boundWhereClause == null)
+			return isSOTrx(TableName, (String)null, null);
+		return isSOTrx(TableName, boundWhereClause.getSql(), boundWhereClause.getParameters());
+	}	//	isSOTrx
+
+	/**
+	 * 	Is Sales Order Trx.
+	 *	@param TableName table
+	 *	@param whereClause where clause, with a <code>?</code> for each parameter
+	 *	@param parameters values of the placeholders, null or empty if none
+	 *	@return true (default) or false if tested that not SO
+	 */
+	private static boolean isSOTrx (String TableName, String whereClause, List<?> parameters)
+	{
         if (TableName == null || TableName.length() == 0)
         {
             log.severe("No TableName");
@@ -1977,6 +2004,7 @@ public final class DB
         	try
         	{
         		pstmt = DB.prepareStatement (sql, null);
+        		setQueryParameters(pstmt, parameters);
         		rs = pstmt.executeQuery ();
         		if (rs.next ())
         			isSOTrx = "Y".equals(rs.getString(1));
@@ -2007,6 +2035,7 @@ public final class DB
         		try
         		{
         			pstmt2 = DB.prepareStatement (sql, null);
+        			setQueryParameters(pstmt2, parameters);
         			rs2 = pstmt2.executeQuery ();
         			if (rs2.next ())
         				isSOTrx = "Y".equals(rs2.getString(1));

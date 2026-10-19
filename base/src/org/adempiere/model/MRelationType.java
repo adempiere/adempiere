@@ -421,14 +421,14 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 	 */
 	private static void evaluateQuery(final MQuery query) {
 		String sqlCommon = null;
-		String whereClause = query.getWhereClause(false);
+		MQuery.BoundWhereClause boundWhereClause = query.getBoundWhereClause(false);
 		int count = 0;
 		//	Validate if it is parsed
-		if(!Util.isEmpty(whereClause)) {
+		if(!Util.isEmpty(boundWhereClause.getSql())) {
 			sqlCommon = " FROM " + query.getZoomTableName()
-			+ " WHERE " + whereClause;
+			+ " WHERE " + boundWhereClause.getSql();
 			String sqlCount = "SELECT COUNT(*) " + sqlCommon;
-			count = DB.getSQLValueEx(null, sqlCount);
+			count = DB.getSQLValueQueryEx(null, sqlCount, boundWhereClause.getParameters());
 		}
 		//	
 		query.setRecordCount(count);
@@ -437,7 +437,7 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 			final String sqlFirstKey = "SELECT " + query.getZoomColumnName()
 					+ sqlCommon;
 			
-			final int firstKey = DB.getSQLValueEx(null, sqlFirstKey);
+			final int firstKey = DB.getSQLValueQueryEx(null, sqlFirstKey, boundWhereClause.getParameters());
 			query.setZoomValue(firstKey);
 		}
 	}
