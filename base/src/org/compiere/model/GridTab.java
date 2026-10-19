@@ -656,7 +656,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			where.append("Created >= ");
 			where.append("SysDate-").append(m_vo.onlyCurrentDays);
 		}
-		//	Detail Query
+		//	Detail Query: the link value is bound in boundWhere, where holds it as text for getWhereExtended
+		StringBuffer boundWhere = null;
+		List<Object> whereParameters = new ArrayList<Object>();
 		if (isDetail())
 		{
 			m_parentNeedSave = false;
@@ -706,11 +708,22 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					//	we have column and value
 					if (where.length() != 0)
 						where.append(" AND ");
+					int linkStart = where.length();
 					where.append(getTableName()).append(".").append(lc).append("=");
+					Object linkValue;
 					if (lc.endsWith("_ID"))
-						where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
+					{
+						linkValue = new BigDecimal(value);
+						where.append(DB.TO_NUMBER((BigDecimal)linkValue, DisplayType.ID));
+					}
 					else
+					{
+						linkValue = value;
 						where.append(DB.TO_STRING(value));
+					}
+					boundWhere = new StringBuffer(where.substring(0, linkStart));
+					boundWhere.append(getTableName()).append(".").append(lc).append("=?");
+					whereParameters.add(linkValue);
 					//}
 				}
 			}
@@ -718,8 +731,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 		m_extendedWhere = where.toString();
 
-		//	Final Query: the restrictions of the MQuery are bound, the rest of the text is literal
-		List<Object> whereParameters = new ArrayList<Object>();
+		//	Final Query: the link value and the restrictions of the MQuery are bound, the rest of the text is literal
+		if (boundWhere != null)
+			where = boundWhere;
 		if (m_query.isActive())
 		{
 			MQuery.BoundWhereClause queryWhere = validateQuery(m_query);

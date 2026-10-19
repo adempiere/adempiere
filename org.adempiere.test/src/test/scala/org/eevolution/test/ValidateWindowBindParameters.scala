@@ -95,7 +95,8 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
   private def assertSameRows(tab: GridTab, label: String, requiresRows: Boolean, original: () => MQuery): Outcome = {
     val literal = execute(tab, literalOf(tab, original()))
     val bound = execute(tab, original())
-    check(literal.parameters.isEmpty, s"$label: the literal reference has parameters ${literal.parameters}")
+    // the literal restriction binds nothing; a detail tab still binds its link value, ahead of the restriction
+    check(literal.parameters.size == (if (tab.isDetail) 1 else 0), s"$label: the literal reference has parameters ${literal.parameters}")
     check(!requiresRows || literal.keys.nonEmpty, s"$label: the reference returns no rows")
     check(bound.keys == literal.keys, s"$label: bound ${bound.keys.size} rows ${bound.keys}, literal ${literal.keys.size} rows ${literal.keys}")
     bound
@@ -197,7 +198,9 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
         restrictions.foreach { case (label, original) =>
           val bound = assertSameRows(lineTab, label, requiresRows = true, original)
           assertBinds(label, bound)
-          check(bound.selectSql.contains(s"C_OrderLine.C_Order_ID=$orderId"), s"$label: the link column is not in ${bound.selectSql}")
+          check(bound.selectSql.contains("C_OrderLine.C_Order_ID=?"), s"$label: the link column is not bound in ${bound.selectSql}")
+          check(bound.parameters.head == new java.math.BigDecimal(orderId), s"$label: the link value is not the first parameter ${bound.parameters}")
+          check(lineTab.getWhereExtended.contains(s"C_OrderLine.C_Order_ID=$orderId"), s"$label: ${lineTab.getWhereExtended}")
         }
       } finally window.dispose()
     }
@@ -322,6 +325,137 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
     }
   }
 
+  /** The first tab of the parent table and the child tab, with the child reached through the parent record */
+  private def childRows(window: GridWindow, parentTab: GridTab, childTab: GridTab, parentRow: Int): Outcome = {
+    parentTab.setCurrentRow(parentRow)
+    childTab.setQuery(null)
+    childTab.query(false)
+    val table = childTab.getTableModel
+    Outcome(keysOf(childTab), privateText(table, "m_SQL"), privateText(table, "m_SQL_Count"),
+      table.getSelectWhereParameters.asScala.toVector)
+  }
+
+  /** The rows of the same child tab with the literal link value, which is what getWhereExtended holds */
+  private def literalChildKeys(childTab: GridTab): Vector[Int] = {
+    val table = childTab.getTableModel
+    table.dataRequery(childTab.getWhereExtended, false, 0)
+    keysOf(childTab)
+  }
+
+  /** The keys of a tab of the sweep; a tab whose key has no value is identified by its row count */
+  private def rowsOf(tab: GridTab): Vector[String] = {
+    val keyColumn = tab.getKeyColumnName
+    (0 until tab.getRowCount).map { row =>
+      val key = if (keyColumn == null || keyColumn.isEmpty) null else tab.getValue(row, keyColumn)
+      if (key == null) "row" else key.toString
+    }.sorted.toVector
+  }
+
+  private def assertChildLink(windowId: Int, parentTable: String, childTable: String, linkColumn: String): Unit = {
+    val window = openWindow(windowId)
+    try {
+      val parentTab = openTab(window, 0)
+      val childTab = openTab(window, tabOf(window, childTable))
+      check(parentTab.getTableName == parentTable, s"The first tab is ${parentTab.getTableName}")
+      check(childTab.isDetail, s"$childTable is not a detail tab")
+      loadAll(parentTab)
+      val parentKeys = (0 until parentTab.getRowCount).map(row => parentTab.getValue(row, parentTab.getKeyColumnName).asInstanceOf[Number].intValue)
+      // the parents that have children in the table, the rows of the parent tab that show them
+      val withChildren = parentKeys.zipWithIndex.filter { case (key, _) =>
+        DB.getSQLValue(null, s"SELECT COUNT(*) FROM $childTable WHERE $linkColumn=?", key) > 0
+      }
+      check(withChildren.size >= 2, s"$parentTable has fewer than two records with $childTable")
+      val Seq((firstKey, firstRow), (secondKey, secondRow)) = withChildren.take(2)
+      When("the parent record is the first one and then the second one")
+      val first = childRows(window, parentTab, childTab, firstRow)
+      val firstExtended = childTab.getWhereExtended
+      check(literalChildKeys(childTab) == first.keys, s"first parent: bound ${first.keys}, literal differs")
+      val second = childRows(window, parentTab, childTab, secondRow)
+      val secondExtended = childTab.getWhereExtended
+      check(literalChildKeys(childTab) == second.keys, s"second parent: bound ${second.keys}, literal differs")
+      Then("the SQL text is the same and the parameters differ in the link value")
+      check(first.keys.nonEmpty && second.keys.nonEmpty, "a parent without children")
+      check(first.selectSql == second.selectSql && first.countSql == second.countSql, s"the SQL changes with the parent: ${first.selectSql} / ${second.selectSql}")
+      check(first.selectSql.contains(s"$childTable.$linkColumn=?"), first.selectSql)
+      check(first.parameters.head == new java.math.BigDecimal(firstKey) && second.parameters.head == new java.math.BigDecimal(secondKey),
+        s"parameters ${first.parameters} ${second.parameters}")
+      check(placeholders(first.selectSql) == first.parameters.size && placeholders(first.countSql) == first.parameters.size, "placeholders and parameters differ")
+      And("the rows are the ones of the parent, whatever the other parent has")
+      check(first.keys.toSet != second.keys.toSet, "both parents show the same rows")
+      And("getWhereExtended still holds the literal link value")
+      check(firstExtended.contains(s"$childTable.$linkColumn=$firstKey") && !firstExtended.contains("?"), firstExtended)
+      check(secondExtended.contains(s"$childTable.$linkColumn=$secondKey") && !secondExtended.contains("?"), secondExtended)
+    } finally window.dispose()
+  }
+
+  Feature("A child tab binds the value of its link column") {
+
+    Scenario("Sales Order, Order Line: switching the order keeps the SQL and changes the parameter") {
+      assertChildLink(SalesOrderWindow, "C_Order", "C_OrderLine", "C_Order_ID")
+    }
+
+    Scenario("Business Partner, Location: switching the partner keeps the SQL and changes the parameter") {
+      assertChildLink(BusinessPartnerWindow, "C_BPartner", "C_BPartner_Location", "C_BPartner_ID")
+    }
+
+    Scenario("the link value comes before the values of the restriction") {
+      val window = openWindow(SalesOrderWindow)
+      try {
+        val parentTab = openTab(window, 0)
+        val lineTab = openTab(window, tabOf(window, "C_OrderLine"))
+        loadAll(parentTab)
+        val orderId = DB.getSQLValue(null, s"SELECT MIN(C_Order_ID) FROM C_OrderLine WHERE C_Order_ID IN (${keysOf(parentTab).mkString(",")})")
+        val row = (0 until parentTab.getRowCount).find(row => parentTab.getValue(row, "C_Order_ID") == Integer.valueOf(orderId)).get
+        parentTab.setCurrentRow(row)
+        // a new link value wipes the query of the tab (GridTab.query), so the tab sees the parent before the restriction
+        loadAll(lineTab)
+        val query = new MQuery("C_OrderLine")
+        query.addRestriction("Line", MQuery.GREATER_EQUAL, Integer.valueOf(0))
+        query.addRestriction("QtyOrdered", MQuery.GREATER_EQUAL, new java.math.BigDecimal("0"))
+        val outcome = execute(lineTab, query)
+        check(outcome.parameters == Vector(new java.math.BigDecimal(orderId), Integer.valueOf(0), new java.math.BigDecimal("0")), outcome.parameters.toString)
+        check(outcome.selectSql.indexOf("C_OrderLine.C_Order_ID=?") < outcome.selectSql.indexOf("(Line>=?"), outcome.selectSql)
+      } finally window.dispose()
+    }
+  }
+
+  /** The tabs above a detail tab, from the top: the nearest earlier tab of each lower level */
+  private def ancestorsOf(window: GridWindow, tabNo: Int): Seq[Int] = {
+    var level = window.getTab(tabNo).getTabLevel
+    var chain = List.empty[Int]
+    var index = tabNo - 1
+    while (level > 0 && index >= 0) {
+      if (window.getTab(index).getTabLevel < level) {
+        chain = index :: chain
+        level = window.getTab(index).getTabLevel
+      }
+      index -= 1
+    }
+    chain
+  }
+
+  /** What a child tab shows for the first record of its parents, bound and literal: None when the parents have no rows */
+  private def sweepChild(window: GridWindow, tabNo: Int): Option[(Vector[String], Vector[String], Outcome, String)] = {
+    val ancestors = ancestorsOf(window, tabNo)
+    val parentsHaveRows = ancestors.forall { ancestorNo =>
+      val ancestor = openTab(window, ancestorNo)
+      ancestor.setQuery(null)
+      ancestor.query(false, 0, 50)
+      ancestor.getRowCount > 0 && { ancestor.setCurrentRow(0); true }
+    }
+    if (!parentsHaveRows)
+      return None
+    val tab = openTab(window, tabNo)
+    tab.setQuery(null)
+    tab.query(false, 0, 0)
+    val table = tab.getTableModel
+    val boundKeys = rowsOf(tab)
+    val bound = Outcome(Vector.empty, privateText(table, "m_SQL"), privateText(table, "m_SQL_Count"), table.getSelectWhereParameters.asScala.toVector)
+    val extended = tab.getWhereExtended
+    table.dataRequery(extended, false, 0)
+    Some((boundKeys, rowsOf(tab), bound, extended))
+  }
+
   Feature("Every window and tab returns the same count bound and literal") {
 
     Scenario("an EQUAL restriction on the key of the first row, in every window reachable without a screen") {
@@ -329,6 +463,7 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
       val windowIds = DB.getSQLValueString(null, "SELECT string_agg(AD_Window_ID::text, ',' ORDER BY AD_Window_ID) FROM AD_Window WHERE IsActive='Y'")
         .split(",").map(_.toInt)
       var windows, tabs, compared, empty, noKey, synonym, tabErrors, windowErrors, noAccess = 0
+      var childCompared, childEmpty, childRows, childContext = 0
       val mismatches = scala.collection.mutable.ArrayBuffer[String]()
       windowIds.foreach { windowId =>
         if (role.getWindowAccess(windowId) == null)
@@ -344,6 +479,24 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
                 tabs += 1
                 try {
                   val tab = openTab(window, tabNo)
+                  if (tab.isDetail)
+                    sweepChild(window, tabNo) match {
+                      case None => childEmpty += 1
+                      case Some((boundKeys, literalKeys, bound, extended)) =>
+                        childCompared += 1
+                        childRows += boundKeys.size
+                        val link = s"${tab.getTableName}.${tab.getLinkColumnName}"
+                        // a link without value or without column runs 2=3 and binds nothing
+                        // a dictionary WHERE with @context@ reads the context of the window, which the first query changes
+                        // (the rows of the tab set AD_User_ID or C_BPartner_ID): the rows are not comparable, the SQL is
+                        val contextual = extended.contains("@")
+                        if (contextual)
+                          childContext += 1
+                        if (!bound.selectSql.contains("2=3") && ((!contextual && boundKeys != literalKeys) || extended.contains("?")
+                          || placeholders(bound.selectSql) != bound.parameters.size || placeholders(bound.countSql) != bound.parameters.size
+                          || !bound.selectSql.contains(s"$link=?")))
+                          mismatches += s"W$windowId T$tabNo ${tab.getTableName} CHILD: bound ${boundKeys.size} rows ${bound.parameters}, literal ${literalKeys.size} rows; extended $extended"
+                    }
                   val keyColumn = tab.getKeyColumnName
                   if (keyColumn == null || keyColumn.isEmpty)
                     noKey += 1
@@ -361,7 +514,8 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
                       val literal = execute(tab, literalOf(tab, equalKey()))
                       val bound = execute(tab, equalKey())
                       compared += 1
-                      if (bound.keys != literal.keys || bound.parameters.size != 1 || placeholders(bound.selectSql) != 1 || placeholders(bound.countSql) != 1)
+                      if (bound.keys != literal.keys || bound.parameters.size != literal.parameters.size + 1 || bound.parameters.drop(literal.parameters.size).size != 1
+                        || placeholders(bound.selectSql) != bound.parameters.size || placeholders(bound.countSql) != bound.parameters.size)
                         mismatches += s"W$windowId T$tabNo ${tab.getTableName}: bound ${bound.keys} ${bound.parameters}, literal ${literal.keys}"
                     }
                   }
@@ -371,10 +525,11 @@ class ValidateWindowBindParameters extends AnyFeatureSpec with AdempiereTestCase
           }
         }
       }
-      println(s"[window sweep] windows=${windowIds.length} noAccess=$noAccess opened=$windows notCreated=$windowErrors tabs=$tabs compared=$compared noRows=$empty noKey=$noKey docTypeSynonym=$synonym tabErrors=$tabErrors mismatches=${mismatches.size}")
+      println(s"[window sweep] windows=${windowIds.length} noAccess=$noAccess opened=$windows notCreated=$windowErrors tabs=$tabs compared=$compared noRows=$empty noKey=$noKey docTypeSynonym=$synonym childTabs=$childCompared childNoParentRows=$childEmpty childRows=$childRows childContextSql=$childContext tabErrors=$tabErrors mismatches=${mismatches.size}")
       mismatches.foreach(line => println("[window sweep] MISMATCH " + line))
       check(mismatches.isEmpty, mismatches.take(10).mkString("\n"))
       check(compared > 0)
+      check(childCompared > 0, "No child tab was compared")
     }
   }
 }
