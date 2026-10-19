@@ -71,6 +71,7 @@ import org.adempiere.core.domains.models.X_AD_Column;
 import org.adempiere.exceptions.ValueChangeEvent;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
+import org.compiere.model.FindCount;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
@@ -1926,38 +1927,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
     private int getNoOfRecords (MQuery query, boolean alertZeroRecords)
     {
         log.config("" + query);
-        StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ");
-        sql.append(m_tableName);
-        boolean hasWhere = false;
-        if (m_whereExtended != null && m_whereExtended.length() > 0)
-        {
-            sql.append(" WHERE ").append(m_whereExtended);
-            hasWhere = true;
-        }
-        if (query != null && query.isActive())
-        {
-            if (hasWhere)
-                sql.append(" AND ");
-            else
-                sql.append(" WHERE ");
-            sql.append(query.getWhereClause());
-        }
-        //  Add Access
-        String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(),
-            m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-        finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
+        //  The restriction binds; the extended where clause is raw SQL, then access and context
+        FindCount.CountStatement countStatement = FindCount.getStatement(Env.getCtx(), m_targetWindowNo,
+            MRole.getDefault(), m_tableName, m_whereExtended, query);
+        //  The context keeps the literal text for the code that reads it
+        String finalSQL = countStatement.getLiteralSql();
         Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
 
         //  Execute Qusery
         m_total = 999999;
         try
         {
-            Statement stmt = DB.createStatement();
-            ResultSet rs = stmt.executeQuery(finalSQL);
-            if (rs.next())
-                m_total = rs.getInt(1);
-            rs.close();
-            stmt.close();
+            m_total = FindCount.count(countStatement);
         }
         catch (SQLException e)
         {

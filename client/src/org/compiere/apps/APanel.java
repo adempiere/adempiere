@@ -70,6 +70,7 @@ import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VDocAction;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
+import org.compiere.model.FindCount;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
@@ -965,7 +966,7 @@ public final class APanel extends CPanel
 			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
 			{
 				m_mWorkbench.getMWindow(0).initTab(tabIndex);
-				int parentId = DB.getSQLValue(null, "SELECT " + gTab.getLinkColumnName() + " FROM " + gTab.getTableName() + " WHERE " + query.getWhereClause());
+				int parentId = FindCount.getLinkValue(gTab.getLinkColumnName(), gTab.getTableName(), query);
 				if (parentId > 0)
 				{
 					Map<Integer, Object[]>parentMap = new TreeMap<Integer, Object[]>();
@@ -1083,7 +1084,9 @@ public final class APanel extends CPanel
 		if (query != null && query.isActive() && !role.isQueryMax(query.getRecordCount()))
 			return query;
 		//
-		StringBuffer where = new StringBuffer(Env.parseContext(ctx, m_curWindowNo, mTab.getWhereExtended(), false));
+		String whereExtended = Env.parseContext(ctx, m_curWindowNo, mTab.getWhereExtended(), false);
+		//	Find embeds it as raw SQL, so this where clause stays text
+		StringBuffer where = new StringBuffer(whereExtended);
 		//	Query automatically if high volume and no query
 		boolean require = mTab.isHighVolume();
 		if (!require && !m_onlyCurrentRows)				//	No Trx Window
@@ -1100,12 +1103,10 @@ public final class APanel extends CPanel
 				}
 			}
 			//
-			StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ")
-				.append(mTab.getTableName());
-			if (where.length() > 0)
-				sql.append(" WHERE ").append(where);
-			//	Does not consider security
-			int no = DB.getSQLValue(null, sql.toString());
+			//	Does not consider security; the query restriction binds
+			FindCount.CountStatement countStatement = FindCount.getStatement(null, m_curWindowNo, null,
+				mTab.getTableName(), whereExtended, query);
+			int no = DB.getSQLValueQuery(null, countStatement.getSql(), countStatement.getParameters());
 			//
 			require = MRole.getDefault().isQueryRequire(no);
 		}
