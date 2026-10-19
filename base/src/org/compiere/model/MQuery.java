@@ -17,11 +17,15 @@
 package org.compiere.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -216,19 +220,19 @@ public class MQuery implements Serializable
 					if (P_Date_To == null)
 					{
 						if (isRange)
-							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.GREATER_EQUAL, 
-								P_Date, Name, Info);
+							query.addDayRestriction(ParameterName, MQuery.GREATER_EQUAL, 
+								P_Date, null, Name, Info, null);
 						else
-							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.EQUAL, 
-								P_Date, Name, Info);
+							query.addDayRestriction(ParameterName, MQuery.EQUAL, 
+								P_Date, null, Name, Info, null);
 					}
 					else	//	P_Date_To != null
 					{
 						if (P_Date == null)
-							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.LESS_EQUAL, 
-								P_Date_To, Name, Info);
+							query.addDayRestriction(ParameterName, MQuery.LESS_EQUAL, 
+								P_Date_To, null, Name, Info, null);
 						else
-							query.addRangeRestriction("TRUNC("+ParameterName+", 'DD')", 
+							query.addDayRestriction(ParameterName, MQuery.BETWEEN, 
 								P_Date, P_Date_To, Name, Info, Info_To);
 					}
 				}
@@ -655,6 +659,33 @@ public class MQuery implements Serializable
 	}	//	addRestriction
 
 	/**
+	 * 	Add a day restriction on a date column of a process parameter.
+	 * 	The literal text keeps the column truncated to the day, TRUNC(column, 'DD');
+	 * 	the bound text compares the plain column against the bounds of the day.
+	 * 	@param columnName plain date column name or column SQL
+	 * 	@param operator = &gt;= &lt;= or BETWEEN
+	 * 	@param code day (or first day of the range)
+	 * 	@param codeTo last day of the range, only for BETWEEN
+	 * 	@param infoName display name
+	 * 	@param infoDisplay display of code
+	 * 	@param infoDisplayTo display of code to
+	 */
+	private void addDayRestriction (String columnName, String operator,
+		Object code, Object codeTo, String infoName, String infoDisplay, String infoDisplayTo)
+	{
+		String truncatedColumnName = "TRUNC(" + columnName + ", 'DD')";
+		Restriction restriction;
+		if (MQuery.BETWEEN.equals(operator))
+			restriction = new Restriction (truncatedColumnName, code, codeTo,
+				infoName, infoDisplay, infoDisplayTo, true, 0);
+		else
+			restriction = new Restriction (truncatedColumnName, operator,
+				code, infoName, infoDisplay, true, 0);
+		restriction.dayColumnName = columnName.trim();
+		m_list.add(restriction);
+	}	//	addDayRestriction
+
+	/**
 	 * 	New Record Query
 	 *	@return true if new record query
 	 */
@@ -666,7 +697,10 @@ public class MQuery implements Serializable
 	/*************************************************************************
 	 * 	Create the resulting Query WHERE Clause
 	 * 	@return Where Clause
+	 * 	@deprecated the values are written as literals in the text; use {@link #getBoundWhereClause(boolean)}
+	 * 		and set the parameters in the statement. The text stays unchanged for code that still uses it.
 	 */
+	@Deprecated
 	public String getWhereClause ()
 	{
 		return getWhereClause(false);
@@ -676,7 +710,10 @@ public class MQuery implements Serializable
 	 * 	Create the resulting Query WHERE Clause
 	 * 	@param fullyQualified fully qualified Table.ColumnName
 	 * 	@return Where Clause
+	 * 	@deprecated the values are written as literals in the text; use {@link #getBoundWhereClause(boolean)}
+	 * 		and set the parameters in the statement. The text stays unchanged for code that still uses it.
 	 */
+	@Deprecated
 	public String getWhereClause (boolean fullyQualified)
 	{
 		int currentDepth = 0;
@@ -718,6 +755,113 @@ public class MQuery implements Serializable
 		sb.append(')');
 		return sb.toString();
 	}	//	getWhereClause
+
+	/**
+	 * 	Where clause with <code>?</code> placeholders and the values to set in order.
+	 * 	Immutable.
+	 */
+	public static final class BoundWhereClause implements Serializable
+	{
+		private static final long serialVersionUID = 6213764011470926115L;
+		private final String sql;
+		private final List<Object> parameters;
+
+		BoundWhereClause (String sql, List<Object> parameters)
+		{
+			this.sql = sql;
+			this.parameters = Collections.unmodifiableList(new ArrayList<Object>(parameters));
+		}
+
+		/**
+		 * 	Get the where clause
+		 *	@return Where Clause with one <code>?</code> per parameter, "" if the query is not active
+		 */
+		public String getSql ()
+		{
+			return sql;
+		}	//	getSql
+
+		/**
+		 * 	Get the values of the placeholders, in order.
+		 * 	Types accepted by {@link DB#setParameter(PreparedStatement, int, Object)}:
+		 * 	String, Integer, BigDecimal, Timestamp, Boolean or null.
+		 *	@return unmodifiable list of parameters
+		 */
+		public List<Object> getParameters ()
+		{
+			return parameters;
+		}	//	getParameters
+
+		@Override
+		public String toString ()
+		{
+			return sql + " " + parameters;
+		}
+	}	//	BoundWhereClause
+
+	/**
+	 * 	Create the resulting Query WHERE Clause with <code>?</code> placeholders and its ordered values.
+	 * 	Same restrictions, nesting and table qualification as {@link #getWhereClause(boolean)}, but
+	 * 	structured restrictions (column, operator, value) are bound, and the day restrictions of
+	 * 	{@link #get(Properties, int, String)} compare the plain column with the bounds of the day.
+	 * 	Direct where clauses (raw SQL text) pass through; if one of them contains a <code>?</code>
+	 * 	outside of a string literal, or a value cannot be bound, the literal where clause is returned
+	 * 	without parameters.
+	 * 	@param fullyQualified fully qualified Table.ColumnName
+	 * 	@return where clause and parameters; "" and no parameters if the query is not active
+	 */
+	public BoundWhereClause getBoundWhereClause (boolean fullyQualified)
+	{
+		if (! isActive())
+			return new BoundWhereClause("", Collections.<Object>emptyList());
+		//
+		String tableName = fullyQualified && m_TableName != null && m_TableName.length() > 0 ? m_TableName : null;
+		List<Object> parameters = new ArrayList<Object>();
+		StringBuilder sql = new StringBuilder();
+		int currentDepth = 0;
+		sql.append('(');
+		for (int i = 0; i < m_list.size(); i++)
+		{
+			Restriction restriction = m_list.get(i);
+			if (i != 0)
+				sql.append(restriction.andCondition ? " AND " : " OR ");
+			for ( ; currentDepth < restriction.joinDepth; currentDepth++ )
+				sql.append('(');
+			String restrictionSql = restriction.getBoundSQL(tableName, parameters);
+			if (restrictionSql == null)
+			{
+				s_log.fine("Restriction cannot be bound, literal where clause used: " + restriction);
+				return new BoundWhereClause(getWhereClause(fullyQualified), Collections.<Object>emptyList());
+			}
+			sql.append(restrictionSql);
+			for ( ; currentDepth > restriction.joinDepth; currentDepth-- )
+				sql.append(')');
+		}
+		for ( ; currentDepth > 0; currentDepth-- )
+			sql.append(')');
+		sql.append(')');
+		return new BoundWhereClause(sql.toString(), parameters);
+	}	//	getBoundWhereClause
+
+	/**
+	 * 	Create the Query WHERE Clause of one restriction with <code>?</code> placeholders.
+	 *  Not fully qualified
+	 * 	@param index restriction index
+	 * 	@return where clause and parameters; "" and no parameters if not valid
+	 */
+	public BoundWhereClause getBoundWhereClause (int index)
+	{
+		if (index >= 0 && index < m_list.size())
+		{
+			List<Object> parameters = new ArrayList<Object>();
+			String sql = m_list.get(index).getBoundSQL(null, parameters);
+			if (sql != null)
+				return new BoundWhereClause(sql, parameters);
+			s_log.fine("Restriction cannot be bound, literal where clause used: " + m_list.get(index));
+			return new BoundWhereClause(getWhereClause(index), Collections.<Object>emptyList());
+		}
+		return new BoundWhereClause("", Collections.<Object>emptyList());
+	}	//	getBoundWhereClause
 
 	/**
 	 * 	Get printable Query Info
@@ -762,7 +906,10 @@ public class MQuery implements Serializable
 	 *  Not fully qualified
 	 * 	@param index restriction index
 	 * 	@return Where Clause or "" if not valid
+	 * 	@deprecated the values are written as literals in the text; use {@link #getBoundWhereClause(int)}
+	 * 		and set the parameters in the statement. The text stays unchanged for code that still uses it.
 	 */
+	@Deprecated
 	public String getWhereClause (int index)
 	{
 		StringBuffer sb = new StringBuffer();
@@ -1189,6 +1336,29 @@ class Restriction  implements Serializable
 	//	BR [ 237 ]
 	/**	Original Parameter	*/
 	protected boolean	orignalClause = false;
+	/** Plain column of a day restriction (ColumnName is then TRUNC(column, 'DD')), null otherwise */
+	protected String	dayColumnName = null;
+
+	/**
+	 * 	Qualify a column name with the table name
+	 * 	@param columnName column name, may contain a function
+	 * 	@param tableName table name
+	 * 	@return qualified column name
+	 */
+	private static String qualify (String columnName, String tableName)
+	{
+		//	Assumes - REPLACE(INITCAP(variable),'s','X') or UPPER(variable)
+		int pos = columnName.lastIndexOf('(')+1;	//	including (
+		int end = columnName.indexOf(')');
+		// Column name is already qualified
+		if (columnName.contains(tableName + "."))
+			return columnName;
+		//	We have a Function in the ColumnName
+		if (pos != -1 && end != -1)
+			return columnName.substring(0, pos) + tableName + "." + columnName.substring(pos, end)
+				+ columnName.substring(end);
+		return tableName + "." + columnName;
+	}	//	qualify
 
 	/**
 	 * 	Return SQL construct for this restriction
@@ -1203,19 +1373,7 @@ class Restriction  implements Serializable
 		StringBuffer sb = new StringBuffer();
 		if (tableName != null && tableName.length() > 0)
 		{
-			//	Assumes - REPLACE(INITCAP(variable),'s','X') or UPPER(variable)
-			int pos = ColumnName.lastIndexOf('(')+1;	//	including (
-			int end = ColumnName.indexOf(')');
-			// Column name is already qualified
-			if (ColumnName.contains(tableName + "."))
-				sb.append(ColumnName);
-			//	We have a Function in the ColumnName
-			else if (pos != -1 && end != -1)
-				sb.append(ColumnName.substring(0, pos))
-					.append(tableName).append(".").append(ColumnName.substring(pos, end))
-					.append(ColumnName.substring(end));
-			else
-				sb.append(tableName).append(".").append(ColumnName);
+			sb.append(qualify(ColumnName, tableName));
 		}
 		else
 			sb.append(ColumnName);
@@ -1258,6 +1416,151 @@ class Restriction  implements Serializable
 		}
 		return sb.toString();
 	}	//	getSQL
+
+	/** Marker of a value that cannot be bound */
+	private static final Object NOT_BINDABLE = new Object();
+
+	/**
+	 * 	Convert the value of a restriction to what the literal text compares, typed for DB.setParameter
+	 * 	@param value value of the restriction
+	 * 	@return String, Integer, BigDecimal, Timestamp, Boolean, null, or NOT_BINDABLE
+	 */
+	private static Object toBindValue (Object value)
+	{
+		if (value == null)
+			return null;
+		//	DB.TO_STRING writes NULL for an empty text
+		if (value instanceof String)
+			return ((String)value).length() == 0 ? null : value;
+		if (value instanceof Integer || value instanceof BigDecimal || value instanceof Boolean)
+			return value;
+		if (value instanceof Short || value instanceof Byte)
+			return Integer.valueOf(((Number)value).intValue());
+		if (value instanceof Long)
+			return BigDecimal.valueOf(((Long)value).longValue());
+		if (value instanceof BigInteger)
+			return new BigDecimal((BigInteger)value);
+		if (value instanceof Double || value instanceof Float)
+		{
+			double number = ((Number)value).doubleValue();
+			if (Double.isNaN(number) || Double.isInfinite(number))
+				return NOT_BINDABLE;
+			return value instanceof Float ? new BigDecimal(value.toString()) : BigDecimal.valueOf(number);
+		}
+		//	DB.TO_DATE writes the day only
+		if (value instanceof Timestamp)
+			return startOfDay((Timestamp)value);
+		return NOT_BINDABLE;
+	}	//	toBindValue
+
+	/**
+	 * 	Get the start of the day
+	 * 	@param time time
+	 * 	@return 00:00:00 of the day of the time
+	 */
+	private static Timestamp startOfDay (Timestamp time)
+	{
+		return Timestamp.valueOf(time.toLocalDateTime().toLocalDate().atStartOfDay());
+	}	//	startOfDay
+
+	/**
+	 * 	Get the start of the day after
+	 * 	@param time time
+	 * 	@return 00:00:00 of the day after the time
+	 */
+	private static Timestamp startOfNextDay (Timestamp time)
+	{
+		return Timestamp.valueOf(time.toLocalDateTime().toLocalDate().plusDays(1).atStartOfDay());
+	}	//	startOfNextDay
+
+	/**
+	 * 	Is there a <code>?</code> outside of a string literal
+	 * 	@param sql SQL text
+	 * 	@return true if the text has a placeholder
+	 */
+	static boolean hasPlaceholder (String sql)
+	{
+		boolean isInsideLiteral = false;
+		for (int i = 0; i < sql.length(); i++)
+		{
+			char c = sql.charAt(i);
+			if (c == '\'')
+				isInsideLiteral = !isInsideLiteral;
+			else if (c == '?' && !isInsideLiteral)
+				return true;
+		}
+		return false;
+	}	//	hasPlaceholder
+
+	/**
+	 * 	Return SQL construct for this restriction with <code>?</code> placeholders
+	 * 	@param tableName optional table name
+	 * 	@param parameters list that receives the values of the placeholders, in order
+	 * 	@return SQL WHERE construct, or null if it cannot be bound (the parameters are then unusable)
+	 */
+	String getBoundSQL (String tableName, List<Object> parameters)
+	{
+		if (DirectWhereClause != null)
+			return hasPlaceholder(DirectWhereClause) ? null : DirectWhereClause;
+		//
+		boolean isQualified = tableName != null && tableName.length() > 0;
+		//	Day restriction: plain column against the bounds of the day
+		if (dayColumnName != null && Code instanceof Timestamp
+			&& (MQuery.BETWEEN.equals(Operator) ? Code_to instanceof Timestamp
+				: MQuery.EQUAL.equals(Operator) || MQuery.GREATER_EQUAL.equals(Operator)
+					|| MQuery.LESS_EQUAL.equals(Operator)))
+		{
+			String dayColumn = isQualified ? qualify(dayColumnName, tableName) : dayColumnName;
+			Timestamp day = (Timestamp)Code;
+			if (MQuery.EQUAL.equals(Operator))
+			{
+				parameters.add(startOfDay(day));
+				parameters.add(startOfNextDay(day));
+				return dayColumn + " >= ? AND " + dayColumn + " < ?";
+			}
+			if (MQuery.GREATER_EQUAL.equals(Operator))
+			{
+				parameters.add(startOfDay(day));
+				return dayColumn + " >= ?";
+			}
+			if (MQuery.LESS_EQUAL.equals(Operator))
+			{
+				parameters.add(startOfNextDay(day));
+				return dayColumn + " < ?";
+			}
+			parameters.add(startOfDay(day));
+			parameters.add(startOfNextDay((Timestamp)Code_to));
+			return dayColumn + " >= ? AND " + dayColumn + " < ?";
+		}
+		//
+		StringBuilder sb = new StringBuilder();
+		sb.append(isQualified ? qualify(ColumnName, tableName) : ColumnName);
+		//	NULL Operator
+		if ((Operator.equals("=") || Operator.equals("!="))
+			&& (Code == null
+				|| "NULL".equals (Code.toString().toUpperCase())))
+		{
+			sb.append(Operator.equals("=") ? " IS NULL " : " IS NOT NULL ");
+			return sb.toString();
+		}
+		sb.append(Operator);
+		if (Operator.equals(MQuery.NULL) || Operator.equals(MQuery.NOT_NULL))
+			return sb.toString();
+		Object value = toBindValue(Code);
+		if (value == NOT_BINDABLE)
+			return null;
+		parameters.add(value);
+		sb.append('?');
+		if (MQuery.BETWEEN.equals(Operator))
+		{
+			Object valueTo = toBindValue(Code_to);
+			if (valueTo == NOT_BINDABLE)
+				return null;
+			parameters.add(valueTo);
+			sb.append(" AND ?");
+		}
+		return sb.toString();
+	}	//	getBoundSQL
 
 	/**
 	 * 	Get String Representation

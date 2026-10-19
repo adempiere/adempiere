@@ -118,6 +118,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 | `ValidateConnectionPool` | 13 | pass | Connection layer (see below): no per-checkout round trips, state after the pool, `ApplicationName`, pool settings. Three scenarios count statements with `pg_stat_statements` (cancelled without it; run it while nobody else uses the database); the last one is an opt-in measurement (`ADEMPIERE_BENCHMARK=true`) and is cancelled otherwise. |
+| `ValidateMQueryBindParameters` | 23 | pass | `MQuery.getBoundWhereClause`: `?` placeholders and ordered values for every operator and value type, AND/OR nesting, raw restrictions and the fallback to the literal text when a raw restriction has a `?`; the same rows as the literal `getWhereClause` (pinned, unchanged) on GardenWorld; `MQuery.get` from a process instance (half-open day ranges, BigDecimal numbers). The process instance is committed for a moment, because `MQuery.get` reads it without a transaction, and deleted right after. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
 
