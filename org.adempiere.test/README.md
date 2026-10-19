@@ -110,6 +110,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 
 | Test class | Scenarios | Status | Notes |
 |---|---|---|---|
+| `ValidateFindBindParameters` | 9 | pass | Find, `initialQuery` and the zoom to a detail tab bind their MQuery restriction (`FindCount`, `DB.getSQLValueQuery`): the count equals the literal count for a String LIKE, a date range, a number, a text on an ID column (R3) and a raw `whereExtended` with `@context@` in Order, Business Partner and Product; the link value of the zoom equals the literal one. `DB.inlineQueryParameters` renders each type, skips a `?` inside a string literal and executes to the same rows as the bound statement; `_TabInfo_SQL` (and `_TabInfo_FindSQL`) keep the literal text with no `?`. The Swing and ZK dialogs are verified by compilation only. |
 | `ValidateReportLookupJoinRegression` | 22 | pass | Report lookups as LEFT JOINs, nested TableDir identifiers chained up to depth 3 (`<Word>_<n>_<m>_<k>`): same rows, NULLs, GROUP BY and ORDER BY as the legacy subselects. |
 | `CreateSalesOrder` | 1 | pass | |
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |

@@ -911,6 +911,71 @@ public final class DB
 	}
 
 	/**
+	 * Render the <code>?</code> placeholders of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}
+	 * as the literals of the database, in order. Use it only for text that is shown, logged or kept in the context
+	 * for code that expects the literal statement (for example <code>_TabInfo_SQL</code>); execution always binds.
+	 * <ul>
+	 * <li>String: {@link #TO_STRING(String)}, so null and the empty text are <code>NULL</code></li>
+	 * <li>Timestamp: {@link #TO_DATE(Timestamp, boolean)} with the time, without the milliseconds</li>
+	 * <li>Integer, Long, BigDecimal, other numbers: the plain number</li>
+	 * <li>Boolean: <code>'Y'</code> or <code>'N'</code></li>
+	 * <li>null: <code>NULL</code></li>
+	 * </ul>
+	 * A <code>?</code> inside a string literal is text, not a placeholder; a value that holds a <code>?</code> is not read again.
+	 * @param sql statement with placeholders
+	 * @param params values in the order of the placeholders; null or empty if the statement has none
+	 * @return the statement with the values
+	 * @throws IllegalArgumentException if the number of placeholders and values differ
+	 * @throws DBException if a value has a type that {@link #setParameter(PreparedStatement, int, Object)} does not accept
+	 */
+	public static String inlineQueryParameters(String sql, List<?> params)
+	{
+		if (sql == null)
+			return null;
+		int parameterCount = params == null ? 0 : params.size();
+		StringBuilder inlined = new StringBuilder(sql.length() + 16 * parameterCount);
+		boolean inLiteral = false;
+		int parameterIndex = 0;
+		for (int i = 0; i < sql.length(); i++)
+		{
+			char character = sql.charAt(i);
+			if (character == QUOTE)
+				inLiteral = !inLiteral;
+			if (character == '?' && !inLiteral)
+			{
+				if (parameterIndex >= parameterCount)
+					throw new IllegalArgumentException("More placeholders than parameters " + parameterCount + " in " + sql);
+				inlined.append(toQueryLiteral(parameterIndex + 1, params.get(parameterIndex)));
+				parameterIndex++;
+			}
+			else
+				inlined.append(character);
+		}
+		if (parameterIndex != parameterCount)
+			throw new IllegalArgumentException("Parameters " + parameterCount + " but placeholders " + parameterIndex + " in " + sql);
+		return inlined.toString();
+	}	//	inlineQueryParameters
+
+	private static String toQueryLiteral(int index, Object param)
+	{
+		if (param == null)
+			return "NULL";
+		if (param instanceof String)
+			return TO_STRING((String)param);
+		if (param instanceof Timestamp)
+			return TO_DATE((Timestamp)param, false);
+		if (param instanceof Boolean)
+			return ((Boolean)param).booleanValue() ? "'Y'" : "'N'";
+		if (param instanceof BigDecimal)
+			return ((BigDecimal)param).toPlainString();
+		if (param instanceof Integer || param instanceof Long)
+			return param.toString();
+		if (param instanceof Number)
+			return new BigDecimal(param.toString()).toPlainString();
+		throw new DBException("Unknown parameter type "+index+" - "+param);
+	}	//	toQueryLiteral
+
+	/**
 	 *	Execute Update.
 	 *  saves "DBExecuteError" in Log
 	 *  @param sql sql
@@ -1412,6 +1477,74 @@ public final class DB
     public static int getSQLValue (String trxName, String sql, List<Object> params)
     {
 		return getSQLValue(trxName, sql, params.toArray(new Object[params.size()]));
+    }
+
+    /**
+     * Get int Value from a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+     * The parameters are set with {@link #setQueryParameters(PreparedStatement, List)}, which sends a String untyped
+     * on PostgreSQL; the other <code>getSQLValue*</code> methods keep {@link #setParameter(PreparedStatement, int, Object)}.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or -1 if not found
+     * @throws DBException if there is any SQLException
+     */
+    public static int getSQLValueQueryEx (String trxName, String sql, List<?> params) throws DBException
+    {
+    	int retValue = -1;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		setQueryParameters(pstmt, params);
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getInt(1);
+    		else
+    			log.fine("No Value " + sql);
+    	}
+    	catch (SQLException e)
+    	{
+    		throw new DBException(e, sql);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
+    /**
+     * Get int Value from a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+     * Same as {@link #getSQLValueQueryEx(String, String, List)} but the error is logged with the values rendered.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or -1 if not found or error
+     */
+    public static int getSQLValueQuery (String trxName, String sql, List<?> params)
+    {
+    	int retValue = -1;
+    	try
+    	{
+    		retValue = getSQLValueQueryEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		String text = sql;
+    		try
+    		{
+    			text = inlineQueryParameters(sql, params);
+    		}
+    		catch (RuntimeException ignored)
+    		{
+    			//	the log keeps the statement with its placeholders
+    		}
+    		log.log(Level.SEVERE, text, getSQLException(e));
+    	}
+    	return retValue;
     }
 
     /**

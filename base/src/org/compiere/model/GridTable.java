@@ -464,9 +464,28 @@ public class GridTable extends AbstractTableModel
 		}
 		//
 		log.fine(m_SQL_Count);
-		Env.setContext(m_ctx, m_WindowNo, m_TabNo, GridTab.CTX_SQL, m_SQL);
+		//	m_SQL holds placeholders; the context keeps the text with the values for code that reads it
+		Env.setContext(m_ctx, m_WindowNo, m_TabNo, GridTab.CTX_SQL, getSelectSqlWithValues());
 		return m_SQL;
 	}	//	createSelectSql
+
+	/**
+	 *	Select statement with the values of the where clause instead of the placeholders.
+	 *	For the context and the logs only; the table executes {@link #m_SQL} with its parameters.
+	 *  @return m_SQL with the values rendered, or m_SQL if they do not match its placeholders
+	 */
+	private String getSelectSqlWithValues()
+	{
+		try
+		{
+			return DB.inlineQueryParameters(m_SQL, m_parameterWHERE);
+		}
+		catch (RuntimeException e)
+		{
+			log.log(Level.FINE, "Values not rendered " + m_SQL + " " + m_parameterWHERE, e);
+			return m_SQL;
+		}
+	}	//	getSelectSqlWithValues
 
 	/**
 	 *	Add Field to Table
