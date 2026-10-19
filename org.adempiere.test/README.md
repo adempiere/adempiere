@@ -118,7 +118,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 | `ValidateConnectionPool` | 13 | pass | Connection layer (see below): no per-checkout round trips, state after the pool, `ApplicationName`, pool settings. Three scenarios count statements with `pg_stat_statements` (cancelled without it; run it while nobody else uses the database); the last one is an opt-in measurement (`ADEMPIERE_BENCHMARK=true`) and is cancelled otherwise. |
-| `ValidateReportBindParameters` | 11 | pass | `DataEngine` runs the restrictions of a report `MQuery` as bind parameters: the same rows, columns and order as the literal statement (EQUAL on an ID, LIKE on a name, BETWEEN on numbers, an OR group, the date range of a process instance; lookup joins on and off), `?` placeholders and `PrintData` values in equal number, the parameters in the FINE log, and the plan reuse switch `REPORT_PLAN_CACHE` observed in `pg_prepared_statements` (PostgreSQL only). The process instance is committed for a moment and deleted right after. |
+| `ValidateReportBindParameters` | 12 | pass | `DataEngine` runs the restrictions of a report `MQuery` as bind parameters: the same rows, columns and order as the literal statement (EQUAL on an ID, LIKE on a name, BETWEEN on numbers, an OR group, the date range of a process instance, and a String value on a numeric column; lookup joins on and off), the shared binder `DB.setQueryParameters` (a String is sent untyped on PostgreSQL, the other types as `DB.setParameter`), `?` placeholders and `PrintData` values in equal number, the parameters in the FINE log, and the plan reuse switch `REPORT_PLAN_CACHE` observed in `pg_prepared_statements` (PostgreSQL only). The process instance is committed for a moment and deleted right after. |
 | `ValidateMQueryBindParameters` | 23 | pass | `MQuery.getBoundWhereClause`: `?` placeholders and ordered values for every operator and value type, AND/OR nesting, raw restrictions and the fallback to the literal text when a raw restriction has a `?`; the same rows as the literal `getWhereClause` (pinned, unchanged) on GardenWorld; `MQuery.get` from a process instance (half-open day ranges, BigDecimal numbers). The process instance is committed for a moment, because `MQuery.get` reads it without a transaction, and deleted right after. |
 | `ValidateWindowBindParameters` | 9 | pass | `GridTab.query` runs the MQuery restrictions of a window tab as bind parameters through `GridTable` (`?` in the select and the count, the values in `getSelectWhereParameters`): Sales Order, Business Partner and Product (EQUAL, LIKE, BETWEEN on a date and a number, IS NULL), a child tab with its link column, a column outside the tab (IN subquery), and a text value against a numeric or date column (R3: the binder sends a String untyped on PostgreSQL, as the literal was); the same rows as the raw literal restriction; a changed value re-queries; the `GridTable` binder for Timestamp, Boolean and null, and the reset of the parameters. A sweep of every window and tab reachable without a screen compares an EQUAL on the key bound and literal. Read-only: nothing is written to the database. |
 
@@ -315,7 +315,7 @@ you see, and create the master data your database may lack (the demo GardenWorld
 
 `DataEngine.getPrintDataInfo` takes the where clause of the report from `MQuery.getBoundWhereClause(true)`: the SQL holds
 `?` and `PrintData.getSQLParameters()` holds the values in placeholder order; `loadPrintData` binds them with
-`DB.setParameters` on both read paths (pool `AdempiereSRDS` and `DB.prepareStatement`). The `T_Report*` and
+`DB.setQueryParameters` on both read paths (pool `AdempiereSRDS` and `DB.prepareStatement`). The `T_Report*` and
 `AD_PInstance*` branches keep the literal text, because they cut the text by `AD_PInstance_ID`.
 
 * **Plan reuse.** `SysConfig` `REPORT_PLAN_CACHE` (default `Y`) and `DataEngine.setPlanCache(Boolean)` (public override,
@@ -324,6 +324,11 @@ you see, and create the master data your database may lack (the demo GardenWorld
   plan (`plan_cache_mode=auto`). With `N`, or without parameters, `prepareThreshold=0` as before. Set it to `N` if a
   generic plan turns out worse in production. Oracle: the setting is PostgreSQL-only, the Oracle driver keeps its own
   statement cache.
+* **One binder.** Every statement built from `MQuery.getBoundWhereClause` binds its values with
+  `DB.setQueryParameters` (`DB.setQueryParameter` for one value). On PostgreSQL a String goes untyped
+  (`Types.OTHER`), like the quoted literal it replaces, so a text such as `'118'` still compares with a numeric
+  column; `DB.setParameter` would send it as varchar and fail with `numeric = character varying`. Any other value
+  behaves as in `DB.setParameter`, which is unchanged for the rest of ADempiere. `GridTable` uses the same helper.
 
 ## Report read tuning (`ValidateReportReadTuning`)
 

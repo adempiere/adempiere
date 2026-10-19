@@ -153,6 +153,17 @@ class ValidateReportBindParameters extends AnyFeatureSpec with AdempiereTestCase
         query.addRestriction("IsSOTrx", MQuery.EQUAL, java.lang.Boolean.TRUE)
         query
       }),
+      // a String against a numeric column: the literal text took the type of the column, the bound value must too
+      Case("EQUAL on an ID as text", OrderFormat, "C_Order", () => {
+        val query = new MQuery("C_Order")
+        query.addRestriction("C_BPartner_ID", MQuery.EQUAL, partner.toString)
+        query
+      }),
+      Case("BETWEEN on numbers as text", OrderFormat, "C_Order", () => {
+        val query = new MQuery("C_Order")
+        query.addRangeRestriction("GrandTotal", "100", "1000")
+        query
+      }),
       Case("date range of a process instance", InvoiceFormat, "RV_C_Invoice", () =>
         committedInstance(InvoiceProcess, para => {
           para.setParameterName("DateInvoiced")
@@ -234,6 +245,31 @@ class ValidateReportBindParameters extends AnyFeatureSpec with AdempiereTestCase
         logger.removeHandler(handler)
         logger.setLevel(level)
       }
+    }
+  }
+
+  Feature("One binder for the statements built from an MQuery") {
+    Scenario("A String binds untyped on PostgreSQL, so it compares with a numeric column as the literal did") {
+      assume(DB.isPostgreSQL, "the untyped String is PostgreSQL-only")
+      val orderId = DB.getSQLValue(null, s"SELECT MIN(C_Order_ID) FROM C_Order WHERE AD_Client_ID=$ClientId")
+      val sql = "SELECT COUNT(*) FROM C_Order WHERE C_Order_ID=?"
+      def count(bind: (java.sql.PreparedStatement) => Unit): Int = {
+        val statement = DB.prepareStatement(sql, null)
+        try {
+          bind(statement)
+          val resultSet = statement.executeQuery()
+          try { resultSet.next(); resultSet.getInt(1) } finally resultSet.close()
+        } finally statement.close()
+      }
+      assert(count(DB.setQueryParameters(_, java.util.Collections.singletonList[Object](orderId.toString))) == 1)
+      assert(count(DB.setQueryParameter(_, 1, orderId.toString)) == 1)
+      And("the other types behave as DB.setParameter does")
+      assert(count(DB.setQueryParameters(_, java.util.Collections.singletonList[Object](Integer.valueOf(orderId)))) == 1)
+      assert(count(DB.setQueryParameters(_, java.util.Collections.singletonList[Object](new java.math.BigDecimal(orderId)))) == 1)
+      assert(count(DB.setQueryParameters(_, java.util.Collections.singletonList[Object](null))) == 0)
+      intercept[org.adempiere.exceptions.DBException](count(DB.setQueryParameter(_, 1, java.lang.Double.valueOf(1.0))))
+      And("DB.setParameter keeps sending the String typed, for its other callers")
+      intercept[java.sql.SQLException](count(DB.setParameter(_, 1, orderId.toString)))
     }
   }
 

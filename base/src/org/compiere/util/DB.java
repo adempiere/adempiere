@@ -52,6 +52,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -859,6 +860,54 @@ public final class DB
 			pstmt.setString(index, ((Boolean)param).booleanValue() ? "Y" : "N");
 		else
 			throw new DBException("Unknown parameter type "+index+" - "+param);
+	}
+
+	/**
+	 * Set the parameters of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+	 * Use it for the values of an MQuery restriction and for the link value of a detail tab; use
+	 * {@link #setParameter(PreparedStatement, int, Object)} for every other statement.
+	 * <p>
+	 * It behaves like {@link #setParameters(PreparedStatement, List)} with one difference: on PostgreSQL a String is
+	 * sent untyped (<code>Types.OTHER</code>), as the quoted literal of {@link org.compiere.util.MQuery#getWhereClause(boolean)}
+	 * was. The server then gives the value the type of the column, so a text such as <code>'1'</code> compares with a
+	 * numeric or a date column. {@link #setParameter(PreparedStatement, int, Object)} sends it as varchar and
+	 * PostgreSQL rejects <code>numeric = character varying</code>. That method keeps its behavior because many
+	 * statements of ADempiere use it.
+	 * @param stmt statement
+	 * @param params parameters list, in the order of the placeholders; if null or empty, no parameters are set
+	 * @throws SQLException
+	 * @see #setQueryParameter(PreparedStatement, int, Object)
+	 */
+	public static void setQueryParameters(PreparedStatement stmt, List<?> params)
+	throws SQLException
+	{
+		if (params == null || params.size() == 0)
+		{
+			return;
+		}
+		for (int i = 0; i < params.size(); i++)
+		{
+			setQueryParameter(stmt, i+1, params.get(i));
+		}
+	}
+
+	/**
+	 * Set one parameter of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+	 * A String is sent untyped on PostgreSQL; any other value, and any value on another database, goes through
+	 * {@link #setParameter(PreparedStatement, int, Object)}.
+	 * @param pstmt statement
+	 * @param index position of the placeholder, starting at 1
+	 * @param param value
+	 * @throws SQLException
+	 * @see #setQueryParameters(PreparedStatement, List)
+	 */
+	public static void setQueryParameter(PreparedStatement pstmt, int index, Object param)
+	throws SQLException
+	{
+		if (param instanceof String && isPostgreSQL())
+			pstmt.setObject(index, param, Types.OTHER);
+		else
+			setParameter(pstmt, index, param);
 	}
 
 	/**

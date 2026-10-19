@@ -1341,7 +1341,7 @@ public class DataEngine
 			}
 			List<Object> parameters = pd.getSQLParameters();
 			if (!parameters.isEmpty())
-				DB.setParameters(pstmt, parameters);
+				DB.setQueryParameters(pstmt, parameters);
 			//	statements with parameters repeat with other values: the plan may be reused unless the switch is off
 			if (parameters.isEmpty() || !isPlanCache(format.getCtx()))
 				setOneOff(pstmt);

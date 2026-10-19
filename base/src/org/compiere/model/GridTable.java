@@ -28,7 +28,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -3646,17 +3645,16 @@ public class GridTable extends AbstractTableModel
 		 *	Set one Parameter for Query. A null takes its position.
 		 *	A String is sent without a type on PostgreSQL, as the literal text was: the server
 		 *	takes the type of the column, so a text compares with a number or a date column
+		 *	(see {@link DB#setQueryParameter(PreparedStatement, int, Object)})
 		 *  @param pstmt prepared statement
 		 *  @param position position in Statement, starting at 1
 		 *  @param para value
 		 */
 		private void setParameter (PreparedStatement pstmt, int position, Object para) throws SQLException
 		{
-			if (para instanceof String && DB.isPostgreSQL())
-				pstmt.setObject(position, para, Types.OTHER);
-			else if (para == null || para instanceof String || para instanceof Integer || para instanceof BigDecimal
+			if (para == null || para instanceof String || para instanceof Integer || para instanceof BigDecimal
 				|| para instanceof Timestamp || para instanceof Boolean)
-				DB.setParameter(pstmt, position, para);
+				DB.setQueryParameter(pstmt, position, para);
 			else
 				pstmt.setString(position, para.toString());
 		}	//	setParameter
