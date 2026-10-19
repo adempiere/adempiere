@@ -50,6 +50,8 @@ trait AdempiereStartup {
       System.exit(1)
     CLogMgt.setLoggerLevel(Level.SEVERE, null)
     CLogMgt.setLevel(Level.SEVERE)
+    // Tests must leave no data behind: the error handler would store every SEVERE record as AD_Issue in the shared DB
+    CLogErrorBuffer.get(true).setIssueError(false)
     //organization =
   }
 }
