@@ -28,6 +28,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -289,12 +290,30 @@ public class GridTable extends AbstractTableModel
 	 */
 	public boolean setSelectWhereClause(String newWhereClause, boolean onlyCurrentRows, int onlyCurrentDays)
 	{
+		return setSelectWhereClause(newWhereClause, null, onlyCurrentRows, onlyCurrentDays);
+	}	//	setSelectWhereClause
+
+	/**
+	 *	Set record set Where Clause with the values of its <code>?</code> placeholders.
+	 *	The parameters of the previous where clause are replaced.
+	 *  @param newWhereClause sql where clause, one <code>?</code> per parameter
+	 *  @param whereParameters values of the placeholders in order (String, Integer, BigDecimal, Timestamp, Boolean or null),
+	 *  	copied; null or empty if the text has no placeholder
+	 *  @param onlyCurrentRows only current rows
+	 *  @param onlyCurrentDays how many days back for current
+	 *	@return true if where clase set
+	 */
+	public boolean setSelectWhereClause(String newWhereClause, List<Object> whereParameters, boolean onlyCurrentRows, int onlyCurrentDays)
+	{
 		if (m_open)
 		{
 			log.log(Level.SEVERE, "Table already open - ignored");
 			return false;
 		}
 		//
+		m_parameterWHERE.clear();
+		if (whereParameters != null)
+			m_parameterWHERE.addAll(whereParameters);
 		m_whereClause = newWhereClause;
 		m_onlyCurrentRows = onlyCurrentRows;
 		m_onlyCurrentDays = onlyCurrentDays;
@@ -311,6 +330,15 @@ public class GridTable extends AbstractTableModel
 	{
 		return m_whereClause;
 	}	//	getWhereClause
+
+	/**
+	 *	Get the values of the placeholders of the record set Where Clause
+	 *  @return unmodifiable copy of the where clause parameters, in order
+	 */
+	public List<Object> getSelectWhereParameters()
+	{
+		return Collections.unmodifiableList(new ArrayList<Object>(m_parameterWHERE));
+	}	//	getSelectWhereParameters
 
 	/**
 	 *	Is History displayed
@@ -398,6 +426,8 @@ public class GridTable extends AbstractTableModel
 				else
 				{
 					log.log(Level.WARNING, "Failed to parse where clause. whereClause="+m_whereClause);
+					//	the text of the placeholders is gone
+					m_parameterWHERE.clear();
 					where.append(" 1 = 2 ");
 				}
 			}
@@ -2969,10 +2999,23 @@ public class GridTable extends AbstractTableModel
 	 */
 	public boolean dataRequery (String whereClause, boolean onlyCurrentRows, int onlyCurrentDays)
 	{
-		log.info(whereClause + "; OnlyCurrent=" + onlyCurrentRows);
+		return dataRequery(whereClause, null, onlyCurrentRows, onlyCurrentDays);
+	}	//	dataRequery
+
+	/**
+	 *	Requery with new whereClause and the values of its <code>?</code> placeholders
+	 *  @param whereClause sql where clause, one <code>?</code> per parameter
+	 *  @param whereParameters values of the placeholders in order, null or empty if the text has no placeholder
+	 *  @param onlyCurrentRows only current rows
+	 *  @param onlyCurrentDays how many days back
+	 *  @return true if success
+	 */
+	public boolean dataRequery (String whereClause, List<Object> whereParameters, boolean onlyCurrentRows, int onlyCurrentDays)
+	{
+		log.info(whereClause + " " + whereParameters + "; OnlyCurrent=" + onlyCurrentRows);
 		close(false);
 		m_onlyCurrentDays = onlyCurrentDays;
-		setSelectWhereClause(whereClause, onlyCurrentRows, m_onlyCurrentDays);
+		setSelectWhereClause(whereClause, whereParameters, onlyCurrentRows, m_onlyCurrentDays);
 		open(m_maxRows);
 		//  Info
 		m_rowData = null;
@@ -3565,7 +3608,7 @@ public class GridTable extends AbstractTableModel
 
 		/**
 		 *	Set Parameter for Query.
-		 *		elements must be Integer, BigDecimal, String (default)
+		 *		elements must be String, Integer, BigDecimal, Timestamp, Boolean or null
 		 *  @param pstmt prepared statement
 		 *  @param countSQL count
 		 */
@@ -3582,18 +3625,7 @@ public class GridTable extends AbstractTableModel
 					Object para = m_parameterSELECT.get(i);
 					if (para != null)
 						log.fine("Select " + i + "=" + para);
-					//
-					if (para == null)
-						;
-					else if (para instanceof Integer)
-					{
-						Integer ii = (Integer)para;
-						pstmt.setInt (pos++, ii.intValue());
-					}
-					else if (para instanceof BigDecimal)
-						pstmt.setBigDecimal (pos++, (BigDecimal)para);
-					else
-						pstmt.setString(pos++, para.toString());
+					setParameter(pstmt, pos++, para);
 				}
 				//	Where Clause Parameters
 				for (int i = 0; i < m_parameterWHERE.size(); i++)
@@ -3601,24 +3633,32 @@ public class GridTable extends AbstractTableModel
 					Object para = m_parameterWHERE.get(i);
 					if (para != null)
 						log.fine("Where " + i + "=" + para);
-					//
-					if (para == null)
-						;
-					else if (para instanceof Integer)
-					{
-						Integer ii = (Integer)para;
-						pstmt.setInt (pos++, ii.intValue());
-					}
-					else if (para instanceof BigDecimal)
-						pstmt.setBigDecimal (pos++, (BigDecimal)para);
-					else
-						pstmt.setString(pos++, para.toString());
+					setParameter(pstmt, pos++, para);
 				}
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, "parameter", e);
 			}
+		}	//	setParameter
+
+		/**
+		 *	Set one Parameter for Query. A null takes its position.
+		 *	A String is sent without a type on PostgreSQL, as the literal text was: the server
+		 *	takes the type of the column, so a text compares with a number or a date column
+		 *  @param pstmt prepared statement
+		 *  @param position position in Statement, starting at 1
+		 *  @param para value
+		 */
+		private void setParameter (PreparedStatement pstmt, int position, Object para) throws SQLException
+		{
+			if (para instanceof String && DB.isPostgreSQL())
+				pstmt.setObject(position, para, Types.OTHER);
+			else if (para == null || para instanceof String || para instanceof Integer || para instanceof BigDecimal
+				|| para instanceof Timestamp || para instanceof Boolean)
+				DB.setParameter(pstmt, position, para);
+			else
+				pstmt.setString(position, para.toString());
 		}	//	setParameter
 
 	}	//	Loader
