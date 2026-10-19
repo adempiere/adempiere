@@ -22,7 +22,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
@@ -1490,7 +1492,10 @@ public class WWindow extends HttpServlet
 		if (lookup.containsKey(key))
 			return lookup.get(key);
 		
-		return DB.getSQLValueString(null, "SELECT " + lookup.getColumnName() + " FROM " + lookup.getZoomQuery().getTableName() + " WHERE " + lookup.getZoomQuery().getWhereClause() + " AND Value LIKE ?", key);
+		MQuery.BoundWhereClause zoomWhere = lookup.getZoomQuery().getBoundWhereClause(false);
+		List<Object> parameters = new ArrayList<Object>(zoomWhere.getParameters());
+		parameters.add(key);
+		return DB.getSQLValueStringQuery(null, "SELECT " + lookup.getColumnName() + " FROM " + lookup.getZoomQuery().getTableName() + " WHERE " + zoomWhere.getSql() + " AND Value LIKE ?", parameters);
 	}
 	
 }   //  WWindow

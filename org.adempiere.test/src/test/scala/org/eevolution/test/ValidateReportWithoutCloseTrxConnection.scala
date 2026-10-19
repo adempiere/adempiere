@@ -18,7 +18,7 @@ package org.eevolution.test
 
 import org.adempiere.core.domains.models.{I_C_Order, X_C_DocType}
 import org.compiere.model.*
-import org.compiere.util.Trx
+import org.compiere.util.{DB, Trx}
 import org.eevolution.services.ProductService
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.GivenWhenThen
@@ -30,6 +30,14 @@ import scala.util.{Failure, Success, Try}
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 24/02/16.
   */
 class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen with ProductService {
+  /** The report process commits its AD_PInstance outside the test transaction: remove it so the shared DB is left clean */
+  private def deleteProcessInstances(processValue: String, recordId: Int): Unit = {
+    val instances = "SELECT AD_PInstance_ID FROM AD_PInstance WHERE Record_ID=? AND AD_Process_ID IN (SELECT AD_Process_ID FROM AD_Process WHERE Value=?)"
+    val parameters = Array[AnyRef](Integer.valueOf(recordId), processValue)
+    for (table <- Seq("AD_PInstance_Log", "AD_PInstance_Para", "AD_PInstance"))
+      DB.executeUpdateEx(s"DELETE FROM $table WHERE AD_PInstance_ID IN ($instances)", parameters, null)
+  }
+
   Feature("Create a sales ticket and generate the sales order PDF form") {
     info("The customer Joe Block buy two Oak Trees and one Azalea Bush")
     info("A PDF ticket is generated and validate that transaction continue active")
@@ -85,12 +93,14 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
       assert(TotalSales.toDouble == order.getGrandTotal.doubleValue())
       import org.eevolution.services.dsl.*
 
-      val processInfo = ProcessBuilder.create(Context)
-        .process("Rpt C_Order")
-        .withTitle("Print Ticket")
-        .withRecordId(I_C_Order.Table_ID, order.getC_Order_ID)
-        .withoutTransactionClose()
-        .execute(trxName)
+      val processInfo = try {
+        ProcessBuilder.create(Context)
+          .process("Rpt C_Order")
+          .withTitle("Print Ticket")
+          .withRecordId(I_C_Order.Table_ID, order.getC_Order_ID)
+          .withoutTransactionClose()
+          .execute(trxName)
+      } finally deleteProcessInstances("Rpt C_Order", order.getC_Order_ID)
       And("The process execution was successful")
       assert(!processInfo.isError)
       And("the process summary is :" + processInfo.getSummary)
@@ -125,6 +135,7 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
         .withReportExportFormat("NOT_A_REPORT_TYPE")
         .withoutTransactionClose()
         .execute(trxName))
+      deleteProcessInstances("Rpt C_Order", order.getC_Order_ID)
       Then("the report ends without a NullPointerException and without a report file")
       result match {
         case Failure(exception) => assert(!exception.isInstanceOf[NullPointerException], exception.toString)

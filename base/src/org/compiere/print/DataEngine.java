@@ -193,6 +193,38 @@ public class DataEngine
 	/** Override of the REPORT_FETCH_SIZE SysConfig, null = use SysConfig */
 	private Integer fetchSizeOverride = null;
 
+	/** SysConfig: Y (default) lets PostgreSQL reuse the plan of a report statement that has bind parameters, N keeps prepareThreshold=0 */
+	public static final String REPORT_PLAN_CACHE = "REPORT_PLAN_CACHE";
+
+	/** Override of the REPORT_PLAN_CACHE SysConfig, null = use SysConfig */
+	private Boolean planCacheOverride = null;
+
+	/**
+	 * 	Force the plan reuse of this engine, independent of the REPORT_PLAN_CACHE SysConfig.
+	 * 	With bind parameters and plan reuse the report statement keeps the prepareThreshold of the driver: pgjdbc prepares it in
+	 * 	the server from the 5th execution on the same connection and PostgreSQL chooses between a generic and a specific plan
+	 * 	(plan_cache_mode=auto). Without it, or without parameters, the statement is one-off (prepareThreshold=0) as before.
+	 * 	@param planCache true = reuse the plan of statements with parameters, false = one-off statements, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setPlanCache (Boolean planCache)
+	{
+		planCacheOverride = planCache;
+		return this;
+	}	//	setPlanCache
+
+	/**
+	 * 	Is the plan of the report statements with bind parameters reused?
+	 * 	@param context context
+	 * 	@return true if the statements with parameters keep the prepareThreshold of the driver
+	 */
+	public boolean isPlanCache (Properties context)
+	{
+		if (planCacheOverride != null)
+			return planCacheOverride.booleanValue();
+		return MSysConfig.getBooleanValue(REPORT_PLAN_CACHE, true, Env.getAD_Client_ID(context));
+	}	//	isPlanCache
+
 	/**
 	 * 	Force the fetch size of the report read of this engine, independent of the REPORT_FETCH_SIZE SysConfig.
 	 * 	@param fetchSize rows per round trip, 0 = read the whole result at once, null = SysConfig
@@ -470,7 +502,8 @@ public class DataEngine
 		 */
 		StringBuffer finalSQL = new StringBuffer(definition.head);
 
-		//	WHERE clause
+		//	WHERE clause, with the values of the user restrictions as bind parameters in placeholder order
+		List<Object> parameters = new ArrayList<Object>();
 		if (tableName.startsWith("T_Report"))
 		{
 			finalSQL.append(" WHERE ");
@@ -502,7 +535,9 @@ public class DataEngine
 				finalSQL.append (" WHERE ");
 				if (!query.getTableName ().equals (tableName))
 					query.setTableName (tableName);
-				finalSQL.append (query.getWhereClause (true));
+				MQuery.BoundWhereClause boundWhereClause = query.getBoundWhereClause (true);
+				finalSQL.append (boundWhereClause.getSql ());
+				parameters.addAll (boundWhereClause.getParameters ());
 			}
 			//	Access Restriction
 			MRole role = MRole.getDefault(ctx, false);
@@ -522,12 +557,13 @@ public class DataEngine
 		printData.setColumnInfo(printDataColumns);
 		printData.setTableName(tableName);
 		printData.setSQL(finalStatement);
+		printData.setSQLParameters(parameters);
 		printData.setHasLevelNo(hasLevelNo);
 		if (definition.isTableIdRequired && !definition.isTableIdPresent) {
 			printData.setHasDummyTableID(true);
 		}
 		
-		log.fine (finalStatement);
+		log.fine (parameters.isEmpty() ? finalStatement : finalStatement + "\nParameters=" + parameters);
 		log.finest ("Group=" + group);
 		return printData;
 	}	//	getPrintDataInfo
@@ -1209,7 +1245,8 @@ public class DataEngine
 	 * 	The report SQL runs once with the literals of its filters: PostgreSQL must not keep a server-side prepared statement
 	 * 	(pgjdbc prepares one after 5 executions of the same SQL on a connection), because its plan, made for a small volume,
 	 * 	would be reused on a large one. Sets prepareThreshold=0 on this statement only.
-	 * 	@param pstmt report statement
+	 * 	Not for a statement with bind parameters when the plan reuse is on (REPORT_PLAN_CACHE): the driver default applies.
+	 * 	@param statement report statement
 	 */
 	private void setOneOff (PreparedStatement statement)
 	{
@@ -1302,7 +1339,12 @@ public class DataEngine
 				}
 				pstmt = DB.prepareStatement(pd.getSQL(), transactionName);
 			}
-			setOneOff(pstmt);
+			List<Object> parameters = pd.getSQLParameters();
+			if (!parameters.isEmpty())
+				DB.setQueryParameters(pstmt, parameters);
+			//	statements with parameters repeat with other values: the plan may be reused unless the switch is off
+			if (parameters.isEmpty() || !isPlanCache(format.getCtx()))
+				setOneOff(pstmt);
 			if (fetchSize > 0)
 				pstmt.setFetchSize(fetchSize);
 			rs = pstmt.executeQuery();
@@ -1495,7 +1537,7 @@ public class DataEngine
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, pdc + " - " + e.getMessage() + "\nSQL=" + pd.getSQL());
+			log.log(Level.SEVERE, pdc + " - " + e.getMessage() + "\nSQL=" + pd.getSQL() + " Parameters=" + pd.getSQLParameters());
 		}
 		finally
 		{

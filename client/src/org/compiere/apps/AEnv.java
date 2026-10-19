@@ -649,7 +649,7 @@ public final class AEnv
 		boolean isSOTrx = true;
 		if (PO_Window_ID != 0)
 		{
-			isSOTrx = DB.isSOTrx(TableName, query.getWhereClause(false));
+			isSOTrx = DB.isSOTrx(TableName, query.getBoundWhereClause(false));
 			if (!isSOTrx)
 				AD_Window_ID = PO_Window_ID;
 		}

@@ -19,6 +19,7 @@ package org.compiere.print;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -111,6 +112,8 @@ public class PrintData implements Serializable
 	private PrintDataColumn[]	m_columnInfo = null;
 	/**	Optional sql				*/
 	private String				m_sql = null;
+	/**	Values of the ? placeholders of the sql, in order	*/
+	private ArrayList<Object>	sqlParameters = new ArrayList<Object>();
 	/** Optional TableName			*/
 	private String				m_TableName = null;
 
@@ -188,6 +191,24 @@ public class PrintData implements Serializable
 	{
 		return m_sql;
 	}	//	getSQL
+
+	/**
+	 * 	Set the values of the <code>?</code> placeholders of the SQL
+	 * 	@param parameters values in placeholder order, null = none
+	 */
+	public void setSQLParameters (List<Object> parameters)
+	{
+		sqlParameters = parameters == null ? new ArrayList<Object>() : new ArrayList<Object>(parameters);
+	}	//	setSQLParameters
+
+	/**
+	 * 	Get the values of the <code>?</code> placeholders of the SQL
+	 * 	@return values in placeholder order, empty if the SQL has no parameters
+	 */
+	public List<Object> getSQLParameters()
+	{
+		return sqlParameters == null ? Collections.<Object>emptyList() : Collections.unmodifiableList(sqlParameters);
+	}	//	getSQLParameters
 
 	/**
 	 * 

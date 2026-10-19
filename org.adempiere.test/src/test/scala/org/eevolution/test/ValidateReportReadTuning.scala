@@ -21,8 +21,9 @@ import org.compiere.util.{DB, Env, Language, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
-/** Tests of how DataEngine reads the data of a report: the SQL is never server-side prepared (PostgreSQL) and the
-  * result is fetched in batches (REPORT_FETCH_SIZE) without changing data, order or row count.
+/** Tests of how DataEngine reads the data of a report: the SQL without bind parameters is never server-side prepared
+  * (PostgreSQL; a statement with bind parameters keeps the driver default while REPORT_PLAN_CACHE is on, see
+  * ValidateReportBindParameters) and the result is fetched in batches (REPORT_FETCH_SIZE) without changing data, order or row count.
   *
   * Statement caching is observed through pg_prepared_statements of the very connection that runs the report (the
   * transaction of the test), never through the driver internals; the scenarios that need PostgreSQL are cancelled
@@ -70,8 +71,8 @@ class ValidateReportReadTuning extends AnyFeatureSpec with AdempiereTestCase wit
   private def preparedStatements(transactionName: String, like: String): Int =
     DB.getSQLValue(transactionName, "SELECT COUNT(*) FROM pg_prepared_statements WHERE statement LIKE ?", like)
 
-  Feature("The one-off report SQL is never server-side prepared") {
-    Scenario("Seven runs of the same report in one transaction leave no prepared statement of the report") {
+  Feature("The one-off report SQL, a report without bind parameters, is never server-side prepared") {
+    Scenario("Seven runs of the same report without restrictions in one transaction leave no prepared statement of the report") {
       assume(DB.isPostgreSQL, "pg_prepared_statements needs PostgreSQL")
       Given("a connection without prepared statements")
       DB.executeUpdateEx("DEALLOCATE ALL", trxName)

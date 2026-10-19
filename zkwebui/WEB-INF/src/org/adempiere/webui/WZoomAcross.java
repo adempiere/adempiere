@@ -53,10 +53,23 @@ public class WZoomAcross
 	 */
 	public WZoomAcross (Component invoker, String tableName, final int windowID, MQuery query)
 	{
-		this(invoker, new Query(Env.getCtx(), tableName,
-				query.getWhereClause(), null).first(), windowID);
+		this(invoker, findSourceRecord(tableName, query), windowID);
 		
 	}
+
+	/**
+	 * 	Find the zoom source PO with the bound restrictions of the query
+	 *	@param tableName zoom source table
+	 *	@param query query that specifies the zoom source PO
+	 *	@return PO or null if not found
+	 */
+	private static PO findSourceRecord(String tableName, MQuery query)
+	{
+		MQuery.BoundWhereClause boundWhereClause = query.getBoundWhereClause(false);
+		return new Query(Env.getCtx(), tableName, boundWhereClause.getSql(), null)
+				.setQueryParameters(boundWhereClause.getParameters())
+				.first();
+	}	//	findSourceRecord
 
 	public WZoomAcross(Component invoker, PO po, final int windowID) {
 		

@@ -25,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -83,6 +84,7 @@ public class Query
 	private String orderBy = null;
 	private String trxName = null;
 	private Object[] parameters = null;
+	private boolean useQueryParameters = false;
 	private boolean applyAccessFilter = false;
 	private boolean applyAccessFilterRW = false;
 	private boolean applyAccessFilterFullyQualified = true;
@@ -140,9 +142,28 @@ public class Query
 	public Query setParameters(Object ...parameters)
 	{
 		this.parameters = parameters;
+		this.useQueryParameters = false;
 		return this;
 	}
 	
+	/**
+	 * Set the parameters of a where clause built from {@link MQuery#getBoundWhereClause(boolean)}.
+	 * They are set with {@link DB#setQueryParameters(PreparedStatement, List)}, which sends a String untyped on
+	 * PostgreSQL, as the quoted literal of {@link MQuery#getWhereClause(boolean)} was. {@link #setParameters(Object...)}
+	 * sets a String as varchar, and PostgreSQL rejects <code>numeric = character varying</code>.
+	 * @param queryParameters values of the placeholders, in order
+	 */
+	public Query setQueryParameters(List<?> queryParameters)
+	{
+		if (queryParameters == null) {
+			this.parameters = null;
+		} else {
+			this.parameters = queryParameters.toArray();
+		}
+		this.useQueryParameters = true;
+		return this;
+	}
+
 	/**
 	 * Set limit and offset parameters for SQL
 	 * @param limit
@@ -170,6 +191,7 @@ public class Query
 	 */
 	public Query setParameters(List<Object> parameters)
 	{
+		this.useQueryParameters = false;
 		if (parameters == null) {
 			this.parameters = null;
 			return this;
@@ -759,7 +781,10 @@ public class Query
 	
 	private final ResultSet createResultSet (PreparedStatement pstmt) throws SQLException
 	{
-		DB.setParameters(pstmt, parameters);
+		if (useQueryParameters && parameters != null)
+			DB.setQueryParameters(pstmt, Arrays.asList(parameters));
+		else
+			DB.setParameters(pstmt, parameters);
 		int i = 1 + (parameters != null ? parameters.length : 0);
 		
 		if (this.onlyActiveRecords)

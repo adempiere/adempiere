@@ -110,6 +110,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 
 | Test class | Scenarios | Status | Notes |
 |---|---|---|---|
+| `ValidateFindBindParameters` | 9 | pass | Find, `initialQuery` and the zoom to a detail tab bind their MQuery restriction (`FindCount`, `DB.getSQLValueQuery`): the count equals the literal count for a String LIKE, a date range, a number, a text on an ID column (R3) and a raw `whereExtended` with `@context@` in Order, Business Partner and Product; the link value of the zoom equals the literal one. `DB.inlineQueryParameters` renders each type, skips a `?` inside a string literal and executes to the same rows as the bound statement; `_TabInfo_SQL` (and `_TabInfo_FindSQL`) keep the literal text with no `?`. The Swing and ZK dialogs are verified by compilation only. |
 | `ValidateReportLookupJoinRegression` | 22 | pass | Report lookups as LEFT JOINs, nested TableDir identifiers chained up to depth 3 (`<Word>_<n>_<m>_<k>`): same rows, NULLs, GROUP BY and ORDER BY as the legacy subselects. |
 | `CreateSalesOrder` | 1 | pass | |
 | `ValidatePriceListAndDiscountFunctionality` | 10 | pass | |
@@ -118,6 +119,11 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 | `ValidateConnectionPool` | 13 | pass | Connection layer (see below): no per-checkout round trips, state after the pool, `ApplicationName`, pool settings. Three scenarios count statements with `pg_stat_statements` (cancelled without it; run it while nobody else uses the database); the last one is an opt-in measurement (`ADEMPIERE_BENCHMARK=true`) and is cancelled otherwise. |
+| `ValidateZoomBindParameters` | 9 | pass | The zoom family binds the MQuery values: `DB.isSOTrx(table, MQuery.BoundWhereClause)` answers as the literal overload for a sales and a purchase order and order line, with an Integer key and with a String key (R3); `Query.setQueryParameters` finds the same record as the literal `Query` (the zoom across of Swing and ZK), and a String on a numeric column needs it, because `Query.setParameters` fails on PostgreSQL with `numeric = character varying`; `Query.setParameters` keeps its behavior; `MRelationType` gives the same count and first key as the literal statements for the orders, invoices and partners of GardenWorld (its restriction is raw, so it has no parameters); `GenericZoomProvider` stays raw (no parameters, the text of the literal where clause). `AEnv`, `MLookup.getZoom`, `AZoomAcross` and `WZoomAcross` are verified by compilation only. Read-only: nothing is written to the database. |
+| `ValidateLookupBindParameters` | 3 | pass | The zoom query of a lookup is one raw restriction (`MLookupFactory`, from the where clause of the table reference): for up to 30 table references with a where clause it has no parameters and the literal text, so `VLookup`, `WSearchEditor`, `ADLookup` and the Info windows have nothing to bind and keep the literal text. `DB.getSQLValueStringQuery`, used by `lookupValue` of the servlet and mobile `WWindow`, returns the row of the literal statement for a raw restriction and for a structured one (Integer and String key, R3), with the values of the restriction in front of the key. The `WWindow` pair is verified by compilation only. Read-only. |
+| `ValidateReportBindParameters` | 12 | pass | `DataEngine` runs the restrictions of a report `MQuery` as bind parameters: the same rows, columns and order as the literal statement (EQUAL on an ID, LIKE on a name, BETWEEN on numbers, an OR group, the date range of a process instance, and a String value on a numeric column; lookup joins on and off), the shared binder `DB.setQueryParameters` (a String is sent untyped on PostgreSQL, the other types as `DB.setParameter`), `?` placeholders and `PrintData` values in equal number, the parameters in the FINE log, and the plan reuse switch `REPORT_PLAN_CACHE` observed in `pg_prepared_statements` (PostgreSQL only). The process instance is committed for a moment and deleted right after. |
+| `ValidateMQueryBindParameters` | 23 | pass | `MQuery.getBoundWhereClause`: `?` placeholders and ordered values for every operator and value type, AND/OR nesting, raw restrictions and the fallback to the literal text when a raw restriction has a `?`; the same rows as the literal `getWhereClause` (pinned, unchanged) on GardenWorld; `MQuery.get` from a process instance (half-open day ranges, BigDecimal numbers). The process instance is committed for a moment, because `MQuery.get` reads it without a transaction, and deleted right after. |
+| `ValidateWindowBindParameters` | 12 | pass | `GridTab.query` runs the MQuery restrictions of a window tab as bind parameters through `GridTable` (`?` in the select and the count, the values in `getSelectWhereParameters`): Sales Order, Business Partner and Product (EQUAL, LIKE, BETWEEN on a date and a number, IS NULL), a child tab with its link column, a column outside the tab (IN subquery), and a text value against a numeric or date column (R3: the binder sends a String untyped on PostgreSQL, as the literal was); the same rows as the raw literal restriction; a changed value re-queries; the `GridTable` binder for Timestamp, Boolean and null, and the reset of the parameters. A child tab binds the value of its link column, ahead of the values of the restriction: Sales Order > Order Line and Business Partner > Location keep the same SQL text and change only the parameter when the parent record changes, return the rows of the literal link value, and `getWhereExtended()` keeps the literal link value. A sweep of every window and tab reachable without a screen compares an EQUAL on the key bound and literal, and, for every child tab, the rows of the first parent record bound against literal (a dictionary WHERE with `@context@` compares the SQL only, because the first query changes the window context). Read-only: nothing is written to the database. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
 
@@ -308,14 +314,34 @@ you see, and create the master data your database may lack (the demo GardenWorld
 * Tests that depend on the data of your database (for example the print formats, the warehouse rules or the
   process definitions) can fail on a database that is not the standard GardenWorld.
 
+## Report bind parameters and plan reuse (`ValidateReportBindParameters`)
+
+`DataEngine.getPrintDataInfo` takes the where clause of the report from `MQuery.getBoundWhereClause(true)`: the SQL holds
+`?` and `PrintData.getSQLParameters()` holds the values in placeholder order; `loadPrintData` binds them with
+`DB.setQueryParameters` on both read paths (pool `AdempiereSRDS` and `DB.prepareStatement`). The `T_Report*` and
+`AD_PInstance*` branches keep the literal text, because they cut the text by `AD_PInstance_ID`.
+
+* **Plan reuse.** `SysConfig` `REPORT_PLAN_CACHE` (default `Y`) and `DataEngine.setPlanCache(Boolean)` (public override,
+  `null` = SysConfig). With bind parameters and `Y`, the statement keeps the pgjdbc `prepareThreshold` (5): from the
+  5th execution on the same connection the server prepares it and PostgreSQL chooses between a generic and a specific
+  plan (`plan_cache_mode=auto`). With `N`, or without parameters, `prepareThreshold=0` as before. Set it to `N` if a
+  generic plan turns out worse in production. Oracle: the setting is PostgreSQL-only, the Oracle driver keeps its own
+  statement cache.
+* **One binder.** Every statement built from `MQuery.getBoundWhereClause` binds its values with
+  `DB.setQueryParameters` (`DB.setQueryParameter` for one value). On PostgreSQL a String goes untyped
+  (`Types.OTHER`), like the quoted literal it replaces, so a text such as `'118'` still compares with a numeric
+  column; `DB.setParameter` would send it as varchar and fail with `numeric = character varying`. Any other value
+  behaves as in `DB.setParameter`, which is unchanged for the rest of ADempiere. `GridTable` uses the same helper.
+
 ## Report read tuning (`ValidateReportReadTuning`)
 
 `DataEngine.loadPrintData` reads the data of a report with two PostgreSQL-oriented settings:
 
-* **One-off statement.** The report SQL carries the literals of its filters and runs once, so its statement gets
-  `prepareThreshold=0` (`PGStatement.setPrepareThreshold(0)` through `unwrap`, on that statement only). pgjdbc would
+* **One-off statement.** A report SQL without bind parameters carries the literals of its filters and runs once, so its
+  statement gets `prepareThreshold=0` (`PGStatement.setPrepareThreshold(0)` through `unwrap`, on that statement only). pgjdbc would
   otherwise server-side prepare it at the 5th execution on a pooled connection and reuse a plan built for a small volume
-  on a large one. Dictionary statements keep the driver default.
+  on a large one. Dictionary statements keep the driver default. A report statement *with* bind parameters keeps the
+  driver default too while `REPORT_PLAN_CACHE` is `Y` (see the next section).
 * **Fetch size.** `SysConfig` `REPORT_FETCH_SIZE` (default `1000`, `0` = read the whole result at once, as before) and
   `DataEngine.setFetchSize(Integer)` (public override, `null` = SysConfig). pgjdbc only streams with `autoCommit=false`:
   inside a `Trx` the fetch size is set on the statement; without a `Trx` (and on PostgreSQL) the engine reads inside a

@@ -122,11 +122,12 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
   private def columns(printData: PrintData) =
     printData.getColumnInfo.toVector.map(printDataColumn => (printDataColumn.getAD_Column_ID, printDataColumn.getColumnName, printDataColumn.getAlias, printDataColumn.hasAlias, printDataColumn.getDisplayType))
 
-  /** true when the statement is rejected by the database */
-  private def sqlFails(sql: String): Boolean = Try {
-    val statement = DB.prepareStatement(sql, null)
+  /** true when the statement is rejected by the database; the bind parameters of the report are set as the engine does */
+  private def sqlFails(printData: PrintData): Boolean = Try {
+    val statement = DB.prepareStatement(printData.getSQL, null)
     var resultSet: ResultSet = null
     try {
+      DB.setParameters(statement, printData.getSQLParameters)
       resultSet = statement.executeQuery()
     } finally DB.close(resultSet, statement)
   }.isFailure
@@ -246,8 +247,8 @@ class ValidateReportLookupJoinRegression extends AnyFeatureSpec with AdempiereTe
         // a format without sort columns gets the key of the base table on the join path (S26), nothing else changes
         val expectedOrderBy = tieBreak(legacyPrintData).getOrElse(orderBy(legacyPrintData.getSQL))
         if (expectedOrderBy != orderBy(joinPrintData.getSQL)) problems += s"ORDER BY differs: expected $expectedOrderBy, join ${orderBy(joinPrintData.getSQL)}"
-        if (legacyPrintData.getRowCount == 0 && sqlFails(legacyPrintData.getSQL) != sqlFails(joinPrintData.getSQL))
-          problems += s"legacy SQL fails=${sqlFails(legacyPrintData.getSQL)} but join SQL fails=${sqlFails(joinPrintData.getSQL)}"
+        if (legacyPrintData.getRowCount == 0 && sqlFails(legacyPrintData) != sqlFails(joinPrintData))
+          problems += s"legacy SQL fails=${sqlFails(legacyPrintData)} but join SQL fails=${sqlFails(joinPrintData)}"
     }
     problems.toVector
   }
