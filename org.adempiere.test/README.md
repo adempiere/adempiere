@@ -118,6 +118,7 @@ Every Scala test class is compiled and run by `sbt test`. Status on a local Gard
 | `ValidateReportDefinitionCache` | 14 | pass | Report definition cache of `DataEngine` (see below). Two scenarios are cancelled without `pg_stat_statements`. |
 | `ValidateReportLookupJoinPerformance` | 10 | cancelled | Opt-in benchmark (see below). Without `ADEMPIERE_BENCHMARK=true` every scenario is cancelled, so `sbt test` stays fast. |
 | `ValidateConnectionPool` | 13 | pass | Connection layer (see below): no per-checkout round trips, state after the pool, `ApplicationName`, pool settings. Three scenarios count statements with `pg_stat_statements` (cancelled without it; run it while nobody else uses the database); the last one is an opt-in measurement (`ADEMPIERE_BENCHMARK=true`) and is cancelled otherwise. |
+| `ValidateReportBindParameters` | 11 | pass | `DataEngine` runs the restrictions of a report `MQuery` as bind parameters: the same rows, columns and order as the literal statement (EQUAL on an ID, LIKE on a name, BETWEEN on numbers, an OR group, the date range of a process instance; lookup joins on and off), `?` placeholders and `PrintData` values in equal number, the parameters in the FINE log, and the plan reuse switch `REPORT_PLAN_CACHE` observed in `pg_prepared_statements` (PostgreSQL only). The process instance is committed for a moment and deleted right after. |
 | `ValidateMQueryBindParameters` | 23 | pass | `MQuery.getBoundWhereClause`: `?` placeholders and ordered values for every operator and value type, AND/OR nesting, raw restrictions and the fallback to the literal text when a raw restriction has a `?`; the same rows as the literal `getWhereClause` (pinned, unchanged) on GardenWorld; `MQuery.get` from a process instance (half-open day ranges, BigDecimal numbers). The process instance is committed for a moment, because `MQuery.get` reads it without a transaction, and deleted right after. |
 
 `AdempiereStartup` and `AdempiereTestCase` are test support, not tests.
@@ -309,14 +310,29 @@ you see, and create the master data your database may lack (the demo GardenWorld
 * Tests that depend on the data of your database (for example the print formats, the warehouse rules or the
   process definitions) can fail on a database that is not the standard GardenWorld.
 
+## Report bind parameters and plan reuse (`ValidateReportBindParameters`)
+
+`DataEngine.getPrintDataInfo` takes the where clause of the report from `MQuery.getBoundWhereClause(true)`: the SQL holds
+`?` and `PrintData.getSQLParameters()` holds the values in placeholder order; `loadPrintData` binds them with
+`DB.setParameters` on both read paths (pool `AdempiereSRDS` and `DB.prepareStatement`). The `T_Report*` and
+`AD_PInstance*` branches keep the literal text, because they cut the text by `AD_PInstance_ID`.
+
+* **Plan reuse.** `SysConfig` `REPORT_PLAN_CACHE` (default `Y`) and `DataEngine.setPlanCache(Boolean)` (public override,
+  `null` = SysConfig). With bind parameters and `Y`, the statement keeps the pgjdbc `prepareThreshold` (5): from the
+  5th execution on the same connection the server prepares it and PostgreSQL chooses between a generic and a specific
+  plan (`plan_cache_mode=auto`). With `N`, or without parameters, `prepareThreshold=0` as before. Set it to `N` if a
+  generic plan turns out worse in production. Oracle: the setting is PostgreSQL-only, the Oracle driver keeps its own
+  statement cache.
+
 ## Report read tuning (`ValidateReportReadTuning`)
 
 `DataEngine.loadPrintData` reads the data of a report with two PostgreSQL-oriented settings:
 
-* **One-off statement.** The report SQL carries the literals of its filters and runs once, so its statement gets
-  `prepareThreshold=0` (`PGStatement.setPrepareThreshold(0)` through `unwrap`, on that statement only). pgjdbc would
+* **One-off statement.** A report SQL without bind parameters carries the literals of its filters and runs once, so its
+  statement gets `prepareThreshold=0` (`PGStatement.setPrepareThreshold(0)` through `unwrap`, on that statement only). pgjdbc would
   otherwise server-side prepare it at the 5th execution on a pooled connection and reuse a plan built for a small volume
-  on a large one. Dictionary statements keep the driver default.
+  on a large one. Dictionary statements keep the driver default. A report statement *with* bind parameters keeps the
+  driver default too while `REPORT_PLAN_CACHE` is `Y` (see the next section).
 * **Fetch size.** `SysConfig` `REPORT_FETCH_SIZE` (default `1000`, `0` = read the whole result at once, as before) and
   `DataEngine.setFetchSize(Integer)` (public override, `null` = SysConfig). pgjdbc only streams with `autoCommit=false`:
   inside a `Trx` the fetch size is set on the statement; without a `Trx` (and on PostgreSQL) the engine reads inside a
