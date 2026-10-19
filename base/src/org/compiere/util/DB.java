@@ -1627,6 +1627,52 @@ public final class DB
     {
 		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
+
+    /**
+     * Get String Value from a statement that holds the restrictions of an
+     * {@link org.compiere.model.MQuery#getBoundWhereClause(boolean)}.
+     * The values are set with {@link #setQueryParameters(PreparedStatement, List)}, so a String is sent untyped on PostgreSQL;
+     * the other <code>getSQLValueString</code> methods keep {@link #setParameter(PreparedStatement, int, Object)}.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or null if not found or error
+     */
+    public static String getSQLValueStringQuery (String trxName, String sql, List<?> params)
+    {
+    	String retValue = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		setQueryParameters(pstmt, params);
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getString(1);
+    		else
+    			log.fine("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		String text = sql;
+    		try
+    		{
+    			text = inlineQueryParameters(sql, params);
+    		}
+    		catch (RuntimeException ignored)
+    		{
+    			//	the log keeps the statement with its placeholders
+    		}
+    		log.log(Level.SEVERE, text, getSQLException(e));
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }	//	getSQLValueStringQuery
     
     /**
      * Validate if is supported UUID from DB
