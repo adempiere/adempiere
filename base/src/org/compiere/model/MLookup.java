@@ -462,10 +462,9 @@ public final class MLookup extends Lookup implements Serializable
 		log.log(Level.ALL, m_info.KeyColumn + ": " + key 
 				+ ", SaveInCache=" + saveInCache + ",Local=" + cacheLocal);
 		boolean isNumber = m_info.KeyColumn.endsWith("_ID");
-		try
+		try (PreparedStatement pstmt = DB.prepareStatement(m_info.QueryDirect, null))
 		{
 			//	SELECT Key, Value, Name FROM ...
-			PreparedStatement pstmt = DB.prepareStatement(m_info.QueryDirect, null);
 			if (isNumber)
 				pstmt.setInt(1, Integer.parseInt(key.toString()));
 			else
@@ -501,7 +500,6 @@ public final class MLookup extends Lookup implements Serializable
 			}
 
 			rs.close();
-			pstmt.close();
 			if (CLogMgt.isLevelFinest())
 				log.finest(m_info.KeyColumn + ": " + directValue + " - " + m_info);
 		}
@@ -740,11 +738,10 @@ public final class MLookup extends Lookup implements Serializable
 			boolean isNumber = m_info.KeyColumn.endsWith("_ID");
 			m_hasInactive = false;
 			int rows = 0;
-			try
+			try (PreparedStatement pstmt = DB.prepareStatement(sql, null);
+					ResultSet rs = pstmt.executeQuery())
 			{
 				//	SELECT Key, Value, Name, IsActive FROM ...
-				PreparedStatement pstmt = DB.prepareStatement(sql, null);
-				ResultSet rs = pstmt.executeQuery();
 
 				//	Get first ... rows
 				m_allLoaded = true;
@@ -782,8 +779,6 @@ public final class MLookup extends Lookup implements Serializable
 					}
 				//	log.fine( m_info.KeyColumn + ": " + name);
 				}
-				rs.close();
-				pstmt.close();
 			}
 			catch (SQLException e)
 			{
