@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ================================================ -->
+<!-- org.adempiere.test Scala specs build           -->
+<!-- ================================================ -->
+<!-- Compiles and runs the ScalaTest specs of this module.
+
+     Opt-in targets, invoked from the repository root:
+       ant -f utils_dev/build.xml scala-compile
+       ant -f utils_dev/build.xml scala-test
+
+     The java/ant build (main.yml, build_with_gradle.yml) never compiles
+     scala sources, so broken specs merged silently (see adempiere#4431).
+     These targets close that gap without touching the existing build chain.
+
+     Prerequisite: the java classes the specs import must be compiled first:
+       ant -f utils_dev/build.xml jar
+-->
+<project name="adempiere-test-scala" default="scala-compile" basedir=".">
+
+  <!-- Pinned toolchain: Scala 3.3.1 + ScalaTest 3.2.10 (matches build.sbt) -->
+  <property name="scala.version" value="3.3.1"/>
+  <property name="scalatest.version" value="3.2.10"/>
+  <property name="scala-asm.version" value="9.5.0-scala-1"/>
+  <property name="scala-library.version" value="2.13.10"/>
+
+  <property name="scala.deps.dir" location="${basedir}/.scala-deps"/>
+  <property name="scala.main.classes" location="${basedir}/build/scala-classes"/>
+  <property name="scala.test.classes" location="${basedir}/build/scala-test-classes"/>
+
+  <!-- Local overrides (machine-specific paths), same convention as utils_dev/properties.xml -->
+  <property file="../utils_dev/mytest.properties"/>
+
+  <property name="maven.central" value="https://repo1.maven.org/maven2"/>
+
+  <!-- JDK for dotc and the test JVM, matching the java build (release 11).
+       Override with -Dscala.java.home=/path/to/jdk -->
+  <property name="scala.java.home" value="${java.home}"/>
+  <condition property="scala.java.bin" value="${scala.java.home}/bin" else="${java.home}/bin">
+    <available file="${scala.java.home}/bin/java"/>
+  </condition>
+
+  <!-- Compiled java classes the specs import: the in-tree ant outputs of
+       utils_dev/build.xml jar (base, extend, asset, manufacturing,
+       distribution, warehouse, client). Override with
+       -Dscala.app.classes=/path/to/runtime/bin:/path/to/Adempiere.jar -->
+  <!-- Java classes the specs run against: the in-tree module build dirs produced by
+	     the ant chain, plus the module jars the chain copies into lib/.
+	     CCTools/CSTools carry org.adempiere.legacy.apache.ecs, needed by the report
+	     processes (ProcessBuilder.execute). -->
+  <property name="scala.app.classes"
+            value="${basedir}/../base/build:${basedir}/../extend/build:${basedir}/../org.adempiere.asset/build:${basedir}/../org.eevolution.manufacturing/build:${basedir}/../org.eevolution.distribution/build:${basedir}/../org.eevolution.warehouse/build:${basedir}/../org.eevolution.freight/build:${basedir}/../client/build:${basedir}/../JasperReports/build:${basedir}/../lib/customization.jar:${basedir}/../lib/CCTools.jar:${basedir}/../lib/CSTools.jar"/>
+
+  <!-- Adempiere runtime properties for the test JVM. The scala-test target
+       copies the committed template to this gitignored working file (Ini.saveProperties
+       rewrites the loaded file with machine-specific values). Override the whole
+       file with -Dscala.test.propertyfile=/path/to/Adempiere.properties -->
+  <property name="scala.test.template" location="${basedir}/AdempiereEnv.template.properties"/>
+  <property name="scala.test.propertyfile" location="${basedir}/build/scala-test/Adempiere.properties"/>
+
+  <!-- ScalaTest suite for scala-test (single suite, e.g. -Dscala.test.suites=org.eevolution.test.Foo). Empty = discover all. -->
+  <property name="scala.test.suites" value=""/>
+
+  <!-- App server type for the test JVM. Adempiere.startup(false) runs in server
+       mode, whose DB_PostgreSQL.getDataSource requires ADEMPIERE_APPS_TYPE to be
+       set; any non-wildfly value makes it build a standalone Hikari pool directly
+       from the Connection URL (no JNDI / app server needed). -->
+  <property name="scala.test.apps.type" value="standalone"/>
+
+  <!-- org.eevolution.freight is outside the utils_dev jar chain but its classes are
+       required by ad_modelvalidator at login; compiled on demand by scala-java-classes. -->
+  <available file="${basedir}/../org.eevolution.freight/build.xml" property="scala.freight.sources.present"/>
+
+  <target name="scala-init">
+    <mkdir dir="${scala.deps.dir}"/>
+    <mkdir dir="${scala.main.classes}"/>
+    <mkdir dir="${scala.test.classes}"/>
+  </target>
+
+  <!-- Fetch pinned jars from Maven Central (idempotent). -->
+  <target name="scala-deps" depends="scala-init" description="Download pinned Scala and ScalaTest jars">
+    <get src="${maven.central}/org/scala-lang/scala3-compiler_3/${scala.version}/scala3-compiler_3-${scala.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/scala3-library_3/${scala.version}/scala3-library_3-${scala.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/scala3-interfaces/${scala.version}/scala3-interfaces-${scala.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/tasty-core_3/${scala.version}/tasty-core_3-${scala.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/modules/scala-asm/${scala-asm.version}/scala-asm-${scala-asm.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/scala-library/${scala-library.version}/scala-library-${scala-library.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scalatest/scalatest_3/${scalatest.version}/scalatest_3-${scalatest.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scalatest/scalatest-core_3/${scalatest.version}/scalatest-core_3-${scalatest.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scalatest/scalatest-featurespec_3/${scalatest.version}/scalatest-featurespec_3-${scalatest.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scalatest/scalatest-compatible/${scalatest.version}/scalatest-compatible-${scalatest.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scalactic/scalactic_3/${scalatest.version}/scalactic_3-${scalatest.version}.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+    <get src="${maven.central}/org/scala-lang/modules/scala-xml_3/2.1.0/scala-xml_3-2.1.0.jar"
+         dest="${scala.deps.dir}" skipexisting="true"/>
+  </target>
+
+  <path id="scala.compiler.path">
+    <fileset dir="${scala.deps.dir}">
+      <include name="scala3-compiler_3-*.jar"/>
+      <include name="scala3-library_3-*.jar"/>
+      <include name="scala3-interfaces-*.jar"/>
+      <include name="tasty-core_3-*.jar"/>
+      <include name="scala-asm-*.jar"/>
+      <include name="scala-library-*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="scala.app.path">
+    <pathelement path="${scala.app.classes}"/>
+    <fileset dir="${basedir}/../tools/lib" includes="*.jar" erroronmissingdir="false">
+      <exclude name="glassfish.jar"/>
+    </fileset>
+    <!-- Legacy support jars hold model validators registered in ad_modelvalidator
+         that the ant module chain does not build; Login.batchLogin fails without
+         them. Only freight is needed: its legacy jar ships the
+         org.eevolution.model.FreightModelValidator stub whose superclass
+         org.eevolution.freight.model.validator.Freight is compiled in-tree above.
+         Other legacy jars are deliberately excluded: they carry 2022 copies of
+         org.eevolution.model.MWM* models that make unqualified Scala imports
+         ambiguous against org.eevolution.wms.model. -->
+    <fileset dir="${basedir}/../tools/lib/legacy" includes="freight-support-legacy-*.jar" erroronmissingdir="false"/>
+  </path>
+
+  <path id="scala.libs.path">
+    <fileset dir="${scala.deps.dir}">
+      <include name="scala3-library_3-*.jar"/>
+      <include name="scala-library-*.jar"/>
+      <include name="scalatest_3-*.jar"/>
+      <include name="scalatest-core_3-*.jar"/>
+      <include name="scalatest-featurespec_3-*.jar"/>
+      <include name="scalatest-compatible-*.jar"/>
+      <include name="scalactic_3-*.jar"/>
+      <include name="scala-xml_3-*.jar"/>
+    </fileset>
+  </path>
+
+  <!-- Fail early with guidance when the java classes are not available. -->
+  <target name="scala-java-classes" description="Check the java classes the specs need are available">
+    <condition property="scala.app.classes.missing">
+      <not><available classname="org.compiere.model.MProduct" classpath="${scala.app.classes}"/></not>
+    </condition>
+    <fail if="scala.app.classes.missing" message="scala.app.classes not found: ${scala.app.classes}${line.separator}Run the java build first (ant -f utils_dev/build.xml jar) or point -Dscala.app.classes to a compiled tree."/>
+    <!-- ad_modelvalidator row 50027 registers org.eevolution.model.FreightModelValidator,
+         whose superclass org.eevolution.freight.model.validator.Freight lives in the
+         org.eevolution.freight module (outside the utils_dev jar chain). Login.batchLogin
+         aborts the JVM silently without it. Compile the module when its sources are here;
+         the legacy jar alone is enough when they are not. -->
+    <antcall target="scala-freight-classes"/>
+    <condition property="scala.freight.missing">
+      <and>
+        <not><available classname="org.eevolution.freight.model.validator.Freight" classpath="${scala.app.classes}"/></not>
+        <not><available file="${basedir}/../tools/lib/legacy/freight-support-legacy-1.0.0.jar"/></not>
+      </and>
+    </condition>
+    <fail if="scala.freight.missing" message="org.eevolution.freight classes not found.${line.separator}Run: ant -f ${basedir}/../org.eevolution.freight/build.xml compile"/>
+  </target>
+
+  <target name="scala-freight-classes" if="scala.freight.sources.present">
+    <echo message="=== compiling org.eevolution.freight (needed by Login.batchLogin) ==="/>
+    <ant inheritAll="false" dir="${basedir}/../org.eevolution.freight" target="compile"/>
+  </target>
+
+  <target name="scala-compile" depends="scala-deps,scala-java-classes" description="Compile all scala sources of this module">
+    <pathconvert property="scala.compile.cp.stage1" pathsep=":" refid="scala.app.path"/>
+    <pathconvert property="scala.libs.cp" pathsep=":" refid="scala.libs.path"/>
+    <pathconvert property="scala.main.srcs.list" pathsep=" ">
+      <fileset dir="src/main/scala" includes="**/*.scala"/>
+    </pathconvert>
+    <pathconvert property="scala.test.srcs.list" pathsep=" ">
+      <fileset dir="src/test/scala" includes="**/*.scala"/>
+    </pathconvert>
+    <echo message="=== scalac stage 1: src/main/scala ==="/>
+    <java classname="dotty.tools.dotc.Main" fork="true" failonerror="true"
+          jvm="${scala.java.bin}/java" maxmemory="1024m">
+      <classpath refid="scala.compiler.path"/>
+      <arg value="-classpath"/>
+      <arg value="${scala.compile.cp.stage1}:${scala.libs.cp}"/>
+      <arg value="-d"/>
+      <arg value="${scala.main.classes}"/>
+      <arg line="${scala.main.srcs.list}"/>
+    </java>
+    <echo message="=== scalac stage 2: src/test/scala ==="/>
+    <java classname="dotty.tools.dotc.Main" fork="true" failonerror="true"
+          jvm="${scala.java.bin}/java" maxmemory="1024m">
+      <classpath refid="scala.compiler.path"/>
+      <arg value="-classpath"/>
+      <arg value="${scala.compile.cp.stage1}:${scala.main.classes}:${scala.libs.cp}"/>
+      <arg value="-d"/>
+      <arg value="${scala.test.classes}"/>
+      <arg line="${scala.test.srcs.list}"/>
+    </java>
+    <echo message="=== scala-compile OK ==="/>
+  </target>
+
+  <!-- Prepare the writable test property file from the committed template. -->
+  <target name="scala-test-config" description="Copy the test connection template to the gitignored working file">
+    <copy file="${scala.test.template}" tofile="${scala.test.propertyfile}" overwrite="false"/>
+  </target>
+
+  <!-- Run ScalaTest suites. Filter with -Dscala.test.suites=org.eevolution.test.Foo -->
+  <target name="scala-test" depends="scala-compile,scala-test-config" description="Run the ScalaTest suites">
+    <condition property="scala.runner.suites" value="-s ${scala.test.suites}" else="">
+      <not><equals arg1="${scala.test.suites}" arg2=""/></not>
+    </condition>
+    <pathconvert property="scala.runner.runpath" pathsep="," refid="scala.app.path"/>
+    <java classname="org.scalatest.tools.Runner" fork="true" failonerror="true"
+          jvm="${scala.java.bin}/java" maxmemory="1024m" dir="${basedir}">
+      <classpath>
+        <pathelement location="${scala.test.classes}"/>
+        <pathelement location="${scala.main.classes}"/>
+        <path refid="scala.app.path"/>
+        <path refid="scala.libs.path"/>
+      </classpath>
+      <sysproperty key="PropertyFile" file="${scala.test.propertyfile}"/>
+      <env key="ADEMPIERE_APPS_TYPE" value="${scala.test.apps.type}"/>
+      <arg value="-R"/>
+      <arg value="${scala.runner.runpath},${scala.main.classes},${scala.test.classes}"/>
+      <arg value="-o"/>
+      <arg line="${scala.runner.suites}"/>
+    </java>
+    <echo message="=== scala-test OK ==="/>
+  </target>
+
+  <target name="scala-clean" description="Remove scala build outputs (keeps downloaded jars)">
+    <delete dir="${scala.main.classes}"/>
+    <delete dir="${scala.test.classes}"/>
+  </target>
+
+  <target name="scala-clean-all" depends="scala-clean" description="Also remove downloaded scala jars">
+    <delete dir="${scala.deps.dir}"/>
+  </target>
+
+</project>

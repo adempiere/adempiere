@@ -53,6 +53,16 @@
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
 	</target>	
+	<!-- Scala specs of org.adempiere.test: opt-in, never part of the default jar chain.
+	     The java/ant/gradle CI does not compile scala sources; these targets do.
+	       ant -f utils_dev/build.xml scala-compile
+	       ant -f utils_dev/build.xml scala-test -Dscala.test.suites=org.eevolution.test.ValidateMProductEnvAttributeSetInstance -->
+	<target name="scala-compile" description="Compile scala specs of org.adempiere.test">
+		<ant inheritAll="false" dir="org.adempiere.test" target="scala-compile"/>
+	</target>
+	<target name="scala-test" description="Run scala specs of org.adempiere.test">
+		<ant inheritAll="false" dir="org.adempiere.test" target="scala-test"/>
+	</target>	
 	<target name="clean">
 		<echo message="=========== Cleaning Build"/>
 		<ant inheritAll="false" dir="tools" target="clean"/>
