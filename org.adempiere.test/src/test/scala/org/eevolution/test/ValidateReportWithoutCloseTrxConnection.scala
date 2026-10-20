@@ -17,6 +17,7 @@
 package org.eevolution.test
 
 import org.compiere.model.*
+import org.adempiere.core.domains.models.{I_C_Order, X_C_DocType}
 import org.compiere.util.Trx
 import org.eevolution.services.ProductService
 import org.scalatest.featurespec.AnyFeatureSpec
@@ -88,6 +89,11 @@ class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with Adempi
         .process("Rpt C_Order")
         .withTitle("Print Ticket")
         .withRecordId(I_C_Order.Table_ID, order.getC_Order_ID)
+        // The exporter is looked up by file extension (ServerReportCtl.createOutput ->
+        // ReportExportHandler.getExporterFromExtension). Without this the instance keeps
+        // the legacy AD_PInstance.ReportType default "P" (X_AD_PInstance.REPORTTYPE_PDF),
+        // no exporter matches it, and createOutput throws a NullPointerException.
+        .withReportExportFormat("pdf")
         .withoutTransactionClose()
         .execute(trxName)
       And("The process execution was successful")

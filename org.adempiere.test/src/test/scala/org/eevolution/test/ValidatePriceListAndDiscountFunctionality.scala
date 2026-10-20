@@ -16,7 +16,7 @@
 
 package org.eevolution.test
 
-import org.compiere.model.X_M_DiscountSchema
+import org.adempiere.core.domains.models.X_M_DiscountSchema
 import org.compiere.util.TimeUtil
 import org.eevolution.dsl.*
 import org.eevolution.services.*

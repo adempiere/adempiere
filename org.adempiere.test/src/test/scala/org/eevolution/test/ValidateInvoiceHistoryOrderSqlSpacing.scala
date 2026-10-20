@@ -8,24 +8,25 @@ import org.scalatest.featurespec.AnyFeatureSpec
 
 /** Guards the inline Invoice History SQL against appending ORDER BY to an ID. */
 class ValidateInvoiceHistoryOrderSqlSpacing extends AnyFeatureSpec {
-  Feature("Invoice History SQL separates numeric WHERE values from ORDER BY") {
-    val sources = Seq(
-      "client/src/org/compiere/apps/search/InvoiceHistory.java" -> 4,
-      "zkwebui/WEB-INF/src/org/adempiere/webui/panel/InvoiceHistory.java" -> 2
-    )
 
-    // The forked test JVM may start from any working directory (repo root or subproject),
-    // so resolve the sources relative to the repository root instead of the CWD.
-    private def repoRoot: java.nio.file.Path = {
-      var dir = Paths.get("").toAbsolutePath()
-      while (dir != null) {
-        if (Files.exists(dir.resolve("client/src/org/compiere/apps/search/InvoiceHistory.java")))
-          return dir
-        dir = dir.getParent
-      }
-      fail("repository root containing the Invoice History sources was not found")
+  private val sources = Seq(
+    "client/src/org/compiere/apps/search/InvoiceHistory.java" -> 4,
+    "zkwebui/WEB-INF/src/org/adempiere/webui/panel/InvoiceHistory.java" -> 2
+  )
+
+  // The forked test JVM may start from any working directory (repo root or subproject),
+  // so resolve the sources relative to the repository root instead of the CWD.
+  private def repoRoot: java.nio.file.Path = {
+    var dir = Paths.get("").toAbsolutePath()
+    while (dir != null) {
+      if (Files.exists(dir.resolve("client/src/org/compiere/apps/search/InvoiceHistory.java")))
+        return dir
+      dir = dir.getParent
     }
+    fail("repository root containing the Invoice History sources was not found")
+  }
 
+  Feature("Invoice History SQL separates numeric WHERE values from ORDER BY") {
     sources.foreach { case (path, expectedQueries) =>
       Scenario(s"$path keeps a leading space on every ORDER BY following an inline ID") {
         val source = Files.readString(repoRoot.resolve(path), StandardCharsets.UTF_8)
