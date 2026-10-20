@@ -718,8 +718,8 @@
   <value column="RegionName" original=""/>
  </row>
  <row id="249" trl="Y">
-  <value column="Name" original="Moldova Republic Of">มอลโดวา สาธารณรัฐ</value>
-  <value column="Description" original="Moldova Republic Of">มอลโดวา สาธารณรัฐ</value>
+  <value column="Name" original="Moldova Republic Of">มอลโดวา</value>
+  <value column="Description" original="Moldova Republic Of">มอลโดวา</value>
   <value column="RegionName" original=""/>
  </row>
  <row id="250" trl="Y">
