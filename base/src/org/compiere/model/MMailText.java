@@ -206,7 +206,7 @@ public class MMailText extends X_R_MailText
 	private String parse (String text, PO po) {
 		if (text == null)
 			return "";
-		if (text.indexOf('@') == -1)
+		if (po == null || text.indexOf('@') == -1)
 			return text;
 		
 		String inStr = text;
