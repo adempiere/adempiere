@@ -39,14 +39,12 @@
     <available file="${scala.java.home}/bin/java"/>
   </condition>
 
-  <!-- Compiled java classes the specs import: the in-tree ant outputs of
-       utils_dev/build.xml jar (base, extend, asset, manufacturing,
-       distribution, warehouse, client). Override with
-       -Dscala.app.classes=/path/to/runtime/bin:/path/to/Adempiere.jar -->
   <!-- Java classes the specs run against: the in-tree module build dirs produced by
-	     the ant chain, plus the module jars the chain copies into lib/.
-	     CCTools/CSTools carry org.adempiere.legacy.apache.ecs, needed by the report
-	     processes (ProcessBuilder.execute). -->
+       the ant chain (base, extend, asset, manufacturing, distribution, warehouse,
+       client), plus the module jars the chain copies into lib/.
+       CCTools/CSTools carry org.adempiere.legacy.apache.ecs, needed by the report
+       processes (ProcessBuilder.execute).
+       Override with -Dscala.app.classes=/path/to/runtime/bin:/path/to/Adempiere.jar -->
   <property name="scala.app.classes"
             value="${basedir}/../base/build:${basedir}/../extend/build:${basedir}/../org.adempiere.asset/build:${basedir}/../org.eevolution.manufacturing/build:${basedir}/../org.eevolution.distribution/build:${basedir}/../org.eevolution.warehouse/build:${basedir}/../org.eevolution.freight/build:${basedir}/../client/build:${basedir}/../JasperReports/build:${basedir}/../lib/customization.jar:${basedir}/../lib/CCTools.jar:${basedir}/../lib/CSTools.jar"/>
 
