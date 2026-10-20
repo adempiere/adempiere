@@ -17,6 +17,7 @@
 package org.eevolution.test
 
 import org.compiere.model.*
+import org.adempiere.core.domains.models.X_C_DocType
 import org.eevolution.services.ProductService
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.GivenWhenThen

@@ -36,7 +36,7 @@ import org.adempiere.core.domains.models.X_M_Production;
 import org.adempiere.core.domains.models.X_M_ProductionBatch;
 import org.adempiere.core.domains.models.X_PP_Cost_Collector;
 import org.adempiere.core.domains.models.X_PP_Order;
-import org.compiere.acct.Doc;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
@@ -93,9 +93,10 @@ public class FactAcctReset extends FactAcctResetAbstract {
                 .ifPresent(accountingSchemaDefault -> {
                     Arrays.stream(getAccountingDocumentTablesIds()).forEach(tableId -> {
                         MTable table = MTable.get(getCtx(), tableId);
-                        if (isDeletePosting())
+                        if (isDeletePosting()) {
                             delete(accountingSchemaDefault, table);
-                        else
+                            reset(accountingSchemaDefault, table);
+                        } else
                             reset(accountingSchemaDefault, table);
                     });
                 });
@@ -149,48 +150,93 @@ public class FactAcctReset extends FactAcctResetAbstract {
         String dateAccountingColumn = getDateAcct(accountingDocumentTable.get_ID());
         final StringBuilder resetProcessing = new StringBuilder();
 
-        resetProcessing.append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Processing='N' WHERE AD_Client_ID=")
-                .append(getClientId()).append(" AND (Processing<>'N' OR Processing IS NULL)");
+        // In auto period control the deletion above is not restricted to open periods, so the
+        // reset must cover the same period scope; manual period control keeps the open-period filter.
+        final String periodStatusCondition = accountingSchemaDefault.isAutoPeriodControl()
+                ? ""
+                : " AND pc.PeriodStatus = ?";
+
+        resetProcessing.append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Processing=? WHERE AD_Client_ID=? AND (Processing<>? OR Processing IS NULL)");
+
+        if (dateAccountingColumn == null) {
+            // The table has no accounting or business date column to scope the period filter on;
+            // only unlock the documents and leave every posted document untouched.
+            Trx.run(trxName -> {
+                AtomicInteger unlockedOnly = new AtomicInteger(0);
+                unlockedOnly.set(DB.executeUpdate(resetProcessing.toString(), new Object[]{"N", getClientId(), "N"}, false, trxName));
+                log.fine(accountingDocumentTable.getTableName() + " - Unlocked=" + unlockedOnly.get()
+                        + " - no date column available, posted documents left untouched");
+            });
+            log.warning(accountingDocumentTable.getTableName() + " has no accounting date column; the accounting reset was skipped for this table");
+            return;
+        }
 
         AtomicInteger unlocked = new AtomicInteger(0);
-        Trx.run(trxName -> unlocked.set(DB.executeUpdate(resetProcessing.toString(), trxName)));
+        // Runtime values are bound as parameters; only structural names (table, column) and the
+        // internally generated docBaseType and period-status fragments stay in the statement text.
+        final List<Object> resetUpdateParameters = new ArrayList<>();
         final StringBuilder resetUpdate = new StringBuilder();
         resetUpdate.append("UPDATE ").append(accountingDocumentTable.getTableName())
-                .append(" SET Posted='N' WHERE AD_Client_ID=").append(getClientId())
-                .append(" AND (Posted NOT IN ('Y','N') OR Posted IS NULL) ");
+                .append(" SET Posted=? WHERE AD_Client_ID=?")
+                .append(" AND (Posted NOT IN (?,?) OR Posted IS NULL) ");
+        resetUpdateParameters.add("N");
+        resetUpdateParameters.add(getClientId());
+        resetUpdateParameters.add("Y");
+        resetUpdateParameters.add("N");
 
         // Validate that period is open for this document and document type base
         resetUpdate.append(" AND EXISTS (SELECT 1 FROM  C_Period p INNER JOIN C_PeriodControl pc ON (p.C_Period_ID=pc.C_Period_ID) WHERE");
-        resetUpdate.append(" p.AD_Client_ID=").append(getClientId()).append(" AND ");
+        resetUpdate.append(" p.AD_Client_ID=? AND ");
+        resetUpdateParameters.add(getClientId());
+        if (!accountingSchemaDefault.isAutoPeriodControl())
+            resetUpdateParameters.add("O");
         resetUpdate.append(dateAccountingColumn).append(" >= p.StartDate AND ").append(dateAccountingColumn).append(" <= p.EndDate ");
-        resetUpdate.append(" AND pc.PeriodStatus = 'O' AND pc.DocBaseType ").append(docBaseType);
-        if (getDateAcct() != null)
-            resetUpdate.append(" AND ").append(dateAccountingColumn).append(" >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-            resetUpdate.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
+        resetUpdate.append(periodStatusCondition).append(" AND pc.DocBaseType ").append(docBaseType);
+        if (getDateAcct() != null) {
+            resetUpdate.append(" AND ").append(dateAccountingColumn).append(" >= ?");
+            resetUpdateParameters.add(getDateAcct());
+        }
+        if (getDateAcctTo() != null) {
+            resetUpdate.append(" AND ").append(dateAccountingColumn).append(" <= ?");
+            resetUpdateParameters.add(getDateAcctTo());
+        }
         resetUpdate.append(")");
 
-        AtomicInteger invalid = new AtomicInteger(0);
-        Trx.run(trxName -> invalid.set(DB.executeUpdate(resetUpdate.toString(), trxName)));
-
         // Validate that document is posted
+        final List<Object> resetUpdateMarkedAsPostedParameters = new ArrayList<>();
         StringBuilder resetUpdateMarkedAsPosted = new StringBuilder();
         resetUpdateMarkedAsPosted.append("UPDATE ")
-                .append(accountingDocumentTable.getTableName()).append(" SET Posted='N' WHERE AD_Client_ID=").append(getClientId());
-        resetUpdateMarkedAsPosted.append(" AND Posted='Y' AND NOT EXISTS (SELECT 1 FROM Fact_Acct fa  WHERE AD_Table_ID=")
-                .append(accountingDocumentTable.get_ID()).append(" AND Record_ID=").append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID)");
+                .append(accountingDocumentTable.getTableName()).append(" SET Posted=? WHERE AD_Client_ID=?");
+        resetUpdateMarkedAsPostedParameters.add("N");
+        resetUpdateMarkedAsPostedParameters.add(getClientId());
+        resetUpdateMarkedAsPosted.append(" AND Posted=? AND NOT EXISTS (SELECT 1 FROM Fact_Acct fa  WHERE AD_Table_ID=")
+                .append("? AND Record_ID=").append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID)");
+        resetUpdateMarkedAsPostedParameters.add("Y");
+        resetUpdateMarkedAsPostedParameters.add(accountingDocumentTable.get_ID());
         resetUpdateMarkedAsPosted.append(" AND EXISTS (SELECT 1 FROM  C_Period p INNER JOIN C_PeriodControl pc ON (p.C_Period_ID=pc.C_Period_ID) WHERE ");
-        resetUpdateMarkedAsPosted.append("p.AD_Client_ID=").append(getClientId()).append(" AND ");
+        resetUpdateMarkedAsPosted.append("p.AD_Client_ID=? AND ");
+        resetUpdateMarkedAsPostedParameters.add(getClientId());
+        if (!accountingSchemaDefault.isAutoPeriodControl())
+            resetUpdateMarkedAsPostedParameters.add("O");
         resetUpdateMarkedAsPosted.append(dateAccountingColumn).append(" >= p.StartDate AND ").append(dateAccountingColumn).append(" <= p.EndDate ");
-        resetUpdateMarkedAsPosted.append(" AND pc.PeriodStatus = 'O' AND pc.DocBaseType ").append(docBaseType);
-        if (getDateAcct() != null)
-            resetUpdateMarkedAsPosted.append(" AND ").append(dateAccountingColumn).append(" >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-            resetUpdateMarkedAsPosted.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
+        resetUpdateMarkedAsPosted.append(periodStatusCondition).append(" AND pc.DocBaseType ").append(docBaseType);
+        if (getDateAcct() != null) {
+            resetUpdateMarkedAsPosted.append(" AND ").append(dateAccountingColumn).append(" >= ?");
+            resetUpdateMarkedAsPostedParameters.add(getDateAcct());
+        }
+        if (getDateAcctTo() != null) {
+            resetUpdateMarkedAsPosted.append(" AND ").append(dateAccountingColumn).append(" <= ?");
+            resetUpdateMarkedAsPostedParameters.add(getDateAcctTo());
+        }
         resetUpdateMarkedAsPosted.append(")");
 
+        AtomicInteger invalid = new AtomicInteger(0);
         AtomicInteger invalidMarkedAsPosted = new AtomicInteger(0);
-        Trx.run(trxName -> invalidMarkedAsPosted.set(DB.executeUpdate(resetUpdateMarkedAsPosted.toString(), trxName)));
+        Trx.run(trxName -> {
+            unlocked.set(DB.executeUpdate(resetProcessing.toString(), new Object[]{"N", getClientId(), "N"}, false, trxName));
+            invalid.set(DB.executeUpdate(resetUpdate.toString(), resetUpdateParameters.toArray(new Object[0]), false, trxName));
+            invalidMarkedAsPosted.set(DB.executeUpdate(resetUpdateMarkedAsPosted.toString(), resetUpdateMarkedAsPostedParameters.toArray(new Object[0]), false, trxName));
+        });
 
         if (unlocked.get() + invalid.get() + invalidMarkedAsPosted.get() != 0)
             log.fine(accountingDocumentTable.getTableName() + " - Unlocked=" + unlocked.get() + " - Invalid=" + invalid.get() + " Invalid marked as posted=" + invalidMarkedAsPosted.get());
@@ -218,10 +264,6 @@ public class FactAcctReset extends FactAcctResetAbstract {
             }
         }
 
-        reset(accountingSchemaDefault, accountingDocumentTable);
-        countReset = 0;
-        //
-        String dateAccountingColumn = getDateAcct(accountingDocumentTable.get_ID());
         String docBaseType = getDocumentBaseType(accountingDocumentTable.get_ID(), accountingDocumentTable.getTableName());
         if (docBaseType == null) {
             String s = accountingDocumentTable.getTableName() + ": Unknown DocBaseType";
@@ -232,64 +274,79 @@ public class FactAcctReset extends FactAcctResetAbstract {
         } else
             docBaseType = " AND pc.DocBaseType " + docBaseType;
 
-        final StringBuilder updateStatement = new StringBuilder();
-        updateStatement
-                .append("UPDATE ").append(accountingDocumentTable.getTableName()).append(" SET Posted='N', Processing='N'").append(" WHERE ")
-                .append(accountingDocumentTable.getTableName()).append(".").append("AD_Client_ID=").append(getClientId())
-                .append(" AND (").append(accountingDocumentTable.getTableName()).append(".Posted<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Posted IS NULL OR ")
-                .append(accountingDocumentTable.getTableName()).append(".Processing<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Processing IS NULL)")
-                .append(" AND NOT EXISTS (SELECT 1 FROM Fact_Acct fact WHERE fact.AD_Table_ID=").append(accountingDocumentTable.get_ID()).append(" AND fact.Record_ID=")
-                .append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID)");
-
-        if (!accountingSchemaDefault.isAutoPeriodControl())
-        	updateStatement.append(" AND EXISTS (SELECT 1 FROM  C_Period p INNER JOIN C_PeriodControl pc ON (p.C_Period_ID=pc.C_Period_ID) WHERE ")
-        					.append("p.AD_Client_ID=").append(getClientId()).append(" AND ")	
-        					.append(dateAccountingColumn).append(" >= p.StartDate AND ").append(dateAccountingColumn).append(" <= p.EndDate ")
-        					.append(" AND pc.PeriodStatus = 'O' ").append(docBaseType)
-        					.append(")");
-        if (getDateAcct() != null)
-        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
-        
-
-        
-
-        // Validate that document is posted
-        log.log(Level.FINE, updateStatement.toString());
-
-        AtomicInteger reset = new AtomicInteger(0);
-        Trx.run(trxName -> reset.set(DB.executeUpdate(updateStatement.toString(), trxName)));
         //	Fact
+        final List<Object> deleteStatementParameters = new ArrayList<>();
         final StringBuilder deleteStatement = new StringBuilder("DELETE FROM Fact_Acct ");
-        deleteStatement.append("WHERE Fact_Acct.AD_Client_ID=").append(getClientId()).append(" AND AD_Table_ID=").append(accountingDocumentTable.get_ID());
+        deleteStatement.append("WHERE Fact_Acct.AD_Client_ID=? AND AD_Table_ID=?");
+        deleteStatementParameters.add(getClientId());
+        deleteStatementParameters.add(accountingDocumentTable.get_ID());
+        // Do not delete facts of documents that are being posted right now; a concurrent
+        // posting committed between the deletion and the reset below would leave the document
+        // unposted with new facts, which can be accounted again and duplicate accounting.
+        deleteStatement.append(" AND NOT EXISTS (SELECT 1 FROM ").append(accountingDocumentTable.getTableName()).append(" d ")
+                .append("WHERE d.").append(accountingDocumentTable.getTableName()).append("_ID = Fact_Acct.Record_ID AND d.Processing=?)");
+        deleteStatementParameters.add("Y");
         if (!accountingSchemaDefault.isAutoPeriodControl())
             deleteStatement.append(" AND EXISTS (SELECT 1 FROM C_PeriodControl pc ")
-                    .append(" WHERE pc.AD_Client_ID=").append(getClientId()).append(" AND pc.PeriodStatus = 'O'").append(docBaseType)
+                    .append(" WHERE pc.AD_Client_ID=? AND pc.PeriodStatus = ?").append(docBaseType)
                     .append(" AND Fact_Acct.C_Period_ID=pc.C_Period_ID)");
         else
             deleteStatement.append(" AND EXISTS (SELECT 1 FROM C_PeriodControl pc ")
-                    .append(" WHERE pc.AD_Client_ID=").append(getClientId()).append(" AND Fact_Acct.C_Period_ID=pc.C_Period_ID)");
-        if (getDateAcct() != null)
-            deleteStatement.append(" AND Fact_Acct.DateAcct >= ").append(DB.TO_DATE(getDateAcct()));
-        if (getDateAcctTo() != null)
-            deleteStatement.append(" AND Fact_Acct.DateAcct <= ").append(DB.TO_DATE(getDateAcctTo()));
+                    .append(" WHERE pc.AD_Client_ID=? AND Fact_Acct.C_Period_ID=pc.C_Period_ID)");
+        deleteStatementParameters.add(getClientId());
+        if (!accountingSchemaDefault.isAutoPeriodControl())
+            deleteStatementParameters.add("O");
+        if (getDateAcct() != null) {
+            deleteStatement.append(" AND Fact_Acct.DateAcct >= ?");
+            deleteStatementParameters.add(getDateAcct());
+        }
+        if (getDateAcctTo() != null) {
+            deleteStatement.append(" AND Fact_Acct.DateAcct <= ?");
+            deleteStatementParameters.add(getDateAcctTo());
+        }
 
         log.log(Level.FINE, deleteStatement.toString());
         AtomicInteger deleted = new AtomicInteger(0);
-        Trx.run(trxName -> deleted.set(DB.executeUpdate(deleteStatement.toString(), trxName)));
+        Trx.run(trxName -> deleted.set(DB.executeUpdate(deleteStatement.toString(), deleteStatementParameters.toArray(new Object[0]), false, trxName)));
 
         //
-        log.info(accountingDocumentTable.getTableName() + "( ID : " + accountingDocumentTable.get_ID() + ") - Reset=" + reset.get() + " - Deleted=" + deleted.get());
-        String s = "@" + accountingDocumentTable.getTableName() + "_ID@ - @Reset@=" + reset + " - @Deleted@=" + deleted;
+        log.info(accountingDocumentTable.getTableName() + "( ID : " + accountingDocumentTable.get_ID() + ") - Deleted=" + deleted.get());
+        String s = "@" + accountingDocumentTable.getTableName() + "_ID@ - @Deleted@=" + deleted.get();
         addLog(s);
         //
-        countReset += reset.get();
         countDelete += deleted.get();
     }    //	delete
 
     public String getDateAcct(int tableId) {
-        return Doc.getDateAcctColumnName(MTable.getTableName(getCtx(), tableId));
+        // Resolve the accounting date column from AD_Column metadata instead of reflecting over
+        // the document Doc class (Doc.getDateAcctColumnName -> Class.forName). Reflection is
+        // unreliable here: a table whose Doc class is absent (PP_Cost_Collector) or whose Doc
+        // class depends on a package that is not on the classpath (A_Asset_Disposed) makes
+        // Class.forName return null or throw a NoClassDefFoundError (a LinkageError, not a
+        // ClassNotFoundException), which would abort the reset for the whole table.
+        if (hasActiveColumn(tableId, MFactAcct.COLUMNNAME_DateAcct))
+            return MFactAcct.COLUMNNAME_DateAcct;
+        // Some posted document tables have no accounting date column (e.g. PP_Order, DD_Order,
+        // C_BankStatement). Fall back to the first business date column registered for the
+        // table that its Doc class uses as the accounting date (Doc_PPOrder/Doc_DDOrder use
+        // DateOrdered, Doc_Movement/Doc_Inventory/Doc_Production/Doc_ProductionBatch/
+        // Doc_ProjectIssue use MovementDate, Doc_Requisition uses DateDoc, Doc_BankStatement
+        // uses StatementDate). Return null when the table has none, so the caller can skip it
+        // instead of building an update against a column that does not exist.
+        for (String candidate : new String[]{"DateOrdered", "MvtDate", "MovementDate", "StatementDate", "DateDoc", "DatePromised", "DateInvoiced"})
+            if (hasActiveColumn(tableId, candidate))
+                return candidate;
+        return null;
+    }
+
+    private boolean hasActiveColumn(int tableId, String columnName) {
+        String whereClause = I_AD_Column.COLUMNNAME_AD_Table_ID + "=? "
+                + "AND " + I_AD_Column.COLUMNNAME_ColumnName + "=? "
+                + "AND " + I_AD_Column.COLUMNNAME_IsActive + "=?";
+        // Query.firstId() returns -1 (not 0) when the query matches no row, so test > 0.
+        return new Query(getCtx(), I_AD_Column.Table_Name, whereClause, get_TrxName())
+                .setParameters(tableId, columnName, "Y")
+                .firstId() > 0;
     }
 
     public String getDocumentBaseType(int tableId, String tableName) {
