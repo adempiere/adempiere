@@ -133,10 +133,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setC_Invoice_ID (invoiceId);
 		set_ValueOfColumn("C_InvoicePaySchedule_ID",invoicepayscheduleId);
 		setIsSOTrx(isSOTrx);
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
 		setC_BPartner_ID(invoice.getC_BPartner_ID());
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
-		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
 		if(invoice.getC_ConversionType_ID() > 0) {
 			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
 		}
