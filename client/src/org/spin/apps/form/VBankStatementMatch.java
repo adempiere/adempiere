@@ -27,6 +27,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -34,6 +37,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import org.compiere.swing.CollapsiblePanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -49,6 +53,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.spin.apps.form.SortableMiniTable.SortState;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.plaf.CompiereColor;
@@ -99,23 +104,21 @@ public class VBankStatementMatch extends BankStatementMatchController
 
 	/**	FormFrame			*/
 	private FormFrame 	frame;
-	private MiniTable currentPaymentTable = new MiniTable();
+	private SortableMiniTable currentPaymentTable = new SortableMiniTable();
 	private CPanel currentPaymentPanel = new CPanel();
 	private JLabel currentPaymentLabel = new JLabel();
 	private BorderLayout currentPaymentLayout = new BorderLayout();
 	private JScrollPane currentPaymentScrollPane = new JScrollPane();
-	
-	private MiniTable importedPaymentTable = new MiniTable();
+
+	private SortableMiniTable importedPaymentTable = new SortableMiniTable();
 	private CPanel importedPaymentPanel = new CPanel();
 	private JLabel importedPaymentLabel = new JLabel();
 	private BorderLayout importedPaymentLayout = new BorderLayout();
 	private JScrollPane importedPaymentScrollPane = new JScrollPane();
 	
-	private MiniTable matchedPaymentTable = new MiniTable();
-	private CPanel matchedPaymentPanel = new CPanel();
-	private JLabel matchedPaymentLabel = new JLabel();
-	private BorderLayout matchedPaymentLayout = new BorderLayout();
+	private SortableMiniTable matchedPaymentTable = new SortableMiniTable();
 	private JScrollPane matchedPaymentScrollPane = new JScrollPane();
+	private CollapsiblePanel collapsibleMatched;
 	
 	private CPanel  centerPanel = new CPanel();
 	private BorderLayout centerLayout = new BorderLayout();
@@ -155,6 +158,11 @@ public class VBankStatementMatch extends BankStatementMatchController
 	//	Buttons
 	private CButton searchButton;
 	private CButton simulateMatchButton;
+	private CButton acceptManualMatchButton;
+	private VNumber differenceAmtField = new VNumber("DifferenceAmt", false, true, false, DisplayType.Amount, Msg.translate(Env.getCtx(), "DifferenceAmt"));
+	private CLabel differenceAmtLabel = new CLabel(Msg.translate(Env.getCtx(), "DifferenceAmt"));
+	private CLabel chargeLabel = new CLabel(Msg.translate(Env.getCtx(), "C_Charge_ID"));
+	private VLookup chargeField;
 	
 	/**
 	 *  Static Init
@@ -170,6 +178,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 		rightProcessPanel.setCancelVisible(true);
 		
 		matchedPaymentTable.setMultiSelection(true);
+		importedPaymentTable.setMultiSelection(true);
+		currentPaymentTable.setMultiSelection(true);
 		
 		mainPanel.setLayout(mainLayout);
 		centerPanel.setLayout(centerLayout);
@@ -177,7 +187,6 @@ public class VBankStatementMatch extends BankStatementMatchController
     	
 		importedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Imported"));
 		currentPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Current"));
-		matchedPaymentLabel.setText(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
     	
     	dateFromLabel.setLabelFor(dateFromField);
     	dateFromField.setToolTipText(Msg.translate(Env.getCtx(), "DateFrom"));
@@ -192,18 +201,21 @@ public class VBankStatementMatch extends BankStatementMatchController
     	//	
     	searchButton.addActionListener(this);
     	simulateMatchButton.addActionListener(this);
+    	acceptManualMatchButton = ConfirmPanel.createOKButton(true);
+    	acceptManualMatchButton.setText(Msg.translate(Env.getCtx(), "Accept"));
+    	acceptManualMatchButton.setToolTipText(Msg.translate(Env.getCtx(), "BankStatementMatch.ManualMatch"));
+    	acceptManualMatchButton.setEnabled(false);
+    	acceptManualMatchButton.addActionListener(this);
     	rightProcessPanel.addActionListener(this);
 		//
 		parameterPanel.setLayout(parameterLayout);
 		importedPaymentPanel.setLayout(importedPaymentLayout);
 		currentPaymentPanel.setLayout(currentPaymentLayout);
-		matchedPaymentPanel.setLayout(matchedPaymentLayout);
 		matchPanel.setLayout(allocationLayout);
 		
 		
 		importedPaymentPanel.setPreferredSize(new Dimension(300, 600));
 		currentPaymentPanel.setPreferredSize(new Dimension(300, 600));
-		matchedPaymentPanel.setPreferredSize(new Dimension(400, 300));
 		
 		
 		bankAccountField.setSize(bankAccountField.getWidth() + 10, bankAccountField.getHeight() + 10);
@@ -246,30 +258,42 @@ public class VBankStatementMatch extends BankStatementMatchController
     	mainPanel.add(matchPanel, BorderLayout.SOUTH);
     	matchPanel.add(leftProcessPanel);
     	leftProcessPanel.add(simulateMatchButton);
+    	differenceAmtField.setPreferredSize(new Dimension(120, differenceAmtField.getPreferredSize().height));
+    	differenceAmtField.setEnabled(false);
+    	differenceAmtLabel.setEnabled(false);
+    	chargeField.setPreferredSize(new Dimension(200, chargeField.getPreferredSize().height));
+    	leftProcessPanel.add(differenceAmtLabel);
+    	leftProcessPanel.add(differenceAmtField);
+    	leftProcessPanel.add(chargeLabel);
+    	leftProcessPanel.add(chargeField);
+    	leftProcessPanel.add(acceptManualMatchButton);
     	matchPanel.add(rightProcessPanel);
     	//	
     	importedPaymentPanel.add(importedPaymentLabel, BorderLayout.NORTH);
 		importedPaymentPanel.add(importedPaymentScrollPane, BorderLayout.CENTER);
 		importedPaymentScrollPane.getViewport().add(importedPaymentTable, null);
-		
+
 		currentPaymentPanel.add(currentPaymentLabel, BorderLayout.NORTH);
 		currentPaymentPanel.add(currentPaymentScrollPane, BorderLayout.CENTER);
 		currentPaymentScrollPane.getViewport().add(currentPaymentTable, null);
 		
-		matchedPaymentPanel.add(matchedPaymentLabel, BorderLayout.NORTH);
-		matchedPaymentPanel.add(matchedPaymentScrollPane, BorderLayout.CENTER);
 		matchedPaymentScrollPane.getViewport().add(matchedPaymentTable, null);
-		
+		collapsibleMatched = new CollapsiblePanel(Msg.translate(Env.getCtx(), "BankStatementMatch.Matched"));
+		collapsibleMatched.add(matchedPaymentScrollPane);
+		collapsibleMatched.setCollapsed(true);
+
 		comparePanel.setLeftComponent(importedPaymentPanel);
 		comparePanel.setRightComponent(currentPaymentPanel);
 		comparePanel.add(importedPaymentPanel, JSplitPane.LEFT);
 		comparePanel.add(currentPaymentPanel, JSplitPane.RIGHT);
 		comparePanel.setBorder(BorderFactory.createEtchedBorder());
 		comparePanel.setContinuousLayout(true);
+		comparePanel.setOneTouchExpandable(true);
+		comparePanel.setResizeWeight(0.5);
 		comparePanel.setPreferredSize(new Dimension(2048, 1536));
-		
+
 		centerPanel.add(comparePanel,BorderLayout.CENTER);
-		centerPanel.add(matchedPaymentPanel,BorderLayout.SOUTH);
+		centerPanel.add(collapsibleMatched, BorderLayout.SOUTH);
 		//
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
 		//	
@@ -278,7 +302,7 @@ public class VBankStatementMatch extends BankStatementMatchController
 		SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-            	comparePanel.setDividerLocation(frame.getContainer().getPreferredSize().height /2);
+            	comparePanel.setDividerLocation(0.5);
             }
         });
 	}   //  jbInit
@@ -311,7 +335,12 @@ public class VBankStatementMatch extends BankStatementMatchController
 		bPartnerLookup = new VLookup("C_BPartner_ID", false, false, true,
 				MLookupFactory.get (Env.getCtx(), getWindowNo(), 0, 3499, DisplayType.Search));
 		bpartnerLabel.setLabelFor(bPartnerLookup);
-		//	
+		//
+		int chargeColumnId = 61804; // C_AllocationLine.C_Charge_ID
+		MLookup chargeLookup = MLookupFactory.get(Env.getCtx(), getWindowNo(), 0, chargeColumnId, DisplayType.TableDir);
+		chargeField = new VLookup("C_Charge_ID", true, false, true, chargeLookup);
+		chargeField.setEnabled(false);
+		//
 		matchMode.setMandatory(true);
 	}   //  dynInit
 	
@@ -326,6 +355,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 		if(e.getSource().equals(searchButton)) {
 			log.config("search");
 			mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			resetManualMatch();
+			updateManualMatchUI();
 			refresh();
 			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getSource().equals(simulateMatchButton)) {
@@ -336,8 +367,60 @@ public class VBankStatementMatch extends BankStatementMatchController
 				statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.UnMatched") + ": " + actionUnMatchSelected(matchedPaymentTable));
 			}
 			loadMatchedPaymentsFromMatch();
+			fillImportedPayments(getUnmatchedImportedRows());
+			fillPayments(getUnmatchedPaymentRows());
 			changeMessageButton();
+			collapsibleMatched.setCollapsed(false);
 			mainPanel.setCursor(Cursor.getDefaultCursor());
+		} else if(e.getSource().equals(acceptManualMatchButton)) {
+			boolean reverseMatch = isReverseMatch();
+			if (reverseMatch && !getSelectedImportedPaymentIds().isEmpty()) {
+				// Reverse match: N payments -> 1 imported
+				mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				int chargeId = chargeField.getValue() != null ? ((Number) chargeField.getValue()).intValue() : 0;
+				BigDecimal differenceAmt = Optional.ofNullable((BigDecimal) differenceAmtField.getValue()).orElse(Env.ZERO);
+				if (chargeId <= 0
+						&& differenceAmt.compareTo(Env.ZERO) != 0)
+					ADialog.error(getWindowNo(), frame.getContainer(), Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @IsMandatory@"));
+				else {
+					// Save IDs BEFORE forceManualMatchAllPayments resets them
+					List<Integer> matchedImportedIdsList = new ArrayList<>(getSelectedImportedPaymentIds());
+					List<Integer> matchedPaymentIdsList = new ArrayList<>(getSelectedPaymentIds());
+					int importedId = matchedImportedIdsList.get(0);
+					boolean matched = forceManualMatchAllPayments(importedId, chargeId);
+					if (matched) {
+						loadMatchedPaymentsFromMatch();
+						removeRowsFromImportedTable(matchedImportedIdsList);
+						removeRowsFromCurrentTable(matchedPaymentIdsList);
+						collapsibleMatched.setCollapsed(false);
+					}
+					updateManualMatchUI();
+				}
+				mainPanel.setCursor(Cursor.getDefaultCursor());
+			} else {
+				// Existing: N imported -> 1 payment
+				int selectedPaymentId = getCurrentSelectedPaymentId();
+				if (selectedPaymentId > 0 && !getSelectedImportedPaymentIds().isEmpty()) {
+					mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+					int chargeId = chargeField.getValue() != null ? ((Number) chargeField.getValue()).intValue() : 0;
+					BigDecimal differenceAmt = Optional.ofNullable((BigDecimal) differenceAmtField.getValue()).orElse(Env.ZERO);
+					if (chargeId <= 0
+							&& differenceAmt.compareTo(Env.ZERO) !=0 )
+						ADialog.error(getWindowNo(), frame.getContainer(), Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @IsMandatory@"));
+					else {
+						List<Integer> matchedImportedIds = new ArrayList<>(getSelectedImportedPaymentIds());
+						boolean matched = forceManualMatchAll(selectedPaymentId, chargeId);
+						if (matched) {
+							loadMatchedPaymentsFromMatch();
+							removeRowsFromImportedTable(matchedImportedIds);
+							removeRowFromCurrentTable(selectedPaymentId);
+							collapsibleMatched.setCollapsed(false);
+						}
+						updateManualMatchUI();
+					}
+					mainPanel.setCursor(Cursor.getDefaultCursor());
+				}
+			}
 		} else if(e.getActionCommand().equals(ConfirmPanel.A_OK)) {
 			if(ADialog.ask(getWindowNo(), frame.getContainer(), "SaveChanges?", getAskMatchMessage())) {
 				mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
@@ -414,14 +497,19 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 * @param data
 	 */
 	private void fillPayments(Vector<Vector<Object>> data) {
+		//  Keep the sort applied by the user, replacing the model resets it
+		SortState sortState = SortState.of(currentPaymentTable);
 		//  Remove previous listeners
 		currentPaymentTable.getModel().removeTableModelListener(this);
-		//  Set Model
-		DefaultTableModel model = new DefaultTableModel(data, getCurrentPaymentColumnNames());
+		currentPaymentTable.clearSelection();
+		//  Set Model, the table takes ownership of the vector it receives, so it must be a copy
+		//  to avoid removing rows from the controller cache when a row is removed from the table
+		DefaultTableModel model = new DefaultTableModel(new Vector<Vector<Object>>(data), getCurrentPaymentColumnNames());
 		model.addTableModelListener(this);
 		currentPaymentTable.setModel(model);
 		// 
 		configureCurrentPaymentTable(currentPaymentTable);
+		sortState.restore(currentPaymentTable);
 	}
 	
 	/**
@@ -436,14 +524,19 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 * @param data
 	 */
 	private void fillImportedPayments(Vector<Vector<Object>> data) {
+		//  Keep the sort applied by the user, replacing the model resets it
+		SortState sortState = SortState.of(importedPaymentTable);
 		//  Remove previous listeners
 		importedPaymentTable.getModel().removeTableModelListener(this);
-		//  Set Model
-		DefaultTableModel model = new DefaultTableModel(data, getImportedPaymentColumnNames());
+		importedPaymentTable.clearSelection();
+		//  Set Model, on a copy to keep the controller cache untouched
+
+		DefaultTableModel model = new DefaultTableModel(new Vector<Vector<Object>>(data), getImportedPaymentColumnNames());
 		model.addTableModelListener(this);
 		importedPaymentTable.setModel(model);
 		// 
 		configureImportedPaymentTable(importedPaymentTable);
+		sortState.restore(importedPaymentTable);
 	}
 	
 	/**
@@ -466,14 +559,17 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 * @param data
 	 */
 	private void fillMatchedPayments(Vector<Vector<Object>> data) {
+		//  Keep the sort applied by the user, replacing the model resets it
+		SortState sortState = SortState.of(matchedPaymentTable);
 		//  Remove previous listeners
 		matchedPaymentTable.getModel().removeTableModelListener(this);
 		//  Set Model
-		DefaultTableModel model = new DefaultTableModel(data, getMatchedPaymentColumnNames());
+		DefaultTableModel model = new DefaultTableModel(new Vector<Vector<Object>>(data), getMatchedPaymentColumnNames());
 		model.addTableModelListener(this);
 		matchedPaymentTable.setModel(model);
 		// 
 		configureMatchedPaymentTable(matchedPaymentTable);
+		sortState.restore(matchedPaymentTable);
 		//	
 	}
 	
@@ -483,7 +579,8 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 *  @param e event
 	 */
 	public void tableChanged(TableModelEvent e) {
-		if (e.getColumn() != 0)
+		boolean isMatchedChargeAmt = e.getSource().equals(matchedPaymentTable.getModel()) && e.getColumn() == 8;
+		if (e.getColumn() != 0 && !isMatchedChargeAmt)
 			return;
 		log.config("Row=" + e.getFirstRow() + "-" + e.getLastRow() + ", Col=" + e.getColumn()
 			+ ", Type=" + e.getType());
@@ -493,26 +590,63 @@ public class VBankStatementMatch extends BankStatementMatchController
 		if (!isUpdate) {
 			return;
 		}
-		//	
+		//  Handle ChargeAmt edit in matched table
+		if (isMatchedChargeAmt) {
+			IDColumn idCol = (IDColumn) matchedPaymentTable.getValueAt(row, 0);
+			if (idCol != null) {
+				BigDecimal chargeAmt = (BigDecimal) matchedPaymentTable.getValueAt(row, 8);
+				setImportedChargeAmt(idCol.getRecord_ID(), chargeAmt);
+			}
+			return;
+		}
+		//
 		boolean isMatched = false;
 		if(e.getSource().equals(currentPaymentTable.getModel())) {
-			int matchedRow = currentPaymentTable.getSelectedRow();
-			if(matchedRow != row) {
+			//	Row can come from a single click or from the header select all checkbox (one event per row)
+			if(row < 0 || row >= currentPaymentTable.getModel().getRowCount()) {
 				return;
 			}
-			if(matchedRow >= 0) {
-				IDColumn paymentIdColumn = (IDColumn) currentPaymentTable.getValueAt(matchedRow, 0);
-				isMatched = paymentApplyForMatch(paymentIdColumn.getRecord_ID());
+			IDColumn paymentIdColumn = (IDColumn) currentPaymentTable.getModel().getValueAt(row, 0);
+			if(paymentIdColumn == null) {
+				return;
 			}
+			int paymentId = paymentIdColumn.getRecord_ID();
+			//	Ignore events without a real state change (repaint / redundant header sync)
+			if (paymentIdColumn.isSelected() == getSelectedPaymentIds().contains(paymentId)) {
+				return;
+			}
+			if (paymentIdColumn.isSelected()) {
+				// Block only if multiple imported AND already have payments (many-to-many)
+				if (getSelectedImportedPaymentIds().size() > 1 && getSelectedPaymentIds().size() >= 1) {
+					uncheckRow(currentPaymentTable, row);
+					statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.ManyToManyNotAllowed"), true);
+					return;
+				}
+			}
+			isMatched = paymentApplyForMatch(paymentId);
 		} else if(e.getSource().equals(importedPaymentTable.getModel())) {
-			int matchedRow = importedPaymentTable.getSelectedRow();
-			if(matchedRow != row) {
+			//	Row can come from a single click or from the header select all checkbox (one event per row)
+			if(row < 0 || row >= importedPaymentTable.getModel().getRowCount()) {
 				return;
 			}
-			if(matchedRow >= 0) {
-				IDColumn importedPaymentIdColumn = (IDColumn) importedPaymentTable.getValueAt(matchedRow, 0);
-				isMatched = importedPaymentApplyForMatch(importedPaymentIdColumn.getRecord_ID());
+			IDColumn importedPaymentIdColumn = (IDColumn) importedPaymentTable.getModel().getValueAt(row, 0);
+			if(importedPaymentIdColumn == null) {
+				return;
 			}
+			int importedId = importedPaymentIdColumn.getRecord_ID();
+			//	Ignore events without a real state change (repaint / redundant header sync)
+			if (importedPaymentIdColumn.isSelected() == getSelectedImportedPaymentIds().contains(importedId)) {
+				return;
+			}
+			if (importedPaymentIdColumn.isSelected()) {
+				// Block only if multiple payments AND already have imported selected (many-to-many)
+				if (getSelectedPaymentIds().size() > 1 && getSelectedImportedPaymentIds().size() >= 1) {
+					uncheckRow(importedPaymentTable, row);
+					statusBar.setStatusLine(Msg.translate(Env.getCtx(), "BankStatementMatch.ManyToManyNotAllowed"), true);
+					return;
+				}
+			}
+			isMatched = importedPaymentApplyForMatch(importedId);
 		} else if(e.getSource().equals(matchedPaymentTable.getModel())) {
 			int matchedRow = matchedPaymentTable.getSelectedRow();
 			if(matchedRow != row) {
@@ -527,28 +661,36 @@ public class VBankStatementMatch extends BankStatementMatchController
 		//	Validate screen
 		if(isMatched) {
 			loadMatchedPaymentsFromMatch();
+			final Vector<Vector<Object>> unmatchedImported = getUnmatchedImportedRows();
+			final Vector<Vector<Object>> unmatchedPayments = getUnmatchedPaymentRows();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					fillImportedPayments(unmatchedImported);
+					fillPayments(unmatchedPayments);
+					collapsibleMatched.setCollapsed(false);
+				}
+			});
 		}
+		updateManualMatchUI();
 	}   //  tableChanged
 
 	/**
 	 * Select source from match
 	 * @param paymentId
 	 */
-	private void selectFromMatch(int paymentId) {
-		for (int row = 0; row < currentPaymentTable.getRowCount(); row++) {
-			IDColumn record = (IDColumn) currentPaymentTable.getValueAt(row, 0);
-			if(record != null
-					&& record.getRecord_ID() == paymentId) {
-				currentPaymentTable.setRowSelectionInterval(row, row);
+	private void selectFromMatch(int importedId) {
+		for (int row = 0; row < importedPaymentTable.getRowCount(); row++) {
+			IDColumn record = (IDColumn) importedPaymentTable.getValueAt(row, 0);
+			if(record != null && record.getRecord_ID() == importedId) {
+				importedPaymentTable.setRowSelectionInterval(row, row);
 			}
 		}
-		int importedPaymentId = getImportedPaymentId(paymentId);
-		if(importedPaymentId > 0) {
-			for (int row = 0; row < importedPaymentTable.getRowCount(); row++) {
-				IDColumn record = (IDColumn) importedPaymentTable.getValueAt(row, 0);
-				if(record != null
-						&& record.getRecord_ID() == importedPaymentId) {
-					importedPaymentTable.setRowSelectionInterval(row, row);
+		int paymentId = getPaymentIdForImported(importedId);
+		if(paymentId > 0) {
+			for (int row = 0; row < currentPaymentTable.getRowCount(); row++) {
+				IDColumn record = (IDColumn) currentPaymentTable.getValueAt(row, 0);
+				if(record != null && record.getRecord_ID() == paymentId) {
+					currentPaymentTable.setRowSelectionInterval(row, row);
 				}
 			}
 		}
@@ -589,6 +731,35 @@ public class VBankStatementMatch extends BankStatementMatchController
 			return;
 	}   //  vetoableChange
 	
+	private void updateManualMatchUI() {
+		boolean hasImportedSelection = !getSelectedImportedPaymentIds().isEmpty();
+		boolean hasPaymentSelection = getCurrentSelectedPaymentId() > 0
+				|| getSelectedPaymentIds().size() > 1;
+		if (hasImportedSelection && hasPaymentSelection) {
+			BigDecimal diff = calculateManualDifference();
+			if (diff != null) {
+				differenceAmtField.setEnabled(true);
+				differenceAmtLabel.setEnabled(true);
+				differenceAmtField.setValue(diff);
+				boolean hasDiff = diff.compareTo(BigDecimal.ZERO) != 0;
+				chargeLabel.setEnabled(hasDiff);
+				chargeField.setEnabled(hasDiff);
+				if (!hasDiff) {
+					chargeField.setValue(null);
+				}
+				acceptManualMatchButton.setEnabled(true);
+			}
+		} else {
+			differenceAmtField.setEnabled(false);
+			differenceAmtLabel.setEnabled(false);
+			differenceAmtField.setValue(null);
+			chargeLabel.setEnabled(false);
+			chargeField.setValue(null);
+			chargeField.setEnabled(false);
+			acceptManualMatchButton.setEnabled(false);
+		}
+	}
+
 	/**************************************************************************
 	 *  Save Data
 	 */
@@ -609,4 +780,53 @@ public class VBankStatementMatch extends BankStatementMatchController
 			}
 		}
 	}   //  saveData
+
+	private void uncheckRow(MiniTable table, int row) {
+		IDColumn id = (IDColumn) table.getModel().getValueAt(row, 0);
+		if (id != null) {
+			id.setSelected(false);
+		}
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				table.repaint();
+			}
+		});
+	}
+
+	private void removeRowsFromImportedTable(List<Integer> idsToRemove) {
+		DefaultTableModel model = (DefaultTableModel) importedPaymentTable.getModel();
+		model.removeTableModelListener(this);
+		for (int row = model.getRowCount() - 1; row >= 0; row--) {
+			IDColumn id = (IDColumn) model.getValueAt(row, 0);
+			if (id != null && idsToRemove.contains(id.getRecord_ID())) {
+				model.removeRow(row);
+			}
+		}
+		model.addTableModelListener(this);
+	}
+
+	private void removeRowFromCurrentTable(int paymentId) {
+		DefaultTableModel model = (DefaultTableModel) currentPaymentTable.getModel();
+		model.removeTableModelListener(this);
+		for (int row = model.getRowCount() - 1; row >= 0; row--) {
+			IDColumn id = (IDColumn) model.getValueAt(row, 0);
+			if (id != null && id.getRecord_ID() == paymentId) {
+				model.removeRow(row);
+				break;
+			}
+		}
+		model.addTableModelListener(this);
+	}
+
+	private void removeRowsFromCurrentTable(List<Integer> paymentIds) {
+		DefaultTableModel model = (DefaultTableModel) currentPaymentTable.getModel();
+		model.removeTableModelListener(this);
+		for (int row = model.getRowCount() - 1; row >= 0; row--) {
+			IDColumn id = (IDColumn) model.getValueAt(row, 0);
+			if (id != null && paymentIds.contains(id.getRecord_ID())) {
+				model.removeRow(row);
+			}
+		}
+		model.addTableModelListener(this);
+	}
 }
