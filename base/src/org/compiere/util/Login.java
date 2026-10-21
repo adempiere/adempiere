@@ -933,14 +933,23 @@ public class Login
 			+ "WHERE a.C_AcctSchema_ID=c.C_AcctSchema1_ID "
 			+ "AND c.AD_Client_ID=?";
 			List<Object> parameters = List.of(clientId);
+			final AtomicReference<List<Tuple3<Integer , Integer , String >>> acctSchemasRead =
+					new AtomicReference<>(List.empty());
 			Try<Void> tryAcctSchema =  DB.runResultSetFunction.apply(null , sql , parameters, resultSet -> {
-			List<Tuple3<Integer , Integer , String >> acctSchemas = new ResultSetIterable<>(resultSet ,  row -> {
-				return Tuple.of(
-						row.getInt("C_AcctSchema_ID") ,
-						row.getInt("C_Currency_ID") ,
-						row.getString("HasAlias")
-				);
-			}).toList();
+				acctSchemasRead.set(new ResultSetIterable<>(resultSet ,  row -> {
+					return Tuple.of(
+							row.getInt("C_AcctSchema_ID") ,
+							row.getInt("C_Currency_ID") ,
+							row.getString("HasAlias")
+					);
+				}).toList());
+			}).onFailure(throwable -> {
+				log.log(Level.SEVERE, "loadPreferences", throwable);
+				retValue.set(throwable.getMessage());
+			});
+			List<Tuple3<Integer , Integer , String >> acctSchemas = acctSchemasRead.get();
+			if (tryAcctSchema.isSuccess()) {
+			try {
 			if (acctSchemas.isEmpty()) {
 				//  No Warning for System
 				if (roleId != 0)
@@ -1008,17 +1017,23 @@ public class Login
 								+ " AND EXISTS (SELECT * FROM AD_Column cc "
 								+ " WHERE ColumnName = 'IsDefault' AND t.AD_Table_ID=cc.AD_Table_ID AND cc.IsActive = ? )";
 						List<Object> parametersColumnsSelect = List.of(true,true,true);
+						final AtomicReference<List<Tuple2<String , String>>> defaultColumns =
+								new AtomicReference<>(List.empty());
 						Try<Void> tryColumns = DB.runResultSetFunction.apply(null , columnsSelect ,parametersColumnsSelect , resultSet1 -> {
+							List<Tuple2<String , String>> pairs = List.empty();
 							while (resultSet1.next())
-								loadDefault (resultSet1.getString("TableName"), resultSet1.getString("ColumnName"));
+								pairs = pairs.append(Tuple.of(resultSet1.getString("TableName"), resultSet1.getString("ColumnName")));
+							defaultColumns.set(pairs);
 						}).onFailure(throwable -> log.log(Level.SEVERE, "loadPreferences", throwable));
+						defaultColumns.get().forEach(pair -> loadDefault (pair._1, pair._2));
 					}
 				});
 			}
-			}).onFailure(throwable -> {
+			} catch (Throwable throwable) {
 				log.log(Level.SEVERE, "loadPreferences", throwable);
 				retValue.set(throwable.getMessage());
-			});
+			}
+			}
 
 		//
 		Ini.saveProperties(Ini.isClient());
