@@ -43,6 +43,8 @@ public abstract class PaymentIdentifyAbstract extends SvrProcess {
 	public static final String RELATEDPAYMENT_ID = "RelatedPayment_ID";
 	/**	Parameter Name for Transaction Date	*/
 	public static final String DATETRX = "DateTrx";
+	/**	Parameter Name for Collecting Agent	*/
+	public static final String COLLECTINGAGENT_ID = "CollectingAgent_ID";
 	/**	Parameter Value for Transaction Type	*/
 	private String trxType;
 	/**	Parameter Value for Business Partner 	*/
@@ -55,6 +57,8 @@ public abstract class PaymentIdentifyAbstract extends SvrProcess {
 	private int relatedPaymentId;
 	/**	Parameter Value for Transaction Date	*/
 	private Timestamp dateTrx;
+	/**	Parameter Value for Collecting Agent	*/
+	private int collectingAgentId;
 
 	@Override
 	protected void prepare() {
@@ -64,6 +68,7 @@ public abstract class PaymentIdentifyAbstract extends SvrProcess {
 		invoiceId = getParameterAsInt(C_INVOICE_ID);
 		relatedPaymentId = getParameterAsInt(RELATEDPAYMENT_ID);
 		dateTrx = getParameterAsTimestamp(DATETRX);
+		collectingAgentId = getParameterAsInt(COLLECTINGAGENT_ID);
 	}
 
 	/**	 Getter Parameter Value for Transaction Type	*/
@@ -124,6 +129,16 @@ public abstract class PaymentIdentifyAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Transaction Date	*/
 	protected void setDateTrx(Timestamp dateTrx) {
 		this.dateTrx = dateTrx;
+	}
+
+	/**	 Getter Parameter Value for Collecting Agent	*/
+	protected int getCollectingAgentId() {
+		return collectingAgentId;
+	}
+
+	/**	 Setter Parameter Value for Collecting Agent	*/
+	protected void setCollectingAgentId(int collectingAgentId) {
+		this.collectingAgentId = collectingAgentId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
