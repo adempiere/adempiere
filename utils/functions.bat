@@ -1,4 +1,4 @@
-@echo on
+@Echo OFF
 @REM Identify if the script runs from cmd console
 @REM Modified by Horacio Miranda, hmiranda@prolinux.cl, 2021-10-30
 @REM Variable CALLED_WITH_CMD_C is set when the bat is called from cmd
