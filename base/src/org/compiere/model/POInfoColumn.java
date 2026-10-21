@@ -68,6 +68,36 @@ public class POInfoColumn implements Serializable
 		int fieldLength, String valueMin, String valueMax,
 		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy, String transactionName)
 	{
+		this (ad_Column_ID, columnName, columnSQL, displayType,
+			isMandatory, isUpdateable, defaultLogic,
+			columnLabel, columnDescription,
+			isKey, isParent,
+			referencevalueId, validationCode,
+			fieldLength, valueMin, valueMax,
+			isTranslated, isEncrypted, isAllowLogging, isAllowCopy, transactionName,
+			KEY_REFERENCE_UNKNOWN);
+	}	//	POInfoColumn
+
+	/**	The caller does not know the key column's reference, so look it up	*/
+	public static final int	KEY_REFERENCE_UNKNOWN = -1;
+
+	/**
+	 *	Create Column Info, with the reference of the referenced table's key
+	 *	column already resolved by the caller.
+	 *
+	 *	@param keyColumnReferenceId AD_Reference_ID of the key column that
+	 *		AD_Ref_Table names for referencevalueId, zero when there is none, or
+	 *		{@link #KEY_REFERENCE_UNKNOWN} to look it up here
+	 */
+	public POInfoColumn (int ad_Column_ID, String columnName, String columnSQL, int displayType,
+		boolean isMandatory, boolean isUpdateable, String defaultLogic,
+		String columnLabel, String columnDescription,
+		boolean isKey, boolean isParent,
+		int referencevalueId, String validationCode,
+		int fieldLength, String valueMin, String valueMax,
+		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy,
+		String transactionName, int keyColumnReferenceId)
+	{
 		AD_Column_ID = ad_Column_ID;
 		ColumnName = columnName;
 		ColumnSQL = columnSQL;
@@ -94,12 +124,16 @@ public class POInfoColumn implements Serializable
 		//ADEMPIERE-101
 		if(org.compiere.util.DisplayType.Table==DisplayType && referencevalueId > 0)
 		{
-			//Get the key ID
-			String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
-			final int key_id = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
-			//Get Reference ID
-			String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
-			final int ref_id = DB.getSQLValueEx(transactionName, sqlRef,key_id);
+			int ref_id = keyColumnReferenceId;
+			if (ref_id == KEY_REFERENCE_UNKNOWN)
+			{
+				//Get the key ID
+				String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
+				final int key_id = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
+				//Get Reference ID
+				String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
+				ref_id = DB.getSQLValueEx(transactionName, sqlRef,key_id);
+			}
 			if (org.compiere.util.DisplayType.String==ref_id)
 			{
 				DisplayType = org.compiere.util.DisplayType.String;

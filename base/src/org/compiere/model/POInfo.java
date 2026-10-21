@@ -172,10 +172,13 @@ public class POInfo implements Serializable
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ")
 				.append(getPOInfoColumnList(baseLanguage));
+		sql.append(", kc.AD_Reference_ID AS KeyColumnReference_ID");
 		sql.append(" FROM AD_Table t"
 				+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
-				+ " INNER JOIN AD_Element e ON (c.AD_Element_ID=e.AD_Element_ID) ");
+				+ " INNER JOIN AD_Element e ON (c.AD_Element_ID=e.AD_Element_ID) "
+				+ " LEFT OUTER JOIN AD_Ref_Table rt ON (rt.AD_Reference_ID=c.AD_Reference_Value_ID)"
+				+ " LEFT OUTER JOIN AD_Column kc ON (kc.AD_Column_ID=rt.AD_Key) ");
 		if (!baseLanguage) {
 			sql.append("LEFT JOIN AD_Element_Trl etrl ON (e.AD_Element_ID = etrl.AD_Element_ID)");
 		}
@@ -240,6 +243,7 @@ public class POInfo implements Serializable
 						isChangeLog="Y".equals(row.getString(22));
 						//	Load additional attributes
 						loadAdditionalAttributes(row);
+						int KeyColumnReference_ID = row.getInt("KeyColumnReference_ID");
 						return new POInfoColumn (
 								AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
 								IsMandatory, IsUpdateable,
@@ -250,7 +254,7 @@ public class POInfo implements Serializable
 								IsTranslated, IsEncrypted,
 								IsAllowLogging,
 								isAllowCopy,
-								trxName);
+								trxName, KeyColumnReference_ID);
 					}).toList();
 					list.addAll(infoColumns.asJava());
 				}).onFailure(throwable -> {
