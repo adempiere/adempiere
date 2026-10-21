@@ -127,6 +127,8 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		}
 		identifiedPayment.setIsReconciled(true);
 		identifiedPayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
+		if (getCollectingAgentId() > 0)
+			identifiedPayment.setCollectingAgent_ID(getCollectingAgentId());
 		identifiedPayment.saveEx();
 		//	Create reversed for Unidentified
 		MPayment reversePayment = new MPayment(getCtx(), 0, get_TrxName());
