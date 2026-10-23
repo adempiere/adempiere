@@ -52,6 +52,9 @@ class ValidateInvoiceHistoryPriceQuery
     "zkwebui/WEB-INF/src/org/adempiere/webui/panel/InvoiceHistory.java" -> 1
   )
 
+  /** An invoice line as the price-history query reports it: price and invoice date. */
+  private type PriceDate = (java.math.BigDecimal, java.sql.Timestamp)
+
   /**
     * Start Adempiere with the standard GardenWorld demo credentials.
     * The shared startup still logs in as SuperUser, which does not exist in
@@ -95,25 +98,37 @@ class ValidateInvoiceHistoryPriceQuery
         When("each extracted SQL statement is executed for that product")
         statements.zipWithIndex.foreach { case (template, index) =>
           val sql = template.replace("l.M_Product_ID=", "l.M_Product_ID=" + productId)
-          val rows = scala.collection.mutable.ListBuffer[(java.math.BigDecimal, java.sql.Timestamp)]()
-          val rs = execQuery(sql, Array[AnyRef]())
-          try
+          val rows = withQuery(sql, Array[AnyRef]()) { rs =>
+            val acc = scala.collection.mutable.ListBuffer[PriceDate]()
             while (rs.next())
-              rows += ((rs.getBigDecimal(2), rs.getTimestamp(5)))
-          finally
-            DB.close(rs)
+              acc += ((rs.getBigDecimal(2), rs.getTimestamp(5)))
+            acc.toList
+          }
 
-          Then(s"statement ${index + 1} returns the posted invoice lines of product $productId")
+          Then(s"statement ${index + 1} returns every invoice line of product $productId")
           val expected = postedInvoiceLines(productId)
           assert(rows.nonEmpty,
             s"$relativePath statement ${index + 1}: query returned no rows for product $productId")
-          assert(rows.map(_._1).toSet == expected.map(_._1).toSet,
-            s"$relativePath statement ${index + 1}: prices differ from C_InvoiceLine for product $productId")
+          assert(rows.size == expected.size,
+            s"$relativePath statement ${index + 1}: expected ${expected.size} rows, got ${rows.size}")
+
+          And("each price stays paired with the invoice date of its own line")
+          val lessByPriceThenDate = (left: PriceDate, right: PriceDate) => {
+            val price = left._1.compareTo(right._1)
+            if (price != 0) price < 0 else left._2.compareTo(right._2) < 0
+          }
+          val actualPairs = rows.sortWith(lessByPriceThenDate)
+          val expectedPairs = expected.sortWith(lessByPriceThenDate)
+          assert(actualPairs.zip(expectedPairs).forall {
+              case ((actualPrice, actualDate), (expectedPrice, expectedDate)) =>
+                actualPrice.compareTo(expectedPrice) == 0 &&
+                  actualDate.compareTo(expectedDate) == 0
+            },
+            s"$relativePath statement ${index + 1}: price/date pairs differ from C_InvoiceLine" +
+              s" for product $productId (actual $actualPairs, expected $expectedPairs)")
 
           And(s"statement ${index + 1} keeps them ordered by DateInvoiced DESC")
           val dates = rows.map(_._2)
-          assert(dates.size == expected.size,
-            s"$relativePath statement ${index + 1}: expected ${expected.size} rows, got ${dates.size}")
           assert(dates.zip(dates.drop(1)).forall { case (a, b) => !a.before(b) },
             s"$relativePath statement ${index + 1}: rows are not ordered by DateInvoiced DESC: $dates")
         }
@@ -171,11 +186,7 @@ class ValidateInvoiceHistoryPriceQuery
       "GROUP BY l.M_Product_ID " +
       "HAVING count(DISTINCT i.DateInvoiced) >= 2 " +
       "ORDER BY count(DISTINCT i.DateInvoiced) DESC, l.M_Product_ID"
-    val rs = execQuery(sql, Array[AnyRef]())
-    try
-      (if (rs.next()) rs.getInt(1) else 0)
-    finally
-      DB.close(rs)
+    withQuery(sql, Array[AnyRef]())(rs => if (rs.next()) rs.getInt(1) else 0)
   }
 
   /**
@@ -183,37 +194,42 @@ class ValidateInvoiceHistoryPriceQuery
     * WHERE clause as the production price-history query (no DocStatus filter),
     * so the comparison is exact rather than approximate.
     */
-  private def postedInvoiceLines(productId: Int): Seq[(java.math.BigDecimal, java.sql.Timestamp)] = {
+  private def postedInvoiceLines(productId: Int): Seq[PriceDate] = {
     val sql =
       "SELECT l.PriceActual, i.DateInvoiced FROM C_Invoice i " +
       "INNER JOIN C_InvoiceLine l ON (i.C_Invoice_ID=l.C_Invoice_ID) " +
       "WHERE l.M_Product_ID=" + productId + " " +
       "ORDER BY i.DateInvoiced DESC"
-    val rows = scala.collection.mutable.ListBuffer[(java.math.BigDecimal, java.sql.Timestamp)]()
-    val rs = execQuery(sql, Array[AnyRef]())
-    try
+    withQuery(sql, Array[AnyRef]()) { rs =>
+      val acc = scala.collection.mutable.ListBuffer[PriceDate]()
       while (rs.next())
-        rows += ((rs.getBigDecimal(1), rs.getTimestamp(2)))
-    finally
-      DB.close(rs)
-    rows.toSeq
+        acc += ((rs.getBigDecimal(1), rs.getTimestamp(2)))
+      acc.toList
+    }
   }
 
-  /** Execute a parameterized query on a read-write connection. */
-  private def execQuery(sql: String, params: Array[AnyRef]): ResultSet = {
+  /**
+    * Run a parameterized query on a pooled connection and hand the open result
+    * set to the caller. Result set, statement and connection are always closed
+    * together, including when the query or the callback fails, so no pool slot
+    * and no statement are left behind.
+    */
+  private def withQuery[A](sql: String, params: Array[AnyRef])(body: ResultSet => A): A = {
     val conn = DB.getConnectionRW()
-    val ps = conn.prepareStatement(sql)
+    if (conn == null)
+      fail(s"no database connection available to run: $sql")
     try {
-      var i = 1
-      params.foreach { p =>
-        ps.setObject(i, p)
-        i += 1
-      }
-      ps.executeQuery()
-    } catch {
-      case e: Throwable =>
-        ps.close()
-        throw e
-    }
-  }    //	execQuery
+      val ps = conn.prepareStatement(sql)
+      try {
+        var i = 1
+        params.foreach { p =>
+          ps.setObject(i, p)
+          i += 1
+        }
+        val rs = ps.executeQuery()
+        try body(rs)
+        finally DB.close(rs)
+      } finally DB.close(ps)
+    } finally conn.close()
+  }    //	withQuery
 }    //	ValidateInvoiceHistoryPriceQuery
