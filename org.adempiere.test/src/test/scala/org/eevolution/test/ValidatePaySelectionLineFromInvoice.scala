@@ -22,8 +22,8 @@ import java.util.Calendar
 import java.util.logging.Level
 
 import org.adempiere.Adempiere
-import org.adempiere.core.domains.models.{X_C_BP_BankAccount, X_C_DocType, X_C_PaySelectionLine}
-import org.compiere.model.{MInvoice, MInvoicePaySchedule, MBPartner, MBPBankAccount, MBPartnerLocation, MPaySelectionLine, MPaymentTerm, MPriceList, MCurrency, Query}
+import org.adempiere.core.domains.models.{X_C_BP_BankAccount, X_C_DocType, X_C_Invoice, X_C_PaySelectionLine}
+import org.compiere.model.{MInvoice, MInvoicePaySchedule, MBPartner, MBPBankAccount, MBPartnerLocation, MPaySelection, MPaySelectionLine, MPaymentTerm, MPriceList, MCurrency, Query}
 import org.compiere.util.{CLogMgt, DB, Env, Ini, Login}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
@@ -85,14 +85,18 @@ class ValidatePaySelectionLineFromInvoice
 
   /**
     * Vendor of the accounts payable fixture: the named demo vendor when the
-    * logged in client has it, otherwise any active vendor that already owns an
-    * active bank account. MPaySelectionLine.setInvoice reads the bank accounts
-    * through a query that runs outside the test transaction, so only a committed
-    * bank account can reach the pay selection line.
+    * logged in client has it active with a committed bank account, otherwise
+    * any active vendor that already owns an active bank account.
+    * MPaySelectionLine.setInvoice reads the bank accounts through a query that
+    * runs outside the test transaction, so only a committed bank account can
+    * reach the pay selection line. The named vendor branch uses that same
+    * lookup: a named vendor without a committed account falls through to a
+    * vendor that has one, instead of failing in the Given step.
     */
   private def apVendor: MBPartner = {
     val named = MBPartner.get(Context, "C&K Wholesale Supply")
-    if (named != null && named.isActive)
+    if (named != null && named.isActive &&
+        !MBPBankAccount.getByPartner(Context, named.getC_BPartner_ID).isEmpty)
       named
     else {
       val vendor = partnerWithBankAccount("IsVendor='Y'")
@@ -355,6 +359,40 @@ class ValidatePaySelectionLineFromInvoice
       assert(line.getDifferenceAmt.compareTo(
         openAmt.subtract(payAmt).subtract(discountAmt)) == 0,
         "openAmt - payAmt - discountAmt must be 5.00")
+    }
+
+    info("pay selection lines keep the invoice payment rule from the create-from-invoice path")
+
+    Scenario("a pay selection line created from an invoice keeps its payment rule") {
+      Given("an accounts payable invoice with a direct debit payment rule")
+      val vendor = apVendor
+      val invoice = newApInvoice(vendor, apInvoiceDocType, new BigDecimal("100.00"))
+      invoice.setPaymentRule(X_C_Invoice.PAYMENTRULE_DirectDebit)
+      invoice.saveEx(trxName)
+      invoice.load(trxName)
+      val schedule = newApPaySchedule(invoice)
+      When("a pay selection line is created with the invoice rule and linked like PSCreateFromInvoice")
+      val paySelection = new MPaySelection(Context, 0, trxName)
+      val line = new MPaySelectionLine(paySelection, 10, invoice.getPaymentRule())
+      val openAmt = invoice.getGrandTotal
+      val payAmt = new BigDecimal("100.00")
+      val discountAmt = BigDecimal.ZERO
+      val error = runQuietly(
+        line.setInvoice(
+          invoice.getC_Invoice_ID,
+          schedule.getC_InvoicePaySchedule_ID,
+          openAmt,
+          openAmt,
+          payAmt,
+          discountAmt
+        )
+      )
+      Then("no non-fatal exception is raised")
+      assert(error.isEmpty,
+        "the create-from-invoice path must not raise on a real invoice")
+      And("the line keeps the invoice payment rule")
+      assert(line.getPaymentRule == X_C_Invoice.PAYMENTRULE_DirectDebit,
+        "the line payment rule must be the invoice payment rule")
     }
   }
 }
