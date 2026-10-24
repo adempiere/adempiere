@@ -14,6 +14,19 @@ on:
   pull_request:
     branches: [ "master", "develop", "bugfix/*", "feature/*", "hotfix/*" ]
 
+# Permissions granted to GITHUB_TOKEN for this workflow. Declared explicitly, following
+# this repository's own convention (see auto-assign-pull-requests.yml), because the
+# repository default does not include pull-requests: read and this workflow needs it:
+# on a pull_request event dorny/paths-filter lists the changed files through the GitHub
+# API, and without that scope the step dies with "Resource not accessible by integration",
+# which skipped every step gated on its output, so neither build nor the Scala steps ever
+# ran on a pull request. actions: write is stated rather than inherited so the artifact
+# uploads keep working when the block narrows the default set.
+permissions:
+  contents: read
+  pull-requests: read
+  actions: write
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build-all"
