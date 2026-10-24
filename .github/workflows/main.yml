@@ -20,12 +20,10 @@ on:
 # on a pull_request event dorny/paths-filter lists the changed files through the GitHub
 # API, and without that scope the step dies with "Resource not accessible by integration",
 # which skipped every step gated on its output, so neither build nor the Scala steps ever
-# ran on a pull request. actions: write is stated rather than inherited so the artifact
-# uploads keep working when the block narrows the default set.
+# ran on a pull request.
 permissions:
   contents: read
   pull-requests: read
-  actions: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -123,15 +121,15 @@ jobs:
           ant -f utils_dev/build.xml scala-test \
             -Dscala.test.suites=org.eevolution.test.ValidateInvoiceHistoryOrderSqlSpacing
 
-      - name: Upload Binary Files
-        uses: actions/upload-artifact@v4.6.1
-        with:
-            name: adempiere-binary-files
-            path: adempiere/install/
-
-      - name: Upload Seed
-        uses: actions/upload-artifact@v4.6.1
-        if: steps.changed-files.outputs.xml-files == 'true'
-        with:
-            name: adempiere-postgresql-seed
-            path: adempiere/Adempiere/data/Adempiere_pg.dmp
+      # No artifact uploads. Both upload steps were removed on purpose:
+      #   - No run in this repository has ever uploaded an artifact. Every run of this
+      #     workflow inspected back to 36755584877 reports 0 artifacts, including runs
+      #     predating the current branch, so the steps never produced anything.
+      #   - They now fail the job outright with "Failed to CreateArtifact: Artifact
+      #     storage quota has been hit", which turned the pull request gate red over
+      #     exhausted organization storage, unrelated to whatever the branch changed.
+      #   - Both paths were also wrong for this checkout: adempiere/install/ and
+      #     adempiere/Adempiere/data/Adempiere_pg.dmp do not exist here; this tree
+      #     keeps its seed under data/seed/Adempiere_pg.jar.
+      # If artifacts are wanted again, fix the paths and raise or free the storage
+      # quota first, otherwise every run keeps failing on the upload.
