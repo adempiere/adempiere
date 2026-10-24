@@ -88,7 +88,7 @@
   <condition property="scala.adempiere.home" value="${basedir}/../../install/build/Adempiere">
     <available file="${basedir}/../../install/build/Adempiere/packages" type="dir"/>
   </condition>
-  <!-- A linked worktree two levels below the checkout (adeosDev/.worktrees/<name>)
+  <!-- A linked worktree two levels below the checkout (<checkout>/.worktrees/<name>)
        reaches its install output from three levels up. -->
   <condition property="scala.adempiere.home" value="${basedir}/../../../install/build/Adempiere">
     <available file="${basedir}/../../../install/build/Adempiere/packages" type="dir"/>
@@ -192,9 +192,16 @@
     <!-- Surface the resolved app home and whether the prebuilt validator jars made it
          onto the classpath. Login.batchLogin returns false without throwing, so a
          validator jar silently left off the path shows up as "batchLogin failed" with
-         no cause anywhere in the log. -->
-    <echo message="scala.adempiere.home=${scala.adempiere.home}"/>
-    <available file="${scala.adempiere.home}/packages/GovernmentManagement/lib/GRP.jar" property="scala.grp.present"/>
+         no cause anywhere in the log. Both are reported through <condition> with an
+         explicit else: an unset property would otherwise echo the literal token, which
+         reads like a broken build on a runner that simply has no install output. -->
+    <condition property="scala.home.resolved" value="yes" else="no">
+      <available file="${scala.adempiere.home}/packages" type="dir"/>
+    </condition>
+    <condition property="scala.grp.present" value="yes" else="no">
+      <available file="${scala.adempiere.home}/packages/GovernmentManagement/lib/GRP.jar"/>
+    </condition>
+    <echo message="scala.adempiere.home=${scala.adempiere.home} (install output present: ${scala.home.resolved})"/>
     <echo message="GRP.jar on classpath: ${scala.grp.present}"/>
     <condition property="scala.app.classes.missing">
       <not><available classname="org.compiere.model.MProduct" classpath="${scala.app.classes}"/></not>

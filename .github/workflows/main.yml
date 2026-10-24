@@ -8,10 +8,11 @@ name: ADempiere Build With ANT
 on:
   # Triggers the workflow on push or pull request events with prefix "bugfix/" or "feature/". 
   # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
+  # hotfix/* is included so release-candidate branches get the same build and Scala spec coverage.
   push:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "feature/*", "hotfix/*" ]
   pull_request:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "feature/*", "hotfix/*" ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -92,6 +93,22 @@ jobs:
         uses: ./.github/actions/adempiere-build
         with:
            nodbrestore: true
+
+      # Compile the Scala specs of org.adempiere.test.
+      # Neither the ant java chain nor the gradle build compiles scala sources, so a spec
+      # that no longer compiles (a model moved packages, for example) merged silently until
+      # now. This step compiles every spec in the module against the classes just built.
+      - name: Compile Scala specs...
+        run: ant -f utils_dev/build.xml scala-compile
+
+      # Run the Scala specs that need no database. The suite list is exactly the specs that
+      # do not extend AdempiereTestCase, that is the specs performing no login and writing
+      # no row; every other spec needs a restored demo database and stays opt-in with
+      #   ant -f utils_dev/build.xml scala-test -Dscala.test.suites=<suite>
+      - name: Run Scala specs without database...
+        run: |
+          ant -f utils_dev/build.xml scala-test \
+            -Dscala.test.suites=org.eevolution.test.ValidateInvoiceHistoryOrderSqlSpacing
 
       - name: Upload Binary Files
         uses: actions/upload-artifact@v4.6.1
