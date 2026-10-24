@@ -16,6 +16,7 @@
 
 package org.eevolution.test
 
+import org.adempiere.core.domains.models.{I_C_Order, X_C_DocType}
 import org.compiere.model.*
 import org.compiere.util.Trx
 import org.eevolution.services.ProductService
