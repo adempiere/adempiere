@@ -8,6 +8,12 @@
        ant -f utils_dev/build.xml scala-compile
        ant -f utils_dev/build.xml scala-test
 
+     scala-test runs only the no-database suite by default. Nine of the ten specs here
+     mix in AdempiereTestCase, whose beforeAll performs a batchLogin against a live
+     PostgreSQL, so they need a restored instance and must be named explicitly:
+       ant -f utils_dev/build.xml scala-test -Dscala.test.suites=org.eevolution.test.CreateSalesOrder
+     Several comma-separated suites are allowed; the value is passed as repeated -s flags.
+
      The java/ant build (main.yml, build_with_gradle.yml) never compiles
      scala sources, so broken specs merged silently (see adempiere#4431).
      These targets close that gap without touching the existing build chain.
@@ -55,8 +61,13 @@
   <property name="scala.test.template" location="${basedir}/AdempiereEnv.template.properties"/>
   <property name="scala.test.propertyfile" location="${basedir}/build/scala-test/Adempiere.properties"/>
 
-  <!-- ScalaTest suite for scala-test (single suite, e.g. -Dscala.test.suites=org.eevolution.test.Foo). Empty = discover all. -->
-  <property name="scala.test.suites" value=""/>
+  <!-- ScalaTest suites for scala-test. Override with -Dscala.test.suites=a.b.C,d.e.F.
+       The default is deliberately the one spec that needs no database: an empty value
+       makes the ScalaTest Runner discover every suite on the runpath, and nine of the
+       ten specs here mix in AdempiereTestCase, whose beforeAll calls Login.batchLogin
+       against a live PostgreSQL. A bare "ant -f utils_dev/build.xml scala-test" would
+       then fail on login instead of reporting results, so discovery is never the default. -->
+  <property name="scala.test.suites" value="org.eevolution.test.ValidateInvoiceHistoryOrderSqlSpacing"/>
 
   <!-- App server type for the test JVM. Adempiere.startup(false) runs in server
        mode, whose DB_PostgreSQL.getDataSource requires ADEMPIERE_APPS_TYPE to be
@@ -274,7 +285,17 @@
 
   <!-- Run ScalaTest suites. Filter with -Dscala.test.suites=org.eevolution.test.Foo -->
   <target name="scala-test" depends="scala-compile,scala-test-config" description="Run the ScalaTest suites">
-    <condition property="scala.runner.suites" value="-s ${scala.test.suites}" else="">
+    <!-- ScalaTest takes one suite per -s, so a comma-separated list has to become
+         repeated flags. A plain "-s ${scala.test.suites}" would hand the Runner a single
+         argument still holding the commas and fail to load any suite. -->
+    <loadresource property="scala.runner.suitelist">
+      <string value="${scala.test.suites}"/>
+      <filterchain>
+        <replaceregex pattern="\s*,\s*" replace=" -s " flags="g"/>
+        <trim/>
+      </filterchain>
+    </loadresource>
+    <condition property="scala.runner.suites" value="-s ${scala.runner.suitelist}" else="">
       <not><equals arg1="${scala.test.suites}" arg2=""/></not>
     </condition>
     <pathconvert property="scala.runner.runpath" pathsep="," refid="scala.app.path"/>
