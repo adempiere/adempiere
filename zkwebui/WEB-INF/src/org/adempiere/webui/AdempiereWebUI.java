@@ -27,6 +27,7 @@ import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.session.ServerContext;
 import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.session.SessionManagerListener;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
@@ -195,9 +196,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         Session currentSession = SessionManager.getApplication(getId()).getPage().getDesktop().getSession();
         HttpSession httpSession = SessionManager.getSession(getId());
 		//Setting the timeout for this session
-		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
+		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute(SessionManagerListener.MAX_INACTIVE_INTERVAL));
 		maybeMaxInactiveInterval.ifPresent(maxInactiveInterval -> {
-			httpSession.setAttribute("MaxInactiveInterval",maxInactiveInterval);
+			httpSession.setAttribute(SessionManagerListener.MAX_INACTIVE_INTERVAL, maxInactiveInterval);
 			httpSession.setMaxInactiveInterval(maxInactiveInterval);
 		});
 

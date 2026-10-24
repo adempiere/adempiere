@@ -18,18 +18,60 @@ package org.adempiere.webui.session;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Ini;
+import org.compiere.util.SecureInterface;
 import org.zkoss.zk.ui.http.HttpSessionListener;
 
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import java.util.Enumeration;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.logging.Level;
 
 
 public class SessionManagerListener extends HttpSessionListener {
 
     private static CLogger log = CLogger.getCLogger(SessionManagerListener.class);
+
+    /** AdempiereEnv.properties key: inactivity timeout (seconds) of a new, still anonymous session */
+    public static final String EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL = "EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL";
+    /**
+     * Session attribute (internal, not configurable): backup of the container timeout (web.xml session-timeout)
+     * taken before the ephemeral interval is applied; AdempiereWebUI.loginCompleted restores it after login
+     */
+    public static final String MAX_INACTIVE_INTERVAL = "MAX_INACTIVE_INTERVAL";
+
+    /**
+     * Get the ephemeral max inactive interval of a new session.
+     * The raw property value is read on purpose: Ini.getProperty tries to decrypt every value and turns a
+     * plain number such as 300 into "". Accepts "300" and the clear-value form "xyz300"; an empty,
+     * non-numeric or non-positive value is ignored, so the container timeout (web.xml) applies.
+     * @param properties Ini properties
+     * @return interval in seconds, if configured
+     */
+    static Optional<Integer> getEphemeralMaxInactiveInterval(Properties properties) {
+        if (properties == null)
+            return Optional.empty();
+        return Optional.ofNullable(properties.getProperty(EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL))
+                .map(String::trim)
+                .filter(value -> !value.isEmpty())
+                .flatMap(SessionManagerListener::parseSeconds);
+    }
+
+    private static Optional<Integer> parseSeconds(String value) {
+        String clearValue = value.startsWith(SecureInterface.CLEARVALUE_START)
+                ? value.substring(SecureInterface.CLEARVALUE_START.length()).trim()
+                : value;
+        try {
+            int seconds = Integer.parseInt(clearValue);
+            if (seconds > 0)
+                return Optional.of(seconds);
+        } catch (NumberFormatException e) {
+            // reported below
+        }
+        log.warning(EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL + " ignored, a positive number of seconds is expected: " + value);
+        return Optional.empty();
+    }
 
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         super.sessionCreated(httpSessionEvent);
@@ -47,15 +89,13 @@ public class SessionManagerListener extends HttpSessionListener {
         log.info("------------------------------------------------");
         log.info(" ");
         //Setting Ephemeral session
-        Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
+        Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute(MAX_INACTIVE_INTERVAL));
         if (maybeMaxInactiveInterval.isEmpty()) {
-            httpSession.setAttribute("MaxInactiveInterval", httpSession.getMaxInactiveInterval());
-            Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
-            maybeEphemeralMaxInactiveInterval
-                    .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
+            httpSession.setAttribute(MAX_INACTIVE_INTERVAL, httpSession.getMaxInactiveInterval());
+            getEphemeralMaxInactiveInterval(Ini.getProperties())
                     .ifPresent(ephemeralMaxInactiveInterval -> {
-                        httpSession.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval));
-                        httpSession.setAttribute("MaxInactiveInterval", Integer.parseInt(ephemeralMaxInactiveInterval));
+                        // Keep the container timeout stored in MaxInactiveInterval: loginCompleted restores it
+                        httpSession.setMaxInactiveInterval(ephemeralMaxInactiveInterval);
                         log.log(Level.INFO, "Ephemeral Session Max Inactive Interval = " + ephemeralMaxInactiveInterval);
                     });
         }

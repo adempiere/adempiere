@@ -32,6 +32,7 @@ import org.adempiere.model.MViewDefinition;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.apps.ProcessPanel;
+import org.adempiere.webui.session.SessionTimeoutSuspender;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -686,7 +687,7 @@ public class WBrowser extends Browser implements IFormController,
 					// Execute Process
 					ProcessCtl worker = new ProcessCtl(this, pi.getWindowNo(), pi , null);
 					showBusyDialog();
-					worker.run();
+					SessionTimeoutSuspender.run(() -> pi.getTitle() + " AD_Process_ID=" + pi.getAD_Process_ID() + " AD_PInstance_ID=" + pi.getAD_PInstance_ID(), worker);
 					hideBusyDialog();
 					setStatusLine(pi.getSummary(), pi.isError());
 					//	For Valid Ok

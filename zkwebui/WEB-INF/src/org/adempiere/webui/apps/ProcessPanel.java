@@ -39,6 +39,7 @@ import org.adempiere.webui.editor.WEditorPopupMenu;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.editor.WebEditorFactory;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.adempiere.webui.session.SessionTimeoutSuspender;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ProcessController;
 import org.compiere.apps.ProcessCtl;
@@ -685,7 +686,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 		getProcessInfo().setInterfaceType(ProcessInfo.INTERFACE_TYPE_ZK);
 		
 		ProcessCtl worker = new ProcessCtl(this, getWindowNo(), getProcessInfo(),null);
-		worker.run();
+		SessionTimeoutSuspender.run(() -> getProcessInfo().getTitle() + " AD_Process_ID=" + getProcessInfo().getAD_Process_ID() + " AD_PInstance_ID=" + getProcessInfo().getAD_PInstance_ID(), worker);
 		//	Run
 	}
 	

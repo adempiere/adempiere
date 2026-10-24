@@ -31,6 +31,14 @@
 	<session-config>
 		<device-type>ajax</device-type>
 		<automatic-timeout/> <!-- the same as <automatic-timeout>true</automatic-timeout> -->
+		<!-- No <session-timeout> here on purpose: ZK re-applies it (SessionsCtrl.newSession) on the first
+		     ZUL request, after SessionManagerListener has set EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL on the
+		     anonymous session, and would overwrite it. web.xml <session-timeout>30</session-timeout> is the
+		     single source of the 30 min timeout; AdempiereWebUI.loginCompleted restores it after login. -->
+		<!-- Strict inactivity: onTimer requests do not reset ZK's activity clock (server-push "dummy" polls
+		     never do), so an open but unattended page expires after the session timeout. With true, any
+		     repeating page timer would keep the session alive forever. -->
+		<timer-keep-alive>false</timer-keep-alive>
 		<timeout-uri>/timeout.zul</timeout-uri>
 	</session-config>
 	

@@ -80,7 +80,9 @@
 	<!-- /////////// -->
 	<!-- Miscellaneous -->
 	<session-config>
-		<session-timeout>60</session-timeout>
+		<!-- Inactivity timeout in MINUTES for a logged-in webui session (single source; zk.xml sets none).
+		     Anonymous sessions use EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL (seconds, AdempiereEnv.properties) until login. -->
+		<session-timeout>30</session-timeout>
 	</session-config>
 
 	<filter>
