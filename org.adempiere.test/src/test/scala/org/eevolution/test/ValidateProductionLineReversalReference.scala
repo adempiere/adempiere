@@ -16,7 +16,6 @@
 
 package org.eevolution.test
 
-import org.adempiere.core.domains.models.I_M_ProductionLine
 import org.compiere.model.MProduct
 import org.compiere.model.MProductionLine
 import org.eevolution.services.ProductService
@@ -36,7 +35,7 @@ class ValidateProductionLineReversalReference extends AnyFeatureSpec
   def createProductionLine(product: MProduct, lineNo: Int): MProductionLine = {
     val line = new MProductionLine(Context, 0, trxName)
     line.setM_Product_ID(product.getM_Product_ID)
-    line.setLine(new java.math.BigDecimal(lineNo))
+    line.setLine(lineNo)
     line.setMovementQty(new java.math.BigDecimal(1))
     line.save()
     line
@@ -61,14 +60,16 @@ class ValidateProductionLineReversalReference extends AnyFeatureSpec
       Then("getReversalLine() resolves the reference in M_ProductionLine")
       val resolvedLine = loadedReversal.getReversalLine()
       assert(resolvedLine != null)
-      assert(resolvedLine.getTable_ID == I_M_ProductionLine.Table_ID)
+      // The reference must resolve to a production line, not to the shipment line the
+      // generated getter used to cast it to before #111.
+      assert(resolvedLine.isInstanceOf[MProductionLine])
       assert(resolvedLine.getM_ProductionLine_ID == original.getM_ProductionLine_ID)
 
       And("getReversalDocumentLine() returns the original line, not itself")
       val docLine = loadedReversal.getReversalDocumentLine()
       assert(docLine != null)
-      assert(docLine.getM_ProductionLine_ID == original.getM_ProductionLine_ID)
-      assert(docLine.getM_ProductionLine_ID != loadedReversal.getM_ProductionLine_ID)
+      assert(docLine.get_ID == original.getM_ProductionLine_ID)
+      assert(docLine.get_ID != loadedReversal.getM_ProductionLine_ID)
     }
   }
 }

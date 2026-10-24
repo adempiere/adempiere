@@ -8,10 +8,22 @@ name: ADempiere Build With ANT
 on:
   # Triggers the workflow on push or pull request events with prefix "bugfix/" or "feature/". 
   # It builds and installs always; create a database seed in Postgres only when xml migration files changed.
+  # hotfix/* is included so release-candidate branches get the same build and Scala spec coverage.
   push:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "feature/*", "hotfix/*" ]
   pull_request:
-    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+    branches: [ "master", "develop", "bugfix/*", "feature/*", "hotfix/*" ]
+
+# Permissions granted to GITHUB_TOKEN for this workflow. Declared explicitly, following
+# this repository's own convention (see auto-assign-pull-requests.yml), because the
+# repository default does not include pull-requests: read and this workflow needs it:
+# on a pull_request event dorny/paths-filter lists the changed files through the GitHub
+# API, and without that scope the step dies with "Resource not accessible by integration",
+# which skipped every step gated on its output, so neither build nor the Scala steps ever
+# ran on a pull request.
+permissions:
+  contents: read
+  pull-requests: read
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -93,15 +105,31 @@ jobs:
         with:
            nodbrestore: true
 
-      - name: Upload Binary Files
-        uses: actions/upload-artifact@v4.6.1
-        with:
-            name: adempiere-binary-files
-            path: adempiere/install/
+      # Compile the Scala specs of org.adempiere.test.
+      # Neither the ant java chain nor the gradle build compiles scala sources, so a spec
+      # that no longer compiles (a model moved packages, for example) merged silently until
+      # now. This step compiles every spec in the module against the classes just built.
+      - name: Compile Scala specs...
+        run: ant -f utils_dev/build.xml scala-compile
 
-      - name: Upload Seed
-        uses: actions/upload-artifact@v4.6.1
-        if: steps.changed-files.outputs.xml-files == 'true'
-        with:
-            name: adempiere-postgresql-seed
-            path: adempiere/Adempiere/data/Adempiere_pg.dmp
+      # Run the Scala specs that need no database. The suite list is exactly the specs that
+      # do not extend AdempiereTestCase, that is the specs performing no login and writing
+      # no row; every other spec needs a restored demo database and stays opt-in with
+      #   ant -f utils_dev/build.xml scala-test -Dscala.test.suites=<suite>
+      - name: Run Scala specs without database...
+        run: |
+          ant -f utils_dev/build.xml scala-test \
+            -Dscala.test.suites=org.eevolution.test.ValidateInvoiceHistoryOrderSqlSpacing
+
+      # No artifact uploads. Both upload steps were removed on purpose:
+      #   - No run in this repository has ever uploaded an artifact. Every run of this
+      #     workflow inspected back to 36755584877 reports 0 artifacts, including runs
+      #     predating the current branch, so the steps never produced anything.
+      #   - They now fail the job outright with "Failed to CreateArtifact: Artifact
+      #     storage quota has been hit", which turned the pull request gate red over
+      #     exhausted organization storage, unrelated to whatever the branch changed.
+      #   - Both paths were also wrong for this checkout: adempiere/install/ and
+      #     adempiere/Adempiere/data/Adempiere_pg.dmp do not exist here; this tree
+      #     keeps its seed under data/seed/Adempiere_pg.jar.
+      # If artifacts are wanted again, fix the paths and raise or free the storage
+      # quota first, otherwise every run keeps failing on the upload.
