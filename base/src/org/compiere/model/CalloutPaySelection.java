@@ -321,7 +321,16 @@ public class CalloutPaySelection extends CalloutEngine
 		Optional<String> invoiceDescription = Optional.ofNullable(invoice.getDescription());
 		Optional<String> maybeDescription = Optional.ofNullable((String) mTab.getValue("Description"));
 		invoiceDescription.ifPresent(description -> {
-			String descriptionLine = maybeDescription.orElse("").isEmpty() ?  description :   maybeDescription.orElse("")  + " " + description;
+			String currentDescription = maybeDescription.orElse("");
+			String descriptionLine;
+			if (currentDescription.isEmpty()) {
+				descriptionLine = description;
+			} else if (currentDescription.contains(description)) {
+				//	The same invoice was selected again; keep the description once
+				descriptionLine = currentDescription;
+			} else {
+				descriptionLine = currentDescription + " " + description;
+			}
 			mTab.setValue("Description", descriptionLine);
 		});
 		//Setting Bank Account
