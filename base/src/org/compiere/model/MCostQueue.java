@@ -166,24 +166,24 @@ public class MCostQueue extends X_M_CostQueue
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		
-		whereClause.append("AD_Client_ID=? AND AD_Org_ID=?");
+		whereClause.append("AD_Client_ID=? AND AD_Org_ID=? ");
 		params.add(cost.getAD_Client_ID());
 		params.add(cost.getAD_Org_ID());
 		
-		whereClause.append(" AND "+COLUMNNAME_M_Product_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_Product_ID+"=? ");
 		params.add(cost.getM_Product_ID());
 		
 		final MAcctSchema as = MAcctSchema.get(cost.getCtx(), cost.getC_AcctSchema_ID());
-		whereClause.append(" AND "+COLUMNNAME_M_CostType_ID+"=? AND "+COLUMNNAME_C_AcctSchema_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_CostType_ID+"=? AND "+COLUMNNAME_C_AcctSchema_ID+"=? ");
 		params.add(as.getM_CostType_ID());
 		params.add(as.get_ID());
 		
-		whereClause.append(" AND "+COLUMNNAME_M_CostElement_ID+"=?");
+		whereClause.append("AND "+COLUMNNAME_M_CostElement_ID+"=? ");
 		params.add(ce.get_ID());
 		
 		if (cost.getM_AttributeSetInstance_ID() > 0)
 		{
-			whereClause.append(" AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=?");
+			whereClause.append("AND "+COLUMNNAME_M_AttributeSetInstance_ID+"=? ");
 			params.add(cost.getM_AttributeSetInstance_ID());
 		}
 		
@@ -211,13 +211,13 @@ public class MCostQueue extends X_M_CostQueue
 	{
 		ArrayList<MCostQueue> list = new ArrayList<MCostQueue>();
 		String sql = "SELECT * FROM M_CostQueue "
-			+ "WHERE AD_Client_ID=? AND AD_Org_ID=?"
-			+ " AND M_Product_ID=?"
-			+ " AND M_CostType_ID=? AND C_AcctSchema_ID=?"
-			+ " AND M_CostElement_ID=?";
+			+ "WHERE AD_Client_ID=? AND AD_Org_ID=? "
+			+ "AND M_Product_ID=? "
+			+ "AND M_CostType_ID=? AND C_AcctSchema_ID=? "
+			+ "AND M_CostElement_ID=? ";
 		if (M_ASI_ID != 0)
-			sql += " AND M_AttributeSetInstance_ID=?";
-		sql += " AND CurrentQty<>0 "
+			sql += "AND M_AttributeSetInstance_ID=? ";
+		sql += "AND CurrentQty<>0 "
 			+ "ORDER BY M_AttributeSetInstance_ID ";
 		if (!ce.isFifo())
 			sql += "DESC";
