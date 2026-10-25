@@ -7,9 +7,12 @@ import java.util.regex.Pattern
 import org.scalatest.featurespec.AnyFeatureSpec
 
 /**
-  * Guards the inline ASP filter SQL of MProcess.getASPParameters() against
-  * concatenating "')AND" (a predicate's closing parenthesis directly followed
-  * by AND), which PostgreSQL 15 and newer reject.
+  * Guards the inline ASP filter SQL of MProcess.getASPParameters() so the
+  * client-exception show predicate keeps a space before the closing quote
+  * and stays separated from the following AND EXISTS clause ("'S') AND
+  * EXISTS" instead of "'S')AND EXISTS"). The no-space form is valid
+  * PostgreSQL; the spacing is a defensive readability improvement that this
+  * guard pins.
   */
 class ValidateMProcessASPParametersSqlSpacing extends AnyFeatureSpec {
 
