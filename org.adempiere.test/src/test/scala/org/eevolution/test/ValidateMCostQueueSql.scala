@@ -49,7 +49,11 @@ class ValidateMCostQueueSql extends AnyFeatureSpec {
     "get" ->
       "public static MCostQueue get \\(MProduct.*?first\\(\\);",
     "getQueueForAdjustment" ->
-      "public static MCostQueue getQueueForAdjustment.*?first\\(\\);"
+      "public static MCostQueue getQueueForAdjustment.*?first\\(\\);",
+    "getQueue (MCost cost)" ->
+      "public static MCostQueue\\[\\] getQueue \\(MCost cost.*?\\.list\\(\\);",
+    "getQueue (MProduct product)" ->
+      "public static MCostQueue\\[\\] getQueue \\(MProduct.*?PreparedStatement pstmt = null;"
   )
 
   Feature("MCostQueue keeps PostgreSQL 15/16-parseable query strings") {
