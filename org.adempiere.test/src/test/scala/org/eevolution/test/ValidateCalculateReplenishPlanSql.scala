@@ -5,11 +5,12 @@ import java.nio.file.{Files, Paths}
 import java.util.regex.Pattern
 
 import org.scalatest.featurespec.AnyFeatureSpec
+import org.scalatest.GivenWhenThen
 
 /** Guards CalculateReplenishPlan's inline SQL against the PostgreSQL 15/16
   * strict-token parsing failures fixed by trailing spaces after `?`
   * placeholders and after closing value-quotes. */
-class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec {
+class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec with GivenWhenThen {
 
   private val sourcePath =
     "org.adempiere.production/src/main/java/base/org/adempiere/production/process/CalculateReplenishPlan.java"
@@ -55,7 +56,10 @@ class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec {
 
   Feature("CalculateReplenishPlan keeps PostgreSQL 15/16-parseable query strings") {
     portions.foreach { case (name, regex) =>
-      Scenario(s"$name concatenates its SQL literals without a token glued to a keyword") {
+      Scenario(s"$name concatenates its SQL literals without a token glued to a keyword (#4207)") {
+        Given("the CalculateReplenishPlan source contains the SQL-building statement")
+        When("extracting the statement's quoted string literals")
+        Then("no placeholder or closing value-quote is glued to a keyword")
         val query = concatenated(portionOf(readSource, regex))
         assert(!Pattern.compile("\\?(?=\\p{L})").matcher(query).find(),
           s"$name: a '?' placeholder is directly followed by a keyword letter")
@@ -74,7 +78,10 @@ class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec {
 
   Feature("the PG 15/16 SQL spacing fix stays in place") {
     portions.foreach { case (name, regex) =>
-      Scenario(s"$name ends every continuing bare token with a trailing space") {
+      Scenario(s"$name ends every continuing bare token with a trailing space (#4207)") {
+        Given("the CalculateReplenishPlan source contains the SQL-building statement")
+        When("inspecting the statement's quoted string literals in order")
+        Then("every continuing bare token keeps its trailing space")
         val literals = stringLiterals(portionOf(readSource, regex))
         for (i <- literals.indices) {
           val lit = literals(i)
