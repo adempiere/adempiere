@@ -622,7 +622,25 @@ public abstract class Doc
 				return "PeriodClosed";
 			}
 			//	delete it
-			deleteAcct();
+			try
+			{
+				deleteAcct();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, toString() + " - Accounting deletion failed", e);
+				if (m_manageLocalTrx)
+				{
+					Trx trx = Trx.get(getTrxName(), false);
+					if (trx != null)
+					{
+						try { trx.rollback(); } catch (Exception e2) {}
+						try { trx.close(); } catch (Exception e2) {}
+					}
+				}
+				unlock();
+				return "FactAcctDeleteFailed";
+			}
 		}
 		else if (isPosted())
 		{
@@ -2545,7 +2563,7 @@ public abstract class Doc
 	 */
 	public Boolean isReverseWithOriginalAccounting()
 	{
-		String isReverseWithOriginalAccounting = DB.getSQLValueString(getPO().get_TrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
+		String isReverseWithOriginalAccounting = DB.getSQLValueString(getTrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
 		if (isReverseWithOriginalAccounting != null && "Y".equals(isReverseWithOriginalAccounting))
 			return true;
 		else
@@ -2559,7 +2577,7 @@ public abstract class Doc
 	 */
 	private String generateReverseWithOriginalAccounting(MAcctSchema originalAccountSchema) {
 		getReversalFactAcct(originalAccountSchema).stream().forEach(factAcct -> {
-			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
+			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getTrxName());
 			PO.copyValues(factAcct, reverseFactAcct);
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
@@ -2585,7 +2603,7 @@ public abstract class Doc
 		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
 		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=? AND ");
 		whereClause.append(MFactAcct.COLUMNNAME_C_AcctSchema_ID).append("=?");
-		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
+		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getTrxName())
 				.setClient_ID()
 				.setParameters(getPO().get_Table_ID(), getReversalId(), originalAccountSchema.getC_AcctSchema_ID())
 				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)

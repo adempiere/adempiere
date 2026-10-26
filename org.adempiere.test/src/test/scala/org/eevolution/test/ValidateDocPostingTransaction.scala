@@ -77,10 +77,12 @@ class ValidateDocPostingTransaction
       val invoiceId = seedProcessedInvoice(client)
       assert(invoiceId > 0)
 
+      var doc1: Doc = null
+      var doc2: Doc = null
       try {
         When("two Docs are constructed for the same record")
-        val doc1 = newDocForInvoice(client, invoiceId)
-        val doc2 = newDocForInvoice(client, invoiceId)
+        doc1 = newDocForInvoice(client, invoiceId)
+        doc2 = newDocForInvoice(client, invoiceId)
 
         Then("both Docs have a transaction name")
         assert(doc1.getTrxName() != null)
@@ -89,6 +91,8 @@ class ValidateDocPostingTransaction
         And("the names are different, so no stale or shared transaction is reused")
         assert(doc1.getTrxName() != doc2.getTrxName())
       } finally {
+        closeTrx(if (doc1 == null) null else doc1.getTrxName())
+        closeTrx(if (doc2 == null) null else doc2.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -100,14 +104,16 @@ class ValidateDocPostingTransaction
       val invoiceId = seedProcessedInvoice(client)
       assert(invoiceId > 0)
 
+      var doc: Doc = null
       try {
         When("a Doc is constructed for the record")
-        val doc = newDocForInvoice(client, invoiceId)
+        doc = newDocForInvoice(client, invoiceId)
 
         Then("the PO of the Doc carries no transaction name")
         assert(doc.getPO() != null)
         assert(doc.getPO().get_TrxName() == null)
       } finally {
+        closeTrx(if (doc == null) null else doc.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -121,9 +127,10 @@ class ValidateDocPostingTransaction
       seedFacts(client, invoiceId, invoiceTableId, 3)
       assert(countFacts(client, invoiceId, invoiceTableId) == 3)
 
+      var doc: Doc = null
       try {
         When("the Doc deletes the accounting facts of the record")
-        val doc = newDocForInvoice(client, invoiceId)
+        doc = newDocForInvoice(client, invoiceId)
         val deleted = callDeleteAcct(doc)
         closeTrx(doc.getTrxName())
 
@@ -144,6 +151,7 @@ class ValidateDocPostingTransaction
           closeTrx(failedTrx)
         }
       } finally {
+        closeTrx(if (doc == null) null else doc.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -316,6 +324,7 @@ class ValidateDocPostingTransaction
     * transaction before closing the connection.
     */
   private def closeTrx(trxName: String): Unit = {
+    if (trxName == null) return
     val trx = Trx.get(trxName, false)
     if (trx != null)
       trx.close()
