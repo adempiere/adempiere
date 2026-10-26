@@ -629,15 +629,7 @@ public abstract class Doc
 			catch (Exception e)
 			{
 				log.log(Level.SEVERE, toString() + " - Accounting deletion failed", e);
-				if (m_manageLocalTrx)
-				{
-					Trx trx = Trx.get(getTrxName(), false);
-					if (trx != null)
-					{
-						try { trx.rollback(); } catch (Exception e2) {}
-						try { trx.close(); } catch (Exception e2) {}
-					}
-				}
+				releaseLocalTrx();
 				unlock();
 				return "FactAcctDeleteFailed";
 			}
@@ -800,6 +792,36 @@ public abstract class Doc
     		.append(get_TableName()).append("_ID=").append(p_po.get_ID());
     	DB.executeUpdate(sql.toString(), trxName);
     }   //  unlock
+
+	/**
+	 *  Release the locally managed transaction: rollback and close it.
+	 *  Used when a posting failure must abort cleanly, so the document
+	 *  does not retain an open transaction.
+	 */
+	private void releaseLocalTrx()
+	{
+		if (! m_manageLocalTrx)
+			return;
+		Trx trx = Trx.get(getTrxName(), false);
+		if (trx == null)
+			return;
+		try
+		{
+			trx.rollback();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "releaseLocalTrx - rollback failed", e);
+		}
+		try
+		{
+			trx.close();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "releaseLocalTrx - close failed", e);
+		}
+	}   //  releaseLocalTrx
 
     /**
 	 * 	Delete Accounting
