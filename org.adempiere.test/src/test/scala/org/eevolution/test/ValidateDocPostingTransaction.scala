@@ -77,22 +77,19 @@ class ValidateDocPostingTransaction
       val invoiceId = seedProcessedInvoice(client)
       assert(invoiceId > 0)
 
-      var doc1: Doc = null
-      var doc2: Doc = null
       try {
         When("two Docs are constructed for the same record")
-        doc1 = newDocForInvoice(client, invoiceId)
-        doc2 = newDocForInvoice(client, invoiceId)
+        withDoc(client, invoiceId) { doc1 =>
+          withDoc(client, invoiceId) { doc2 =>
+            Then("both Docs have a transaction name")
+            assert(doc1.getTrxName() != null)
+            assert(doc2.getTrxName() != null)
 
-        Then("both Docs have a transaction name")
-        assert(doc1.getTrxName() != null)
-        assert(doc2.getTrxName() != null)
-
-        And("the names are different, so no stale or shared transaction is reused")
-        assert(doc1.getTrxName() != doc2.getTrxName())
+            And("the names are different, so no stale or shared transaction is reused")
+            assert(doc1.getTrxName() != doc2.getTrxName())
+          }
+        }
       } finally {
-        closeTrx(if (doc1 == null) null else doc1.getTrxName())
-        closeTrx(if (doc2 == null) null else doc2.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -104,16 +101,14 @@ class ValidateDocPostingTransaction
       val invoiceId = seedProcessedInvoice(client)
       assert(invoiceId > 0)
 
-      var doc: Doc = null
       try {
         When("a Doc is constructed for the record")
-        doc = newDocForInvoice(client, invoiceId)
-
-        Then("the PO of the Doc carries no transaction name")
-        assert(doc.getPO() != null)
-        assert(doc.getPO().get_TrxName() == null)
+        withDoc(client, invoiceId) { doc =>
+          Then("the PO of the Doc carries no transaction name")
+          assert(doc.getPO() != null)
+          assert(doc.getPO().get_TrxName() == null)
+        }
       } finally {
-        closeTrx(if (doc == null) null else doc.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -127,31 +122,30 @@ class ValidateDocPostingTransaction
       seedFacts(client, invoiceId, invoiceTableId, 3)
       assert(countFacts(client, invoiceId, invoiceTableId) == 3)
 
-      var doc: Doc = null
       try {
         When("the Doc deletes the accounting facts of the record")
-        doc = newDocForInvoice(client, invoiceId)
-        val deleted = callDeleteAcct(doc)
-        closeTrx(doc.getTrxName())
+        withDoc(client, invoiceId) { doc =>
+          val deleted = callDeleteAcct(doc)
+          closeTrx(doc.getTrxName())    // commit the deletion before counting
 
-        Then("the deletion returns the number of deleted facts")
-        assert(deleted == 3)
+          Then("the deletion returns the number of deleted facts")
+          assert(deleted == 3)
 
-        And("no accounting fact of the record remains")
-        assert(countFacts(client, invoiceId, invoiceTableId) == 0)
+          And("no accounting fact of the record remains")
+          assert(countFacts(client, invoiceId, invoiceTableId) == 0)
 
-        And("a failing fact deletion aborts with an exception instead of being swallowed")
-        val failedTrx = Trx.createTrxName("ValidateDocPosting_")
-        try {
-          intercept[DBException](
-            DB.executeUpdateEx(
-              "DELETE Fact_Acct WHERE AD_Table_ID=1 AND Record_ID=1 WHERE",
-              failedTrx))
-        } finally {
-          closeTrx(failedTrx)
+          And("a failing fact deletion aborts with an exception instead of being swallowed")
+          val failedTrx = Trx.createTrxName("ValidateDocPosting_")
+          try {
+            intercept[DBException](
+              DB.executeUpdateEx(
+                "DELETE Fact_Acct WHERE AD_Table_ID=1 AND Record_ID=1 WHERE",
+                failedTrx))
+          } finally {
+            closeTrx(failedTrx)
+          }
         }
       } finally {
-        closeTrx(if (doc == null) null else doc.getTrxName())
         cleanup(client, invoiceId)
       }
     }    //	Scenario
@@ -163,35 +157,8 @@ class ValidateDocPostingTransaction
     * visible to the separate transactions the Docs open.
     */
   private def seedProcessedInvoice(client: Int): Int = {
-    var invoiceId = 0
+    val seed = readSeedParams(client)
     Trx.run { name =>
-      val rs = execQuery(
-        "SELECT (SELECT coalesce(max(c_invoice_id), 0) + 1000000 FROM c_invoice), " +
-        "(SELECT c_currency_id FROM fact_acct " +
-        "WHERE ad_client_id = ? AND c_currency_id > 0 ORDER BY c_currency_id LIMIT 1), " +
-        "(SELECT min(c_bpartner_location_id) FROM c_bpartner_location " +
-        "WHERE ad_client_id = ? AND isactive = 'Y'), " +
-        "(SELECT min(c_paymentterm_id) FROM c_paymentterm " +
-        "WHERE ad_client_id = ? AND isactive = 'Y'), " +
-        "(SELECT min(m_pricelist_id) FROM m_pricelist " +
-        "WHERE ad_client_id = ? AND isactive = 'Y'), " +
-        "(SELECT min(c_bpartner_id) FROM c_bpartner " +
-        "WHERE ad_client_id = ? AND isactive = 'Y')",
-        Array[AnyRef](
-          Integer.valueOf(client),
-          Integer.valueOf(client),
-          Integer.valueOf(client),
-          Integer.valueOf(client),
-          Integer.valueOf(client)))
-      rs.next()
-      invoiceId = rs.getInt(1)
-      val currency = rs.getInt(2)
-      val bpartnerLocation = rs.getInt(3)
-      val paymentTerm = rs.getInt(4)
-      val priceList = rs.getInt(5)
-      val bpartner = rs.getInt(6)
-      DB.close(rs)
-
       val dateAcct = Today
       val orgId = Organization.getAD_Org_ID
       val docType = MDocType.getDocType("ARI", orgId)
@@ -203,22 +170,62 @@ class ValidateDocPostingTransaction
         "m_pricelist_id, dateinvoiced, dateacct) " +
         "VALUES (?, ?, ?, 101, 101, 'INV-TEST-4433', 'CO', 'CL', 'Y', 'N', ?, ?, ?, ?, ?, 'P', ?, ?, ?, ?)",
         Array[AnyRef](
-          Integer.valueOf(invoiceId),
+          Integer.valueOf(seed.invoiceId),
           Integer.valueOf(client),
           Integer.valueOf(orgId),
           Integer.valueOf(docType),
           Integer.valueOf(docType),
-          Integer.valueOf(bpartner),
-          Integer.valueOf(bpartnerLocation),
-          Integer.valueOf(currency),
-          Integer.valueOf(paymentTerm),
-          Integer.valueOf(priceList),
+          Integer.valueOf(seed.bpartner),
+          Integer.valueOf(seed.bpartnerLocation),
+          Integer.valueOf(seed.currency),
+          Integer.valueOf(seed.paymentTerm),
+          Integer.valueOf(seed.priceList),
           dateAcct,
           dateAcct),
         false, name)
     }
-    invoiceId
+    seed.invoiceId
   }    //	seedProcessedInvoice
+
+  /**
+    * Parameters needed to seed a processed invoice, read outside the write
+    * transaction so the seeding stays immutable.
+    */
+  private case class InvoiceSeed(invoiceId: Int, currency: Int, bpartnerLocation: Int,
+                                 paymentTerm: Int, priceList: Int, bpartner: Int)
+
+  private def readSeedParams(client: Int): InvoiceSeed = {
+    val rs = execQuery(
+      "SELECT (SELECT coalesce(max(c_invoice_id), 0) + 1000000 FROM c_invoice), " +
+      "(SELECT c_currency_id FROM fact_acct " +
+      "WHERE ad_client_id = ? AND c_currency_id > 0 ORDER BY c_currency_id LIMIT 1), " +
+      "(SELECT min(c_bpartner_location_id) FROM c_bpartner_location " +
+      "WHERE ad_client_id = ? AND isactive = 'Y'), " +
+      "(SELECT min(c_paymentterm_id) FROM c_paymentterm " +
+      "WHERE ad_client_id = ? AND isactive = 'Y'), " +
+      "(SELECT min(m_pricelist_id) FROM m_pricelist " +
+      "WHERE ad_client_id = ? AND isactive = 'Y'), " +
+      "(SELECT min(c_bpartner_id) FROM c_bpartner " +
+      "WHERE ad_client_id = ? AND isactive = 'Y')",
+      Array[AnyRef](
+        Integer.valueOf(client),
+        Integer.valueOf(client),
+        Integer.valueOf(client),
+        Integer.valueOf(client),
+        Integer.valueOf(client)))
+    try {
+      rs.next()
+      InvoiceSeed(
+        rs.getInt(1),
+        rs.getInt(2),
+        rs.getInt(3),
+        rs.getInt(4),
+        rs.getInt(5),
+        rs.getInt(6))
+    } finally {
+      DB.close(rs)
+    }
+  }    //	readSeedParams
 
   /**
     * Seed the given number of accounting facts on the record.
@@ -307,6 +314,18 @@ class ValidateDocPostingTransaction
     assert(doc != null, "Doc not constructed for C_Invoice id=" + invoiceId)
     doc
   }    //	newDocForInvoice
+
+  /**
+    * Construct a Doc for the invoice, run the body with it, and always
+    * release the Doc's transaction afterwards.
+    */
+  private def withDoc(client: Int, invoiceId: Int)(body: Doc => Unit): Unit = {
+    val doc = newDocForInvoice(client, invoiceId)
+    try
+      body(doc)
+    finally
+      closeTrx(doc.getTrxName())
+  }    //	withDoc
 
   /**
     * Call the package-private Doc.deleteAcct through reflection: the method
