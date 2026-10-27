@@ -552,7 +552,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				"SELECT 1 "
 				+ "FROM C_PaySelection cps "
 				+ "INNER JOIN C_PaySelectionLine cpsl ON(cpsl.C_PaySelection_ID = cps.C_PaySelection_ID)"
-				+ "WHERE cps.DocStatus NOT IN('VO', 'RE')"
+				+ "WHERE cps.DocStatus NOT IN('VO', 'RE') "
 				+ "AND cpsl.C_PaySelectionLine_Parent_ID = ?", getC_PaySelectionLine_ID());
 		//	Valid
 		return noGeneratedSelections > 0;
