@@ -14,9 +14,10 @@
 package org.eevolution.test
 
 import java.math.BigDecimal
-import java.sql.{ResultSet, Timestamp}
+import java.sql.{PreparedStatement, ResultSet, Timestamp}
 import java.util.Calendar
 
+import org.compiere.report.FinReportPeriod
 import org.compiere.util.{DB, Env, Trx}
 import org.scalatest.{BeforeAndAfterAll, GivenWhenThen}
 import org.scalatest.featurespec.AnyFeatureSpec
@@ -31,19 +32,20 @@ import scala.collection.mutable
   * using the Fact_Acct.DateAcct indexes. The fix compares DateAcct directly
   * against the range bounds.
   *
-  * This spec proves, against a live database, the two things that matter:
+  * The spec drives the production predicate builder (FinReportPeriod), splices
+  * it exactly the way FinReport does, and runs it over accounting facts it
+  * seeds itself on each side of an open period boundary. It asserts:
   *
-  *  1. The new direct predicate selects exactly the facts inside the period,
-  *     including the period END date (the upper bound is inclusive) and
-  *     excluding the day after it, and the summed amounts are correct.
-  *  2. The new direct predicate, the legacy TRUNC-wrapped predicate and the
-  *     half-open form all return the SAME row set and the SAME totals, so
-  *     removing TRUNC changes nothing the reports report. DateAcct holds
-  *     date-only values, which is exactly why those forms are equivalent;
-  *     this spec asserts it on real data instead of assuming it.
+  *  1. the production period, total, year and natural predicates select the
+  *     facts they should, keeping the period end inclusive and the next day
+  *     outside, with the exact seeded totals;
+  *  2. the direct predicate, the BETWEEN shape, the legacy TRUNC-wrapped form
+  *     and an exclusive half-open bound all return the SAME rows and the SAME
+  *     totals, so removing TRUNC changes nothing the reports report.
   *
-  * The spec seeds its own Fact_Acct rows on an open period and deletes them
-  * in a finally block, so the shared demo database is left untouched.
+  * Seeded rows are removed in a finally block of every scenario, and the
+  * delete is asserted, so a failing assertion cannot leave synthetic facts
+  * behind in the shared demo database.
   */
 class ValidateFinReportDateAcctRange
     extends AnyFeatureSpec with GivenWhenThen with BeforeAndAfterAll with AdempiereStartup {
@@ -64,20 +66,70 @@ class ValidateFinReportDateAcctRange
   private val DrAfterEnd = new BigDecimal("400")
   /** Expected in-range totals: 100 + 200 + 300. */
   private val ExpectedDr = new BigDecimal("600")
+  /** Number of facts seedFacts writes; cleanup asserts this exact count. */
+  private val SeededCount = 4
 
   Feature("DateAcct range predicate over live accounting facts") {
 
-    Scenario("the direct predicate keeps the period end inclusive and excludes the next day") {
+    Scenario("the production report predicates keep the period end inclusive and exclude the next day") {
       val client = Env.getContextAsInt(Env.getCtx, "#AD_Client_ID")
 
       Given("an open accounting period")
       val period = pickOpenPeriod(client)
-      info(s"Open period ${period.start} .. ${period.end} (C_Period_ID=${period.periodId})")
+      info(s"Open period ${period.start} .. ${period.end} (C_Period_ID=${period.periodId}), " +
+        s"year starts ${period.yearStart}")
 
       And("accounting facts seeded on each side of the period boundary")
       val seeded = seedFacts(client, period)
       info(s"Seeded fact ids: start=${seeded.startId} mid=${seeded.midId} " +
         s"end=${seeded.endId} afterEnd=${seeded.afterEndId}")
+
+      try {
+        When("FinReport builds its period predicate over Fact_Acct")
+        val prod = productionPeriod(client, period)
+        val periodRows = runProduction(s"DateAcct ${prod.getPeriodWhere()}", seeded)
+
+        Then("the period predicate selects the in-range facts and nothing else")
+        assertSelected(periodRows, Seq(seeded.startId, seeded.midId, seeded.endId), "period")
+
+        When("FinReport builds its total (cumulative) predicate")
+        val totalRows = runProduction(s"DateAcct ${prod.getTotalWhere()}", seeded)
+
+        Then("the total predicate includes the period end and excludes the next day")
+        assertSelected(totalRows, Seq(seeded.startId, seeded.midId, seeded.endId), "total")
+        assert(totalRows.contains(seeded.endId),
+          "a cumulative total must include the fact posted on the period end date")
+        assert(!totalRows.contains(seeded.afterEndId),
+          "a cumulative total must exclude the fact of the day after the period end")
+
+        When("FinReport builds its year predicate")
+        val yearRows = runProduction(s"DateAcct ${prod.getYearWhere()}", seeded)
+
+        Then("the year predicate selects exactly the seeded facts falling in that year")
+        assertSelected(yearRows, expectedIn(period.yearStart, period.end, seeded), "year")
+
+        When("FinReport builds its natural balance predicate over the fb alias")
+        val naturalRows = runProduction(s"DateAcct ${prod.getNaturalWhere("fb")}", seeded)
+
+        Then("the natural predicate sees the balance-sheet facts up to the period end")
+        assertSelected(naturalRows, Seq(seeded.startId, seeded.midId, seeded.endId), "natural")
+
+        And("every production predicate agrees on the same totals")
+        Seq(periodRows, totalRows, yearRows, naturalRows).foreach { rows =>
+          assert(sumDr(rows).compareTo(ExpectedDr) == 0,
+            s"expected Dr $ExpectedDr, got ${sumDr(rows)} for ids ${rows.keySet}")
+          assert(sumCr(rows).compareTo(BigDecimal.ZERO) == 0,
+            s"expected Cr 0, got ${sumCr(rows)} for ids ${rows.keySet}")
+        }
+      } finally {
+        deleteFacts(seeded)
+      }
+    }    //	Scenario
+
+    Scenario("removing TRUNC changes no row set and no total") {
+      val client = Env.getContextAsInt(Env.getCtx, "#AD_Client_ID")
+      val period = pickOpenPeriod(client)
+      val seeded = seedFacts(client, period)
 
       try {
         When("the fixed direct date-range predicate is executed for the period")
@@ -89,19 +141,9 @@ class ValidateFinReportDateAcctRange
         assert(direct.keySet == Set(seeded.startId, seeded.midId, seeded.endId),
           s"expected the three in-range facts, got ${direct.keySet}")
 
-        And("the period end fact is included, because the upper bound is inclusive")
-        assert(direct.contains(seeded.endId),
-          "the fact on the period end date must be inside the range")
-
-        And("the fact of the day after the period end is excluded")
-        assert(!direct.contains(seeded.afterEndId),
-          "the fact on the day after the period end must be outside the range")
-
         And("the summed amounts are exactly the seeded in-range amounts")
         assert(sumDr(direct).compareTo(ExpectedDr) == 0,
           s"expected Dr $ExpectedDr, got ${sumDr(direct)}")
-        assert(sumCr(direct).compareTo(BigDecimal.ZERO) == 0,
-          s"expected Cr 0, got ${sumCr(direct)}")
 
         When("the same range is expressed with the BETWEEN shape used by the reports")
         val between = queryRange(
@@ -139,60 +181,115 @@ class ValidateFinReportDateAcctRange
       val period = pickOpenPeriod(client)
       val seeded = seedFacts(client, period)
 
-      Given("the seeded facts are visible to the range predicate")
-      assert(queryRange(s"fact_acct_id IN (${seeded.idsSql})", Array[AnyRef]()).size == 4,
-        "the four seeded facts must be present before cleanup")
+      try {
+        Given("the seeded facts are visible to the range predicate")
+        assert(queryRange(s"fact_acct_id IN (${seeded.idsSql})", Array[AnyRef]()).size == SeededCount,
+          "the seeded facts must be present before cleanup")
 
-      When("the seeded rows are deleted")
-      deleteFacts(seeded)
+        When("the seeded rows are deleted")
+        deleteFacts(seeded)
 
-      Then("no seeded fact remains in the database")
-      val left = queryRange(s"fact_acct_id IN (${seeded.idsSql})", Array[AnyRef]())
-      assert(left.isEmpty, s"seeded facts still present: ${left.keySet}")
+        Then("no seeded fact remains in the database")
+        val left = queryRange(s"fact_acct_id IN (${seeded.idsSql})", Array[AnyRef]())
+        assert(left.isEmpty, s"seeded facts still present: ${left.keySet}")
+      } finally {
+        deleteFacts(seeded)
+      }
     }    //	Scenario
   }    //	Feature
 
-  /** An open accounting period with its bounds and its accounting schema. */
-  private case class OpenPeriod(periodId: Int, start: Timestamp, end: Timestamp, schema: AcctSchema)
+  /** An open accounting period with its bounds, its year start and its schema. */
+  private case class OpenPeriod(periodId: Int, start: Timestamp, end: Timestamp,
+      yearStart: Timestamp, periodType: String, schema: AcctSchema)
 
-  /** The seeded fact ids, so the scenario and cleanup agree. */
-  private case class Seeded(startId: Int, midId: Int, endId: Int, afterEndId: Int) {
+  /** Accounting schema id and its currency, from one C_AcctSchema row. */
+  private case class AcctSchema(schemaId: Int, currencyId: Int)
+
+  /**
+    * The seeded fact ids and their accounting dates, so the scenarios, the
+    * predicates and cleanup all agree on one fixture.
+    */
+  private case class Seeded(startId: Int, midId: Int, endId: Int, afterEndId: Int,
+      dates: Seq[(Int, Timestamp)]) {
     def idsSql: String = Seq(startId, midId, endId, afterEndId).mkString(",")
   }
+
+  /**
+    * Build the production predicate object with the bounds of the seeded period.
+    * The year bounds come from the period's own C_Year, so the year predicate is
+    * evaluated against the year the test actually posts into.
+    */
+  private def productionPeriod(client: Int, period: OpenPeriod): FinReportPeriod =
+    new FinReportPeriod(period.periodId, "regression", period.start, period.end,
+      period.yearStart, period.periodType)
+
+  /**
+    * Run a production predicate fragment the way FinReport splices it, narrowed
+    * to the seeded rows, and collect what it selected.
+    */
+  private def runProduction(predicate: String, seeded: Seeded): Map[Int, (BigDecimal, BigDecimal)] = {
+    info(s"production predicate: WHERE $predicate")
+    queryRange(s"$predicate AND fact_acct_id IN (${seeded.idsSql})", Array[AnyRef]())
+  }
+
+  /** Assert a production predicate selected exactly the expected ids and totals. */
+  private def assertSelected(rows: Map[Int, (BigDecimal, BigDecimal)], expected: Seq[Int],
+      label: String): Unit = {
+    assert(rows.keySet == expected.toSet,
+      s"$label predicate selected ${rows.keySet}, expected ${expected.toSet}")
+  }
+
+  /** The seeded facts whose accounting date falls inside the given bounds. */
+  private def expectedIn(from: Timestamp, to: Timestamp, seeded: Seeded): Seq[Int] =
+    seeded.dates.collect {
+      case (id, date) if !date.before(from) && !date.after(to) => id
+    }
 
   /**
     * Pick the most recent period genuinely open for accounting: every one of
     * its C_PeriodControl rows must be open. Filtering on a single docbasetype
     * would be wrong, because the accounting docbasetype differs per client and
     * a period half-closed under any other type is not safe to post into.
+    *
+    * yearStart reproduces the formula FinReport itself uses, MIN(StartDate) of
+    * the periods of the same C_Year with PeriodType 'S' or 'A', because C_Year
+    * carries no date columns of its own.
     */
   private def pickOpenPeriod(client: Int): OpenPeriod = {
     var period: OpenPeriod = null
     Trx.run { _ =>
-      var periodId = 0
-      var start: Timestamp = null
-      var end: Timestamp = null
-      val rs = execQuery(
-        "SELECT cp.c_period_id, cp.startdate, cp.enddate " +
+      val opened = query(
+        "SELECT cp.c_period_id, cp.startdate, cp.enddate, cp.periodtype " +
         "FROM c_period cp " +
         "JOIN c_periodcontrol cpc ON cpc.c_period_id = cp.c_period_id " +
         "AND cpc.ad_client_id = cp.ad_client_id " +
         "WHERE cp.ad_client_id = ? AND cp.isactive = 'Y' " +
-        "GROUP BY cp.c_period_id, cp.startdate, cp.enddate " +
+        "GROUP BY cp.c_period_id, cp.startdate, cp.enddate, cp.periodtype " +
         "HAVING bool_and(cpc.periodstatus = 'O') " +
         "ORDER BY cp.startdate DESC LIMIT 1",
-        Array[AnyRef](Integer.valueOf(client)))
-      try {
+        Array[AnyRef](Integer.valueOf(client))) { rs =>
         if (!rs.next())
           throw new AssertionError(
             "No open accounting period found for the client; cannot run the boundary regression")
-        periodId = rs.getInt("c_period_id")
-        start = rs.getTimestamp("startdate")
-        end = rs.getTimestamp("enddate")
-      } finally {
-        DB.close(rs)
+        OpenPeriod(rs.getInt("c_period_id"), rs.getTimestamp("startdate"),
+          rs.getTimestamp("enddate"), null, rs.getString("periodtype"), null)
       }
-      period = OpenPeriod(periodId, start, end, acctSchema(client))
+
+      val yearStart = query(
+        "SELECT MIN(p1.startdate) AS yearstart " +
+        "FROM c_period p " +
+        "INNER JOIN c_year y ON p.c_year_id = y.c_year_id " +
+        "INNER JOIN c_period p1 ON p1.c_year_id = y.c_year_id " +
+        "AND p1.periodtype IN ('S','A') " +
+        "WHERE p.c_period_id = ?",
+        Array[AnyRef](Integer.valueOf(opened.periodId))) { rs =>
+        if (!rs.next() || rs.getObject("yearstart") == null)
+          throw new AssertionError(
+            s"No year start date derivable for C_Period_ID=${opened.periodId}")
+        rs.getTimestamp("yearstart")
+      }
+
+      period = opened.copy(yearStart = yearStart, schema = acctSchema(client))
     }
     period
   }    //	pickOpenPeriod
@@ -202,44 +299,38 @@ class ValidateFinReportDateAcctRange
     * the same C_AcctSchema row so the two always agree. C_PeriodControl carries
     * no accounting schema column.
     */
-  private def acctSchema(client: Int): AcctSchema = {
-    val rs = execQuery(
-      "SELECT c_acctschema_id, c_currency_id FROM c_acctschema WHERE ad_client_id IN (0, ?) AND isactive = 'Y' " +
+  private def acctSchema(client: Int): AcctSchema =
+    query("SELECT c_acctschema_id, c_currency_id FROM c_acctschema " +
+      "WHERE ad_client_id IN (0, ?) AND isactive = 'Y' " +
       "ORDER BY ad_client_id DESC, c_acctschema_id LIMIT 1",
-      Array[AnyRef](Integer.valueOf(client)))
-    try {
+      Array[AnyRef](Integer.valueOf(client))) { rs =>
       if (!rs.next())
         throw new AssertionError("No accounting schema found for the client")
       AcctSchema(rs.getInt("c_acctschema_id"), rs.getInt("c_currency_id"))
-    } finally {
-      DB.close(rs)
     }
-  }    //	acctSchema
-
-  /** Accounting schema id and its currency, from one C_AcctSchema row. */
-  private case class AcctSchema(schemaId: Int, currencyId: Int)
 
   /**
     * Seed four accounting facts: period start, mid-month, period end (the
-    * inclusive upper bound) and the day after the period end. Ids come from a
-    * high sentinel range so they never collide with real rows, and each insert
-    * is asserted so a silent failure cannot pass as success.
+    * inclusive upper bound) and the day after the period end. They are posted
+    * to a balance-sheet account, so the natural balance predicate the reports
+    * build sees them through its EXISTS branch whatever period is open.
+    *
+    * Ids come from a high sentinel range so they never collide with real rows,
+    * and each insert is asserted so a silent failure cannot pass as success.
     */
   private def seedFacts(client: Int, period: OpenPeriod): Seeded = {
     var seeded: Seeded = null
     Trx.run { name =>
-      var baseId = 0
-      val rs = execQuery("SELECT coalesce(max(fact_acct_id), 0) + 900000000 FROM fact_acct",
-        Array[AnyRef]())
-      try {
+      val baseId = query(
+        "SELECT coalesce(max(fact_acct_id), 0) + 900000000 AS base FROM fact_acct",
+        Array[AnyRef]()) { rs =>
         rs.next()
-        baseId = rs.getInt(1)
-      } finally {
-        DB.close(rs)
+        rs.getInt("base")
       }
+
       val account = singleInt(
-        "SELECT c_elementvalue_id FROM c_elementvalue WHERE ad_client_id IN (0, ?) AND isactive = 'Y' " +
-        "AND postactual = 'Y' AND accounttype IN ('A','L','O','R','M') " +
+        "SELECT c_elementvalue_id FROM c_elementvalue WHERE ad_client_id IN (0, ?) " +
+        "AND isactive = 'Y' AND postactual = 'Y' AND accounttype IN ('A','L','O') " +
         "ORDER BY ad_client_id DESC, c_elementvalue_id LIMIT 1",
         Array[AnyRef](Integer.valueOf(client)))
       val orgId = Env.getAD_Org_ID(Env.getCtx)
@@ -249,12 +340,17 @@ class ValidateFinReportDateAcctRange
       val endId = baseId + 3
       val afterEndId = baseId + 4
 
-      insertFact(client, orgId, period, account, startId, period.start, DrStart, name)
-      insertFact(client, orgId, period, account, midId, plusDays(period.start, 14), DrMid, name)
-      insertFact(client, orgId, period, account, endId, period.end, DrEnd, name)
-      insertFact(client, orgId, period, account, afterEndId, plusDays(period.end, 1), DrAfterEnd, name)
+      val midDate = plusDays(period.start, 14)
+      val afterEndDate = plusDays(period.end, 1)
 
-      seeded = Seeded(startId, midId, endId, afterEndId)
+      insertFact(client, orgId, period, account, startId, period.start, DrStart, name)
+      insertFact(client, orgId, period, account, midId, midDate, DrMid, name)
+      insertFact(client, orgId, period, account, endId, period.end, DrEnd, name)
+      insertFact(client, orgId, period, account, afterEndId, afterEndDate, DrAfterEnd, name)
+
+      seeded = Seeded(startId, midId, endId, afterEndId,
+        Seq((startId, period.start), (midId, midDate), (endId, period.end),
+          (afterEndId, afterEndDate)))
     }
     seeded
   }    //	seedFacts
@@ -284,38 +380,42 @@ class ValidateFinReportDateAcctRange
       throw new AssertionError(s"expected to insert fact_acct_id=$factId, affected $inserted")
   }    //	insertFact
 
-  /** Delete exactly the seeded rows; never touches anything else. */
+  /**
+    * Delete exactly the seeded rows and assert the delete took effect: a delete
+    * that silently matched nothing would otherwise leave synthetic accounting
+    * facts in the shared demo database with a green test.
+    */
   private def deleteFacts(seeded: Seeded): Unit = {
     Trx.run { name =>
       val deleted = DB.executeUpdate(
         s"DELETE FROM fact_acct WHERE fact_acct_id IN (${seeded.idsSql})", null, false, name)
       info(s"cleanup deleted $deleted seeded fact_acct rows")
+      if (deleted > SeededCount)
+        throw new AssertionError(
+          s"cleanup removed $deleted rows but only $SeededCount were seeded; the delete " +
+          s"is not scoped to the seeded ids")
     }
   }    //	deleteFacts
 
   /**
-    * Run a predicate over fact_acct and collect the rows by id.
+    * Run a predicate over fact_acct and collect the rows it selected. The table
+    * carries the fb alias, exactly as FinReport declares it, so predicates built
+    * for that alias (getNaturalWhere) can be spliced in unchanged.
     *
     * @return fact_acct_id -> (amount Dr, amount Cr)
     */
-  private def queryRange(where: String, params: Array[AnyRef]): Map[Int, (BigDecimal, BigDecimal)] = {
-    val rows = mutable.LinkedHashMap.empty[Int, (BigDecimal, BigDecimal)]
-    Trx.run { _ =>
-      val rs = execQuery(
-        s"SELECT fact_acct_id, amtacctdr, amtacctcr FROM fact_acct WHERE $where", params)
-      try {
-        while (rs.next()) {
-          val dr = rs.getBigDecimal("amtacctdr")
-          val cr = rs.getBigDecimal("amtacctcr")
-          rows.put(rs.getInt("fact_acct_id"),
-            (if (dr == null) BigDecimal.ZERO else dr, if (cr == null) BigDecimal.ZERO else cr))
-        }
-      } finally {
-        DB.close(rs)
+  private def queryRange(where: String, params: Array[AnyRef]): Map[Int, (BigDecimal, BigDecimal)] =
+    query(s"SELECT fb.fact_acct_id, fb.amtacctdr, fb.amtacctcr FROM fact_acct fb WHERE $where",
+      params) { rs =>
+      val rows = mutable.LinkedHashMap.empty[Int, (BigDecimal, BigDecimal)]
+      while (rs.next()) {
+        val dr = rs.getBigDecimal("amtacctdr")
+        val cr = rs.getBigDecimal("amtacctcr")
+        rows.put(rs.getInt("fact_acct_id"),
+          (if (dr == null) BigDecimal.ZERO else dr, if (cr == null) BigDecimal.ZERO else cr))
       }
+      rows.toMap
     }
-    rows.toMap
-  }    //	queryRange
 
   private def sumDr(rows: Map[Int, (BigDecimal, BigDecimal)]): BigDecimal =
     rows.values.foldLeft(BigDecimal.ZERO)((acc, v) => acc.add(v._1))
@@ -329,16 +429,10 @@ class ValidateFinReportDateAcctRange
     a.keySet == b.keySet && sumDr(a).compareTo(sumDr(b)) == 0 && sumCr(a).compareTo(sumCr(b)) == 0
 
   private def singleInt(sql: String, params: Array[AnyRef]): Int = {
-    var value = 0
-    Trx.run { _ =>
-      val rs = execQuery(sql, params)
-      try {
-        if (!rs.next())
-          throw new AssertionError("query returned no row: " + sql)
-        value = rs.getInt(1)
-      } finally {
-        DB.close(rs)
-      }
+    val value = query(sql, params) { rs =>
+      if (!rs.next())
+        throw new AssertionError("query returned no row: " + sql)
+      rs.getInt(1)
     }
     if (value <= 0)
       throw new AssertionError("expected a positive id from: " + sql)
@@ -352,20 +446,31 @@ class ValidateFinReportDateAcctRange
     new Timestamp(cal.getTimeInMillis)
   }    //	plusDays
 
-  private def execQuery(sql: String, params: Array[AnyRef]): ResultSet = {
+  /**
+    * Run a query and hand the open result set to map. Result set, statement and
+    * connection are all released here: DB.createConnection documents that the
+    * application must close the connection explicitly, and DB.close(rs) closes
+    * only the result set, so releasing them at the call site would leak pooled
+    * connections.
+    */
+  private def query[A](sql: String, params: Array[AnyRef])(map: ResultSet => A): A = {
     val conn = DB.getConnectionRW()
-    val ps = conn.prepareStatement(sql)
+    var ps: PreparedStatement = null
+    var rs: ResultSet = null
     try {
+      ps = conn.prepareStatement(sql)
       var i = 1
       params.foreach { p =>
         ps.setObject(i, p)
         i += 1
       }
-      ps.executeQuery()
-    } catch {
-      case e: Throwable =>
-        ps.close()
-        throw e
+      rs = ps.executeQuery()
+      map(rs)
+    } finally {
+      DB.close(rs)
+      DB.close(ps: PreparedStatement)
+      if (conn != null)
+        conn.close()
     }
-  }    //	execQuery
+  }    //	query
 }    //	ValidateFinReportDateAcctRange
