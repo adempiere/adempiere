@@ -66,8 +66,16 @@ class ValidateFinReportDateAcctRange
   private val DrAfterEnd = new BigDecimal("400")
   /** Expected in-range totals: 100 + 200 + 300. */
   private val ExpectedDr = new BigDecimal("600")
-  /** Number of facts seedFacts writes; cleanup asserts this exact count. */
+  /** Number of facts seedFacts writes; cleanup asserts this exact scope. */
   private val SeededCount = 4
+  /**
+    * Sentinel band for synthetic fact ids. Real Fact_Acct ids come from the
+    * client's id generator and sit far below this, so the band is reserved for
+    * test rows. Ids are derived from the highest real id below the band, so a
+    * run that dies before cleanup cannot push the base towards Int.MaxValue the
+    * way max(fact_acct_id)+band would.
+    */
+  private val SentinelBand = 900000000
 
   Feature("DateAcct range predicate over live accounting facts") {
 
@@ -322,8 +330,8 @@ class ValidateFinReportDateAcctRange
     var seeded: Seeded = null
     Trx.run { name =>
       val baseId = query(
-        "SELECT coalesce(max(fact_acct_id), 0) + 900000000 AS base FROM fact_acct",
-        Array[AnyRef]()) { rs =>
+        "SELECT coalesce(max(fact_acct_id), 0) + ? AS base FROM fact_acct WHERE fact_acct_id < ?",
+        Array[AnyRef](Integer.valueOf(SentinelBand), Integer.valueOf(SentinelBand))) { rs =>
         rs.next()
         rs.getInt("base")
       }
@@ -339,6 +347,13 @@ class ValidateFinReportDateAcctRange
       val midId = baseId + 2
       val endId = baseId + 3
       val afterEndId = baseId + 4
+
+      // Reclaim exactly the ids this run is about to claim, so a previous run
+      // that died before cleanup does not fail this one on a primary key clash.
+      // Scoped to these four ids; no other row is touched.
+      DB.executeUpdate(
+        s"DELETE FROM fact_acct WHERE fact_acct_id IN (${Seq(startId, midId, endId, afterEndId).mkString(",")})",
+        null, false, name)
 
       val midDate = plusDays(period.start, 14)
       val afterEndDate = plusDays(period.end, 1)
@@ -381,9 +396,15 @@ class ValidateFinReportDateAcctRange
   }    //	insertFact
 
   /**
-    * Delete exactly the seeded rows and assert the delete took effect: a delete
+    * Delete exactly the seeded rows and prove the delete took effect. A delete
     * that silently matched nothing would otherwise leave synthetic accounting
-    * facts in the shared demo database with a green test.
+    * facts in the shared demo database behind a green test, and a delete that
+    * matched more than it seeded would destroy real accounting data.
+    *
+    * The delete runs inside the transaction and the rows are re-read after it
+    * commits: reading them inside the same block goes out over a different
+    * connection, cannot see the uncommitted delete, and the resulting failure
+    * would roll the cleanup back.
     */
   private def deleteFacts(seeded: Seeded): Unit = {
     Trx.run { name =>
@@ -395,6 +416,16 @@ class ValidateFinReportDateAcctRange
           s"cleanup removed $deleted rows but only $SeededCount were seeded; the delete " +
           s"is not scoped to the seeded ids")
     }
+    val left = query(
+      s"SELECT fact_acct_id FROM fact_acct WHERE fact_acct_id IN (${seeded.idsSql})",
+      Array[AnyRef]()) { rs =>
+      val ids = mutable.ArrayBuffer.empty[Int]
+      while (rs.next())
+        ids += rs.getInt("fact_acct_id")
+      ids.toSeq
+    }
+    if (left.nonEmpty)
+      throw new AssertionError(s"cleanup left seeded facts behind: $left")
   }    //	deleteFacts
 
   /**
