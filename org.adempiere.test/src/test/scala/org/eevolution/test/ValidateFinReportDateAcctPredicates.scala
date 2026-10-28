@@ -86,10 +86,14 @@ class ValidateFinReportDateAcctPredicates extends AnyFeatureSpec {
         s"${sources(2)}: the detail lines must use a direct DateAcct BETWEEN range")
     }
 
-    Scenario("TrialBalance filters the DateAcct range directly") {
+    Scenario("TrialBalance binds the DateAcct range as parameters") {
       val text = read(sources(3))
-      assert(text.contains("AND DateAcct <="),
-        s"${sources(3)}: the trial balance must filter DateAcct <= without TRUNC()")
+      assert(text.contains("AND DateAcct >= ?"),
+        s"${sources(3)}: the trial balance lower bound must be a bound parameter")
+      assert(text.contains("AND DateAcct <= ?"),
+        s"${sources(3)}: the trial balance upper bound must be a bound parameter")
+      assert(!truncDateAcct.matcher(text).find(),
+        s"${sources(3)}: the trial balance must not wrap DateAcct in TRUNC()")
     }
   }
 }
