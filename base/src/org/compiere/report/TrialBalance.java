@@ -33,6 +33,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -551,8 +552,11 @@ public class TrialBalance extends SvrProcess
 		sql.append(")");
 		//
 		List<Object> parameters = new ArrayList<>();
-		parameters.add(p_DateAcct_From);
-		parameters.add(p_DateAcct_To);
+		//	Normalised to the day: the previous DB.TO_DATE(p_DateAcct_From, true)
+		//	rendered a day-only literal, so binding the raw parameter would keep its
+		//	time component and exclude valid facts dated earlier on the start day.
+		parameters.add(TimeUtil.getDay(p_DateAcct_From));
+		parameters.add(TimeUtil.getDay(p_DateAcct_To));
 		
 		int no = DB.executeUpdateEx(sql.toString(), parameters.toArray(), get_TrxName());
 		if (no == 0)
