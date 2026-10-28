@@ -76,13 +76,19 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
     Ini.setProperty(Ini.P_WAREHOUSE, "HQ Warehouse")
     Ini.setProperty(Ini.P_LANGUAGE, "English")
     val login = new Login(Env.getCtx)
-    if (!login.batchLogin(null))
-      fail("Login failed for " + s"${Ini.getProperty(Ini.P_UID)} / " +
-        s"${Ini.getProperty(Ini.P_ROLE)} @ " +
-        s"${Ini.getProperty(Ini.P_CLIENT)}/${Ini.getProperty(Ini.P_ORG)}: " +
-        "aborting the suite instead of killing the JVM, so the runner can report it")
-    CLogMgt.setLoggerLevel(Level.SEVERE, null)
-    CLogMgt.setLevel(Level.SEVERE)
+    // fail(...) aborts beforeAll, so the logging reset below has to run in a
+    // finally block: otherwise a failed login leaves process-wide logging
+    // switched OFF for every other suite sharing this JVM.
+    try {
+      if (!login.batchLogin(null))
+        fail("Login failed for " + s"${Ini.getProperty(Ini.P_UID)} / " +
+          s"${Ini.getProperty(Ini.P_ROLE)} @ " +
+          s"${Ini.getProperty(Ini.P_CLIENT)}/${Ini.getProperty(Ini.P_ORG)}: " +
+          "aborting the suite instead of killing the JVM, so the runner can report it")
+    } finally {
+      CLogMgt.setLoggerLevel(Level.SEVERE, null)
+      CLogMgt.setLevel(Level.SEVERE)
+    }
   }
 
   override def afterAll(): Unit = {
