@@ -20,8 +20,10 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchemaElement;
@@ -534,8 +536,8 @@ public class TrialBalance extends SvrProcess
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
-			.append(" AND DateAcct >= ").append(DB.TO_DATE(p_DateAcct_From, true))
-			.append(" AND DateAcct <= ").append(DB.TO_DATE(p_DateAcct_To, true));
+			.append(" AND DateAcct >= ?")
+			.append(" AND DateAcct <= ?");
 		//
 		sql.append(" AND Account_ID IN (");
 		if (plID != null && !plID.isEmpty())
@@ -547,8 +549,12 @@ public class TrialBalance extends SvrProcess
 			sql.append(bsID);
 		}
 		sql.append(")");
+		//
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(p_DateAcct_From);
+		parameters.add(p_DateAcct_To);
 		
-		int no = DB.executeUpdate(sql.toString(), get_TrxName());
+		int no = DB.executeUpdateEx(sql.toString(), parameters.toArray(), get_TrxName());
 		if (no == 0)
 			log.fine(sql.toString());
 		log.fine("#" + no + " (Account_ID=" + p_Account_ID + ")");
