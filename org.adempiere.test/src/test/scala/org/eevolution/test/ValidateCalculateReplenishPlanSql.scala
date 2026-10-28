@@ -50,8 +50,19 @@ class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec with GivenWhenThe
   private val portions = Seq(
     "deleteUnconfirmedProduction M_Movement" ->
       "sql = \"DELETE FROM M_Movement m .*?\";",
+    "deleteUnconfirmedProduction M_MovementLine" ->
+      "sql = \"DELETE FROM M_MovementLine ml .*?\";",
     "MRP demand SELECT" ->
       "String sql = new String\\(\"SELECT p.M_Production_ID.*?\"\\);"
+  )
+
+  /** The two movement cleanup statements of `deleteUnconfirmedProduction()`, each taken
+    * together with the `DB.executeUpdate` call that binds its parameters. */
+  private val movementCleanupStatements = Seq(
+    "M_MovementLine cleanup" ->
+      "sql = \"DELETE FROM M_MovementLine ml .*?executeUpdate\\(.*?\\);",
+    "M_Movement cleanup" ->
+      "sql = \"DELETE FROM M_Movement m .*?executeUpdate\\(.*?\\);"
   )
 
   Feature("CalculateReplenishPlan keeps PostgreSQL 15/16-parseable query strings") {
@@ -93,6 +104,22 @@ class ValidateCalculateReplenishPlanSql extends AnyFeatureSpec with GivenWhenThe
             assert(lit.endsWith("'N' "),
               s"$name: literal [$lit] ends in a bare closing quote but SQL continues after it")
         }
+      }
+    }
+  }
+
+  Feature("the unconfirmed-production movement cleanup is scoped to the plan's client") {
+    movementCleanupStatements.foreach { case (name, regex) =>
+      Scenario(s"$name filters by AD_Client_ID and binds getAD_Client_ID() (#4484)") {
+        Given("the CalculateReplenishPlan source contains the movement cleanup statement")
+        When("reading the statement together with its DB.executeUpdate call")
+        Then("the DELETE filters by AD_Client_ID and the call binds the process client")
+        val statement = portionOf(readSource, regex)
+        val query = concatenated(statement)
+        assert(query.contains("AD_Client_ID = ?"),
+          s"$name: the cleanup DELETE must filter by AD_Client_ID, got [$query]")
+        assert(statement.contains("getAD_Client_ID()"),
+          s"$name: the DB.executeUpdate call must bind getAD_Client_ID(), got [$statement]")
       }
     }
   }
