@@ -17,6 +17,8 @@
 package org.compiere.util;
 
 import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 
 /**
  *  Adempiere Cache Management
@@ -51,6 +53,8 @@ public class CacheMgt
 	private ArrayList<CacheInterface>	m_instances = new ArrayList<CacheInterface>();
 	/** List of Table Names				*/
 	private ArrayList<String>	m_tableNames = new ArrayList<String>();
+	/** Change listeners				*/
+	private final CopyOnWriteArrayList<CacheChangeListener>	changeListeners = new CopyOnWriteArrayList<CacheChangeListener>();
 	/** Logger							*/
 	private static CLogger		log = CLogger.getCLogger(CacheMgt.class);
 
@@ -95,6 +99,52 @@ public class CacheMgt
 		}
 		return found;
 	}	//	unregister
+
+	/**
+	 * 	Add a listener of the saved and deleted records
+	 *	@param listener listener
+	 *	@return true if added (false if null or already there)
+	 */
+	public boolean addChangeListener (CacheChangeListener listener)
+	{
+		return listener != null && changeListeners.addIfAbsent(listener);
+	}	//	addChangeListener
+
+	/**
+	 * 	Remove a listener of the saved and deleted records
+	 *	@param listener listener
+	 *	@return true if removed
+	 */
+	public boolean removeChangeListener (CacheChangeListener listener)
+	{
+		return listener != null && changeListeners.remove(listener);
+	}	//	removeChangeListener
+
+	/**
+	 * 	Tell the change listeners that a record was saved or deleted. A listener that throws is logged
+	 * 	and does not stop the others nor the caller.
+	 * 	@param tableName table name
+	 * 	@param recordId record ID
+	 * 	@param transactionName transaction of the change, null if there is none
+	 * 	@param isNewRecord true if the record was inserted
+	 * 	@param isDeleted true if the record was deleted
+	 */
+	public void fireChange (String tableName, int recordId, String transactionName, boolean isNewRecord, boolean isDeleted)
+	{
+		if (changeListeners.isEmpty())
+			return;
+		for (CacheChangeListener listener : changeListeners)
+		{
+			try
+			{
+				listener.changed(tableName, recordId, transactionName, isNewRecord, isDeleted);
+			}
+			catch (RuntimeException exception)
+			{
+				log.log(Level.WARNING, "Change listener " + listener + " - " + tableName + "/" + recordId, exception);
+			}
+		}
+	}	//	fireChange
 
 	/**************************************************************************
 	 * 	Reset All registered Cache

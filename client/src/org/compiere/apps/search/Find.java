@@ -83,6 +83,7 @@ import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
+import org.compiere.model.FindCount;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
@@ -1944,46 +1945,22 @@ public final class Find extends CDialog
 	private int getNoOfRecords (MQuery query, boolean alertZeroRecords)
 	{
 		log.config("" + query);
-		StringBuffer sql = new StringBuffer("SELECT COUNT(*) FROM ");
-		sql.append(m_tableName);
-		boolean hasWhere = false;
-		if (m_whereExtended != null && m_whereExtended.length() > 0)
-		{
-			sql.append(" WHERE ").append(m_whereExtended);
-			hasWhere = true;
-		}
-		if (query != null && query.isActive())
-		{
-			if (hasWhere)
-				sql.append(" AND ");
-			else
-				sql.append(" WHERE ");
-			sql.append(query.getWhereClause());
-		}
-		//	Add Access
-		String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(), 
-			m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
+		//	The restriction binds; the extended where clause is raw SQL, then access and context
+		FindCount.CountStatement countStatement = FindCount.getStatement(Env.getCtx(), m_targetWindowNo,
+			MRole.getDefault(), m_tableName, m_whereExtended, query);
+		//	The context keeps the literal text for the code that reads it
+		String finalSQL = countStatement.getLiteralSql();
 		Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
 
 		//  Execute Qusery
 		m_total = 999999;
-		Statement stmt = null;
-		ResultSet rs = null;
 		try
 		{
-			stmt = DB.createStatement();
-			rs = stmt.executeQuery(finalSQL);
-			if (rs.next())
-				m_total = rs.getInt(1);
+			m_total = FindCount.count(countStatement);
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, finalSQL, e);
-		}
-		finally {
-			DB.close(rs, stmt);
-			rs = null; stmt = null;
 		}
 		MRole role = MRole.getDefault(); 
 		//	No Records

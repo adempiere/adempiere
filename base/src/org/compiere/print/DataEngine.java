@@ -18,12 +18,15 @@ package org.compiere.print;
 
 import java.io.Serializable;
 import java.sql.Clob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -43,8 +46,10 @@ import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
+import org.postgresql.PGStatement;
 
 /**
  * Data Engine.
@@ -105,6 +110,36 @@ public class DataEngine
 	/**	Logger							*/
 	private static CLogger	log = CLogger.getCLogger (DataEngine.class);
 
+	/** Print format items of the report with their column and report view column */
+	private static final String DEFINITION_SQL = "SELECT c.AD_Column_ID,c.ColumnName,"				//	1..2
+			+ "c.AD_Reference_ID,c.AD_Reference_Value_ID,"				//	3..4
+			+ "c.FieldLength,c.IsMandatory,c.IsKey,c.IsParent,"			//	5..8
+			+ "COALESCE(rvc.IsGroupFunction,'N') AS IsGroupFunction, rvc.FunctionColumn,"	//	9..10
+			+ "pfi.IsGroupBy,pfi.IsSummarized,pfi.IsAveraged,pfi.IsCounted, "	//	11..14
+			+ "pfi.IsPrinted,pfi.SortNo,pfi.IsPageBreak, "				//	15..17
+			+ "pfi.IsMinCalc,pfi.IsMaxCalc, "							//	18..19
+			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
+			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
+			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
+			+ " , pfi.isDesc " //26
+			+ " , pfi.SeqNo " //27
+			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsHideGrandTotal " // 28
+			+ "FROM AD_PrintFormat pf"
+			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
+			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
+			+ " LEFT OUTER JOIN AD_ReportView_Col rvc ON (pf.AD_ReportView_ID=rvc.AD_ReportView_ID AND c.AD_Column_ID=rvc.AD_Column_ID) "
+			+ "WHERE pf.AD_PrintFormat_ID=?"					//	#1
+			+ " AND pfi.IsActive='Y' AND (pfi.IsPrinted='Y' OR c.IsKey='Y' OR pfi.SortNo > 0) "
+			+ " AND pfi.PrintFormatType IN ('"
+				+ MPrintFormatItem.PRINTFORMATTYPE_Field
+				+ "','"
+				+ MPrintFormatItem.PRINTFORMATTYPE_Image
+				+ "','"
+				+ MPrintFormatItem.PRINTFORMATTYPE_PrintFormat
+				+ "') "
+			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo, pfi.AD_PrintFormatItem_ID";
+
+
 	/**	Synonym							*/
 	private	String			m_synonym = "A";
 
@@ -132,6 +167,136 @@ public class DataEngine
 	public static final String KEY = "*";
 
 	private static final String REPORT_DISPLAY_YES_NO = "REPORT_DISPLAY_YES_NO";
+
+	/** SysConfig: Y (default) resolves TableDir lookups with LEFT OUTER JOINs, N keeps the correlated subselects */
+	public static final String REPORT_LOOKUP_JOIN = "REPORT_LOOKUP_JOIN";
+
+	/** Override of the REPORT_LOOKUP_JOIN SysConfig, null = use SysConfig */
+	private Boolean lookupJoinOverride = null;
+
+	/** The report reads a translation view (..._vt), lookups are not joined */
+	private boolean isTranslationView = false;
+
+	/** SysConfig: Y (default) caches the definition of the reports (print format, items, lookups), N reads the dictionary on every run */
+	public static final String REPORT_DEFINITION_CACHE = "REPORT_DEFINITION_CACHE";
+
+	/** Override of the REPORT_DEFINITION_CACHE SysConfig, null = use SysConfig */
+	private Boolean definitionCacheOverride = null;
+
+	/** SysConfig: rows per round trip of the report read, 0 reads the whole result at once (no fetch size) */
+	public static final String REPORT_FETCH_SIZE = "REPORT_FETCH_SIZE";
+
+	/** Default of REPORT_FETCH_SIZE: 1000 rows per round trip bounds the driver buffer to about 1000 result rows (about a MB for a wide
+	 *  report row) while a report of 100,000 rows still needs only 100 round trips; 0 restores the whole-result read */
+	public static final int DEFAULT_FETCH_SIZE = 1000;
+
+	/** Override of the REPORT_FETCH_SIZE SysConfig, null = use SysConfig */
+	private Integer fetchSizeOverride = null;
+
+	/** SysConfig: Y (default) lets PostgreSQL reuse the plan of a report statement that has bind parameters, N keeps prepareThreshold=0 */
+	public static final String REPORT_PLAN_CACHE = "REPORT_PLAN_CACHE";
+
+	/** Override of the REPORT_PLAN_CACHE SysConfig, null = use SysConfig */
+	private Boolean planCacheOverride = null;
+
+	/**
+	 * 	Force the plan reuse of this engine, independent of the REPORT_PLAN_CACHE SysConfig.
+	 * 	With bind parameters and plan reuse the report statement keeps the prepareThreshold of the driver: pgjdbc prepares it in
+	 * 	the server from the 5th execution on the same connection and PostgreSQL chooses between a generic and a specific plan
+	 * 	(plan_cache_mode=auto). Without it, or without parameters, the statement is one-off (prepareThreshold=0) as before.
+	 * 	@param planCache true = reuse the plan of statements with parameters, false = one-off statements, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setPlanCache (Boolean planCache)
+	{
+		planCacheOverride = planCache;
+		return this;
+	}	//	setPlanCache
+
+	/**
+	 * 	Is the plan of the report statements with bind parameters reused?
+	 * 	@param context context
+	 * 	@return true if the statements with parameters keep the prepareThreshold of the driver
+	 */
+	public boolean isPlanCache (Properties context)
+	{
+		if (planCacheOverride != null)
+			return planCacheOverride.booleanValue();
+		return MSysConfig.getBooleanValue(REPORT_PLAN_CACHE, true, Env.getAD_Client_ID(context));
+	}	//	isPlanCache
+
+	/**
+	 * 	Force the fetch size of the report read of this engine, independent of the REPORT_FETCH_SIZE SysConfig.
+	 * 	@param fetchSize rows per round trip, 0 = read the whole result at once, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setFetchSize (Integer fetchSize)
+	{
+		fetchSizeOverride = fetchSize;
+		return this;
+	}	//	setFetchSize
+
+	/**
+	 * 	Fetch size of the report read
+	 * 	@param context context
+	 * 	@return rows per round trip, 0 = whole result at once
+	 */
+	public int getFetchSize (Properties context)
+	{
+		int fetchSize = fetchSizeOverride != null ? fetchSizeOverride.intValue()
+			: MSysConfig.getIntValue(REPORT_FETCH_SIZE, DEFAULT_FETCH_SIZE, Env.getAD_Client_ID(context));
+		return Math.max(fetchSize, 0);
+	}	//	getFetchSize
+
+	/**
+	 * 	Force the report definition cache of this engine, independent of the REPORT_DEFINITION_CACHE SysConfig.
+	 * 	@param definitionCache true = use the cache, false = read the dictionary on every run, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setDefinitionCache (Boolean definitionCache)
+	{
+		definitionCacheOverride = definitionCache;
+		return this;
+	}	//	setDefinitionCache
+
+	/**
+	 * 	Is the definition of the reports cached?
+	 * 	@param context context
+	 * 	@return true if the report definition cache is used
+	 */
+	private boolean isDefinitionCache (Properties context)
+	{
+		if (definitionCacheOverride != null)
+			return definitionCacheOverride.booleanValue();
+		return MSysConfig.getBooleanValue(REPORT_DEFINITION_CACHE, true, Env.getAD_Client_ID(context));
+	}	//	isDefinitionCache
+
+	/**
+	 * 	Force the lookup strategy of this engine, independent of the REPORT_LOOKUP_JOIN SysConfig.
+	 * 	@param lookupJoin true = LEFT OUTER JOINs, false = correlated subselects, null = SysConfig
+	 * 	@return this engine
+	 */
+	public DataEngine setLookupJoin (Boolean isLookupJoinEnabled)
+	{
+		lookupJoinOverride = isLookupJoinEnabled;
+		return this;
+	}	//	setLookupJoin
+
+	/**
+	 * 	Are the TableDir lookups of the report resolved with LEFT OUTER JOINs?
+	 * 	Not for the report tables (T_Report*, AD_PInstance*) and the translation views.
+	 * 	@param context context
+	 * 	@param tableName table of the report
+	 * 	@return true if joins are used
+	 */
+	private boolean isLookupJoin (Properties context, String tableName)
+	{
+		if (tableName.startsWith("T_Report") || tableName.startsWith("AD_PInstance") || isTranslationView)
+			return false;
+		if (lookupJoinOverride != null)
+			return lookupJoinOverride.booleanValue();
+		return MSysConfig.getBooleanValue(REPORT_LOOKUP_JOIN, true, Env.getAD_Client_ID(context));
+	}	//	isLookupJoin
 
 
 	/**************************************************************************
@@ -163,8 +328,32 @@ public class DataEngine
 		if (format == null)
 			throw new IllegalStateException ("No print format");
 
+		//	The definition of the report (dictionary) is read through the report definition cache
+		PrintData printData = null;
+		try (ReportDefinitionCache.Scope scope = ReportDefinitionCache.open(isDefinitionCache(ctx), m_trxName))
+		{
+			printData = createPrintData(ctx, format, query, summary, p_AD_ReportView_ID);
+		}
+		if (printData == null)
+			return null;
+		loadPrintData(printData, format);
+		return printData;
+	}	//	getPrintData
+
+	/**
+	 * 	Create the PrintData with the SQL of the report, without data
+	 * 	@param ctx context
+	 * 	@param format print format
+	 * 	@param query query
+	 * 	@param summary report summary
+	 * 	@param p_AD_ReportView_ID report view or 0 for the one of the print format
+	 * 	@return PrintData without rows or null
+	 */
+	private PrintData createPrintData (Properties context, MPrintFormat format, MQuery query, boolean summary, int p_AD_ReportView_ID)
+	{
 		/** Report Summary FR [ 2011569 ]**/ 
 		m_summary = !format.isForm() && summary;
+		isTranslationView = false;
 		String tableName = null;
 		String reportName = format.getName();
 		//	Yamel Senih BR [ 236 ] Clear Query before add new restrictions
@@ -177,41 +366,21 @@ public class DataEngine
 		//	
 		if (p_AD_ReportView_ID > 0)
 		{
-			String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
-				+ "FROM AD_Table t"
-				+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
-				+ "WHERE rv.AD_ReportView_ID=?";	//	1
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{				
-				pstmt = DB.prepareStatement(sql, m_trxName);
-				pstmt.setInt(1, p_AD_ReportView_ID);
-				rs = pstmt.executeQuery();
-				if (rs.next())
-				{
-					tableName = rs.getString(2);  	//	TableName
-					reportName = rs.getString(3);
-					// Add WhereClause restriction from AD_ReportView - teo_sarca BF [ 1761891 ]
-					String whereClause = rs.getString(4);
-					if (!Util.isEmpty(whereClause))
-						query.addRestriction(whereClause);
-				}
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
+			ReportDefinition.ReportView reportView = getReportView(p_AD_ReportView_ID);
+			if (reportView == null && hasReportViewFailed)
 				return null;
-			}
-			finally
+			if (reportView != null)
 			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
+				tableName = reportView.tableName;  	//	TableName
+				reportName = reportView.name;
+				// Add WhereClause restriction from AD_ReportView - teo_sarca BF [ 1761891 ]
+				if (!Util.isEmpty(reportView.whereClause))
+					query.addRestriction(reportView.whereClause);
 			}
 		}
 		else
 		{
-			tableName = MTable.getTableName(ctx, format.getAD_Table_ID());
+			tableName = MTable.getTableName(context, format.getAD_Table_ID());
 		}
 		if (tableName == null)
 		{
@@ -224,16 +393,63 @@ public class DataEngine
 			if (hasVT)
 			{
 				tableName += "t";
+				isTranslationView = true;
 				format.setTranslationViewQuery (query);
 			}
 		}
 		//
-		PrintData pd = getPrintDataInfo (ctx, format, query, reportName, tableName);
-		if (pd == null)
+		return getPrintDataInfo (context, format, query, reportName, tableName, p_AD_ReportView_ID);
+	}	//	createPrintData
+
+	/** The AD_ReportView query failed (an error was logged) */
+	private boolean hasReportViewFailed = false;
+
+	/**
+	 * 	Get the AD_ReportView of a report with its table: from the report definition cache or from the dictionary
+	 * 	@param reportViewId AD_ReportView_ID
+	 * 	@return report view or null if it does not exist (or the query failed: {@link #hasReportViewFailed})
+	 */
+	private ReportDefinition.ReportView getReportView (int reportViewId)
+	{
+		hasReportViewFailed = false;
+		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
+		List<Object> cacheKey = Arrays.<Object>asList("ReportView", Integer.valueOf(reportViewId));
+		if (scope != null)
+		{
+			ReportDefinition.ReportView cached = (ReportDefinition.ReportView)scope.get(cacheKey);
+			if (cached != null)
+				return cached;
+		}
+		String sql = "SELECT t.AD_Table_ID, t.TableName, rv.Name, rv.WhereClause "
+			+ "FROM AD_Table t"
+			+ " INNER JOIN AD_ReportView rv ON (t.AD_Table_ID=rv.AD_Table_ID) "
+			+ "WHERE rv.AD_ReportView_ID=?";	//	1
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		ReportDefinition.ReportView reportView = null;
+		try
+		{				
+			statement = DB.prepareStatement(sql, m_trxName);
+			statement.setInt(1, reportViewId);
+			resultSet = statement.executeQuery();
+			if (resultSet.next())
+				reportView = new ReportDefinition.ReportView(resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+		}
+		catch (SQLException exception)
+		{
+			log.log(Level.SEVERE, sql, exception);
+			hasReportViewFailed = true;
 			return null;
-		loadPrintData(pd, format);
-		return pd;
-	}	//	getPrintData
+		}
+		finally
+		{
+			DB.close(resultSet, statement);
+			resultSet = null; statement = null;
+		}
+		if (scope != null && reportView != null)
+			scope.put(cacheKey, reportView);
+		return reportView;
+	}	//	getReportView
 
 	
 	/**************************************************************************
@@ -247,26 +463,141 @@ public class DataEngine
 	 * 	@return PrintData or null
 	 */
 	private PrintData getPrintDataInfo (Properties ctx, MPrintFormat format, MQuery query,
-		String reportName, String tableName)
+		String reportName, String tableName, int reportViewId)
 	{
 		m_startTime = System.currentTimeMillis();
 		log.info(reportName + " - " + m_language.getAD_Language());
 		log.fine("TableName=" + tableName + ", Query=" + query);
 		log.fine("Format=" + format);
-		ArrayList<PrintDataColumn> columns = new ArrayList<PrintDataColumn>();
 		group = new PrintDataGroup();
 
-		//	Order Columns (identified by non zero/null SortNo)
+		//	The definition: from the report definition cache, otherwise from the dictionary
 		int[] orderAD_Column_IDs = format.getOrderAD_Column_IDs();
-		ArrayList<String> orderColumns = new ArrayList<String>(orderAD_Column_IDs.length);
-		for (int i = 0; i < orderAD_Column_IDs.length; i++)
+		boolean isLookupJoinEnabled = isLookupJoin(ctx, tableName);
+		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
+		ReportDefinition.Key cacheKey = new ReportDefinition.Key(format.get_ID(), tableName, m_language.getAD_Language(),
+			reportViewId, isTranslationView, isLookupJoinEnabled, CLogMgt.isLevelFine(), orderAD_Column_IDs);
+		ReportDefinition definition = scope == null ? null : (ReportDefinition)scope.get(cacheKey);
+		if (definition == null)
 		{
-			log.finest("Order AD_Column_ID=" + orderAD_Column_IDs[i]);
+			definition = readDefinition(ctx, format, tableName, orderAD_Column_IDs, isLookupJoinEnabled);
+			if (scope != null && definition.isComplete)
+				scope.put(cacheKey, definition);
+		}
+
+		if (definition.columns.size() == 0
+				&& format.getJasperProcess_ID() == 0)
+		{
+			log.log(Level.SEVERE, "No Colums - Delete Report Format " + reportName + " and start again");
+			log.finest("No Colums - SQL=" + DEFINITION_SQL + " - ID=" + format.get_ID());
+			return null;
+		}
+		definition.fill(group);
+		if (definition.hasRunningTotal)
+			runningTotalLines = Math.max(runningTotalLines, definition.runningTotalLines);
+		boolean hasLevelNo = definition.hasLevelNo;
+
+		/**
+		 *	Assemble final SQL
+		 */
+		StringBuffer finalSQL = new StringBuffer(definition.head);
+
+		//	WHERE clause, with the values of the user restrictions as bind parameters in placeholder order
+		List<Object> parameters = new ArrayList<Object>();
+		if (tableName.startsWith("T_Report"))
+		{
+			finalSQL.append(" WHERE ");
+			for (int restrictionIndex = 0; restrictionIndex < query.getRestrictionCount(); restrictionIndex++)
+			{
+				String restrictionWhereClause = query.getWhereClause (restrictionIndex);
+				if (restrictionWhereClause.indexOf("AD_PInstance_ID") != -1)	//	ignore all other Parameters
+					finalSQL.append (restrictionWhereClause);
+			}	//	for all restrictions
+		}
+		else if (tableName.startsWith("AD_PInstance"))
+		{
+			finalSQL.append(" WHERE ");
+			for (int restrictionIndex = 0; restrictionIndex < query.getRestrictionCount(); restrictionIndex++)
+			{
+				String restrictionWhereClause = query.getWhereClause (restrictionIndex);
+				if (restrictionWhereClause.indexOf("AD_PInstance_ID") != -1)	
+				{//	ignore all other Parameters
+					restrictionWhereClause=restrictionWhereClause.substring(9);
+						finalSQL.append (restrictionWhereClause);
+				}
+			}	//	for all restrictions
+		}
+		else
+		{
+			//	User supplied Where Clause
+			if (query != null && query.isActive ())
+			{
+				finalSQL.append (" WHERE ");
+				if (!query.getTableName ().equals (tableName))
+					query.setTableName (tableName);
+				MQuery.BoundWhereClause boundWhereClause = query.getBoundWhereClause (true);
+				finalSQL.append (boundWhereClause.getSql ());
+				parameters.addAll (boundWhereClause.getParameters ());
+			}
+			//	Access Restriction
+			MRole role = MRole.getDefault(ctx, false);
+			if (role.getAD_Role_ID() == 0 && !Ini.isClient())
+				;	//	System Access
+			else
+				finalSQL = new StringBuffer (role.addAccessSQL (finalSQL.toString (), 
+					tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO));
+		}
+
+		//	GROUP BY, the lookups joined to the statement of the report, ORDER BY and the tag of the report for the DBA
+		String finalStatement = definition.finish(finalSQL.toString());
+
+		//	Print Data
+		PrintData printData = new PrintData (ctx, reportName);
+		PrintDataColumn[] printDataColumns = definition.newColumns();	//	column order is in sync with SELECT column position
+		printData.setColumnInfo(printDataColumns);
+		printData.setTableName(tableName);
+		printData.setSQL(finalStatement);
+		printData.setSQLParameters(parameters);
+		printData.setHasLevelNo(hasLevelNo);
+		if (definition.isTableIdRequired && !definition.isTableIdPresent) {
+			printData.setHasDummyTableID(true);
+		}
+		
+		log.fine (parameters.isEmpty() ? finalStatement : finalStatement + "\nParameters=" + parameters);
+		log.finest ("Group=" + group);
+		return printData;
+	}	//	getPrintDataInfo
+
+	/**
+	 * 	Read the definition of the report from the dictionary: columns, group and function specs, the lookups
+	 * 	(joined or embedded) and the fragments of the statement that do not depend on the user, role or query.
+	 * 	@param ctx context
+	 * 	@param format print format
+	 * 	@param tableName table name
+	 * 	@param orderAD_Column_IDs AD_Column_IDs in sort order
+	 * 	@param lookupJoin the TableDir lookups are joined
+	 * 	@return immutable definition
+	 */
+	private ReportDefinition readDefinition (Properties context, MPrintFormat format, String tableName,
+		int[] orderAD_Column_IDs, boolean isLookupJoinEnabled)
+	{
+		ReportDefinition.Builder reportDefinitionBuilder = new ReportDefinition.Builder();
+		reportDefinitionBuilder.tableName = tableName;
+		reportDefinitionBuilder.isLookupJoinEnabled = isLookupJoinEnabled;
+
+		//	Order Columns (identified by non zero/null SortNo)
+		ArrayList<String> orderColumns = new ArrayList<String>(orderAD_Column_IDs.length);
+		for (int index = 0; index < orderAD_Column_IDs.length; index++)
+		{
+			log.finest("Order AD_Column_ID=" + orderAD_Column_IDs[index]);
 			orderColumns.add("");		//	initial value overwritten with fully qualified name
 		}
 
 		//	Direct SQL w/o Reference Info
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
+		//	Items of the SELECT list, the lookups of the report are joined when the plan is set
+		List<ReportLookupItem> items = new ArrayList<ReportLookupItem>();
+		ReportLookupPlan lookupPlan = isLookupJoinEnabled ? new ReportLookupPlan(m_language, tableName) : null;
 		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
 		ArrayList<String> groupByColumns = new ArrayList<String>();
 		
@@ -276,84 +607,60 @@ public class DataEngine
 		//
 		boolean IsGroupedBy = false;
 		//
-		String sql = "SELECT c.AD_Column_ID,c.ColumnName,"				//	1..2
-			+ "c.AD_Reference_ID,c.AD_Reference_Value_ID,"				//	3..4
-			+ "c.FieldLength,c.IsMandatory,c.IsKey,c.IsParent,"			//	5..8
-			+ "COALESCE(rvc.IsGroupFunction,'N') AS IsGroupFunction, rvc.FunctionColumn,"	//	9..10
-			+ "pfi.IsGroupBy,pfi.IsSummarized,pfi.IsAveraged,pfi.IsCounted, "	//	11..14
-			+ "pfi.IsPrinted,pfi.SortNo,pfi.IsPageBreak, "				//	15..17
-			+ "pfi.IsMinCalc,pfi.IsMaxCalc, "							//	18..19
-			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
-			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
-			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
-			+ " , pfi.isDesc " //26
-			+ " , pfi.SeqNo " //27
-			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsHideGrandTotal " // 28
-			+ "FROM AD_PrintFormat pf"
-			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
-			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
-			+ " LEFT OUTER JOIN AD_ReportView_Col rvc ON (pf.AD_ReportView_ID=rvc.AD_ReportView_ID AND c.AD_Column_ID=rvc.AD_Column_ID) "
-			+ "WHERE pf.AD_PrintFormat_ID=?"					//	#1
-			+ " AND pfi.IsActive='Y' AND (pfi.IsPrinted='Y' OR c.IsKey='Y' OR pfi.SortNo > 0) "
-			+ " AND pfi.PrintFormatType IN ('"
-				+ MPrintFormatItem.PRINTFORMATTYPE_Field
-				+ "','"
-				+ MPrintFormatItem.PRINTFORMATTYPE_Image
-				+ "','"
-				+ MPrintFormatItem.PRINTFORMATTYPE_PrintFormat
-				+ "') "
-			+ "ORDER BY pfi.IsPrinted DESC, pfi.SeqNo";			//	Functions are put in first column
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, m_trxName);
-			pstmt.setInt(1, format.get_ID());
-			rs = pstmt.executeQuery();
+			statement = DB.prepareStatement(DEFINITION_SQL, m_trxName);
+			statement.setInt(1, format.get_ID());
+			resultSet = statement.executeQuery();
 
 			m_synonym = "A";		//	synonym
-			while (rs.next())
+			while (resultSet.next())
 			{
 				//	get Values from record
-				int columnId = rs.getInt("AD_Column_ID");
-				String columnName = rs.getString("ColumnName");
-				String columnSQL = rs.getString("ColumnSQL");
+				int columnId = resultSet.getInt("AD_Column_ID");
+				String columnName = resultSet.getString("ColumnName");
+				String columnSQL = resultSet.getString("ColumnSQL");
 				if (columnSQL == null)
 					columnSQL = "";
-				int referenceId = rs.getInt("AD_Reference_ID");
-				int referenceValueId = rs.getInt("AD_Reference_Value_ID");
+				int referenceId = resultSet.getInt("AD_Reference_ID");
+				int referenceValueId = resultSet.getInt("AD_Reference_Value_ID");
 				//  ColumnInfo
-				int fieldLength = rs.getInt("FieldLength");
-				boolean isMandatory = "Y".equals(rs.getString("IsMandatory"));
-				boolean isKey = "Y".equals(rs.getString("IsKey"));
-				boolean isParent = "Y".equals(rs.getString("IsParent"));
+				int fieldLength = resultSet.getInt("FieldLength");
+				boolean isMandatory = "Y".equals(resultSet.getString("IsMandatory"));
+				boolean isKey = "Y".equals(resultSet.getString("IsKey"));
+				boolean isParent = "Y".equals(resultSet.getString("IsParent"));
 				//  SQL GroupBy
-				boolean isGroupFunction = "Y".equals(rs.getString("IsGroupFunction"));
+				boolean isGroupFunction = "Y".equals(resultSet.getString("IsGroupFunction"));
 				if (isGroupFunction)
 					IsGroupedBy = true;
-				String functionColumn = rs.getString("FunctionColumn");
+				String functionColumn = resultSet.getString("FunctionColumn");
 				if (functionColumn == null)
 					functionColumn = "";
 				//	Breaks/Column Functions
-				if ("Y".equals(rs.getString("IsGroupBy")))
-					group.addGroupColumn(columnName);
-				if ("Y".equals(rs.getString("IsSummarized")))
-					group.addFunction(columnName, PrintDataFunction.F_SUM);
-				if ("Y".equals(rs.getString("IsAveraged")))
-					group.addFunction(columnName, PrintDataFunction.F_MEAN);
-				if ("Y".equals(rs.getString("IsCounted")))
-					group.addFunction(columnName, PrintDataFunction.F_COUNT);
-				if ("Y".equals(rs.getString("IsMinCalc")))	//	IsMinCalc
-					group.addFunction(columnName, PrintDataFunction.F_MIN);
-				if ("Y".equals(rs.getString("IsMaxCalc")))	//	IsMaxCalc
-					group.addFunction(columnName, PrintDataFunction.F_MAX);
-				if ("Y".equals(rs.getString("IsVarianceCalc")))	//	IsVarianceCalc
-					group.addFunction(columnName, PrintDataFunction.F_VARIANCE);
-				if ("Y".equals(rs.getString("IsDeviationCalc")))	//	IsDeviationCalc
-					group.addFunction(columnName, PrintDataFunction.F_DEVIATION);
-				if ("Y".equals(rs.getString("isRunningTotal")))	//	isRunningTotal
+				if ("Y".equals(resultSet.getString("IsGroupBy")))
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, (char)0));
+				if ("Y".equals(resultSet.getString("IsSummarized")))
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_SUM));
+				if ("Y".equals(resultSet.getString("IsAveraged")))
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_MEAN));
+				if ("Y".equals(resultSet.getString("IsCounted")))
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_COUNT));
+				if ("Y".equals(resultSet.getString("IsMinCalc")))	//	IsMinCalc
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_MIN));
+				if ("Y".equals(resultSet.getString("IsMaxCalc")))	//	IsMaxCalc
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_MAX));
+				if ("Y".equals(resultSet.getString("IsVarianceCalc")))	//	IsVarianceCalc
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_VARIANCE));
+				if ("Y".equals(resultSet.getString("IsDeviationCalc")))	//	IsDeviationCalc
+					reportDefinitionBuilder.groups.add(new ReportDefinition.GroupSpec(columnName, PrintDataFunction.F_DEVIATION));
+				if ("Y".equals(resultSet.getString("isRunningTotal")))	//	isRunningTotal
 					//	RunningTotalLines only once - use max
-					runningTotalLines = Math.max(runningTotalLines, rs.getInt("RunningTotalLines"));	
+					{
+						reportDefinitionBuilder.hasRunningTotal = true;
+						reportDefinitionBuilder.runningTotalLines = Math.max(reportDefinitionBuilder.runningTotalLines, resultSet.getInt("RunningTotalLines"));
+					}	
 
 				if (columnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Line_ID) 
 						|| columnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Record_ID)
@@ -365,28 +672,28 @@ public class DataEngine
 					isTableIDPresent = true;
 				}				
 				//	General Info
-				boolean IsPrinted = "Y".equals(rs.getString("IsPrinted"));
-				int SortNo = rs.getInt(16);
-				boolean isPageBreak = "Y".equals(rs.getString("IsPageBreak"));
+				boolean IsPrinted = "Y".equals(resultSet.getString("IsPrinted"));
+				int SortNo = resultSet.getInt(16);
+				boolean isPageBreak = "Y".equals(resultSet.getString("IsPageBreak"));
 				
-				String formatPattern = rs.getString("FormatPattern");
-				boolean isDesc = "Y".equals(rs.getString("isDesc"));
-				int printFormatItemId = rs.getInt("AD_PrintFormatItem_ID");
-				boolean isHideGrandTotal = "Y".equals(rs.getString("IsHideGrandTotal"));
+				String formatPattern = resultSet.getString("FormatPattern");
+				boolean isDesc = "Y".equals(resultSet.getString("isDesc"));
+				int printFormatItemId = resultSet.getInt("AD_PrintFormatItem_ID");
+				boolean isHideGrandTotal = "Y".equals(resultSet.getString("IsHideGrandTotal"));
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + columnName;
 				String lookupSQL = orderName;
-				PrintDataColumn pdc = null;
+				PrintDataColumn printDataColumn = null;
 
-				int seqNo = rs.getInt("SeqNo");
+				int seqNo = resultSet.getInt("SeqNo");
 
 				//  -- Key --
 				if (isKey)
 				{
 					//	=>	Table.Column,
-					sqlSELECT.append(tableName).append(".").append(columnName).append(",");
+					items.add(new ReportLookupItem(tableName + "." + columnName, null, columnName));
 					groupByColumns.add(tableName+"."+columnName);
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isHideGrandTotal);	//	KeyColumn
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isHideGrandTotal);	//	KeyColumn
 				}
 				// not printed Sort Columns
 				else if (!IsPrinted)
@@ -401,17 +708,8 @@ public class DataEngine
 
 					//  Creates Embedded SQL in the form
 					//  SELECT ColumnTable.Name FROM ColumnTable WHERE TableName.ColumnName=ColumnTable.ColumnName
-					String eSql;
-
 					if (columnSQL.length() > 0)
-					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName, "(" + columnSQL + ")");
 						lookupSQL = columnSQL;
-					}
-					else
-					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName);
-					}
 
 					//	TableName
 					String table = columnName;
@@ -419,13 +717,38 @@ public class DataEngine
 						table = table.substring(0, table.length()-3);
 					//  DisplayColumn
 					String display = columnName;
+					ReportLookupItem foreignKey = new ReportLookupItem(lookupSQL, columnName, columnName);
+					ReportLookupItem displayItem = null;
+					//	=> LEFT OUTER JOIN lookup, CASE .. END AS AName, Table.ID,
+					if (lookupPlan != null)
+					{
+						ReportLookupItem joined = new ReportLookupItem(null, m_synonym + display, m_synonym + display);
+						{
+							MLookupFactory.TableDirEmbed tableDirEmbed = MLookupFactory.getTableDirEmbed(m_language, columnName);
+							if (tableDirEmbed == null)
+								reportDefinitionBuilder.isComplete = false;
+							if (lookupPlan.lookup(joined, foreignKey, tableDirEmbed))
+								displayItem = joined;
+						}
+					}
 					//	=> (..) AS AName, Table.ID,
-					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
-							.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					if (displayItem == null)
+					{
+						String embeddedSql;
+						if (columnSQL.length() > 0)
+							embeddedSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName, "(" + columnSQL + ")");
+						else
+							embeddedSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName);
+						if (embeddedSql == null || embeddedSql.length() == 0)
+							reportDefinitionBuilder.isComplete = false;
+						displayItem = new ReportLookupItem("(" + embeddedSql + ")", m_synonym + display, m_synonym + display);
+					}
+					items.add(displayItem);
+					items.add(foreignKey);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -443,14 +766,14 @@ public class DataEngine
 						log.warning(columnName + " - AD_Reference_Value_ID not set");
 						continue;
 					}
-					TableReference tr = getTableReference(referenceValueId);
-					String display = tr.DisplayColumn;
+					TableReference tableReference = getTableReference(referenceValueId);
+					if (tableReference.TableName == null)
+						reportDefinitionBuilder.isComplete = false;
+					String display = tableReference.DisplayColumn;
 					//	=> A.Name AS AName, Table.ID,
-					if (tr.IsValueDisplayed)
-						sqlSELECT.append(m_synonym).append(".Value||'-'||");
-					sqlSELECT.append(m_synonym).append(".").append(display);
-					sqlSELECT.append(" AS ").append(m_synonym).append(display).append(",")
-						.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					items.add(new ReportLookupItem((tableReference.IsValueDisplayed ? m_synonym + ".Value||'-'||" : "")
+						+ m_synonym + "." + display, m_synonym + display, m_synonym + display));
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
 					groupByColumns.add(m_synonym+display);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
@@ -460,11 +783,11 @@ public class DataEngine
 						sqlFROM.append(" INNER JOIN ");
 					else
 						sqlFROM.append(" LEFT OUTER JOIN ");
-					sqlFROM.append(tr.TableName).append(" ").append(m_synonym).append(" ON (")
+					sqlFROM.append(tableReference.TableName).append(" ").append(m_synonym).append(" ON (")
 						.append(lookupSQL).append("=")
-						.append(m_synonym).append(".").append(tr.KeyColumn).append(")");
+						.append(m_synonym).append(".").append(tableReference.KeyColumn).append(")");
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -479,7 +802,7 @@ public class DataEngine
 					if (Env.isBaseLanguage(m_language, "AD_Ref_List"))
 					{
 						//	=> A.Name AS AName,
-						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
+						items.add(new ReportLookupItem(m_synonym + ".Name", m_synonym + "Name", m_synonym + "Name"));
 						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 						//	=> x JOIN AD_Ref_List A ON (x.KeyColumn=A.Value AND A.AD_Reference_ID=123)
@@ -493,9 +816,12 @@ public class DataEngine
 					}
 					else
 					{
-						//	=> A.Name AS AName,
-						sqlSELECT.append(m_synonym).append(".Name AS ").append(m_synonym).append("Name,");
-						groupByColumns.add(m_synonym+".Name");
+						//	=> A.Name AS AName, with the lookup joins the name of the list when the translation is missing
+						String listName = m_synonym + ".Name";
+						if (isLookupJoinEnabled)
+							listName = "NVL(" + m_synonym + ".Name,X" + m_synonym + ".Name)";
+						items.add(new ReportLookupItem(listName, m_synonym + "Name", m_synonym + "Name"));
+						groupByColumns.add(listName);
 						orderName = m_synonym + "Name";
 
 						//	LEFT OUTER JOIN AD_Ref_List XA ON (AD_Table.EntityType=XA.Value AND XA.AD_Reference_ID=245)
@@ -508,7 +834,8 @@ public class DataEngine
 							.append(lookupSQL).append("=X")
 							.append(m_synonym).append(".Value AND X").append(m_synonym).append(".AD_Reference_ID=").append(referenceValueId)
 							.append(")");
-						if (isMandatory)
+						//	the lookup joins keep the row of the list value when its translation is missing
+						if (isMandatory && !isLookupJoinEnabled)
 							sqlFROM.append(" INNER JOIN ");
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
@@ -517,8 +844,8 @@ public class DataEngine
 							.append(" AND ").append(m_synonym).append(".AD_Language='").append(m_language.getAD_Language()).append("')");
 					}
 					// 	TableName.ColumnName,
-					sqlSELECT.append(lookupSQL).append(" AS ").append(columnName).append(",");
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -571,9 +898,8 @@ public class DataEngine
 						synonym = display;
 
 					//	=> A.Name AS AName, table.ID,
-					sqlSELECT.append(m_synonym).append(".").append(display).append(" AS ")
-						.append(m_synonym).append(synonym).append(",")
-						.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					items.add(new ReportLookupItem(m_synonym + "." + display, m_synonym + synonym, m_synonym + synonym));
+					items.add(new ReportLookupItem(lookupSQL, columnName, columnName));
 					groupByColumns.add(m_synonym+"."+synonym);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + synonym;
@@ -586,7 +912,7 @@ public class DataEngine
 						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(key).append(")");
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -597,7 +923,7 @@ public class DataEngine
 					if (columnSQL != null && columnSQL.length() > 0)
 					{
 					//	=> ColumnSQL AS ColumnName
-						sqlSELECT.append(columnSQL).append(" AS ").append(columnName).append(",");
+						items.add(new ReportLookupItem(columnSQL, columnName, columnName));
 						if (!isGroupFunction)
 							groupByColumns.add(columnSQL);
 						orderName = columnName;		//	no prefix for synonym
@@ -605,72 +931,114 @@ public class DataEngine
 					else if (index == -1)
 					{
 					//	=> Table.Column,
-						StringBuffer sb = new StringBuffer();
-						sb.append(tableName).append(".").append(columnName);
-						sqlSELECT.append(sb).append(",");
+						StringBuffer stringBuffer = new StringBuffer();
+						stringBuffer.append(tableName).append(".").append(columnName);
+						items.add(new ReportLookupItem(stringBuffer.toString(), null, columnName));
 						if (!isGroupFunction)
-							groupByColumns.add(sb.toString());
+							groupByColumns.add(stringBuffer.toString());
 					}
 					else
 					{
 					//  => Function(Table.Column) AS Column   -- function has @ where column name goes
-						StringBuffer sb = new StringBuffer();
-						sb.append(functionColumn.substring(0, index))
+						StringBuffer stringBuffer = new StringBuffer();
+						stringBuffer.append(functionColumn.substring(0, index))
 							.append(tableName).append(".").append(columnName)
 							.append(functionColumn.substring(index+1));
-						sqlSELECT.append(sb).append(" AS ").append(columnName).append(",");
+						items.add(new ReportLookupItem(stringBuffer.toString(), columnName, columnName));
 						if (!isGroupFunction)
-							groupByColumns.add(sb.toString());
+							groupByColumns.add(stringBuffer.toString());
 						orderName = columnName;		//	no prefix for synonym
 					}
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, columnName, isPageBreak, printFormatItemId, isHideGrandTotal);
+					printDataColumn = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, columnName, isPageBreak, printFormatItemId, isHideGrandTotal);
 				}
 
 				//	Order Sequence - Overwrite order column name
-				for (int i = 0; i < orderAD_Column_IDs.length; i++)
+				for (int index = 0; index < orderAD_Column_IDs.length; index++)
 				{
-					if (columnId == orderAD_Column_IDs[i])
+					if (columnId == orderAD_Column_IDs[index])
 					{
 						if (isDesc)
 							orderName += " DESC";
 
-						orderColumns.set(i, orderName);
+						orderColumns.set(index, orderName);
 						// We need to GROUP BY even is not printed, because is used in ORDER clause
 						if (!IsPrinted && !isGroupFunction)
 						{
 							groupByColumns.add(tableName+"."+columnName);
 						}
+						//	the sort column is selected by the derived table to be sorted by the outer SELECT
+						if (!IsPrinted)
+							items.add(new ReportLookupItem(tableName + "." + columnName, null, columnName, true));
 						break;
 					}
 				}
 
 				//
-				if (pdc == null || (!IsPrinted && !isKey))
+				if (printDataColumn == null || (!IsPrinted && !isKey))
 					continue;
 
-				pdc.setFormatPattern(formatPattern);
-				pdc.setSortOrderIndex(SortNo);
-				pdc.setDisplayOrderIndex(seqNo);
-				columns.add(pdc);
+				printDataColumn.setFormatPattern(formatPattern);
+				printDataColumn.setSortOrderIndex(SortNo);
+				printDataColumn.setDisplayOrderIndex(seqNo);
+				reportDefinitionBuilder.columns.add(new ReportDefinition.Column(printDataColumn, fieldLength));
 			}	//	for all Fields in Tab
 		}
-		catch (SQLException e)
+		catch (SQLException exception)
 		{
-			log.log(Level.SEVERE, "SQL=" + sql + " - ID=" + format.get_ID(), e);
+			log.log(Level.SEVERE, "SQL=" + DEFINITION_SQL + " - ID=" + format.get_ID(), exception);
+			reportDefinitionBuilder.isComplete = false;
 		}
 		finally
 		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+			DB.close(resultSet, statement);
+			resultSet = null;
+			statement = null;
 		}
 
-		if (columns.size() == 0
-				&& format.getJasperProcess_ID() == 0)
+
+		if (reportDefinitionBuilder.columns.size() == 0)
+			reportDefinitionBuilder.isComplete = false;
+
+		//	Table ID PrintColumn is needed but not present, manually add a dummy column
+		boolean mustAddTableId = isTableIDRequired && !isTableIDPresent;
+		boolean isLookupJoined = lookupPlan != null && !lookupPlan.isEmpty();
+		//	No sort column: the key of the base table gives the statement of the lookup joins a deterministic order
+		String tieBreakKey = null;
+		ReportLookupItem tieBreakItem = null;
+		if (isLookupJoinEnabled && orderAD_Column_IDs.length == 0 && !IsGroupedBy)
+			tieBreakKey = readSingleKeyColumn(tableName, reportDefinitionBuilder);
+		if (tieBreakKey != null && isLookupJoined)
 		{
-			log.log(Level.SEVERE, "No Colums - Delete Report Format " + reportName + " and start again");
-			log.finest("No Colums - SQL=" + sql + " - ID=" + format.get_ID());
-			return null;
+			//	the derived table exposes the key: the printed column, otherwise a hidden one
+			String keyExpression = tableName + "." + tieBreakKey;
+			for (ReportLookupItem item : items)
+			{
+				if (item.join == null && keyExpression.equalsIgnoreCase(item.expression))
+				{
+					tieBreakItem = item;
+					break;
+				}
+			}
+			if (tieBreakItem == null)
+			{
+				tieBreakItem = new ReportLookupItem(keyExpression, null, tieBreakKey, true);
+				items.add(tieBreakItem);
+			}
+		}
+		if (isLookupJoined)
+		{
+			//	derived table with the statement of the report, the lookups are joined to it
+			if (mustAddTableId)
+				items.add(new ReportLookupItem(tableName + "." + MFactAcct.COLUMNNAME_AD_Table_ID, null, MFactAcct.COLUMNNAME_AD_Table_ID));
+			sqlSELECT.append(lookupPlan.innerSelect(items)).append(",");
+		}
+		else
+		{
+			for (ReportLookupItem item : items)
+			{
+				if (!item.isHidden)
+					sqlSELECT.append(item.legacyText()).append(",");
+			}
 		}
 
 		boolean hasLevelNo = false;
@@ -686,107 +1054,107 @@ public class DataEngine
 		}
 
 		//Table ID PrintColumn is needed but not present, manually add a dummy column
-		if (isTableIDRequired && !isTableIDPresent) {
+		if (mustAddTableId && !isLookupJoined) {
 			sqlSELECT.append(tableName).append(".").append(MFactAcct.COLUMNNAME_AD_Table_ID).append(",");
 		}
 		
-
-		/**
-		 *	Assemble final SQL - delete last SELECT ','
-		 */
-		StringBuffer finalSQL = new StringBuffer();
-		finalSQL.append(sqlSELECT.substring(0, sqlSELECT.length()-1))
-			.append(sqlFROM);
-
-		//	WHERE clause
-		if (tableName.startsWith("T_Report"))
-		{
-			finalSQL.append(" WHERE ");
-			for (int i = 0; i < query.getRestrictionCount(); i++)
-			{
-				String q = query.getWhereClause (i);
-				if (q.indexOf("AD_PInstance_ID") != -1)	//	ignore all other Parameters
-					finalSQL.append (q);
-			}	//	for all restrictions
-		}
-		else if (tableName.startsWith("AD_PInstance"))
-		{
-			finalSQL.append(" WHERE ");
-			for (int i = 0; i < query.getRestrictionCount(); i++)
-			{
-				String q = query.getWhereClause (i);
-				if (q.indexOf("AD_PInstance_ID") != -1)	
-				{//	ignore all other Parameters
-					q=q.substring(9);
-						finalSQL.append (q);
-				}
-			}	//	for all restrictions
-		}
-		else
-		{
-			//	User supplied Where Clause
-			if (query != null && query.isActive ())
-			{
-				finalSQL.append (" WHERE ");
-				if (!query.getTableName ().equals (tableName))
-					query.setTableName (tableName);
-				finalSQL.append (query.getWhereClause (true));
-			}
-			//	Access Restriction
-			MRole role = MRole.getDefault(ctx, false);
-			if (role.getAD_Role_ID() == 0 && !Ini.isClient())
-				;	//	System Access
-			else
-				finalSQL = new StringBuffer (role.addAccessSQL (finalSQL.toString (), 
-					tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO));
-		}
+		//	SELECT list and FROM - delete last SELECT ','
+		reportDefinitionBuilder.head = new StringBuffer().append(sqlSELECT.substring(0, sqlSELECT.length()-1)).append(sqlFROM).toString();
+		reportDefinitionBuilder.hasLevelNo = hasLevelNo;
+		reportDefinitionBuilder.isTableIdRequired = isTableIDRequired;
+		reportDefinitionBuilder.isTableIdPresent = isTableIDPresent;
+		reportDefinitionBuilder.isLookupJoined = isLookupJoined;
 
 		//	Add GROUP BY clause
 		if (IsGroupedBy)
 		{
-			for (int i = 0; i < groupByColumns.size(); i++)
+			StringBuffer groupBy = new StringBuffer();
+			for (int index = 0; index < groupByColumns.size(); index++)
 			{
-				if (i == 0)
-					finalSQL.append(" GROUP BY ");
+				if (index == 0)
+					groupBy.append(" GROUP BY ");
 				else
-					finalSQL.append(",");
-				finalSQL.append(groupByColumns.get(i));
+					groupBy.append(",");
+				groupBy.append(groupByColumns.get(index));
 			}
+			reportDefinitionBuilder.groupBy = groupBy.toString();
+		}
+
+		//	Lookups joined to the statement of the report
+		if (isLookupJoined)
+		{
+			reportDefinitionBuilder.outerPrefix = lookupPlan.outerPrefix(items);
+			reportDefinitionBuilder.outerSuffix = lookupPlan.outerSuffix();
 		}
 
 		//	Add ORDER BY clause
-		if (orderColumns != null)
+		StringBuffer orderBy = new StringBuffer();
+		for (int index = 0; index < orderColumns.size(); index++)
 		{
-			for (int i = 0; i < orderColumns.size(); i++)
-			{
-				if (i == 0)
-					finalSQL.append(" ORDER BY ");
-				else
-					finalSQL.append(",");
-				String by = (String)orderColumns.get(i);
-				if (by == null || by.length() == 0)
-					by = String.valueOf(i+1);
-				finalSQL.append(by);
-			}
+			if (index == 0)
+				orderBy.append(" ORDER BY ");
+			else
+				orderBy.append(",");
+			String orderByColumn = (String)orderColumns.get(index);
+			if (orderByColumn == null || orderByColumn.length() == 0)
+				orderByColumn = String.valueOf(index+1);
+			orderBy.append(orderByColumn);
 		}	//	order by
-
-
-		//	Print Data
-		PrintData pd = new PrintData (ctx, reportName);
-		PrintDataColumn[] info = new PrintDataColumn [columns.size()];
-		columns.toArray(info);		//	column order is is m_synonymc with SELECT column position
-		pd.setColumnInfo(info);
-		pd.setTableName(tableName);
-		pd.setSQL(finalSQL.toString());
-		pd.setHasLevelNo(hasLevelNo);
-		if (isTableIDRequired && !isTableIDPresent) {
-			pd.setHasDummyTableID(true);
+		if (tieBreakKey != null && orderColumns.size() == 0)
+		{
+			orderBy.append(" ORDER BY ").append(tableName).append(".")
+				.append(tieBreakItem != null ? tieBreakItem.innerName : tieBreakKey);
 		}
-		
-		log.finest (finalSQL.toString ());
-		log.finest ("Group=" + group);
-		return pd;
-	}	//	getPrintDataInfo
+		reportDefinitionBuilder.orderBy = orderBy.toString();
+
+		//	Tag of the report for the DBA
+		if (isLookupJoinEnabled)
+			reportDefinitionBuilder.tag = "/* AD_PrintFormat_ID=" + format.get_ID() + " */ ";
+
+		return reportDefinitionBuilder.build();
+	}	//	readDefinition
+
+	/**
+	 * 	Read the key column of a table, for the ORDER BY of a report without sort columns.
+	 * 	@param tableName table of the report
+	 * 	@param b the definition, marked as incomplete when the dictionary cannot be read
+	 * 	@return the column if the table has exactly one active key column and it is not virtual, otherwise null
+	 */
+	private String readSingleKeyColumn (String tableName, ReportDefinition.Builder reportDefinitionBuilder)
+	{
+		String sql = "SELECT c.ColumnName, c.ColumnSQL FROM AD_Column c"
+			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
+			+ "WHERE UPPER(t.TableName)=UPPER(?) AND c.IsKey='Y' AND c.IsActive='Y'";
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		String singleKeyColumn = null;
+		int keyCount = 0;
+		try
+		{
+			statement = DB.prepareStatement(sql, m_trxName);
+			statement.setString(1, tableName);
+			resultSet = statement.executeQuery();
+			while (resultSet.next())
+			{
+				keyCount++;
+				String columnSQL = resultSet.getString(2);
+				singleKeyColumn = columnSQL == null || columnSQL.trim().length() == 0 ? resultSet.getString(1) : null;
+			}
+		}
+		catch (SQLException exception)
+		{
+			log.log(Level.SEVERE, sql + " - " + tableName, exception);
+			reportDefinitionBuilder.isComplete = false;
+			return null;
+		}
+		finally
+		{
+			DB.close(resultSet, statement);
+			resultSet = null;
+			statement = null;
+		}
+		return keyCount == 1 ? singleKeyColumn : null;
+	}	//	readSingleKeyColumn
 
 	/**
 	 *	Next Synonym.
@@ -823,6 +1191,15 @@ public class DataEngine
 		if (AD_Reference_Value_ID <= 0)
 			throw new IllegalArgumentException("AD_Reference_Value_ID <= 0");
 		//
+		//	The reference of a report run is read once: a copy is returned, TableReference is mutable
+		ReportDefinitionCache.Scope scope = ReportDefinitionCache.current();
+		List<Object> cacheKey = Arrays.<Object>asList("TableReference", Integer.valueOf(AD_Reference_Value_ID));
+		if (scope != null)
+		{
+			TableReference cached = (TableReference)scope.get(cacheKey);
+			if (cached != null)
+				return cached.copy();
+		}
 		TableReference tr = new TableReference();
 		//
 		String SQL = "SELECT t.TableName, ck.ColumnName AS KeyColumn,"	//	1..2
@@ -858,10 +1235,65 @@ public class DataEngine
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+		if (scope != null && tr.TableName != null)
+			scope.put(cacheKey, tr.copy());
 		return tr;
 	}	//  getTableReference
 
 	
+	/**
+	 * 	The report SQL runs once with the literals of its filters: PostgreSQL must not keep a server-side prepared statement
+	 * 	(pgjdbc prepares one after 5 executions of the same SQL on a connection), because its plan, made for a small volume,
+	 * 	would be reused on a large one. Sets prepareThreshold=0 on this statement only.
+	 * 	Not for a statement with bind parameters when the plan reuse is on (REPORT_PLAN_CACHE): the driver default applies.
+	 * 	@param statement report statement
+	 */
+	private void setOneOff (PreparedStatement statement)
+	{
+		if (!DB.isPostgreSQL())
+			return;
+		try
+		{
+			if (statement.isWrapperFor(PGStatement.class))
+				statement.unwrap(PGStatement.class).setPrepareThreshold(0);
+		}
+		catch (SQLException exception)
+		{
+			log.log(Level.FINE, "prepareThreshold", exception);
+		}
+	}	//	setOneOff
+
+	/**
+	 * 	Give back the connection that the report read from the pool AdempiereSRDS: a read in a transaction
+	 * 	(streaming) ends with a rollback, nothing was written.
+	 * 	@param connection connection of the pool or null
+	 */
+	private void closeReadConnection (Connection connection)
+	{
+		if (connection == null)
+			return;
+		try
+		{
+			if (!connection.getAutoCommit())
+				connection.rollback();
+		}
+		catch (SQLException exception)
+		{
+			log.log(Level.WARNING, "rollback", exception);
+		}
+		finally
+		{
+			try
+			{
+				connection.close();
+			}
+			catch (SQLException exception)
+			{
+				log.log(Level.WARNING, "close", exception);
+			}
+		}
+	}	//	closeReadConnection
+
 	/**************************************************************************
 	 * 	Load Data into PrintData
 	 * 	@param pd print data with SQL and ColumnInfo set
@@ -877,18 +1309,50 @@ public class DataEngine
 		boolean hasLevelNo = pd.hasLevelNo();
 		int levelNo = 0;
 		int reportLineId = 0;
-		log.log(Level.FINE, "SQL: " +pd.getSQL());
 		printData = pd;
 		//
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		Trx readTransaction = null;
+		Connection readConnection = null;
 		try
 		{
-			pstmt = DB.prepareStatement(pd.getSQL(), m_trxName);
+			String transactionName = m_trxName;
+			int fetchSize = getFetchSize(format.getCtx());
+			//	pgjdbc streams a result only with autoCommit=false: read inside a short transaction of its own
+			boolean isStreaming = fetchSize > 0 && DB.isPostgreSQL();
+			//	outside a transaction of the caller the report reads from the read only pool AdempiereSRDS
+			if (transactionName == null)
+				readConnection = DB.getConnectionShortRunning(!isStreaming);
+			if (readConnection != null)
+			{
+				pstmt = readConnection.prepareStatement(DB.getDatabase().convertStatement(pd.getSQL()),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			}
+			else
+			{
+				//	the pool gives no connection (CConnection warned) or the caller has a transaction: as always
+				if (isStreaming && transactionName == null)
+				{
+					readTransaction = Trx.get(Trx.createTrxName("RptRead_"), true);
+					transactionName = readTransaction.getTrxName();
+				}
+				pstmt = DB.prepareStatement(pd.getSQL(), transactionName);
+			}
+			List<Object> parameters = pd.getSQLParameters();
+			if (!parameters.isEmpty())
+				DB.setQueryParameters(pstmt, parameters);
+			//	statements with parameters repeat with other values: the plan may be reused unless the switch is off
+			if (parameters.isEmpty() || !isPlanCache(format.getCtx()))
+				setOneOff(pstmt);
+			if (fetchSize > 0)
+				pstmt.setFetchSize(fetchSize);
 			rs = pstmt.executeQuery();
 			//	Row Loop
+			boolean hasRows = false;
 			while (rs.next())
 			{
+				hasRows = true;
 				if (hasLevelNo)
 				{
 					levelNo = rs.getInt("LevelNo");
@@ -1063,8 +1527,8 @@ public class DataEngine
 			}	//	for all rows
 			
 			//	--	we have all rows - add the group functions, if any.
-			//	Check last Group Change
-			if (group.getGroupColumnCount() > 1)	//	one is TOTAL
+			//	Check last Group Change (without rows the result set is not positioned on a row)
+			if (hasRows && group.getGroupColumnCount() > 1)	//	one is TOTAL
 			{
 				// Check for changes and add summary rows - force the groups to change
 				int firstColumn = getFirstColumnIndexInGroupOrder();
@@ -1073,12 +1537,18 @@ public class DataEngine
 		}
 		catch (SQLException e)
 		{
-			log.log(Level.SEVERE, pdc + " - " + e.getMessage() + "\nSQL=" + pd.getSQL());
+			log.log(Level.SEVERE, pdc + " - " + e.getMessage() + "\nSQL=" + pd.getSQL() + " Parameters=" + pd.getSQLParameters());
 		}
 		finally
 		{
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
+			if (readTransaction != null)
+			{
+				readTransaction.rollback();
+				readTransaction.close();
+			}
+			closeReadConnection(readConnection);
 		}
 
 		//	Add Total Lines
@@ -1373,6 +1843,20 @@ class TableReference
 	public boolean 	IsValueDisplayed = false;
 	/** Translated		*/
 	public boolean	IsTranslated = false;
+
+	/**
+	 * 	@return a copy of this reference
+	 */
+	TableReference copy ()
+	{
+		TableReference tableReferenceCopy = new TableReference();
+		tableReferenceCopy.TableName = TableName;
+		tableReferenceCopy.KeyColumn = KeyColumn;
+		tableReferenceCopy.DisplayColumn = DisplayColumn;
+		tableReferenceCopy.IsValueDisplayed = IsValueDisplayed;
+		tableReferenceCopy.IsTranslated = IsTranslated;
+		return tableReferenceCopy;
+	}
 }	//	TableReference
 
 class GroupOrderComparator implements Comparator<Integer> 

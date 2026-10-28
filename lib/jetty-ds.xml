@@ -8,16 +8,31 @@
             <New class="com.zaxxer.hikari.HikariDataSource">
                 <Arg>
                     <New class="com.zaxxer.hikari.HikariConfig">
+                        <Set name="poolName">AdempiereDS</Set>
                         <Set name="DriverClassName">@@JDBC_DRIVER_CLASS@@</Set>
                         <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
                         <Set name="connectionTimeout">600000</Set>
-                        <Set name="connectionTestQuery">SELECT Version FROM AD_System</Set>
+                        <Set name="autoCommit">true</Set>
+                        <Set name="transactionIsolation">TRANSACTION_READ_COMMITTED</Set>
                         <Set name="maximumPoolSize">50</Set>
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">60000</Set>
                         <Set name="keepaliveTime">30000</Set>
+                        <Set name="registerMbeans">true</Set>
+                        <Call name="addDataSourceProperty">
+                            <Arg>ApplicationName</Arg>
+                            <Arg>ADempiere AdempiereDS</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>tcpKeepAlive</Arg>
+                            <Arg>true</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>assumeMinServerVersion</Arg>
+                            <Arg>10</Arg>
+                        </Call>
                     </New>
                 </Arg>
             </New>
@@ -30,16 +45,36 @@
             <New class="com.zaxxer.hikari.HikariDataSource">
                 <Arg>
                     <New class="com.zaxxer.hikari.HikariConfig">
+                        <Set name="poolName">AdempiereSRDS</Set>
                         <Set name="DriverClassName">@@JDBC_DRIVER_CLASS@@</Set>
                         <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
                         <Set name="connectionTimeout">10000</Set>
-                        <Set name="connectionTestQuery">SELECT Version FROM AD_System</Set>
+                        <Set name="autoCommit">true</Set>
+                        <Set name="readOnly">true</Set>
+                        <Set name="transactionIsolation">TRANSACTION_READ_COMMITTED</Set>
                         <Set name="maximumPoolSize">20</Set>
                         <Set name="minimumIdle">11</Set>
                         <Set name="idleTimeout">30000</Set>
-                        <Set name="keepaliveTime">1200</Set>
+                        <Set name="keepaliveTime">30000</Set>
+                        <Set name="registerMbeans">true</Set>
+                        <Call name="addDataSourceProperty">
+                            <Arg>ApplicationName</Arg>
+                            <Arg>ADempiere AdempiereSRDS</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>tcpKeepAlive</Arg>
+                            <Arg>true</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>assumeMinServerVersion</Arg>
+                            <Arg>10</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>readOnlyMode</Arg>
+                            <Arg>always</Arg>
+                        </Call>
                     </New>
                 </Arg>
             </New>

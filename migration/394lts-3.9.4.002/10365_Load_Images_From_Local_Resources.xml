@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Load images from the org/compiere/images resources instead of an external site" ReleaseNo="3.9.4.002" SeqNo="10365">
+    <Comments>The GardenWorld data loads two images from www.adempiere.com, which now redirects to an HTML page, so the images never load: the invoice, order and shipment line print formats wait about 22 seconds for the product image. The same images ship in the package org/compiere/images of ADempiere and are read as class-path resources, as the Logo print format items already do (org/compiere/images/C10030HR.png). Each step only changes the rows that still hold the external URL, so a database without those records applies it without error.</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE M_Product SET ImageURL='org/compiere/images/C32.png' WHERE ImageURL='http://www.adempiere.com/images/f/f5/C32.png'</SQLStatement>
+      <RollbackStatement>UPDATE M_Product SET ImageURL='http://www.adempiere.com/images/f/f5/C32.png' WHERE ImageURL='org/compiere/images/C32.png' AND M_Product_ID IN (126,146)</RollbackStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>UPDATE W_Advertisement SET ImageURL='org/compiere/images/Adempiere120x60.gif' WHERE ImageURL='http://www1.adempiere.com/images/AdempiereCom120x60.gif'</SQLStatement>
+      <RollbackStatement>UPDATE W_Advertisement SET ImageURL='http://www1.adempiere.com/images/AdempiereCom120x60.gif' WHERE ImageURL='org/compiere/images/Adempiere120x60.gif' AND W_Advertisement_ID=100</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

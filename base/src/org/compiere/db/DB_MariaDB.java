@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import javax.naming.Context;
@@ -461,9 +462,9 @@ public class DB_MariaDB implements AdempiereDatabase {
 		//
 		Connection conn = datasourceLongRunning.getConnection();
 		if (conn != null) {
-			//
-			conn.setAutoCommit(autoCommit);
-			conn.setTransactionIsolation(transactionIsolation);
+			//	only what differs from the pool defaults costs a round trip
+			AdempiereDatabase.applyConnectionState(conn, autoCommit, transactionIsolation,
+					AdempiereDatabase.getPoolTransactionIsolation(datasourceLongRunning));
 		}
 		return conn;
 	}
@@ -486,9 +487,9 @@ public class DB_MariaDB implements AdempiereDatabase {
 		//
 		Connection localConnection = datasourceShortRunning.getConnection();
 		if (localConnection != null) {
-			//
-			localConnection.setAutoCommit(autoCommit);
-			localConnection.setTransactionIsolation(transactionIsolation);
+			//	only what differs from the pool defaults costs a round trip
+			AdempiereDatabase.applyConnectionState(localConnection, autoCommit, transactionIsolation,
+					AdempiereDatabase.getPoolTransactionIsolation(datasourceShortRunning));
 		}
 		return localConnection;
 	}
@@ -517,6 +518,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 				config.setMinimumIdle(15);
 				config.setMaximumPoolSize(150);
 				config.setPoolName("AdempiereDS");
+				AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 				config.addDataSourceProperty( "cachePrepStmts" , "true" );
 				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
@@ -559,6 +561,7 @@ public class DB_MariaDB implements AdempiereDatabase {
 							config.setMinimumIdle(15);
 							config.setMaximumPoolSize(150);
 							config.setPoolName("AdempiereDS");
+							AdempiereDatabase.configurePool(config, POOL_PROPERTY_PREFIX);
 							config.addDataSourceProperty( "cachePrepStmts" , "true" );
 							config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 							config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
@@ -591,13 +594,14 @@ public class DB_MariaDB implements AdempiereDatabase {
 				config.setJdbcUrl(getConnectionURL(connection));
 				config.setUsername(connection.getDbUid());
 				config.setPassword(connection.getDbPwd());
-				config.addDataSourceProperty( "poolName" , "AdempiereSRDS" );
+				config.setPoolName("AdempiereSRDS");
 				config.addDataSourceProperty( "cachePrepStmts" , "true" );
 				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
 				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-				config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-				config.addDataSourceProperty( "idleTimeout" , "1200" );
-				config.addDataSourceProperty("maximumPoolSize", "10");
+				config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+				config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
+				config.setMaximumPoolSize(10);
+				AdempiereDatabase.configureShortRunningPool(config);
 				HikariDataSource cpds = new HikariDataSource(config);
 				datasourceShortRunning = cpds;
 				log.warning("Starting Client Hikari Connection Pool");
@@ -632,13 +636,14 @@ public class DB_MariaDB implements AdempiereDatabase {
 							config.setJdbcUrl(getConnectionURL(connection));
 							config.setUsername(connection.getDbUid());
 							config.setPassword(connection.getDbPwd());
-							config.addDataSourceProperty("poolName", "AdempiereSRDS");
+							config.setPoolName("AdempiereSRDS");
 							config.addDataSourceProperty("cachePrepStmts", "true");
 							config.addDataSourceProperty("prepStmtCacheSize", "250");
 							config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-							config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-							config.addDataSourceProperty("idleTimeout", "1200");
-							config.addDataSourceProperty("maximumPoolSize", "5");
+							config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+							config.setIdleTimeout(TimeUnit.SECONDS.toMillis(1200));
+							config.setMaximumPoolSize(5);
+							AdempiereDatabase.configureShortRunningPool(config);
 							return new HikariDataSource(config);
 						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Short Running Hikari Connection Pool"));
 			}

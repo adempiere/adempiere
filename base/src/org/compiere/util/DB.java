@@ -52,6 +52,7 @@ import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -411,6 +412,17 @@ public final class DB
 	{
         return createConnection(true, true, Connection.TRANSACTION_READ_COMMITTED);     //  see below
 	}	//	getConnectionRO
+
+	/**
+	 *	Return a connection of the short running pool AdempiereSRDS: read only, read committed, from the pool that serves the reports.
+	 *	The connection must be closed explicitly by the application; with autoCommit=false roll back before closing.
+	 *	@param autoCommit false to read in a transaction (a PostgreSQL cursor streams a result only then)
+	 *	@return Connection or null when the pool gives none (the caller uses {@link #getConnectionRO()})
+	 */
+	public static Connection getConnectionShortRunning (boolean autoCommit)
+	{
+		return s_cc.getConnectionShortRunning(autoCommit, true, Connection.TRANSACTION_READ_COMMITTED);
+	}	//	getConnectionShortRunning
 
 	/**
 	 *	Create new Connection.
@@ -849,6 +861,119 @@ public final class DB
 		else
 			throw new DBException("Unknown parameter type "+index+" - "+param);
 	}
+
+	/**
+	 * Set the parameters of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+	 * Use it for the values of an MQuery restriction and for the link value of a detail tab; use
+	 * {@link #setParameter(PreparedStatement, int, Object)} for every other statement.
+	 * <p>
+	 * It behaves like {@link #setParameters(PreparedStatement, List)} with one difference: on PostgreSQL a String is
+	 * sent untyped (<code>Types.OTHER</code>), as the quoted literal of {@link org.compiere.util.MQuery#getWhereClause(boolean)}
+	 * was. The server then gives the value the type of the column, so a text such as <code>'1'</code> compares with a
+	 * numeric or a date column. {@link #setParameter(PreparedStatement, int, Object)} sends it as varchar and
+	 * PostgreSQL rejects <code>numeric = character varying</code>. That method keeps its behavior because many
+	 * statements of ADempiere use it.
+	 * @param stmt statement
+	 * @param params parameters list, in the order of the placeholders; if null or empty, no parameters are set
+	 * @throws SQLException
+	 * @see #setQueryParameter(PreparedStatement, int, Object)
+	 */
+	public static void setQueryParameters(PreparedStatement stmt, List<?> params)
+	throws SQLException
+	{
+		if (params == null || params.size() == 0)
+		{
+			return;
+		}
+		for (int i = 0; i < params.size(); i++)
+		{
+			setQueryParameter(stmt, i+1, params.get(i));
+		}
+	}
+
+	/**
+	 * Set one parameter of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+	 * A String is sent untyped on PostgreSQL; any other value, and any value on another database, goes through
+	 * {@link #setParameter(PreparedStatement, int, Object)}.
+	 * @param pstmt statement
+	 * @param index position of the placeholder, starting at 1
+	 * @param param value
+	 * @throws SQLException
+	 * @see #setQueryParameters(PreparedStatement, List)
+	 */
+	public static void setQueryParameter(PreparedStatement pstmt, int index, Object param)
+	throws SQLException
+	{
+		if (param instanceof String && isPostgreSQL())
+			pstmt.setObject(index, param, Types.OTHER);
+		else
+			setParameter(pstmt, index, param);
+	}
+
+	/**
+	 * Render the <code>?</code> placeholders of a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}
+	 * as the literals of the database, in order. Use it only for text that is shown, logged or kept in the context
+	 * for code that expects the literal statement (for example <code>_TabInfo_SQL</code>); execution always binds.
+	 * <ul>
+	 * <li>String: {@link #TO_STRING(String)}, so null and the empty text are <code>NULL</code></li>
+	 * <li>Timestamp: {@link #TO_DATE(Timestamp, boolean)} with the time, without the milliseconds</li>
+	 * <li>Integer, Long, BigDecimal, other numbers: the plain number</li>
+	 * <li>Boolean: <code>'Y'</code> or <code>'N'</code></li>
+	 * <li>null: <code>NULL</code></li>
+	 * </ul>
+	 * A <code>?</code> inside a string literal is text, not a placeholder; a value that holds a <code>?</code> is not read again.
+	 * @param sql statement with placeholders
+	 * @param params values in the order of the placeholders; null or empty if the statement has none
+	 * @return the statement with the values
+	 * @throws IllegalArgumentException if the number of placeholders and values differ
+	 * @throws DBException if a value has a type that {@link #setParameter(PreparedStatement, int, Object)} does not accept
+	 */
+	public static String inlineQueryParameters(String sql, List<?> params)
+	{
+		if (sql == null)
+			return null;
+		int parameterCount = params == null ? 0 : params.size();
+		StringBuilder inlined = new StringBuilder(sql.length() + 16 * parameterCount);
+		boolean inLiteral = false;
+		int parameterIndex = 0;
+		for (int i = 0; i < sql.length(); i++)
+		{
+			char character = sql.charAt(i);
+			if (character == QUOTE)
+				inLiteral = !inLiteral;
+			if (character == '?' && !inLiteral)
+			{
+				if (parameterIndex >= parameterCount)
+					throw new IllegalArgumentException("More placeholders than parameters " + parameterCount + " in " + sql);
+				inlined.append(toQueryLiteral(parameterIndex + 1, params.get(parameterIndex)));
+				parameterIndex++;
+			}
+			else
+				inlined.append(character);
+		}
+		if (parameterIndex != parameterCount)
+			throw new IllegalArgumentException("Parameters " + parameterCount + " but placeholders " + parameterIndex + " in " + sql);
+		return inlined.toString();
+	}	//	inlineQueryParameters
+
+	private static String toQueryLiteral(int index, Object param)
+	{
+		if (param == null)
+			return "NULL";
+		if (param instanceof String)
+			return TO_STRING((String)param);
+		if (param instanceof Timestamp)
+			return TO_DATE((Timestamp)param, false);
+		if (param instanceof Boolean)
+			return ((Boolean)param).booleanValue() ? "'Y'" : "'N'";
+		if (param instanceof BigDecimal)
+			return ((BigDecimal)param).toPlainString();
+		if (param instanceof Integer || param instanceof Long)
+			return param.toString();
+		if (param instanceof Number)
+			return new BigDecimal(param.toString()).toPlainString();
+		throw new DBException("Unknown parameter type "+index+" - "+param);
+	}	//	toQueryLiteral
 
 	/**
 	 *	Execute Update.
@@ -1355,6 +1480,74 @@ public final class DB
     }
 
     /**
+     * Get int Value from a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+     * The parameters are set with {@link #setQueryParameters(PreparedStatement, List)}, which sends a String untyped
+     * on PostgreSQL; the other <code>getSQLValue*</code> methods keep {@link #setParameter(PreparedStatement, int, Object)}.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or -1 if not found
+     * @throws DBException if there is any SQLException
+     */
+    public static int getSQLValueQueryEx (String trxName, String sql, List<?> params) throws DBException
+    {
+    	int retValue = -1;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		setQueryParameters(pstmt, params);
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getInt(1);
+    		else
+    			log.fine("No Value " + sql);
+    	}
+    	catch (SQLException e)
+    	{
+    		throw new DBException(e, sql);
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }
+
+    /**
+     * Get int Value from a statement built from {@link org.compiere.util.MQuery#getBoundWhereClause(boolean)}.
+     * Same as {@link #getSQLValueQueryEx(String, String, List)} but the error is logged with the values rendered.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or -1 if not found or error
+     */
+    public static int getSQLValueQuery (String trxName, String sql, List<?> params)
+    {
+    	int retValue = -1;
+    	try
+    	{
+    		retValue = getSQLValueQueryEx(trxName, sql, params);
+    	}
+    	catch (Exception e)
+    	{
+    		String text = sql;
+    		try
+    		{
+    			text = inlineQueryParameters(sql, params);
+    		}
+    		catch (RuntimeException ignored)
+    		{
+    			//	the log keeps the statement with its placeholders
+    		}
+    		log.log(Level.SEVERE, text, getSQLException(e));
+    	}
+    	return retValue;
+    }
+
+    /**
      * Get String Value from sql
      * @param trxName trx
      * @param sql sql
@@ -1434,6 +1627,52 @@ public final class DB
     {
 		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
+
+    /**
+     * Get String Value from a statement that holds the restrictions of an
+     * {@link org.compiere.model.MQuery#getBoundWhereClause(boolean)}.
+     * The values are set with {@link #setQueryParameters(PreparedStatement, List)}, so a String is sent untyped on PostgreSQL;
+     * the other <code>getSQLValueString</code> methods keep {@link #setParameter(PreparedStatement, int, Object)}.
+     * @param trxName trx
+     * @param sql sql with the placeholders of the MQuery
+     * @param params values of the placeholders, in order; null or empty if none
+     * @return first value or null if not found or error
+     */
+    public static String getSQLValueStringQuery (String trxName, String sql, List<?> params)
+    {
+    	String retValue = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	try
+    	{
+    		pstmt = prepareStatement(sql, trxName);
+    		setQueryParameters(pstmt, params);
+    		rs = pstmt.executeQuery();
+    		if (rs.next())
+    			retValue = rs.getString(1);
+    		else
+    			log.fine("No Value " + sql);
+    	}
+    	catch (Exception e)
+    	{
+    		String text = sql;
+    		try
+    		{
+    			text = inlineQueryParameters(sql, params);
+    		}
+    		catch (RuntimeException ignored)
+    		{
+    			//	the log keeps the statement with its placeholders
+    		}
+    		log.log(Level.SEVERE, text, getSQLException(e));
+    	}
+    	finally
+    	{
+    		close(rs, pstmt);
+    		rs = null; pstmt = null;
+    	}
+    	return retValue;
+    }	//	getSQLValueStringQuery
     
     /**
      * Validate if is supported UUID from DB
@@ -1761,6 +2000,33 @@ public final class DB
 	 */
 	public static boolean isSOTrx (String TableName, String whereClause)
 	{
+		return isSOTrx(TableName, whereClause, null);
+	}	//	isSOTrx
+
+	/**
+	 * 	Is Sales Order Trx, for the restrictions of an MQuery.
+	 * 	Same as {@link #isSOTrx(String, String)}, but the values of the query are bound with
+	 * 	{@link #setQueryParameters(PreparedStatement, List)} instead of written in the text.
+	 *	@param TableName table
+	 *	@param boundWhereClause where clause and parameters of {@link org.compiere.model.MQuery#getBoundWhereClause(boolean)}
+	 *	@return true (default) or false if tested that not SO
+	 */
+	public static boolean isSOTrx (String TableName, org.compiere.model.MQuery.BoundWhereClause boundWhereClause)
+	{
+		if (boundWhereClause == null)
+			return isSOTrx(TableName, (String)null, null);
+		return isSOTrx(TableName, boundWhereClause.getSql(), boundWhereClause.getParameters());
+	}	//	isSOTrx
+
+	/**
+	 * 	Is Sales Order Trx.
+	 *	@param TableName table
+	 *	@param whereClause where clause, with a <code>?</code> for each parameter
+	 *	@param parameters values of the placeholders, null or empty if none
+	 *	@return true (default) or false if tested that not SO
+	 */
+	private static boolean isSOTrx (String TableName, String whereClause, List<?> parameters)
+	{
         if (TableName == null || TableName.length() == 0)
         {
             log.severe("No TableName");
@@ -1784,6 +2050,7 @@ public final class DB
         	try
         	{
         		pstmt = DB.prepareStatement (sql, null);
+        		setQueryParameters(pstmt, parameters);
         		rs = pstmt.executeQuery ();
         		if (rs.next ())
         			isSOTrx = "Y".equals(rs.getString(1));
@@ -1814,6 +2081,7 @@ public final class DB
         		try
         		{
         			pstmt2 = DB.prepareStatement (sql, null);
+        			setQueryParameters(pstmt2, parameters);
         			rs2 = pstmt2.executeQuery ();
         			if (rs2.next ())
         				isSOTrx = "Y".equals(rs2.getString(1));

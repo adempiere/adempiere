@@ -1022,7 +1022,7 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val flatDiscountName = "Flat discount 3%"
       val flatDiscountDescription = "Flat discount 3%"
       val flatDiscountGlobal = scala.BigDecimal(3)
-      val AzaleaPriceStandardWithFlatDiscount = (AzaleaStandardPrice - (AzaleaStandardPrice * (flatDiscountGlobal / 100 ))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val AzaleaPriceStandardWithFlatDiscount = (scala.BigDecimal(AzaleaStandardPrice) - (scala.BigDecimal(AzaleaStandardPrice) * (flatDiscountGlobal / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
       val seedFarmPartner = getPartnerByValue("SeedFarm")
       import org.eevolution.dsl.builder.DiscountSchemaBuilder
       val flatDiscountSchema  = DiscountSchemaBuilder()
@@ -1051,7 +1051,7 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val OakStandardPrice = 61.75
       val OakLimitPrice = 58.50
       val OakQuantity: BigDecimal = 1.0
-      val OakPriceStandardWithFlatDiscount = (OakStandardPrice - (OakStandardPrice * (flatDiscountGlobal / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val OakPriceStandardWithFlatDiscount = (scala.BigDecimal(OakStandardPrice) - (scala.BigDecimal(OakStandardPrice) * (flatDiscountGlobal / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
       val OakProductPricing = new ProductPricing(Oak.get_ID, seedFarmPartner.get_ID() , OakQuantity.bigDecimal, IsSOTrx, trxName)
       OakProductPricing.setM_PriceList_ID(PriceList.get_ID)
       OakProductPricing.setPriceDate(Today)
@@ -1089,7 +1089,7 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val flatDiscountName = "Flat discount 5%"
       val flatDiscountDescription = "Flat discount 5%"
       val flatDiscountPartner = scala.BigDecimal(5)
-      val AzaleaPriceStandardWithFlatDiscount = (AzaleaStandardPrice - (AzaleaStandardPrice * (flatDiscountPartner / 100 ))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val AzaleaPriceStandardWithFlatDiscount = (scala.BigDecimal(AzaleaStandardPrice) - (scala.BigDecimal(AzaleaStandardPrice) * (flatDiscountPartner / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
       val seedFarmPartner = getPartnerByValue("SeedFarm")
       import org.eevolution.dsl.builder.DiscountSchemaBuilder
       val flatDiscountSchema  = DiscountSchemaBuilder()
@@ -1120,7 +1120,7 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val OakStandardPrice = 61.75
       val OakLimitPrice = 58.50
       val OakQuantity: BigDecimal = 1.0
-      val OakPriceStandardWithFlatDiscount = (OakStandardPrice - (OakStandardPrice * (flatDiscountPartner / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val OakPriceStandardWithFlatDiscount = (scala.BigDecimal(OakStandardPrice) - (scala.BigDecimal(OakStandardPrice) * (flatDiscountPartner / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
       val OakProductPricing = new ProductPricing(Oak.get_ID, seedFarmPartner.get_ID() , OakQuantity.bigDecimal, IsSOTrx, trxName)
       OakProductPricing.setM_PriceList_ID(PriceList.get_ID)
       OakProductPricing.setPriceDate(Today)
@@ -1182,21 +1182,21 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val AzaleaStandardPrice = 23.75
       val AzaleaLimitPrice = 22.50
       val AzaleaQuantity: BigDecimal = 35.0
-      val AzaleaPriceStandardWithFlatDiscount = (AzaleaStandardPrice - (AzaleaStandardPrice * (flatDiscount30Units / 100 ))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val AzaleaPriceStandardWithFlatDiscount = (scala.BigDecimal(AzaleaStandardPrice) - (scala.BigDecimal(AzaleaStandardPrice) * (flatDiscount30Units / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       val HollyBush = getProductByValue("Holly Bush")
       val HollyBushListPrice = 40.0
       val HollyBushStandardPrice = 38
       val HollyBushLimitPrice = 36
       val HollyBushQuantity: BigDecimal = 60.0
-      val HollyBushPriceStandardWithFlatDiscount = (HollyBushStandardPrice - (HollyBushStandardPrice * (flatDiscount50Units / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val HollyBushPriceStandardWithFlatDiscount = (scala.BigDecimal(HollyBushStandardPrice) - (scala.BigDecimal(HollyBushStandardPrice) * (flatDiscount50Units / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       val Oak = getProductByValue("Oak")
       val OakListPrice = 65
       val OakStandardPrice = 61.75
       val OakLimitPrice = 58.50
       val OakQuantity: BigDecimal = 120
-      val OakPriceStandardWithFlatDiscount = (OakStandardPrice - (OakStandardPrice * (flatDiscount100Units / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val OakPriceStandardWithFlatDiscount = (scala.BigDecimal(OakStandardPrice) - (scala.BigDecimal(OakStandardPrice) * (flatDiscount100Units / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       import org.eevolution.dsl.builder.DiscountSchemaBreakBuilder
       val firstDiscountBreak = DiscountSchemaBreakBuilder()
@@ -1333,21 +1333,21 @@ class ValidatePriceListAndDiscountFunctionality extends AnyFeatureSpec
       val AzaleaStandardPrice = 23.75
       val AzaleaLimitPrice = 22.50
       val AzaleaQuantity: BigDecimal = 35.0
-      val AzaleaPriceStandardWithFlatDiscount = (AzaleaStandardPrice - (AzaleaStandardPrice * (seedFarmDiscount / 100 ))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val AzaleaPriceStandardWithFlatDiscount = (scala.BigDecimal(AzaleaStandardPrice) - (scala.BigDecimal(AzaleaStandardPrice) * (seedFarmDiscount / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       val HollyBush = getProductByValue("Holly Bush")
       val HollyBushListPrice = 40.0
       val HollyBushStandardPrice = 38
       val HollyBushLimitPrice = 36
       val HollyBushQuantity: BigDecimal = 60.0
-      val HollyBushPriceStandardWithFlatDiscount = (HollyBushStandardPrice - (HollyBushStandardPrice * (seedFarmDiscount / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val HollyBushPriceStandardWithFlatDiscount = (scala.BigDecimal(HollyBushStandardPrice) - (scala.BigDecimal(HollyBushStandardPrice) * (seedFarmDiscount / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       val Oak = getProductByValue("Oak")
       val OakListPrice = 65
       val OakStandardPrice = 61.75
       val OakLimitPrice = 58.50
       val OakQuantity: BigDecimal = 120
-      val OakPriceStandardWithFlatDiscount = (OakStandardPrice - (OakStandardPrice * (seedFarmDiscount / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
+      val OakPriceStandardWithFlatDiscount = (scala.BigDecimal(OakStandardPrice) - (scala.BigDecimal(OakStandardPrice) * (seedFarmDiscount / 100))).setScale(PriceList.getStandardPrecision, RoundingMode.HALF_UP)
 
       import org.eevolution.dsl.builder.DiscountSchemaBreakBuilder
       val firstDiscountBreak = DiscountSchemaBreakBuilder()

@@ -64,6 +64,8 @@ public abstract class PrintElement implements ImageObserver, Serializable
 	protected Point2D.Double		p_pageLocation = null;
 	/** Loading Flag				*/
 	private boolean					m_imageNotLoaded = true;
+	/** Image load failed (ERROR or ABORT)	*/
+	private volatile boolean		hasImageLoadFailed = false;
 	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
@@ -271,6 +273,8 @@ public abstract class PrintElement implements ImageObserver, Serializable
 	{
 		//	copied from java.awt.component
 		m_imageNotLoaded = (infoflags & (ALLBITS|ABORT)) == 0;
+		if ((infoflags & (ERROR|ABORT)) != 0)
+			hasImageLoadFailed = true;
 		if (CLogMgt.isLevelFinest())
 			log.finest("Flags=" + infoflags
 				+ ", x=" + x + ", y=" + y + ", width=" + width + ", height=" + height 
@@ -286,6 +290,7 @@ public abstract class PrintElement implements ImageObserver, Serializable
 	public boolean waitForLoad (Image image)
 	{
 		long start = System.currentTimeMillis();
+		hasImageLoadFailed = false;
 		Thread.yield();
 		int count = 0;
 		try
@@ -293,6 +298,13 @@ public abstract class PrintElement implements ImageObserver, Serializable
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
 			while (!toolkit.prepareImage(image, -1, -1, this))	//	ImageObserver calls imageUpdate
 			{
+				//	Image failed to load (e.g. URL redirected to a page): no need to wait for the timeout
+				if (hasImageLoadFailed)
+				{
+					log.warning (this + " - Image not loaded - "
+						+ (System.currentTimeMillis()-start) + "ms - #" + count);
+					return false;
+				}
 				//	Timeout
 				if (count > 1000)	//	about 20+ sec overall
 				{

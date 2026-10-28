@@ -2414,6 +2414,8 @@ public abstract class PO
 		m_createNew = false;
 		if (!newRecord)
 			CacheMgt.get().reset(p_info.getTableName());
+		if (success)
+			CacheMgt.get().fireChange(p_info.getTableName(), get_ID(), get_TrxName(), newRecord, false);
 		return success;
 	}	//	saveFinish
 
@@ -3256,6 +3258,7 @@ public abstract class PO
 			m_oldValues = new Object[size];
 			m_newValues = new Object[size];
 			CacheMgt.get().reset(p_info.getTableName());
+			CacheMgt.get().fireChange(p_info.getTableName(), Record_ID, m_trxName, false, true);
 		}
 		}
 		finally

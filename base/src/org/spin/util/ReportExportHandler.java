@@ -18,7 +18,9 @@ package org.spin.util;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -192,13 +194,31 @@ public class ReportExportHandler {
 	}
 	
 	/**
-	 * Get exporter from extension
-	 * @param exportExtension
-	 * @return
+	 * Report Type (AD_Reference 53767, list value of AD_PInstance.ReportType) to export file extension
+	 * (AbstractExportFormat.getExtension)
+	 */
+	private static final Map<String, String> EXTENSION_BY_REPORT_TYPE = new HashMap<String, String>();
+	static {
+		EXTENSION_BY_REPORT_TYPE.put("C", "csv");
+		EXTENSION_BY_REPORT_TYPE.put("H", "html");
+		EXTENSION_BY_REPORT_TYPE.put("P", "pdf");
+		EXTENSION_BY_REPORT_TYPE.put("X", "xls");
+		EXTENSION_BY_REPORT_TYPE.put("XX", "xlsx");
+	}
+
+	/**
+	 * Get exporter from extension or from the Report Type list value (C, H, P, X, XX)
+	 * @param exportExtension file extension (pdf, xls, ...) or Report Type list value
+	 * @return exporter or null when there is no exporter for it
 	 */
 	public AbstractExportFormat getExporterFromExtension(String exportExtension) {
-		for(AbstractExportFormat exporter : getExportFormatList()) {
-			if(exporter.getExtension().equals(exportExtension)) {
+		List<AbstractExportFormat> exporters = getExportFormatList();
+		if(exportExtension == null || exporters == null) {
+			return null;
+		}
+		String extension = EXTENSION_BY_REPORT_TYPE.getOrDefault(exportExtension, exportExtension);
+		for(AbstractExportFormat exporter : exporters) {
+			if(exporter.getExtension().equals(extension)) {
 				return exporter;
 			}
 		}

@@ -24,8 +24,16 @@ scalaVersion := "2.13.6"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
-val adempiereProperties =
-  "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
+// Legacy standalone build (Scala 2.13). The supported way to run the Scala tests is the root build.sbt, see
+// README.md. Paths come from the environment instead of a personal home directory.
+val sourceAdempiere = sys.env
+  .get("ADEMPIERE_SOURCE_DIR")
+  .getOrElse(file("..").getAbsoluteFile.toPath.normalize.toString)
+val adempiereProperties = "-DPropertyFile=" + sys.env
+  .getOrElse(
+    "ADEMPIERE_PROPERTY_FILE",
+    sourceAdempiere + "/install/build/Adempiere/Adempiere.properties"
+  )
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
 javaOptions in Test := Seq(adempiereProperties)
 
@@ -58,7 +66,6 @@ lazy val commonSettings = Seq(
 )
 
 //val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/develop"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 

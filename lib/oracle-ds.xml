@@ -3,6 +3,7 @@
         <connection-url>@ADEMPIERE_DB_URL@</connection-url>
         <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
         <driver>AdempiereSLib.jar</driver>
+        <connection-property name="v$session.program">ADempiere AdempiereDS</connection-property>
         <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
         <pool>
             <min-pool-size>11</min-pool-size>
@@ -15,8 +16,8 @@
         </security>
         <validation>
             <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
-            <check-valid-connection-sql>SELECT Version FROM AD_System</check-valid-connection-sql>
             <background-validation>true</background-validation>
+            <background-validation-millis>30000</background-validation-millis>
             <use-fast-fail>true</use-fast-fail>
             <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
         </validation>
@@ -29,6 +30,7 @@
         <connection-url>@ADEMPIERE_DB_URL@</connection-url>
         <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
         <driver>AdempiereSLib.jar</driver>
+        <connection-property name="v$session.program">ADempiere AdempiereSRDS</connection-property>
         <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
         <pool>
             <min-pool-size>11</min-pool-size>
@@ -41,14 +43,10 @@
         </security>
         <validation>
             <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
-            <check-valid-connection-sql>SELECT Version FROM AD_System </check-valid-connection-sql>
             <background-validation>true</background-validation>
+            <background-validation-millis>30000</background-validation-millis>
             <use-fast-fail>true</use-fast-fail>
             <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
         </validation>
-        <statement>
-            <prepared-statement-cache-size>64</prepared-statement-cache-size>
-            <share-prepared-statements>true</share-prepared-statements>
-        </statement>
     </datasource>
 </datasources>

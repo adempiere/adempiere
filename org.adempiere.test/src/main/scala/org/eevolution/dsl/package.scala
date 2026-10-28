@@ -84,6 +84,8 @@ package object dsl {
   type WarehouseArea = MWMArea
   type WarehouseSection = MWMSection
   type WarehouseSectionDetail = MWMSectionDetail
+  type WarehouseAreaType = MWMAreaType
+  type WarehouseSectionType = MWMSectionType
 
   sealed trait Optional
   sealed trait Mandatory extends Optional
