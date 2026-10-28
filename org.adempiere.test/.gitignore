@@ -1,0 +1,3 @@
+# Scala build outputs and downloaded dependencies (ant scala-* targets)
+build/
+.scala-deps/

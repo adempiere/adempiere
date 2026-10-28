@@ -406,7 +406,7 @@ public interface I_M_ProductionLine
 	  */
 	public int getReversalLine_ID();
 
-	public org.adempiere.core.domains.models.I_M_InOutLine getReversalLine() throws RuntimeException;
+	public org.adempiere.core.domains.models.I_M_ProductionLine getReversalLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
