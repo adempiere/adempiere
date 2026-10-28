@@ -106,6 +106,9 @@ public class SessionManager {
     }
 
     public static void createSession(HttpSession httpSession) {
+        if (httpSession == null) {
+            return;
+        }
         if (!sessionCache.containsKey(httpSession.getId())) {
             sessionCache.put(httpSession.getId(), httpSession);
             createSessionContext(httpSession.getId());
@@ -129,31 +132,30 @@ public class SessionManager {
     }
 
     public static void clearSession(String sessionId) {
-        Optional.ofNullable(getApplication()).ifPresent(application -> {
-            int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
-            if (adempiereSessionId > 0) {
-                MSession adempiereSession = new MSession(Env.getCtx(), adempiereSessionId, null);
-                adempiereSession.logout();
-                log.info("ADempiere Session " + sessionId + " Logout ...");
-            }
-        });
+        Properties sessionContext = getSessionContext(sessionId);
+        if (sessionContext == null) {
+            return;
+        }
+
+        int adempiereSessionId = Env.getContextAsInt(sessionContext, "#AD_Session_ID");
+        if (adempiereSessionId > 0) {
+            MSession adempiereSession = new MSession(sessionContext, adempiereSessionId, null);
+            adempiereSession.logout();
+            log.info("ADempiere Session " + sessionId + " Logout ...");
+        }
     }
 
     public static void removeSession(String sessionId) {
-        Optional.ofNullable(sessionCache.get(sessionId))
-                .ifPresent(session -> {
-                    sessionCache.remove(sessionId);
-                    removeSessionCache(sessionId);
-                });
+        sessionCache.remove(sessionId);
+        removeSessionCache(sessionId);
     }
 
     public static void cleanSessionBackground(String sessionId) {
-        Optional.ofNullable(getApplication()).ifPresent(application -> {
+        Optional.ofNullable(getApplication(sessionId)).ifPresent(application -> {
             Keylistener keyListenerApplication = application.getKeylistener();
             //stop key listener
             if (keyListenerApplication != null) {
                 keyListenerApplication.detach();
-                keyListenerApplication = null;
             }
             // stop background thread
             IDesktop dashboard = application.getApplicationDesktop();
@@ -163,7 +165,9 @@ public class SessionManager {
 
             // clear remove all children and root component
             application.getChildren().clear();
-            application.getPage().removeComponents();
+            if (application.getPage() != null) {
+                application.getPage().removeComponents();
+            }
             application.detach();
             application.clearDesktop();
         });
@@ -204,7 +208,11 @@ public class SessionManager {
     }
 
     public static IWebClient getApplication(String sessionId) {
-        return applicationCache.get(sessionId).get();
+        WeakReference<IWebClient> applicationReference = applicationCache.get(sessionId);
+        if (applicationReference == null) {
+            return null;
+        }
+        return applicationReference.get();
     }
 
     public static IWebClient getApplication() {
@@ -246,7 +254,8 @@ public class SessionManager {
     }
 
     public static IDesktop getAppDesktop() {
-        return getApplication().getApplicationDesktop();
+        IWebClient application = getApplication();
+        return application != null ? application.getApplicationDesktop() : null;
     }
 
     public static void removeDestop(String sessionId) {

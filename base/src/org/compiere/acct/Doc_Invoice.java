@@ -29,6 +29,7 @@ import java.util.logging.Level;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClientInfo;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostType;
 import org.compiere.model.MCurrency;
@@ -810,7 +811,6 @@ public class Doc_Invoice extends Doc
 		return acctAmt;
 	}	//	createFactCash
 	
-	
 	/**
 	 * 	Create Landed Cost accounting & Cost lines
 	 *	@param as accounting schema
@@ -897,7 +897,7 @@ public class Doc_Invoice extends Doc
 		log.config("Created #" + landedCostAllocations.length);
 		return true;
 	}	//	landedCosts
-
+	
 	/**
 	 * 	Update ProductPO PriceLastInv
 	 *	@param as accounting schema

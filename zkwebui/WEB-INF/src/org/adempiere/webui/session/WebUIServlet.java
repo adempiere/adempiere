@@ -33,6 +33,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 /**
@@ -116,7 +117,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
 
         try {
             //Get Context for Current Thread and Remove
-            SessionManager.getSessionCache().values().forEach(httpSession -> {
+            new ArrayList<>(SessionManager.getSessionCache().values()).forEach(httpSession -> {
                 logger.info( "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
                 SessionManager.cleanSessionBackground(httpSession.getId());
