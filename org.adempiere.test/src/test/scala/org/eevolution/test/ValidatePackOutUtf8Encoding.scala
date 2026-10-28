@@ -77,7 +77,10 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
     Ini.setProperty(Ini.P_LANGUAGE, "English")
     val login = new Login(Env.getCtx)
     if (!login.batchLogin(null))
-      System.exit(1)
+      fail("Login failed for " + s"${Ini.getProperty(Ini.P_UID)} / " +
+        s"${Ini.getProperty(Ini.P_ROLE)} @ " +
+        s"${Ini.getProperty(Ini.P_CLIENT)}/${Ini.getProperty(Ini.P_ORG)}: " +
+        "aborting the suite instead of killing the JVM, so the runner can report it")
     CLogMgt.setLoggerLevel(Level.SEVERE, null)
     CLogMgt.setLevel(Level.SEVERE)
   }
@@ -149,9 +152,15 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
 
   private def deleteRecursively(path: Path): Unit = {
     if (!Files.exists(path)) return
-    Files.walk(path)
-      .sorted(java.util.Comparator.reverseOrder())
-      .forEach(p => Files.deleteIfExists(p))
+    // Files.walk opens a directory stream; it must be closed even when a
+    // deletion fails, otherwise the handle leaks and can block removal.
+    val walker = Files.walk(path)
+    try {
+      walker.sorted(java.util.Comparator.reverseOrder())
+        .forEach(p => Files.deleteIfExists(p))
+    } finally {
+      walker.close()
+    }
   }
 
   Feature("PackOut exports the package documentation and the application dictionary in UTF-8") {
@@ -188,6 +197,15 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
       And("the package documentation keeps the non ISO-8859-1 characters intact")
       assert(readStrictUtf8(docXml).contains(description),
         "Package documentation XML does not contain the original description; " +
+          "characters outside ISO-8859-1 were corrupted")
+
+      And("the application dictionary keeps the non ISO-8859-1 characters intact")
+      // PackOut writes the package description as the Description attribute of
+      // the adempiereAD root element of dict/PackOut.xml. Without this check a
+      // dictionary writer could declare UTF-8 while replacing the CJK
+      // characters and the suite would still pass.
+      assert(readStrictUtf8(dictXml).contains(description),
+        "Application dictionary XML does not contain the original description; " +
           "characters outside ISO-8859-1 were corrupted")
     }
   }
