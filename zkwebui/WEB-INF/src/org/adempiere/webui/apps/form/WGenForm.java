@@ -37,6 +37,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.session.SessionTimeoutSuspender;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
@@ -292,7 +293,7 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	{
 		final ProcessCtl worker = new ProcessCtl(null, getWindowNo(), genForm.getProcessInfo(), genForm.getTrx());
 		try {                    						
-			worker.run();     //  complete tasks in unlockUI / generateShipments_complete						
+			SessionTimeoutSuspender.run(() -> genForm.getProcessInfo().getTitle() + " AD_Process_ID=" + genForm.getProcessInfo().getAD_Process_ID() + " AD_PInstance_ID=" + genForm.getProcessInfo().getAD_PInstance_ID(), worker);     //  complete tasks in unlockUI / generateShipments_complete						
 		} finally{						
 			unlockUI();
 		}

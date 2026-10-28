@@ -44,8 +44,9 @@ public class SessionTimeoutFilter implements Filter {
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         Map<String, String[]> param = httpServletRequest.getParameterMap();
-        HttpSession httpSession = httpServletRequest.getSession();
-        if (SessionManager.existsSession(httpSession.getId())) {
+        // do not create a session for requests without one (health checks, probes)
+        HttpSession httpSession = httpServletRequest.getSession(false);
+        if (httpSession != null && SessionManager.existsSession(httpSession.getId())) {
             boolean isRealRequest = true;
             for (Object key : param.keySet()) {
                 if (key.toString().startsWith("cmd")
@@ -76,7 +77,11 @@ public class SessionTimeoutFilter implements Filter {
                 long now = System.currentTimeMillis();
                 httpSession.setAttribute("LAST_REAL_REQUEST", now);
             }
+            return;
         }
+
+        // no registered session, process request
+        chain.doFilter(request, response);
     }
 
     @Override

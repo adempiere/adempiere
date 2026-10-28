@@ -80,7 +80,19 @@
 	<!-- /////////// -->
 	<!-- Miscellaneous -->
 	<session-config>
-		<session-timeout>60</session-timeout>
+		<!-- Inactivity timeout in MINUTES for a logged-in webui session (single source; zk.xml sets none).
+		     Anonymous sessions use EPHEMERAL_SESSION_MAX_INACTIVE_INTERVAL (seconds, AdempiereEnv.properties) until login. -->
+		<session-timeout>30</session-timeout>
+		<!-- JSESSIONID is HttpOnly: no webui script reads it, and it cannot leak through XSS.
+		     Secure is NOT forced: Jetty already marks it Secure on HTTPS requests (secureRequestOnly),
+		     and plain HTTP access (port 80) would otherwise lose the session. Behind a TLS-terminating
+		     load balancer, Jetty's http-forwarded module makes those requests secure. -->
+		<cookie-config>
+			<http-only>true</http-only>
+		</cookie-config>
+		<!-- The session id travels only in the cookie, never in URLs (;jsessionid=): cookie-based load
+		     balancer stickiness needs it, and ids in URLs leak through logs, history and Referer. -->
+		<tracking-mode>COOKIE</tracking-mode>
 	</session-config>
 
 	<filter>
