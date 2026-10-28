@@ -68,14 +68,6 @@ class ValidateFinReportDateAcctRange
   private val ExpectedDr = new BigDecimal("600")
   /** Number of facts seedFacts writes; cleanup asserts this exact scope. */
   private val SeededCount = 4
-  /**
-    * Sentinel band for synthetic fact ids. Real Fact_Acct ids come from the
-    * client's id generator and sit far below this, so the band is reserved for
-    * test rows. Ids are derived from the highest real id below the band, so a
-    * run that dies before cleanup cannot push the base towards Int.MaxValue the
-    * way max(fact_acct_id)+band would.
-    */
-  private val SentinelBand = 900000000
 
   Feature("DateAcct range predicate over live accounting facts") {
 
@@ -323,19 +315,17 @@ class ValidateFinReportDateAcctRange
     * to a balance-sheet account, so the natural balance predicate the reports
     * build sees them through its EXISTS branch whatever period is open.
     *
-    * Ids come from a high sentinel range so they never collide with real rows,
-    * and each insert is asserted so a silent failure cannot pass as success.
+    * Ids come from the AD_Sequence the dictionary assigns to Fact_Acct, so the
+    * fixture never needs to touch a row it did not create: there is no pre-insert
+    * delete, and therefore no path on which this test can destroy real ledger
+    * data. The sequence never reuses a value, so a run aborted before cleanup
+    * leaves its rows behind instead of forcing a delete to make room.
+    *
+    * Each insert is asserted so a silent failure cannot pass as success.
     */
   private def seedFacts(client: Int, period: OpenPeriod): Seeded = {
     var seeded: Seeded = null
     Trx.run { name =>
-      val baseId = query(
-        "SELECT coalesce(max(fact_acct_id), 0) + ? AS base FROM fact_acct WHERE fact_acct_id < ?",
-        Array[AnyRef](Integer.valueOf(SentinelBand), Integer.valueOf(SentinelBand))) { rs =>
-        rs.next()
-        rs.getInt("base")
-      }
-
       val account = singleInt(
         "SELECT c_elementvalue_id FROM c_elementvalue WHERE ad_client_id IN (0, ?) " +
         "AND isactive = 'Y' AND postactual = 'Y' AND accounttype IN ('A','L','O') " +
@@ -343,17 +333,10 @@ class ValidateFinReportDateAcctRange
         Array[AnyRef](Integer.valueOf(client)))
       val orgId = Env.getAD_Org_ID(Env.getCtx)
 
-      val startId = baseId + 1
-      val midId = baseId + 2
-      val endId = baseId + 3
-      val afterEndId = baseId + 4
-
-      // Reclaim exactly the ids this run is about to claim, so a previous run
-      // that died before cleanup does not fail this one on a primary key clash.
-      // Scoped to these four ids; no other row is touched.
-      DB.executeUpdate(
-        s"DELETE FROM fact_acct WHERE fact_acct_id IN (${Seq(startId, midId, endId, afterEndId).mkString(",")})",
-        null, false, name)
+      val startId = nextFactId(name)
+      val midId = nextFactId(name)
+      val endId = nextFactId(name)
+      val afterEndId = nextFactId(name)
 
       // The midpoint of the selected period, never one of its edges. A fixed
       // 14-day offset would fall outside the period whenever the open period is
@@ -376,6 +359,32 @@ class ValidateFinReportDateAcctRange
     }
     seeded
   }    //	seedFacts
+
+  /**
+    * Allocate one Fact_Acct id from the dictionary sequence (AD_Sequence name
+    * Fact_Acct, IsTableID and IsAutoSequence both 'Y'). The sequence commits on
+    * its own connection, independently of the surrounding transaction, which is
+    * exactly why the fixture needs no delete to reserve room.
+    *
+    * MSequence documents -1 as not found and -2 as error, and a sequence sitting
+    * behind the table would collide on insert, so both are rejected here rather
+    * than surfacing as a primary key error later.
+    */
+  private def nextFactId(trxName: String): Int = {
+    val id = DB.getNextID(0, "Fact_Acct", trxName)
+    if (id <= 0)
+      throw new AssertionError(
+        s"AD_Sequence could not allocate a Fact_Acct id, DB.getNextID returned $id")
+    val taken = query(
+      "SELECT fact_acct_id FROM fact_acct WHERE fact_acct_id = ?",
+      Array[AnyRef](Integer.valueOf(id))) { rs => rs.next() }
+    if (taken)
+      throw new AssertionError(
+        s"AD_Sequence handed out fact_acct_id $id, which already exists; " +
+        "the sequence sits behind the table and the fixture would overwrite nothing " +
+        "but cannot insert either")
+    id
+  }    //	nextFactId
 
   private def insertFact(client: Int, orgId: Int, period: OpenPeriod,
       account: Int, factId: Int, dateAcct: Timestamp, amountDr: BigDecimal, trxName: String): Unit = {
