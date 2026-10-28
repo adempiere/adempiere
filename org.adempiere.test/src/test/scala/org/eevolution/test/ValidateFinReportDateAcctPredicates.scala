@@ -94,6 +94,17 @@ class ValidateFinReportDateAcctPredicates extends AnyFeatureSpec {
         s"${sources(3)}: the trial balance upper bound must be a bound parameter")
       assert(!truncDateAcct.matcher(text).find(),
         s"${sources(3)}: the trial balance must not wrap DateAcct in TRUNC()")
+      // The bound dates must be normalised to the day. The SQL this replaced rendered
+      // DB.TO_DATE(p_DateAcct_From, true), a day-only literal, so binding the raw
+      // parameter keeps its time component and silently drops facts dated earlier on
+      // the start day.
+      assert(text.contains("parameters.add(TimeUtil.getDay(p_DateAcct_From))"),
+        s"${sources(3)}: the bound lower date must be normalised to the day, " +
+        "otherwise a non-midnight start timestamp excludes valid same-day facts")
+      assert(text.contains("parameters.add(TimeUtil.getDay(p_DateAcct_To))"),
+        s"${sources(3)}: the bound upper date must be normalised to the day")
+      assert(text.contains("import org.compiere.util.TimeUtil;"),
+        s"${sources(3)}: TimeUtil must be imported for the day normalisation")
     }
   }
 }
