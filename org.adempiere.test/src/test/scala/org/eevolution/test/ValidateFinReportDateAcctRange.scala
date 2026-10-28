@@ -355,7 +355,14 @@ class ValidateFinReportDateAcctRange
         s"DELETE FROM fact_acct WHERE fact_acct_id IN (${Seq(startId, midId, endId, afterEndId).mkString(",")})",
         null, false, name)
 
-      val midDate = plusDays(period.start, 14)
+      // The midpoint of the selected period, never one of its edges. A fixed
+      // 14-day offset would fall outside the period whenever the open period is
+      // shorter than fifteen days, which would make the scenario reject a
+      // correct report. span/2 stays strictly inside for any period longer than
+      // one day; for a one or two day period the end date is the only interior
+      // value available and is still distinct from the next-day fixture.
+      val span = (period.end.getTime - period.start.getTime) / 86400000L
+      val midDate = if (span <= 1) period.end else plusDays(period.start, (span / 2).toInt)
       val afterEndDate = plusDays(period.end, 1)
 
       insertFact(client, orgId, period, account, startId, period.start, DrStart, name)
@@ -411,6 +418,10 @@ class ValidateFinReportDateAcctRange
       val deleted = DB.executeUpdate(
         s"DELETE FROM fact_acct WHERE fact_acct_id IN (${seeded.idsSql})", null, false, name)
       info(s"cleanup deleted $deleted seeded fact_acct rows")
+      if (deleted < 0)
+        throw new AssertionError(
+          "cleanup did not succeed: DB.executeUpdate reported " + deleted +
+          " for the seeded ids, leaving synthetic facts in the shared database")
       if (deleted > SeededCount)
         throw new AssertionError(
           s"cleanup removed $deleted rows but only $SeededCount were seeded; the delete " +
