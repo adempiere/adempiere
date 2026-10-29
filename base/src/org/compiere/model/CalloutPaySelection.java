@@ -317,7 +317,16 @@ public class CalloutPaySelection extends CalloutEngine
 		//	Set BP from Document
 		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
 		MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
-		mTab.setValue("PaymentRule", invoice.getPaymentRule());
+		//	The invoice is reloaded with a null transaction name, so a header still
+		//	held by an open transaction reads back empty and its payment rule is
+		//	null. GridTable.dataSavePO copies this value into the persistent object
+		//	with set_ValueNoCheck, which skips the mandatory check and never runs
+		//	MPaySelectionLine.setPaymentRule, so its direct deposit fallback never
+		//	applies. The null has to be resolved here.
+		String paymentRule = invoice.getPaymentRule();
+		if (paymentRule == null)
+			paymentRule = MPaySelectionLine.PAYMENTRULE_DirectDeposit;
+		mTab.setValue("PaymentRule", paymentRule);
 		Optional<String> invoiceDescription = Optional.ofNullable(invoice.getDescription());
 		Optional<String> maybeDescription = Optional.ofNullable((String) mTab.getValue("Description"));
 		invoiceDescription.ifPresent(description -> {
@@ -334,14 +343,17 @@ public class CalloutPaySelection extends CalloutEngine
 			mTab.setValue("Description", descriptionLine);
 		});
 		//Setting Bank Account
+		//	Resolved on every call, not only when the partner owns an account. When
+		//	the newly selected invoice belongs to a partner without an active bank
+		//	account, the account left by the previously selected document belongs to
+		//	another partner, and MPaySelectionCheck copies it to the generated
+		//	payment, sending money to a third party bank account.
 		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(ctx,invoice.getC_BPartner_ID());
-		banks.stream().findFirst()
-				.ifPresent(bankAccount ->
-						mTab.setValue(
-								"C_BP_BankAccount_ID",
-								bankAccount.getC_BP_BankAccount_ID()
-						)
-				);
+		if (banks.isEmpty())
+			mTab.setValue("C_BP_BankAccount_ID", null);
+		else
+			mTab.setValue("C_BP_BankAccount_ID",
+					banks.get(0).getC_BP_BankAccount_ID());
 		return "";
 	}	//	PaySel_Invoice
 	
@@ -416,6 +428,12 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);		
 		//	Set BP from Document
 		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
+		//	The partner just changed, so any bank account carried by this row comes
+		//	from the previously selected document and belongs to another partner.
+		//	It is cleared instead of kept, and no account is picked automatically:
+		//	which account of the partner may be paid is a separate decision, see
+		//	MPaySelectionCheck.isValid.
+		mTab.setValue("C_BP_BankAccount_ID", null);
 		return "";
 	}	//	PaySel_Order
 	

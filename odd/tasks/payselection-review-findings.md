@@ -34,12 +34,28 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
 | ID | Spec | Route | Commit |
 |----|------|-------|--------|
 | T1 | S1 | parent inline (`gh` API) | n/a (evidence only) |
-| T2 | S2 | parent inline (test authoring needs full review context) | pending |
-| T3 | S3 | parent inline (`/tmp/pr4313/run_spec.sh`) | pending |
-| T4 | S4 | parent inline (3 files, one behaviour unit) | pending |
-| T5 | S5 | parent inline | pending |
-| T6 | S6 | parent inline | pending |
-| T7 | S7 | parent report | pending |
+| T2 | S2 | parent inline (test authoring needs full review context) | `test:` slice |
+| T3 | S3 | parent inline (`/tmp/pr4313/run_spec.sh`) | `test:` slice |
+| T4 | S4 | parent inline (2 files, one behaviour unit) | `fix:` slice |
+| T5 | S5 | parent inline | `fix:` slice |
+| T6 | S6 | parent inline | `fix:` slice |
+| T7 | S7 | parent report | n/a (decision open) |
+
+### Slice boundaries
+
+Two reviewable slices on `hotfix/3.9.4.002-4313`, on top of `48dbaac3b`. They are
+referenced by subject: amending a commit to record its own hash rewrites that hash, so
+`git log --oneline` is the source of truth for the current ids.
+
+1. `test: pin the five pay selection review findings observed red` — the regression spec
+   alone, no behaviour change, observed red.
+2. `fix: resolve the payment rule and clear a foreign bank account` — the production
+   change, 49 authored lines across `CalloutPaySelection.java` and
+   `MPaySelectionLine.java`, plus this feature document.
+
+The branch itself carries 9290 authored lines in 139 commits against `origin/develop`.
+That is the pre-existing shape of PR #4490 and is not restructured here; this feature
+adds two commits. Push, PR update and merge stay the user's decision.
 
 ## Log
 

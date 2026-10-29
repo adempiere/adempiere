@@ -146,8 +146,11 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		if(getPaymentRule() == null && invoice.getPaymentRule() != null)
 			setPaymentRule(invoice.getPaymentRule());
 
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
+		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID(),null,get_TrxName());
+		if (banks.isEmpty())
+			setC_BP_BankAccount_ID(0);
+		else
+			setC_BP_BankAccount_ID(banks.get(0).getC_BP_BankAccount_ID());
 
 	}	//	setInvoive
 	
@@ -179,8 +182,15 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 		setDescription(invoice.getDescription());
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
+		//	The lookup runs in the current transaction, so an account saved earlier
+		//	in the same transaction is visible, and it is resolved on every call: an
+		//	empty result clears the account carried by a previous document, which
+		//	otherwise belongs to another partner and reaches the generated payment.
+		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),invoice.getC_BPartner_ID(),null,get_TrxName());
+		if (banks.isEmpty())
+			setC_BP_BankAccount_ID(0);
+		else
+			setC_BP_BankAccount_ID(banks.get(0).getC_BP_BankAccount_ID());
 	}	//	setInvoice
 
 	/**
@@ -212,8 +222,15 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 		setDescription(order.getDescription());
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),order.getC_BPartner_ID());
-		banks.stream().findFirst().ifPresent(bankAccount -> setC_BP_BankAccount_ID(bankAccount.getC_BP_BankAccount_ID()));
+		//	The partner comes from the order, so any account already on the line
+		//	belongs to the previous document. It is cleared when this partner owns
+		//	none, and the lookup runs in the current transaction so an account saved
+		//	earlier in the same transaction is seen.
+		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(getCtx(),order.getC_BPartner_ID(),null,get_TrxName());
+		if (banks.isEmpty())
+			setC_BP_BankAccount_ID(0);
+		else
+			setC_BP_BankAccount_ID(banks.get(0).getC_BP_BankAccount_ID());
 	}	//	setOrder
 	
 	/**
