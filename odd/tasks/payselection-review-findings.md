@@ -259,3 +259,23 @@ and merge stay the user's decision.
   selection guards, S9 non-direct, and S11 payroll. The updated `ValidatePaySelectionLineFromInvoice`
   also fails there (`succeeded 5, failed 1`), so its rewritten assertion is falsifiable and was
   not adjusted to fit the new behaviour. GREEN with the fix: 18/18 and 6/6, 0 canceled.
+
+## Review receipt
+
+Native ordinary review `review-30c769e842217a68`, base `2714b1b2f41297036cde1131a09566c5fcae67d3`,
+tier medium, lenses risk + readability + reliability, 1615 changed lines. **Approved**, authority
+burned at revision `sha256:5e629223e45850c889bd3ed2e43616198422ccf45ea0d5c1168b41a7850326bb`.
+No correction was opened and none is offered for this candidate.
+
+Advisory, non-blocking, tracked here as later work:
+
+- `R1-001` `odd/tasks/payselection-review-findings.md:107-108`
+- `R2-001` `CalloutPaySelection.java:461-463`, `R2-002` `MPaySelectionCheck.java:522-528`,
+  `R2-003` `MPaySelectionLine.java:193-212`, `R2-004` `CalloutPaySelection.java:348-350`,
+  `R2-005` `ValidatePaySelectionLineFromInvoice.scala:384-389` (readability)
+- `R3-001` `CalloutPaySelection.java:319-328`, `R3-002`/`R3-003` `MPaySelectionCheck.java:514-528`,
+  `R3-004`/`R3-005` `ValidatePaySelectionLineDocumentDefaults.scala` (reliability)
+
+One reliability run came back truncated mid-finding and Go refused it at admission without
+consuming the slot; the reoffer produced a complete result. Delivery follows ordinary repository
+policy: push and PR remain the developer's decision.
