@@ -1077,6 +1077,45 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(line.getC_BP_BankAccount_ID == regular.getC_BP_BankAccount_ID,
         "a payroll account must not pay an ordinary supplier, as MPaySelectionCheck already requires")
     }
+
+    Scenario("S12 a payroll line is paid through a payroll account, not an ordinary one") {
+      Given("a partner owning an ordinary direct deposit account and, after it, a payroll one")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      val regular = newAccountInTrx(vendor, "s12reg", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      val payroll = newAccountInTrx(vendor, "s12pay", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit, payroll = true)
+      assert(regular.getC_BP_BankAccount_ID < payroll.getC_BP_BankAccount_ID,
+        "the ordinary account must hold the lowest id, so a selector that ignores payroll would " +
+          "take it by its own tie break and this guard would prove nothing")
+
+      When("the rule is resolved for a payroll line with no account on it yet")
+      val resolved = MPaySelectionLine.payableBankAccountId(Context,
+        vendor.getC_BPartner_ID, X_C_Order.PAYMENTRULE_DirectDeposit,
+        true, 0, trxName)
+
+      Then("the payroll account is selected")
+      assert(resolved == payroll.getC_BP_BankAccount_ID,
+        "a payroll line must be paid into a payroll account; the pay selection check filter it " +
+          "replaced kept an account only when it was a payroll one or the line was not payroll, " +
+          "so it never handed a payroll line an ordinary account")
+
+      When("an ordinary account is already on the payroll line")
+      val reResolved = MPaySelectionLine.payableBankAccountId(Context,
+        vendor.getC_BPartner_ID, X_C_Order.PAYMENTRULE_DirectDeposit,
+        true, regular.getC_BP_BankAccount_ID, trxName)
+
+      Then("it is re-resolved to the payroll account rather than trusted")
+      assert(reResolved == payroll.getC_BP_BankAccount_ID,
+        "a candidate that cannot receive a payroll payment must not be kept on trust")
+
+      And("the same ordinary account is still kept on a line that is not payroll")
+      assert(MPaySelectionLine.payableBankAccountId(Context,
+        vendor.getC_BPartner_ID, X_C_Order.PAYMENTRULE_DirectDeposit,
+        false, regular.getC_BP_BankAccount_ID, trxName) == regular.getC_BP_BankAccount_ID,
+        "S11 must keep holding: an ordinary account pays an ordinary line")
+    }
   }
 }
 

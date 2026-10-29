@@ -28,6 +28,8 @@ import org.compiere.util.{CLogMgt, DB, Env, Ini, Login}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
+import scala.jdk.CollectionConverters.ListHasAsScala
+
 /**
   * Regression test for adempiere/adempiere#4313, #4314 and #4317:
   * pay selection lines created from invoices/orders take the payment
@@ -382,11 +384,20 @@ class ValidatePaySelectionLineFromInvoice
       assert(line.getC_BPartner_ID == invoice.getC_BPartner_ID,
         "the line vendor must be the invoice vendor")
       And("an account of the vendor is copied")
-      //	Not "the first account": the tender decides which account may be paid, so the
-      //	assertion names the eligible account instead of whichever row an unordered query
-      //	happened to return first.
-      assert(line.getC_BP_BankAccount_ID == payable.getC_BP_BankAccount_ID,
-        "a direct deposit must resolve the vendor's ACH account, not its non ACH one")
+      //	Not "the first account": the tender decides which account may be paid. Nor is it
+      //	pinned to the fixture row by identity, which would make this assertion depend on the
+      //	order the fixtures happen to be created in: the contract is that the selector takes
+      //	the eligible account with the lowest id, so the assertion derives that id from the
+      //	vendor's own eligible accounts. Read inside this transaction, since the eligible
+      //	account is the one the fixture just created and an uncommitted row is invisible to a
+      //	query running outside it.
+      val eligible = MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID, null, trxName)
+        .asScala.filter(_.isDirectDeposit)
+      assert(!eligible.isEmpty,
+        "the vendor must own an account payable by direct deposit for this to be observable")
+      assert(line.getC_BP_BankAccount_ID ==
+        eligible.map(_.getC_BP_BankAccount_ID).min,
+        "a direct deposit must resolve the vendor's eligible account with the lowest id")
       And("the difference amount is the open amount minus pay and discount")
       assert(line.getDifferenceAmt.compareTo(
         openAmt.subtract(payAmt).subtract(discountAmt)) == 0,

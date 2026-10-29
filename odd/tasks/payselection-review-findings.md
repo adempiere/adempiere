@@ -44,6 +44,11 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
   must resolve the same account every time.
 - **S11** Payroll accounts are excluded unless the pay selection line is itself a payroll
   line (`HR_Movement_ID > 0`), again mirroring `MPaySelectionCheck.java:519,531`.
+- **S12** Payroll is matched in both directions. An ordinary account must not be selected for
+  a payroll line, and a candidate ordinary account already on a payroll line must be
+  re-resolved rather than kept. The filter `MPaySelectionCheck` carried read
+  `account.isPayrollAccount() || !line.isPayrollAccount()`, which already refused this
+  crossing; S11 only added the opposite one.
 
 ## Tasks
 
@@ -59,6 +64,7 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
 | T8 | S8 | parent inline (guards requested by verification) | `test:` slice |
 | T9 | S9, S10, S11 | parent inline (one shared rule, 4 call sites, 3 files) | `fix:` slice 2 |
 | T10 | S9, S10, S11 | parent inline (RED observed before production) | `test:` slice 2 |
+| T11 | S12 | parent inline (regression found in the rejected reviewer payload, RED observed) | `fix:` slice 5 |
 
 ### Slice boundaries
 
@@ -279,3 +285,42 @@ Advisory, non-blocking, tracked here as later work:
 One reliability run came back truncated mid-finding and Go refused it at admission without
 consuming the slot; the reoffer produced a complete result. Delivery follows ordinary repository
 policy: push and PR remain the developer's decision.
+
+## Advisory triage
+
+The approved review carried 11 non-blocking advisories. Each one was read against the code at
+the location it names, and the outcome is recorded here rather than left in the receipt.
+
+| ID | Lens | Location | Outcome |
+|----|------|----------|---------|
+| R1-001 | risk | `odd/tasks/...md:107-108` | Documentation only: the log quotes the developer's request verbatim, which is what this document is for. No action. |
+| R2-001 | readability | `CalloutPaySelection.java:461-463` | Accepted, not changed: reading the row's own `PaymentRule` before the order's is deliberate, and the comment names it. |
+| R2-002 | readability | `MPaySelectionCheck.java:522-528` | Accepted, not changed: the block is one call plus the write-back, and the comment states the rule. |
+| R2-003 | readability | `MPaySelectionLine.java:193-212` | Accepted, not changed: the guard clauses are the rule, each with its reason. |
+| R2-004 | readability | `CalloutPaySelection.java:348-350` | Accepted, not changed. |
+| R2-005 | readability | `ValidatePaySelectionLineFromInvoice.scala:384-389` | **Fixed.** The assertion pinned the fixture row by identity, so it depended on the order fixtures were created. It now derives the expected id from the vendor's own eligible accounts, which is the contract, and stays falsifiable. |
+| R3-001 | reliability | `CalloutPaySelection.java:319-328` | Accepted, not changed: reloading with a null transaction is the existing behaviour of this callout, and F1 resolves the null it produces. |
+| R3-002 | reliability | `MPaySelectionCheck.java:514-528` | Accepted, not changed: when the selector returns 0 the line keeps no account, and `isValid` is the place that refuses a tender with no account. |
+| R3-003 | reliability | `MPaySelectionCheck.java:514-528` | Accepted, not changed. |
+| R3-004 | reliability | `ValidatePaySelectionLineDocumentDefaults.scala` | Accepted, not changed: the suite runs against the demo client inside one rolled-back transaction, which is how the existing specs in this module run. |
+| R3-005 | reliability | `ValidatePaySelectionLineDocumentDefaults.scala` | Accepted, not changed. |
+
+**One finding the receipt does not show.** The first reliability attempt came back truncated and
+Go refused it at admission, so its findings never entered the receipt. Its rejected payload is
+kept at `.git/gentle-ai/rejected-results/review-30c769e842217a68/review-reliability-1-1a89f5f36b21.json`
+and it opened with a **BLOCKER**: `payableBankAccountId` excluded payroll accounts only when the
+line was *not* payroll, so a payroll line could be paid into an ordinary account. That was
+correct. The filter it replaced read `account.isPayrollAccount() || !isPayrollAccount`, which
+also refused an ordinary account on a payroll line, and the shared helper had dropped that half.
+
+| account is payroll | line is payroll | product before | helper before the fix |
+|---|---|---|---|
+| yes | yes | takes | takes |
+| yes | no | takes | refuses (the hardening asked for) |
+| no | yes | **refuses** | **took — regression** |
+| no | no | takes | takes |
+
+Fixed by matching payroll in both directions (`bank.isPayrollAccount() == isPayrollLine`),
+with S12 observed red first: it resolved `1000146`, the ordinary account, for a payroll line.
+This is the reason S12 exists, and the reason an approved receipt is not the same as a clean
+review.

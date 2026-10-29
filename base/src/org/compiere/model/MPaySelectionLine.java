@@ -166,6 +166,12 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	 *	any non zero account from the line and isValid then accepted it, so an account set by a
 	 *	previous document, a stale one, or a manually typed one reached the payment unfiltered.
 	 *
+	 *	Payroll is matched in both directions. A payroll account does not pay an ordinary supplier,
+	 *	and an ordinary account does not receive a payroll payment: the check the selector replaced
+	 *	read "account.isPayrollAccount or not line.isPayrollAccount", which already refused the
+	 *	second crossing, and the developer asked for the first one too. Keeping both leaves the
+	 *	payroll and the ordinary account each on its own side of the line.
+	 *
 	 *	Among the eligible accounts the lowest id wins: MBPBankAccount.getByPartner sets no
 	 *	ORDER BY, so without an explicit tie break the same input could pay a different account
 	 *	every time.
@@ -195,7 +201,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 			if (candidate.getC_BPartner_ID() == partnerId
 					&& candidate.isActive()
 					&& servesRule(candidate, isDirectDeposit, isDirectDebit)
-					&& (!candidate.isPayrollAccount() || isPayrollLine))
+					&& candidate.isPayrollAccount() == isPayrollLine)
 				return candidateId;
 		}
 
@@ -205,7 +211,8 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 				continue;
 			if (!servesRule(bank, isDirectDeposit, isDirectDebit))
 				continue;
-			if (bank.isPayrollAccount() && !isPayrollLine)
+			//	A payroll account pays a payroll line, an ordinary account an ordinary line.
+			if (bank.isPayrollAccount() != isPayrollLine)
 				continue;
 			if (selected == 0 || bank.getC_BP_BankAccount_ID() < selected)
 				selected = bank.getC_BP_BankAccount_ID();
