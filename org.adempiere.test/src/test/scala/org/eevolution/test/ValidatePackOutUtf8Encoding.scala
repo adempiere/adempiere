@@ -65,21 +65,23 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
 
   override def beforeAll(): Unit = {
     Adempiere.startup(false)
-    CLogMgt.setLevel(Level.OFF)
-    CLogMgt.setLoggerLevel(Level.OFF, null)
-
-    Ini.setProperty(Ini.P_UID, "SuperUser")
-    Ini.setProperty(Ini.P_PWD, "System")
-    Ini.setProperty(Ini.P_ROLE, "GardenWorld Admin")
-    Ini.setProperty(Ini.P_CLIENT, "GardenWorld")
-    Ini.setProperty(Ini.P_ORG, "HQ")
-    Ini.setProperty(Ini.P_WAREHOUSE, "HQ Warehouse")
-    Ini.setProperty(Ini.P_LANGUAGE, "English")
-    val login = new Login(Env.getCtx)
-    // fail(...) aborts beforeAll, so the logging reset below has to run in a
-    // finally block: otherwise a failed login leaves process-wide logging
-    // switched OFF for every other suite sharing this JVM.
+    // Everything from the moment logging is switched OFF has to run inside the
+    // try. Anything in here can abort beforeAll - a failed Ini write, the Login
+    // constructor, or ScalaTest's fail(...) on a rejected login - and without the
+    // finally the runner would keep every other suite in this JVM with logging
+    // silenced.
     try {
+      CLogMgt.setLevel(Level.OFF)
+      CLogMgt.setLoggerLevel(Level.OFF, null)
+
+      Ini.setProperty(Ini.P_UID, "SuperUser")
+      Ini.setProperty(Ini.P_PWD, "System")
+      Ini.setProperty(Ini.P_ROLE, "GardenWorld Admin")
+      Ini.setProperty(Ini.P_CLIENT, "GardenWorld")
+      Ini.setProperty(Ini.P_ORG, "HQ")
+      Ini.setProperty(Ini.P_WAREHOUSE, "HQ Warehouse")
+      Ini.setProperty(Ini.P_LANGUAGE, "English")
+      val login = new Login(Env.getCtx)
       if (!login.batchLogin(null))
         fail("Login failed for " + s"${Ini.getProperty(Ini.P_UID)} / " +
           s"${Ini.getProperty(Ini.P_ROLE)} @ " +
