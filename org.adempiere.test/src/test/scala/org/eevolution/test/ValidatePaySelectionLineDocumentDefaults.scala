@@ -107,6 +107,88 @@ class ValidatePaySelectionLineDocumentDefaults
     case _ => false
   }
 
+  /** The account id held by a grid value, or zero when it holds none. */
+  private def accountIdOf(value: Any): Int = value match {
+    case i: java.lang.Integer => i.intValue
+    case _ => 0
+  }
+
+  /**
+    * Partners owning a committed bank account, captured once in beforeAll.
+    *
+    * AdempiereTestCase wraps the whole suite in a single transaction
+    * (BeforeAndAfterAll, not BeforeAndAfterEach), so accounts created by one
+    * scenario stay visible to the next. A helper resolving "a partner owning an
+    * account" inside that transaction therefore starts returning partners whose
+    * account only exists in the transaction, which a callout reading with a null
+    * transaction name cannot see. That makes a scenario pass or fail depending on
+    * the order scenarios ran in. The committed ids are snapshotted before any
+    * scenario writes, so every fixture is anchored to data the callout can read.
+    */
+  private var committedAccountPartnerIds: List[Int] = Nil
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    val ids = new java.util.ArrayList[Integer]()
+    val pstmt = DB.prepareStatement(
+      "SELECT DISTINCT C_BPartner_ID FROM C_BP_BankAccount WHERE IsActive='Y'" +
+        " AND AD_Client_ID=? ORDER BY C_BPartner_ID", null)
+    var rs: java.sql.ResultSet = null
+    try {
+      pstmt.setInt(1, Env.getAD_Client_ID(Context))
+      rs = pstmt.executeQuery()
+      while (rs.next())
+        ids.add(rs.getInt(1))
+    } catch {
+      case e: java.sql.SQLException =>
+        throw new AssertionError("the committed partner accounts must be readable", e)
+    } finally
+      DB.close(rs, pstmt)
+    committedAccountPartnerIds = ids.toArray.toList.map(_.asInstanceOf[Integer].intValue)
+  }
+
+  /**
+    * Ids of every partner owning an active account right now: committed rows and
+    * rows created by earlier scenarios of this suite alike, since the whole suite
+    * shares one transaction.
+    */
+  private def partnersOwningAnyAccount: List[Int] = {
+    val ids = new java.util.ArrayList[Integer]()
+    val pstmt = DB.prepareStatement(
+      "SELECT DISTINCT C_BPartner_ID FROM C_BP_BankAccount WHERE AD_Client_ID=?", trxName)
+    var rs: java.sql.ResultSet = null
+    try {
+      pstmt.setInt(1, Env.getAD_Client_ID(Context))
+      rs = pstmt.executeQuery()
+      while (rs.next())
+        ids.add(rs.getInt(1))
+    } catch {
+      case e: java.sql.SQLException =>
+        throw new AssertionError("the partner accounts must be readable", e)
+    } finally
+      DB.close(rs, pstmt)
+    ids.toArray.toList.map(_.asInstanceOf[Integer].intValue)
+  }
+
+  /**
+    * A partner owning no account at all, committed or in transaction.
+    *
+    * The suite shares one transaction, so an account saved by an earlier scenario is
+    * still visible to the next, and MBPBankAccount.getByPartner sets no ORDER BY, so
+    * once a partner owns two accounts the one resolved by banks.get(0) is arbitrary.
+    * Every scenario that asserts a specific account is resolved, kept, or cleared
+    * takes a partner that is still clean when it runs, so the outcome never depends
+    * on the order scenarios happened to execute in.
+    */
+  private def partnerWithNoAccountYet: MBPartner = {
+    val owned = partnersOwningAnyAccount
+    if (owned.isEmpty)
+      promoteVendor(partnerMatching("1=1"))
+    else
+      promoteVendor(partnerMatching(
+        "C_BPartner_ID NOT IN (" + owned.mkString(",") + ")"))
+  }
+
   /** First committed active partner matching extraWhere, ordered by id. */
   private def partnerMatching(extraWhere: String): MBPartner =
     new Query(Context, "C_BPartner",
@@ -116,18 +198,27 @@ class ValidatePaySelectionLineDocumentDefaults
       .first()
 
   /**
-    * Active partner owning at least one active bank account, promoted to vendor
+    * Active partner owning at least one committed bank account, promoted to vendor
     * inside the test transaction. This client keeps exactly one bank account and
     * its owner is not a vendor, while a payment selection pays vendors, so the
     * fixture promotes it in the rolled back transaction instead of depending on
-    * demo data that does not exist.
+    * demo data that does not exist. The account must be a committed one: the
+    * callout reads the partner accounts with a null transaction name.
     */
-  private def vendorWithAccount: MBPartner = promoteVendor(partnerMatching(
-    "C_BPartner_ID IN (SELECT C_BPartner_ID FROM C_BP_BankAccount WHERE IsActive='Y')"))
+  private def vendorWithAccount: MBPartner = {
+    assert(committedAccountPartnerIds.nonEmpty,
+      "this client must own at least one committed partner bank account")
+    promoteVendor(partnerMatching(
+      "C_BPartner_ID IN (" + committedAccountPartnerIds.mkString(",") + ")"))
+  }
 
-  /** Active partner owning no active bank account, promoted to vendor in trx. */
-  private def vendorWithoutAccount: MBPartner = promoteVendor(partnerMatching(
-    "C_BPartner_ID NOT IN (SELECT C_BPartner_ID FROM C_BP_BankAccount WHERE IsActive='Y')"))
+  /** Active partner owning no committed bank account, promoted to vendor in trx. */
+  private def vendorWithoutAccount: MBPartner = {
+    assert(committedAccountPartnerIds.nonEmpty,
+      "the committed account snapshot must be taken before filtering partners out")
+    promoteVendor(partnerMatching(
+      "C_BPartner_ID NOT IN (" + committedAccountPartnerIds.mkString(",") + ")"))
+  }
 
   /** Mark the partner as vendor inside the test transaction and reload it. */
   private def promoteVendor(partner: MBPartner): MBPartner = {
@@ -150,6 +241,42 @@ class ValidatePaySelectionLineDocumentDefaults
   /** First active account of the partner, committed data only. */
   private def accountsOf(partner: MBPartner): java.util.List[MBPBankAccount] =
     MBPBankAccount.getByPartner(Context, partner.getC_BPartner_ID)
+
+  /**
+    * Active accounts of the partner as the fixed code reads them, in the current
+    * transaction. MBPBankAccount.getByPartner carries no ORDER BY, so the caller
+    * must not assume which account comes first: these guards assert the account is
+    * present and belongs to the partner, never a particular id across queries.
+    */
+  private def accountsOfInTrx(partner: MBPartner): java.util.List[MBPBankAccount] =
+    MBPBankAccount.getByPartner(Context, partner.getC_BPartner_ID, null, trxName)
+
+  /** True when accountId is one of the given accounts. */
+  private def belongsToPartner(accountId: Int,
+      accounts: java.util.List[MBPBankAccount]): Boolean = {
+    var found = false
+    val cursor = accounts.iterator
+    while (cursor.hasNext && !found)
+      found = cursor.next.getC_BP_BankAccount_ID == accountId
+    found
+  }
+
+  /**
+    * A second active account for the partner, inside the test transaction, so a
+    * partner really owns more than one and a guard can tell "picked one" apart
+    * from "picked the only one that existed".
+    */
+  private def newSecondAccountInTrx(partner: MBPartner): MBPBankAccount = {
+    val stamp = System.currentTimeMillis
+    val account = new MBPBankAccount(Context, 0, trxName)
+    account.setC_BPartner_ID(partner.getC_BPartner_ID)
+    account.setA_Name("PR4490-second-" + stamp)
+    account.setAccountNo("PR4490-second-" + stamp)
+    account.setBankAccountType(X_C_BP_BankAccount.BANKACCOUNTTYPE_Checking)
+    account.setIsActive(true)
+    account.saveEx(trxName)
+    account
+  }
 
   /** Bank account created for the partner inside the test transaction. */
   private def newAccountInTrx(partner: MBPartner): MBPBankAccount = {
@@ -442,9 +569,9 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(!accounts.isEmpty, "that vendor must own an active bank account")
       val line = new MPaySelectionLine(Context, 0, trxName)
       line.setC_BP_BankAccount_ID(accounts.get(0).getC_BP_BankAccount_ID)
-      And("an invoice of a partner that owns no active bank account")
-      val withoutAccount = vendorWithoutAccount
-      assume(withoutAccount != null, "no active vendor without a bank account in this client")
+      And("an invoice of a partner owning no account at all")
+      val withoutAccount = partnerWithNoAccountYet
+      assume(withoutAccount != null, "no active partner without a bank account in this client")
       val invoice = newApInvoice(withoutAccount, new BigDecimal("80.00"),
         X_C_Invoice.PAYMENTRULE_DirectDeposit)
       val schedule = newApPaySchedule(invoice)
@@ -501,8 +628,8 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(!accounts.isEmpty, "that vendor must own an active bank account")
       val line = new MPaySelectionLine(Context, 0, trxName)
       line.setC_BP_BankAccount_ID(accounts.get(0).getC_BP_BankAccount_ID)
-      And("a purchase order of a partner that owns no active bank account")
-      val withoutAccount = vendorWithoutAccount
+      And("a purchase order of a partner owning no account at all")
+      val withoutAccount = partnerWithNoAccountYet
       assume(withoutAccount != null, "no active partner without a bank account in this client")
       val order = newApOrder(withoutAccount, new BigDecimal("60.00"),
         X_C_Order.PAYMENTRULE_OnCredit)
@@ -523,9 +650,9 @@ class ValidatePaySelectionLineDocumentDefaults
     info("F4: the partner account lookup must run in the current transaction")
 
     Scenario("F4 setInvoice sees a bank account saved in the same transaction") {
-      Given("a vendor with no committed bank account")
-      val vendor = vendorWithoutAccount
-      assume(vendor != null, "no active vendor without a bank account in this client")
+      Given("a vendor owning no bank account at all")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
       assert(accountsOf(vendor).isEmpty,
         "the lookup must start with no committed account for this vendor")
       And("an invoice of that vendor")
@@ -548,8 +675,8 @@ class ValidatePaySelectionLineDocumentDefaults
     }
 
     Scenario("F4 setOrder sees a bank account saved in the same transaction") {
-      Given("a vendor with no committed bank account and an order of its own")
-      val vendor = vendorWithoutAccount
+      Given("a vendor owning no bank account at all, and an order of its own")
+      val vendor = partnerWithNoAccountYet
       assume(vendor != null, "no active partner without a bank account in this client")
       assert(accountsOf(vendor).isEmpty,
         "the lookup must start with no committed account for this vendor")
@@ -619,6 +746,132 @@ class ValidatePaySelectionLineDocumentDefaults
       And("the order payment rule is copied to the line")
       assert(line.getPaymentRule == order.getPaymentRule,
         "removing the payment rule copy must fail this scenario")
+    }
+
+    info("N1: clearing must only happen when the partner owns no account")
+
+    Scenario("N1 the invoice callout keeps an account when the partner owns one") {
+      Given("a live pay selection line row")
+      val tab = newPaySelectionLineTab()
+      And("a partner owning an active bank account")
+      val vendor = vendorWithAccount
+      assert(vendor != null, "the logged in client must expose a partner owning a bank account")
+      val accounts = accountsOf(vendor)
+      assert(!accounts.isEmpty, "that partner must own a committed active account")
+      And("a committed invoice of that partner")
+      //	The callout reads C_Invoice_v with a null transaction name, so it can only
+      //	see a committed invoice.
+      val invoiceId = DB.getSQLValue(trxName,
+        "SELECT i.C_Invoice_ID FROM C_Invoice_v i WHERE i.C_BPartner_ID=?" +
+          " AND i.DocStatus='CO' ORDER BY i.C_Invoice_ID",
+        vendor.getC_BPartner_ID)
+      assume(invoiceId > 0, "no committed invoice of a partner owning a bank account")
+      When("the invoice callout runs on that row")
+      val error = runQuietly(
+        new CalloutPaySelection().invoice(Context, WindowNo, tab,
+          tab.getField(I_C_PaySelectionLine.COLUMNNAME_C_Invoice_ID),
+          Integer.valueOf(invoiceId)))
+      Then("no exception is raised")
+      assert(error.isEmpty, "the invoice callout must not raise")
+      And("the row carries the invoice partner")
+      assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_C_BPartner_ID) ==
+        Integer.valueOf(vendor.getC_BPartner_ID),
+        "the callout must set the invoice partner on the row")
+      And("the row carries an account, it is not cleared")
+      val value = tab.getValue(I_C_PaySelectionLine.COLUMNNAME_C_BP_BankAccount_ID)
+      assert(!noAccount(value),
+        "the callout must resolve an account when the partner owns one, not clear it")
+      And("that account is one of the partner accounts")
+      assert(belongsToPartner(accountIdOf(value), accounts),
+        "the resolved account must belong to the invoice partner")
+      And("the payment rule is never null on this path")
+      assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule) != null,
+        "a committed invoice exposes its rule, so the grid rule must not be null")
+    }
+
+    Scenario("N1 setInvoice keeps an account when the partner owns several") {
+      Given("a pay selection line")
+      val line = new MPaySelectionLine(Context, 0, trxName)
+      And("a partner owning more than one active bank account in this transaction")
+      val vendor = vendorWithAccount
+      assert(vendor != null, "the logged in client must expose a partner owning a bank account")
+      val second = newSecondAccountInTrx(vendor)
+      val accounts = accountsOfInTrx(vendor)
+      assert(accounts.size >= 2,
+        "the partner must own at least two active accounts in this transaction")
+      And("an invoice of that partner")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_DirectDeposit)
+      val schedule = newApPaySchedule(invoice)
+      When("the line is linked to that invoice")
+      val openAmt = invoice.getGrandTotal
+      val error = runQuietly(
+        line.setInvoice(invoice.getC_Invoice_ID, schedule.getC_InvoicePaySchedule_ID,
+          false, openAmt, openAmt, BigDecimal.ZERO))
+      Then("no non-fatal exception is raised")
+      assert(error.isEmpty, "setInvoice must not raise")
+      And("the line carries an account, it is not cleared")
+      assert(line.getC_BP_BankAccount_ID != 0,
+        "setInvoice must resolve an account when the partner owns one, not clear it")
+      And("that account belongs to the partner, the second one included")
+      assert(belongsToPartner(line.getC_BP_BankAccount_ID, accounts),
+        "the resolved account must belong to the invoice partner")
+      assert(second.getC_BP_BankAccount_ID > 0,
+        "the second account must have been created for this guard to mean anything")
+    }
+
+    Scenario("N1 setOrder keeps an account when the partner owns several") {
+      Given("a pay selection line")
+      val line = new MPaySelectionLine(Context, 0, trxName)
+      And("a partner owning more than one active bank account in this transaction")
+      val vendor = vendorWithAccount
+      assert(vendor != null, "the logged in client must expose a partner owning a bank account")
+      newSecondAccountInTrx(vendor)
+      val accounts = accountsOfInTrx(vendor)
+      assert(accounts.size >= 2,
+        "the partner must own at least two active accounts in this transaction")
+      And("a purchase order of that partner")
+      val order = newApOrder(vendor, new BigDecimal("60.00"),
+        X_C_Order.PAYMENTRULE_OnCredit)
+      When("the line is linked to that order")
+      val openAmt = new BigDecimal("60.00")
+      val error = runQuietly(
+        line.setOrder(order.getC_Order_ID, openAmt, openAmt, openAmt, BigDecimal.ZERO))
+      Then("no non-fatal exception is raised")
+      assert(error.isEmpty, "setOrder must not raise")
+      And("the line carries an account, it is not cleared")
+      assert(line.getC_BP_BankAccount_ID != 0,
+        "setOrder must resolve an account when the partner owns one, not clear it")
+      And("that account belongs to the order partner")
+      assert(belongsToPartner(line.getC_BP_BankAccount_ID, accounts),
+        "the resolved account must belong to the order partner")
+    }
+
+    info("S7: the auto assigned account is not filtered by IsACH or BPBankAcctUse")
+
+    /**
+      * Deliberately open, not a regression to fix here. The High finding on
+      * adempiere/adempiere#4490 is that the account picked automatically for a
+      * partner is the first active one, whatever its IsACH flag or its
+      * BPBankAcctUse purpose, and MPaySelectionCheck then trusts any nonzero
+      * account. Which accounts may be paid automatically is a product decision.
+      * This scenario is ignored so the gap stays visible and tracked: if someone
+      * later adds a filter to MBPBankAccount.getByPartner, this scenario starts
+      * failing and forces a conscious update of the decision recorded here.
+      */
+    ignore("S7 the unfiltered partner account lookup is a known open product decision") {
+      Given("a partner owning no account, and an account neither ACH nor usable")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      val account = newAccountInTrx(vendor)
+      account.setIsACH(false)
+      account.setBPBankAcctUse(X_C_BP_BankAccount.BPBANKACCTUSE_None)
+      account.saveEx(trxName)
+      When("the partner accounts are looked up the way the pay selection code does")
+      val found = accountsOfInTrx(vendor)
+      Then("the account is returned even though it must not be paid automatically")
+      assert(belongsToPartner(account.getC_BP_BankAccount_ID, found),
+        "the lookup does not filter IsACH or BPBankAcctUse, which is the open finding")
     }
   }
 }
