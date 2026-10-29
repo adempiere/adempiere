@@ -49,6 +49,14 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
   re-resolved rather than kept. The filter `MPaySelectionCheck` carried read
   `account.isPayrollAccount() || !line.isPayrollAccount()`, which already refused this
   crossing; S11 only added the opposite one.
+- **S13** Every document a pay selection callout reads is read in the transaction the grid row
+  lives in. A row the user is entering is not committed yet: read outside that transaction the
+  document comes back empty, its payment rule reads null, and the row silently takes the
+  fallback tender, paying the supplier through a tender the document never chose. The
+  transaction is the one `GridTable` already holds on its table model, set by the form that
+  owns the grid. This covers the invoice `SELECT`, the order `SELECT`, and the model loads in
+  `invoice()`, `order()` and `conversion()`. Where the grid carries no transaction the
+  behaviour is unchanged, because `gridTrxName` returns null.
 
 ## Tasks
 
@@ -65,10 +73,11 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
 | T9 | S9, S10, S11 | parent inline (one shared rule, 4 call sites, 3 files) | `fix:` slice 2 |
 | T10 | S9, S10, S11 | parent inline (RED observed before production) | `test:` slice 2 |
 | T11 | S12 | parent inline (regression found in the rejected reviewer payload, RED observed) | `fix:` slice 5 |
+| T12 | S13 | parent inline (one helper, 5 read sites, 1 file) | `fix:` slice 6 |
 
 ### Slice boundaries
 
-Three reviewable slices on `hotfix/3.9.4.002-4313`, on top of `48dbaac3b`. They are
+Seven reviewable slices on `hotfix/3.9.4.002-4313`, on top of `48dbaac3b`. They are
 referenced by subject: amending a commit to record its own hash rewrites that hash, so
 `git log --oneline` is the source of truth for the current ids.
 
@@ -83,17 +92,24 @@ referenced by subject: amending a commit to record its own hash rewrites that ha
    shared helper replaces four `banks.get(0)` sites and the two duplicated filter blocks
    in `MPaySelectionCheck`, across `CalloutPaySelection.java`, `MPaySelectionLine.java`
    and `MPaySelectionCheck.java`.
+5. `test: select the payable account by tender, not by query order` — the S9-S11 spec,
+   observed red against the pre-predicate production.
+6. `fix: pay a payroll line into a payroll account` — S12, the payroll crossing found in
+   the rejected reviewer payload.
+7. `fix: read the document being paid in the transaction the grid owns` — S13. One
+   `gridTrxName` helper and the five read sites of `CalloutPaySelection.java`, plus the
+   `bankAccountsOf` helper of the pre-existing spec and the S13 scenario.
 
-Slice 4 is a different concern from slice 2 and is committed separately: slice 2 stops a
-foreign account from being carried over, slice 4 decides which account a tender may pay
-through. Reviewers can take them apart.
+Slices 4 and 2 are a different concern each: slice 2 stops a foreign account from being
+carried over, slice 4 decides which account a tender may pay through. Slice 6 corrects the
+tender predicate slice 4 introduced, and slice 7 changes where every read happens. Reviewers
+can take them apart.
 
-The branch itself carries 138 commits against `origin/develop` (`git rev-list --count`),
-80 of them non-merge, and `git diff --shortstat origin/develop...HEAD` reports 97 files,
-8243 insertions and 1063 deletions. That count is against a single merge base and the
-branch has several, so the number moves with the base chosen; it is the pre-existing shape
-of PR #4490 and is not restructured here. This feature adds two commits. Push, PR update
-and merge stay the user's decision.
+The branch itself carries 145 commits against `origin/develop` (`git rev-list --count`), and
+`git diff --shortstat origin/develop...HEAD` reports over 80 files and 9000 insertions. That
+count is against a single merge base and the branch has several, so the number moves with the
+base chosen; it is the pre-existing shape of PR #4490 and is not restructured here. This
+feature adds seven commits. Push, PR update and merge stay the user's decision.
 
 ## Log
 - **L18** User decision, verbatim: *"en el mismo pero si ya sabes cual o como udar el
@@ -265,6 +281,26 @@ and merge stay the user's decision.
   selection guards, S9 non-direct, and S11 payroll. The updated `ValidatePaySelectionLineFromInvoice`
   also fails there (`succeeded 5, failed 1`), so its rewritten assertion is falsifiable and was
   not adjusted to fit the new behaviour. GREEN with the fix: 18/18 and 6/6, 0 canceled.
+- **L24** The question asked back: is the same `trxName` through the whole callout the right
+  fix, or was the local `FromInvoice` patch enough? It was not enough, and the local patch had
+  left the same defect in the helper it was written to prove. `CalloutPaySelection` read five
+  documents with a literal `null` transaction. `bankAccountsOf` in `ValidatePaySelectionLineFromInvoice`
+  saved the fallback account with `trxName` and then re-queried it with `null`, so the fallback
+  branch returned an empty list for a vendor it had just given an account.
+- **L25** Mechanism, read rather than assumed: `PreparedStatementProxy.java:58-65` takes
+  `trx == null` to `DB.getConnectionRO()`, a different pooled connection, which cannot see rows
+  this transaction has not committed. That is why `accountsOf` (committed evidence) and
+  `accountsOfInTrx` (transaction evidence) are kept as two helpers instead of merged: they hold
+  different guarantees, and three comments claiming the callout "always" reads committed data
+  were falsified by this fix and rewritten.
+- **L26** S13 observed RED before the fix, at the real assertion and not in fixture setup: the
+  first attempt died on `C_BPartner_Location_ID is mandatory`, so the fixture was narrowed to
+  partners that already own an active location (12 candidates, 4 without) rather than inventing
+  locations. Re-run: `"[T]" did not equal "[D]"` — the invoice is direct debit, the row was
+  written direct deposit, the fallback reached through a `null` transaction read. GREEN after
+  propagating `gridTrxName(mTab)` through all five read sites and `payableAccount`: 20/20 and
+  6/6. The first GREEN attempt failed on the account (`null did not equal 1000245`) because
+  `payableAccount` still passed a literal `null` behind a comment the fix had just invalidated.
 
 ## Review receipt
 

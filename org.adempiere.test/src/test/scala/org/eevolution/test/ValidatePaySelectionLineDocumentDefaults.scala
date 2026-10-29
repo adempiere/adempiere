@@ -184,12 +184,17 @@ class ValidatePaySelectionLineDocumentDefaults
     * on the order scenarios happened to execute in.
     */
   private def partnerWithNoAccountYet: MBPartner = {
+    //	An active location is part of the requirement: the fixture invoices this partner, and
+    //	C_BPartner_Location_ID is mandatory on an invoice, so a partner without one cannot carry
+    //	any scenario that builds a document.
+    val withLocation = "C_BPartner_ID IN (SELECT C_BPartner_ID FROM C_BPartner_Location"
+      + " WHERE IsActive='Y')"
     val owned = partnersOwningAnyAccount
     if (owned.isEmpty)
-      promoteVendor(partnerMatching("1=1"))
+      promoteVendor(partnerMatching(withLocation))
     else
       promoteVendor(partnerMatching(
-        "C_BPartner_ID NOT IN (" + owned.mkString(",") + ")"))
+        "C_BPartner_ID NOT IN (" + owned.mkString(",") + ") AND " + withLocation))
   }
 
   /** First committed active partner matching extraWhere, ordered by id. */
@@ -205,8 +210,13 @@ class ValidatePaySelectionLineDocumentDefaults
     * inside the test transaction. This client keeps exactly one bank account and
     * its owner is not a vendor, while a payment selection pays vendors, so the
     * fixture promotes it in the rolled back transaction instead of depending on
-    * demo data that does not exist. The account must be a committed one: the
-    * callout reads the partner accounts with a null transaction name.
+    * demo data that does not exist.
+    *
+    * The account itself has to be a committed one. The callout reads the partner
+    * accounts in the transaction the grid carries, and the scenarios using this
+    * partner run on a grid that carries none: DB hands a null transaction a separate
+    * pooled connection (PreparedStatementProxy line 58-65), which cannot see rows this
+    * transaction has not committed.
     */
   private def vendorWithAccount: MBPartner = {
     assert(committedAccountPartnerIds.nonEmpty,
@@ -267,13 +277,23 @@ class ValidatePaySelectionLineDocumentDefaults
     DB.getSQLValueString(trxName,
       "SELECT PaymentRule FROM " + table + " WHERE " + table + "_ID=?", id)
 
-  /** First active account of the partner, committed data only. */
+  /**
+    * Active accounts of the partner as committed data, read outside this transaction.
+    *
+    * This is a different evidence domain from accountsOfInTrx, not a duplicate of it:
+    * DB hands a null transaction name a separate pooled connection
+    * (PreparedStatementProxy line 58-65), so this sees only what is committed. Scenarios
+    * use it where committed data is the requirement: as a precondition that the partner
+    * owns nothing yet, or to hold up a committed account that no direct tender may pay.
+    */
   private def accountsOf(partner: MBPartner): java.util.List[MBPBankAccount] =
     MBPBankAccount.getByPartner(Context, partner.getC_BPartner_ID)
 
   /**
     * Active accounts of the partner as the fixed code reads them, in the current
-    * transaction. MBPBankAccount.getByPartner carries no ORDER BY, so the caller
+    * transaction. MPaySelectionLine resolves the account with get_TrxName and the
+    * callout with the transaction the grid carries, so an account saved here is one
+    * the fix can reach. MBPBankAccount.getByPartner carries no ORDER BY, so the caller
     * must not assume which account comes first: these guards assert the account is
     * present and belongs to the partner, never a particular id across queries.
     */
@@ -824,9 +844,10 @@ class ValidatePaySelectionLineDocumentDefaults
       val accounts = accountsOf(vendor)
       assert(!accounts.isEmpty, "that partner must own a committed active account")
       And("a committed invoice of that partner, paid by a tender that is not direct")
-      //	The callout reads C_Invoice_v with a null transaction name, so it can only see
-      //	committed data: both the invoice and its rule come from the database, and the rule
-      //	is not chosen here but read from the invoice the guard runs on.
+      //	This guard runs on a grid carrying no transaction, so the callout reads
+      //	C_Invoice_v outside it and sees only committed data: both the invoice and its rule
+      //	come from the database, and the rule is not chosen here but read from the invoice
+      //	the guard runs on. A grid that does carry one is covered by S13.
       val invoiceId = DB.getSQLValue(trxName,
         "SELECT i.C_Invoice_ID FROM C_Invoice_v i WHERE i.C_BPartner_ID=?" +
           " AND i.DocStatus='CO' ORDER BY i.C_Invoice_ID",
@@ -1115,6 +1136,49 @@ class ValidatePaySelectionLineDocumentDefaults
         vendor.getC_BPartner_ID, X_C_Order.PAYMENTRULE_DirectDeposit,
         false, regular.getC_BP_BankAccount_ID, trxName) == regular.getC_BP_BankAccount_ID,
         "S11 must keep holding: an ordinary account pays an ordinary line")
+    }
+
+    Scenario("S13 the invoice callout reads the document in the grid transaction") {
+      Given("a partner owning a direct debit account and a direct deposit account")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      val debit = newAccountInTrx(vendor, "s13dd", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDebit)
+      val deposit = newAccountInTrx(vendor, "s13dep", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+
+      And("an invoice paid by direct debit, created inside the transaction")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_DirectDebit)
+      assert(invoice.getPaymentRule == X_C_Invoice.PAYMENTRULE_DirectDebit,
+        "the fixture invoice must be a direct debit")
+
+      And("a live pay selection row whose table runs in that same transaction")
+      val tab = newPaySelectionLineTab()
+      tab.getTableModel.setTrxName(trxName)
+      assert(tab.getTableModel.getTrxName == trxName,
+        "the grid must carry the transaction, as WQuickEntrySheet does")
+
+      When("the invoice callout runs on that row")
+      val error = runQuietly(
+        new CalloutPaySelection().invoice(Context, WindowNo, tab,
+          tab.getField(I_C_PaySelectionLine.COLUMNNAME_C_Invoice_ID),
+          Integer.valueOf(invoice.getC_Invoice_ID)))
+
+      Then("no exception is raised")
+      assert(error.isEmpty, "the invoice callout must not raise")
+
+      And("the row carries the invoice's own tender")
+      assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule) ==
+        X_C_Order.PAYMENTRULE_DirectDebit,
+        "the invoice is uncommitted and visible only inside this transaction: read it with a " +
+          "null transaction name and it comes back empty, so the row silently takes the direct " +
+          "deposit fallback and pays the supplier through a tender the invoice never chose")
+
+      And("the account resolved is the direct debit account")
+      assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_C_BP_BankAccount_ID) ==
+        Integer.valueOf(debit.getC_BP_BankAccount_ID),
+        "the tender decides the account, so a wrong tender here selects the wrong bank account")
     }
   }
 }

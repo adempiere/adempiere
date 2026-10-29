@@ -89,11 +89,12 @@ class ValidatePaySelectionLineFromInvoice
     * Vendor of the accounts payable fixture: the named demo vendor when the
     * logged in client has it active with a committed bank account, otherwise
     * any active vendor that already owns an active bank account.
-    * MPaySelectionLine.setInvoice reads the bank accounts through a query that
-    * runs outside the test transaction, so only a committed bank account can
-    * reach the pay selection line. The named vendor branch uses that same
-    * lookup: a named vendor without a committed account falls through to a
-    * vendor that has one, instead of failing in the Given step.
+    * A committed account is what makes the vendor usable on every path: the model
+    * resolves it through get_TrxName, so it also sees one saved in this transaction,
+    * while the grid callout runs on a tab carrying no transaction and therefore only
+    * sees committed rows (PreparedStatementProxy line 58-65). The named vendor branch
+    * uses the same lookup: a named vendor without a committed account falls through to
+    * a vendor that has one, instead of failing in the Given step.
     */
   private def apVendor: MBPartner = {
     val named = MBPartner.get(Context, "C&K Wholesale Supply")
@@ -136,9 +137,13 @@ class ValidatePaySelectionLineFromInvoice
     * The account created here is an ACH account usable for both tenders, because a pay
     * selection line only takes an account when its payment rule pays through one, and a
     * non ACH account would never be selected. See MBPBankAccount.isDirectDeposit.
+    *
+    * Read in this transaction throughout. The fallback below saves inside it, so a query
+    * running outside would not see the account it just created and would hand the caller an
+    * empty list for a vendor that does own one.
     */
   private def bankAccountsOf(vendor: MBPartner): java.util.List[MBPBankAccount] = {
-    val accounts = MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID)
+    val accounts = MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID, null, trxName)
     if (!accounts.isEmpty)
       accounts
     else {
@@ -151,7 +156,7 @@ class ValidatePaySelectionLineFromInvoice
       account.setBPBankAcctUse(X_C_BP_BankAccount.BPBANKACCTUSE_Both)
       account.setIsActive(true)
       account.saveEx(trxName)
-      MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID)
+      MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID, null, trxName)
     }
   }
 
