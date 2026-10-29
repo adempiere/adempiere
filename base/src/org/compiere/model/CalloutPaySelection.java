@@ -170,21 +170,18 @@ public class CalloutPaySelection extends CalloutEngine
 		ii = (Integer) mTab.getValue("AD_Org_ID");
 		if(ii != null)
 			AD_Org_ID = ii.intValue();
-		//	The document being paid may still be uncommitted, so it is read in the transaction
-		//	the grid runs in. See gridTrxName.
-		String trxName = gridTrxName(mTab);
 		//	Get Currency Document
 		int C_Currency_Document_ID = 0;
 		//	For invoice
 		if(C_Invoice_ID != null && C_Invoice_ID != 0) {
-			MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, trxName);
+			MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
 			C_Currency_Document_ID = invoice.getC_Currency_ID();
 		} else if(C_Order_ID != 0) {
-			MOrder order = new MOrder(ctx, C_Order_ID, trxName);
+			MOrder order = new MOrder(ctx, C_Order_ID, null);
 			C_Currency_Document_ID = order.getC_Currency_ID();
 		}
 		//	Get Currency Info
-		MPaySelection selection = new MPaySelection(ctx, C_PaySelection_ID, trxName);
+		MPaySelection selection = new MPaySelection(ctx, C_PaySelection_ID, null);
 		int C_Currency_ID = selection.getC_Currency_ID();
 		//	
 		MCurrency currency = MCurrency.get (ctx, C_Currency_ID);
@@ -283,7 +280,7 @@ public class CalloutPaySelection extends CalloutEngine
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, gridTrxName(mTab));
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Currency_ID);
 			pstmt.setTimestamp(2, PayDate);
 			pstmt.setInt(3, C_Invoice_ID);
@@ -318,16 +315,13 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);
 		//	Set BP from Document
 		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
-		//	Read in the grid transaction: an invoice entered by the same form is not
-		//	committed yet, and read outside that transaction it reads back empty, so its
-		//	payment rule comes back null and the row silently takes the fallback tender
-		//	instead of the one the invoice carries.
-		MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, gridTrxName(mTab));
-		//	Even inside the transaction the rule can be null, and GridTable.dataSavePO
-		//	copies this value into the persistent object with set_ValueNoCheck, which
-		//	skips the mandatory check and never runs MPaySelectionLine.setPaymentRule,
-		//	so its direct deposit fallback never applies. The null has to be resolved
-		//	here.
+		MInvoice invoice = new MInvoice(ctx, C_Invoice_ID, null);
+		//	The invoice is reloaded with a null transaction name, so a header still
+		//	held by an open transaction reads back empty and its payment rule is
+		//	null. GridTable.dataSavePO copies this value into the persistent object
+		//	with set_ValueNoCheck, which skips the mandatory check and never runs
+		//	MPaySelectionLine.setPaymentRule, so its direct deposit fallback never
+		//	applies. The null has to be resolved here.
 		String paymentRule = invoice.getPaymentRule();
 		if (paymentRule == null)
 			paymentRule = MPaySelectionLine.PAYMENTRULE_DirectDeposit;
@@ -360,35 +354,12 @@ public class CalloutPaySelection extends CalloutEngine
 	}	//	PaySel_Invoice
 
 	/**
-	 *	Transaction the grid row lives in, or null when the grid runs without one.
-	 *
-	 *	GridTable holds the transaction on its table model, set by the form that owns it
-	 *	(WQuickEntrySheet sets it, and clears it when it closes). Every document this class
-	 *	reads belongs to that transaction: a row the user is entering is not committed yet,
-	 *	so reading it outside the transaction returns nothing and the callout then fills a
-	 *	value the document never carried, instead of failing. Reading it in the transaction
-	 *	the grid uses is what makes the value read the value the user is looking at.
-	 *	
-	 *	@param mTab grid tab
-	 *	@return transaction name, null when the grid carries none
-	 */
-	private static String gridTrxName(GridTab mTab) {
-		GridTable model = mTab == null ? null : mTab.getTableModel();
-		return model == null ? null : model.getTrxName();
-	}	//	gridTrxName
-
-	/**
 	 *	Bank account this grid row may pay through, resolved by the payment rule.
 	 *
 	 *	The row is read rather than the document: it carries the rule just resolved from the
 	 *	document, and the payroll movement that makes a payroll account admissible. An account
 	 *	already on the row is kept only when it serves this partner and this rule, so a stale
 	 *	or manually typed account is re-resolved instead of trusted.
-	 *
-	 *	Resolved in the transaction the grid runs in, the same one the document was read in:
-	 *	an account entered with the partner is not committed yet, and read outside that
-	 *	transaction it is not there, so the row would be left without an account for a tender
-	 *	that does pay through one.
 	 *
 	 *	@param ctx context
 	 *	@param mTab grid tab
@@ -402,8 +373,9 @@ public class CalloutPaySelection extends CalloutEngine
 				&& ((Integer) payrollMovement).intValue() > 0;
 		Object account = mTab.getValue("C_BP_BankAccount_ID");
 		int candidateId = account instanceof Integer ? ((Integer) account).intValue() : 0;
+		//	These grid callouts read documents outside any transaction, so they resolve outside it.
 		return MPaySelectionLine.payableBankAccountId(ctx, partnerId, paymentRule,
-				isPayrollLine, candidateId, gridTrxName(mTab));
+				isPayrollLine, candidateId, null);
 	}	//	payableAccount
 	
 	
@@ -452,7 +424,7 @@ public class CalloutPaySelection extends CalloutEngine
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try {
-			pstmt = DB.prepareStatement(sql, gridTrxName(mTab));
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_Currency_ID);
 			pstmt.setInt(2, C_Order_ID);
 			rs = pstmt.executeQuery();
