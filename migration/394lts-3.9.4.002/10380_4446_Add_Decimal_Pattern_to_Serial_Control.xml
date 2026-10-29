@@ -62,8 +62,8 @@
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2025-07-15 09:51:07.467</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">103666</Data>
-        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">Decimal Pattern</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="12957" Column="Name">Patrón decimal</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
@@ -126,10 +126,10 @@
         <Data AD_Column_ID="672" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="674" Column="Updated">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="287" Column="Description">Java Decimal Pattern</Data>
-        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="286" Column="Name">Decimal Pattern</Data>
-        <Data AD_Column_ID="288" Column="Help">Option Decimal pattern in Java notation. Examples: 0000 will format 23 to 0023</Data>
+        <Data AD_Column_ID="287" Column="Description">Patrón decimal en Java</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="286" Column="Name">Patrón decimal</Data>
+        <Data AD_Column_ID="288" Column="Help">Patrón decimal opcional en notación Java. Ejemplo: 0000 da formato a 23 como 0023</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="284" Column="AD_Field_ID">106175</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
