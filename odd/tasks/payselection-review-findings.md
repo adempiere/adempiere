@@ -293,6 +293,18 @@ feature adds seven commits. Push, PR update and merge stay the user's decision.
   `accountsOfInTrx` (transaction evidence) are kept as two helpers instead of merged: they hold
   different guarantees, and three comments claiming the callout "always" reads committed data
   were falsified by this fix and rewritten.
+- **L27** Delivery. Pushed fast-forward to `adempiere/adempiere` (the PR head is an upstream
+  branch, not a fork): `48dbaac3b..1cffed5c8`, 8 commits. PR #4490 body rewritten: its
+  *Changes* section promised "the first business partner bank account" from the
+  invoice/order, which is the High finding written as the intended behaviour, and its
+  *Validation* still claimed 4 scenarios. Both corrected, plus a *Compatibility* bullet stating
+  that the auto-assigned account is now chosen by tender and that rules which are neither
+  Direct Deposit nor Direct Debit receive no account at all, so installations relying on the
+  old unconditional fill will see an empty field. The CodeRabbit auto-generated block was
+  spliced back byte-identical from the live body rather than retyped. Review requested from
+  `marcalwestf` (Mario Calderon, org member, already reviewed this PR), with a comment naming
+  the two behaviour changes to focus on and stating openly that the review receipt predates
+  the payroll and grid-transaction commits.
 - **L26** S13 observed RED before the fix, at the real assertion and not in fixture setup: the
   first attempt died on `C_BPartner_Location_ID is mandatory`, so the fixture was narrowed to
   partners that already own an active location (12 candidates, 4 without) rather than inventing
