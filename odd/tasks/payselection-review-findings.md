@@ -30,7 +30,20 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
   filtering `IsACH` / `BPBankAcctUse`) as a separate product decision, not fixed here.
   Tracked in the spec by an `ignore()` scenario so it cannot be silently regressed.
 - **S8** Add negative guards proving the narrowing did not over-clear: when the partner
-  owns accounts, `invoice()` / `setInvoice()` / `setOrder()` must still resolve one.
+  owns an account eligible for the payment rule, `invoice()` / `setInvoice()` /
+  `setOrder()` must still resolve one.
+- **S9** Close the High finding in this change by selecting the default account with the
+  predicate the product already has, instead of taking the first active one:
+  `PAYMENTRULE_DirectDeposit` -> `MBPBankAccount.isDirectDeposit()`,
+  `PAYMENTRULE_DirectDebit` -> `MBPBankAccount.isDirectDebit()`, and **no** account for any
+  other payment rule. This mirrors `MPaySelectionCheck`, which already filters that way at
+  `MPaySelectionCheck.java:513-537` under the comment `// Add default account`, and is what
+  makes the account the callout puts on the line the same account the payment would accept.
+- **S10** Make that selection deterministic: `MBPBankAccount.getByPartner` sets no `ORDER BY`,
+  so among the eligible accounts the lowest `C_BP_BankAccount_ID` wins, and the same input
+  must resolve the same account every time.
+- **S11** Payroll accounts are excluded unless the pay selection line is itself a payroll
+  line (`HR_Movement_ID > 0`), again mirroring `MPaySelectionCheck.java:519,531`.
 
 ## Tasks
 
@@ -42,12 +55,14 @@ fixes, then GREEN. The High security finding is kept as a separate product decis
 | T4 | S4 | parent inline (2 files, one behaviour unit) | `fix:` slice |
 | T5 | S5 | parent inline | `fix:` slice |
 | T6 | S6 | parent inline | `fix:` slice |
-| T7 | S7 | parent report | n/a (decision open) |
+| T7 | S7 | parent report | superseded by T9 (the decision was taken in this PR) |
 | T8 | S8 | parent inline (guards requested by verification) | `test:` slice |
+| T9 | S9, S10, S11 | parent inline (one shared rule, 4 call sites, 3 files) | `fix:` slice 2 |
+| T10 | S9, S10, S11 | parent inline (RED observed before production) | `test:` slice 2 |
 
 ### Slice boundaries
 
-Two reviewable slices on `hotfix/3.9.4.002-4313`, on top of `48dbaac3b`. They are
+Three reviewable slices on `hotfix/3.9.4.002-4313`, on top of `48dbaac3b`. They are
 referenced by subject: amending a commit to record its own hash rewrites that hash, so
 `git log --oneline` is the source of truth for the current ids.
 
@@ -56,6 +71,16 @@ referenced by subject: amending a commit to record its own hash rewrites that ha
 2. `fix: resolve the payment rule and clear a foreign bank account` — the production
    change, 49 authored lines across `CalloutPaySelection.java` and
    `MPaySelectionLine.java`, plus this feature document.
+3. `test: guard that clearing happens only when the partner owns no account` — the N1
+   guards and the order-independent fixtures.
+4. `fix: select the payable account with the product's own predicate` — S9-S11. One
+   shared helper replaces four `banks.get(0)` sites and the two duplicated filter blocks
+   in `MPaySelectionCheck`, across `CalloutPaySelection.java`, `MPaySelectionLine.java`
+   and `MPaySelectionCheck.java`.
+
+Slice 4 is a different concern from slice 2 and is committed separately: slice 2 stops a
+foreign account from being carried over, slice 4 decides which account a tender may pay
+through. Reviewers can take them apart.
 
 The branch itself carries 138 commits against `origin/develop` (`git rev-list --count`),
 80 of them non-merge, and `git diff --shortstat origin/develop...HEAD` reports 97 files,
@@ -65,6 +90,14 @@ of PR #4490 and is not restructured here. This feature adds two commits. Push, P
 and merge stay the user's decision.
 
 ## Log
+- **L18** User decision, verbatim: *"en el mismo pero si ya sabes cual o como udar el
+  predeterminado por que no usas ese?"* — close the High finding in this same pull request,
+  and use the default-account rule the product already has rather than inventing one. That
+  retires the "deferred product decision" disposition of S7: the rule already exists as
+  `isDirectDeposit()` / `isDirectDebit()` and is already applied by `MPaySelectionCheck`.
+  The defect is that three upstream call sites skip it, then `MPaySelectionCheck` trusts the
+  non-zero account they wrote (`isValid()` returns true whenever `getC_BP_BankAccount_ID() !=
+  0`), so the unfiltered choice wins and the filtered one never runs. Covered by S9-S11.
 
 - **L1** Original request (paraphrased from the session; the verbatim prompt is not
   retained in the compacted context): retrieve the CodeRabbit review observations from
@@ -180,3 +213,49 @@ and merge stay the user's decision.
   `paySelectionLine.getC_BP_BankAccount_ID()` without re-validating that the account belongs
   to the check partner. That is a pre-existing model-level gap: the fixes stop stale values
   at the entry points, they do not add a guard at the point of payment.
+- **L19** Tooling gotcha that cost two failed edit rounds: these Java sources are **CRLF**
+  (`MPaySelectionLine.java` 751, `CalloutPaySelection.java` 532, `MPaySelectionCheck.java`
+  752) while the Scala spec is LF. A BSD `sed -i '' '/^import java\.util\.List;$/d'`
+  reported success and deleted nothing, because `$` sits after the `\r`. The `edit` tool
+  normalizes and works; raw `sed` does not. Use `perl -ni -e 'print unless /^...;\r?$/'`
+  and then verify the byte counts, never the exit code.
+- **L20** The dictionary default of `C_PaySelectionLine.PaymentRule` is `S` (Check), visible
+  as the `// S` marker in the `X_C_PaySelectionLine` generated constructor block. A fresh
+  `new MPaySelectionLine(ctx, 0, trx)` therefore starts as Check, which pays through no bank
+  account, so `if (getPaymentRule() == null && document.getPaymentRule() != null)` never
+  copies and every account assertion was being decided by that default instead of by the
+  document under test. Symptom: `rule=S acct=0` while the invoice was a direct deposit.
+  Fix, in the fixtures and not in production: model scenarios take `lineWithNoRule()`, which
+  writes the empty rule the way the grid saves it (`set_ValueNoCheck`), and callout scenarios
+  put the committed document's own rule on the row with `committedDocRule`. This is the same
+  reason F5 needed `writeLikeGrid` in the first place; the earlier scenarios had been passing
+  for the wrong reason.
+- **L21** Changing an existing test's assertion, surfaced on purpose. The spec that came with
+  PR #4490, `ValidatePaySelectionLineFromInvoice.scala:356`, asserted
+  `line.getC_BP_BankAccount_ID == bankAccounts.get(0).getC_BP_BankAccount_ID` with the message
+  *"the line bank account must be the first active account of the vendor"*. That assertion is
+  the High finding written as an expectation: it pins "first active account, whatever its
+  purpose". Under S9 it cannot stand. It was not flipped to `0`, which would have deleted the
+  only account coverage in that spec: the fixture invoice is now a direct deposit, its account
+  is an ACH account usable for both tenders, and the assertion is that the account on the line
+  is one of the vendor's **direct deposit** accounts. Coverage is kept and the wording stops
+  naming the defect as the rule.
+- **L22** Falsifiability of S9-S11, proven with a self-verified unfiltered mutant
+  (`/tmp/pr4313/mut_unfiltered.sh`): the payment rule test, the payroll filter, the
+  lowest-id tie break and `servesRule` itself are all turned off, so the selector returns the
+  first active account whatever the tender, which is the reported behaviour. The probe aborts
+  unless all four mutations are present in source and unless `javap` finds 0
+  `isDirectDeposit` / `isDirectDebit` calls in the mutant bytecode. Result:
+  `succeeded 11, failed 7` — the 3 N1 guards, both S9 selection guards, S9 non-direct, and
+  S11 payroll.
+  Known limit, stated rather than hidden: **S10 is not falsified by this mutant.** Turning the
+  tie break off leaves `if (selected == 0)`, which takes the first row the query returns, and
+  this Postgres returns those rows in id order, so S10 still passes. S10 pins the contract
+  "lowest id wins" against a future change that reverses it; it cannot prove the min() is
+  reachable through this particular mutation.
+- **L23** RED re-observed for S9-S11 against the pre-filter production (`git show HEAD:` of
+  the three files, recompiled into a scratch overlay; `banks.get(0)` count 4 proves it is the
+  code before the predicate): `succeeded 11, failed 7` — the 3 N1 eligibility guards, both S9
+  selection guards, S9 non-direct, and S11 payroll. The updated `ValidatePaySelectionLineFromInvoice`
+  also fails there (`succeeded 5, failed 1`), so its rewritten assertion is falsifiable and was
+  not adjusted to fit the new behaviour. GREEN with the fix: 18/18 and 6/6, 0 canceled.

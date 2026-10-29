@@ -24,7 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -343,19 +342,41 @@ public class CalloutPaySelection extends CalloutEngine
 			mTab.setValue("Description", descriptionLine);
 		});
 		//Setting Bank Account
-		//	Resolved on every call, not only when the partner owns an account. When
-		//	the newly selected invoice belongs to a partner without an active bank
-		//	account, the account left by the previously selected document belongs to
-		//	another partner, and MPaySelectionCheck copies it to the generated
-		//	payment, sending money to a third party bank account.
-		List<MBPBankAccount> banks = MBPBankAccount.getByPartner(ctx,invoice.getC_BPartner_ID());
-		if (banks.isEmpty())
-			mTab.setValue("C_BP_BankAccount_ID", null);
-		else
-			mTab.setValue("C_BP_BankAccount_ID",
-					banks.get(0).getC_BP_BankAccount_ID());
+		//	Resolved on every call, and only when the payment rule pays through a bank
+		//	account. An account carried by a previously selected document belongs to another
+		//	partner, and one whose IsACH flag or BPBankAcctUse purpose does not serve this
+		//	tender cannot pay it, yet MPaySelectionCheck trusted any non zero account on the
+		//	line and copied it to the generated payment.
+		int payableAccountId = payableAccount(ctx, mTab, paymentRule, C_BPartner_ID);
+		mTab.setValue("C_BP_BankAccount_ID",
+				payableAccountId == 0 ? null : Integer.valueOf(payableAccountId));
 		return "";
 	}	//	PaySel_Invoice
+
+	/**
+	 *	Bank account this grid row may pay through, resolved by the payment rule.
+	 *
+	 *	The row is read rather than the document: it carries the rule just resolved from the
+	 *	document, and the payroll movement that makes a payroll account admissible. An account
+	 *	already on the row is kept only when it serves this partner and this rule, so a stale
+	 *	or manually typed account is re-resolved instead of trusted.
+	 *
+	 *	@param ctx context
+	 *	@param mTab grid tab
+	 *	@param paymentRule payment rule resolved for the row
+	 *	@param partnerId partner to pay
+	 *	@return account id, 0 when this rule pays through no account
+	 */
+	private static int payableAccount(Properties ctx, GridTab mTab, String paymentRule, int partnerId) {
+		Object payrollMovement = mTab.getValue("HR_Movement_ID");
+		boolean isPayrollLine = payrollMovement instanceof Integer
+				&& ((Integer) payrollMovement).intValue() > 0;
+		Object account = mTab.getValue("C_BP_BankAccount_ID");
+		int candidateId = account instanceof Integer ? ((Integer) account).intValue() : 0;
+		//	These grid callouts read documents outside any transaction, so they resolve outside it.
+		return MPaySelectionLine.payableBankAccountId(ctx, partnerId, paymentRule,
+				isPayrollLine, candidateId, null);
+	}	//	payableAccount
 	
 	
 	/**
@@ -390,11 +411,14 @@ public class CalloutPaySelection extends CalloutEngine
 		BigDecimal AmtSource = Env.ZERO;
 		BigDecimal OpenAmt = Env.ZERO;
 		Boolean IsSOTrx = Boolean.FALSE;
+		String orderRule = null;
 		String sql = "SELECT o.GrandTotal, currencyConvert(o.GrandTotal, o.C_Currency_ID,"
 				+ "?, o.DateOrdered, o.C_ConversionType_ID, o.AD_Client_ID, o.AD_Org_ID), o.IsSOTrx, "
 			//	Currency Type
 			+ "o.C_ConversionType_ID, "
-			+ "o.C_BPartner_ID "
+			+ "o.C_BPartner_ID, "
+			//	Payment Rule, to resolve the account this tender may pay through
+			+ "o.PaymentRule "
 			+ "FROM C_Order o "
 			+ "WHERE o.C_Order_ID = ?";	//	#1..2
 		ResultSet rs = null;
@@ -410,6 +434,7 @@ public class CalloutPaySelection extends CalloutEngine
 				IsSOTrx = Boolean.valueOf("Y".equals(rs.getString(3)));
 				C_ConversionType_ID = rs.getInt(4);
 				C_BPartner_ID = rs.getInt(5);
+				orderRule = rs.getString(6);
 			}
 		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
@@ -428,12 +453,16 @@ public class CalloutPaySelection extends CalloutEngine
 		mTab.setValue("C_ConversionType_ID", C_ConversionType_ID);		
 		//	Set BP from Document
 		mTab.setValue("C_BPartner_ID", C_BPartner_ID);
-		//	The partner just changed, so any bank account carried by this row comes
-		//	from the previously selected document and belongs to another partner.
-		//	It is cleared instead of kept, and no account is picked automatically:
-		//	which account of the partner may be paid is a separate decision, see
-		//	MPaySelectionCheck.isValid.
-		mTab.setValue("C_BP_BankAccount_ID", null);
+		//	The partner just changed, so any bank account carried by this row comes from the
+		//	previously selected document. It is kept only when it serves this order partner and
+		//	this payment rule, and an account is picked automatically only when the tender pays
+		//	through one, with the same rule MPaySelectionCheck applies. The row keeps its own
+		//	rule when it already has one, as MPaySelectionLine.setOrder does.
+		Object rowRule = mTab.getValue("PaymentRule");
+		int payableOrderId = payableAccount(ctx, mTab,
+				rowRule != null ? (String) rowRule : orderRule, C_BPartner_ID);
+		mTab.setValue("C_BP_BankAccount_ID",
+				payableOrderId == 0 ? null : Integer.valueOf(payableOrderId));
 		return "";
 	}	//	PaySel_Order
 	
