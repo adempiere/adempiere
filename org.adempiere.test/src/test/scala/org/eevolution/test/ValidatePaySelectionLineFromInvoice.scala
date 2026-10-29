@@ -130,6 +130,10 @@ class ValidatePaySelectionLineFromInvoice
   /**
     * Active bank accounts of the vendor in the order MPaySelectionLine
     * .setInvoice reads them, creating one when the vendor has none.
+    *
+    * The account created here is an ACH account usable for both tenders, because a pay
+    * selection line only takes an account when its payment rule pays through one, and a
+    * non ACH account would never be selected. See MBPBankAccount.isDirectDeposit.
     */
   private def bankAccountsOf(vendor: MBPartner): java.util.List[MBPBankAccount] = {
     val accounts = MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID)
@@ -141,6 +145,8 @@ class ValidatePaySelectionLineFromInvoice
       account.setA_Name("PR4313-Bank")
       account.setAccountNo("PR4313-Bank")
       account.setBankAccountType(X_C_BP_BankAccount.BANKACCOUNTTYPE_Checking)
+      account.setIsACH(true)
+      account.setBPBankAcctUse(X_C_BP_BankAccount.BPBANKACCTUSE_Both)
       account.setIsActive(true)
       account.saveEx(trxName)
       MBPBankAccount.getByPartner(Context, vendor.getC_BPartner_ID)
@@ -325,11 +331,34 @@ class ValidatePaySelectionLineFromInvoice
       val bankAccounts = bankAccountsOf(vendor)
       assert(!bankAccounts.isEmpty,
         "the vendor must own at least one active bank account")
+      //	The vendor's committed account is not an ACH account, so no tender can pay
+      //	through it. The fixture adds one that is, inside the rolled back transaction:
+      //	without an eligible account there is nothing to observe on this line, and the
+      //	committed account is left untouched.
+      val payable = new MBPBankAccount(Context, 0, trxName)
+      payable.setC_BPartner_ID(vendor.getC_BPartner_ID)
+      payable.setA_Name("PR4313-ACH")
+      payable.setAccountNo("PR4313-ACH")
+      payable.setBankAccountType(X_C_BP_BankAccount.BANKACCOUNTTYPE_Checking)
+      payable.setIsACH(true)
+      payable.setBPBankAcctUse(X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      payable.setIsActive(true)
+      payable.saveEx(trxName)
+      assert(payable.isDirectDeposit,
+        "the fixture account must be payable by direct deposit")
       val grandTotal = new BigDecimal("100.00")
       val invoice = newApInvoice(vendor, apInvoiceDocType, grandTotal)
+      //	Paid by direct deposit, the tender that pays through a bank account. A line left
+      //	at the dictionary default S (Check) takes no account at all, so the account copy
+      //	would not be observable at all on such a line.
+      invoice.setPaymentRule(X_C_Invoice.PAYMENTRULE_DirectDeposit)
+      invoice.saveEx(trxName)
+      assert(invoice.getPaymentRule == X_C_Invoice.PAYMENTRULE_DirectDeposit,
+        "the fixture invoice must carry the direct deposit rule")
       val schedule = newApPaySchedule(invoice)
       When("the pay selection line is linked to that invoice through the isSOTrx overload")
       val line = newLine
+      line.setPaymentRule(X_C_Invoice.PAYMENTRULE_DirectDeposit)
       val openAmt = grandTotal
       val payAmt = new BigDecimal("95.00")
       val discountAmt = new BigDecimal("5.00")
@@ -352,9 +381,12 @@ class ValidatePaySelectionLineFromInvoice
       And("the vendor is copied from the invoice")
       assert(line.getC_BPartner_ID == invoice.getC_BPartner_ID,
         "the line vendor must be the invoice vendor")
-      And("the first bank account of the vendor is copied")
-      assert(line.getC_BP_BankAccount_ID == bankAccounts.get(0).getC_BP_BankAccount_ID,
-        "the line bank account must be the first active account of the vendor")
+      And("an account of the vendor is copied")
+      //	Not "the first account": the tender decides which account may be paid, so the
+      //	assertion names the eligible account instead of whichever row an unordered query
+      //	happened to return first.
+      assert(line.getC_BP_BankAccount_ID == payable.getC_BP_BankAccount_ID,
+        "a direct deposit must resolve the vendor's ACH account, not its non ACH one")
       And("the difference amount is the open amount minus pay and discount")
       assert(line.getDifferenceAmt.compareTo(
         openAmt.subtract(payAmt).subtract(discountAmt)) == 0,

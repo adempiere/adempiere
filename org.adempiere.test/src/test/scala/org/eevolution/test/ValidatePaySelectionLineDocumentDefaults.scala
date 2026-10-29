@@ -127,6 +127,9 @@ class ValidatePaySelectionLineDocumentDefaults
     */
   private var committedAccountPartnerIds: List[Int] = Nil
 
+  /** Keeps fixture account names unique inside the suite. */
+  private var accountSeq = 0
+
   override def beforeAll(): Unit = {
     super.beforeAll()
     val ids = new java.util.ArrayList[Integer]()
@@ -238,6 +241,32 @@ class ValidatePaySelectionLineDocumentDefaults
     */
   private def newGridSavedLine(): GridSavedLine = new GridSavedLine(Context, trxName)
 
+  /**
+    * A pay selection line whose payment rule starts empty.
+    *
+    * A new line carries the dictionary default S (Check), and Check pays through no bank
+    * account, so on a fresh line the copy from the document never applies and any account
+    * assertion would be decided by that default instead of by the document under test. The
+    * empty state is written the way the grid saves it back, through set_ValueNoCheck, which
+    * is also how a null reaches this mandatory column in production.
+    */
+  private def lineWithNoRule(): MPaySelectionLine = {
+    val line = newGridSavedLine()
+    line.writeLikeGrid(I_C_PaySelectionLine.COLUMNNAME_PaymentRule, null)
+    assert(line.getPaymentRule == null,
+      "the line payment rule must start empty so the document rule is the one copied")
+    line
+  }
+
+  /**
+    * The payment rule a committed document carries, read from the database. A grid row
+    * starts with the dictionary default, so a callout scenario has to put the document's
+    * own rule on the row for the tender under test to be the document's.
+    */
+  private def committedDocRule(table: String, id: Int): String =
+    DB.getSQLValueString(trxName,
+      "SELECT PaymentRule FROM " + table + " WHERE " + table + "_ID=?", id)
+
   /** First active account of the partner, committed data only. */
   private def accountsOf(partner: MBPartner): java.util.List[MBPBankAccount] =
     MBPBankAccount.getByPartner(Context, partner.getC_BPartner_ID)
@@ -262,32 +291,55 @@ class ValidatePaySelectionLineDocumentDefaults
   }
 
   /**
-    * A second active account for the partner, inside the test transaction, so a
-    * partner really owns more than one and a guard can tell "picked one" apart
-    * from "picked the only one that existed".
+    * Bank account for the partner inside the test transaction.
+    *
+    * IsACH and BPBankAcctUse decide what the account may be paid through: it is eligible
+    * for a direct deposit only when it is an ACH account whose purpose is Direct Deposit or
+    * Both, and the same for a direct debit. MBPBankAccount's constructor leaves a new
+    * account non ACH, so an account created without saying so is eligible for nothing, and
+    * any scenario expecting one to be selected has to say so here.
     */
-  private def newSecondAccountInTrx(partner: MBPartner): MBPBankAccount = {
-    val stamp = System.currentTimeMillis
+  private def newAccountInTrx(partner: MBPartner, tag: String = "acct",
+      isACH: Boolean = false,
+      use: String = X_C_BP_BankAccount.BPBANKACCTUSE_Both,
+      payroll: Boolean = false): MBPBankAccount = {
+    accountSeq += 1
+    val name = "PR4490-" + tag + "-" + accountSeq
     val account = new MBPBankAccount(Context, 0, trxName)
     account.setC_BPartner_ID(partner.getC_BPartner_ID)
-    account.setA_Name("PR4490-second-" + stamp)
-    account.setAccountNo("PR4490-second-" + stamp)
+    account.setA_Name(name)
+    account.setAccountNo(name)
     account.setBankAccountType(X_C_BP_BankAccount.BANKACCOUNTTYPE_Checking)
+    account.setIsACH(isACH)
+    account.setBPBankAcctUse(use)
+    account.setIsPayrollAccount(payroll)
     account.setIsActive(true)
     account.saveEx(trxName)
     account
   }
 
-  /** Bank account created for the partner inside the test transaction. */
-  private def newAccountInTrx(partner: MBPartner): MBPBankAccount = {
-    val account = new MBPBankAccount(Context, 0, trxName)
-    account.setC_BPartner_ID(partner.getC_BPartner_ID)
-    account.setA_Name("PR4490-in-trx")
-    account.setAccountNo("PR4490-in-trx")
-    account.setBankAccountType(X_C_BP_BankAccount.BANKACCOUNTTYPE_Checking)
-    account.setIsActive(true)
-    account.saveEx(trxName)
-    account
+  /**
+    * True when the account may be paid automatically under the payment rule, using the
+    * product's own predicate rather than a restatement of it.
+    */
+  private def eligibleFor(account: MBPBankAccount, paymentRule: String): Boolean =
+    paymentRule match {
+      case X_C_Order.PAYMENTRULE_DirectDeposit => account.isDirectDeposit
+      case X_C_Order.PAYMENTRULE_DirectDebit => account.isDirectDebit
+      case _ => false
+    }
+
+  /** Accounts of the partner that the payment rule may pay automatically. */
+  private def eligibleAccounts(partner: MBPartner, paymentRule: String)
+      : java.util.List[MBPBankAccount] = {
+    val out = new java.util.ArrayList[MBPBankAccount]()
+    val cursor = accountsOfInTrx(partner).iterator
+    while (cursor.hasNext) {
+      val account = cursor.next
+      if (eligibleFor(account, paymentRule))
+        out.add(account)
+    }
+    out
   }
 
   /** Currency of the fixture: 102 when it exists, else the client accounting currency. */
@@ -544,6 +596,12 @@ class ValidatePaySelectionLineDocumentDefaults
           " ORDER BY i.C_Invoice_ID",
         Env.getAD_Client_ID(Context))
       assume(invoiceId > 0, "no committed invoice of a partner without a bank account")
+      //	The row starts with the dictionary default S (Check), which pays through no
+      //	account, so the invoice's own rule is put on the row: the tender under test is
+      //	the invoice's, and the only reason left to clear the account is the partner.
+      val docRule = committedDocRule("C_Invoice", invoiceId)
+      assume(docRule != null, "the committed invoice must carry a payment rule")
+      tab.setValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule, docRule)
       When("the invoice callout runs on that row")
       val error = runQuietly(
         new CalloutPaySelection().invoice(Context, WindowNo, tab,
@@ -567,7 +625,7 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(withAccount != null, "the logged in client must expose a vendor owning a bank account")
       val accounts = accountsOf(withAccount)
       assert(!accounts.isEmpty, "that vendor must own an active bank account")
-      val line = new MPaySelectionLine(Context, 0, trxName)
+      val line = lineWithNoRule()
       line.setC_BP_BankAccount_ID(accounts.get(0).getC_BP_BankAccount_ID)
       And("an invoice of a partner owning no account at all")
       val withoutAccount = partnerWithNoAccountYet
@@ -608,6 +666,11 @@ class ValidatePaySelectionLineDocumentDefaults
           " ORDER BY o.C_Order_ID",
         Env.getAD_Client_ID(Context))
       assume(orderId > 0, "no committed order of a partner without a bank account")
+      //	The row starts with the dictionary default S (Check), so the order's own rule is
+      //	put on the row: the tender under test is the order's, not that default.
+      val docRule = committedDocRule("C_Order", orderId)
+      assume(docRule != null, "the committed order must carry a payment rule")
+      tab.setValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule, docRule)
       When("the order callout runs on that row")
       val error = runQuietly(
         new CalloutPaySelection().order(Context, WindowNo, tab,
@@ -626,7 +689,7 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(withAccount != null, "the logged in client must expose a vendor owning a bank account")
       val accounts = accountsOf(withAccount)
       assert(!accounts.isEmpty, "that vendor must own an active bank account")
-      val line = new MPaySelectionLine(Context, 0, trxName)
+      val line = lineWithNoRule()
       line.setC_BP_BankAccount_ID(accounts.get(0).getC_BP_BankAccount_ID)
       And("a purchase order of a partner owning no account at all")
       val withoutAccount = partnerWithNoAccountYet
@@ -659,10 +722,11 @@ class ValidatePaySelectionLineDocumentDefaults
       val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
         X_C_Invoice.PAYMENTRULE_DirectDeposit)
       val schedule = newApPaySchedule(invoice)
-      And("a bank account saved for that vendor inside this transaction only")
-      val account = newAccountInTrx(vendor)
+      And("an ACH account saved for that vendor inside this transaction only")
+      val account = newAccountInTrx(vendor, "f4dep", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
       When("the pay selection line is linked to that invoice")
-      val line = new MPaySelectionLine(Context, 0, trxName)
+      val line = lineWithNoRule()
       val openAmt = invoice.getGrandTotal
       val error = runQuietly(
         line.setInvoice(invoice.getC_Invoice_ID, schedule.getC_InvoicePaySchedule_ID,
@@ -681,11 +745,12 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(accountsOf(vendor).isEmpty,
         "the lookup must start with no committed account for this vendor")
       val order = newApOrder(vendor, new BigDecimal("60.00"),
-        X_C_Order.PAYMENTRULE_OnCredit)
-      And("a bank account saved for that vendor inside this transaction only")
-      val account = newAccountInTrx(vendor)
+        X_C_Order.PAYMENTRULE_DirectDebit)
+      And("an ACH account saved for that vendor inside this transaction only")
+      val account = newAccountInTrx(vendor, "f4debit", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDebit)
       When("the pay selection line is linked to that order")
-      val line = new MPaySelectionLine(Context, 0, trxName)
+      val line = lineWithNoRule()
       val openAmt = new BigDecimal("60.00")
       val error = runQuietly(
         line.setOrder(order.getC_Order_ID, openAmt, openAmt, openAmt, BigDecimal.ZERO))
@@ -753,19 +818,27 @@ class ValidatePaySelectionLineDocumentDefaults
     Scenario("N1 the invoice callout keeps an account when the partner owns one") {
       Given("a live pay selection line row")
       val tab = newPaySelectionLineTab()
-      And("a partner owning an active bank account")
+      And("a partner owning an active bank account that is not an ACH account")
       val vendor = vendorWithAccount
       assert(vendor != null, "the logged in client must expose a partner owning a bank account")
       val accounts = accountsOf(vendor)
       assert(!accounts.isEmpty, "that partner must own a committed active account")
-      And("a committed invoice of that partner")
-      //	The callout reads C_Invoice_v with a null transaction name, so it can only
-      //	see a committed invoice.
+      And("a committed invoice of that partner, paid by a tender that is not direct")
+      //	The callout reads C_Invoice_v with a null transaction name, so it can only see
+      //	committed data: both the invoice and its rule come from the database, and the rule
+      //	is not chosen here but read from the invoice the guard runs on.
       val invoiceId = DB.getSQLValue(trxName,
         "SELECT i.C_Invoice_ID FROM C_Invoice_v i WHERE i.C_BPartner_ID=?" +
           " AND i.DocStatus='CO' ORDER BY i.C_Invoice_ID",
         vendor.getC_BPartner_ID)
       assume(invoiceId > 0, "no committed invoice of a partner owning a bank account")
+      val docRule = committedDocRule("C_Invoice", invoiceId)
+      assume(docRule != null, "the committed invoice must carry a payment rule")
+      assume(!eligibleFor(accounts.iterator.next, docRule),
+        "this guard needs a tender that pays through no account, rule " + docRule)
+      //	The row starts with the dictionary default, so the invoice's rule is put on it:
+      //	the tender under test is the invoice's.
+      tab.setValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule, docRule)
       When("the invoice callout runs on that row")
       val error = runQuietly(
         new CalloutPaySelection().invoice(Context, WindowNo, tab,
@@ -777,29 +850,30 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_C_BPartner_ID) ==
         Integer.valueOf(vendor.getC_BPartner_ID),
         "the callout must set the invoice partner on the row")
-      And("the row carries an account, it is not cleared")
+      And("no account is assigned, because that tender is not paid through one")
       val value = tab.getValue(I_C_PaySelectionLine.COLUMNNAME_C_BP_BankAccount_ID)
-      assert(!noAccount(value),
-        "the callout must resolve an account when the partner owns one, not clear it")
-      And("that account is one of the partner accounts")
-      assert(belongsToPartner(accountIdOf(value), accounts),
-        "the resolved account must belong to the invoice partner")
+      assert(noAccount(value),
+        "payment rule " + docRule + " must not auto assign a partner account")
       And("the payment rule is never null on this path")
       assert(tab.getValue(I_C_PaySelectionLine.COLUMNNAME_PaymentRule) != null,
         "a committed invoice exposes its rule, so the grid rule must not be null")
     }
 
-    Scenario("N1 setInvoice keeps an account when the partner owns several") {
-      Given("a pay selection line")
-      val line = new MPaySelectionLine(Context, 0, trxName)
-      And("a partner owning more than one active bank account in this transaction")
+    Scenario("N1 setInvoice keeps an account when the partner owns an eligible one") {
+      Given("a pay selection line whose payment rule starts empty")
+      val line = lineWithNoRule()
+      And("a partner owning a committed account that is not an ACH account")
       val vendor = vendorWithAccount
       assert(vendor != null, "the logged in client must expose a partner owning a bank account")
-      val second = newSecondAccountInTrx(vendor)
+      assert(!eligibleFor(accountsOf(vendor).iterator.next, X_C_Order.PAYMENTRULE_DirectDeposit),
+        "this guard needs a committed account no direct rule may pay")
+      And("an ACH account saved for that partner in this transaction")
+      val eligible = newAccountInTrx(vendor, "n1dep", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
       val accounts = accountsOfInTrx(vendor)
       assert(accounts.size >= 2,
         "the partner must own at least two active accounts in this transaction")
-      And("an invoice of that partner")
+      And("an invoice of that partner paid by direct deposit")
       val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
         X_C_Invoice.PAYMENTRULE_DirectDeposit)
       val schedule = newApPaySchedule(invoice)
@@ -812,27 +886,34 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(error.isEmpty, "setInvoice must not raise")
       And("the line carries an account, it is not cleared")
       assert(line.getC_BP_BankAccount_ID != 0,
-        "setInvoice must resolve an account when the partner owns one, not clear it")
-      And("that account belongs to the partner, the second one included")
+        "setInvoice must resolve an account when the partner owns an eligible one")
+      And("that account belongs to the partner")
       assert(belongsToPartner(line.getC_BP_BankAccount_ID, accounts),
         "the resolved account must belong to the invoice partner")
-      assert(second.getC_BP_BankAccount_ID > 0,
-        "the second account must have been created for this guard to mean anything")
+      And("it is the eligible one, not the non ACH account")
+      assert(line.getC_BP_BankAccount_ID == eligible.getC_BP_BankAccount_ID,
+        "a direct deposit must resolve the ACH account, never the non ACH one")
+      assert(eligible.getC_BP_BankAccount_ID > 0,
+        "the eligible account must have been created for this guard to mean anything")
     }
 
-    Scenario("N1 setOrder keeps an account when the partner owns several") {
-      Given("a pay selection line")
-      val line = new MPaySelectionLine(Context, 0, trxName)
-      And("a partner owning more than one active bank account in this transaction")
+    Scenario("N1 setOrder keeps an account when the partner owns an eligible one") {
+      Given("a pay selection line whose payment rule starts empty")
+      val line = lineWithNoRule()
+      And("a partner owning a committed account that is not an ACH account")
       val vendor = vendorWithAccount
       assert(vendor != null, "the logged in client must expose a partner owning a bank account")
-      newSecondAccountInTrx(vendor)
+      assert(!eligibleFor(accountsOf(vendor).iterator.next, X_C_Order.PAYMENTRULE_DirectDebit),
+        "this guard needs a committed account no direct rule may pay")
+      And("an ACH account saved for that partner in this transaction")
+      val eligible = newAccountInTrx(vendor, "n1debit", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDebit)
       val accounts = accountsOfInTrx(vendor)
       assert(accounts.size >= 2,
         "the partner must own at least two active accounts in this transaction")
-      And("a purchase order of that partner")
+      And("a purchase order of that partner paid by direct debit")
       val order = newApOrder(vendor, new BigDecimal("60.00"),
-        X_C_Order.PAYMENTRULE_OnCredit)
+        X_C_Order.PAYMENTRULE_DirectDebit)
       When("the line is linked to that order")
       val openAmt = new BigDecimal("60.00")
       val error = runQuietly(
@@ -841,37 +922,160 @@ class ValidatePaySelectionLineDocumentDefaults
       assert(error.isEmpty, "setOrder must not raise")
       And("the line carries an account, it is not cleared")
       assert(line.getC_BP_BankAccount_ID != 0,
-        "setOrder must resolve an account when the partner owns one, not clear it")
+        "setOrder must resolve an account when the partner owns an eligible one")
       And("that account belongs to the order partner")
       assert(belongsToPartner(line.getC_BP_BankAccount_ID, accounts),
         "the resolved account must belong to the order partner")
+      And("it is the eligible one, not the non ACH account")
+      assert(line.getC_BP_BankAccount_ID == eligible.getC_BP_BankAccount_ID,
+        "a direct debit must resolve the ACH account, never the non ACH one")
     }
 
-    info("S7: the auto assigned account is not filtered by IsACH or BPBankAcctUse")
+    info("S9: the default account is selected with the product's own predicate")
 
     /**
-      * Deliberately open, not a regression to fix here. The High finding on
-      * adempiere/adempiere#4490 is that the account picked automatically for a
-      * partner is the first active one, whatever its IsACH flag or its
-      * BPBankAcctUse purpose, and MPaySelectionCheck then trusts any nonzero
-      * account. Which accounts may be paid automatically is a product decision.
-      * This scenario is ignored so the gap stays visible and tracked: if someone
-      * later adds a filter to MBPBankAccount.getByPartner, this scenario starts
-      * failing and forces a conscious update of the decision recorded here.
+      * The High finding on adempiere/adempiere#4490: the account taken automatically was
+      * the first active one, whatever its IsACH flag or its BPBankAcctUse purpose. The
+      * product already states the rule, as isDirectDeposit and isDirectDebit, and
+      * MPaySelectionCheck already applies it under its own "Add default account" comment.
+      * These scenarios pin that the callout and the model apply the same rule, so the
+      * account they write is one the payment would accept.
       */
-    ignore("S7 the unfiltered partner account lookup is a known open product decision") {
-      Given("a partner owning no account, and an account neither ACH nor usable")
+    Scenario("S9 setInvoice selects the ACH account, not the first account") {
+      Given("a partner owning no account at all")
       val vendor = partnerWithNoAccountYet
       assume(vendor != null, "no active partner without a bank account in this client")
-      val account = newAccountInTrx(vendor)
-      account.setIsACH(false)
-      account.setBPBankAcctUse(X_C_BP_BankAccount.BPBANKACCTUSE_None)
-      account.saveEx(trxName)
-      When("the partner accounts are looked up the way the pay selection code does")
-      val found = accountsOfInTrx(vendor)
-      Then("the account is returned even though it must not be paid automatically")
-      assert(belongsToPartner(account.getC_BP_BankAccount_ID, found),
-        "the lookup does not filter IsACH or BPBankAcctUse, which is the open finding")
+      And("a non ACH account created first, so it is the first one found")
+      val ineligible = newAccountInTrx(vendor, "s9off",
+        isACH = false, use = X_C_BP_BankAccount.BPBANKACCTUSE_None)
+      assert(!eligibleFor(ineligible, X_C_Order.PAYMENTRULE_DirectDeposit),
+        "the first account must not be payable by direct deposit")
+      And("an ACH direct deposit account created second")
+      val eligible = newAccountInTrx(vendor, "s9on", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      And("an invoice of that partner paid by direct deposit")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_DirectDeposit)
+      val schedule = newApPaySchedule(invoice)
+      When("the line is linked to that invoice")
+      val line = lineWithNoRule()
+      val openAmt = invoice.getGrandTotal
+      runQuietly(
+        line.setInvoice(invoice.getC_Invoice_ID, schedule.getC_InvoicePaySchedule_ID,
+          false, openAmt, openAmt, BigDecimal.ZERO))
+      Then("the ACH account is the one on the line")
+      assert(line.getC_BP_BankAccount_ID == eligible.getC_BP_BankAccount_ID,
+        "a direct deposit must select the ACH account, not the first active account")
+    }
+
+    Scenario("S9 setOrder selects the ACH account, not the first account") {
+      Given("a partner owning no account at all")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      And("an account usable for nothing, created first")
+      val ineligible = newAccountInTrx(vendor, "s9o2",
+        isACH = false, use = X_C_BP_BankAccount.BPBANKACCTUSE_None)
+      assert(!eligibleFor(ineligible, X_C_Order.PAYMENTRULE_DirectDebit),
+        "the first account must not be payable by direct debit")
+      And("an ACH direct debit account created second")
+      val eligible = newAccountInTrx(vendor, "s9d2", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDebit)
+      And("a purchase order of that partner paid by direct debit")
+      val order = newApOrder(vendor, new BigDecimal("60.00"),
+        X_C_Order.PAYMENTRULE_DirectDebit)
+      When("the line is linked to that order")
+      val line = lineWithNoRule()
+      val openAmt = new BigDecimal("60.00")
+      runQuietly(line.setOrder(order.getC_Order_ID, openAmt, openAmt, openAmt,
+        BigDecimal.ZERO))
+      Then("the ACH account is the one on the line")
+      assert(line.getC_BP_BankAccount_ID == eligible.getC_BP_BankAccount_ID,
+        "a direct debit must select the ACH account, not the first active account")
+    }
+
+    Scenario("S9 a payment rule that is not direct assigns no account") {
+      Given("a partner owning no account at all, and an ACH account usable for both")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      val eligible = newAccountInTrx(vendor, "s9both", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_Both)
+      assert(eligibleFor(eligible, X_C_Order.PAYMENTRULE_DirectDeposit),
+        "this account is payable, so clearing it proves the rule chose, not the data")
+      And("an invoice of that partner paid by check")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_Check)
+      val schedule = newApPaySchedule(invoice)
+      When("the line is linked to that invoice")
+      val line = lineWithNoRule()
+      val openAmt = invoice.getGrandTotal
+      runQuietly(
+        line.setInvoice(invoice.getC_Invoice_ID, schedule.getC_InvoicePaySchedule_ID,
+          false, openAmt, openAmt, BigDecimal.ZERO))
+      Then("no account is assigned, because a check is not paid through one")
+      assert(line.getC_BP_BankAccount_ID == 0,
+        "only direct deposit and direct debit may auto assign an account, as in MPaySelectionCheck")
+      And("the rule copied to the line is the invoice rule")
+      assert(line.getPaymentRule == X_C_Order.PAYMENTRULE_Check,
+        "the rule must still be copied, only the account is withheld")
+    }
+
+    Scenario("S10 the selection is deterministic when several accounts are eligible") {
+      Given("a partner owning no account at all")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      And("two ACH direct deposit accounts")
+      val first = newAccountInTrx(vendor, "s10a", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      val second = newAccountInTrx(vendor, "s10b", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      val lowest = math.min(first.getC_BP_BankAccount_ID, second.getC_BP_BankAccount_ID)
+      And("an invoice of that partner paid by direct deposit")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_DirectDeposit)
+      val schedule = newApPaySchedule(invoice)
+      When("two separate lines are linked to that same invoice")
+      val openAmt = invoice.getGrandTotal
+      val a = lineWithNoRule()
+      val b = lineWithNoRule()
+      runQuietly(a.setInvoice(invoice.getC_Invoice_ID,
+        schedule.getC_InvoicePaySchedule_ID, false, openAmt, openAmt, BigDecimal.ZERO))
+      runQuietly(b.setInvoice(invoice.getC_Invoice_ID,
+        schedule.getC_InvoicePaySchedule_ID, false, openAmt, openAmt, BigDecimal.ZERO))
+      Then("both lines resolve the same account")
+      assert(a.getC_BP_BankAccount_ID == b.getC_BP_BankAccount_ID,
+        "MBPBankAccount.getByPartner sets no ORDER BY, so the selection must be ordered here")
+      And("it is the lowest eligible id")
+      assert(a.getC_BP_BankAccount_ID == lowest,
+        "the tie break is the lowest account id, so the same input always pays the same account")
+    }
+
+    Scenario("S11 a payroll account is not used for a line that is not payroll") {
+      Given("a partner owning no account at all")
+      val vendor = partnerWithNoAccountYet
+      assume(vendor != null, "no active partner without a bank account in this client")
+      And("a payroll account created first, eligible for direct deposit")
+      val payroll = newAccountInTrx(vendor, "s11pay", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit, payroll = true)
+      assert(payroll.isPayrollAccount && payroll.isDirectDeposit,
+        "the payroll account must be eligible, so excluding it must be the payroll filter")
+      And("a regular ACH direct deposit account created second")
+      val regular = newAccountInTrx(vendor, "s11reg", isACH = true,
+        use = X_C_BP_BankAccount.BPBANKACCTUSE_DirectDeposit)
+      And("an invoice of that partner paid by direct deposit")
+      val invoice = newApInvoice(vendor, new BigDecimal("100.00"),
+        X_C_Invoice.PAYMENTRULE_DirectDeposit)
+      val schedule = newApPaySchedule(invoice)
+      When("a line that is not a payroll line is linked to that invoice")
+      val line = lineWithNoRule()
+      assert(line.getHR_Movement_ID == 0,
+        "the line must not be a payroll line for this guard to mean anything")
+      val openAmt = invoice.getGrandTotal
+      runQuietly(
+        line.setInvoice(invoice.getC_Invoice_ID, schedule.getC_InvoicePaySchedule_ID,
+          false, openAmt, openAmt, BigDecimal.ZERO))
+      Then("the regular account is selected, not the payroll account")
+      assert(line.getC_BP_BankAccount_ID == regular.getC_BP_BankAccount_ID,
+        "a payroll account must not pay an ordinary supplier, as MPaySelectionCheck already requires")
     }
   }
 }
