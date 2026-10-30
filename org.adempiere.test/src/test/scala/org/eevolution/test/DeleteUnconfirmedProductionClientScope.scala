@@ -239,20 +239,22 @@ class DeleteUnconfirmedProductionClientScope
     def free(table: String, idColumn: String): Int = nextIds(trx, table, idColumn, 1).head
     val locators = nextIds(trx, "M_Locator", "M_Locator_ID", 2)
 
+    //	Named arguments: each id is read from the table its field names, so a
+    //	reordered case class cannot feed one table's id into another's INSERT.
     Tenant(
-      free("AD_Client", "AD_Client_ID"),
-      free("AD_Org", "AD_Org_ID"),
-      free("C_Location", "C_Location_ID"),
-      free("M_Warehouse", "M_Warehouse_ID"),
-      locators.head,
-      locators(1),
-      free("GL_Category", "GL_Category_ID"),
-      free("C_TaxCategory", "C_TaxCategory_ID"),
-      free("M_Product_Category", "M_Product_Category_ID"),
-      free("C_DocType", "C_DocType_ID"),
-      free("M_Product", "M_Product_ID"),
-      free("M_Movement", "M_Movement_ID"),
-      free("M_MovementLine", "M_MovementLine_ID")
+      clientId = free("AD_Client", "AD_Client_ID"),
+      orgId = free("AD_Org", "AD_Org_ID"),
+      locationId = free("C_Location", "C_Location_ID"),
+      warehouseId = free("M_Warehouse", "M_Warehouse_ID"),
+      locatorId = locators.head,
+      locatorToId = locators(1),
+      glCategoryId = free("GL_Category", "GL_Category_ID"),
+      docTypeId = free("C_DocType", "C_DocType_ID"),
+      taxCategoryId = free("C_TaxCategory", "C_TaxCategory_ID"),
+      productCategoryId = free("M_Product_Category", "M_Product_Category_ID"),
+      productId = free("M_Product", "M_Product_ID"),
+      movementId = free("M_Movement", "M_Movement_ID"),
+      movementLineId = free("M_MovementLine", "M_MovementLine_ID")
     )
   }    //	newTenant
 
