@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
@@ -419,17 +420,18 @@ public abstract class Doc
 		accountingSchemes = ass;
 		m_ctx = new Properties(accountingSchemes[0].getCtx());
 		m_ctx.setProperty("#AD_Client_ID", String.valueOf(accountingSchemes[0].getAD_Client_ID()));
+		String className = clazz.getName();
+		className = className.substring(className.lastIndexOf('.')+1);
+
 		m_trxName = trxName;
 		if (m_trxName == null) {
-			m_trxName = Trx.createTrxName("Post_" + clazz.getName());
+			m_trxName = postingTrxName(className);
 			Trx.get(m_trxName, true);
 			m_manageLocalTrx = true;
 		} else {
 			m_manageLocalTrx = false;
 		}
 
-		String className = clazz.getName();
-		className = className.substring(className.lastIndexOf('.')+1);
 		try
 		{
 			Constructor<?> constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
@@ -441,6 +443,9 @@ public abstract class Doc
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
+		//	The PO posts on the transaction this Doc owns, so its lines and
+		//	their cost detail stay on the same connection and roll back with it.
+		p_po.set_TrxName(m_trxName);
 		getDocStatus();
 
 		//	Document Type
@@ -592,17 +597,22 @@ public abstract class Doc
 			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
+		{
+			releaseLocalTrx();
 			return "Invalid DocStatus='" + docStatus + "' for DocumentNo=" + getDocumentNo();
+		}
 		//
 		if (p_po.getAD_Client_ID() != accountingSchemes[0].getAD_Client_ID())
 		{
 			String error = "AD_Client_ID Conflict - Document=" + p_po.getAD_Client_ID()
 				+ ", AcctSchema=" + accountingSchemes[0].getAD_Client_ID();
 			log.severe(error);
+			releaseLocalTrx();
 			return error;
 		}
 		
 		if (!lock(force, repost)) {
+			releaseLocalTrx();
 			if (force)
 				return "Cannot Lock - ReSubmit";
 			return "Cannot Lock - ReSubmit or RePost with Force";
@@ -610,7 +620,10 @@ public abstract class Doc
 		
 		p_Error = loadDocumentDetails();
 		if (p_Error != null)
+		{
+			releaseLocalTrx();
 			return p_Error;
+		}
 
 		//  Delete existing Accounting
 		if (repost)
@@ -618,6 +631,7 @@ public abstract class Doc
 			if (isPosted() && !isPeriodOpen())	//	already posted - don't delete if period closed
 			{
 				log.log(Level.SEVERE, toString() + " - Period Closed for already posed document");
+				releaseLocalTrx();
 				unlock();
 				return "PeriodClosed";
 			}
@@ -637,6 +651,7 @@ public abstract class Doc
 		else if (isPosted())
 		{
 			log.log(Level.SEVERE, toString() + " - Document already posted");
+			releaseLocalTrx();
 			unlock();
 			return "AlreadyPosted";
 		}
@@ -931,9 +946,6 @@ public abstract class Doc
 		log.info("Sta=" + status + " DT=" + getDocumentType() 
 			+ " ID=" +  p_po.get_ID());
 		p_Status = status;
-        if (m_trxName == null) {
-            m_trxName = "Post" + m_DocumentType + p_po.get_ID();
-        }
 
 		Trx trx = Trx.get(getTrxName(), true);
 		try
@@ -1009,6 +1021,19 @@ public abstract class Doc
 	{
 		return m_trxName;
 	}	//	getTrxName
+
+	/**
+	 *  Name a transaction this Doc owns for one posting run: per-run unique, so
+	 *  an aborted post cannot leave a stale name, and short because PO writes it
+	 *  into AD_ChangeLog.TrxName, a varchar(60) that swallows every failure.
+	 *	@param documentClassSimpleName simple name of the posted document class
+	 *	@return unique transaction name within the audit column limit
+	 */
+	static String postingTrxName (String documentClassSimpleName)
+	{
+		return "Post_" + documentClassSimpleName + "_"
+				+ UUID.randomUUID().toString().substring(0, 16);
+	}	//	postingTrxName
 	
 	/**************************************************************************
 	 *  Load Document Type and GL Info.
