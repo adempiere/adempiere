@@ -158,26 +158,25 @@ public class CalloutInventory extends CalloutEngine
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?";	//	2
 		
-		try
+		try (PreparedStatement pstmt = DB.prepareStatement(sql, null))
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, M_Locator_ID);
 			if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
+			try (ResultSet rs = pstmt.executeQuery())
 			{
-				bd = rs.getBigDecimal(1);
-				if (bd != null)
-					return bd;
-			} else {
-				// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows, 
-				// for example when the locator has never stored a particular product.
-				return new BigDecimal(0);
+				if (rs.next())
+				{
+					bd = rs.getBigDecimal(1);
+					if (bd != null)
+						return bd;
+				} else {
+					// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows,
+					// for example when the locator has never stored a particular product.
+					return new BigDecimal(0);
+				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
