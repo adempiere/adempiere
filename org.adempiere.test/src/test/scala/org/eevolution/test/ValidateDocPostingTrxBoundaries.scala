@@ -86,6 +86,14 @@ class ValidateDocPostingTrxBoundaries
               + " characters, over the " + TrxNameLimit
               + " of AD_ChangeLog.TrxName: " + name)
 
+          And("that name really comes from the bounded generator, not elsewhere")
+          //	A call site that built its own name (for instance from the fully
+          //	qualified class name) could still fit the limit, so the shape is
+          //	pinned here and not only through the generator.
+          assert("Post_\\w+_[0-9a-f-]{16}".r.pattern.matcher(name).matches,
+            "the transaction the Doc opened is named " + name
+              + ", not Post_<document class>_<16 hex>")
+
           And("the name is really insertable into AD_ChangeLog.TrxName")
           assertTrxNameIsStorable(name)
         } finally {
@@ -97,16 +105,16 @@ class ValidateDocPostingTrxBoundaries
     }    //	Scenario
 
     Scenario("every document class names its posting transaction within the limit") {
-      val simpleNames = docClassSimpleNames()
+      val modelClasses = postedModelClasses()
 
-      Given("the document classes the accounting engine can post")
-      assert(simpleNames.nonEmpty)
-      val longest = simpleNames.maxBy(_.length)
-      assert(longest == "Doc_ProductionBatch",
-        "expected the longest Doc subclass name, got " + longest)
+      Given("the model classes the engine actually hands to a Doc")
+      //	Each Doc subclass passes its model class to super, and that name is what
+      //	the generator embeds, so this is the real input domain, not a proxy.
+      assert(modelClasses.size >= 15,
+        "only " + modelClasses.size + " posted model classes were read")
 
       When("each one names a posting transaction")
-      val names = simpleNames.map(postingTrxNameFor)
+      val names = modelClasses.map(postingTrxNameFor)
 
       Then("no name overflows AD_ChangeLog.TrxName")
       val over = names.filter(_.length > TrxNameLimit)
@@ -114,8 +122,14 @@ class ValidateDocPostingTrxBoundaries
         over.map(n => n + " (" + n.length + ")").mkString(", ")
           + " do not fit " + TrxNameLimit)
 
+      And("the widest of them is named, so the bound is measured not assumed")
+      val longest = modelClasses.maxBy(_.length)
+      assert(postingTrxNameFor(longest).length <= TrxNameLimit,
+        "the widest posted class " + longest + " names "
+          + postingTrxNameFor(longest).length + " characters")
+
       And("each name still identifies its document class")
-      simpleNames.foreach { simple =>
+      modelClasses.foreach { simple =>
         assert(names.exists(_.contains(simple)),
           "no posting transaction name carries " + simple)
       }
@@ -233,13 +247,20 @@ class ValidateDocPostingTrxBoundaries
       }
 
       Then("each of them releases the transaction the Doc opened")
-      //	Invalid DocStatus, AD_Client_ID Conflict, Cannot Lock (two returns),
-      //	load details failure, Period Closed, Accounting deletion failure.
       val releases = lines.slice(0, commitAt).count(_.trim == "releaseLocalTrx();")
-      assert(releases >= 6,
-        "post() releases in " + releases + " of its refusals before postCommit")
+      //	Invalid DocStatus, AD_Client_ID Conflict, Cannot Lock, load details
+      //	failure, Period Closed, Accounting deletion failure, Already Posted.
+      assert(releases == 7,
+        "post() has " + releases + " releaseLocalTrx() calls before postCommit, 7 expected")
       assert(orphaned.isEmpty,
         "refusals returning without a release: " + orphaned.mkString(" | "))
+
+      And("each refusal this guard speaks about is still there")
+      List("Invalid DocStatus", "AD_Client_ID Conflict", "Cannot Lock", "PeriodClosed",
+        "FactAcctDeleteFailed", "AlreadyPosted").foreach { refusal =>
+        assert(lines.exists(_.contains(refusal)),
+          "post() no longer refuses with " + refusal + ", so this guard is stale")
+      }
     }    //	Scenario
     Scenario("no posting transaction is named after the record it posts") {
       Given("the source of the accounting engine")
@@ -300,7 +321,11 @@ class ValidateDocPostingTrxBoundaries
       docStatus, processed, posted, force, repost, expect)
 
   private def leakReleasedBy(spec: InvoiceSpec): Unit = {
-    val doc = newDocForInvoice(spec.client, spec.invoiceId)
+    //	Registered before the Doc is built: a seed that cannot be posted still
+    //	has to leave the database as it found it.
+    val doc =
+      try newDocForInvoice(spec.client, spec.invoiceId)
+      catch { case e: Throwable => cleanup(spec.client, spec.invoiceId); throw e }
     val name = doc.getTrxName()
     assert(name != null)
     try {
@@ -359,23 +384,36 @@ class ValidateDocPostingTrxBoundaries
     * The document classes the accounting engine can post, read from the
     * accounting package on the classpath.
     */
-  private def docClassSimpleNames(): List[String] = {
-    val dir = classOf[Doc].getProtectionDomain.getCodeSource.getLocation.getPath
+  /**
+    * The model classes the accounting engine hands to a Doc: every Doc_*
+    * source passes its own model class to super, and Doc names its transaction
+    * after that class, so this is the domain the generator really sees.
+    */
+  private def postedModelClasses(): List[String] = {
+    val root = new java.io.File(System.getProperty("user.dir")).getParentFile
+    val pattern = java.util.regex.Pattern.compile("super\\s*\\(\\s*ass,\\s*(\\w+)\\.class")
     val names = new scala.collection.mutable.LinkedHashSet[String]()
-    val roots = Seq(dir, dir.replace("-classes", ""))
-    roots.foreach { root =>
-      val file = new java.io.File(root)
-      if (file.isDirectory) {
-        val acct = new java.io.File(file, "org/compiere/acct")
-        Option(acct.listFiles()).foreach(_.foreach { f =>
-          val n = f.getName
-          if (n.startsWith("Doc_") && n.endsWith(".class"))
-            names += n.substring(0, n.length - 6)
-        })
+    val stream = java.nio.file.Files.walk(root.toPath)
+    try {
+      val sources = new java.util.ArrayList[java.nio.file.Path]()
+      stream.forEach { path =>
+        val n = path.getFileName.toString
+        if (n.startsWith("Doc_") && n.endsWith(".java"))
+          sources.add(path)
       }
-    }
+      sources.forEach { path =>
+        val text =
+          try new String(java.nio.file.Files.readAllBytes(path), java.nio.charset.StandardCharsets.UTF_8)
+          catch { case _: Exception => "" }
+        val matcher = pattern.matcher(text)
+        while (matcher.find())
+          names += matcher.group(1)
+      }
+    } finally
+      stream.close()
     names.toList.sorted
-  }    //	docClassSimpleNames
+  }    //	postedModelClasses
+
 
   /**
     * Call Doc.postingTrxName, the helper that names a locally owned posting
