@@ -618,7 +618,18 @@ public abstract class Doc
 			return "Cannot Lock - ReSubmit or RePost with Force";
 		}
 		
-		p_Error = loadDocumentDetails();
+		try
+		{
+			p_Error = loadDocumentDetails();
+		}
+		catch (RuntimeException exception)
+		{
+			//  lock() committed Processing='Y' outside the document transaction,
+			//  so it must be unlocked here or the record never posts again.
+			releaseLocalTrx();
+			unlock();
+			throw exception;
+		}
 		if (p_Error != null)
 		{
 			releaseLocalTrx();
@@ -1031,7 +1042,10 @@ public abstract class Doc
 	 */
 	static String postingTrxName (String documentClassSimpleName)
 	{
-		return "Post_" + documentClassSimpleName + "_"
+		String shortName = documentClassSimpleName.length() > 38
+				? documentClassSimpleName.substring(0, 38)
+				: documentClassSimpleName;
+		return "Post_" + shortName + "_"
 				+ UUID.randomUUID().toString().substring(0, 16);
 	}	//	postingTrxName
 	
