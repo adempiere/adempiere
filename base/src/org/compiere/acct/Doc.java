@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
@@ -419,9 +420,18 @@ public abstract class Doc
 		accountingSchemes = ass;
 		m_ctx = new Properties(accountingSchemes[0].getCtx());
 		m_ctx.setProperty("#AD_Client_ID", String.valueOf(accountingSchemes[0].getAD_Client_ID()));
-		
 		String className = clazz.getName();
 		className = className.substring(className.lastIndexOf('.')+1);
+
+		m_trxName = trxName;
+		if (m_trxName == null) {
+			m_trxName = postingTrxName(className);
+			Trx.get(m_trxName, true);
+			m_manageLocalTrx = true;
+		} else {
+			m_manageLocalTrx = false;
+		}
+
 		try
 		{
 			Constructor<?> constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
@@ -433,23 +443,13 @@ public abstract class Doc
 			log.severe(msg);
 			throw new IllegalArgumentException(msg);
 		}
-		
-		//	DocStatus
-		//int index = p_po.get_ColumnIndex("DocStatus");
-		//if (index != -1)
-		//	m_DocStatus = (String)p_po.get_Value(index);
+		//	The PO posts on the transaction this Doc owns, so its lines and
+		//	their cost detail stay on the same connection and roll back with it.
+		p_po.set_TrxName(m_trxName);
 		getDocStatus();
-		
+
 		//	Document Type
 		setDocumentType (defaultDocumentType);
-		m_trxName = trxName;
-		m_manageLocalTrx = false;
-		if (m_trxName == null) {
-			m_trxName = "Post" + m_DocumentType + p_po.get_ID();
-			m_manageLocalTrx = true;
-		}
-		p_po.set_TrxName(m_trxName);
-
 		//	Amounts
 		m_Amounts[0] = Env.ZERO;
 		m_Amounts[1] = Env.ZERO;
@@ -568,9 +568,7 @@ public abstract class Doc
 	}	//	getPO
 	
 	public final String postImmediate(boolean force) {
-	    
         return post (force, true);  //  repost
-        
 	}
 	
 	/**
@@ -599,25 +597,44 @@ public abstract class Doc
 			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
+		{
+			releaseLocalTrx();
 			return "Invalid DocStatus='" + docStatus + "' for DocumentNo=" + getDocumentNo();
+		}
 		//
 		if (p_po.getAD_Client_ID() != accountingSchemes[0].getAD_Client_ID())
 		{
 			String error = "AD_Client_ID Conflict - Document=" + p_po.getAD_Client_ID()
 				+ ", AcctSchema=" + accountingSchemes[0].getAD_Client_ID();
 			log.severe(error);
+			releaseLocalTrx();
 			return error;
 		}
 		
 		if (!lock(force, repost)) {
+			releaseLocalTrx();
 			if (force)
 				return "Cannot Lock - ReSubmit";
 			return "Cannot Lock - ReSubmit or RePost with Force";
 		}
 		
-		p_Error = loadDocumentDetails();
+		try
+		{
+			p_Error = loadDocumentDetails();
+		}
+		catch (RuntimeException exception)
+		{
+			//  lock() committed Processing='Y' outside the document transaction,
+			//  so it must be unlocked here or the record never posts again.
+			releaseLocalTrx();
+			unlock();
+			throw exception;
+		}
 		if (p_Error != null)
+		{
+			releaseLocalTrx();
 			return p_Error;
+		}
 
 		//  Delete existing Accounting
 		if (repost)
@@ -625,15 +642,27 @@ public abstract class Doc
 			if (isPosted() && !isPeriodOpen())	//	already posted - don't delete if period closed
 			{
 				log.log(Level.SEVERE, toString() + " - Period Closed for already posed document");
+				releaseLocalTrx();
 				unlock();
 				return "PeriodClosed";
 			}
 			//	delete it
-			deleteAcct();
+			try
+			{
+				deleteAcct();
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, toString() + " - Accounting deletion failed", e);
+				releaseLocalTrx();
+				unlock();
+				return "FactAcctDeleteFailed";
+			}
 		}
 		else if (isPosted())
 		{
 			log.log(Level.SEVERE, toString() + " - Document already posted");
+			releaseLocalTrx();
 			unlock();
 			return "AlreadyPosted";
 		}
@@ -790,6 +819,36 @@ public abstract class Doc
     	DB.executeUpdate(sql.toString(), trxName);
     }   //  unlock
 
+	/**
+	 *  Release the locally managed transaction: rollback and close it.
+	 *  Used when a posting failure must abort cleanly, so the document
+	 *  does not retain an open transaction.
+	 */
+	private void releaseLocalTrx()
+	{
+		if (! m_manageLocalTrx)
+			return;
+		Trx trx = Trx.get(getTrxName(), false);
+		if (trx == null)
+			return;
+		try
+		{
+			trx.rollback();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "releaseLocalTrx - rollback failed", e);
+		}
+		try
+		{
+			trx.close();
+		}
+		catch (Exception e)
+		{
+			log.log(Level.WARNING, "releaseLocalTrx - close failed", e);
+		}
+	}   //  releaseLocalTrx
+
     /**
 	 * 	Delete Accounting
 	 *	@return number of records
@@ -799,7 +858,7 @@ public abstract class Doc
 		String sql = "DELETE Fact_Acct"
 		        + " WHERE AD_Table_ID=" + get_Table_ID()
 		        + " AND Record_ID=" + p_po.get_ID();
-		int no = DB.executeUpdate(sql, getTrxName());
+		int no = DB.executeUpdateEx(sql, getTrxName());
 		if (no != 0)
 			log.info("deleted=" + no);
 		return no;
@@ -973,6 +1032,22 @@ public abstract class Doc
 	{
 		return m_trxName;
 	}	//	getTrxName
+
+	/**
+	 *  Name a transaction this Doc owns for one posting run: per-run unique, so
+	 *  an aborted post cannot leave a stale name, and short because PO writes it
+	 *  into AD_ChangeLog.TrxName, a varchar(60) that swallows every failure.
+	 *	@param documentClassSimpleName simple name of the posted document class
+	 *	@return unique transaction name within the audit column limit
+	 */
+	static String postingTrxName (String documentClassSimpleName)
+	{
+		String shortName = documentClassSimpleName.length() > 38
+				? documentClassSimpleName.substring(0, 38)
+				: documentClassSimpleName;
+		return "Post_" + shortName + "_"
+				+ UUID.randomUUID().toString().substring(0, 16);
+	}	//	postingTrxName
 	
 	/**************************************************************************
 	 *  Load Document Type and GL Info.
@@ -2549,7 +2624,7 @@ public abstract class Doc
 	 */
 	public Boolean isReverseWithOriginalAccounting()
 	{
-		String isReverseWithOriginalAccounting = DB.getSQLValueString(getPO().get_TrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
+		String isReverseWithOriginalAccounting = DB.getSQLValueString(getTrxName() , "SELECT IsReversedWithOriginalAcct FROM C_DocType WHERE C_DocType_ID=?", getC_DocType_ID());
 		if (isReverseWithOriginalAccounting != null && "Y".equals(isReverseWithOriginalAccounting))
 			return true;
 		else
@@ -2563,7 +2638,7 @@ public abstract class Doc
 	 */
 	private String generateReverseWithOriginalAccounting(MAcctSchema originalAccountSchema) {
 		getReversalFactAcct(originalAccountSchema).stream().forEach(factAcct -> {
-			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
+			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getTrxName());
 			PO.copyValues(factAcct, reverseFactAcct);
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
@@ -2589,7 +2664,7 @@ public abstract class Doc
 		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
 		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=? AND ");
 		whereClause.append(MFactAcct.COLUMNNAME_C_AcctSchema_ID).append("=?");
-		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
+		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getTrxName())
 				.setClient_ID()
 				.setParameters(getPO().get_Table_ID(), getReversalId(), originalAccountSchema.getC_AcctSchema_ID())
 				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
