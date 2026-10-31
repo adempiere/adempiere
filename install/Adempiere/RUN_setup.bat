@@ -1,7 +1,28 @@
 @Title Install ADempiere Server
 @Echo off
 
-@CALL utils\functions.bat
+@CALL %CD%\utils\functions.bat
+
+rem
+rem check for correct java version by parsing out put of java -version
+rem we expect first line to be in format "java version 11.0.1" and assert that minor version number will be 11 or higher
+rem
+
+set EXPECTED_JAVA_VERSION=11
+
+for /f "tokens=3" %%g in ('%JAVA_HOME%\bin\java -version 2^>^&1 ^| findstr /i "version"') do (
+    set JAVAVER=%%g
+)
+set JAVAVER=%JAVAVER:"=%
+
+for /f "delims=. tokens=1" %%v in ("%JAVAVER%") do (
+
+   set JAVA=%%v
+   goto loaded_version
+)
+
+:loaded_version
+IF "%JAVA%" LSS "%EXPECTED_JAVA_VERSION%" goto wrong_version
 
 @if not "%JAVA_HOME%" == "" goto JAVA_HOME_OK
 @Set JAVA=java
@@ -72,3 +93,15 @@ cd utils
 @Echo For problems, check log file in base directory
 @Rem Wait 10 second
 @PING 1.1.1.1 -n 1 -w 10000 > NUL
+
+goto:eof
+
+:wrong_version
+echo *******************************************************************************
+echo *******    JAVA_HOME set to %JAVA_HOME%
+echo *******    Wrong JVM version! ADEMPIERE requires at least %EXPECTED_JAVA_VERSION% to run.    *******
+echo *******************************************************************************
+
+timeout /T 10
+
+exit /b 1
