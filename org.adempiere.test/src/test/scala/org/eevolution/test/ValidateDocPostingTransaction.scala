@@ -15,6 +15,7 @@ package org.eevolution.test
 
 import java.sql.ResultSet
 import java.util.logging.Level
+import java.util.UUID
 
 import org.adempiere.Adempiere
 import org.compiere.acct.Doc
@@ -26,28 +27,17 @@ import org.scalatest.featurespec.AnyFeatureSpec
 /**
   * Regression test for adempiere/adempiere#4433.
   *
-  * Constructing a posting Doc for a record must assign a per-run unique
-  * transaction: a deterministic name derived from the document type and record
-  * ID is unique per document, not per posting attempt, so two attempts on one
-  * record would share a transaction and the connection behind it.
+  * A posting Doc must open a transaction unique per attempt (a name derived
+  * from document type and record ID is unique per document, not per attempt),
+  * hand it to the PO so the document, its lines and their cost detail roll back
+  * together, and delete its accounting through the fail-fast DB.executeUpdateEx
+  * so a failed DELETE FROM Fact_Acct aborts the post.
   *
-  * The Doc must then hand that transaction to the PO, so the document, its
-  * lines and the cost detail they read commit and roll back together. On the
-  * accounting server and on the UI forced repost the incoming trxName is null,
-  * and there the PO used to stay detached from the transaction Doc.post
-  * commits, leaving committed accounting behind after a rollback.
-  *
-  * The Doc's accounting deletion must remove exactly the record's facts and
-  * rely on the fail-fast DB.executeUpdateEx, so a failed DELETE FROM
-  * Fact_Acct aborts the post instead of leaving duplicated fact lines behind.
-  * That failure is induced here through Doc.deleteAcct, with a record-scoped
-  * trigger on fact_acct, not by calling DB.executeUpdateEx directly: a test
-  * that sends its own SQL proves the test, not the code.
-  *
-  * The spec seeds its own processed invoice and, for the deletion scenarios,
-  * three accounting facts on the record. Seeded rows are removed at the end,
-  * and the trigger is dropped by the scenario that armed it and again by
-  * afterAll, since it is DDL on a table every posting shares.
+  * The deletion failure is induced through Doc.deleteAcct with a record-scoped
+  * trigger on fact_acct, never by sending SQL directly: a test that writes its
+  * own SQL proves the test, not the code. Fixtures are seeded and removed by
+  * the spec, and the trigger is dropped by the scenario that arms it and again
+  * by afterAll, since it is DDL on a table every posting shares.
   */
 class ValidateDocPostingTransaction
     extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen {
@@ -133,7 +123,7 @@ class ValidateDocPostingTransaction
           And("the invoice lines reached through the PO inherit it, so their reads " +
             "and the cost detail they write stay on the same connection")
           val lines = doc.getPO().asInstanceOf[MInvoice].getLines(true)
-          assume(lines.nonEmpty, "seed invoice has no lines")
+          assert(lines.nonEmpty, "the seed invoice has no lines")
           lines.foreach { line =>
             assert(line.get_TrxName() == doc.getTrxName(),
               "C_InvoiceLine " + line.getC_InvoiceLine_ID() + " carries "
@@ -219,34 +209,39 @@ class ValidateDocPostingTransaction
   }    //	Feature
 
   /**
+    * Guard names unique to this run: a fixed name lets two runs sharing the
+    * schema drop or replace each other's trigger on fact_acct.
+    */
+  private val guardTag = "pr4492_" + UUID.randomUUID().toString.replace("-", "").substring(0, 8)
+
+  /**
     * Make Fact_Acct refuse a delete of this record, so a failing accounting
     * deletion is induced through Doc.deleteAcct instead of being sent straight
-    * to DB.executeUpdateEx. The trigger is scoped to the record, so no other
-    * accounting row is touched, and it is dropped by the scenario that armed it.
+    * to DB.executeUpdateEx. Scoped to the record, dropped by disarmDeleteFailure.
     */
   private def armDeleteFailure(recordId: Int): Unit = {
     DB.executeUpdateEx(
-      "CREATE OR REPLACE FUNCTION pr4492_fail_delete() RETURNS trigger AS $$ " +
+      "CREATE OR REPLACE FUNCTION " + guardTag + "() RETURNS trigger AS $$ " +
       "BEGIN IF OLD.record_id = " + recordId + " THEN RAISE EXCEPTION " +
       "'accounting deletion refused by test'; END IF; RETURN OLD; END; $$ LANGUAGE plpgsql",
       null)
     DB.executeUpdateEx(
-      "CREATE TRIGGER pr4492_fail_delete BEFORE DELETE ON fact_acct " +
-      "FOR EACH ROW EXECUTE FUNCTION pr4492_fail_delete()",
+      "CREATE TRIGGER " + guardTag + " BEFORE DELETE ON fact_acct " +
+      "FOR EACH ROW EXECUTE FUNCTION " + guardTag + "()",
       null)
   }    //	armDeleteFailure
 
   private def disarmDeleteFailure(): Unit = {
-    DB.executeUpdateEx("DROP TRIGGER IF EXISTS pr4492_fail_delete ON fact_acct", null)
-    DB.executeUpdateEx("DROP FUNCTION IF EXISTS pr4492_fail_delete()", null)
+    DB.executeUpdateEx("DROP TRIGGER IF EXISTS " + guardTag + " ON fact_acct", null)
+    DB.executeUpdateEx("DROP FUNCTION IF EXISTS " + guardTag + "()", null)
   }    //	disarmDeleteFailure
 
   private def markPosted(client: Int, invoiceId: Int): Unit = {
     Trx.run { name =>
-      DB.executeUpdate(
+      assert(DB.executeUpdate(
         "UPDATE c_invoice SET posted = 'Y' WHERE ad_client_id = ? AND c_invoice_id = ?",
         Array[AnyRef](Integer.valueOf(client), Integer.valueOf(invoiceId)),
-        false, name)
+        false, name) == 1, "markPosted touched no row")
     }
   }    //	markPosted
 
@@ -276,7 +271,7 @@ class ValidateDocPostingTransaction
       val orgId = Organization.getAD_Org_ID
       val docType = MDocType.getDocType("ARI", orgId)
 
-      DB.executeUpdate(
+      assert(DB.executeUpdate(
         "INSERT INTO c_invoice (c_invoice_id, ad_client_id, ad_org_id, createdby, updatedby, " +
         "documentno, docstatus, docaction, processed, posted, c_doctype_id, c_doctypetarget_id, " +
         "c_bpartner_id, c_bpartner_location_id, c_currency_id, paymentrule, c_paymentterm_id, " +
@@ -295,9 +290,9 @@ class ValidateDocPostingTransaction
           Integer.valueOf(seed.priceList),
           dateAcct,
           dateAcct),
-        false, name)
+        false, name) == 1, "the seed invoice was not inserted")
 
-      DB.executeUpdate(
+      assert(DB.executeUpdate(
         "INSERT INTO c_invoiceline (c_invoiceline_id, ad_client_id, ad_org_id, c_invoice_id, " +
         "line, createdby, updatedby, m_product_id, c_uom_id, qtyinvoiced, qtyentered, " +
         "priceactual, priceentered, pricelist, linenetamt) " +
@@ -309,7 +304,7 @@ class ValidateDocPostingTransaction
           Integer.valueOf(seed.invoiceId),
           Integer.valueOf(seed.product),
           Integer.valueOf(seed.uom)),
-        false, name)
+        false, name) == 1, "the seed invoice line was not inserted")
     }
     seed.invoiceId
   }    //	seedProcessedInvoice
@@ -403,7 +398,7 @@ class ValidateDocPostingTransaction
       val orgId = Organization.getAD_Org_ID
       val currency = currencyOf(client)
       for (_ <- 1 to count) {
-        DB.executeUpdate(
+        assert(DB.executeUpdate(
           "INSERT INTO fact_acct (fact_acct_id, ad_client_id, ad_org_id, createdby, updatedby, " +
           "c_acctschema_id, account_id, c_currency_id, c_period_id, datetrx, dateacct, " +
           "ad_table_id, record_id, postingtype, amtsourcedr, amtsourcecr, amtacctdr, amtacctcr) " +
@@ -420,7 +415,7 @@ class ValidateDocPostingTransaction
             dateAcct,
             Integer.valueOf(invoiceTableId),
             Integer.valueOf(invoiceId)),
-          false, name)
+          false, name) == 1, "a seeded fact was not inserted")
         factId += 1
       }
     }
@@ -506,9 +501,10 @@ class ValidateDocPostingTransaction
     if (invoiceId == 0) return
     Trx.run { name =>
       DB.executeUpdate(
-        "DELETE FROM fact_acct WHERE ad_client_id = ? AND record_id = ?",
+        "DELETE FROM fact_acct WHERE ad_client_id = ? AND ad_table_id = ? AND record_id = ?",
         Array[AnyRef](
           Integer.valueOf(client),
+          Integer.valueOf(adTableId("C_Invoice")),
           Integer.valueOf(invoiceId)),
         false, name)
       DB.executeUpdate(

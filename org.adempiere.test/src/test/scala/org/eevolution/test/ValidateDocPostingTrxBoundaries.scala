@@ -18,25 +18,20 @@ import java.util.logging.Level
 
 import org.adempiere.Adempiere
 import org.compiere.acct.Doc
-import org.compiere.model.{MAcctSchema, MDocType}
+import org.compiere.model.{MAcctSchema, MDocType, MTable}
 import org.compiere.util.{CLogMgt, DB, Env, Ini, Login, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
 /**
-  * Regression tests for the posting transaction of adempiere/adempiere#4492.
+  * Regression tests for the posting transaction of adempiere/adempiere#4433.
   *
   * The accounting engine inherits the transaction of whoever originated the
-  * post: the workflow transaction on an immediate post, the process
-  * transaction on a client-side post. Only a forced re-post from the grid
-  * arrives with no transaction and then opens its own local one. When the
-  * Doc owns that transaction, the PO it posts must carry it too, otherwise
-  * the lines and their cost detail read and write on a different pooled
-  * connection and survive a rollback of the accounting. The generated name
-  * must also stay inside what AD_ChangeLog.TrxName can store, since PO writes
-  * its transaction name into that column and the audit swallow every failure.
-  *
-  * Spec: odd/tasks/doc-posting-trx-integrity.md, S1-S5, S8-S10, I1-I3, I5.
+  * post. Only a forced re-post arrives with none and opens its own; there the
+  * PO it posts must carry that transaction, or the lines and their cost detail
+  * read and write on another pooled connection and survive its rollback. The
+  * generated name must also fit AD_ChangeLog.TrxName, varchar(60), into which
+  * PO writes it while the audit swallows every failure.
   */
 class ValidateDocPostingTrxBoundaries
     extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen {
@@ -136,6 +131,28 @@ class ValidateDocPostingTrxBoundaries
 
       And("the names are unique across the whole set")
       assert(names.distinct.size == names.size)
+    }    //	Scenario
+
+    Scenario("a class name wider than the room left is truncated, not overflowed") {
+      Given("a posted class name longer than the room the generator leaves")
+      //	The widest class posted today is 16 characters, so this bound is never
+      //	reached by the current engine. It is a structural limit: a longer model
+      //	class added later must not silently overflow AD_ChangeLog.TrxName and
+      //	lose its audit row, because MSession.changeLog swallows the failure.
+      val wide = "M" + ("x" * 44)
+
+      When("the generator names a posting transaction for it")
+      val name = postingTrxNameFor(wide)
+
+      Then("the name still fits the audit column")
+      assert(name.length <= TrxNameLimit,
+        "a " + wide.length + "-character class name names " + name + " (" + name.length
+          + " characters), over the " + TrxNameLimit + " of AD_ChangeLog.TrxName")
+      assert(name.startsWith("Post_M"), "the truncated name lost its prefix: " + name)
+
+      And("uniqueness survives the truncation, since only the class name is cut")
+      assert(postingTrxNameFor(wide) != postingTrxNameFor(wide),
+        "two names for the same wide class name collided: " + name)
     }    //	Scenario
 
     Scenario("two posts of the same record never share a transaction") {
@@ -249,9 +266,10 @@ class ValidateDocPostingTrxBoundaries
       Then("each of them releases the transaction the Doc opened")
       val releases = lines.slice(0, commitAt).count(_.trim == "releaseLocalTrx();")
       //	Invalid DocStatus, AD_Client_ID Conflict, Cannot Lock, load details
-      //	failure, Period Closed, Accounting deletion failure, Already Posted.
-      assert(releases == 7,
-        "post() has " + releases + " releaseLocalTrx() calls before postCommit, 7 expected")
+      //	failure, load details throwing, Period Closed, Accounting deletion
+      //	failure, Already Posted.
+      assert(releases == 8,
+        "post() has " + releases + " releaseLocalTrx() calls before postCommit, 8 expected")
       assert(orphaned.isEmpty,
         "refusals returning without a release: " + orphaned.mkString(" | "))
 
@@ -261,6 +279,85 @@ class ValidateDocPostingTrxBoundaries
         assert(lines.exists(_.contains(refusal)),
           "post() no longer refuses with " + refusal + ", so this guard is stale")
       }
+    }    //	Scenario
+
+    Scenario("a detail read that throws leaves the document postable again") {
+      Given("the region of post that loads the document details")
+      val lines = postBodyLines()
+      val loadAt = lines.indexWhere(_.trim == "p_Error = loadDocumentDetails();")
+      assert(loadAt > 0, "post() no longer calls loadDocumentDetails()")
+
+      Then("the call is guarded, because lock() committed Processing='Y' outside the " +
+        "document transaction and an escaping exception would leave it set forever")
+      val before = lines.slice(0, loadAt).map(_.trim)
+      assert(before.last == "{" && before.init.last == "try",
+        "loadDocumentDetails() is not inside a try, so a DBException escapes post() "
+          + "with the record locked")
+
+      val catchAt = lines.indexWhere(l => l.trim.startsWith("catch (RuntimeException"), loadAt)
+      assert(catchAt > loadAt, "post() has no catch around loadDocumentDetails()")
+      val guarded = lines.slice(loadAt, catchAt + 7).map(_.trim)
+      assert(guarded.contains("releaseLocalTrx();"),
+        "the detail-read catch does not release the transaction")
+      assert(guarded.contains("unlock();"),
+        "the detail-read catch does not unlock, so the record never posts again")
+      assert(guarded.contains("throw exception;"),
+        "the detail-read catch swallows the exception instead of reporting it")
+    }    //	Scenario
+
+    Scenario("no spec deletes accounting rows without naming the table") {
+      Given("the two specs that seed and clean accounting rows")
+      val dir = new java.io.File(System.getProperty("user.dir"),
+        "src/test/scala/org/eevolution/test")
+      val specs = List("ValidateDocPostingTransaction.scala",
+        "ValidateDocPostingTrxBoundaries.scala")
+
+      When("every committed DELETE FROM fact_acct is read")
+      //	Record ids repeat across tables: an invoice id is also a shipment id.
+      //	A DELETE on record_id alone commits the removal of another document's
+      //	accounting, which nothing here can restore.
+      val unscoped = specs.flatMap { name =>
+        val source = scala.io.Source.fromFile(new java.io.File(dir, name))
+        try
+          source.mkString.split("\r?\n").map(_.trim)
+            .filter(l => l.startsWith("\"DELETE FROM fact_acct")
+              && !l.contains("ad_table_id"))
+            .map(name + ": " + _)
+        finally source.close()
+      }
+
+      Then("each one is scoped to the table it posts")
+      assert(unscoped.isEmpty,
+        "DELETE FROM fact_acct without ad_table_id would remove other documents' "
+          + "accounting: " + unscoped.mkString(" | "))
+    }    //	Scenario
+
+    Scenario("the deletion-failure guard is named for the run, not for the suite") {
+      Given("the source that arms and disarms the fact_acct trigger")
+      val dir = new java.io.File(System.getProperty("user.dir"),
+        "src/test/scala/org/eevolution/test")
+      val source = scala.io.Source.fromFile(
+        new java.io.File(dir, "ValidateDocPostingTransaction.scala"))
+      val text =
+        try source.mkString
+        finally source.close()
+
+      When("the CREATE and DROP statements are read")
+      val ddl = text.split("\r?\n").map(_.trim)
+        .filter(l => l.contains("CREATE TRIGGER") || l.contains("CREATE OR REPLACE FUNCTION")
+          || l.contains("DROP TRIGGER") || l.contains("DROP FUNCTION"))
+
+      Then("none of them carries a literal name a second run could drop")
+      val fixed = ddl.filter(_.contains("pr4492_fail_delete"))
+      assert(fixed.isEmpty,
+        "a fixed trigger name lets a concurrent run drop this one: "
+          + fixed.mkString(" | "))
+
+      And("they all derive the name from the per-run tag")
+      assert(ddl.nonEmpty, "no trigger DDL found, this guard is stale")
+      assert(ddl.forall(_.contains("guardTag")),
+        "trigger DDL not named from guardTag: "
+          + ddl.filterNot(_.contains("guardTag")).mkString(" | "))
     }    //	Scenario
     Scenario("no posting transaction is named after the record it posts") {
       Given("the source of the accounting engine")
@@ -531,9 +628,10 @@ class ValidateDocPostingTrxBoundaries
     if (invoiceId == 0) return
     Trx.run { name =>
       DB.executeUpdate(
-        "DELETE FROM fact_acct WHERE ad_client_id = ? AND record_id = ?",
+        "DELETE FROM fact_acct WHERE ad_client_id = ? AND ad_table_id = ? AND record_id = ?",
         Array[AnyRef](
           Integer.valueOf(client),
+          Integer.valueOf(MTable.get(Env.getCtx, "C_Invoice").getAD_Table_ID()),
           Integer.valueOf(invoiceId)),
         false, name)
       DB.executeUpdate(
