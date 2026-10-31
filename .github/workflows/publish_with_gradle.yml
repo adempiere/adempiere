@@ -3,18 +3,31 @@
 
 name: Publish With gradle to maven central
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the develop branch
   release:
-    types: 
+    types:
       - published
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
+  check-maven-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      is_have_secrets: ${{ steps.check.outputs.is_have_secrets }}
+    steps:
+      - id: check
+        run: |
+          if [ -n "${{ secrets.PGP_SECRET }}" ]; then
+            echo "is_have_secrets=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_have_secrets=false" >> $GITHUB_OUTPUT
+          fi
 
   # Build dist application backend
   build-app:
+    needs:
+      - check-maven-secrets
+    if: needs.check-maven-secrets.outputs.is_have_secrets == 'true'
     name: Publish with gradle to maven central
     runs-on: ubuntu-latest
     steps:
