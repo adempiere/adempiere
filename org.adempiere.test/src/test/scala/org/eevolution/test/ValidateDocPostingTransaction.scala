@@ -19,7 +19,7 @@ import java.util.logging.Level
 import org.adempiere.exceptions.DBException
 import org.adempiere.Adempiere
 import org.compiere.acct.Doc
-import org.compiere.model.{MAcctSchema, MDocType}
+import org.compiere.model.{MAcctSchema, MDocType, MInvoice}
 import org.compiere.util.{CLogMgt, DB, Env, Ini, Login, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
@@ -94,19 +94,31 @@ class ValidateDocPostingTransaction
       }
     }    //	Scenario
 
-    Scenario("the Doc does not inject its transaction name into the PO") {
+    Scenario("the document and its lines post on the transaction the Doc owns") {
       val client = Env.getContextAsInt(Context, "#AD_Client_ID")
 
-      Given("a processed sales invoice")
+      Given("a processed sales invoice, posted with no transaction of its own")
       val invoiceId = seedProcessedInvoice(client)
       assert(invoiceId > 0)
 
       try {
-        When("a Doc is constructed for the record")
+        When("the accounting engine builds the Doc without a transaction")
         withDoc(client, invoiceId) { doc =>
-          Then("the PO of the Doc carries no transaction name")
+          Then("the PO carries the transaction the Doc will commit")
           assert(doc.getPO() != null)
-          assert(doc.getPO().get_TrxName() == null)
+          assert(doc.getPO().get_TrxName() == doc.getTrxName(),
+            "the PO carries " + doc.getPO().get_TrxName() + " while the Doc owns "
+              + doc.getTrxName() + ", so the document writes outside its transaction")
+
+          And("the invoice lines reached through the PO inherit it, so their reads " +
+            "and the cost detail they write stay on the same connection")
+          val lines = doc.getPO().asInstanceOf[MInvoice].getLines(true)
+          assume(lines.nonEmpty, "seed invoice has no lines")
+          lines.foreach { line =>
+            assert(line.get_TrxName() == doc.getTrxName(),
+              "C_InvoiceLine " + line.getC_InvoiceLine_ID() + " carries "
+                + line.get_TrxName() + ", outside the posting transaction")
+          }
         }
       } finally {
         cleanup(client, invoiceId)
@@ -183,6 +195,20 @@ class ValidateDocPostingTransaction
           dateAcct,
           dateAcct),
         false, name)
+
+      DB.executeUpdate(
+        "INSERT INTO c_invoiceline (c_invoiceline_id, ad_client_id, ad_org_id, c_invoice_id, " +
+        "line, createdby, updatedby, m_product_id, c_uom_id, qtyinvoiced, qtyentered, " +
+        "priceactual, priceentered, pricelist, linenetamt) " +
+        "VALUES (?, ?, ?, ?, 10, 101, 101, ?, ?, 1, 1, 100, 100, 100, 100)",
+        Array[AnyRef](
+          Integer.valueOf(seed.invoiceLineId),
+          Integer.valueOf(client),
+          Integer.valueOf(orgId),
+          Integer.valueOf(seed.invoiceId),
+          Integer.valueOf(seed.product),
+          Integer.valueOf(seed.uom)),
+        false, name)
     }
     seed.invoiceId
   }    //	seedProcessedInvoice
@@ -192,13 +218,14 @@ class ValidateDocPostingTransaction
     * transaction so the seeding stays immutable.
     */
   private case class InvoiceSeed(invoiceId: Int, currency: Int, bpartnerLocation: Int,
-                                 paymentTerm: Int, priceList: Int, bpartner: Int)
+                                 paymentTerm: Int, priceList: Int, bpartner: Int,
+                                 invoiceLineId: Int, product: Int, uom: Int)
 
   private def readSeedParams(client: Int): InvoiceSeed = {
     val rs = execQuery(
       "SELECT (SELECT coalesce(max(c_invoice_id), 0) + 1000000 FROM c_invoice), " +
-      "(SELECT c_currency_id FROM fact_acct " +
-      "WHERE ad_client_id = ? AND c_currency_id > 0 ORDER BY c_currency_id LIMIT 1), " +
+      "(SELECT a.c_currency_id FROM c_acctschema a " +
+      "WHERE a.ad_client_id = ? AND a.isactive = 'Y' ORDER BY a.c_acctschema_id LIMIT 1), " +
       "(SELECT min(c_bpartner_location_id) FROM c_bpartner_location " +
       "WHERE ad_client_id = ? AND isactive = 'Y'), " +
       "(SELECT min(c_paymentterm_id) FROM c_paymentterm " +
@@ -206,8 +233,13 @@ class ValidateDocPostingTransaction
       "(SELECT min(m_pricelist_id) FROM m_pricelist " +
       "WHERE ad_client_id = ? AND isactive = 'Y'), " +
       "(SELECT min(c_bpartner_id) FROM c_bpartner " +
-      "WHERE ad_client_id = ? AND isactive = 'Y')",
+      "WHERE ad_client_id = ? AND isactive = 'Y'), " +
+      "(SELECT coalesce(max(c_invoiceline_id), 0) + 2000000 FROM c_invoiceline), " +
+      "(SELECT min(m_product_id) FROM m_product WHERE ad_client_id = ? AND isactive = 'Y'), " +
+      "(SELECT min(c_uom_id) FROM c_uom WHERE ad_client_id IN (0, ?) AND isactive = 'Y')",
       Array[AnyRef](
+        Integer.valueOf(client),
+        Integer.valueOf(client),
         Integer.valueOf(client),
         Integer.valueOf(client),
         Integer.valueOf(client),
@@ -221,7 +253,10 @@ class ValidateDocPostingTransaction
         rs.getInt(3),
         rs.getInt(4),
         rs.getInt(5),
-        rs.getInt(6))
+        rs.getInt(6),
+        rs.getInt(7),
+        rs.getInt(8),
+        rs.getInt(9))
     } finally {
       DB.close(rs)
     }
@@ -294,8 +329,8 @@ class ValidateDocPostingTransaction
     var currency = 0
     Trx.run { name =>
       val rs = execQuery(
-        "SELECT c_currency_id FROM fact_acct " +
-        "WHERE ad_client_id = ? AND c_currency_id > 0 ORDER BY c_currency_id LIMIT 1",
+        "SELECT c_currency_id FROM c_acctschema " +
+        "WHERE ad_client_id = ? AND isactive = 'Y' ORDER BY c_acctschema_id LIMIT 1",
         Array[AnyRef](Integer.valueOf(client)))
       rs.next()
       currency = rs.getInt(1)
@@ -374,6 +409,10 @@ class ValidateDocPostingTransaction
         Array[AnyRef](
           Integer.valueOf(client),
           Integer.valueOf(invoiceId)),
+        false, name)
+      DB.executeUpdate(
+        "DELETE FROM c_invoiceline WHERE c_invoice_id = ?",
+        Array[AnyRef](Integer.valueOf(invoiceId)),
         false, name)
       DB.executeUpdate(
         "DELETE FROM c_invoice WHERE c_invoice_id = ?",
