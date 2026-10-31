@@ -16,7 +16,6 @@ package org.eevolution.test
 import java.sql.ResultSet
 import java.util.logging.Level
 
-import org.adempiere.exceptions.DBException
 import org.adempiere.Adempiere
 import org.compiere.acct.Doc
 import org.compiere.model.{MAcctSchema, MDocType, MInvoice}
@@ -25,22 +24,43 @@ import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
 /**
-  * Regression test for adempiere/adempiere#4433:
-  * Constructing a posting Doc for a record must assign a per-run unique
-  * transaction (a deterministic name derived from the document type and
-  * record ID reuses a stale leftover transaction after an aborted post and
-  * shares one JDBC connection across concurrent posts of the same document),
-  * must not inject that transaction into the PO, and the Doc's accounting
-  * deletion must remove exactly the record's facts and rely on the
-  * fail-fast DB.executeUpdateEx, so a failed DELETE FROM Fact_Acct aborts
-  * the post instead of leaving duplicated fact lines behind.
+  * Regression test for adempiere/adempiere#4433.
   *
-  * The spec seeds its own processed (not posted) sales invoice and, for the
-  * deletion scenario, three accounting facts on the record. The seeded rows
-  * are removed at the end.
+  * Constructing a posting Doc for a record must assign a per-run unique
+  * transaction: a deterministic name derived from the document type and record
+  * ID is unique per document, not per posting attempt, so two attempts on one
+  * record would share a transaction and the connection behind it.
+  *
+  * The Doc must then hand that transaction to the PO, so the document, its
+  * lines and the cost detail they read commit and roll back together. On the
+  * accounting server and on the UI forced repost the incoming trxName is null,
+  * and there the PO used to stay detached from the transaction Doc.post
+  * commits, leaving committed accounting behind after a rollback.
+  *
+  * The Doc's accounting deletion must remove exactly the record's facts and
+  * rely on the fail-fast DB.executeUpdateEx, so a failed DELETE FROM
+  * Fact_Acct aborts the post instead of leaving duplicated fact lines behind.
+  * That failure is induced here through Doc.deleteAcct, with a record-scoped
+  * trigger on fact_acct, not by calling DB.executeUpdateEx directly: a test
+  * that sends its own SQL proves the test, not the code.
+  *
+  * The spec seeds its own processed invoice and, for the deletion scenarios,
+  * three accounting facts on the record. Seeded rows are removed at the end,
+  * and the trigger is dropped by the scenario that armed it and again by
+  * afterAll, since it is DDL on a table every posting shares.
   */
 class ValidateDocPostingTransaction
     extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen {
+
+  /**
+    * Drop the deletion-failure trigger even if a scenario aborted before its
+    * own cleanup: it is DDL on a table every posting shares, so leaving it
+    * behind would refuse accounting deletes for the rest of the database.
+    */
+  override def afterAll(): Unit = {
+    disarmDeleteFailure()
+    super.afterAll()
+  }    //	afterAll
 
   /**
     * Start Adempiere with the standard GardenWorld demo credentials.
@@ -145,23 +165,104 @@ class ValidateDocPostingTransaction
 
           And("no accounting fact of the record remains")
           assert(countFacts(client, invoiceId, invoiceTableId) == 0)
+        }
+      } finally {
+        cleanup(client, invoiceId)
+      }
+    }    //	Scenario
 
-          And("a failing fact deletion aborts with an exception instead of being swallowed")
-          val failedTrx = Trx.createTrxName("ValidateDocPosting_")
-          try {
-            intercept[DBException](
-              DB.executeUpdateEx(
-                "DELETE Fact_Acct WHERE AD_Table_ID=1 AND Record_ID=1 WHERE",
-                failedTrx))
-          } finally {
-            closeTrx(failedTrx)
-          }
+    Scenario("a failing accounting deletion aborts the post through the Doc") {
+      val client = Env.getContextAsInt(Context, "#AD_Client_ID")
+      val invoiceTableId = adTableId("C_Invoice")
+
+      Given("a posted sales invoice with three accounting facts")
+      val invoiceId = seedProcessedInvoice(client)
+      seedFacts(client, invoiceId, invoiceTableId, 3)
+      markPosted(client, invoiceId)
+      assert(countFacts(client, invoiceId, invoiceTableId) == 3)
+
+      try {
+        And("the accounting table refuses a delete of that record")
+        armDeleteFailure(invoiceId)
+        try {
+          When("the accounting engine reposts the document")
+          val doc = newDocForInvoice(client, invoiceId)
+          val trxName = doc.getTrxName()
+          val error =
+            try doc.post(false, true)
+            finally closeTrx(trxName)
+
+          Then("the post reports the accounting deletion failure")
+          assert(error != null, "the post accepted a failing accounting deletion")
+          assert(error.contains("FactAcctDeleteFailed"),
+            "expected the post to abort with FactAcctDeleteFailed, got: " + error)
+
+          And("the facts of the record are still there, the delete rolled back")
+          assert(countFacts(client, invoiceId, invoiceTableId) == 3,
+            "the aborted post left " + countFacts(client, invoiceId, invoiceTableId)
+              + " of 3 facts, so the deletion did not roll back")
+
+          And("the document is unlocked, so it can be posted again")
+          assert(!isProcessing(client, invoiceId),
+            "the aborted post left the document locked")
+
+          And("the transaction the Doc opened is released")
+          assert(Trx.get(trxName, false) == null,
+            "transaction " + trxName + " leaked after the deletion failed")
+        } finally {
+          disarmDeleteFailure()
         }
       } finally {
         cleanup(client, invoiceId)
       }
     }    //	Scenario
   }    //	Feature
+
+  /**
+    * Make Fact_Acct refuse a delete of this record, so a failing accounting
+    * deletion is induced through Doc.deleteAcct instead of being sent straight
+    * to DB.executeUpdateEx. The trigger is scoped to the record, so no other
+    * accounting row is touched, and it is dropped by the scenario that armed it.
+    */
+  private def armDeleteFailure(recordId: Int): Unit = {
+    DB.executeUpdateEx(
+      "CREATE OR REPLACE FUNCTION pr4492_fail_delete() RETURNS trigger AS $$ " +
+      "BEGIN IF OLD.record_id = " + recordId + " THEN RAISE EXCEPTION " +
+      "'accounting deletion refused by test'; END IF; RETURN OLD; END; $$ LANGUAGE plpgsql",
+      null)
+    DB.executeUpdateEx(
+      "CREATE TRIGGER pr4492_fail_delete BEFORE DELETE ON fact_acct " +
+      "FOR EACH ROW EXECUTE FUNCTION pr4492_fail_delete()",
+      null)
+  }    //	armDeleteFailure
+
+  private def disarmDeleteFailure(): Unit = {
+    DB.executeUpdateEx("DROP TRIGGER IF EXISTS pr4492_fail_delete ON fact_acct", null)
+    DB.executeUpdateEx("DROP FUNCTION IF EXISTS pr4492_fail_delete()", null)
+  }    //	disarmDeleteFailure
+
+  private def markPosted(client: Int, invoiceId: Int): Unit = {
+    Trx.run { name =>
+      DB.executeUpdate(
+        "UPDATE c_invoice SET posted = 'Y' WHERE ad_client_id = ? AND c_invoice_id = ?",
+        Array[AnyRef](Integer.valueOf(client), Integer.valueOf(invoiceId)),
+        false, name)
+    }
+  }    //	markPosted
+
+  private def isProcessing(client: Int, invoiceId: Int): Boolean = {
+    var processing = false
+    val rs = execQuery(
+      "SELECT processing FROM c_invoice WHERE ad_client_id = ? AND c_invoice_id = ?",
+      Array[AnyRef](Integer.valueOf(client), Integer.valueOf(invoiceId)))
+    try {
+      if (rs.next())
+        processing = "Y".equals(rs.getString(1))
+    } finally {
+      DB.close(rs)
+    }
+    processing
+  }    //	isProcessing
 
   /**
     * Seed a processed (not posted) sales invoice on the current date. The
