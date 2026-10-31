@@ -29,14 +29,6 @@
 
 package org.eevolution.wms.process;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import org.adempiere.core.domains.models.I_DD_Order;
 import org.adempiere.core.domains.models.X_C_Order;
 import org.adempiere.exceptions.AdempiereException;
@@ -55,9 +47,17 @@ import org.eevolution.distribution.process.MovementGenerate;
 import org.eevolution.manufacturing.model.MPPCostCollector;
 import org.eevolution.manufacturing.model.MPPOrder;
 import org.eevolution.manufacturing.model.MPPOrderBOMLine;
+import org.eevolution.services.dsl.ProcessBuilder;
 import org.eevolution.wms.model.MWMInOutBound;
 import org.eevolution.wms.model.MWMInOutBoundLine;
-import org.eevolution.services.dsl.ProcessBuilder;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
@@ -189,7 +189,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                      !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
             else
-                qtyToDelivery = salesOrderQtyToDelivery;
+                qtyToDelivery = outboundOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
@@ -210,7 +210,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                      !X_C_Order.DELIVERYRULE_Manual.equals(orderBOMLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
             else
-                qtyToDelivery = manufacturingOrderQtyToDelivery;
+                qtyToDelivery = outboundOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
@@ -231,7 +231,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                      !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
             else
-                qtyToDelivery = distributionOrderQtyToDelivery;
+                qtyToDelivery = outboundOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
