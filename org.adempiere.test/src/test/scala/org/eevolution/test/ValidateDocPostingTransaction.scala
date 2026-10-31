@@ -178,27 +178,31 @@ class ValidateDocPostingTransaction
           When("the accounting engine reposts the document")
           val doc = newDocForInvoice(client, invoiceId)
           val trxName = doc.getTrxName()
-          val error =
-            try doc.post(false, true)
-            finally closeTrx(trxName)
+          try {
+            val error = doc.post(false, true)
 
-          Then("the post reports the accounting deletion failure")
-          assert(error != null, "the post accepted a failing accounting deletion")
-          assert(error.contains("FactAcctDeleteFailed"),
-            "expected the post to abort with FactAcctDeleteFailed, got: " + error)
+            Then("the post reports the accounting deletion failure")
+            assert(error != null, "the post accepted a failing accounting deletion")
+            assert(error.contains("FactAcctDeleteFailed"),
+              "expected the post to abort with FactAcctDeleteFailed, got: " + error)
 
-          And("the facts of the record are still there, the delete rolled back")
-          assert(countFacts(client, invoiceId, invoiceTableId) == 3,
-            "the aborted post left " + countFacts(client, invoiceId, invoiceTableId)
-              + " of 3 facts, so the deletion did not roll back")
+            And("the facts of the record are still there")
+            assert(countFacts(client, invoiceId, invoiceTableId) == 3,
+              "the aborted post left " + countFacts(client, invoiceId, invoiceTableId)
+                + " of 3 facts")
 
-          And("the document is unlocked, so it can be posted again")
-          assert(!isProcessing(client, invoiceId),
-            "the aborted post left the document locked")
+            And("the document is unlocked, so it can be posted again")
+            assert(!isProcessing(client, invoiceId),
+              "the aborted post left the document locked")
 
-          And("the transaction the Doc opened is released")
-          assert(Trx.get(trxName, false) == null,
-            "transaction " + trxName + " leaked after the deletion failed")
+            And("the transaction the Doc opened is released")
+            assert(Trx.get(trxName, false) == null,
+              "transaction " + trxName + " leaked after the deletion failed")
+          } finally {
+            //  Closed after the release assertion: closing when post returns would
+            //  close the leak this scenario is looking for and read it as clean.
+            closeTrx(trxName)
+          }
         } finally {
           disarmDeleteFailure()
         }
