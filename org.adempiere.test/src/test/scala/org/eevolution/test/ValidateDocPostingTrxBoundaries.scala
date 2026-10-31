@@ -359,6 +359,31 @@ class ValidateDocPostingTrxBoundaries
         "trigger DDL not named from guardTag: "
           + ddl.filterNot(_.contains("guardTag")).mkString(" | "))
     }    //	Scenario
+
+    Scenario("the leak is checked before the transaction is closed") {
+      Given("the scenario that posts against a refusing accounting table")
+      val dir = new java.io.File(System.getProperty("user.dir"),
+        "src/test/scala/org/eevolution/test")
+      val source = scala.io.Source.fromFile(
+        new java.io.File(dir, "ValidateDocPostingTransaction.scala"))
+      val lines =
+        try source.getLines().map(_.trim).toVector
+        finally source.close()
+
+      When("the release assertion and the closing are located")
+      val asserted = lines.indexWhere(_.startsWith("assert(Trx.get(trxName, false) == null"))
+      val closed = lines.indexWhere(l => l.startsWith("closeTrx(trxName)"))
+
+      Then("both exist")
+      assert(asserted >= 0, "no transaction release assertion in the scenario")
+      assert(closed >= 0, "no closeTrx(trxName) in the scenario")
+
+      And("the assertion runs first, so it cannot read a leak it just closed")
+      assert(asserted < closed,
+        "closeTrx at line " + (closed + 1) + " closes the transaction before the "
+          + "release assertion at line " + (asserted + 1) + ", which would then pass "
+          + "on a transaction this spec closed itself")
+    }    //	Scenario
     Scenario("no posting transaction is named after the record it posts") {
       Given("the source of the accounting engine")
       val file = new java.io.File(System.getProperty("user.dir"),
