@@ -20,8 +20,10 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchemaElement;
@@ -31,6 +33,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 
 
 /**
@@ -534,8 +537,8 @@ public class TrialBalance extends SvrProcess
 		//
 		sql.append(" FROM Fact_Acct WHERE AD_Client_ID=").append(getAD_Client_ID())
 			.append (" AND ").append(m_parameterWhere)
-			.append(" AND DateAcct >= ").append(DB.TO_DATE(p_DateAcct_From, true))
-			.append(" AND TRUNC(DateAcct, 'DD') <= ").append(DB.TO_DATE(p_DateAcct_To, true));
+			.append(" AND DateAcct >= ?")
+			.append(" AND DateAcct <= ?");
 		//
 		sql.append(" AND Account_ID IN (");
 		if (plID != null && !plID.isEmpty())
@@ -547,8 +550,15 @@ public class TrialBalance extends SvrProcess
 			sql.append(bsID);
 		}
 		sql.append(")");
+		//
+		List<Object> parameters = new ArrayList<>();
+		//	Normalised to the day: the previous DB.TO_DATE(p_DateAcct_From, true)
+		//	rendered a day-only literal, so binding the raw parameter would keep its
+		//	time component and exclude valid facts dated earlier on the start day.
+		parameters.add(TimeUtil.getDay(p_DateAcct_From));
+		parameters.add(TimeUtil.getDay(p_DateAcct_To));
 		
-		int no = DB.executeUpdate(sql.toString(), get_TrxName());
+		int no = DB.executeUpdateEx(sql.toString(), parameters.toArray(), get_TrxName());
 		if (no == 0)
 			log.fine(sql.toString());
 		log.fine("#" + no + " (Account_ID=" + p_Account_ID + ")");
