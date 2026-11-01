@@ -21,14 +21,13 @@ import org.adempiere.core.domains.models.X_AD_Package_Exp_Detail
 import org.adempiere.pipo.PackOut
 import org.compiere.model.{MPackageExp, MPInstance, MProcess, MTable}
 import org.compiere.process.ProcessInfo
-import org.compiere.util.{CLogMgt, DB, Env, Ini, Login, Trx}
+import org.compiere.util.{DB, Env, Ini, LoggingSnapshot, Login, Trx}
 import org.scalatest.GivenWhenThen
 import org.scalatest.BeforeAndAfterAll
 import org.scalatest.featurespec.AnyFeatureSpec
 
 import java.nio.charset.{Charset, CodingErrorAction}
 import java.nio.file.{Files, Path}
-import java.util.logging.Level
 
 /**
   * Regression test for https://github.com/adempiere/adempiere/issues/4199
@@ -65,14 +64,18 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
 
   override def beforeAll(): Unit = {
     Adempiere.startup(false)
+    //	The levels startup applied come from Ini.P_TRACELEVEL, so they are not a
+    //	fixed SEVERE. Capture them before silencing and give them back exactly:
+    //	restoring a guessed SEVERE would leave every later suite in this JVM on
+    //	the wrong level, and would pin loggers that were inheriting.
+    val snapshot = LoggingSnapshot.capture()
     // Everything from the moment logging is switched OFF has to run inside the
     // try. Anything in here can abort beforeAll - a failed Ini write, the Login
     // constructor, or ScalaTest's fail(...) on a rejected login - and without the
     // finally the runner would keep every other suite in this JVM with logging
     // silenced.
     try {
-      CLogMgt.setLevel(Level.OFF)
-      CLogMgt.setLoggerLevel(Level.OFF, null)
+      LoggingSnapshot.silence()
 
       Ini.setProperty(Ini.P_UID, "SuperUser")
       Ini.setProperty(Ini.P_PWD, "System")
@@ -88,8 +91,7 @@ class ValidatePackOutUtf8Encoding extends AnyFeatureSpec
           s"${Ini.getProperty(Ini.P_CLIENT)}/${Ini.getProperty(Ini.P_ORG)}: " +
           "aborting the suite instead of killing the JVM, so the runner can report it")
     } finally {
-      CLogMgt.setLoggerLevel(Level.SEVERE, null)
-      CLogMgt.setLevel(Level.SEVERE)
+      snapshot.restore()
     }
   }
 
