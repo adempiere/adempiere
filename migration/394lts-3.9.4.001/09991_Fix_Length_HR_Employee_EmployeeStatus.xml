@@ -3,18 +3,10 @@
   <Migration EntityType="D" Name="Fix Length for HR_Employee EmployeeStatus"
              ReleaseNo="3.9.5" SeqNo="9991">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>DO $$ BEGIN PERFORM deps_save_and_drop_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false,"populate_materialized_view": true}'); END $$</SQLStatement>
-      <RollbackStatement>DO $$ BEGIN PERFORM deps_restore_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false}'); END $$</RollbackStatement>
-    </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="20" StepType="SQL">
       <SQLStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(2)</SQLStatement>
       <RollbackStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(1)</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
-      <SQLStatement>DO $$ BEGIN PERFORM deps_restore_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false}'); END $$</SQLStatement>
-      <RollbackStatement>DO $$ BEGIN PERFORM deps_save_and_drop_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false,"populate_materialized_view": true}'); END $$</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="40" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
       <SQLStatement>ALTER TABLE HR_Employee
 MODIFY EmployeeStatus NVARCHAR2(2) DEFAULT NULL
 ;</SQLStatement>
