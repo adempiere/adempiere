@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fix Length for HR_Employee EmployeeStatus" ReleaseNo="3.9.5" SeqNo="9991">
+  <Migration EntityType="D" Name="Fix Length for HR_Employee EmployeeStatus"
+             ReleaseNo="3.9.5" SeqNo="9991">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>INSERT INTO t_alter_column values('hr_employee','EmployeeStatus','VARCHAR(2)',null,'NULL')
-;</SQLStatement>
-      <RollbackStatement>INSERT INTO t_alter_column values('hr_employee','EmployeeStatus','VARCHAR(1)',null,'NULL')
-;</RollbackStatement>
+      <SQLStatement>SELECT deps_save_and_drop_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false,"populate_materialized_view": true}')</SQLStatement>
+      <RollbackStatement>SELECT deps_restore_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false}')</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
-      <SQLStatement>ALTER TABLE HR_Employee MODIFY EmployeeStatus NVARCHAR2(2) DEFAULT NULL
+    <Step DBType="Postgres" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(2)</SQLStatement>
+      <RollbackStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(1)</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>SELECT deps_restore_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false}')</SQLStatement>
+      <RollbackStatement>SELECT deps_save_and_drop_dependencies(current_schema(), 'hr_employee', '{"dry_run": false,"verbose": false,"populate_materialized_view": true}')</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="40" StepType="SQL">
+      <SQLStatement>ALTER TABLE HR_Employee
+MODIFY EmployeeStatus NVARCHAR2(2) DEFAULT NULL
 ;</SQLStatement>
-      <RollbackStatement>ALTER TABLE HR_Employee MODIFY EmployeeStatus NVARCHAR2(1) DEFAULT NULL
+      <RollbackStatement>ALTER TABLE HR_Employee
+MODIFY EmployeeStatus NVARCHAR2(1) DEFAULT NULL
 ;</RollbackStatement>
     </Step>
   </Migration>
