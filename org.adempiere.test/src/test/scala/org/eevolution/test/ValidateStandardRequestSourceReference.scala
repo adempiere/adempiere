@@ -1,21 +1,23 @@
 package org.eevolution.test
 
-import org.compiere.model.{MOrg, MRequest, MStandardRequest, MStandardRequestType, Query}
+import org.compiere.model.{MOrg, MRequest, MRequestType, MStandardRequest, MStandardRequestType, PO, Query}
 import org.compiere.util.Env
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
+import scala.jdk.CollectionConverters.*
 
 /** Issue #4444: generated requests retain the definition that created them. */
 class ValidateStandardRequestSourceReference extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen {
   Feature("Standard request source reference") {
-    Scenario("two definitions of one type persist distinct sources; an independent request has none (#4444)") {
+    Scenario("definitions sharing a summary persist distinct sources; an independent request has none (#4444)") {
       Given("a request type and category in the test client")
       // AdempiereTestCase rolls this transaction back in afterAll.
-      val requestType = new Query(Context, "R_RequestType", "IsActive='Y'", trxName)
-        .setClient_ID().first().asInstanceOf[org.compiere.model.MRequestType]
-      val category = new Query(Context, "R_Category", "IsActive='Y'", trxName)
+      val requestType: MRequestType = new Query(Context, "R_RequestType", "IsActive='Y'", trxName)
         .setClient_ID().first()
-      assert(requestType != null && category != null, "test client needs a request type and category")
+      val category: PO = new Query(Context, "R_Category", "IsActive='Y'", trxName)
+        .setClient_ID().first()
+      assert(Option(requestType).isDefined && Option(category).isDefined,
+        "test client needs a request type and category")
 
       val sourceType = new MStandardRequestType(Context, 0, trxName)
       sourceType.setName("Regression source " + java.util.UUID.randomUUID().toString)
@@ -23,12 +25,13 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
       sourceType.setEventModelValidator(MStandardRequestType.EVENTMODELVALIDATOR_TableAfterChange)
       sourceType.saveEx()
 
-      def definition(label: String): MStandardRequest = {
+      def definition(summary: String, subject: String): MStandardRequest = {
         val source = new MStandardRequest(Context, 0, trxName)
         source.setR_StandardRequestType_ID(sourceType.getR_StandardRequestType_ID)
         source.setR_RequestType_ID(requestType.getR_RequestType_ID)
         source.setR_Category_ID(category.get_ID)
-        source.setSummary(label)
+        source.setSummary(summary)
+        source.setSubject(subject)
         source.setConfidentialTypeEntry(MStandardRequest.CONFIDENTIALTYPEENTRY_PublicInformation)
         source.setDueType(MStandardRequest.DUETYPE_Due)
         source.setPriority(MStandardRequest.PRIORITY_Medium)
@@ -38,26 +41,30 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
         source
       }
 
-      When("two definitions generate requests for the same organization")
-      val first = definition("First standard source")
-      val second = definition("Second standard source")
-      assert(first.getR_StandardRequest_ID != second.getR_StandardRequest_ID)
+      When("three definitions, including two with the same summary, generate requests")
+      val first = definition("Shared standard source", "First source subject")
+      val second = definition("Second standard source", "Second source subject")
+      val third = definition("Shared standard source", "Third source subject")
+      val definitions = List(first, second, third)
+      assert(definitions.map(_.getR_StandardRequest_ID).distinct.size == 3)
 
       val entity = new MOrg(Context, Env.getAD_Org_ID(Context), trxName)
       assert(entity.get_ID > 0)
       val generated = sourceType.createStandardRequest(entity)
-      assert(generated.size() == 2)
-      val persisted = generated.toArray.map { item =>
-        new MRequest(Context, item.asInstanceOf[MRequest].getR_Request_ID, trxName)
-      }
+      assert(generated.size() == 3)
+      val persisted = generated.asScala.map { generatedRequest =>
+        new MRequest(Context, generatedRequest.getR_Request_ID, trxName)
+      }.toList
       Then("each persisted request retains its own source definition")
       assert(persisted.forall(_.get_ID > 0))
       assert(persisted.map(_.get_ValueAsInt("R_StandardRequest_ID")).toSet ==
-        Set(first.getR_StandardRequest_ID, second.getR_StandardRequest_ID))
+        definitions.map(_.getR_StandardRequest_ID).toSet)
+      val definitionsById = definitions.map(source => source.getR_StandardRequest_ID -> source).toMap
       persisted.foreach { request =>
-        val source = if (request.getSummary == first.getSummary) first else second
-        assert(request.getSummary == source.getSummary)
-        assert(request.get_ValueAsInt("R_StandardRequest_ID") == source.getR_StandardRequest_ID)
+        val sourceId = request.get_ValueAsInt("R_StandardRequest_ID")
+        assert(definitionsById.get(sourceId).exists { source =>
+          request.getSummary == source.getSummary && request.getSubject == source.getSubject
+        })
       }
 
       And("a separately created request has no source definition")
