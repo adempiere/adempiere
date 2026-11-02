@@ -148,7 +148,7 @@ public class CalloutInventory extends CalloutEngine
 	 */
 	private BigDecimal setQtyBook (int M_AttributeSetInstance_ID, int M_Product_ID, int M_Locator_ID) throws Exception {
 		// Set QtyBook from first storage location
-		BigDecimal bd = null;
+		BigDecimal bookQuantity = null;
 		String sql = "SELECT QtyOnHand FROM M_Storage "
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?"		//	2
@@ -158,32 +158,33 @@ public class CalloutInventory extends CalloutEngine
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?";	//	2
 		
-		try (PreparedStatement pstmt = DB.prepareStatement(sql, null))
+		try (PreparedStatement preparedStatement = DB.prepareStatement(sql, null))
 		{
-			pstmt.setInt(1, M_Product_ID);
-			pstmt.setInt(2, M_Locator_ID);
+			preparedStatement.setInt(1, M_Product_ID);
+			preparedStatement.setInt(2, M_Locator_ID);
 			if (M_AttributeSetInstance_ID != 0)
-				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			try (ResultSet rs = pstmt.executeQuery())
+				preparedStatement.setInt(3, M_AttributeSetInstance_ID);
+			try (ResultSet resultSet = preparedStatement.executeQuery())
 			{
-				if (rs.next())
+				if (resultSet.next())
 				{
-					bd = rs.getBigDecimal(1);
-					if (bd != null)
-						return bd;
+					bookQuantity = resultSet.getBigDecimal(1);
+					if (bookQuantity != null)
+						return bookQuantity;
 				} else {
 					// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows,
 					// for example when the locator has never stored a particular product.
-					return new BigDecimal(0);
+					return BigDecimal.ZERO;
 				}
 			}
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new Exception(e.getLocalizedMessage());
+			throw new Exception(e.getLocalizedMessage(), e);
 		}
-		return new BigDecimal(0);
+		//	Row found but QtyOnHand is null: keep the booked quantity at zero (gwu: 1719401).
+		return BigDecimal.ZERO;
 	}
 
     /**
