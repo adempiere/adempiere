@@ -2,12 +2,14 @@ package org.eevolution.test
 
 import org.compiere.model.{MOrg, MRequest, MStandardRequest, MStandardRequestType, Query}
 import org.compiere.util.Env
+import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
 /** Issue #4444: generated requests retain the definition that created them. */
-class ValidateStandardRequestSourceReference extends AnyFeatureSpec with AdempiereTestCase {
+class ValidateStandardRequestSourceReference extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen {
   Feature("Standard request source reference") {
-    Scenario("two definitions of one type persist distinct sources; an independent request has none") {
+    Scenario("two definitions of one type persist distinct sources; an independent request has none (#4444)") {
+      Given("a request type and category in the test client")
       // AdempiereTestCase rolls this transaction back in afterAll.
       val requestType = new Query(Context, "R_RequestType", "IsActive='Y'", trxName)
         .setClient_ID().first().asInstanceOf[org.compiere.model.MRequestType]
@@ -36,6 +38,7 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
         source
       }
 
+      When("two definitions generate requests for the same organization")
       val first = definition("First standard source")
       val second = definition("Second standard source")
       assert(first.getR_StandardRequest_ID != second.getR_StandardRequest_ID)
@@ -47,6 +50,7 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
       val persisted = generated.toArray.map { item =>
         new MRequest(Context, item.asInstanceOf[MRequest].getR_Request_ID, trxName)
       }
+      Then("each persisted request retains its own source definition")
       assert(persisted.forall(_.get_ID > 0))
       assert(persisted.map(_.get_ValueAsInt("R_StandardRequest_ID")).toSet ==
         Set(first.getR_StandardRequest_ID, second.getR_StandardRequest_ID))
@@ -56,6 +60,7 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
         assert(request.get_ValueAsInt("R_StandardRequest_ID") == source.getR_StandardRequest_ID)
       }
 
+      And("a separately created request has no source definition")
       val independent = new MRequest(Context, 0, trxName)
       independent.setR_RequestType_ID(requestType.getR_RequestType_ID)
       independent.setR_Category_ID(category.get_ID)
