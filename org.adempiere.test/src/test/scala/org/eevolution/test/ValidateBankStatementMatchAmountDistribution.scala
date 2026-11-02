@@ -155,6 +155,16 @@ class ValidateBankStatementMatchAmountDistribution
       assert(sameAmount(totalOf(distribution)(_.getChargeAmt), amount("-50.00")),
         "the 50.00 over payment must be reflected as a negative charge")
 
+      And("the smallest line takes the whole remainder, not the biggest one")
+      assert(sameAmount(lineFor(distribution, 1).getTrxAmt, amount("70.00")),
+        "the 20.00 line must take the 50.00 remainder on top of its own 20.00")
+      assert(sameAmount(lineFor(distribution, 1).getChargeAmt, amount("-50.00")),
+        "the whole negative charge must sit on the smallest line")
+      assert(sameAmount(lineFor(distribution, 0).getTrxAmt, amount("30.00")),
+        "the biggest line must keep its own amount untouched")
+      assert(sameAmount(lineFor(distribution, 0).getChargeAmt, BigDecimal.ZERO),
+        "the biggest line must take no part of the remainder")
+
       And("each line still closes against the amount the bank moved")
       assertChargeClosesEveryLine(distribution)
       assert(sameAmount(totalOf(distribution)(_.getStmtAmt), amount("50.00")),
@@ -256,6 +266,18 @@ class ValidateBankStatementMatchAmountDistribution
       And("the signed applied amounts add up to the payment amount")
       assert(sameAmount(totalOf(distribution)(_.getTrxAmt), paymentAmount),
         s"the signed sum of TrxAmt must equal the payment amount $paymentAmount")
+
+      And("neither line takes a charge on an exact match")
+      assert(sameAmount(lineFor(distribution, 0).getChargeAmt, BigDecimal.ZERO),
+        "the income line must take no charge on an exact match")
+      assert(sameAmount(lineFor(distribution, 1).getChargeAmt, BigDecimal.ZERO),
+        "the outcome line must take no charge on an exact match")
+
+      And("each line applies exactly the amount the bank moved")
+      assert(sameAmount(lineFor(distribution, 0).getTrxAmt, amount("150.00")),
+        "the income line must apply its own 150.00, not a shifted amount")
+      assert(sameAmount(lineFor(distribution, 1).getTrxAmt, amount("-50.00")),
+        "the outcome line must apply its own -50.00, not a shifted amount")
 
       And("each line closes against its own statement amount")
       assertChargeClosesEveryLine(distribution)
