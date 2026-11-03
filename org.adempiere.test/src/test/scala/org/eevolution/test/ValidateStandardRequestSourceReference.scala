@@ -1,5 +1,6 @@
 package org.eevolution.test
 
+import org.adempiere.core.domains.models.{I_AD_Org, X_R_StandardRequest, X_R_StandardRequestType}
 import org.compiere.model.{MOrg, MRequest, MRequestType, MStandardRequest, MStandardRequestType, PO, Query}
 import org.compiere.util.Env
 import org.scalatest.GivenWhenThen
@@ -21,8 +22,8 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
 
       val sourceType = new MStandardRequestType(Context, 0, trxName)
       sourceType.setName("Regression source " + java.util.UUID.randomUUID().toString)
-      sourceType.setAD_Table_ID(MOrg.Table_ID)
-      sourceType.setEventModelValidator(MStandardRequestType.EVENTMODELVALIDATOR_TableAfterChange)
+      sourceType.setAD_Table_ID(I_AD_Org.Table_ID)
+      sourceType.setEventModelValidator(X_R_StandardRequestType.EVENTMODELVALIDATOR_TableAfterChange)
       sourceType.saveEx()
 
       def definition(summary: String, subject: String): MStandardRequest = {
@@ -32,10 +33,10 @@ class ValidateStandardRequestSourceReference extends AnyFeatureSpec with Adempie
         source.setR_Category_ID(category.get_ID)
         source.setSummary(summary)
         source.setSubject(subject)
-        source.setConfidentialTypeEntry(MStandardRequest.CONFIDENTIALTYPEENTRY_PublicInformation)
-        source.setDueType(MStandardRequest.DUETYPE_Due)
-        source.setPriority(MStandardRequest.PRIORITY_Medium)
-        source.setDurationUnit(MStandardRequest.DURATIONUNIT_Day)
+        source.setConfidentialTypeEntry(X_R_StandardRequest.CONFIDENTIALTYPEENTRY_PublicInformation)
+        source.setDueType(X_R_StandardRequest.DUETYPE_Due)
+        source.setPriority(X_R_StandardRequest.PRIORITY_Medium)
+        source.setDurationUnit(X_R_StandardRequest.DURATIONUNIT_Day)
         source.setDuration(1)
         source.saveEx()
         source
