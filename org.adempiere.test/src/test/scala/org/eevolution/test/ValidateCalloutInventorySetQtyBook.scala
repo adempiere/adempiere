@@ -304,10 +304,13 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
     }
 
     Scenario("a pool of one connection fails when a callout keeps its connection") {
-      Given("a locator with stored quantity for the product Oak")
+      Given("a locator with stored quantity for the product Oak, and one without")
       val locator = committedLocator("PR4453 OneConn")
       val oak = getProductByValue("Oak")
       committedStorage(locator.getM_Locator_ID, oak.getM_Product_ID, 0, new BigDecimal("10"))
+      //	The second locator drives the no-row return path, the other leak named in
+      //	the issue: pre-fix it returned new BigDecimal(0) without closing either.
+      val emptyLocatorId = committedLocator("PR4453 OneConn Empty").getM_Locator_ID
       val field = longRunningPoolField
       val connection = loginConnection
       assume(field.isDefined && connection.isDefined,
@@ -316,17 +319,26 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
       //	One slot, borrowed with a short timeout: a statement returned without being
       //	closed keeps that slot until the garbage collector finalizes the proxy, so
       //	the next callout cannot borrow a connection. This is the discriminator:
-      //	the fix must pass, the leak must fail.
+      //	the fix must pass, the leak must fail. It depends on neither a pool count
+      //	nor on a collection: the statement is still reachable when the next borrow
+      //	happens, so no collector can rescue the leaking code.
       val temporaryPool = singleConnectionPool(connection.get)
       val originalPool = field.get.get(DB.getDatabase)
       field.get.set(DB.getDatabase, temporaryPool)
       try {
-        When("the callout runs repeatedly against that single slot")
+        When("the callout runs repeatedly over both leaking paths")
         var failure: Throwable = null
-        var quantities = List.empty[BigDecimal]
+        var calls = 0
         try {
           for (_ <- 1 to 10) {
-            quantities = setQtyBook(0, oak.getM_Product_ID, locator.getM_Locator_ID) :: quantities
+            //	the non-null quantity path, then the no-row path
+            val found = setQtyBook(0, oak.getM_Product_ID, locator.getM_Locator_ID)
+            assert(found.compareTo(new BigDecimal("10")) == 0,
+              s"expected the stored quantity 10 but got $found")
+            val missing = setQtyBook(0, oak.getM_Product_ID, emptyLocatorId)
+            assert(missing.compareTo(BigDecimal.ZERO) == 0,
+              s"the no-row path must return zero but got $missing")
+            calls += 2
           }
         } catch {
           case e: Throwable => failure = e
@@ -334,17 +346,15 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
         val borrowed = temporaryPool.getHikariPoolMXBean.getActiveConnections
         val served = temporaryPool.getHikariPoolMXBean.getTotalConnections
 
-        Then("every call returns the summed quantity and no borrow ever times out")
-        info(s"single slot served: total=$served borrowed=$borrowed over ${quantities.size} callouts")
+        Then("every call returns and no borrow ever times out")
+        info(s"single slot: served=$served borrowed=$borrowed completed=$calls of 20 callouts")
         //	Without this the scenario would be vacuous: a pool that never created a
         //	connection proves nothing about who answered the callouts.
         assert(served > 0, "the single-slot pool must have served the callouts")
         if (failure != null)
-          fail(s"a callout could not borrow the only pooled connection, because a previous "
-            + s"one was returned without closing its statement: $failure")
-        assert(quantities.size == 10, "every callout must have returned")
-        assert(quantities.forall(_.compareTo(new BigDecimal("10")) == 0),
-          s"every callout must return the stored quantity 10, got $quantities")
+          fail(s"a callout could not borrow the only pooled connection after $calls calls, "
+            + s"because a previous one was returned without closing its statement: $failure")
+        assert(calls == 20, s"every callout must have returned, completed $calls of 20")
         assert(borrowed == 0, s"no connection may stay borrowed, got $borrowed")
       } finally {
         //	Hand the login pool back before anything else in the suite runs, and
