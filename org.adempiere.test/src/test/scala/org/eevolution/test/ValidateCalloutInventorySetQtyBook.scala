@@ -15,10 +15,11 @@
 
 package org.eevolution.test
 
-import java.lang.reflect.{InvocationTargetException, Method}
+import java.lang.reflect.{Field, InvocationTargetException, Method}
 import java.math.BigDecimal
 
-import com.zaxxer.hikari.HikariDataSource
+import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
+import org.compiere.db.{CConnection, DB_PostgreSQL}
 import org.compiere.model.{CalloutInventory, MStorage}
 import org.compiere.util.{DB, Trx}
 import org.eevolution.dsl.*
@@ -44,7 +45,10 @@ import scala.util.{Failure, Success, Try}
   *   - SUM path (no attribute set instance) with stored rows,
   *   - detail path (attribute set instance) binding the third parameter,
   *   - repeated callouts alternating both paths, to pin observable behaviour when
-  *     the same statement is taken and released over and over.
+  *     the same statement is taken and released over and over,
+  *   - the same callouts against a pool of one connection, so that a statement
+  *     returned without being closed fails the next call instead of hiding behind
+  *     a large pool or behind the garbage collector.
   *
   * The fixtures are committed (saveEx) on purpose: setQtyBook opens its own
   * statement with a null transaction name (DB.prepareStatement(sql, null)), so
@@ -145,6 +149,54 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
       case Success(pool: HikariDataSource) => Some(pool.getHikariPoolMXBean.getActiveConnections)
       case _ => None
     }
+
+  /**
+    * The long running pool of the login database driver, so the scenario that
+    * swaps it can put it back.
+    *
+    * The private field of DB_PostgreSQL is reached reflectively because reading it
+    * is the only way to know whether a pool already exists without creating one as
+    * a side effect.
+    */
+  private def longRunningPoolField: Option[Field] =
+    Try {
+      val field = DB.getDatabase.getClass.getDeclaredField("datasourceLongRunning")
+      field.setAccessible(true)
+      field
+    }.toOption
+
+  /**
+    * The login connection, reached reflectively for its url and credentials so the
+    * scenario can build its own pool without changing the login configuration.
+    */
+  private def loginConnection: Option[CConnection] =
+    Try {
+      val field = classOf[DB].getDeclaredField("s_cc")
+      field.setAccessible(true)
+      field.get(null).asInstanceOf[CConnection]
+    }.toOption
+
+  /**
+    * A pool of one connection, borrowing with a short timeout.
+    *
+    * A single slot is what turns the leak of issue #4452 into a failure: the
+    * pre-fix return paths hand back a statement that was never closed, and the
+    * pooled connection stays borrowed until that statement is garbage collected,
+    * so the next callout cannot borrow a connection. Closing on every path, as the
+    * fix does, returns the slot immediately and the loop runs.
+    */
+  private def singleConnectionPool(connection: CConnection): HikariDataSource = {
+    val config = new HikariConfig()
+    config.setDriverClassName(DB_PostgreSQL.DRIVER)
+    config.setJdbcUrl(connection.getConnectionURL)
+    config.setUsername(connection.getDbUid)
+    config.setPassword(connection.getDbPwd)
+    config.setMaximumPoolSize(1)
+    config.setMinimumIdle(0)
+    config.setConnectionTimeout(2000)
+    config.setPoolName("PR4453SingleConnection")
+    new HikariDataSource(config)
+  }
 
   Feature("CalloutInventory.setQtyBook closes its database resources") {
     info("Issue #4452: every return path of setQtyBook must close the statement and the result set")
@@ -248,6 +300,57 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
       //	guarantee structurally, without waiting for a collection.
       borrowedPoolConnections.foreach { borrowed =>
         info(s"borrowed pool connections after 60 callouts: $borrowed (diagnostic only, not asserted)")
+      }
+    }
+
+    Scenario("a pool of one connection fails when a callout keeps its connection") {
+      Given("a locator with stored quantity for the product Oak")
+      val locator = committedLocator("PR4453 OneConn")
+      val oak = getProductByValue("Oak")
+      committedStorage(locator.getM_Locator_ID, oak.getM_Product_ID, 0, new BigDecimal("10"))
+      val field = longRunningPoolField
+      val connection = loginConnection
+      assume(field.isDefined && connection.isDefined,
+        "the login driver exposes no long running pool and connection to swap")
+
+      //	One slot, borrowed with a short timeout: a statement returned without being
+      //	closed keeps that slot until the garbage collector finalizes the proxy, so
+      //	the next callout cannot borrow a connection. This is the discriminator:
+      //	the fix must pass, the leak must fail.
+      val temporaryPool = singleConnectionPool(connection.get)
+      val originalPool = field.get.get(DB.getDatabase)
+      field.get.set(DB.getDatabase, temporaryPool)
+      try {
+        When("the callout runs repeatedly against that single slot")
+        var failure: Throwable = null
+        var quantities = List.empty[BigDecimal]
+        try {
+          for (_ <- 1 to 10) {
+            quantities = setQtyBook(0, oak.getM_Product_ID, locator.getM_Locator_ID) :: quantities
+          }
+        } catch {
+          case e: Throwable => failure = e
+        }
+        val borrowed = temporaryPool.getHikariPoolMXBean.getActiveConnections
+        val served = temporaryPool.getHikariPoolMXBean.getTotalConnections
+
+        Then("every call returns the summed quantity and no borrow ever times out")
+        info(s"single slot served: total=$served borrowed=$borrowed over ${quantities.size} callouts")
+        //	Without this the scenario would be vacuous: a pool that never created a
+        //	connection proves nothing about who answered the callouts.
+        assert(served > 0, "the single-slot pool must have served the callouts")
+        if (failure != null)
+          fail(s"a callout could not borrow the only pooled connection, because a previous "
+            + s"one was returned without closing its statement: $failure")
+        assert(quantities.size == 10, "every callout must have returned")
+        assert(quantities.forall(_.compareTo(new BigDecimal("10")) == 0),
+          s"every callout must return the stored quantity 10, got $quantities")
+        assert(borrowed == 0, s"no connection may stay borrowed, got $borrowed")
+      } finally {
+        //	Hand the login pool back before anything else in the suite runs, and
+        //	close the temporary one so its single backend does not linger.
+        field.get.set(DB.getDatabase, originalPool)
+        Try(temporaryPool.close())
       }
     }
   }
