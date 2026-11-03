@@ -482,12 +482,22 @@ public class ImportOrder extends ImportOrderAbstract {
         order.setC_BPartner_ID(partnerId);
         order.setC_BPartner_Location_ID(partnerLocationId);
         order.setBill_BPartner_ID(billToId);
-        if (importOrder != null && importOrder.getM_Warehouse_ID() > 0) {
-            order.setM_Warehouse_ID(importOrder.getM_Warehouse_ID());
-        }
+        setWarehouseFromImport(order, importOrder);
         order.saveEx();
         ordersImported.put(order.getC_Order_ID(), true);
         return order;
+    }
+
+    /**
+     * Set the warehouse from the imported order when one is provided.
+     *
+     * @param order order being created
+     * @param importOrder imported order row
+     */
+    static void setWarehouseFromImport(MOrder order, X_I_Order importOrder) {
+        if (importOrder != null && importOrder.getM_Warehouse_ID() > 0) {
+            order.setM_Warehouse_ID(importOrder.getM_Warehouse_ID());
+        }
     }
 
     /**
