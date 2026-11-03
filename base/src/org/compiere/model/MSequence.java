@@ -26,7 +26,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -41,8 +40,10 @@ import org.compiere.db.CConnection;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DecimalPatternUtil;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
 /**
@@ -613,7 +614,7 @@ public class MSequence extends X_AD_Sequence
 		if (prefix != null && prefix.length() > 0)
 			doc.append(Env.parseVariable(prefix, po, trxName, false));
 		if (decimalPattern != null && decimalPattern.length() > 0)
-			doc.append(new DecimalFormat(decimalPattern).format(next));
+			doc.append(DecimalPatternUtil.format(Env.getCtx(), decimalPattern, next));
 		else
 			doc.append(next);
 		if (suffix != null && suffix.length() > 0)
@@ -898,7 +899,7 @@ public class MSequence extends X_AD_Sequence
 		if (prefix != null && prefix.length() > 0)
 			doc.append(Env.parseVariable(prefix, po, trxName, false));
 		if (decimalPattern != null && decimalPattern.length() > 0)
-			doc.append(new DecimalFormat(decimalPattern).format(next));
+			doc.append(DecimalPatternUtil.format(Env.getCtx(), decimalPattern, next));
 		else
 			doc.append(next);
 		if (suffix != null && suffix.length() > 0)
@@ -908,6 +909,33 @@ public class MSequence extends X_AD_Sequence
 				+ " - C_DocType_ID=" + C_DocType_ID + " [" + trx + "]");
 		return documentNo;
 	}	//	getDocumentNo
+
+
+	/**
+	 *	Before Save.
+	 *	AD_Sequence.DecimalPattern is the same dictionary element as
+	 *	M_SerNoCtl.DecimalPattern and has the same defect, so it is held to the
+	 *	same rule: a pattern must render an integer counter without altering or
+	 *	losing its value.
+	 *	Only checked when the pattern changed, so existing sequences can still be
+	 *	saved without touching their pattern.
+	 *	@param newRecord new
+	 *	@return true if the record can be saved
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (is_ValueChanged("DecimalPattern"))
+		{
+			String error = DecimalPatternUtil.validate(getDecimalPattern());
+			if (error != null)
+			{
+				log.saveError("Error", Msg.parseTranslation(getCtx(),
+						"@Error@ @DecimalPattern@: " + getDecimalPattern() + " - " + error));
+				return false;
+			}
+		}
+		return true;
+	}	//	beforeSave
 
 
 	/**************************************************************************

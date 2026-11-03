@@ -17,10 +17,11 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
-import java.text.DecimalFormat;
 import java.util.Properties;
 
 import org.adempiere.core.domains.models.X_M_SerNoCtl;
+import org.compiere.util.DecimalPatternUtil;
+import org.compiere.util.Msg;
 
 /**
  *	Serial Number Control Model
@@ -76,11 +77,7 @@ public class MSerNoCtl extends X_M_SerNoCtl
 		if (getPrefix() != null)
 			name.append(getPrefix());
 		int no = getCurrentNext();
-		String decimalPattern = get_ValueAsString("DecimalPattern");
-		if (decimalPattern != null && !decimalPattern.isEmpty())
-			name.append(new DecimalFormat(decimalPattern).format(no));
-		else
-			name.append(no);
+		name.append(DecimalPatternUtil.format(getCtx(), getDecimalPattern(), no));
 		if (getSuffix() != null)
 			name.append(getSuffix());
 		//
@@ -89,5 +86,29 @@ public class MSerNoCtl extends X_M_SerNoCtl
 		save();
 		return name.toString();
 	}	//	createSerNo
+
+	/**
+	 * 	Before Save.
+	 * 	Reject a decimal pattern that cannot render an integer counter, so that
+	 * 	two different counter values can never produce the same serial number.
+	 * 	Only checked when the pattern changed, so existing records can still be
+	 * 	saved without touching their pattern.
+	 *	@param newRecord new
+	 *	@return true if the record can be saved
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if (is_ValueChanged("DecimalPattern"))
+		{
+			String error = DecimalPatternUtil.validate(getDecimalPattern());
+			if (error != null)
+			{
+				log.saveError("Error", Msg.parseTranslation(getCtx(),
+						"@Error@ @DecimalPattern@: " + getDecimalPattern() + " - " + error));
+				return false;
+			}
+		}
+		return true;
+	}	//	beforeSave
 
 }	//	MSerNoCtl
