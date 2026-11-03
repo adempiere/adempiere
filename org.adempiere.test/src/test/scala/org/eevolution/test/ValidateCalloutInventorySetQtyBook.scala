@@ -316,12 +316,16 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
       assume(field.isDefined && connection.isDefined,
         "the login driver exposes no long running pool and connection to swap")
 
-      //	One slot, borrowed with a short timeout: a statement returned without being
-      //	closed keeps that slot until the garbage collector finalizes the proxy, so
-      //	the next callout cannot borrow a connection. This is the discriminator:
-      //	the fix must pass, the leak must fail. It depends on neither a pool count
-      //	nor on a collection: the statement is still reachable when the next borrow
-      //	happens, so no collector can rescue the leaking code.
+      //	One slot, borrowed with a short timeout. The single-connection pool is what
+      //	discriminates here: a statement returned without being closed keeps that slot,
+      //	so the next callout cannot borrow a connection and the scenario fails.
+      //	The fix must pass, the leak must fail.
+      //	This is not a guarantee the JVM gives us. Once setQtyBook returns, the
+      //	leaking proxy is unreachable, so a collection may finalize it and hand the
+      //	slot back before the next borrow times out, and the leaking code would
+      //	pass. Observed across repeated runs the leak fails here every time, and
+      //	no sampled pool count can prove this at all, since finalize() returns the
+      //	connection ahead of any read of the metric.
       val temporaryPool = singleConnectionPool(connection.get)
       val originalPool = field.get.get(DB.getDatabase)
       field.get.set(DB.getDatabase, temporaryPool)
