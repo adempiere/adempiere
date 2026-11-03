@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
+    <booleanAttribute key="org.eclipse.debug.core.ATTR_FORCE_SYSTEM_CONSOLE_ENCODING" value="false"/>
     <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
         <listEntry value="/adempiere/base/src/org/adempiere/util/ModelClassGenerator.java"/>
     </listAttribute>
@@ -13,10 +14,9 @@
     </listAttribute>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_ATTR_USE_ARGFILE" value="false"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
-    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.buildship.core.classpathprovider"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.adempiere.util.ModelClassGenerator"/>
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="adempiere"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${workspace_loc:base}/src/org/compiere/model/&#13;&#10;org.compiere.model&#13;&#10;&quot;'D', 'U', 'A', 'C'&quot;"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="D:\AJAH\Clientes\AJAH\clases\models&#13;&#10;org.ajah.domains.models&#13;&#10;&quot;'AJ02'&quot;"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="adempiere"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=/opt/Development/ADempiere_Properties/adempiere.properties"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=D:\AJAH\workspaces\394\adempiere\adempiere\Adempiere\Adempiere.properties"/>
 </launchConfiguration>
