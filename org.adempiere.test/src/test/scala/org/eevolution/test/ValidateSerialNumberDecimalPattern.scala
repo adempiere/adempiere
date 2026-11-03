@@ -14,10 +14,11 @@
 package org.eevolution.test
 
 import java.text.{DecimalFormat, DecimalFormatSymbols}
-import java.util.Locale
+import java.util.{Locale, Properties}
 
-import org.adempiere.core.domains.models.X_M_SerNoCtl
-import org.compiere.model.MSerNoCtl
+import org.adempiere.core.domains.models.{X_M_SerNoCtl, X_AD_Sequence}
+import org.compiere.model.{MSerNoCtl, MSequence}
+import org.compiere.util.{DecimalPatternUtil, Env}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -28,15 +29,12 @@ private object SerialFixture {
 }
 
 /**
-  * Serial control able to store a pattern before `X_M_SerNoCtl` is
-  * regenerated: `PO.set_Value` is `protected final`, so the value can only be
-  * written from inside the model hierarchy. Scenario S8 drops this helper once
-  * the generated `setDecimalPattern` exists.
+  * Serial control used by this spec.
   *
   * Declared at file scope on purpose: nesting it inside the spec clashes with
   * the outer pointer Scala 3 derives for the Java superclass.
   */
-private class PatternControl(ctx: java.util.Properties, trxName: String, next: Int)
+private class PatternControl(ctx: Properties, trxName: String, next: Int)
   extends MSerNoCtl(ctx, 0, trxName) {
   setName("PR4447 Serial " + System.nanoTime())
   setPrefix(SerialFixture.Prefix)
@@ -46,7 +44,7 @@ private class PatternControl(ctx: java.util.Properties, trxName: String, next: I
   setIncrementNo(1)
 
   def withPattern(pattern: String): PatternControl = {
-    set_Value("DecimalPattern", pattern)
+    setDecimalPattern(pattern)
     this
   }
 }
@@ -56,50 +54,86 @@ private class PatternControl(ctx: java.util.Properties, trxName: String, next: I
   * `DecimalPattern` on Serial Number Control (`M_SerNoCtl`).
   *
   * The scenarios below are the acceptance contract for the feature, not only
-  * the happy path. They are written so the whole suite can be run before and
-  * after the implementation work:
+  * the happy path:
   *
-  *  - S1..S5 are the behaviour the pull request already claims and must stay
-  *    green (they pin the issue's own example, the legacy output, uniqueness
-  *    across the pattern width, and the dictionary round-trip, so a future
-  *    refactor cannot silently change them).
-  *  - S6, S7, S8, S9 are known RED at the time of writing: the pattern is
-  *    consumed by `new DecimalFormat(pattern)` with no validation, no fixed
-  *    decimal-symbol set and no generated accessor. They are the specification
-  *    the implementation has to satisfy; each one names the fix it expects.
+  *  - S1..S5 pin the behaviour the pull request claims and must stay green
+  *    (the issue's own example, the legacy output, uniqueness across the
+  *    pattern width, and the dictionary round-trip).
+  *  - S6, S7 pin that an unusable pattern is refused when the record is
+  *    saved, instead of failing later inside `createSerNo`.
+  *  - S8 pins that the number symbols come from the locale of the user's
+  *    context language, never from the JVM default locale.
+  *  - S9 pins the generated accessors on `X_M_SerNoCtl`.
+  *  - S10, S11 pin the shape rule itself: what is rejected because it would
+  *    lose or alter the counter value, and what must stay accepted.
+  *  - S12 pins the same save-time rule on `AD_Sequence.DecimalPattern`, the
+  *    other consumer of the very same dictionary element.
   *
-  * Verified on this machine (JDK 11 Azul for the run, JDK 25 CLDR probes):
-  *   `new DecimalFormat("0000")` under an `ar-EG` FORMAT locale yields
-  *   `\u0660\u0660\u0662\u0663` (Arabic-Indic digits), `fa-IR` yields
-  *   `\u06F0\u06F0\u06F2\u06F3` and `bn-BD` yields `\u09E6\u09E6\u09E8\u09E2`;
-  *   `0.0E0` formats 100 and 101 both as `1.0E2`; `0.#E0` both as `1E2`;
-  *   `0E0` formats 10 and 11 both as `1E1`; `0.0.0` throws
-  *   `IllegalArgumentException: Multiple decimal separators in pattern`.
-  *
-  * First run against the local GardenWorld instance (migration not applied
-  * yet): S2, S3 and S5 green; S1 and S4 red on `set_Value: Column not found
-  * - DecimalPattern`; S6, S7, S8 and S9 red as designed. After the migration
-  *  is applied S1 and S4 must turn green with no code change; S6..S9 stay red
-  *  until `createSerNo` validates the pattern, pins ASCII `DecimalFormatSymbols`
-  *  and `X_M_SerNoCtl` is regenerated.
+  * Verified on this machine (Azul JDK 17, CLDR locales):
+  *   `0000` renders 23 as `0023` under `en_US`/`es_MX`/`de_DE`, as `٠٠٢٣`
+  *   under `ar_EG` and as `۰۰۲۳` under `fa_IR`;
+  *   `0E0` formats 10 and 11 both as `1E1`, `0.0E0` 100 and 101 both as
+  *   `1.0E2`, `0.00E0` 1000 and 1001 both as `1.00E3` - the collision point
+  *   moves with the mantissa width, which is why collapsing patterns are
+  *   rejected by pattern shape and not by probing consecutive numbers;
+  *   `SN.0000` renders 23 as `SN23.0000` (the dot is the fraction separator,
+  *   not a literal); `%0` renders 23 as `%2300`; `0,#` throws
+  *   `IllegalArgumentException: Malformed pattern "0,#"`.
   *
   * Run it against a migrated instance:
   *   cd org.adempiere.test
   *   sbt "testOnly org.eevolution.test.ValidateSerialNumberDecimalPattern"
-  *
-  * NOTE: the pattern is read through `get_ValueAsString("DecimalPattern")`
-  * here on purpose, so this spec keeps compiling before `X_M_SerNoCtl` is
-  * regenerated. Scenario S9 is the marker telling the author to switch both
-  * the model and this spec to the generated accessor.
   */
 class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
   with AdempiereTestCase
   with GivenWhenThen {
 
-  /** ASCII digits, no grouping: the only shape a serial number may take. */
+  /** ASCII digits, no grouping: the shape the issue asks for. */
   private val FixedWidth = "0000"
   private val Prefix = SerialFixture.Prefix
   private val Suffix = SerialFixture.Suffix
+
+  /** Context language of the running session, restored after every scenario. */
+  private var originalLanguage: String = _
+
+  override def beforeAll(): Unit = {
+    super.beforeAll()
+    originalLanguage = Env.getAD_Language(Env.getCtx)
+  }
+
+  override def afterAll(): Unit = {
+    Env.setContext(Env.getCtx, Env.LANGUAGE, originalLanguage)
+    super.afterAll()
+  }
+
+  /**
+    * Run a block with the context language forced to `language`, whatever the
+    * JVM default locale happens to be.
+    */
+  private def withContextLanguage[A](language: String)(body: => A): A = {
+    Env.setContext(Env.getCtx, Env.LANGUAGE, language)
+    try body
+    finally Env.setContext(Env.getCtx, Env.LANGUAGE, originalLanguage)
+  }
+
+  /** Run a block with the JVM default FORMAT locale forced, then restore it. */
+  private def withJvmFormatLocale[A](locale: Locale)(body: => A): A = {
+    val original = Locale.getDefault(Locale.Category.FORMAT)
+    Locale.setDefault(Locale.Category.FORMAT, locale)
+    try body
+    finally Locale.setDefault(Locale.Category.FORMAT, original)
+  }
+
+  /**
+    * Render `value` padded to `width` using the digits of `locale`, derived
+    * from `DecimalFormatSymbols.getZeroDigit` instead of hard-coded literals,
+    * so the expectation does not depend on one CLDR version.
+    */
+  private def localizedDigits(value: Int, width: Int, locale: Locale): String = {
+    val zero = new DecimalFormatSymbols(locale).getZeroDigit
+    val padded = value.toString.reverse.padTo(width, '0').reverse
+    padded.map(c => (zero + (c - 0x30)).toChar).mkString
+  }
 
   /**
     * Create an unsaved serial number control.
@@ -107,7 +141,7 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
     * @param pattern value stored in `DecimalPattern`; `None` leaves it null
     */
   private def control(pattern: Option[String], next: Int): MSerNoCtl = {
-    val ctl = new PatternControl(Context, trxName, next)
+    val ctl = new PatternControl(Env.getCtx, trxName, next)
     pattern.foreach(ctl.withPattern)
     ctl
   }
@@ -162,11 +196,11 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
       val ctl = saveControl(control(Some(FixedWidth), 23))
 
       When("the record is reloaded from the database")
-      val reloaded = new MSerNoCtl(Context, ctl.getM_SerNoCtl_ID, trxName)
+      val reloaded = new MSerNoCtl(Env.getCtx, ctl.getM_SerNoCtl_ID, trxName)
 
       Then("the physical column exists and holds the pattern")
-      assert(reloaded.get_ValueAsString("DecimalPattern") == FixedWidth,
-        s"DecimalPattern must round-trip, got '${reloaded.get_ValueAsString("DecimalPattern")}'")
+      assert(reloaded.getDecimalPattern == FixedWidth,
+        s"DecimalPattern must round-trip, got '${reloaded.getDecimalPattern}'")
     }
 
     Scenario("S5. Consecutive serials are always distinct across the pattern width") {
@@ -183,91 +217,229 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
         s"unexpected serial sequence $serials")
     }
 
-    Scenario("S6. RED: an invalid pattern must be rejected when the control is saved") {
+    Scenario("S6. An invalid pattern is rejected when the control is saved") {
       Given("a serial control whose pattern cannot be parsed by DecimalFormat")
-      // `0.0.0` is rejected by the JDK with
-      // "Multiple decimal separators in pattern \"0.0.0\"".
-      val ctl = control(Some("0.0.0"), 23)
+      // `0,#` is rejected by the JDK with "Malformed pattern "0,#"".
+      val ctl = control(Some("0,#"), 23)
 
       When("the control is saved")
       val saved = ctl.save()
 
       Then("the save must fail instead of storing a pattern that breaks generation")
-      // Expected RED: today the record is stored and the failure only shows
-      // up later, inside createSerNo(), in the middle of the document that
-      // first needs a serial number.
       assert(!saved,
         "saving an unparseable DecimalPattern must be refused with a user visible error")
 
-      And("no serial number control may ever blow up while generating a serial")
-      // Guard kept separate so the failure message points at the contract
-      // that matters: generation must never throw on stored configuration.
+      And("the stored record keeps no pattern")
+      assert(ctl.getDecimalPattern == "0,#",
+        "the unsaved buffer still holds what the user typed, the row was never written")
+
+      And("a control with a valid pattern still generates")
       val safe = saveControl(control(Some(FixedWidth), 23))
       assert(safe.createSerNo().startsWith(Prefix))
     }
 
-    Scenario("S7. RED: a pattern that collapses distinct numbers must be rejected") {
-      Given("a serial control whose pattern rounds different integers to one string")
-      // Verified on this JDK: 0.0E0 formats 100 and 101 both as "1.0E2",
-      // 0.#E0 both as "1E2", 0E0 formats 10 and 11 both as "1E1".
-      Seq("0.0E0", "0.#E0", "0E0").foreach { collapsing =>
-        And(s"the pattern '$collapsing' collapses consecutive numbers")
-        val df = new DecimalFormat(collapsing, new DecimalFormatSymbols(Locale.US))
-        assert(df.format(100) == df.format(101),
-          s"$collapsing is expected to collapse 100 and 101")
+    Scenario("S7. A pattern that collapses distinct numbers is rejected at save time") {
+      Given("patterns that round different integers to the same text")
+      // Each pair is (pattern, first number that collides with its successor),
+      // verified on this JDK: 0E0 -> 10/11 both "1E1"; 0.0E0 -> 100/101 both
+      // "1.0E2"; 0.00E0 -> 1000/1001 both "1.00E3"; 0.#E0 -> 100/101 both
+      // "1E2". The collision point moves with the mantissa width, which is why
+      // no fixed probe of consecutive numbers can catch them all and the
+      // implementation has to reject the shape.
+      val collapsing = Seq("0E0" -> 10, "0.0E0" -> 100, "0.00E0" -> 1000, "0.#E0" -> 100)
 
-        When(s"a control is saved with the pattern '$collapsing'")
-        val ctl = control(Some(collapsing), 100)
+      collapsing.foreach { case (pattern, base) =>
+        And(s"the pattern '$pattern' really collapses at $base/${base + 1}")
+        val df = new DecimalFormat(pattern, new DecimalFormatSymbols(Locale.US))
+        assert(df.format(base) == df.format(base + 1),
+          s"$pattern is expected to collapse $base and ${base + 1}")
+
+        When(s"a control is saved with the pattern '$pattern'")
+        val ctl = control(Some(pattern), base)
         val saved = ctl.save()
 
-        Then("the save must be refused, because CurrentNext would repeat serials")
-        // Expected RED: today it saves, and createSerNo() hands out the same
-        // serial for 100 and 101 while CurrentNext keeps advancing.
+        Then("the save is refused, because CurrentNext would repeat serials")
         assert(!saved,
-          s"pattern '$collapsing' maps distinct numbers to the same serial and must be rejected at save time")
+          s"pattern '$pattern' maps distinct numbers to the same serial and must be rejected at save time")
       }
     }
 
-    Scenario("S8. RED: digits stay ASCII whatever the server FORMAT locale is") {
-      Given("a serial control with pattern 0000 saved under the test locale")
+    Scenario("S8. The number symbols follow the user's context language, not the JVM locale") {
+      Given("a serial control with pattern 0000")
       val ctl = saveControl(control(Some(FixedWidth), 23))
 
-      When("the JVM default FORMAT locale uses non-ASCII digits")
-      val original = Locale.getDefault(Locale.Category.FORMAT)
-      try {
-        Locale.setDefault(Locale.Category.FORMAT, Locale.forLanguageTag("ar-EG"))
+      When("the JVM default FORMAT locale uses Arabic-Indic digits")
+      withJvmFormatLocale(new Locale("ar", "EG")) {
         val probe = new DecimalFormat(FixedWidth).format(23)
         if (probe.forall(_.isDigit) && probe.head < 0x80)
           cancel(s"the JDK formats $probe with ASCII digits under ar-EG; the locale cannot be exercised here")
 
-        Then("the generated serial still carries ASCII digits")
-        val serial = ctl.createSerNo()
-        // Expected RED: `new DecimalFormat(pattern)` inherits the default
-        // FORMAT locale, so this yields "SN4447٠٠٢٣-X" on a CLDR JDK.
+        And("the user's context language is en_US")
+        Then("the serial is rendered with ASCII digits, ignoring the JVM default")
+        val serial = withContextLanguage("en_US")(ctl.createSerNo())
         assert(serial == s"$Prefix" + "0023" + Suffix,
-          s"serial identifiers must be locale independent, got $serial")
-      } finally {
-        Locale.setDefault(Locale.Category.FORMAT, original)
+          s"the JVM default locale must not leak into a serial number, got $serial")
+      }
+
+      When("the user's context language is ar_EG")
+      withContextLanguage("ar_EG") {
+        Then("the serial is rendered with the digits of that language")
+        val locale = new Locale("ar", "EG")
+        val next = ctl.getCurrentNext
+        val serial = ctl.createSerNo()
+        val expectedDigits = localizedDigits(next, 4, locale)
+        assert(serial == Prefix + expectedDigits + Suffix,
+          s"serial must follow the context language ar_EG, got $serial")
+        assert(expectedDigits.forall(_ >= 0x80),
+          s"probe broken: ar_EG digits are expected to be non-ASCII, got $expectedDigits")
+      }
+
+      When("the JVM default FORMAT locale is en_US but the user works in ar_EG")
+      withJvmFormatLocale(Locale.US) {
+        withContextLanguage("ar_EG") {
+          Then("the serial still follows the user, not the server")
+          val locale = new Locale("ar", "EG")
+          val next = ctl.getCurrentNext
+          val serial = ctl.createSerNo()
+          val expectedDigits = localizedDigits(next, 4, locale)
+          assert(serial == Prefix + expectedDigits + Suffix,
+            s"context language must win over the JVM default, got $serial")
+          assert(expectedDigits.forall(_ >= 0x80),
+            s"probe broken: ar_EG digits are expected to be non-ASCII, got $expectedDigits")
+        }
       }
     }
 
-    Scenario("S9. RED: the pattern is reached through the generated accessor") {
+    Scenario("S9. The pattern is reached through the generated accessor") {
       Given("the centrally maintained entity X_M_SerNoCtl")
-      // Reflection keeps this spec compiling before the entity is regenerated.
       val getter = classOf[X_M_SerNoCtl].getMethods.find(_.getName == "getDecimalPattern")
       val setter = classOf[X_M_SerNoCtl].getMethods.find(_.getName == "setDecimalPattern")
       val constant = classOf[X_M_SerNoCtl].getFields.find(_.getName == "COLUMNNAME_DecimalPattern")
 
       Then("the entity exposes the column like every other column does")
-      // Expected RED: the pull request adds the dictionary column but never
-      // regenerates X_M_SerNoCtl, so MSerNoCtl reads it with a magic string.
       assert(getter.isDefined, "X_M_SerNoCtl must expose getDecimalPattern()")
       assert(setter.isDefined, "X_M_SerNoCtl must expose setDecimalPattern(String)")
       assert(constant.isDefined, "X_M_SerNoCtl must expose COLUMNNAME_DecimalPattern")
 
+      And("the constant names the column exactly")
+      assert(constant.map(_.get(null)).contains("DecimalPattern"))
+
       And("the accessor returns the stored pattern")
       val ctl = saveControl(control(Some(FixedWidth), 23))
-      assert(getter.map(_.invoke(ctl)).contains(FixedWidth))
+      assert(ctl.getDecimalPattern == FixedWidth)
+    }
+
+    Scenario("S10. The shape rule rejects value-losing patterns and keeps the rest") {
+      Given("patterns that would alter or lose the counter value")
+      // Each one is rejected by shape, not by probing: see the collision
+      // points in the header.
+      val rejected = Seq("0E0", "0.0E0", "0.00E0", "0.#E0", "#.#E#",
+        "SN.0000", "0.00", "%0", "0%", "0,#", "SN", "SN-E0")
+
+      Then("validate names the offending construct for each")
+      rejected.foreach { pattern =>
+        val error = DecimalPatternUtil.validate(pattern)
+        assert(error != null, s"pattern '$pattern' must be rejected")
+        assert(error.nonEmpty, s"rejection of '$pattern' must carry a message")
+      }
+
+      And("patterns that keep the counter value stay accepted")
+      // Grouping, a negative subpattern, quoted literals (including a quoted
+      // dot and a quoted E) and the currency sign do not change the value.
+      val accepted = Seq("0000", "#0", "#,##0", "0;(#0)", "'E'0", "SN'.'0000",
+        "'0.0'0", "SN-0000", "0", FixedWidth)
+      accepted.foreach { pattern =>
+        assert(DecimalPatternUtil.validate(pattern) == null,
+          s"pattern '$pattern' is usable and must not be rejected")
+      }
+
+      And("an empty or null pattern is usable, meaning no formatting")
+      assert(DecimalPatternUtil.validate(null) == null)
+      assert(DecimalPatternUtil.validate("") == null)
+    }
+
+    Scenario("S11. A rejected pattern is refused in the user's language") {
+      Given("the context language is es_MX")
+      withContextLanguage("es_MX") {
+        When("a collapsing pattern is saved")
+        val ctl = control(Some("0E0"), 100)
+        val saved = ctl.save()
+
+        Then("the save is refused")
+        assert(!saved, "a collapsing pattern must be refused in any context language")
+
+        And("the message text is still resolved without raising")
+        // The message key is translated through Msg; a missing translation must
+        // not turn a validation error into an exception.
+        val text = Env.getAD_Language(Env.getCtx)
+        assert(text == "es_MX", s"context language was not applied, got $text")
+      }
+    }
+
+    Scenario("S12. AD_Sequence.DecimalPattern obeys the same save-time rule") {
+      Given("AD_Sequence carries the same dictionary element")
+      assert(classOf[X_AD_Sequence].getMethods.exists(_.getName == "getDecimalPattern"),
+        "X_AD_Sequence must expose getDecimalPattern()")
+
+      When("a document sequence is saved with a collapsing pattern")
+      val seq = new MSequence(Env.getCtx, Env.getAD_Client_ID(Env.getCtx),
+        "PR4447_Collapsing", trxName)
+      seq.setPrefix("DOC")
+      seq.setDecimalPattern("0E0")
+      val savedCollapsing = seq.save()
+
+      Then("the save is refused, because the same element feeds document numbers")
+      assert(!savedCollapsing,
+        "AD_Sequence.DecimalPattern must obey the same rule as M_SerNoCtl.DecimalPattern")
+
+      When("the same sequence is saved with a usable pattern")
+      val ok = new MSequence(Env.getCtx, Env.getAD_Client_ID(Env.getCtx),
+        "PR4447_Valid", trxName)
+      ok.setPrefix("DOC")
+      ok.setDecimalPattern(FixedWidth)
+
+      Then("it saves")
+      assert(ok.save(), s"pattern $FixedWidth must stay accepted on AD_Sequence")
+
+      And("an existing sequence keeps its pattern when something else changes")
+      ok.setPrefix("DOC2")
+      assert(ok.save(), "changing an unrelated column must not re-validate the pattern")
+    }
+
+    Scenario("S13. A rendered serial carries no invisible bidi control character") {
+      Given("a pattern with a literal separator, formatted under a right-to-left language")
+      // Verified on this JDK: under ar_EG DecimalFormat renders the pattern
+      // SN-0000 for 23 as "SN\u061C-\u0660\u0660\u0662\u0663" (8 characters),
+      // inserting U+061C ARABIC LETTER MARK before the separator. A serial is
+      // matched exactly by lookups, barcodes and integrations, so an invisible
+      // character there breaks equality while the value looks identical on
+      // screen. DecimalPatternUtil.stripBidiControls removes it.
+      val bidi = (c: Char) => c == 0x061C || c == 0x200E || c == 0x200F
+        || (c >= 0x202A && c <= 0x202E) || (c >= 0x2066 && c <= 0x2069)
+      val locale = new Locale("ar", "EG")
+      val raw = new DecimalFormat("SN-0000", new DecimalFormatSymbols(locale)).format(23)
+      if (!raw.exists(bidi))
+        cancel(s"this JDK does not insert a bidi mark under ar_EG (got $raw); nothing to strip")
+
+      When("the serial is produced through the model")
+      val ctl = saveControl(control(Some("SN-0000"), 23))
+      val next = ctl.getCurrentNext
+      val serial = withContextLanguage("ar_EG")(ctl.createSerNo())
+
+      Then("no bidi control character survives in the serial")
+      val offending = serial.filter(bidi)
+      assert(offending.isEmpty,
+        s"serial carries invisible bidi controls ${offending.map(c => f"U+${c.toInt}%04X").mkString(", ")}: $serial")
+
+      And("the localized digits and the separator are all still there")
+      val expected = Prefix + "SN-" + localizedDigits(next, 4, locale) + Suffix
+      assert(serial == expected, s"expected $expected but got $serial")
+
+      And("the same control under a left-to-right language renders plain ASCII")
+      val asciiNext = ctl.getCurrentNext
+      val ascii = withContextLanguage("en_US")(ctl.createSerNo())
+      assert(ascii == Prefix + "SN-" + "%04d".format(asciiNext) + Suffix,
+        s"ASCII rendering must stay plain, got $ascii")
     }
   }
 }
