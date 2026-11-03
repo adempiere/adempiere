@@ -18,6 +18,7 @@ package org.eevolution.test
 import java.lang.reflect.{InvocationTargetException, Method}
 import java.math.BigDecimal
 
+import com.zaxxer.hikari.HikariDataSource
 import org.compiere.model.{CalloutInventory, MStorage}
 import org.compiere.util.{DB, Trx}
 import org.eevolution.dsl.*
@@ -42,7 +43,8 @@ import scala.util.{Failure, Success, Try}
   *   - no storage rows for the locator (gwu 1719401: booked qty cleared to 0),
   *   - SUM path (no attribute set instance) with stored rows,
   *   - detail path (attribute set instance) binding the third parameter,
-  *   - repeated callouts alternating both paths, to show the pool stays healthy.
+  *   - repeated callouts alternating both paths, to pin observable behaviour when
+  *     the same statement is taken and released over and over.
   *
   * The fixtures are committed (saveEx) on purpose: setQtyBook opens its own
   * statement with a null transaction name (DB.prepareStatement(sql, null)), so
@@ -117,6 +119,33 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
       "SELECT M_AttributeSetInstance_ID FROM M_AttributeSetInstance "
         + "WHERE M_AttributeSetInstance_ID > 0 ORDER BY M_AttributeSetInstance_ID")
 
+  /**
+    * Connections currently borrowed from the client connection pool, reported for
+    * diagnosis only.
+    *
+    * The pool is the long running Hikari datasource held by the database driver
+    * (DB_PostgreSQL.datasourceLongRunning, reached through DB.getDatabase()); the
+    * private field is read reflectively so no datasource is created as a side
+    * effect. None means there is no Hikari pool (a JNDI datasource can be
+    * non-Hikari).
+    *
+    * This is never asserted: the statement proxy is finalized by the garbage
+    * collector, and finalizing it returns the borrowed connection to the pool, so
+    * a callout that forgets to close only holds the connection until the next
+    * collection. A measured count cannot prove that here, and a passing assertion
+    * built on it would be false confidence for the reviewer.
+    */
+  private def borrowedPoolConnections: Option[Int] =
+    Try {
+      val driver = DB.getDatabase
+      val field = driver.getClass.getDeclaredField("datasourceLongRunning")
+      field.setAccessible(true)
+      field.get(driver)
+    } match {
+      case Success(pool: HikariDataSource) => Some(pool.getHikariPoolMXBean.getActiveConnections)
+      case _ => None
+    }
+
   Feature("CalloutInventory.setQtyBook closes its database resources") {
     info("Issue #4452: every return path of setQtyBook must close the statement and the result set")
 
@@ -178,7 +207,7 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
         s"expected 7.5 but got $bookQuantity")
     }
 
-    Scenario("repeated callouts keep the connection pool healthy") {
+    Scenario("repeated callouts keep returning the right quantities") {
       Given("a locator with stored quantity for the product Oak")
       val locator = committedLocator("PR4453 Loop")
       val oak = getProductByValue("Oak")
@@ -201,13 +230,25 @@ class ValidateCalloutInventorySetQtyBook extends AnyFeatureSpec
         lastQuantity = missing
       }
 
-      Then("every call returns the right quantity without exhausting connections")
+      Then("every call returns the right quantity")
       assert(ok, "every callout must return the summed book quantity of 30")
       assert(lastQuantity.compareTo(BigDecimal.ZERO) == 0,
         "the no-rows path must keep returning zero")
       And("the suite transaction is still active after the loop")
       val trx = Trx.get(trxName, false)
       assert(trx.isActive)
+      //	Why there is no assertion on borrowed pool connections: the statement
+      //	proxy is finalized by the garbage collector and finalizing it returns the
+      //	borrowed connection to the pool, so the leaked connections of the pre-fix
+      //	code are released before any sample can be taken. Measured over these 60
+      //	callouts, the borrowed count stays flat on the fixed and the leaking code
+      //	alike, so such an assertion would pass either way and prove nothing.
+      //	What this spec pins instead is observable behaviour on every return path
+      //	of the issue; closing the resources is what the try-with-resources headers
+      //	guarantee structurally, without waiting for a collection.
+      borrowedPoolConnections.foreach { borrowed =>
+        info(s"borrowed pool connections after 60 callouts: $borrowed (diagnostic only, not asserted)")
+      }
     }
   }
 }
