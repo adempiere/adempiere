@@ -18,7 +18,7 @@ import java.util.{Locale, Properties}
 
 import org.adempiere.core.domains.models.{X_M_SerNoCtl, X_AD_Sequence}
 import org.compiere.model.{MSerNoCtl, MSequence}
-import org.compiere.util.{DecimalPatternUtil, Env}
+import org.compiere.util.{DB, DecimalPatternUtil, Env}
 import org.scalatest.GivenWhenThen
 import org.scalatest.featurespec.AnyFeatureSpec
 
@@ -103,6 +103,11 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
 
   override def afterAll(): Unit = {
     Env.setContext(Env.getCtx, Env.LANGUAGE, originalLanguage)
+    // Leave the instance as the suite found it: every fixture row this spec
+    // writes carries the PR4447 prefix, including the sequence it seeds with an
+    // invalid legacy pattern in S12.
+    DB.executeUpdate("DELETE FROM AD_Sequence WHERE Name LIKE 'PR4447%'", true, trxName)
+    DB.executeUpdate("DELETE FROM M_SerNoCtl WHERE Name LIKE 'PR4447%'", true, trxName)
     super.afterAll()
   }
 
@@ -229,9 +234,14 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
       assert(!saved,
         "saving an unparseable DecimalPattern must be refused with a user visible error")
 
-      And("the stored record keeps no pattern")
-      assert(ctl.getDecimalPattern == "0,#",
-        "the unsaved buffer still holds what the user typed, the row was never written")
+      And("the row is never written")
+      // Reading the in-memory buffer would pass even if the row had been
+      // written, so prove it against the database, scoped to this control's own
+      // name (other scenarios in this suite do save valid PR4447 controls).
+      val name = ctl.getName
+      val rows = DB.getSQLValue(null,
+        "SELECT COUNT(*) FROM M_SerNoCtl WHERE Name = ?", name)
+      assert(rows == 0, s"a rejected pattern must not write a row for '$name', found $rows")
 
       And("a control with a valid pattern still generates")
       val safe = saveControl(control(Some(FixedWidth), 23))
@@ -337,10 +347,12 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
         "SN.0000", "0.00", "%0", "0%", "0,#", "SN", "SN-E0")
 
       Then("validate names the offending construct for each")
+      // validate answers with an AD_Message key; the localized text is
+      // resolved by getValidationError, asserted in S11.
       rejected.foreach { pattern =>
-        val error = DecimalPatternUtil.validate(pattern)
-        assert(error != null, s"pattern '$pattern' must be rejected")
-        assert(error.nonEmpty, s"rejection of '$pattern' must carry a message")
+        val key = DecimalPatternUtil.validate(Env.getCtx, pattern)
+        assert(key != null, s"pattern '$pattern' must be rejected")
+        assert(key.nonEmpty, s"rejection of '$pattern' must name the construct")
       }
 
       And("patterns that keep the counter value stay accepted")
@@ -349,13 +361,13 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
       val accepted = Seq("0000", "#0", "#,##0", "0;(#0)", "'E'0", "SN'.'0000",
         "'0.0'0", "SN-0000", "0", FixedWidth)
       accepted.foreach { pattern =>
-        assert(DecimalPatternUtil.validate(pattern) == null,
+        assert(DecimalPatternUtil.validate(Env.getCtx, pattern) == null,
           s"pattern '$pattern' is usable and must not be rejected")
       }
 
       And("an empty or null pattern is usable, meaning no formatting")
-      assert(DecimalPatternUtil.validate(null) == null)
-      assert(DecimalPatternUtil.validate("") == null)
+      assert(DecimalPatternUtil.validate(Env.getCtx, null) == null)
+      assert(DecimalPatternUtil.validate(Env.getCtx, "") == null)
     }
 
     Scenario("S11. A rejected pattern is refused in the user's language") {
@@ -368,11 +380,23 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
         Then("the save is refused")
         assert(!saved, "a collapsing pattern must be refused in any context language")
 
-        And("the message text is still resolved without raising")
-        // The message key is translated through Msg; a missing translation must
-        // not turn a validation error into an exception.
-        val text = Env.getAD_Language(Env.getCtx)
-        assert(text == "es_MX", s"context language was not applied, got $text")
+        And("the whole reason reads in Spanish, not just its label")
+        // A translated label glued to a hardcoded English reason is the defect
+        // this asserts against: inspect the resolved text, not the context key.
+        val reason = DecimalPatternUtil.getValidationError(Env.getCtx, "0E0")
+        assert(reason != null, "a collapsing pattern must produce a reason")
+        assert(reason.contains("notación científica"),
+          s"reason must be resolved in es_MX, got: $reason")
+        assert(!reason.toLowerCase.contains("scientific notation"),
+          s"reason leaks English into a Spanish context, got: $reason")
+
+        And("every rejection reason resolves translated, none falls back to its key")
+        Seq("0E0", "SN.0000", "%0", "SN", "0,#").foreach { pattern =>
+          val text = DecimalPatternUtil.getValidationError(Env.getCtx, pattern)
+          assert(text != null && text.nonEmpty, s"$pattern must carry a reason")
+          assert(!text.startsWith("DecimalPattern"),
+            s"reason for '$pattern' fell back to the AD_Message key: $text")
+        }
       }
     }
 
@@ -401,9 +425,31 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
       Then("it saves")
       assert(ok.save(), s"pattern $FixedWidth must stay accepted on AD_Sequence")
 
-      And("an existing sequence keeps its pattern when something else changes")
-      ok.setPrefix("DOC2")
-      assert(ok.save(), "changing an unrelated column must not re-validate the pattern")
+      And("an existing sequence keeps a legacy pattern when something else changes")
+      // Simulate a row written before the guard existed: put an invalid pattern
+      // straight into the table, reload it, and change only Prefix. The guard is
+      // keyed on is_ValueChanged, so this save must go through; otherwise every
+      // existing sequence with a legacy pattern would become uneditable.
+      val legacy = new MSequence(Env.getCtx, Env.getAD_Client_ID(Env.getCtx),
+        "PR4447_Legacy", trxName)
+      legacy.setPrefix("DOC")
+      assert(legacy.save(), "a sequence with no pattern must save")
+      val legacyId = legacy.getAD_Sequence_ID
+      assert(DB.executeUpdate(
+        "UPDATE AD_Sequence SET DecimalPattern = '0E0' WHERE AD_Sequence_ID = ?",
+        legacyId, true, trxName) == 1, "seeding the legacy pattern must succeed")
+
+      val reloaded = new MSequence(Env.getCtx, legacyId, trxName)
+      assert(reloaded.getDecimalPattern == "0E0",
+        s"the legacy pattern must be read back, got ${reloaded.getDecimalPattern}")
+      reloaded.setPrefix("DOC2")
+      assert(reloaded.save(),
+        "changing an unrelated column must not re-validate an untouched legacy pattern")
+
+      And("touching that legacy pattern again is refused")
+      reloaded.setDecimalPattern("0.0E0")
+      assert(!reloaded.save(),
+        "editing a legacy pattern must re-run the guard and refuse a collapsing one")
     }
 
     Scenario("S13. A rendered serial carries no invisible bidi control character") {

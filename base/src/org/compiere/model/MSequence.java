@@ -926,7 +926,7 @@ public class MSequence extends X_AD_Sequence
 	{
 		if (is_ValueChanged("DecimalPattern"))
 		{
-			String error = DecimalPatternUtil.validate(getDecimalPattern());
+			String error = DecimalPatternUtil.getValidationError(getCtx(), getDecimalPattern());
 			if (error != null)
 			{
 				log.saveError("Error", Msg.parseTranslation(getCtx(),

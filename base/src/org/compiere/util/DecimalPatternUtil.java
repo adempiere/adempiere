@@ -135,26 +135,36 @@ public final class DecimalPatternUtil
 	/**
 	 * 	Check that a pattern can render an integer counter without altering or
 	 * 	losing its value.
-	 *	@param decimalPattern pattern to check, may be null or empty
-	 *	@return null when the pattern is usable, otherwise a short English
-	 * 			description of the offending construct
+	 *
+	 * 	<p>The pattern is parsed with the number symbols of the caller's context
+	 * 	language, the same locale {@link #format} renders with, so validation and
+	 * 	rendering can never disagree about what a pattern means.
+	 *
+	 * 	@param ctx context, used to resolve the number symbols
+	 * 	@param decimalPattern pattern to check, may be null or empty
+	 * 	@return null when the pattern is usable, otherwise the
+	 * 			{@code AD_Message} key naming the offending construct
 	 */
-	public static String validate (String decimalPattern)
+	public static String validate (Properties ctx, String decimalPattern)
 	{
 		if (decimalPattern == null || decimalPattern.length() == 0)
 			return null;
 
-		//	Must at least parse
+		//	Must at least parse, with the symbols it will be rendered with
 		try
 		{
-			new DecimalFormat (decimalPattern);
+			new DecimalFormat (decimalPattern, new DecimalFormatSymbols (getLocale (ctx)));
 		}
 		catch (IllegalArgumentException e)
 		{
-			return "Malformed pattern - " + e.getMessage ();
+			return MSG_MALFORMED;
 		}
 
-		//	Scan outside quoted literals
+		//	Scan outside quoted literals. Pattern syntax itself is locale
+			//	independent: '.' and ',' always mean decimal and grouping, the locale
+			//	only decides what is emitted (under de_DE the pattern SN.0000 renders
+			//	23 as "SN23,0000"), so the ASCII constructs below are the right ones
+			//	to reject regardless of the active locale.
 		boolean inSingleQuote = false;
 		boolean inDoubleQuote = false;
 		boolean hasDigitPlaceholder = false;
@@ -182,28 +192,71 @@ public final class DecimalPatternUtil
 			if (ch == '0' || ch == '#')
 				hasDigitPlaceholder = true;
 			else if (ch == 'E' || ch == 'e')
-				return "Scientific notation (E) is not supported - it renders different numbers as the same text";
+				return MSG_SCIENTIFIC;
 			else if (ch == '.')
-				return "A fraction separator (.) is not supported - serial numbers are integers,"
-					+ " quote a literal dot as '.' (for example SN'.'0000)";
+				return MSG_FRACTION;
 			else if (ch == '%' || ch == '\u2030')
-				return "Percent or per-mille (%) is not supported - it multiplies the number";
+				return MSG_PERCENT;
 		}
 
 		if (!hasDigitPlaceholder)
-			return "The pattern has no digit placeholder (0 or #) - every number would render the same";
+			return MSG_NO_DIGIT;
 
 		return null;
 	}	//	validate
 
 	/**
-	 * 	Convenience wrapper around {@link #validate(String)}.
-	 *	@param decimalPattern pattern to check, may be null or empty
-	 *	@return true when the pattern is usable
+	 * 	Convenience wrapper around {@link #validate(Properties, String)}.
+	 * 	@param decimalPattern pattern to check, may be null or empty
+	 * 	@return true when the pattern is usable
 	 */
-	public static boolean isSupported (String decimalPattern)
+	public static boolean isSupported (Properties ctx, String decimalPattern)
 	{
-		return validate (decimalPattern) == null;
+		return validate (ctx, decimalPattern) == null;
 	}	//	isSupported
+
+	/**
+	 * 	Build the message shown to the user when a pattern is refused.
+	 *
+	 *  <p>Every part of the text is resolved in the language of the context, so
+	 *  the user never sees a label in one language glued to a reason in another.
+	 *  For a malformed pattern the parser's own detail is appended: it is a
+	 *  technical diagnostic coming from the JDK, not part of the message catalog.
+	 *
+	 * 	@param ctx context
+	 * 	@param decimalPattern the rejected pattern
+	 * 	@return localized reason, or null when the pattern is usable
+	 */
+	public static String getValidationError (Properties ctx, String decimalPattern)
+	{
+		String key = validate (ctx, decimalPattern);
+		if (key == null)
+			return null;
+
+		String text = Msg.getMsg (ctx, key);
+		if (MSG_MALFORMED.equals (key))
+		{
+			try
+			{
+				new DecimalFormat (decimalPattern, new DecimalFormatSymbols (getLocale (ctx)));
+			}
+			catch (IllegalArgumentException e)
+			{
+				text = text + " - " + e.getMessage ();
+			}
+		}
+		return text;
+	}	//	getValidationError
+
+	/** AD_Message key: scientific notation collapses distinct counters. */
+	public static final String MSG_SCIENTIFIC = "DecimalPatternScientific";
+	/** AD_Message key: a fraction separator on an integer counter. */
+	public static final String MSG_FRACTION = "DecimalPatternFractionSeparator";
+	/** AD_Message key: percent or per-mille scales the counter. */
+	public static final String MSG_PERCENT = "DecimalPatternPercent";
+	/** AD_Message key: no digit placeholder at all. */
+	public static final String MSG_NO_DIGIT = "DecimalPatternNoDigit";
+	/** AD_Message key: the pattern does not parse. */
+	public static final String MSG_MALFORMED = "DecimalPatternMalformed";
 
 }	//	DecimalPatternUtil
