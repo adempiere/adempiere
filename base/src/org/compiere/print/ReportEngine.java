@@ -1256,7 +1256,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				// [ 2819637 ] Wrong print format on non completed order - https://sourceforge.net/tracker/?func=detail&aid=2819637&group_id=176962&atid=879332
 				if (DocSubTypeSO == null || "".equals(DocSubTypeSO)) {
 					DB.close(rs, pstmt);
-					rs = null; pstmt = null;
 					sql = "SELECT dt.DocSubTypeSO, dt.PrintDocument "
 						+ "FROM C_DocType dt, C_Order o "
 						+ "WHERE o.C_DocTypeTarget_ID=dt.C_DocType_ID"
