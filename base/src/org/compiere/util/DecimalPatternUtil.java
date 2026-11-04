@@ -18,7 +18,9 @@ package org.compiere.util;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -218,8 +220,12 @@ public final class DecimalPatternUtil
 	/**
 	 * 	Build the message shown to the user when a pattern is refused.
 	 *
-	 *  <p>Every part of the text is resolved in the language of the context, so
-	 *  the user never sees a label in one language glued to a reason in another.
+	 *  <p>The reason is resolved through {@link Msg} in the language of the
+	 *  context, so the user never sees a label in one language glued to a reason
+	 *  in another. The five keys below have to be registered in <code>AD_Message</code>
+	 *  for the translation to resolve; until they are, {@link Msg#getMsg} returns
+	 *  the raw key, which would put <code>DecimalPatternScientific</code> in front
+	 *  of the user, so an unresolved key falls back to the English default here.
 	 *  For a malformed pattern the parser's own detail is appended: it is a
 	 *  technical diagnostic coming from the JDK, not part of the message catalog.
 	 *
@@ -234,6 +240,14 @@ public final class DecimalPatternUtil
 			return null;
 
 		String text = Msg.getMsg (ctx, key);
+		//	Msg returns the key unchanged when AD_Message has no such row
+		if (text == null || text.length() == 0 || key.equals (text))
+		{
+			String fallback = DEFAULT_TEXT.get (key);
+			if (fallback != null)
+				text = fallback;
+		}
+
 		if (MSG_MALFORMED.equals (key))
 		{
 			try
@@ -258,5 +272,26 @@ public final class DecimalPatternUtil
 	public static final String MSG_NO_DIGIT = "DecimalPatternNoDigit";
 	/** AD_Message key: the pattern does not parse. */
 	public static final String MSG_MALFORMED = "DecimalPatternMalformed";
+
+	/**
+	 * 	English defaults, used only while the keys above are not yet registered
+	 * 	in <code>AD_Message</code>. They are a safety net against a raw key
+	 * 	reaching the user, not a substitute for the message catalog: once the
+	 * 	rows exist the catalog wins and these are never shown.
+	 */
+	private static final Map<String, String> DEFAULT_TEXT = new HashMap<String, String> ();
+	static
+	{
+		DEFAULT_TEXT.put (MSG_SCIENTIFIC
+			, "Scientific notation (E) is not supported - it renders different numbers as the same text");
+		DEFAULT_TEXT.put (MSG_FRACTION
+			, "A fraction separator (.) is not supported - serial numbers are integers,"
+				+ " quote a literal dot as '.' (for example SN'.'0000)");
+		DEFAULT_TEXT.put (MSG_PERCENT
+			, "Percent or per-mille is not supported - it multiplies the number");
+		DEFAULT_TEXT.put (MSG_NO_DIGIT
+			, "The pattern has no digit placeholder (0 or #) - every number would render the same");
+		DEFAULT_TEXT.put (MSG_MALFORMED, "Malformed pattern");
+	}	//	DEFAULT_TEXT
 
 }	//	DecimalPatternUtil

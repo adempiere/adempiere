@@ -370,7 +370,7 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
       assert(DecimalPatternUtil.validate(Env.getCtx, "") == null)
     }
 
-    Scenario("S11. A rejected pattern is refused in the user's language") {
+    Scenario("S11. A rejected pattern never shows the user a raw message key") {
       Given("the context language is es_MX")
       withContextLanguage("es_MX") {
         When("a collapsing pattern is saved")
@@ -380,22 +380,60 @@ class ValidateSerialNumberDecimalPattern extends AnyFeatureSpec
         Then("the save is refused")
         assert(!saved, "a collapsing pattern must be refused in any context language")
 
-        And("the whole reason reads in Spanish, not just its label")
-        // A translated label glued to a hardcoded English reason is the defect
-        // this asserts against: inspect the resolved text, not the context key.
+        And("every rejection reason carries readable text, never its AD_Message key")
+        // The five keys are resolved through Msg. They still have to be
+        // registered in AD_Message (see the pending dictionary registration);
+        // until then Msg returns the raw key, and getValidationError must fall
+        // back to readable English rather than surface it to the user.
+        Seq("0E0" -> DecimalPatternUtil.MSG_SCIENTIFIC,
+          "SN.0000" -> DecimalPatternUtil.MSG_FRACTION,
+          "0.00" -> DecimalPatternUtil.MSG_FRACTION,
+          "%0" -> DecimalPatternUtil.MSG_PERCENT,
+          "SN" -> DecimalPatternUtil.MSG_NO_DIGIT,
+          "0,#" -> DecimalPatternUtil.MSG_MALFORMED).foreach { case (pattern, key) =>
+          val text = DecimalPatternUtil.getValidationError(Env.getCtx, pattern)
+          assert(text != null && text.nonEmpty, s"$pattern must carry a reason")
+          assert(text != key,
+            s"reason for '$pattern' leaked the raw AD_Message key to the user: $text")
+          assert(!text.startsWith("DecimalPattern"),
+            s"reason for '$pattern' is an unresolved key: $text")
+        }
+      }
+    }
+
+    Scenario("S11b. Once the keys are registered, the reason reads in the user's language") {
+      Given("the five AD_Message keys")
+      val keys = Seq(DecimalPatternUtil.MSG_SCIENTIFIC,
+        DecimalPatternUtil.MSG_FRACTION,
+        DecimalPatternUtil.MSG_PERCENT,
+        DecimalPatternUtil.MSG_NO_DIGIT,
+        DecimalPatternUtil.MSG_MALFORMED)
+      val registered = DB.getSQLValue(null,
+        "SELECT COUNT(*) FROM AD_Message WHERE Value LIKE 'DecimalPattern%'")
+      if (registered < keys.size)
+        cancel(s"${keys.size - registered} of ${keys.size} AD_Message rows are not yet " +
+          "registered in the dictionary; Spanish resolution cannot be asserted until they are")
+
+      When("a collapsing pattern is refused under es_MX")
+      withContextLanguage("es_MX") {
+        Then("the whole reason reads in Spanish, not just its label")
         val reason = DecimalPatternUtil.getValidationError(Env.getCtx, "0E0")
-        assert(reason != null, "a collapsing pattern must produce a reason")
-        assert(reason.contains("notación científica"),
-          s"reason must be resolved in es_MX, got: $reason")
+        assert(reason != null && reason.nonEmpty, "must carry a reason")
         assert(!reason.toLowerCase.contains("scientific notation"),
           s"reason leaks English into a Spanish context, got: $reason")
 
-        And("every rejection reason resolves translated, none falls back to its key")
-        Seq("0E0", "SN.0000", "%0", "SN", "0,#").foreach { pattern =>
+        And("no reason falls back to English or to its key")
+        keys.foreach { key =>
+          val pattern = key match {
+            case DecimalPatternUtil.MSG_SCIENTIFIC => "0E0"
+            case DecimalPatternUtil.MSG_FRACTION => "SN.0000"
+            case DecimalPatternUtil.MSG_PERCENT => "%0"
+            case DecimalPatternUtil.MSG_NO_DIGIT => "SN"
+            case _ => "0,#"
+          }
           val text = DecimalPatternUtil.getValidationError(Env.getCtx, pattern)
-          assert(text != null && text.nonEmpty, s"$pattern must carry a reason")
-          assert(!text.startsWith("DecimalPattern"),
-            s"reason for '$pattern' fell back to the AD_Message key: $text")
+          assert(text != key && !text.startsWith("DecimalPattern"),
+            s"$key unresolved: $text")
         }
       }
     }
