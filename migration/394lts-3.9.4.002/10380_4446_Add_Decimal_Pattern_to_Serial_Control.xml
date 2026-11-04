@@ -139,7 +139,7 @@
       </PO>
     </Step>
     <Step SeqNo="50" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="523860" Table="AD_Message">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53781" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="591" Column="Updated">2025-07-15 09:56:44.272</Data>
@@ -147,7 +147,7 @@
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">523860</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53781</Data>
         <Data AD_Column_ID="6766" Column="Value">DecimalPatternScientific</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
         <Data AD_Column_ID="198" Column="MsgText">Scientific notation (E) is not supported - it renders different numbers as the same text</Data>
@@ -157,7 +157,7 @@
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="523861" Table="AD_Message">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53782" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="591" Column="Updated">2025-07-15 09:56:44.272</Data>
@@ -165,7 +165,7 @@
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">523861</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53782</Data>
         <Data AD_Column_ID="6766" Column="Value">DecimalPatternFractionSeparator</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
         <Data AD_Column_ID="198" Column="MsgText">A fraction separator (.) is not supported - serial numbers are integers; quote a literal dot as '.' (for example SN'.'0000)</Data>
@@ -175,7 +175,7 @@
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="523862" Table="AD_Message">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53783" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="591" Column="Updated">2025-07-15 09:56:44.272</Data>
@@ -183,7 +183,7 @@
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">523862</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53783</Data>
         <Data AD_Column_ID="6766" Column="Value">DecimalPatternPercent</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
         <Data AD_Column_ID="198" Column="MsgText">Percent or per-mille is not supported - it multiplies the number</Data>
@@ -193,7 +193,7 @@
       </PO>
     </Step>
     <Step SeqNo="80" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="523863" Table="AD_Message">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53784" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="591" Column="Updated">2025-07-15 09:56:44.272</Data>
@@ -201,7 +201,7 @@
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">523863</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53784</Data>
         <Data AD_Column_ID="6766" Column="Value">DecimalPatternNoDigit</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
         <Data AD_Column_ID="198" Column="MsgText">The pattern has no digit placeholder (0 or #) - every number would render the same</Data>
@@ -211,7 +211,7 @@
       </PO>
     </Step>
     <Step SeqNo="90" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="523864" Table="AD_Message">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53785" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2025-07-15 09:56:44.272</Data>
         <Data AD_Column_ID="591" Column="Updated">2025-07-15 09:56:44.272</Data>
@@ -219,7 +219,7 @@
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">523864</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53785</Data>
         <Data AD_Column_ID="6766" Column="Value">DecimalPatternMalformed</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
         <Data AD_Column_ID="198" Column="MsgText">Malformed pattern</Data>
@@ -237,7 +237,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">523860</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53781</Data>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="342" Column="MsgText">No se admite la notación científica (E): muestra números distintos como si fueran el mismo texto</Data>
@@ -254,7 +254,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">523861</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53782</Data>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="342" Column="MsgText">No se admite el separador decimal (.): los correlativos son números enteros; entre un punto literal entre comillas simples, por ejemplo SN'.'0000</Data>
@@ -271,7 +271,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">523862</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53783</Data>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="342" Column="MsgText">No se admite el porcentaje ni el por mil: multiplican el número</Data>
@@ -288,7 +288,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">523863</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53784</Data>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="342" Column="MsgText">El patrón no tiene ningún marcador de dígito (0 o #): todos los números se mostrarían igual</Data>
@@ -305,7 +305,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">523864</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53785</Data>
         <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="342" Column="MsgText">Patrón inválido</Data>
