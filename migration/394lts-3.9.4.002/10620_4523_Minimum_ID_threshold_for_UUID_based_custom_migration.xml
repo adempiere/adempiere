@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Minimum ID threshold for UUID-based custom migration" ReleaseNo="3.9.4.002" SeqNo="10620">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50183" Record_UUID="6bf79da0-6ce8-47f1-ac25-f1864846628b" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50190" Column="Created">2026-09-07 15:28:24.161</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2026-09-07 15:28:24.161</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50183</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">S</Data>
+        <Data AD_Column_ID="50196" Column="Value">1000000</Data>
+        <Data AD_Column_ID="50195" Column="Name">MIGRATION_UUID_CUSTOM_ID_THRESHOLD</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50197" Column="Description">defines the minimum ID value from which ADempiere treats records as custom and uses UUID-based resolution during migration export and import.</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="84421" Column="UUID">6bf79da0-6ce8-47f1-ac25-f1864846628b</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

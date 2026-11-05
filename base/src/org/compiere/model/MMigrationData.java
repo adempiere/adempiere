@@ -57,13 +57,25 @@ public class MMigrationData extends X_AD_MigrationData {
 		{
 			if ( isOldNull() )
 				data.setAttribute("isOldNull", "true");
-			else
-				data.setAttribute("oldValue", getOldValue());
+			else {
+				MigrationUUIDResolver.Reference reference = MigrationUUIDResolver.decode(getOldValue());
+				if (reference != null) {
+					data.setAttribute("oldReferenceTable", reference.getTableName());
+					data.setAttribute("oldReferenceUUID", reference.getUUID());
+				} else
+					data.setAttribute("oldValue", getOldValue());
+			}
 		}
 		if ( isNewNull() || getNewValue() == null )
 			data.setAttribute("isNewNull", "true");
-		else
-			data.appendChild(document.createTextNode(getNewValue()));
+		else {
+			MigrationUUIDResolver.Reference reference = MigrationUUIDResolver.decode(getNewValue());
+			if (reference != null) {
+				data.setAttribute("referenceTable", reference.getTableName());
+				data.setAttribute("referenceUUID", reference.getUUID());
+			} else
+				data.appendChild(document.createTextNode(getNewValue()));
+		}
 		
 		return data;
 	}
@@ -75,10 +87,22 @@ public class MMigrationData extends X_AD_MigrationData {
 		MMigrationData data = new MMigrationData(parent);
 		Element element = (Element) item;
 		data.setIsOldNull("true".equals(element.getAttribute("isOldNull")));
-		data.setOldValue(element.getAttribute("oldValue"));
-		data.setAD_Column_ID(Integer.parseInt(element.getAttribute("AD_Column_ID")));
+		if (!element.getAttribute("oldReferenceUUID").isEmpty())
+			data.setOldValue("@UUID@" + element.getAttribute("oldReferenceTable") + ":"
+					+ element.getAttribute("oldReferenceUUID"));
+		else
+			data.setOldValue(element.getAttribute("oldValue"));
+		MTable table = MTable.get(parent.getCtx(), parent.getAD_Table_ID());
+		int columnId = table == null ? 0 : MColumn.getColumn_ID(table.getTableName(),
+				element.getAttribute("Column"));
+		data.setAD_Column_ID(columnId > 0 ? columnId
+				: Integer.parseInt(element.getAttribute("AD_Column_ID")));
 		data.setIsNewNull("true".equals(element.getAttribute("isNewNull")));
-		data.setNewValue(element.getTextContent());
+		if (!element.getAttribute("referenceUUID").isEmpty())
+			data.setNewValue("@UUID@" + element.getAttribute("referenceTable") + ":"
+					+ element.getAttribute("referenceUUID"));
+		else
+			data.setNewValue(element.getTextContent());
 		data.saveEx();
 	}
 
