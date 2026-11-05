@@ -86,7 +86,7 @@ public class FactReconciliation extends SvrProcess
 			sql = "DELETE FROM T_Reconciliation t " +
 			"WHERE (SELECT SUM(f.amtacctdr-f.amtacctcr) FROM T_Reconciliation r " +
 				"    INNER JOIN Fact_Acct f ON (f.Fact_Acct_ID = r.Fact_Acct_ID) " +
-				"       WHERE r.MatchCode=t.MatchCode" +
+				"       WHERE r.MatchCode=t.MatchCode " +
 				"       AND r.AD_PInstance_ID = t.AD_PInstance_ID) = 0 " +
 				"AND t.AD_PInstance_ID = ?";
 		

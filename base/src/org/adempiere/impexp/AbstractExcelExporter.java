@@ -128,13 +128,13 @@ public abstract class AbstractExcelExporter
 	/** Logger */
 	protected final CLogger log = CLogger.getCLogger(getClass());
 	//
-	private SXSSFWorkbook m_workbook;  // Use SXSSFWorkbook specifically for streaming
-	private DataFormat m_dataFormat;
-	private Font m_fontHeader = null;
-	private Font m_fontDefault = null;
-	private Font m_fontFunction = null;  // Cache function row font
-	private Language m_lang = null;
-	private int m_sheetCount = 0;
+	private SXSSFWorkbook workbook;  // Use SXSSFWorkbook specifically for streaming
+	private DataFormat dataFormat;
+	private Font fontHeader = null;
+	private Font fontDefault = null;
+	private Font fontFunction = null;  // Cache function row font
+	private Language language = null;
+	private int sheetCount = 0;
 	protected boolean dataIncludeHeader = false;
 
 	public boolean isXLSX = false;
@@ -146,10 +146,10 @@ public abstract class AbstractExcelExporter
 	private static final int DEFAULT_COLUMN_WIDTH = 4000;  // Default width when not auto-sizing (~15 chars)
 
 	//
-	private int m_colSplit = 1;
-	private int m_rowSplit = 1;
+	private int columnSplit = 1;
+	private int rowSplit = 1;
 	/** Styles cache */
-	private HashMap<String, CellStyle> m_styles = new HashMap<String, CellStyle>();
+	private HashMap<String, CellStyle> styles = new HashMap<String, CellStyle>();
 
 	public AbstractExcelExporter() {
 		initWorkbook();
@@ -160,20 +160,26 @@ public abstract class AbstractExcelExporter
 	 */
 	private void initWorkbook() {
 		// Dispose of any existing workbook to free resources
-		if (m_workbook != null) {
+		if (workbook != null) {
 			try {
-				m_workbook.dispose();
+				workbook.dispose();
 			} catch (Exception e) {
 				// Ignore disposal errors
 			}
 		}
 		// Use SXSSFWorkbook with window size for better memory management
-		m_workbook = new SXSSFWorkbook(SXSSF_WINDOW_SIZE);
+		workbook = new SXSSFWorkbook(SXSSF_WINDOW_SIZE);
 		// Set compression for temp files
-		m_workbook.setCompressTempFiles(true);
-		m_dataFormat = m_workbook.createDataFormat();
+		workbook.setCompressTempFiles(true);
+		dataFormat = workbook.createDataFormat();
 		// Clear style cache when creating new workbook
-		m_styles.clear();
+		styles.clear();
+		// Reset per-workbook state so a repeated export on the same instance starts clean:
+		// cached fonts and the sheet counter belong to the workbook just disposed
+		fontHeader = null;
+		fontDefault = null;
+		fontFunction = null;
+		sheetCount = 0;
 	}
 
 	protected Properties getCtx() {
@@ -181,8 +187,8 @@ public abstract class AbstractExcelExporter
 	}
 
 	protected void setFreezePane(int colSplit, int rowSplit) {
-		m_colSplit = colSplit;
-		m_rowSplit = rowSplit;
+		columnSplit = colSplit;
+		rowSplit = rowSplit;
 	}
 
 	private String fixString(String str)
@@ -192,9 +198,9 @@ public abstract class AbstractExcelExporter
 	}
 
 	protected Language getLanguage() {
-		if (m_lang == null)
-			m_lang = Env.getLanguage(getCtx());
-		return m_lang;
+		if (language == null)
+			language = Env.getLanguage(getCtx());
+		return language;
 	}
 	
 	/**
@@ -208,26 +214,26 @@ public abstract class AbstractExcelExporter
 	private Font getFont(boolean isHeader) {
 		Font font = null;
 		if (isHeader) {
-			if (m_fontHeader == null) {
-				m_fontHeader = m_workbook.createFont();
-				m_fontHeader.setBold(true);
+			if (fontHeader == null) {
+				fontHeader = workbook.createFont();
+				fontHeader.setBold(true);
 			}
-			font = m_fontHeader;
+			font = fontHeader;
 		}
 		else if (isFunctionRow()) {
 			// Cache function row font to avoid creating new instances
-			if (m_fontFunction == null) {
-				m_fontFunction = m_workbook.createFont();
-				m_fontFunction.setBold(true);
-				m_fontFunction.setItalic(true);
+			if (fontFunction == null) {
+				fontFunction = workbook.createFont();
+				fontFunction.setBold(true);
+				fontFunction.setItalic(true);
 			}
-			font = m_fontFunction;
+			font = fontFunction;
 		}
 		else {
-			if (m_fontDefault == null) {
-				m_fontDefault = m_workbook.createFont();
+			if (fontDefault == null) {
+				fontDefault = workbook.createFont();
 			}
-			font = m_fontDefault;
+			font = fontDefault;
 		}
 		return font;
 	}
@@ -289,10 +295,10 @@ public abstract class AbstractExcelExporter
 		}
 		String key = keyBuilder.toString();
 		
-		CellStyle cs = m_styles.get(key);
+		CellStyle cs = styles.get(key);
 		if (cs == null) {
 			boolean isHighlightNegativeNumbers = true;
-			cs = m_workbook.createCellStyle();
+			cs = workbook.createCellStyle();
 			Font font = getFont(false);
 			cs.setFont(font);
 			// Border
@@ -302,24 +308,24 @@ public abstract class AbstractExcelExporter
 			cs.setBorderBottom(BorderStyle.THIN);
 			//
 			if (DisplayType.isDate(displayType)) {
-				//cs.setDataFormat(m_dataFormat.getFormat("DD.MM.YYYY"));
+				//cs.setDataFormat(dataFormat.getFormat("DD.MM.YYYY"));
 				if (formatPattern != null) {
-					cs.setDataFormat(m_dataFormat.getFormat(formatPattern));
+					cs.setDataFormat(dataFormat.getFormat(formatPattern));
 				} else {
 					SimpleDateFormat sdf = DisplayType.getDateFormat(DisplayType.Date, getLanguage());
-					cs.setDataFormat(m_dataFormat.getFormat(sdf.toPattern()));
+					cs.setDataFormat(dataFormat.getFormat(sdf.toPattern()));
 				}
 			}
 			else if (DisplayType.isNumeric(displayType)) {
 				if (formatPattern != null) {
-					cs.setDataFormat(m_dataFormat.getFormat(formatPattern));
+					cs.setDataFormat(dataFormat.getFormat(formatPattern));
 				} else {
 					DecimalFormat df = DisplayType.getNumberFormat(displayType, getLanguage());
 					String format = getFormatString(df, isHighlightNegativeNumbers);
-					cs.setDataFormat(m_dataFormat.getFormat(format));
+					cs.setDataFormat(dataFormat.getFormat(format));
 				}
 			}
-			m_styles.put(key, cs);
+			styles.put(key, cs);
 		}
 		return cs;
 	}
@@ -327,19 +333,19 @@ public abstract class AbstractExcelExporter
 	private CellStyle getHeaderStyle(int col)
 	{
 		String key = "header-"+col;
-		CellStyle cs_header = m_styles.get(key);
+		CellStyle cs_header = styles.get(key);
 		if (cs_header == null) {
 			Font font_header = getFont(true);
-			cs_header = m_workbook.createCellStyle();
+			cs_header = workbook.createCellStyle();
 			cs_header.setFont(font_header);
 			cs_header.setBorderLeft(BorderStyle.THIN);
 			cs_header.setBorderTop(BorderStyle.THIN);
 			cs_header.setBorderRight(BorderStyle.THIN);
 			cs_header.setBorderBottom(BorderStyle.THIN);
 			//cs_header.setDataFormat(HSSFDataFormat.getBuiltinFormat("text"));
-			cs_header.setDataFormat(m_workbook.createDataFormat().getFormat("text"));
+			cs_header.setDataFormat(workbook.createDataFormat().getFormat("text"));
 			cs_header.setWrapText(true);
-			m_styles.put(key, cs_header);
+			styles.put(key, cs_header);
 		}
 		return cs_header;
 	}
@@ -359,7 +365,7 @@ public abstract class AbstractExcelExporter
 					// If auto-size fails, set default width
 					try {
 						sheet.setColumnWidth(colnum, DEFAULT_COLUMN_WIDTH);
-					} catch (Exception ex) {
+					} catch (Exception widthException) {
 						// Ignore column width errors
 					}
 				}
@@ -384,12 +390,12 @@ public abstract class AbstractExcelExporter
 			return;
 		//
 		fixColumnWidth(prevSheet, colCount);
-		if (m_colSplit >= 0 || m_rowSplit >= 0)
-			prevSheet.createFreezePane(m_colSplit >= 0 ? m_colSplit : 0, m_rowSplit >= 0 ? m_rowSplit : 0);
-		if (!Util.isEmpty(prevSheetName, true) && m_sheetCount > 0) {
-			int prevSheetIndex = m_sheetCount - 1;
+		if (columnSplit >= 0 || rowSplit >= 0)
+			prevSheet.createFreezePane(columnSplit >= 0 ? columnSplit : 0, rowSplit >= 0 ? rowSplit : 0);
+		if (!Util.isEmpty(prevSheetName, true) && sheetCount > 0) {
+			int prevSheetIndex = sheetCount - 1;
 			try {
-				m_workbook.setSheetName(prevSheetIndex, prevSheetName);
+				workbook.setSheetName(prevSheetIndex, prevSheetName);
 			}
 			catch (Exception e) {
 				log.log(Level.WARNING, "Error setting sheet "+prevSheetIndex+" name to "+prevSheetName, e);
@@ -398,7 +404,7 @@ public abstract class AbstractExcelExporter
 	}
 	private SXSSFSheet createTableSheet()
 	{
-		SXSSFSheet sheet = (SXSSFSheet) m_workbook.createSheet();
+		SXSSFSheet sheet = (SXSSFSheet) workbook.createSheet();
 		formatPage(sheet);
 		// Only track columns if auto-sizing is explicitly enabled
 		// This is memory intensive and should be avoided for large exports
@@ -420,7 +426,7 @@ public abstract class AbstractExcelExporter
 		if (!dataIncludeHeader)
 			createTableHeader(sheet);
 
-		m_sheetCount++;
+		sheetCount++;
 		return sheet;
 	}
 
@@ -446,7 +452,7 @@ public abstract class AbstractExcelExporter
 				colnum++;
 			}	//	printed
 		}	//	for all columns
-//		m_workbook.setRepeatingRowsAndColumns(m_sheetCount, 0, 0, 0, 0);
+//		workbook.setRepeatingRowsAndColumns(sheetCount, 0, 0, 0, 0);
 	}
 
 	protected void createHeaderFooter(Sheet sheet)
@@ -519,47 +525,47 @@ public abstract class AbstractExcelExporter
 						Cell cell = row.createCell(colnum);
 						
 						// line row
-						Object obj = getValueAt(rownum, col);
+						Object cellValue = getValueAt(rownum, col);
 						
 						// Evaluate display type for each individual cell to handle varying types per row
 						int displayType = getDisplayType(rownum, col);
 						
-						if (obj == null) {
+						if (cellValue == null) {
 							// Leave cell empty
 						}
 						else if (DisplayType.isDate(displayType)) {
-							if (obj instanceof Timestamp) {
-								cell.setCellValue((Timestamp)obj);
+							if (cellValue instanceof Timestamp) {
+								cell.setCellValue((Timestamp)cellValue);
 							} else {
 								// Fallback for unexpected data type
-								String value = fixString(obj.toString());
+								String value = fixString(cellValue.toString());
 								cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(value));
 							}
 						}
 						else if (DisplayType.isNumeric(displayType)) {
-							if (obj instanceof Number) {
-								cell.setCellValue(((Number)obj).doubleValue());
+							if (cellValue instanceof Number) {
+								cell.setCellValue(((Number)cellValue).doubleValue());
 							} else {
 								// Fallback for non-numeric in numeric column
 								try {
-									cell.setCellValue(Double.parseDouble(obj.toString()));
+									cell.setCellValue(Double.parseDouble(cellValue.toString()));
 								} catch (NumberFormatException e) {
-									cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(obj.toString()));
+									cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(cellValue.toString()));
 								}
 							}
 						}
 						else if (DisplayType.YesNo == displayType) {
 							boolean value = false;
-							if (obj instanceof Boolean)
-								value = (Boolean)obj;
+							if (cellValue instanceof Boolean)
+								value = (Boolean)cellValue;
 							else
-								value = "Y".equals(obj);
+								value = "Y".equals(cellValue);
 							cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(
 									Msg.getMsg(getLanguage(), value ? "Y" : "N")));
 						}
 						else {
 							// String or other types
-							String value = fixString(obj.toString());	//	formatted
+							String value = fixString(cellValue.toString());	//	formatted
 							cell.setCellValue(sheet.getWorkbook().getCreationHelper().createRichTextString(value));
 						}
 						//
@@ -622,47 +628,47 @@ public abstract class AbstractExcelExporter
 			
 			closeTableSheet(sheet, sheetName, colnumMax);
 			//
-			m_workbook.write(out);
+			workbook.write(out);
 			out.close();
 		} finally {
 			// Clean up resources in finally block to ensure disposal even on errors
-			if (m_workbook != null) {
+			if (workbook != null) {
 				try {
-					m_workbook.dispose();
+					workbook.dispose();
 				} catch (Exception e) {
 					log.log(Level.FINE, "Error disposing workbook", e);
 				}
-				m_workbook = null;
+				workbook = null;
 			}
 		}
 		
 		// Workbook Info
 		if (CLogMgt.isLevelFine()) {
-			log.fine("Export completed - Sheets: " + m_sheetCount + ", Styles cached: " + m_styles.size());
+			log.fine("Export completed - Sheets: " + sheetCount + ", Styles cached: " + styles.size());
 		}
 	}
 
 	/**
 	 * Export to file
 	 * @param file
-	 * @param language reporting language
+	 * @param exportLanguage reporting language
 	 * @throws Exception
 	 */
-	public void export(File file, Language language) throws Exception
+	public void export(File file, Language exportLanguage) throws Exception
 	{
-		export(file, language, true);
+		export(file, exportLanguage, true);
 	}
 
 	/**
 	 * Export to file
 	 * @param file
-	 * @param language reporting language
+	 * @param exportLanguage reporting language
 	 * @param autoOpen auto open file after generated
 	 * @throws Exception
 	 */
-	public void export(File file, Language language, boolean autoOpen) throws Exception
+	public void export(File file, Language exportLanguage, boolean autoOpen) throws Exception
 	{
-		m_lang = language;
+		language = exportLanguage;
 		// Reinitialize workbook with optimized settings
 		initWorkbook();
 		if (file == null)
@@ -679,7 +685,7 @@ public abstract class AbstractExcelExporter
 	 */
 	public File export() throws Exception
 	{
-		m_lang = Env.getLanguage(getCtx());
+		language = Env.getLanguage(getCtx());
 		// Reinitialize workbook with optimized settings
 		initWorkbook();
 		File file = File.createTempFile("Report_", ".xlsx");

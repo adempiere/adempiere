@@ -251,22 +251,22 @@ public class MHRConcept extends X_HR_Concept {
                                             Optional<Integer> optionalPartnerGroupId) {
         StringBuilder whereClause = new StringBuilder();
         ArrayList<Object> paramenters =  new ArrayList<>();
-        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=?");
+        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=? ");
         paramenters.add(getHR_Concept_ID());
         optionalAcctSchemaId.ifPresent(accountSchemaId -> {
-            whereClause.append(" AND ").append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? ");
+            whereClause.append("AND ").append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? ");
             paramenters.add(accountSchemaId);
         });
         optionalPayrollId.ifPresent(payrollId -> {
             whereClause.append("AND (")
                     .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append("=? OR  ")
-                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL)");
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL) ");
             paramenters.add(payrollId);
         });
 
         optionalPartnerGroupId.ifPresent(partnerGroupId -> {
-                whereClause.append(" AND (").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
-                                       .append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append(" IS NULL)");
+                whereClause.append("AND (").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
+                                       .append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append(" IS NULL) ");
                 paramenters.add(partnerGroupId);
         });
 

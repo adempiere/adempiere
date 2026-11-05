@@ -114,9 +114,9 @@ public class MStorage extends X_M_Storage
 		if (attributeSetInstanceId == 0)
 			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? OR ").append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append(" IS NULL ");
 		else
-			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=?");
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? ");
 
-		whereClause.append(" AND QtyReserved <> 0");
+		whereClause.append("AND QtyReserved <> 0 ");
 
 		return new Query(ctx,MStorage.Table_Name, whereClause.toString(), trxName).setClient_ID()
 		.setParameters( warehouseId , productId , attributeSetInstanceId)
@@ -143,9 +143,9 @@ public class MStorage extends X_M_Storage
 		if (attributeSetInstanceId == 0)
 			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? OR ").append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append(" IS NULL ");
 		else
-			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=?");
+			whereClause.append(MStorage.COLUMNNAME_M_AttributeSetInstance_ID).append("=? ");
 
-		whereClause.append(" AND QtyOrdered <> 0");
+		whereClause.append("AND QtyOrdered <> 0 ");
 
 		return new Query(ctx,MStorage.Table_Name, whereClause.toString(), trxName).setClient_ID()
 		.setParameters( warehouseId , productId , attributeSetInstanceId)
@@ -167,9 +167,9 @@ public class MStorage extends X_M_Storage
 	{
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		String sql = "SELECT * FROM M_Storage "
-			+ "WHERE M_Product_ID=? AND M_Locator_ID=?"
-			+ " AND M_AttributeSetInstance_ID > 0 "
-			+ " AND QtyOnHand <> 0 "			
+			+ "WHERE M_Product_ID=? AND M_Locator_ID=? "
+			+ "AND M_AttributeSetInstance_ID > 0 "
+			+ "AND QtyOnHand <> 0 "
 			+ "ORDER BY M_AttributeSetInstance_ID";
 		if (!FiFo)
 			sql += " DESC";
@@ -211,8 +211,8 @@ public class MStorage extends X_M_Storage
 	{
 		ArrayList<MStorage> list = new ArrayList<MStorage>();
 		String sql = "SELECT * FROM M_Storage "
-			+ "WHERE M_Product_ID=? AND M_Locator_ID=?"
-			+ " AND QtyOnHand <> 0 "
+			+ "WHERE M_Product_ID=? AND M_Locator_ID=? "
+			+ "AND QtyOnHand <> 0 "
 			+ "ORDER BY M_AttributeSetInstance_ID";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -330,18 +330,18 @@ public class MStorage extends X_M_Storage
 				+ " FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
 		if (M_Locator_ID > 0)
-			sql += "WHERE l.M_Locator_ID = ?";
+			sql += "WHERE l.M_Locator_ID = ? ";
 		else
-			sql += "WHERE l.M_Warehouse_ID=?";
-		sql += " AND s.M_Product_ID=?"
-			 + " AND COALESCE(s.M_AttributeSetInstance_ID,0)=? ";
+			sql += "WHERE l.M_Warehouse_ID=? ";
+		sql += "AND s.M_Product_ID=? "
+			 + "AND COALESCE(s.M_AttributeSetInstance_ID,0)=? ";
 		if (positiveOnly)
 		{
-			sql += " AND s.QtyOnHand > 0 ";
+			sql += "AND s.QtyOnHand > 0 ";
 		}
 		else
 		{
-			sql += " AND s.QtyOnHand <> 0 ";
+			sql += "AND s.QtyOnHand <> 0 ";
 		}
 		sql += "ORDER BY l.PriorityNo DESC, M_AttributeSetInstance_ID";
 		if (!FiFo)
@@ -354,17 +354,17 @@ public class MStorage extends X_M_Storage
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
 			if (M_Locator_ID > 0)
-				sql += "WHERE l.M_Locator_ID = ?";
+				sql += "WHERE l.M_Locator_ID = ? ";
 			else
-				sql += "WHERE l.M_Warehouse_ID=?";
-			sql += " AND s.M_Product_ID=? ";
+				sql += "WHERE l.M_Warehouse_ID=? ";
+			sql += "AND s.M_Product_ID=? ";
 			if (positiveOnly)
 			{
-				sql += " AND s.QtyOnHand > 0 ";
+				sql += "AND s.QtyOnHand > 0 ";
 			}
 			else
 			{
-				sql += " AND s.QtyOnHand <> 0 ";
+				sql += "AND s.QtyOnHand <> 0 ";
 			}
 			if (minGuaranteeDate != null)
 			{
@@ -581,10 +581,10 @@ public class MStorage extends X_M_Storage
 			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
 			+ " INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
 			+ " LEFT OUTER JOIN M_AttributeSet mas ON (p.M_AttributeSet_ID=mas.M_AttributeSet_ID) "
-			+ "WHERE l.M_Warehouse_ID=?"
-			+ " AND s.M_Product_ID=?"
-			+ " AND (mas.IsInstanceAttribute IS NULL OR mas.IsInstanceAttribute='N' OR s.M_AttributeSetInstance_ID=?)"
-			+ " AND l.IsActive='Y' "
+			+ "WHERE l.M_Warehouse_ID=? "
+			+ "AND s.M_Product_ID=? "
+			+ "AND (mas.IsInstanceAttribute IS NULL OR mas.IsInstanceAttribute='N' OR s.M_AttributeSetInstance_ID=?) "
+			+ "AND l.IsActive='Y' "
 			+ "ORDER BY l.PriorityNo DESC, s.QtyOnHand DESC";
 		
 		PreparedStatement pstmt = null;
@@ -656,21 +656,21 @@ public class MStorage extends X_M_Storage
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(s.QtyOnHand-s.QtyReserved),0)")
 								.append(" FROM M_Storage s")
-								.append(" WHERE s.M_Product_ID=?");
+								.append(" WHERE s.M_Product_ID=? ");
 		params.add(M_Product_ID);
 		// Warehouse level
 		if (M_Locator_ID == 0) {
-			sql.append(" AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID=l.M_Locator_ID AND l.M_Warehouse_ID=?)");
+			sql.append("AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID=l.M_Locator_ID AND l.M_Warehouse_ID=?) ");
 			params.add(M_Warehouse_ID);
 		}
 		// Locator level
 		else {
-			sql.append(" AND s.M_Locator_ID=?");
+			sql.append("AND s.M_Locator_ID=? ");
 			params.add(M_Locator_ID);
 		}
 		// With ASI
 		if (M_AttributeSetInstance_ID != 0) {
-			sql.append(" AND s.M_AttributeSetInstance_ID=?");
+			sql.append("AND s.M_AttributeSetInstance_ID=? ");
 			params.add(M_AttributeSetInstance_ID);
 		}
 		//
