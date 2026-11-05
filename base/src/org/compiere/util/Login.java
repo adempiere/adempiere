@@ -932,93 +932,111 @@ public class Login
 			+ "FROM C_AcctSchema a, AD_ClientInfo c "
 			+ "WHERE a.C_AcctSchema_ID=c.C_AcctSchema1_ID "
 			+ "AND c.AD_Client_ID=?";
-			List<Object> parameters = List.of(clientId);
-			Try<Void> tryAcctSchema =  DB.runResultSetFunction.apply(null , sql , parameters, resultSet -> {
-			List<Tuple3<Integer , Integer , String >> acctSchemas = new ResultSetIterable<>(resultSet ,  row -> {
+		List<Object> parameters = List.of(clientId);
+		final AtomicReference<List<Tuple3<Integer , Integer , String >>> acctSchemasRead =
+				new AtomicReference<>(List.empty());
+		Try<Void> tryAcctSchema =  DB.runResultSetFunction.apply(null , sql , parameters, resultSet -> {
+			acctSchemasRead.set(new ResultSetIterable<>(resultSet ,  row -> {
 				return Tuple.of(
 						row.getInt("C_AcctSchema_ID") ,
 						row.getInt("C_Currency_ID") ,
 						row.getString("HasAlias")
 				);
-			}).toList();
-			if (acctSchemas.isEmpty()) {
-				//  No Warning for System
-				if (roleId != 0)
-					retValue.set("NoValidAcctInfo");
-			} else {
-				//	Accounting Info
-				acctSchemas.forEach( acctSchema -> {
-					int acctSchemaId = acctSchema._1;
-					Env.setContext(m_ctx, "$C_AcctSchema_ID",acctSchemaId);
-					Env.setContext(m_ctx, "$C_Currency_ID", acctSchema._2);
-					Env.setContext(m_ctx, "$HasAlias",acctSchema._3);
-					//Define AcctSchema , Currency, HasAlias for Multi AcctSchema
-					MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), clientId);
-					if(clientAcctSchemes != null && clientAcctSchemes.length > 1) {
-						acctSchemaId = List.of(clientAcctSchemes)
-								.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(organizationId))
-								.map(accountSchema -> {
-									Env.setContext(m_ctx, "$C_AcctSchema_ID", accountSchema.getC_AcctSchema_ID());
-									Env.setContext(m_ctx, "$C_Currency_ID", accountSchema.getC_Currency_ID());
-									Env.setContext(m_ctx, "$HasAlias", accountSchema.isHasAlias());
-									return accountSchema.getC_AcctSchema_ID();
-								}).getOrElse(MClientInfo.get(Env.getCtx(), clientId).getC_AcctSchema1_ID());
-					}
-					//	Accounting Elements
-					List<MAcctSchemaElement> acctSchemaElements = List.ofAll(new Query(m_ctx , MAcctSchemaElement.Table_Name , " C_AcctSchema_ID = ?" , null)
-							.setOnlyActiveRecords(true)
-							.setParameters(acctSchemaId)
-							.<MAcctSchemaElement>list());
+			}).toList());
+		}).onFailure(throwable -> {
+			log.log(Level.SEVERE, "loadPreferences", throwable);
+			retValue.set(throwable.getMessage());
+		});
+		List<Tuple3<Integer , Integer , String >> acctSchemas = acctSchemasRead.get();
+		if (tryAcctSchema.isSuccess()) {
+			try {
+				if (acctSchemas.isEmpty()) {
+					//  No Warning for System
+					if (roleId != 0)
+						retValue.set("NoValidAcctInfo");
+				} else {
+					//	Accounting Info
+					acctSchemas.forEach( acctSchema -> {
+						int acctSchemaId = acctSchema._1;
+						Env.setContext(m_ctx, "$C_AcctSchema_ID",acctSchemaId);
+						Env.setContext(m_ctx, "$C_Currency_ID", acctSchema._2);
+						Env.setContext(m_ctx, "$HasAlias",acctSchema._3);
+						//Define AcctSchema , Currency, HasAlias for Multi AcctSchema
+						MAcctSchema[] clientAcctSchemes = MAcctSchema.getClientAcctSchema(Env.getCtx(), clientId);
+						if(clientAcctSchemes != null && clientAcctSchemes.length > 1) {
+							acctSchemaId = List.of(clientAcctSchemes)
+									.filter(accountSchema -> accountSchema.getAD_OrgOnly_ID() != 0 && !accountSchema.isSkipOrg(organizationId))
+									.map(accountSchema -> {
+										Env.setContext(m_ctx, "$C_AcctSchema_ID", accountSchema.getC_AcctSchema_ID());
+										Env.setContext(m_ctx, "$C_Currency_ID", accountSchema.getC_Currency_ID());
+										Env.setContext(m_ctx, "$HasAlias", accountSchema.isHasAlias());
+										return accountSchema.getC_AcctSchema_ID();
+									}).getOrElse(MClientInfo.get(Env.getCtx(), clientId).getC_AcctSchema1_ID());
+						}
+						//	Accounting Elements
+						List<MAcctSchemaElement> acctSchemaElements = List.ofAll(new Query(m_ctx , MAcctSchemaElement.Table_Name , " C_AcctSchema_ID = ?" , null)
+								.setOnlyActiveRecords(true)
+								.setParameters(acctSchemaId)
+								.<MAcctSchemaElement>list());
 
-					acctSchemaElements.forEach(acctSchemaElement -> {
-						Env.setContext(m_ctx, "$Element_" + acctSchemaElement.getElementType(), "Y");
-					});
-
-					final String whereClause =  "AD_Client_ID IN (0, @#AD_Client_ID@)"
-							+ " AND AD_Org_ID IN (0, @#AD_Org_ID@)"
-							+ " AND (AD_User_ID IS NULL OR AD_User_ID=0 OR AD_User_ID=@#AD_User_ID@)";
-
-					final String whereClauseFinal = Env.parseContext(m_ctx, 0, whereClause, false);
-					if (whereClauseFinal.length() == 0)
-						log.log(Level.SEVERE, "loadPreferences - Missing Environment");
-					else
-					{
-						List<MPreference> preferences =  List.ofAll(new Query(m_ctx, MPreference.Table_Name , whereClauseFinal , null)
-							.setOnlyActiveRecords(true)
-							.setOrderBy("Attribute, AD_Client_ID, AD_User_ID DESC, AD_Org_ID")
-							.list());
-						//	This reads all relevant window neutral defaults
-						//	overwriting superseded ones.  Window specific is read in Maintain
-						preferences.forEach(preference -> {
-							//sql = "SELECT Attribute, Value, AD_Window_ID "
-							int windowId = preference.getAD_Window_ID();
-							String at = "";
-							if (windowId == 0)
-								at = "P|" + preference.getAttribute();
-							else
-								at = "P" + windowId + "|" +  preference.getAttribute();
-							String value = preference.getValue();
-							Env.setContext(m_ctx, at, value);
+						acctSchemaElements.forEach(acctSchemaElement -> {
+							Env.setContext(m_ctx, "$Element_" + acctSchemaElement.getElementType(), "Y");
 						});
-						//	Default Values
-						final String columnsSelect = "SELECT t.TableName, c.ColumnName "
-								+ "FROM AD_Column c "
-								+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
-								+ "WHERE c.IsKey = ? AND t.IsActive = ? "
-								+ " AND EXISTS (SELECT * FROM AD_Column cc "
-								+ " WHERE ColumnName = 'IsDefault' AND t.AD_Table_ID=cc.AD_Table_ID AND cc.IsActive = ? )";
-						List<Object> parametersColumnsSelect = List.of(true,true,true);
-						Try<Void> tryColumns = DB.runResultSetFunction.apply(null , columnsSelect ,parametersColumnsSelect , resultSet1 -> {
-							while (resultSet1.next())
-								loadDefault (resultSet1.getString("TableName"), resultSet1.getString("ColumnName"));
-						}).onFailure(throwable -> log.log(Level.SEVERE, "loadPreferences", throwable));
-					}
-				});
+
+						final String whereClause =  "AD_Client_ID IN (0, @#AD_Client_ID@)"
+								+ " AND AD_Org_ID IN (0, @#AD_Org_ID@)"
+								+ " AND (AD_User_ID IS NULL OR AD_User_ID=0 OR AD_User_ID=@#AD_User_ID@)";
+
+						final String whereClauseFinal = Env.parseContext(m_ctx, 0, whereClause, false);
+						if (whereClauseFinal.length() == 0)
+							log.log(Level.SEVERE, "loadPreferences - Missing Environment");
+						else
+						{
+							List<MPreference> preferences =  List.ofAll(new Query(m_ctx, MPreference.Table_Name , whereClauseFinal , null)
+								.setOnlyActiveRecords(true)
+								.setOrderBy("Attribute, AD_Client_ID, AD_User_ID DESC, AD_Org_ID")
+								.list());
+							//	This reads all relevant window neutral defaults
+							//	overwriting superseded ones.  Window specific is read in Maintain
+							preferences.forEach(preference -> {
+								//sql = "SELECT Attribute, Value, AD_Window_ID "
+								int windowId = preference.getAD_Window_ID();
+								String at = "";
+								if (windowId == 0)
+									at = "P|" + preference.getAttribute();
+								else
+									at = "P" + windowId + "|" +  preference.getAttribute();
+								String value = preference.getValue();
+								Env.setContext(m_ctx, at, value);
+							});
+						}
+					});
+					//	Default Values
+					//	Loaded once per login after the schema loop: this query is not
+					//	accounting-schema specific, so repeating it per schema only adds
+					//	round trips and open connections during sign-in.
+					final String columnsSelect = "SELECT t.TableName, c.ColumnName "
+							+ "FROM AD_Column c "
+							+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
+							+ "WHERE c.IsKey = ? AND t.IsActive = ? "
+							+ " AND EXISTS (SELECT * FROM AD_Column cc "
+							+ " WHERE ColumnName = 'IsDefault' AND t.AD_Table_ID=cc.AD_Table_ID AND cc.IsActive = ? )";
+					List<Object> parametersColumnsSelect = List.of(true,true,true);
+					final AtomicReference<List<Tuple2<String , String>>> defaultColumns =
+							new AtomicReference<>(List.empty());
+					Try<Void> tryColumns = DB.runResultSetFunction.apply(null , columnsSelect ,parametersColumnsSelect , resultSet1 -> {
+						List<Tuple2<String , String>> pairs = List.empty();
+						while (resultSet1.next())
+							pairs = pairs.append(Tuple.of(resultSet1.getString("TableName"), resultSet1.getString("ColumnName")));
+						defaultColumns.set(pairs);
+					}).onFailure(throwable -> log.log(Level.SEVERE, "loadPreferences", throwable));
+					defaultColumns.get().forEach(pair -> loadDefault (pair._1, pair._2));
+				}
+			} catch (Exception exception) {
+				log.log(Level.SEVERE, "loadPreferences", exception);
+				retValue.set(exception.getMessage());
 			}
-			}).onFailure(throwable -> {
-				log.log(Level.SEVERE, "loadPreferences", throwable);
-				retValue.set(throwable.getMessage());
-			});
+		}
 
 		//
 		Ini.saveProperties(Ini.isClient());
