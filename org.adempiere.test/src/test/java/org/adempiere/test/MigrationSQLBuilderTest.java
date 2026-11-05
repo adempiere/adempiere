@@ -19,7 +19,8 @@ package org.adempiere.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -51,6 +52,7 @@ class MigrationSQLBuilderTest implements UnitTestTag {
 		updateValue.setAccessible(true);
 
 		assertEquals("NULL", updateValue.invoke(builder, 0, ""));
-		verifyNoInteractions(po);
+		verify(po).getCtx();
+		verifyNoMoreInteractions(po);
 	}
 }

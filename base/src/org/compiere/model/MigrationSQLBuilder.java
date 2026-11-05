@@ -22,11 +22,10 @@ import java.sql.Timestamp;
 import org.adempiere.core.domains.models.I_AD_Element;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Ini;
 import org.compiere.util.Util;
 
 /**
- * Builds portable SQL fragments for migration script logging.
+ * Builds the portable SQL fragments used only by migration script logging.
  *
  * @author Carlos Parada, cparada@erpya.com, https://erpya.com
  */
@@ -39,13 +38,15 @@ final class MigrationSQLBuilder {
 	MigrationSQLBuilder(PO po, POInfo info) {
 		this.po = po;
 		this.info = info;
-		this.enabled = Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
+		this.enabled = PO.isLogMigrationScript(po != null ? po.getCtx() : null);
 	}
 
 	boolean isCustomPrimaryKey(int index, Object value) {
 		String[] keys = po.get_KeyColumns();
 		return keys.length == 1 && keys[0].endsWith("_ID")
 				&& keys[0].equals(info.getColumnName(index))
+				&& info.getColumnIndex(I_AD_Element.COLUMNNAME_UUID) >= 0
+				&& !Util.isEmpty(po.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID))
 				&& value instanceof Integer
 				&& MigrationUUIDResolver.isCustomId(((Integer)value).intValue());
 	}
@@ -53,7 +54,9 @@ final class MigrationSQLBuilder {
 	String getWhereClause() {
 		if (info.getColumnIndex(I_AD_Element.COLUMNNAME_UUID) < 0)
 			return po.get_WhereClause(true);
-		String uuid = po.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID);
+		Object oldUUID = po.get_ValueOld(I_AD_Element.COLUMNNAME_UUID);
+		String uuid = oldUUID == null ? po.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID)
+				: oldUUID.toString();
 		String[] keys = po.get_KeyColumns();
 		if (keys.length == 1 && keys[0].endsWith("_ID")
 				&& MigrationUUIDResolver.isCustomId(po.get_ID()) && !Util.isEmpty(uuid))
@@ -80,11 +83,14 @@ final class MigrationSQLBuilder {
 		if (value instanceof Integer) {
 			MigrationUUIDResolver.Reference reference = enabled ? MigrationUUIDResolver.resolveReference(
 					po, info, index, ((Integer)value).intValue()) : null;
-			if (reference != null)
-				return "(SELECT " + reference.getKeyColumn() + " FROM "
-						+ reference.getTableName() + " WHERE "
-						+ I_AD_Element.COLUMNNAME_UUID + "="
-						+ DB.TO_STRING(reference.getUUID()) + ")";
+			if (reference != null) {
+				String match = " FROM " + reference.getTableName() + " WHERE "
+						+ I_AD_Element.COLUMNNAME_UUID + "=" + DB.TO_STRING(reference.getUUID());
+				// A missing destination UUID must fail the migration instead of
+				// silently writing NULL into a nullable foreign key.
+				return "COALESCE((SELECT " + reference.getKeyColumn() + match + "),"
+						+ "(SELECT 1 / COUNT(*)" + match + "))";
+			}
 			return po.encrypt(index, value).toString();
 		}
 		if (value instanceof BigDecimal)

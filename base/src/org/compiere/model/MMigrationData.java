@@ -24,8 +24,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-/*
- * Represents PO column data for a migration step
+/**
+ * Represents PO column data for a migration step.
+ *
+ * @author Carlos Parada, cparada@erpya.com, ERPyA https://erpya.com
  */
 public class MMigrationData extends X_AD_MigrationData {
 
@@ -95,8 +97,18 @@ public class MMigrationData extends X_AD_MigrationData {
 		MTable table = MTable.get(parent.getCtx(), parent.getAD_Table_ID());
 		int columnId = table == null ? 0 : MColumn.getColumn_ID(table.getTableName(),
 				element.getAttribute("Column"));
-		data.setAD_Column_ID(columnId > 0 ? columnId
-				: Integer.parseInt(element.getAttribute("AD_Column_ID")));
+		if (columnId <= 0) {
+			int sourceColumnId = Integer.parseInt(element.getAttribute("AD_Column_ID"));
+			MColumn sourceColumn = MColumn.get(parent.getCtx(), sourceColumnId);
+			if (sourceColumn == null || table == null
+					|| sourceColumn.getAD_Table_ID() != table.getAD_Table_ID()
+					|| !element.getAttribute("Column").equals(sourceColumn.getColumnName()))
+				throw new IllegalStateException("Cannot resolve migration column "
+						+ element.getAttribute("Column") + " in "
+						+ (table == null ? "unknown table" : table.getTableName()));
+			columnId = sourceColumnId;
+		}
+		data.setAD_Column_ID(columnId);
 		data.setIsNewNull("true".equals(element.getAttribute("isNewNull")));
 		if (!element.getAttribute("referenceUUID").isEmpty())
 			data.setNewValue("@UUID@" + element.getAttribute("referenceTable") + ":"

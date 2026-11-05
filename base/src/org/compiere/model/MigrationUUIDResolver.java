@@ -33,8 +33,8 @@ import org.compiere.util.Util;
 /**
  * Resolves installation-local record identifiers through their UUID.
  *
- * This class contains the portable identity rules used by Application Dictionary
- * migrations stored in AD_MigrationData.
+ * This class contains the portable identity rules shared by SQL migration
+ * scripts and Application Dictionary migrations stored in AD_MigrationData.
  *
  * @author Carlos Parada, cparada@erpya.com, ERPyA https://erpya.com
  */
@@ -59,7 +59,7 @@ public final class MigrationUUIDResolver {
 	}
 
 	/**
-	 * Holds a portable reference to a single-key record, identified by table and UUID.
+	 * A portable reference to a single-key record.
 	 *
 	 * @author Carlos Parada, cparada@erpya.com, ERPyA https://erpya.com
 	 */
@@ -89,9 +89,17 @@ public final class MigrationUUIDResolver {
 
 	/** Resolve a custom numeric value in a PO column to its referenced UUID. */
 	public static Reference resolveReference(PO po, POInfo info, int index, int recordId) {
+		return resolveReference(po, info, index, recordId, null);
+	}
+
+	private static Reference resolveReference(PO po, POInfo info, int index, int recordId,
+			Integer referencedTableId) {
 		if (!isCustomId(recordId))
 			return null;
-		String tableName = getReferenceTable(po, info, index);
+		MTable referencedTable = referencedTableId == null ? null
+				: MTable.get(po.getCtx(), referencedTableId.intValue());
+		String tableName = referencedTableId == null ? getReferenceTable(po, info, index)
+				: referencedTable == null ? null : referencedTable.getTableName();
 		if (Util.isEmpty(tableName))
 			return null;
 
@@ -101,21 +109,29 @@ public final class MigrationUUIDResolver {
 		String[] keys = table.getKeyColumns();
 		if (keys == null || keys.length != 1)
 			return null;
+		String keyColumn = getReferenceKeyColumn(po.get_TrxName(),
+				MColumn.get(po.getCtx(), info.getColumn(index).AD_Column_ID), keys[0]);
 
 		String uuid = DB.getSQLValueString(po.get_TrxName(),
 				"SELECT " + I_AD_Element.COLUMNNAME_UUID
 				+ " FROM " + table.getTableName()
-				+ " WHERE " + keys[0] + "=?", recordId);
+				+ " WHERE " + keyColumn + "=?", recordId);
 		if (Util.isEmpty(uuid))
 			return null;
-		return new Reference(table.getTableName(), keys[0], uuid);
+		return new Reference(table.getTableName(), keyColumn, uuid);
 	}
 
 	/** Encode a custom foreign key for storage in AD_MigrationData. */
 	public static String toPortableDataValue(PO po, POInfo info, int index, Object value) {
+		return toPortableDataValue(po, info, index, value, null);
+	}
+
+	public static String toPortableDataValue(PO po, POInfo info, int index, Object value,
+			Integer referencedTableId) {
 		if (!(value instanceof Integer))
 			return value == null ? null : value.toString();
-		Reference reference = resolveReference(po, info, index, ((Integer)value).intValue());
+		Reference reference = resolveReference(po, info, index, ((Integer)value).intValue(),
+				referencedTableId);
 		return reference == null ? value.toString() : encode(reference);
 	}
 
@@ -125,7 +141,21 @@ public final class MigrationUUIDResolver {
 		Reference reference = decode(value);
 		if (reference == null)
 			return value;
-		int id = findIdByUUID(ctx, trxName, reference.getTableName(), reference.getUUID());
+		String expectedTable = getReferenceTable(trxName, column);
+		String columnName = column.getColumnName();
+		if (Util.isEmpty(expectedTable) && !"Record_ID".equalsIgnoreCase(columnName)
+				&& !"Parent_ID".equalsIgnoreCase(columnName)
+				&& !"Node_ID".equalsIgnoreCase(columnName))
+			throw new IllegalStateException("Cannot determine reference table for " + columnName);
+		if (!Util.isEmpty(expectedTable)
+				&& !expectedTable.equalsIgnoreCase(reference.getTableName()))
+			throw new IllegalStateException("Reference table " + reference.getTableName()
+					+ " does not match " + expectedTable + " for " + column.getColumnName());
+		MTable table = MTable.get(ctx, reference.getTableName());
+		if (table == null || table.getKeyColumns().length != 1)
+			throw new IllegalStateException("Invalid UUID reference table " + reference.getTableName());
+		String keyColumn = getReferenceKeyColumn(trxName, column, table.getKeyColumns()[0]);
+		int id = findIdByUUID(ctx, trxName, reference.getTableName(), keyColumn, reference.getUUID());
 		if (id <= 0)
 			throw new IllegalStateException("No record found for " + reference.getTableName()
 					+ ".UUID=" + reference.getUUID() + " referenced by "
@@ -158,9 +188,52 @@ public final class MigrationUUIDResolver {
 		String[] keys = table.getKeyColumns();
 		if (keys == null || keys.length != 1)
 			return -1;
-		return DB.getSQLValue(trxName,
-				"SELECT " + keys[0] + " FROM " + table.getTableName()
+		return findIdByUUID(ctx, trxName, tableName, keys[0], uuid);
+	}
+
+	private static int findIdByUUID(Properties ctx, String trxName, String tableName,
+			String keyColumn, String uuid) {
+		MTable table = MTable.get(ctx, tableName);
+		if (table == null || table.getColumn(I_AD_Element.COLUMNNAME_UUID) == null
+				|| table.getColumn(keyColumn) == null)
+			return -1;
+		return DB.getSQLValue(trxName, "SELECT " + keyColumn + " FROM " + table.getTableName()
 				+ " WHERE " + I_AD_Element.COLUMNNAME_UUID + "=?", uuid);
+	}
+
+	private static String getReferenceKeyColumn(String trxName, MColumn column, String defaultKey) {
+		if (column == null || (column.getAD_Reference_ID() != DisplayType.Table
+				&& column.getAD_Reference_ID() != DisplayType.Search)
+				|| column.getAD_Reference_Value_ID() <= 0)
+			return defaultKey;
+		String key = DB.getSQLValueString(trxName,
+				"SELECT c.ColumnName FROM AD_Ref_Table rt"
+				+ " INNER JOIN AD_Column c ON (c.AD_Column_ID=rt.AD_Key)"
+				+ " WHERE rt.AD_Reference_ID=?", column.getAD_Reference_Value_ID());
+		return Util.isEmpty(key) ? defaultKey : key;
+	}
+
+	private static String getReferenceTable(String trxName, MColumn column) {
+		String name = column.getColumnName();
+		int displayType = column.getAD_Reference_ID();
+		if ((displayType == DisplayType.TableDir
+				|| (displayType == DisplayType.Search && column.getAD_Reference_Value_ID() == 0))
+				&& name.endsWith("_ID"))
+			return name.substring(0, name.length() - 3);
+		if ((displayType == DisplayType.Table || displayType == DisplayType.Search)
+				&& column.getAD_Reference_Value_ID() > 0)
+			return DB.getSQLValueString(trxName,
+					"SELECT t.TableName FROM AD_Ref_Table rt"
+					+ " INNER JOIN AD_Table t ON (t.AD_Table_ID=rt.AD_Table_ID)"
+					+ " WHERE rt.AD_Reference_ID=?", column.getAD_Reference_Value_ID());
+		if (displayType == DisplayType.Location) return I_C_Location.Table_Name;
+		if (displayType == DisplayType.Locator) return I_M_Locator.Table_Name;
+		if (displayType == DisplayType.Account) return I_C_ValidCombination.Table_Name;
+		if (displayType == DisplayType.Assignment) return I_S_ResourceAssignment.Table_Name;
+		if (displayType == DisplayType.PAttribute) return I_M_AttributeSetInstance.Table_Name;
+		if (displayType == DisplayType.Image) return I_AD_Image.Table_Name;
+		if (displayType == DisplayType.Chart) return I_AD_Chart.Table_Name;
+		return null;
 	}
 
 	private static String getReferenceTable(PO po, POInfo info, int index) {
@@ -176,18 +249,18 @@ public final class MigrationUUIDResolver {
 		if ("Node_ID".equalsIgnoreCase(columnName)
 				|| "Parent_ID".equalsIgnoreCase(columnName)) {
 			int treeIndex = info.getColumnIndex("AD_Tree_ID");
-			if (treeIndex < 0)
-				return null;
-			int treeId = po.get_ValueAsInt(treeIndex);
-			String tableName = DB.getSQLValueString(po.get_TrxName(),
-					"SELECT t.TableName FROM AD_Tree tr"
-					+ " INNER JOIN AD_Table t ON (t.AD_Table_ID=tr.AD_Table_ID)"
-					+ " WHERE tr.AD_Tree_ID=?", treeId);
-			if (!Util.isEmpty(tableName))
-				return tableName;
-			String treeType = DB.getSQLValueString(po.get_TrxName(),
-					"SELECT TreeType FROM AD_Tree WHERE AD_Tree_ID=?", treeId);
-			return MTree.getSourceTableName(treeType);
+			if (treeIndex >= 0) {
+				int treeId = po.get_ValueAsInt(treeIndex);
+				String tableName = DB.getSQLValueString(po.get_TrxName(),
+						"SELECT t.TableName FROM AD_Tree tr"
+						+ " INNER JOIN AD_Table t ON (t.AD_Table_ID=tr.AD_Table_ID)"
+						+ " WHERE tr.AD_Tree_ID=?", treeId);
+				if (!Util.isEmpty(tableName))
+					return tableName;
+				String treeType = DB.getSQLValueString(po.get_TrxName(),
+						"SELECT TreeType FROM AD_Tree WHERE AD_Tree_ID=?", treeId);
+				return MTree.getSourceTableName(treeType);
+			}
 		}
 
 		int displayType = info.getColumnDisplayType(index);
