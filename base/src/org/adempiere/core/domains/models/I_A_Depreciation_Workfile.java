@@ -102,19 +102,19 @@ public interface I_A_Depreciation_Workfile
     public static final String COLUMNNAME_A_Asset_Life_Years = "A_Asset_Life_Years";
 
 	/** Set Life Years	  */
-	public void setA_Asset_Life_Years (int A_Asset_Life_Years);
+	public void setA_Asset_Life_Years (BigDecimal A_Asset_Life_Years);
 
 	/** Get Life Years	  */
-	public int getA_Asset_Life_Years();
+	public BigDecimal getA_Asset_Life_Years();
 
     /** Column name A_Asset_Life_Years_F */
     public static final String COLUMNNAME_A_Asset_Life_Years_F = "A_Asset_Life_Years_F";
 
 	/** Set Life Years (fiscal)	  */
-	public void setA_Asset_Life_Years_F (int A_Asset_Life_Years_F);
+	public void setA_Asset_Life_Years_F (BigDecimal A_Asset_Life_Years_F);
 
 	/** Get Life Years (fiscal)	  */
-	public int getA_Asset_Life_Years_F();
+	public BigDecimal getA_Asset_Life_Years_F();
 
     /** Column name A_Asset_Remaining */
     public static final String COLUMNNAME_A_Asset_Remaining = "A_Asset_Remaining";
@@ -509,21 +509,21 @@ public interface I_A_Depreciation_Workfile
 	/** Set Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears);
+	public void setUseLifeYears (BigDecimal UseLifeYears);
 
 	/** Get Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public int getUseLifeYears();
+	public BigDecimal getUseLifeYears();
 
     /** Column name UseLifeYears_F */
     public static final String COLUMNNAME_UseLifeYears_F = "UseLifeYears_F";
 
 	/** Set Use Life - Years (fiscal)	  */
-	public void setUseLifeYears_F (int UseLifeYears_F);
+	public void setUseLifeYears_F (BigDecimal UseLifeYears_F);
 
 	/** Get Use Life - Years (fiscal)	  */
-	public int getUseLifeYears_F();
+	public BigDecimal getUseLifeYears_F();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

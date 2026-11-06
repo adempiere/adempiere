@@ -229,19 +229,19 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 
 	/** Set Life Years.
 		@param A_Asset_Life_Years Life Years	  */
-	public void setA_Asset_Life_Years (int A_Asset_Life_Years)
+	public void setA_Asset_Life_Years (BigDecimal A_Asset_Life_Years)
 	{
-		set_Value (COLUMNNAME_A_Asset_Life_Years, Integer.valueOf(A_Asset_Life_Years));
+		set_Value (COLUMNNAME_A_Asset_Life_Years, A_Asset_Life_Years);
 	}
 
 	/** Get Life Years.
 		@return Life Years	  */
-	public int getA_Asset_Life_Years () 
+	public BigDecimal getA_Asset_Life_Years () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Life_Years);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Life_Years);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.adempiere.core.domains.models.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
@@ -1572,20 +1572,20 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		@param UseLifeYears 
 		Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears)
+	public void setUseLifeYears (BigDecimal UseLifeYears)
 	{
-		set_Value (COLUMNNAME_UseLifeYears, Integer.valueOf(UseLifeYears));
+		set_Value (COLUMNNAME_UseLifeYears, UseLifeYears);
 	}
 
 	/** Get Usable Life - Years.
 		@return Years of the usable life of the asset
 	  */
-	public int getUseLifeYears () 
+	public BigDecimal getUseLifeYears () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UseLifeYears);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UseLifeYears);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Use units.

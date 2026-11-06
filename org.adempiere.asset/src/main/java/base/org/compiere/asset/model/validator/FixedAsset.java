@@ -121,11 +121,14 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 
 		// Invoice Line
 		else if (po instanceof MInvoiceLine)
-		{			
-			MInvoiceLine il = (MInvoiceLine)po;			
-			if (type == TYPE_CHANGE || type == TYPE_NEW) 
-				beforeSave(il, type == TYPE_NEW);
-			modelChange_InvoiceLine(SetGetUtil.wrap(po), type);
+		{
+			MInvoiceLine invoiceLine = (MInvoiceLine)po;
+			if (invoiceLine.isFixedAssetInvoice())
+			{
+				if (type == TYPE_CHANGE || type == TYPE_NEW)
+					beforeSave(invoiceLine, type == TYPE_NEW);
+				modelChange_InvoiceLine(SetGetUtil.wrap(po), type);
+			}
 		}
 		
 		// Asset Group

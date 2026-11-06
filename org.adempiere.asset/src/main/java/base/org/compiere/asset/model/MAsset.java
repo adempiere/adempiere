@@ -234,7 +234,7 @@ public class MAsset extends X_A_Asset
 
 	}
 
-	/**
+	/**z
 	 * @author Edwin Ang
 	 * @param project
 	 */
@@ -669,9 +669,9 @@ public class MAsset extends X_A_Asset
 				// Asset Depreciation Workfile
 				MDepreciationWorkfile assetwk = new MDepreciationWorkfile(this, assetacct.getPostingType(), assetgrpacct);
 				assetwk.setAD_Org_ID(getAD_Org_ID()); //added by @win
-				assetwk.setUseLifeYears(0);
+				assetwk.setUseLifeYears(BigDecimal.ZERO);
 				assetwk.setUseLifeMonths(0);
-				assetwk.setUseLifeYears_F(0);
+				assetwk.setUseLifeYears_F(BigDecimal.ZERO);
 				assetwk.setUseLifeMonths_F(0);
 				assetwk.saveEx();
 				

@@ -1503,20 +1503,20 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		@param UseLifeYears 
 		Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears)
+	public void setUseLifeYears (BigDecimal UseLifeYears)
 	{
-		set_ValueNoCheck (COLUMNNAME_UseLifeYears, Integer.valueOf(UseLifeYears));
+		set_ValueNoCheck (COLUMNNAME_UseLifeYears, UseLifeYears);
 	}
 
 	/** Get Usable Life - Years.
 		@return Years of the usable life of the asset
 	  */
-	public int getUseLifeYears () 
+	public BigDecimal getUseLifeYears () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UseLifeYears);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UseLifeYears);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Use units.
