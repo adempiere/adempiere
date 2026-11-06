@@ -36,6 +36,19 @@ public class POInfoColumn implements Serializable
 {
 	/** Used by Remote FinReport			*/
 	static final long serialVersionUID = -3983585608504631958L;
+
+	/**
+	 *	Sentinel for a caller that does not know the reference of the referenced
+	 *	table's key column, so {@link #POInfoColumn(int, String, String, int, boolean, boolean, String, String, String, boolean, boolean, int, String, int, String, String, boolean, boolean, boolean, boolean, String, int)}
+	 *	looks it up itself.
+	 *	<p>
+	 *	The nested lookup also yields {@code -1} when it finds no row, so
+	 *	{@code -1} means both "unknown, look it up" and "looked up, nothing
+	 *	there". Neither {@code -1} nor the zero a left outer join yields ever
+	 *	equals {@link org.compiere.util.DisplayType#String}, which is the only
+	 *	value that changes the display type, so both are inert.
+	 */
+	public static final int	KEY_REFERENCE_UNKNOWN = -1;
 	
 	/**
 	 *  Constructor
@@ -77,9 +90,6 @@ public class POInfoColumn implements Serializable
 			isTranslated, isEncrypted, isAllowLogging, isAllowCopy, transactionName,
 			KEY_REFERENCE_UNKNOWN);
 	}	//	POInfoColumn
-
-	/**	The caller does not know the key column's reference, so look it up	*/
-	public static final int	KEY_REFERENCE_UNKNOWN = -1;
 
 	/**
 	 *	Create Column Info, with the reference of the referenced table's key
@@ -124,17 +134,17 @@ public class POInfoColumn implements Serializable
 		//ADEMPIERE-101
 		if(org.compiere.util.DisplayType.Table==DisplayType && referencevalueId > 0)
 		{
-			int ref_id = keyColumnReferenceId;
-			if (ref_id == KEY_REFERENCE_UNKNOWN)
+			int resolvedKeyColumnReferenceId = keyColumnReferenceId;
+			if (resolvedKeyColumnReferenceId == KEY_REFERENCE_UNKNOWN)
 			{
 				//Get the key ID
 				String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
-				final int key_id = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
+				final int keyColumnId = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
 				//Get Reference ID
 				String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
-				ref_id = DB.getSQLValueEx(transactionName, sqlRef,key_id);
+				resolvedKeyColumnReferenceId = DB.getSQLValueEx(transactionName, sqlRef,keyColumnId);
 			}
-			if (org.compiere.util.DisplayType.String==ref_id)
+			if (org.compiere.util.DisplayType.String==resolvedKeyColumnReferenceId)
 			{
 				DisplayType = org.compiere.util.DisplayType.String;
 				ColumnClass = String.class;
