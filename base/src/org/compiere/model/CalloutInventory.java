@@ -148,7 +148,7 @@ public class CalloutInventory extends CalloutEngine
 	 */
 	private BigDecimal setQtyBook (int M_AttributeSetInstance_ID, int M_Product_ID, int M_Locator_ID) throws Exception {
 		// Set QtyBook from first storage location
-		BigDecimal bd = null;
+		BigDecimal bookQuantity = null;
 		String sql = "SELECT QtyOnHand FROM M_Storage "
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?"		//	2
@@ -158,33 +158,33 @@ public class CalloutInventory extends CalloutEngine
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?";	//	2
 		
-		try
+		try (PreparedStatement preparedStatement = DB.prepareStatement(sql, null))
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Product_ID);
-			pstmt.setInt(2, M_Locator_ID);
+			preparedStatement.setInt(1, M_Product_ID);
+			preparedStatement.setInt(2, M_Locator_ID);
 			if (M_AttributeSetInstance_ID != 0)
-				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
+				preparedStatement.setInt(3, M_AttributeSetInstance_ID);
+			try (ResultSet resultSet = preparedStatement.executeQuery())
 			{
-				bd = rs.getBigDecimal(1);
-				if (bd != null)
-					return bd;
-			} else {
-				// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows, 
-				// for example when the locator has never stored a particular product.
-				return new BigDecimal(0);
+				if (resultSet.next())
+				{
+					bookQuantity = resultSet.getBigDecimal(1);
+					if (bookQuantity != null)
+						return bookQuantity;
+				} else {
+					// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows,
+					// for example when the locator has never stored a particular product.
+					return BigDecimal.ZERO;
+				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			throw new Exception(e.getLocalizedMessage());
+			throw new Exception(e.getLocalizedMessage(), e);
 		}
-		return new BigDecimal(0);
+		//	Row found but QtyOnHand is null: keep the booked quantity at zero (gwu: 1719401).
+		return BigDecimal.ZERO;
 	}
 
     /**

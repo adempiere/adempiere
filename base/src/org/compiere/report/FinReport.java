@@ -1346,7 +1346,7 @@ public class FinReport extends FinReportAbstract {
                 select.append(" FROM Fact_Acct fb ");
             }
 
-            whereColumn.append(" WHERE TRUNC(DateAcct) ");
+            whereColumn.append(" WHERE DateAcct ");
             // Define period relative range
             BigDecimal relativeOffset = null;    //	current
             BigDecimal relativeOffsetTo = null;
@@ -1417,7 +1417,7 @@ public class FinReport extends FinReportAbstract {
                         String yearWhere = "BETWEEN " + DB.TO_DATE(finReportPeriod.getYearStartDate()) + " AND " + DB.TO_DATE(finReportPeriodTo.getEndDate());
                         String totalWhere = "<= " + DB.TO_DATE(finReportPeriodTo.getEndDate());
                         String bs = " EXISTS (SELECT C_ElementValue_ID FROM C_ElementValue WHERE C_ElementValue_ID = fb.Account_ID AND AccountType NOT IN ('R', 'E'))";
-                        String full = totalWhere + " AND ( " + bs + " OR TRUNC(fb.DateAcct) " + yearWhere + " ) ";
+                        String full = totalWhere + " AND ( " + bs + " OR fb.DateAcct " + yearWhere + " ) ";
                         whereColumn.append(full);
                         whereColumn.append(" AND ").append(finReportPeriodTo.getPeriodTypeWhere("fb",true));
                     } else {
