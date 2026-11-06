@@ -104,7 +104,10 @@ class ValidateMLookupClosesQueryResources extends AnyFeatureSpec with AdempiereT
     * Open connections of the current database, waited until stable. The pool
     * grows lazily and backends disappear asynchronously, so a single sample can
     * catch the count mid-drift even with no leak; two consecutive equal samples
-    * mean the pool has settled. -1 when the backend is not PostgreSQL.
+    * mean the pool has settled. -1 when the backend is not PostgreSQL, which
+    * only skips the assertion when it is the initial sample; a probe that
+    * fails mid-run means the database became unreachable while the scenario
+    * mutated it, so it raises instead of being returned as a stable count.
     */
   private def stableConnections: Int = {
     var previous = openConnections
@@ -114,6 +117,9 @@ class ValidateMLookupClosesQueryResources extends AnyFeatureSpec with AdempiereT
     while (!stable && System.currentTimeMillis() < deadline) {
       Thread.sleep(500)
       val current = openConnections
+      if (current < 0)
+        throw new AssertionError(
+          "the pg_stat_activity probe became unavailable while the scenario was running")
       stable = current == previous
       previous = current
     }
