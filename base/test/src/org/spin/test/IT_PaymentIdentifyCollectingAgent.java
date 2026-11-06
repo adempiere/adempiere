@@ -152,12 +152,12 @@ class IT_PaymentIdentifyCollectingAgent extends CommonGWSetup {
 		assertFalse(isCollectingAgentNotFound(processInfo.getSummary()),
 				"an absent CollectingAgent_ID must not raise the collecting agent guard, but was: "
 						+ processInfo.getSummary());
-		//	the guard is skipped, so the payment keeps its current (empty) agent
+		//	the guard is skipped, so the payment keeps its baseline (empty) agent
 		MPayment identified = new MPayment(getCtx(), identifiedPaymentId, getTrxName());
 		assertEquals(identifiedPaymentId, identified.getC_Payment_ID(),
 				"identified payment fixture must still exist");
 		assertEquals(0, identified.getCollectingAgent_ID(),
-				"an absent CollectingAgent_ID must not assign any collecting agent");
+				"an absent CollectingAgent_ID must not change the payment's current collecting agent");
 	}
 
 	/**************************************************************************
@@ -222,6 +222,10 @@ class IT_PaymentIdentifyCollectingAgent extends CommonGWSetup {
 		createdPaymentIds.add(payment.getC_Payment_ID());
 		//	fixture shortcut, see createPaymentFixture()
 		payment.setDocStatus(MPayment.DOCSTATUS_Completed);
+		//	the C_Payment.CollectingAgent_ID dictionary default is @#AD_User_ID@
+		//(migration 393lts-394lts/06550), so a fresh receipt is stamped with the
+		//	running user; clear it here to pin a deterministic empty baseline
+		payment.setCollectingAgent_ID(0);
 		payment.saveEx(getTrxName());
 		return payment.getC_Payment_ID();
 	}
@@ -236,6 +240,7 @@ class IT_PaymentIdentifyCollectingAgent extends CommonGWSetup {
 		ProcessInfo processInfo = new ProcessInfo(PaymentIdentifyAbstract.getProcessName(),
 				PROCESS_ID, I_C_Payment.Table_ID, unidentifiedPaymentId);
 		processInfo.addParameter(PaymentIdentifyAbstract.TRXTYPE, TRXTYPE_SELECTED_PAYMENT, null);
+		processInfo.addParameter(PaymentIdentifyAbstract.C_BPARTNER_ID, resolveBPartnerId(), null);
 		processInfo.addParameter(PaymentIdentifyAbstract.RELATEDPAYMENT_ID, identifiedPaymentId, null);
 		processInfo.addParameter(PaymentIdentifyAbstract.DATETRX, today, null);
 		if (collectingAgentId != 0) {
@@ -292,7 +297,7 @@ class IT_PaymentIdentifyCollectingAgent extends CommonGWSetup {
 	 */
 	private int resolveForeignTenantUserId() {
 		MUser foreignUser = new Query(getCtx(), I_AD_User.Table_Name,
-				"AD_Client_ID <> ? AND IsActive = 'Y'", getTrxName())
+				"AD_User_ID > 0 AND AD_Client_ID <> ? AND IsActive = 'Y'", getTrxName())
 				.setParameters(AD_CLIENT_ID)
 				.setOrderBy("AD_User_ID")
 				.first();
@@ -323,12 +328,12 @@ class IT_PaymentIdentifyCollectingAgent extends CommonGWSetup {
 
 	/**
 	 * @param collectingAgentId user id to look for
-	 * @return number of persisted payments holding that collecting agent
+	 * @return number of fixture payments holding that collecting agent
 	 */
 	private int countPaymentsWithCollectingAgent(int collectingAgentId) {
 		return new Query(getCtx(), I_C_Payment.Table_Name,
-				"CollectingAgent_ID = ?", getTrxName())
-				.setParameters(collectingAgentId)
+				"C_Payment_ID IN (?,?) AND CollectingAgent_ID = ?", getTrxName())
+				.setParameters(unidentifiedPaymentId, identifiedPaymentId, collectingAgentId)
 				.count();
 	}
 
