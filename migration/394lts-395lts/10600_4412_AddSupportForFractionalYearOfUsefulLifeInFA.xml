@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support for fractional years of useful life in FA" ReleaseNo="3.9.5" SeqNo="10600">
+    <Comments>https://github.com/adempiere/adempiere/issues/4412
+The dictionary flip of these columns from AD_Reference_ID 11 (Integer) to 29 (Quantity)
+is not enough on its own: the physical columns stay numeric(10,0) and PostgreSQL rounds
+fractional input silently. This migration therefore widens them explicitly.
+Runs after SeqNo 10590, which installs the corrected altercolumn() / t_alter_column
+infrastructure that performs the ALTER even when no view depends on the column.
+t_alter_column is PostgreSQL-only, so the Oracle path uses native MODIFY.
+Each ALTER changes the type only: nullclause and defaultclause are SQL NULL so that the
+existing NOT NULL and DEFAULT 0 of the mandatory columns are preserved.
+Idempotent: altercolumn() compares format_type() output and skips the ALTER when the
+column is already unconstrained numeric.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="53497" Table="AD_Element">
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="11">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54176" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55418" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55418" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="A_Asset_Life_Years"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55997" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="1947" Table="AD_Element">
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="11">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="56032" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54203" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59463" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">DeltaUseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59463" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="DeltaUseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59464" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">DeltaUseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59464" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="DeltaUseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54204" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55772" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55772" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59408" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59408" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8046" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8046" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59281" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59281" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55863" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55863" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59279" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59279" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="A_Asset_Life_Years_F"/>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="300" StepType="SQL">
+      <Comments>Widen the useful-life year columns to unconstrained numeric so fractions persist. Type only: NOT NULL and DEFAULT are preserved.</Comments>
+      <SQLStatement>INSERT INTO t_alter_column values('a_asset','uselifeyears','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears_f','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset_change','uselifeyears','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears_f','numeric',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years','numeric',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years_f','numeric',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears','numeric',null,null)
+;INSERT INTO t_alter_column values('i_asset','a_asset_life_years','numeric',null,null)
+;INSERT INTO t_alter_column values('i_asset','uselifeyears','numeric',null,null)
+;</SQLStatement>
+      <RollbackStatement>INSERT INTO t_alter_column values('a_asset','uselifeyears','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears_f','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset_change','uselifeyears','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears_f','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years_f','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('i_asset','a_asset_life_years','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('i_asset','uselifeyears','numeric(10,0)',null,null)
+;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="310" StepType="SQL">
+      <Comments>Oracle has no t_alter_column; native MODIFY preserves NOT NULL and DEFAULT when restated.</Comments>
+      <SQLStatement>ALTER TABLE A_Asset MODIFY UseLifeYears NUMBER DEFAULT NULL
+;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears_F NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset_Change MODIFY UseLifeYears NUMBER DEFAULT NULL
+;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears NUMBER DEFAULT 0
+;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears_F NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years_F NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE I_Asset MODIFY A_Asset_Life_Years NUMBER DEFAULT NULL
+;ALTER TABLE I_Asset MODIFY UseLifeYears NUMBER DEFAULT NULL
+;</SQLStatement>
+      <RollbackStatement>ALTER TABLE A_Asset MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
+;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears_F NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset_Change MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
+;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears NUMBER(10,0) DEFAULT 0
+;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears_F NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years_F NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE I_Asset MODIFY A_Asset_Life_Years NUMBER(10,0) DEFAULT NULL
+;ALTER TABLE I_Asset MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
+;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
