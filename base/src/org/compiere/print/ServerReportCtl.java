@@ -158,11 +158,13 @@ public class ServerReportCtl {
 		try {
 			ReportExportHandler exportHandler = new ReportExportHandler(Env.getCtx(), reportEngine);
 			AbstractExportFormat exporter = exportHandler.getExporterFromExtension(processInfo.getReportType());
-			//	Get File
-			File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
-			exporter.exportTo(tempFile);
-			//	Set to process info
-			processInfo.setReportAsFile(tempFile);
+			if (exporter != null) {
+				//	Get File
+				File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
+				exporter.exportTo(tempFile);
+				//	Set to process info
+				processInfo.setReportAsFile(tempFile);
+			}
 		} catch (IOException e) {
 			processInfo.setSummary(e.getLocalizedMessage(), true);
 		}
