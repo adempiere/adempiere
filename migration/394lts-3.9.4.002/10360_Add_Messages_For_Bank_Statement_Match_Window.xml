@@ -85,40 +85,5 @@
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53854">53854</Data>
       </PO>
     </Step>
-    <Step SeqNo="70" StepType="AD">
-      <PO AD_Table_ID="109" Action="I" Record_ID="53855" Table="AD_Message">
-        <Data AD_Column_ID="588" Column="IsActive">true</Data>
-        <Data AD_Column_ID="589" Column="Created">2026-11-07 03:59:31.000</Data>
-        <Data AD_Column_ID="198" Column="MsgText">Bank Statement header was not updated</Data>
-        <Data AD_Column_ID="591" Column="Updated">2026-11-07 03:59:31.000</Data>
-        <Data AD_Column_ID="197" Column="MsgType">E</Data>
-        <Data AD_Column_ID="6766" Column="Value">BankStatementMatch.HeaderNotUpdated</Data>
-        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
-        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="6765" Column="AD_Message_ID">53855</Data>
-        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84346" Column="UUID">5878327b-8653-443d-b257-67f7edbc38da</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="80" StepType="AD">
-      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="609" Column="Created">2026-11-07 03:59:31.000</Data>
-        <Data AD_Column_ID="611" Column="Updated">2026-11-07 03:59:31.000</Data>
-        <Data AD_Column_ID="608" Column="IsActive">true</Data>
-        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">No se actualizó el encabezado del extracto bancario</Data>
-        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
-        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="6767" Column="AD_Message_ID">53855</Data>
-        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84347" Column="UUID">2e3348e9-6e83-4a70-8900-ebd034012bd5</Data>
-      </PO>
-    </Step>
   </Migration>
 </Migrations>
