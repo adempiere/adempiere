@@ -69,20 +69,50 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
   private val UnsupportedExtensions = Seq("docx", "json", "rtf", "odt")
 
   /**
-    * Id of a shipped print format that carries no report view, so
-    * `ReportExportHandler` resolves to the standard `ReportExport` and its
-    * fixed extension list. Zero or negative when the dictionary has none.
+    * Core tables to look for a shipped print format on, in preference order.
+    * `M_Product` first: it is part of every ADempiere dictionary, and a query
+    * for its shipped client returns no rows, so the export is a small
+    * deterministic header without touching business data.
     */
-  private def shippedPrintFormatId: Int = DB.getSQLValue(trxName,
-    "SELECT MIN(AD_PrintFormat_ID) FROM AD_PrintFormat" +
-      " WHERE AD_Client_ID = 0 AND IsActive = 'Y' AND COALESCE(AD_ReportView_ID, 0) = 0")
+  private val FixtureTables = Seq("M_Product", "AD_Ref_List")
 
-  /** A report engine over a shipped print format, with no query so no data is loaded. */
+  /**
+    * A shipped print format (client 0, active, no report view) over one of the
+    * fixture tables. No report view is what keeps `ReportExportHandler` on the
+    * standard `ReportExport` and its fixed extension list.
+    */
+  private def fixturePrintFormat: Option[(Int, String)] =
+    FixtureTables.iterator
+      .map { tn =>
+        val id = DB.getSQLValue(trxName,
+          "SELECT MIN(pf.AD_PrintFormat_ID) FROM AD_PrintFormat pf" +
+            " JOIN AD_Table t ON t.AD_Table_ID = pf.AD_Table_ID" +
+            " WHERE pf.AD_Client_ID = 0 AND pf.IsActive = 'Y'" +
+            " AND COALESCE(pf.AD_ReportView_ID, 0) = 0 AND t.TableName = ?", tn)
+        (id, tn)
+      }
+      .find { case (id, _) => id > 0 }
+
+  /**
+    * A report engine over a shipped print format, backed by a query on that
+    * format's own table. The query is what makes `setQuery` load `PrintData`:
+    * an engine built with a null query has no data and every export format
+    * fails inside `createDelimitedFile`, which is why the supported export
+    * path has to be exercised against an engine that actually carries data.
+    */
   private def reportEngine(): ReportEngine = {
-    val printFormatId = shippedPrintFormatId
-    assert(printFormatId > 0, "no shipped default print format without a report view is available")
-    new ReportEngine(Env.getCtx, new MPrintFormat(Env.getCtx, printFormatId, trxName),
-      null.asInstanceOf[MQuery], null.asInstanceOf[PrintInfo], trxName)
+    val (printFormatId, tableName) = fixturePrintFormat.getOrElse(
+      fail(s"no shipped print format without a report view over ${FixtureTables.mkString(", ")}"))
+    val engine = new ReportEngine(Env.getCtx,
+      new MPrintFormat(Env.getCtx, printFormatId, trxName),
+      {
+        val query = new MQuery(tableName)
+        query.addRestriction("AD_Client_ID", MQuery.EQUAL, Integer.valueOf(0))
+        query
+      },
+      null.asInstanceOf[PrintInfo], trxName)
+    assert(engine.getPrintData != null, s"the engine loaded no print data from $tableName")
+    engine
   }
 
   /** A process info asking to export to the given report type. */
@@ -163,19 +193,28 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
         "each supported extension must resolve to its own exporter")
     }
 
-    Scenario("a supported type reaches the exporter instead of the null guard") {
+    Scenario("a supported type reaches the exporter and produces the report file") {
       Given("a report process asking for a type the standard export offers")
       val engine = reportEngine()
       val processInfo = exportProcessInfo("csv")
 
-      When("the handler resolves that type")
-      val exporter = new ReportExportHandler(Env.getCtx, engine).getExporterFromExtension("csv")
+      When("the server creates the output")
+      createOutput(engine, processInfo)
 
-      Then("an exporter is found, so createOutput does not take the guarded branch")
-      assert(exporter != null, "csv must keep resolving to an exporter")
-      assert(exporter.getExtension == "csv", s"csv resolved to '${exporter.getExtension}'")
-      And("the process info still has no file until the export actually runs")
-      assert(processInfo.getReportAsFile == null, "no export has run yet")
+      Then("an exporter was found, so the guarded branch was not taken")
+      val reportFile = processInfo.getReportAsFile
+      assert(reportFile != null,
+        "a supported type must produce a report file, not fall through the null guard")
+      And("the file carries the requested extension and was written")
+      assert(reportFile.getName.endsWith(".csv"),
+        s"report file was named '${reportFile.getName}'")
+      assert(reportFile.length > 0,
+        s"the export wrote an empty file (${reportFile.length} bytes)")
+      And("the process was not marked as failed")
+      assert(!processInfo.isError,
+        s"the export reported no failure, summary was '${processInfo.getSummary}'")
+
+      if (reportFile != null) reportFile.delete()
     }
   }
 }
