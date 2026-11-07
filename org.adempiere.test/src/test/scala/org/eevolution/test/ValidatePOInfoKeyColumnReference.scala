@@ -217,46 +217,72 @@ class ValidatePOInfoKeyColumnReference extends AnyFeatureSpec with AdempiereTest
       }
     }
 
-    Scenario("the joined resolution stays in the source and the fallback stays guarded") {
-      Then("POInfo.loadInfo joins AD_Ref_Table and AD_Column once and passes the reference")
-      val poInfo = Files.readString(repoRoot.resolve("base/src/org/compiere/model/POInfo.java"),
+    Scenario("the joined resolution stays in the metadata query and the fallback stays guarded") {
+      //	Every pin below is scoped to the body of the method that owns the behavior, never to the
+      //	whole file: a matching statement elsewhere in POInfo.java must not be able to satisfy a
+      //	check about what loadInfo does. Method bodies are cut on their own trailing comment
+      //	markers, which predate this change, so the scope holds on the base branch too and the
+      //	scenario still fails there for the right reason.
+      def bodyBetween(source: String, startMarker: String, endMarker: String, last: Boolean = false): String = {
+        val from = if (last) source.lastIndexOf(startMarker) else source.indexOf(startMarker)
+        assert(from >= 0, s"start marker ${'"'}$startMarker${'"'} was not found")
+        val to = source.indexOf(endMarker, from)
+        assert(to > from, s"end marker ${'"'}$endMarker${'"'} was not found after the start marker")
+        source.substring(from, to)
+      }
+
+      val poInfoSource = Files.readString(repoRoot.resolve("base/src/org/compiere/model/POInfo.java"),
         StandardCharsets.UTF_8)
-      assert(poInfo.contains("LEFT OUTER JOIN AD_Ref_Table rt ON (rt.AD_Reference_ID=c.AD_Reference_Value_ID)"),
+      val loadInfo = bodyBetween(poInfoSource, "private void loadInfo (", "//  loadInfo")
+
+      Then("POInfo.loadInfo joins AD_Ref_Table and AD_Column once and passes the reference")
+      assert(loadInfo.contains("LEFT OUTER JOIN AD_Ref_Table rt ON (rt.AD_Reference_ID=c.AD_Reference_Value_ID)"),
         "the metadata query must resolve the reference row with a join")
-      assert(poInfo.contains("LEFT OUTER JOIN AD_Column kc ON (kc.AD_Column_ID=rt.AD_Key)"),
+      assert(loadInfo.contains("LEFT OUTER JOIN AD_Column kc ON (kc.AD_Column_ID=rt.AD_Key)"),
         "the metadata query must resolve the key column with a join")
-      assert(poInfo.contains("kc.AD_Reference_ID AS KeyColumnReference_ID"),
+      assert(loadInfo.contains("kc.AD_Reference_ID AS KeyColumnReference_ID"),
         "the metadata query must select the key column reference")
       //	Bind the identifier by role, not by spelling: capture whatever local variable reads the
       //	joined column and require that same variable to be the one handed to POInfoColumn. This
       //	pins the wiring on the PR head (KeyColumnReference_ID) and survives any later rename.
       val joinedRead = """int\s+(\w+)\s*=\s*row\.getInt\(\s*"KeyColumnReference_ID"\s*\)"""
-        .r.findFirstMatchIn(poInfo)
+        .r.findFirstMatchIn(loadInfo)
       assert(joinedRead.isDefined,
         "loadInfo must read the joined key column reference out of its own result set")
       val joinedValueVariable = joinedRead.get.group(1)
-      assert(("""trxName,\s*""" + joinedValueVariable + """\s*\)""").r.findFirstIn(poInfo).isDefined,
-        s"loadInfo must hand the resolved reference $joinedValueVariable to POInfoColumn")
+      //	The reference must reach the POInfoColumn constructor built from this row, so match the
+      //	argument position inside loadInfo rather than any bare "trxName," in the file.
+      assert(("""new POInfoColumn\s*\([\s\S]*?trxName,\s*""" + joinedValueVariable + """\s*\)""")
+        .r.findFirstIn(loadInfo).isDefined,
+        s"loadInfo must hand the resolved reference $joinedValueVariable to the POInfoColumn it builds")
 
       Then("POInfoColumn only runs the nested lookups when the reference is unknown")
-      val poInfoColumn = Files.readString(
+      val poInfoColumnSource = Files.readString(
         repoRoot.resolve("base/src/org/compiere/model/POInfoColumn.java"), StandardCharsets.UTF_8)
+      //	The 22-argument constructor is the last one declared, and it is the one that owns the
+      //	fallback; scoping to its body keeps the guard checks about that constructor alone.
+      val constructor = bodyBetween(poInfoColumnSource, "public POInfoColumn (", "}   //  Column", last = true)
       val guard = """if\s*\(\s*(\w+)\s*==\s*KEY_REFERENCE_UNKNOWN\s*\)"""
-        .r.findFirstMatchIn(poInfoColumn)
+        .r.findFirstMatchIn(constructor)
       assert(guard.isDefined,
         "the nested AD_Ref_Table/AD_Column lookups must stay guarded by KEY_REFERENCE_UNKNOWN")
       val guardedVariable = guard.get.group(1)
       val guardIndex = guard.get.start(0)
-      val nestedKey = poInfoColumn.indexOf("Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?")
-      val nestedRef = poInfoColumn.indexOf("Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?")
+      val nestedKey = constructor.indexOf("Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?")
+      val nestedRef = constructor.indexOf("Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?")
       assert(nestedKey > guardIndex && nestedRef > guardIndex,
         "the fallback lookups must live inside the KEY_REFERENCE_UNKNOWN guard, not run eagerly")
       //	The value the guard protects must be the same one the display type is decided from,
       //	otherwise the guard could be bypassed by a second, unguarded resolution.
-      assert(("""DisplayType\.String\s*==\s*""" + guardedVariable).r.findFirstIn(poInfoColumn).isDefined,
+      assert(("""DisplayType\.String\s*==\s*""" + guardedVariable).r.findFirstIn(constructor).isDefined,
         s"the String conversion must be decided from the guarded $guardedVariable, not from another value")
-      assert(poInfoColumn.contains("KEY_REFERENCE_UNKNOWN = -1"),
-        "the legacy constructor must keep signalling an unresolved reference")
+      //	The sentinel value is pinned against the whole file, not the constructor body: the
+      //	declaration is a class field, so the field scope is the right one here. The value matters
+      //	because a left outer join yields NULL and JDBC reports that as 0, so a sentinel of 0 would
+      //	read a genuinely unresolved reference as already resolved and silently skip the fallback.
+      assert(poInfoColumnSource.contains("KEY_REFERENCE_UNKNOWN = -1"),
+        "the legacy constructor must keep signalling an unresolved reference with a sentinel that"
+          + " cannot collide with the 0 a left join NULL arrives as")
     }
   }
 
