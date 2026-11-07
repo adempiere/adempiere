@@ -28,6 +28,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.model.GenericPO;
 import org.adempiere.core.domains.models.I_AD_Column;
 import org.adempiere.core.domains.models.I_AD_Table;
 import org.adempiere.core.domains.models.X_AD_MigrationStep;
@@ -53,6 +54,7 @@ import org.w3c.dom.NodeList;
  * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
  * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
  *  @author Michael McKay, mckayERP@gmail.com
+ *  @author Carlos Parada, cparada@erpya.com, ERPyA https://erpya.com
  *  	<li><a href="https://github.com/adempiere/adempiere/issues/2914">#2914</a>: Force delete of an entity when
  *  		rolling back a migration step
  */
@@ -63,6 +65,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 */
 	private static final long serialVersionUID = 6002302731217174562L;
 	private List<MMigrationData> m_migrationData;
+	/** UUID identity read from XML, when available. */
+	private String m_recordUUID;
+	/** Stored only on PO steps so a reloaded migration retains explicit UUID identity. */
+	private static final String RECORD_UUID_MARKER = "@Record_UUID@";
 	private MMigration parent;
 	/** Logger */
 	private static CLogger log = CLogger
@@ -119,6 +125,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		setAction(event);
 		setAD_Table_ID(po.get_Table_ID());
 		setRecord_ID(po.get_ID());  // In a multi-key table - this will be the one of the IDs.
+		int uuidIndex = info.getColumnIndex("UUID");
+		if (uuidIndex >= 0 && MigrationUUIDResolver.isCustomId(po.get_ID())) {
+			Object uuid = po.get_Value(uuidIndex);
+			if (uuid != null) {
+				m_recordUUID = uuid.toString();
+				setSQLStatement(RECORD_UUID_MARKER + m_recordUUID);
+			}
+		}
 		setStatusCode(MMigrationStep.STATUSCODE_Applied);
 		setApply(MMigrationStep.APPLY_Rollback);
 		
@@ -138,19 +152,20 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			//  If so, all the keys and their values have to be saved in the
 			//  newValue column regardless of whether they changed or not.
 			boolean isMultiKeyColumn = false;
-			if ( po.get_KeyColumns().length > 1 ) 
-			{
-				for (int j = 0; j < po.get_KeyColumns().length; j++)
-				{
-					String name = po.get_KeyColumns()[j];
-					if (name.equals(info.getColumnName(i)))
-					{
-						isMultiKeyColumn = true;
-						break;
-					}
+			boolean isKeyColumn = false;
+			for (String keyColumn : po.get_KeyColumns()) {
+				if (keyColumn.equals(info.getColumnName(i))) {
+					isKeyColumn = true;
+					isMultiKeyColumn = po.get_KeyColumns().length > 1;
+					break;
 				}
 			}
 			
+			boolean isSinglePrimaryKey = isKeyColumn && po.get_KeyColumns().length == 1
+					&& !info.isColumnParent(i);
+			boolean isUUIDIdentity = "UUID".equals(info.getColumnName(i))
+					&& po.get_KeyColumns().length == 1
+					&& MigrationUUIDResolver.isCustomId(po.get_ID());
 			if (  !info.isEncrypted(i)		//	not encrypted
 				&& !info.isVirtualColumn(i)	//	no virtual column
 				)
@@ -159,19 +174,21 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				data.setAD_Column_ID(info.getColumn(i).AD_Column_ID);
 				// reference data (old value) on delete/update
 				if ( event.equals(MMigrationStep.ACTION_Delete) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)
+						|| ( event.equals(MMigrationStep.ACTION_Update) && (po.is_ValueChanged(i) || isUUIDIdentity)
 						|| isMultiKeyColumn)
 				)
 				{
 					if ( po.get_ValueOld(i) == null )
 						data.setIsOldNull(true);
 					else
-						data.setOldValue(po.get_ValueOld(i).toString());
+						data.setOldValue(isSinglePrimaryKey ? po.get_ValueOld(i).toString()
+							: MigrationUUIDResolver.toPortableDataValue(po, info, i, po.get_ValueOld(i),
+									getOldRecordTableId(po, info, i)));
 					data.saveEx();
 				}
 				// save new value
 				if ( event.equals(MMigrationStep.ACTION_Insert) 
-						|| ( event.equals(MMigrationStep.ACTION_Update) && po.is_ValueChanged(i)) 
+						|| ( event.equals(MMigrationStep.ACTION_Update) && (po.is_ValueChanged(i) || isUUIDIdentity))
 						|| isMultiKeyColumn)
 				{
 					if (value == null && info.getDefaultLogic(i) != null && !info.isColumnMandatory(i)) {
@@ -184,11 +201,22 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					else if (value == null)
 						data.setIsNewNull(true);
 					else
-						data.setNewValue(value.toString());
+						data.setNewValue(isSinglePrimaryKey ? value.toString()
+							: MigrationUUIDResolver.toPortableDataValue(po, info, i, value));
 					data.saveEx();
 				}
 			}
 		}
+	}
+
+	private static Integer getOldRecordTableId(PO po, POInfo info, int index) {
+		if (!"Record_ID".equalsIgnoreCase(info.getColumnName(index)))
+			return null;
+		int tableIndex = info.getColumnIndex("AD_Table_ID");
+		if (tableIndex < 0 || !po.is_ValueChanged(tableIndex))
+			return null;
+		Object oldTableId = po.get_ValueOld(tableIndex);
+		return oldTableId instanceof Integer ? (Integer)oldTableId : null;
 	}
 
 	/**
@@ -428,7 +456,8 @@ public class MMigrationStep extends X_AD_MigrationStep {
 				|| column.getColumnName().equals("AD_Language")) {
 			return value;
 		}
-		else if ( DisplayType.isNumeric(column.getAD_Reference_ID()) ){
+		value = MigrationUUIDResolver.resolvePortableDataValue(getCtx(), get_TrxName(), column, value);
+		if ( DisplayType.isNumeric(column.getAD_Reference_ID()) ){
 			return new BigDecimal(value);
 		}
 		else if (DisplayType.isID(column.getAD_Reference_ID()) ) {
@@ -456,38 +485,66 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 * @param table
 	 * @return
 	 */
-	private PO getPO(MTable table) {
+	private PO getPOInstance(MTable table, int id) {
+		try {
+			PO po = table.getPO(id, get_TrxName());
+			if (po != null)
+				return po;
+		} catch (RuntimeException e) {
+			log.fine("Falling back to GenericPO for " + table.getTableName() + ": " + e.getMessage());
+		}
+		return new GenericPO(table.getTableName(), getCtx(), id, get_TrxName());
+	}
+
+	private PO getPO(MTable table, boolean rollback) {
 		//	Get PO from key or keys
 		PO po = null;
-		if (table.isSingleKey() && getRecord_ID() > 0) {
-			po = table.getPO( getRecord_ID(), get_TrxName() );
-		} else {
-			String where = "";
-			ArrayList<Object> params = new ArrayList<Object>();
-			boolean first = true;
-			
-			List<MMigrationData> keys = getKeyData();
-			for (MMigrationData key : keys) { 
-				if ( first )
-					first = false;
-				else
-					where += " AND ";
-				
-				MColumn column = (MColumn) key.getAD_Column();
-                if(column == null)
-                    continue;
-
-				where += column.getColumnName() + " = ? ";
-				
-				params.add(stringToObject(column, key.getNewValue()));	
+		String uuid = getRecordUUID(MMigrationStep.ACTION_Update.equals(getAction()) && !rollback);
+		if (!rollback && MMigrationStep.ACTION_Update.equals(getAction())
+				&& uuid == null && getRecordUUID(false) != null)
+			throw new IllegalStateException("Cannot update UUID without the previous UUID in step "
+					+ getSeqNo());
+		if (getRecord_ID() > 0 && uuid != null) {
+			if (table.getKeyColumns().length == 1) {
+				int localId = MigrationUUIDResolver.findIdByUUID(getCtx(), get_TrxName(), table.getTableName(), uuid);
+				if (localId <= 0)
+					localId = DB.getSQLValue(get_TrxName(),
+							"SELECT " + table.getKeyColumns()[0] + " FROM " + table.getTableName() + " WHERE UUID=?", uuid);
+				po = localId > 0 ? getPOInstance(table, localId) : null;
+			} else {
+				// Multi-key tables (e.g. *_Trl keyed by AD_Language) have no single
+				// integer id; resolve the record directly by its UUID.
+				po = new Query(getCtx(), table, "UUID=?", get_TrxName()).setParameters(uuid).firstOnly();
 			}
-			//	Get PO from Query
-			po = new Query(getCtx(), table, where, get_TrxName())
-			.setParameters(params)
-			.firstOnly();
+			if (po == null && !table.isSingleKey())
+				po = getPOByKeys(table);
+		} else if (table.isSingleKey() && getRecord_ID() > 0) {
+			po = table.getPO(getRecord_ID(), get_TrxName());
+		} else {
+			po = getPOByKeys(table);
 		}
-		//	Return PO
 		return po;
+	}
+
+	private PO getPOByKeys(MTable table) {
+		String where = "";
+		ArrayList<Object> params = new ArrayList<Object>();
+		boolean first = true;
+		for (MMigrationData key : getKeyData()) {
+			MColumn column = (MColumn)key.getAD_Column();
+			if (column == null)
+				throw new IllegalStateException("Missing key column in migration step " + getSeqNo());
+			if (first)
+				first = false;
+			else
+				where += " AND ";
+			where += column.getColumnName() + " = ? ";
+			params.add(stringToObject(column, key.getNewValue()));
+		}
+		if (first)
+			return null;
+		return new Query(getCtx(), table, where, get_TrxName())
+				.setParameters(params).firstOnly();
 	}
 
 	/**
@@ -495,6 +552,10 @@ public class MMigrationStep extends X_AD_MigrationStep {
 	 * @return
 	 */
 	private String applyPO() {
+		// XML import creates the step before its Data children are persisted.
+		// Reload them here so UUID identity/reference data is available when
+		// resolving the target PO (otherwise custom inserts reuse Record_ID).
+		getData();
 		boolean syncColumnImmediately = false;
 		if ( getAD_Table_ID() == 0 )
 		{
@@ -507,11 +568,23 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			//reset cache of persistence object
 			POInfo.removeFromCache(getAD_Table_ID());
 			//	Get PO from table
-			po = getPO(table);
+			po = getPO(table, false);
+			if (po != null && getAction().equals(MMigrationStep.ACTION_Insert))
+				throw new IllegalStateException("Insert step " + getSeqNo()
+						+ " already exists in " + table.getTableName());
 			//	
 			if (po == null && getAction().equals(MMigrationStep.ACTION_Insert)) {
-				po = table.getPO(0, get_TrxName());
-				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
+				po = getPOInstance(table, 0);
+				if (po == null && "AD_OrgInfo".equals(table.getTableName())) {
+					// AD_OrgInfo is derived from AD_Org and has no generic PO constructor.
+					setStatusCode(MMigrationStep.STATUSCODE_Applied);
+					setApply(MMigrationStep.APPLY_Rollback);
+					setErrorMsg(null);
+					saveEx();
+					return "successfully applied";
+				}
+				if (table.isSingleKey() && getRecordUUID(false) == null)
+					po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
 			} else if(po == null 
 					&& table.getTableName().endsWith("_Trl")) {
 				setStatusCode(MMigrationStep.STATUSCODE_Applied);
@@ -534,6 +607,12 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 				MColumn column = (MColumn) data.getAD_Column();
 				if(column == null)
+					continue;
+				// Custom inserts must let the destination sequence generate the
+				// primary key; do not reapply the source key from XML data.
+				if (getAction().equals(MMigrationStep.ACTION_Insert)
+						&& getRecordUUID(false) != null
+						&& column.isKey())
 					continue;
 
 				// TODO: option to apply only when existing value equals reference value
@@ -603,7 +682,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			} else {
 				if(po.get_TableName().endsWith("Trl")
 						&& getAction().equals(MMigrationStep.ACTION_Insert)) {
-					po.save(get_TrxName());
+					po.saveEx(get_TrxName());
 				} else {
 					po.saveEx(get_TrxName());
 				}
@@ -653,13 +732,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		{
 			MTable table = MTable.get( getCtx(), getAD_Table_ID() );
 			
-			PO po = getPO(table);
+			PO po = getPO(table, true);
 			//  If the record was deleted, po will be null.  Recreate the record.
 			if ( po == null && getAction().equals(MMigrationStep.ACTION_Delete) )
 			{
-				po = table.getPO(0, get_TrxName());
+				po = getPOInstance(table, 0);
 				// TODO: only works for single key tables
-				po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID() );
+				if (table.isSingleKey() && getRecordUUID(false) == null)
+					po.set_ValueNoCheck(po.get_KeyColumns()[0], getRecord_ID());
 				po.setIsDirectLoad(true);
 
 				// Recover the back up values of the deleted record
@@ -762,11 +842,36 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		m_migrationData = MTable.get(getCtx(), MMigrationData.Table_ID)
 		.createQuery(where, null)  // null trx to not lock the table
 		.setOnlyActiveRecords(true)
+		.setOrderBy("AD_MigrationData_ID")
 		.list();
 		if (m_migrationData.size() == 0)
 			log.fine("No migration data for step: " + toString());
 	}
 	
+	private String getRecordUUID() {
+		return getRecordUUID(false);
+	}
+
+	private String getRecordUUID(boolean oldValue) {
+		String recordUUID = m_recordUUID;
+		if (recordUUID == null) {
+			String marker = getSQLStatement();
+			if (marker != null && marker.startsWith(RECORD_UUID_MARKER))
+				recordUUID = marker.substring(RECORD_UUID_MARKER.length());
+		}
+		if (recordUUID == null || recordUUID.isEmpty())
+			return null;
+		// For updates that change UUID, identify the source record by its old UUID.
+		if (oldValue) {
+			for (MMigrationData data : m_migrationData) {
+				MColumn column = (MColumn)data.getAD_Column();
+				if (column != null && "UUID".equals(column.getColumnName()))
+					return data.isOldNull() ? null : data.getOldValue();
+			}
+		}
+		return recordUUID;
+	}
+
 	private List<MMigrationData> getKeyData() {
 		String where = "AD_MigrationStep_ID = " + getAD_MigrationStep_ID();
 		where += " AND EXISTS (SELECT 1 FROM AD_Column c " +
@@ -776,6 +881,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 		return MTable.get(getCtx(), MMigrationData.Table_ID)
 		.createQuery(where, null) // Null trx to not lock the table
 		.setOnlyActiveRecords(true)
+		.setOrderBy("AD_MigrationData_ID")
 		.list();
 	}
 
@@ -799,6 +905,9 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			po.setAttribute("Action", getAction());
 			po.setAttribute("AD_Table_ID", Integer.toString(getAD_Table_ID()));
 			po.setAttribute("Record_ID", Integer.toString(getRecord_ID()));
+			String recordUUID = getRecordUUID();
+			if (recordUUID != null)
+				po.setAttribute("Record_UUID", recordUUID);
 
 			for ( MMigrationData datum : m_migrationData )
 			{
@@ -850,9 +959,35 @@ public class MMigrationStep extends X_AD_MigrationStep {
 			{
 				Element element = (Element) children.item(i);
 				mstep.setAction(element.getAttribute("Action"));
-				mstep.setAD_Table_ID(Integer.parseInt(element.getAttribute("AD_Table_ID")));
+				MTable targetTable = MTable.get(parent.getCtx(), element.getAttribute("Table"));
+				mstep.setAD_Table_ID(targetTable != null ? targetTable.getAD_Table_ID()
+						: Integer.parseInt(element.getAttribute("AD_Table_ID")));
 				mstep.setRecord_ID(Integer.parseInt(element.getAttribute("Record_ID")));
+				String recordUUID = element.getAttribute("Record_UUID");
+				if (recordUUID != null && !recordUUID.isEmpty()) {
+					mstep.m_recordUUID = recordUUID;
+					mstep.setSQLStatement(RECORD_UUID_MARKER + recordUUID);
+				}
 				NodeList data = element.getElementsByTagName("Data");
+				if (recordUUID != null && !recordUUID.isEmpty()) {
+					boolean hasUUIDData = false;
+					for (int j = 0; j < data.getLength(); j++) {
+						Element datum = (Element)data.item(j);
+						if ("UUID".equals(datum.getAttribute("Column"))) {
+							hasUUIDData = true;
+							String dataUUID = MMigrationStep.ACTION_Delete.equals(mstep.getAction())
+									|| "true".equals(datum.getAttribute("isNewNull"))
+									? datum.getAttribute("oldValue") : datum.getTextContent();
+							if (!recordUUID.equals(dataUUID))
+								throw new AdempiereException("Record_UUID does not match UUID Data in step "
+										+ mstep.getSeqNo());
+							break;
+						}
+					}
+					if (!hasUUIDData)
+						throw new AdempiereException("Record_UUID requires a UUID Data element in step "
+								+ mstep.getSeqNo());
+				}
 				for ( int j =0 ; j < data.getLength(); j++ )
 				{
 					MMigrationData.fromXmlNode(mstep, data.item(j));
