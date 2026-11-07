@@ -143,6 +143,38 @@ class IdentifyPaymentCollectingAgentSpec extends CommonGWSetup {
       "an absent CollectingAgent_ID must not change the payment's current collecting agent")
   }
 
+  /**
+    * S1: an active user of the identified payment's tenant is a valid
+    * collecting agent. The guard must let the process through and the user id
+    * must reach the database, so removing the assignment is detected here.
+    */
+  @Test
+  def testActiveSameTenantCollectingAgentIsAssigned(): Unit = {
+    createPaymentFixture()
+    val collectingAgentId = resolveActiveTenantUserId()
+    assertTrue(collectingAgentId != 0,
+      s"an active user of tenant ${CommonGWSetup.AD_CLIENT_ID} is required by this spec")
+
+    val processInfo = runIdentifyPayment(collectingAgentId)
+
+    assertFalse(processInfo.isError(),
+      s"Identify Payment must succeed for an active same tenant collecting agent, but reported: ${processInfo.getSummary()}")
+    //	persisted state: reloaded with a fresh Query, which reads the row back
+    //	from the database instead of reusing the object the process mutated
+    val stored: MPayment = new Query(getCtx(), I_C_Payment.Table_Name,
+      "C_Payment_ID = ?", getTrxName())
+      .setParameters(identifiedPaymentId)
+      .first()
+    assertNotNull(stored,
+      s"identified payment fixture $identifiedPaymentId must still exist")
+    assertEquals(collectingAgentId, stored.getCollectingAgent_ID(),
+      s"the identified payment must persist collecting agent $collectingAgentId")
+    assertEquals(1, countPaymentsWithCollectingAgent(collectingAgentId),
+      s"exactly one fixture payment must hold the collecting agent $collectingAgentId")
+    assertEquals(unidentifiedPaymentId, stored.getRef_Payment_ID(),
+      "an accepted process must link the identified payment to the unidentified receipt")
+  }
+
   /**************************************************************************
     * Fixture
     *************************************************************************/
@@ -290,6 +322,21 @@ class IdentifyPaymentCollectingAgentSpec extends CommonGWSetup {
       //	from here; an unresolvable id exercises the same guard branch
       Integer.MAX_VALUE
     }
+  }
+
+  /**
+    * @return an active user of the tested tenant, the collecting agent the
+    *         guard is expected to accept for the fixture payments
+    */
+  private def resolveActiveTenantUserId(): Int = {
+    val activeUser: MUser = new Query(getCtx(), I_AD_User.Table_Name,
+      "AD_User_ID > 0 AND AD_Client_ID = ? AND IsActive = 'Y'", getTrxName())
+      .setParameters(CommonGWSetup.AD_CLIENT_ID)
+      .setOrderBy("AD_User_ID")
+      .first()
+    assertNotNull(activeUser,
+      s"GardenWorld seed must provide an active user for tenant ${CommonGWSetup.AD_CLIENT_ID}")
+    activeUser.getAD_User_ID()
   }
 
   /**
