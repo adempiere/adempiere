@@ -1041,8 +1041,8 @@ public class BankStatementMatchController {
 			});
 		//Update Header after load for performance
 		if (!updateHeader(trxName)) {
-			throw new AdempiereException("@SaveError@: @C_BankStatement_ID@ "
-					+ bankStatement.getDocumentNo() + " (@StatementDifference@ / @EndingBalance@)");
+			throw new AdempiereException("@BankStatementMatch.HeaderNotUpdated@: "
+					+ bankStatement.getDocumentNo());
 		}
 		//	Return processed
 		return Msg.translate(Env.getCtx(), "BankStatementMatch.MatchedProcessed") + ": " + processed;
