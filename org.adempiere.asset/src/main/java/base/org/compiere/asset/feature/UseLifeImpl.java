@@ -5,6 +5,8 @@ package org.compiere.asset.feature;
 
 import java.sql.Timestamp;
 import java.util.Properties;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import org.compiere.asset.model.MAssetGroup;
 import org.compiere.asset.model.SetGetModel;
@@ -12,14 +14,10 @@ import org.compiere.asset.model.SetGetUtil;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.util.CLogMgt;
-import org.compiere.util.CLogger;
-import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
+import org.compiere.util.*;
 
- 
- 
- /**
+
+/**
   * Asset properties - classification of assets, service period, life use.
   *	@author Teo Sarca, SC ARHIPAC SERVICE SRL
   *	@version $Id$
@@ -30,6 +28,16 @@ public class UseLifeImpl
 	private final static String FIELD_UseLifeYears = "UseLifeYears";
 	private final static String FIELD_UseLifeMonths = "UseLifeMonths";
 	private final static String FIELD_FiscalPostfix = "_F";
+
+	/** Number of months in one year, exact. */
+	public final static BigDecimal MONTHS_PER_YEAR = new BigDecimal(12);
+
+	/**
+	 * Scale used whenever UseLifeYears is derived from UseLifeMonths, so that a
+	 * useful life that is not a whole number of years survives the round trip:
+	 * 40 months -> 3.3333 years -> 40 months (see adempiere#4412).
+	 */
+	public final static int SCALE_USE_LIFE_YEARS = 4;
 	
 	private SetGetModel m_obj = null;
 	private CLogger log = CLogger.getCLogger(getClass());
@@ -115,7 +123,7 @@ public class UseLifeImpl
 	public void setUseLifeMonths(int value) {
 		if(CLogMgt.isLevelFine()) log.fine("Entering: value=" + value + ", " + this);
 		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeMonths, fiscal), Integer.valueOf(value));
-		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal), Integer.valueOf(value/12));
+		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal), new BigDecimal(value).divide(MONTHS_PER_YEAR, SCALE_USE_LIFE_YEARS, RoundingMode.HALF_UP));
 		if(CLogMgt.isLevelFine()) log.fine("Leaving: value=" + value + ", " + this);
 	}
 	
@@ -133,22 +141,22 @@ public class UseLifeImpl
 	/**	Set UseLifeYears and UseLifeMonths
 	 *	@param value		use life years
 	 */
-	public void setUseLifeYears(int value) {
+	public void setUseLifeYears(BigDecimal value) {
 		if(CLogMgt.isLevelFine()) log.fine("Entering: value=" + value + ", " + this);
-		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal), Integer.valueOf(value));
-		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeMonths, fiscal), Integer.valueOf(value*12));
+		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal), value);
+		m_obj.set_AttrValue(getFieldName(FIELD_UseLifeMonths, fiscal), Integer.valueOf(value.multiply(MONTHS_PER_YEAR).setScale(0, RoundingMode.HALF_UP).intValue()));
 		if(CLogMgt.isLevelFine()) log.fine("Leaving: value=" + value + ", " + this);
 	}
 	
 	/**
 	 *	@return use life years
 	 */
-	public int getUseLifeYears() {
+	public BigDecimal getUseLifeYears() {
 		Object obj = m_obj.get_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal));
 		if (obj != null && obj instanceof Number) {
-			return ((Number)obj).intValue();
+			return new BigDecimal(obj.toString());
 		}
-		return 0;
+		return Env.ZERO;
 	}
 	
 	/**
@@ -156,10 +164,10 @@ public class UseLifeImpl
 	 * @param deltaUseLifeYears
 	 * @param reset
 	 */
-	public void adjustUseLifeYears(int deltaUseLifeYears, boolean reset)
+	public void adjustUseLifeYears(BigDecimal deltaUseLifeYears, boolean reset)
 	{
-		int uselife = (reset ? 0 : getUseLifeYears());
-		int new_uselife = uselife + deltaUseLifeYears;
+		BigDecimal uselife = (reset ? Env.ZERO : getUseLifeYears());
+		BigDecimal new_uselife = uselife.add(deltaUseLifeYears);
 		setUseLifeYears(new_uselife);
 		if(CLogMgt.isLevelFine()) 
 			log.fine("UseLifeYears=" + uselife + ", delta=" + deltaUseLifeYears + " => new UseLifeYears=" + new_uselife + " (isFiscal=" + isFiscal() + ")");
@@ -211,20 +219,21 @@ public class UseLifeImpl
 	public boolean validate(boolean saveError) {
 		if(CLogMgt.isLevelFine()) log.fine("Entering: " + this);
 		
-		int useLifeYears = 0;
+		BigDecimal useLifeYears = Env.ZERO;
 		int useLifeMonths = 0;
 		useLifeYears = getUseLifeYears();
 		useLifeMonths = getUseLifeMonths();
 		
 		if (useLifeMonths == 0) {
-			useLifeMonths = useLifeYears * 12;
+			useLifeMonths = useLifeYears.multiply(MONTHS_PER_YEAR).setScale(0, RoundingMode.HALF_UP).intValue();
 		}
-		if (useLifeMonths % 12 != 0) {
-			if(saveError) log.saveError("Error", "@Invalid@ @UseLifeMonths@=" + useLifeMonths + "(@Diff@=" + (useLifeMonths % 12) + ")" );
+		if (useLifeMonths <= 0) {
+			if (saveError) log.saveError("Error", Msg.parseTranslation(getCtx(),
+					"@Invalid@ @UseLifeMonths@=" + useLifeMonths));
 			return false;
 		}
-		if (useLifeYears == 0) {
-			useLifeYears = (int)(useLifeMonths / 12);
+		if (useLifeYears.signum() == 0) {
+			useLifeYears = new BigDecimal(useLifeMonths).divide(MONTHS_PER_YEAR, SCALE_USE_LIFE_YEARS, RoundingMode.HALF_UP);
 		}
 		/* commented out by @win
 		int A_Asset_Class_ID = getA_Asset_Class_ID();
@@ -326,13 +335,12 @@ public class UseLifeImpl
 			}
 			
 			String sufix = "";
-			int ivalue = 0;
-			int UseLifeYears = 0;
-			int UseLifeMonths = 0;
-			String errmsg = "";
-			if (value != null) {
-				ivalue = ((Integer)value).intValue();
+			//	UseLifeYears is a Quantity (BigDecimal) since adempiere#4412, UseLifeMonths stays a whole number.
+			if (!(value instanceof Number)) {
+				//	Nothing to derive from: leave the paired field untouched rather than writing a silent zero.
+				return NO_ERROR;
 			}
+			BigDecimal fvalue = new BigDecimal(value.toString());
 			
 			String columnName = mField.getColumnName().toUpperCase();
 			if (columnName.endsWith(FIELD_FiscalPostfix)) {
@@ -340,25 +348,20 @@ public class UseLifeImpl
 				columnName = columnName.substring(0, columnName.length() - FIELD_FiscalPostfix.length());
 			}
 			
-			if (columnName.equalsIgnoreCase("UseLifeMonths")) {
-				//~ UseLifeMonths = ivalue;
-				if (ivalue % 12 != 0) {
-					errmsg = "@Invalid@ @UseLifeMonths " + sufix + "@=" + ivalue;
-				} else {
-					UseLifeYears = (int)(ivalue / 12);
-					mTab.setValue("UseLifeYears" + sufix, Integer.valueOf(UseLifeYears));
-				}
+			if (columnName.equalsIgnoreCase(FIELD_UseLifeMonths)) {
+				//	A whole number of months is valid even when it is not a whole number of years:
+				//	40 months is 3.3333 years and must not be rejected (adempiere#4412).
+				int useLifeMonths = fvalue.setScale(0, RoundingMode.HALF_UP).intValue();
+				mTab.setValue(FIELD_UseLifeMonths + sufix, Integer.valueOf(useLifeMonths));
+				mTab.setValue(FIELD_UseLifeYears + sufix, fvalue.divide(MONTHS_PER_YEAR, SCALE_USE_LIFE_YEARS, RoundingMode.HALF_UP));
 			}
-			else if (columnName.equalsIgnoreCase("UseLifeYears")) {
-				UseLifeMonths = ivalue * 12;
-				//~ UseLifeYears = ivalue;
-				mTab.setValue("UseLifeMonths" + sufix, Integer.valueOf(UseLifeMonths));
+			else if (columnName.equalsIgnoreCase(FIELD_UseLifeYears)) {
+				int useLifeMonths = fvalue.multiply(MONTHS_PER_YEAR).setScale(0, RoundingMode.HALF_UP).intValue();
+				mTab.setValue(FIELD_UseLifeYears + sufix, fvalue);
+				mTab.setValue(FIELD_UseLifeMonths + sufix, Integer.valueOf(useLifeMonths));
 			}
 			
-			if (errmsg.length() > 0) {
-				errmsg = Msg.parseTranslation(ctx, errmsg);
-			}
-			return errmsg;
+			return NO_ERROR;
 		}
 		
 		/**

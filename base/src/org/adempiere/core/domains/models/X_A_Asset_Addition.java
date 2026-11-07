@@ -679,39 +679,39 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 
 	/** Set Delta Use Life Years.
 		@param DeltaUseLifeYears Delta Use Life Years	  */
-	public void setDeltaUseLifeYears (int DeltaUseLifeYears)
+	public void setDeltaUseLifeYears (BigDecimal DeltaUseLifeYears)
 	{
-		set_Value (COLUMNNAME_DeltaUseLifeYears, Integer.valueOf(DeltaUseLifeYears));
+		set_Value (COLUMNNAME_DeltaUseLifeYears, DeltaUseLifeYears);
 	}
 
 	/** Get Delta Use Life Years.
 		@return Delta Use Life Years	  */
-	public int getDeltaUseLifeYears () 
+	public BigDecimal getDeltaUseLifeYears () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DeltaUseLifeYears);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DeltaUseLifeYears);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Delta Use Life Years (fiscal).
 		@param DeltaUseLifeYears_F 
 		Delta Use Life Years (fiscal)
 	  */
-	public void setDeltaUseLifeYears_F (int DeltaUseLifeYears_F)
+	public void setDeltaUseLifeYears_F (BigDecimal DeltaUseLifeYears_F)
 	{
-		set_Value (COLUMNNAME_DeltaUseLifeYears_F, Integer.valueOf(DeltaUseLifeYears_F));
+		set_Value (COLUMNNAME_DeltaUseLifeYears_F, DeltaUseLifeYears_F);
 	}
 
 	/** Get Delta Use Life Years (fiscal).
 		@return Delta Use Life Years (fiscal)
 	  */
-	public int getDeltaUseLifeYears_F () 
+	public BigDecimal getDeltaUseLifeYears_F () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DeltaUseLifeYears_F);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_DeltaUseLifeYears_F);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Description.
