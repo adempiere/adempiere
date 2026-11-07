@@ -234,7 +234,7 @@ public class MAsset extends X_A_Asset
 
 	}
 
-	/**z
+	/**
 	 * @author Edwin Ang
 	 * @param project
 	 */

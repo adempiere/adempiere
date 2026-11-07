@@ -11,7 +11,13 @@ t_alter_column is PostgreSQL-only, so the Oracle path uses native MODIFY.
 Each ALTER changes the type only: nullclause and defaultclause are SQL NULL so that the
 existing NOT NULL and DEFAULT 0 of the mandatory columns are preserved.
 Idempotent: altercolumn() compares format_type() output and skips the ALTER when the
-column is already unconstrained numeric.</Comments>
+column is already unconstrained numeric.
+
+ROLLBACK DESTROYS FRACTIONAL DATA. Narrowing numeric back to numeric(10,0) does not
+raise an error in PostgreSQL: it ROUNDS. Any useful life already stored as 3.3333
+comes back as 3 after a rollback, silently. The RollbackStatement below is therefore
+only safe before fractional values are in use; once they exist, restore the fractions
+by hand instead of running it.</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="53497" Table="AD_Element">
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="11">29</Data>

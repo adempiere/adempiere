@@ -248,8 +248,6 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
         if (processMsg != null)
             return DocAction.STATUS_Invalid;
 
-        // Set the definite before Date On Complete
-        setDefiniteDateOnComplete();
         //	Implicit Approval
         if (!isApproved())
             approveIt();
@@ -276,6 +274,9 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
      */
     private void setDefiniteDocumentNo() {
         MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+        if (docType.isOverwriteDateOnComplete()) {
+            setDateDoc(new Timestamp(System.currentTimeMillis()));
+        }
         if (docType.isOverwriteSeqOnComplete()) {
             String value = null;
             int index = p_info.getColumnIndex("C_DocType_ID");
@@ -286,16 +287,6 @@ public class MAssetSplit extends X_A_Asset_Split implements DocAction {
             if (value != null) {
                 setDocumentNo(value);
             }
-        }
-    }
-
-    /**
-     * 	Set the definite before Date On Complete
-     */
-    private void setDefiniteDateOnComplete() {
-        MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
-        if (docType.isOverwriteDateOnComplete()) {
-            setDateDoc(new Timestamp(System.currentTimeMillis()));
         }
     }
 

@@ -153,8 +153,8 @@ public class UseLifeImpl
 	 */
 	public BigDecimal getUseLifeYears() {
 		Object obj = m_obj.get_AttrValue(getFieldName(FIELD_UseLifeYears, fiscal));
-		if (obj != null && obj instanceof BigDecimal) {
-			return ((BigDecimal)obj);
+		if (obj != null && obj instanceof Number) {
+			return new BigDecimal(obj.toString());
 		}
 		return Env.ZERO;
 	}
