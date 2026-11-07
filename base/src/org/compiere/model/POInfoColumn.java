@@ -36,6 +36,19 @@ public class POInfoColumn implements Serializable
 {
 	/** Used by Remote FinReport			*/
 	static final long serialVersionUID = -3983585608504631958L;
+
+	/**
+	 *	Sentinel for a caller that does not know the reference of the referenced
+	 *	table's key column, so {@link #POInfoColumn(int, String, String, int, boolean, boolean, String, String, String, boolean, boolean, int, String, int, String, String, boolean, boolean, boolean, boolean, String, int)}
+	 *	looks it up itself.
+	 *	<p>
+	 *	The nested lookup also yields {@code -1} when it finds no row, so
+	 *	{@code -1} means both "unknown, look it up" and "looked up, nothing
+	 *	there". Neither {@code -1} nor the zero a left outer join yields ever
+	 *	equals {@link org.compiere.util.DisplayType#String}, which is the only
+	 *	value that changes the display type, so both are inert.
+	 */
+	public static final int	KEY_REFERENCE_UNKNOWN = -1;
 	
 	/**
 	 *  Constructor
@@ -68,6 +81,33 @@ public class POInfoColumn implements Serializable
 		int fieldLength, String valueMin, String valueMax,
 		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy, String transactionName)
 	{
+		this (ad_Column_ID, columnName, columnSQL, displayType,
+			isMandatory, isUpdateable, defaultLogic,
+			columnLabel, columnDescription,
+			isKey, isParent,
+			referencevalueId, validationCode,
+			fieldLength, valueMin, valueMax,
+			isTranslated, isEncrypted, isAllowLogging, isAllowCopy, transactionName,
+			KEY_REFERENCE_UNKNOWN);
+	}	//	POInfoColumn
+
+	/**
+	 *	Create Column Info, with the reference of the referenced table's key
+	 *	column already resolved by the caller.
+	 *
+	 *	@param keyColumnReferenceId AD_Reference_ID of the key column that
+	 *		AD_Ref_Table names for referencevalueId, zero when there is none, or
+	 *		{@link #KEY_REFERENCE_UNKNOWN} to look it up here
+	 */
+	public POInfoColumn (int ad_Column_ID, String columnName, String columnSQL, int displayType,
+		boolean isMandatory, boolean isUpdateable, String defaultLogic,
+		String columnLabel, String columnDescription,
+		boolean isKey, boolean isParent,
+		int referencevalueId, String validationCode,
+		int fieldLength, String valueMin, String valueMax,
+		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy,
+		String transactionName, int keyColumnReferenceId)
+	{
 		AD_Column_ID = ad_Column_ID;
 		ColumnName = columnName;
 		ColumnSQL = columnSQL;
@@ -94,13 +134,17 @@ public class POInfoColumn implements Serializable
 		//ADEMPIERE-101
 		if(org.compiere.util.DisplayType.Table==DisplayType && referencevalueId > 0)
 		{
-			//Get the key ID
-			String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
-			final int key_id = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
-			//Get Reference ID
-			String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
-			final int ref_id = DB.getSQLValueEx(transactionName, sqlRef,key_id);
-			if (org.compiere.util.DisplayType.String==ref_id)
+			int resolvedKeyColumnReferenceId = keyColumnReferenceId;
+			if (resolvedKeyColumnReferenceId == KEY_REFERENCE_UNKNOWN)
+			{
+				//Get the key ID
+				String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
+				final int keyColumnId = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
+				//Get Reference ID
+				String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
+				resolvedKeyColumnReferenceId = DB.getSQLValueEx(transactionName, sqlRef,keyColumnId);
+			}
+			if (org.compiere.util.DisplayType.String==resolvedKeyColumnReferenceId)
 			{
 				DisplayType = org.compiere.util.DisplayType.String;
 				ColumnClass = String.class;
