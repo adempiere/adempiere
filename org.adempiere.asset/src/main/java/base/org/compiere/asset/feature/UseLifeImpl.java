@@ -336,10 +336,11 @@ public class UseLifeImpl
 			
 			String sufix = "";
 			//	UseLifeYears is a Quantity (BigDecimal) since adempiere#4412, UseLifeMonths stays a whole number.
-			BigDecimal fvalue = Env.ZERO;
-			if (value instanceof Number) {
-				fvalue = new BigDecimal(value.toString());
+			if (!(value instanceof Number)) {
+				//	Nothing to derive from: leave the paired field untouched rather than writing a silent zero.
+				return NO_ERROR;
 			}
+			BigDecimal fvalue = new BigDecimal(value.toString());
 			
 			String columnName = mField.getColumnName().toUpperCase();
 			if (columnName.endsWith(FIELD_FiscalPostfix)) {

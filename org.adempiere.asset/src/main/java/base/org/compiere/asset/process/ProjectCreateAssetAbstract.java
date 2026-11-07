@@ -50,7 +50,10 @@ public abstract class ProjectCreateAssetAbstract extends SvrProcess {
 	protected void prepare() {
 		projectId = getParameterAsInt(C_PROJECT_ID);
 		dateTrx = getParameterAsTimestamp(DATETRX);
-		useLifeYears = getParameterAsBigDecimal(USELIFEYEARS);
+		//	getParameterAsBigDecimal returns null when the parameter is absent, while the
+		//	getParameterAsInt this replaced returned 0: keep the non-null contract.
+		BigDecimal useLifeYearsParam = getParameterAsBigDecimal(USELIFEYEARS);
+		useLifeYears = useLifeYearsParam != null ? useLifeYearsParam : BigDecimal.ZERO;
 	}
 
 	/**	 Getter Parameter Value for Project	*/
