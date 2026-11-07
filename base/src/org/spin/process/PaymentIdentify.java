@@ -20,6 +20,7 @@ package org.spin.process;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAllocationHdr;
@@ -28,6 +29,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
+import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
@@ -127,6 +129,16 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		}
 		identifiedPayment.setIsReconciled(true);
 		identifiedPayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
+		//	Collecting Agent: validate that it exists and belongs to the payment tenant before assigning it
+		if (getCollectingAgentId() > 0) {
+			MUser collectingAgent = new Query(getCtx(), I_AD_User.Table_Name, "AD_User_ID = ? AND AD_Client_ID = ? AND IsActive = 'Y'", get_TrxName())
+					.setParameters(getCollectingAgentId(), identifiedPayment.getAD_Client_ID())
+					.first();
+			if (collectingAgent == null) {
+				throw new AdempiereException("@CollectingAgent_ID@ @NotFound@");
+			}
+			identifiedPayment.setCollectingAgent_ID(getCollectingAgentId());
+		}
 		identifiedPayment.saveEx();
 		//	Create reversed for Unidentified
 		MPayment reversePayment = new MPayment(getCtx(), 0, get_TrxName());
