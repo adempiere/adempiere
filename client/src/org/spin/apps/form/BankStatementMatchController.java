@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import org.adempiere.core.domains.models.X_I_BankStatement;
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.impexp.BankStatementMatchInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
@@ -1039,7 +1040,10 @@ public class BankStatementMatchController {
 				processed.addAndGet(1);
 			});
 		//Update Header after load for performance
-		updateHeader(trxName);
+		if (!updateHeader(trxName)) {
+			throw new AdempiereException("@SaveError@: @C_BankStatement_ID@ "
+					+ bankStatement.getDocumentNo() + " (@StatementDifference@ / @EndingBalance@)");
+		}
 		//	Return processed
 		return Msg.translate(Env.getCtx(), "BankStatementMatch.MatchedProcessed") + ": " + processed;
 	}   //  saveData
