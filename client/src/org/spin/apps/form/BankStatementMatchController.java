@@ -511,8 +511,7 @@ public class BankStatementMatchController {
 		//	Only pending records or the ones of the current bank statement, it avoids loading
 		//	records of another statement that would be modified on save
 		if(bankStatement != null) {
-			sql.append("AND (p.C_BankStatement_ID IS NULL OR p.C_BankStatement_ID = ")
-				.append(bankStatement.getC_BankStatement_ID()).append(") ");
+			sql.append("AND (p.C_BankStatement_ID IS NULL OR p.C_BankStatement_ID = ?) ");
 		}
 //		if(bankStatement == null
 //				|| (!bankStatement.isProcessed() && !isMatchedMode())) {
@@ -554,6 +553,9 @@ public class BankStatementMatchController {
 			int i = 1;
 			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(i++, bankAccountId);
+			if(bankStatement != null) {
+				pstmt.setInt(i++, bankStatement.getC_BankStatement_ID());
+			}
 			if(getDateFrom() != null) {
 				pstmt.setTimestamp(i++, getDateFrom());
 			}
@@ -774,15 +776,15 @@ public class BankStatementMatchController {
 	 * @return true if match is done
 	 */
 	public boolean importedPaymentApplyForMatch(int importedPaymentId) {
-		// Block only if multiple payments AND already have imported selected (many-to-many)
-		if (selectedPaymentIds.size() > 1 && selectedImportedPaymentIds.size() >= 1) {
-			return false;
-		}
 		if (selectedImportedPaymentIds.contains(importedPaymentId)) {
 			selectedImportedPaymentIds.remove(Integer.valueOf(importedPaymentId));
 			currentSelectedImportedPaymentId = selectedImportedPaymentIds.isEmpty() ? 0
 					: selectedImportedPaymentIds.get(selectedImportedPaymentIds.size() - 1);
 		} else {
+			// Block only if multiple payments AND already have imported selected (many-to-many)
+			if (selectedPaymentIds.size() > 1 && selectedImportedPaymentIds.size() >= 1) {
+				return false;
+			}
 			selectedImportedPaymentIds.add(importedPaymentId);
 			currentSelectedImportedPaymentId = importedPaymentId;
 		}
@@ -925,11 +927,7 @@ public class BankStatementMatchController {
 				X_I_BankStatement imported = importedEntry.getValue();
 				if(imported.getC_Payment_ID() == paymentId) {
 					Vector<Object> row = new Vector<Object>();
-					int keyId = imported.getI_BankStatement_ID();
-//					if (keyId == 0) {
-//						keyId = paymentId;
-//					}
-					row.add(new IDColumn(keyId));
+					row.add(new IDColumn(importedEntry.getKey()));
 					row.add(paymentRow.get(1));
 					row.add(paymentRow.get(2));
 					row.add(paymentRow.get(3));
@@ -1315,7 +1313,7 @@ public class BankStatementMatchController {
 			.stream()
 			.filter(imported -> selectedImportedPaymentIds.contains(imported.get_ID()))
 			.collect(Collectors.toList());
-		if (importedList.isEmpty()) {
+		if (importedList.size() != selectedImportedPaymentIds.size()) {
 			return false;
 		}
 		List<BigDecimal> lineAmounts = importedList
@@ -1358,7 +1356,7 @@ public class BankStatementMatchController {
 			.stream()
 			.filter(paymentId -> currentPaymentHashMap.containsKey(paymentId))
 			.collect(Collectors.toList());
-		if (paymentIds.isEmpty()) {
+		if (paymentIds.size() != selectedPaymentIds.size()) {
 			return false;
 		}
 		List<BigDecimal> payAmounts = paymentIds
@@ -1526,16 +1524,16 @@ public class BankStatementMatchController {
 			String sql = "UPDATE C_BankStatement bs"
 				+ " SET StatementDifference=(SELECT COALESCE(SUM(StmtAmt),0) FROM C_BankStatementLine bsl "
 					+ "WHERE bsl.C_BankStatement_ID=bs.C_BankStatement_ID AND bsl.IsActive='Y') "
-				+ "WHERE C_BankStatement_ID=" + bankStatement.getC_BankStatement_ID();
-			int no = DB.executeUpdate(sql, trxName);
+				+ "WHERE C_BankStatement_ID=?";
+			int no = DB.executeUpdate(sql, bankStatement.getC_BankStatement_ID(), trxName);
 			if (no != 1) {
 				log.warning("StatementDifference #" + no);
 				return false;
 			}
 			sql = "UPDATE C_BankStatement bs"
 				+ " SET EndingBalance=BeginningBalance+StatementDifference "
-				+ "WHERE C_BankStatement_ID=" + bankStatement.getC_BankStatement_ID();
-			no = DB.executeUpdate(sql, trxName);
+				+ "WHERE C_BankStatement_ID=?";
+			no = DB.executeUpdate(sql, bankStatement.getC_BankStatement_ID(), trxName);
 			if (no != 1) {
 				log.warning("Balance #" + no);
 				return false;

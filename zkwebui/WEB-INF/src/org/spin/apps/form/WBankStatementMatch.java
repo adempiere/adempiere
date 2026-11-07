@@ -965,17 +965,18 @@ public class WBankStatementMatch extends BankStatementMatchController
 		boolean hasImportedSelection = !getSelectedImportedPaymentIds().isEmpty();
 		boolean hasPaymentSelection = getCurrentSelectedPaymentId() > 0
 				|| getSelectedPaymentIds().size() > 1;
+		BigDecimal diff = null;
 		if (hasImportedSelection && hasPaymentSelection) {
-			BigDecimal diff = calculateManualDifference();
-			if (diff != null) {
-				differenceAmtField.setValue(diff);
-				boolean hasDiff = diff.compareTo(BigDecimal.ZERO) != 0;
-				chargeField.setReadWrite(hasDiff);
-				if (!hasDiff) {
-					chargeField.setValue(null);
-				}
-				acceptManualMatchButton.setEnabled(true);
+			diff = calculateManualDifference();
+		}
+		if (diff != null) {
+			differenceAmtField.setValue(diff);
+			boolean hasDiff = diff.compareTo(BigDecimal.ZERO) != 0;
+			chargeField.setReadWrite(hasDiff);
+			if (!hasDiff) {
+				chargeField.setValue(null);
 			}
+			acceptManualMatchButton.setEnabled(true);
 		} else {
 			differenceAmtField.setValue(null);
 			chargeField.setValue(null);
