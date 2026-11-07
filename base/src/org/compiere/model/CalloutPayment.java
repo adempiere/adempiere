@@ -41,6 +41,29 @@ import org.compiere.util.Env;
  */
 public class CalloutPayment extends CalloutEngine
 {
+	/**
+	 * Set the payment currency from the selected bank account.
+	 * @param ctx context
+	 * @param WindowNo current Window No
+	 * @param mTab Grid Tab
+	 * @param mField Grid Field
+	 * @param value New Value
+	 * @return null or error message
+	 */
+	public String bankAccount(Properties ctx, int WindowNo, GridTab mTab,
+		GridField mField, Object value)
+	{
+		if (isCalloutActive () || value == null)
+			return "";
+		int C_BankAccount_ID = ((Integer)value).intValue ();
+		if (C_BankAccount_ID == 0)
+			return "";
+		MBankAccount account = MBankAccount.get (ctx, C_BankAccount_ID);
+		if (account == null || account.getC_Currency_ID () == 0)
+			return "";
+		mTab.setValue ("C_Currency_ID", account.getC_Currency_ID ());
+		return "";
+	} // bankAccount
 
 	/**
 	 * Payment_Invoice. when Invoice selected - set C_Currency_ID -
