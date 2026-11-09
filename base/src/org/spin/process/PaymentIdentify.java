@@ -20,6 +20,7 @@ package org.spin.process;
 import java.math.RoundingMode;
 import java.sql.Timestamp;
 
+import org.adempiere.core.domains.models.I_AD_User;
 import org.adempiere.core.domains.models.I_C_Payment;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAllocationHdr;
@@ -28,6 +29,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
+import org.compiere.model.MUser;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
@@ -71,6 +73,16 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		if(relatedPayment != null
 				&& relatedPayment.getC_Payment_ID() != 0) {
 			throw new AdempiereException("@UnidentifiedReverseCreated@");
+		}
+		//	Validate the collecting agent before any write: an invalid agent must reject the whole
+		//	process before a new payment is created or completed, so a workflow cannot commit it.
+		if (getCollectingAgentId() > 0) {
+			MUser collectingAgent = new Query(getCtx(), I_AD_User.Table_Name, "AD_User_ID = ? AND AD_Client_ID = ? AND IsActive = 'Y'", get_TrxName())
+					.setParameters(getCollectingAgentId(), unidentifiedPayment.getAD_Client_ID())
+					.first();
+			if (collectingAgent == null) {
+				throw new AdempiereException("@CollectingAgent_ID@ @NotFound@");
+			}
 		}
 		MPayment identifiedPayment = null;
 		//	Validate selected payment
@@ -127,6 +139,10 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		}
 		identifiedPayment.setIsReconciled(true);
 		identifiedPayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
+		//	Collecting agent already validated at the start of doIt
+		if (getCollectingAgentId() > 0) {
+			identifiedPayment.setCollectingAgent_ID(getCollectingAgentId());
+		}
 		identifiedPayment.saveEx();
 		//	Create reversed for Unidentified
 		MPayment reversePayment = new MPayment(getCtx(), 0, get_TrxName());
