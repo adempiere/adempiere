@@ -945,22 +945,22 @@ public class MTable extends X_AD_Table
 				column = new MColumn(this, element.getColumnName(), 22 , DisplayType.ID, "");
 				column.setAD_Element_ID(element.get_ID());
 				column.setIsKey(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(false);	// key column: also forced by MColumn.beforeSave
 				column.setIsMandatory(true);
 				column.saveEx();
 			}
 		}
 
 		column = new MColumn(this, COLUMNNAME_AD_Client_ID	, 22 , DisplayType.TableDir , "@#AD_Client_ID@");
-		column.setUpdateable(false);
+		column.setIsUpdateable(true);	// Y - constructor default; AD_Val_Rule_ID 129 restricts the selectable client
 		column.setAD_Val_Rule_ID(129);
 		column.saveEx();
 		column = new MColumn(this, COLUMNNAME_AD_Org_ID	, 22 , DisplayType.TableDir , "@#AD_Org_ID@");
-		column.setUpdateable(true);
+		column.setIsUpdateable(true);
 		column.setAD_Val_Rule_ID(104);
 		column.saveEx();
 		column = new MColumn(this, COLUMNNAME_IsActive	, 1 , DisplayType.YesNo , "Y");
-		column.setUpdateable(true);
+		column.setIsUpdateable(true);
 		column.saveEx();
 		column = new MColumn(this, COLUMNNAME_Created	, 7 , DisplayType.DateTime , "");
 		column.saveEx();		
@@ -990,7 +990,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 22, DisplayType.TableDir, "");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 25/35 isdocument=Y tables ship C_DocType_ID=Y
 				column.setIsSelectionColumn(true);
 				column.saveEx();
 			}
@@ -999,7 +999,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 60, DisplayType.String, "");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 26/38 isdocument=Y tables ship DocumentNo=Y
 				column.setIsSelectionColumn(true);
 				column.setIsIdentifier(true);
 				column.setSeqNo(1);
@@ -1010,7 +1010,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 7, DisplayType.Date, "@#Date@");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 19/19 isdocument=Y tables ship DateDoc=Y
 				column.setIsSelectionColumn(true);
 				column.saveEx();
 			}
@@ -1019,7 +1019,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 37/39 isdocument=Y tables ship Processed=Y
 				column.saveEx();
 			}
 			//	Processing
@@ -1027,7 +1027,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
-				column.setUpdateable(true);
+				column.setIsUpdateable(true);	// Y - 39/39 isdocument='Y' tables ship Processing='Y'
 				column.setIsAlwaysUpdateable(true);
 				column.saveEx();
 			}
@@ -1036,7 +1036,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 1, DisplayType.YesNo, "N");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 29/33 isdocument=Y tables ship IsApproved=Y
 				column.saveEx();
 			}
 			//	Document Description
@@ -1044,7 +1044,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 255, DisplayType.Text, "");
 				column.setIsMandatory(false);
-				column.setUpdateable(true);
+				column.setIsUpdateable(true);	// Y - 41/41 isdocument='Y' tables ship Description='Y'
 				column.setIsAlwaysUpdateable(true);
 				column.setIsSelectionColumn(true);
 				column.saveEx();
@@ -1054,7 +1054,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 2, DisplayType.List, "DR");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 42/42 isdocument=Y tables ship DocStatus=Y
 				column.setAD_Reference_Value_ID(131);
 				column.setIsSelectionColumn(true);
 				column.setIsIdentifier(true);
@@ -1066,7 +1066,7 @@ public class MTable extends X_AD_Table
 			if(MColumn.getColumn_ID(getTableName(), columnName) <= 0) {
 				column = new MColumn(this, columnName, 2, DisplayType.Button, "CO");
 				column.setIsMandatory(true);
-				column.setUpdateable(false);
+				column.setIsUpdateable(true);	// Y - 42/42 isdocument=Y tables ship DocAction=Y
 				column.setAD_Reference_Value_ID(135);
 				column.setAD_Process_ID(getworkFlowProcess());
 				column.saveEx();
