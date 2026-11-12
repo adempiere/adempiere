@@ -49,6 +49,12 @@ import java.lang.reflect.{InvocationTargetException, Method}
   *  - a null exporter only ever comes from an unsupported extension, never from
   *    a handler that failed to load.
   *
+  * Skipping the export is only half of it: `startDocumentPrint` confirms the
+  * document as printed (`IsPrinted = 'Y'`) right after `createOutput`, so a
+  * skipped export must not reach that confirmation nor report success. A
+  * second feature pins that flow against a real unprinted order, inside the
+  * rolled-back test transaction.
+  *
   * `createOutput` is private and package-internal, so it is reached through
   * reflection, following the precedent of
   * `ValidateReportEngineClosesFallbackStatement`. The report engine is built
@@ -123,12 +129,16 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
   }
 
   /**
-    * Invokes the private static `ServerReportCtl.createOutput`. A checked or
-    * runtime failure raised inside it arrives wrapped in an
-    * InvocationTargetException; the cause is rethrown so the spec reports the
-    * exception the caller would actually have seen.
+    * Invokes the private static `ServerReportCtl.createOutput` and returns what
+    * it answers. A checked or runtime failure raised inside it arrives wrapped
+    * in an InvocationTargetException; the cause is rethrown so the spec reports
+    * the exception the caller would actually have seen.
+    *
+    * The answer is `Any`, not `Boolean`: before the fix the method is `void`
+    * and `invoke` returns null, and the spec must report that as a plain
+    * assertion failure rather than die on an unboxing NullPointerException.
     */
-  private def createOutput(engine: ReportEngine, processInfo: ProcessInfo): Unit = {
+  private def createOutput(engine: ReportEngine, processInfo: ProcessInfo): Any = {
     val method: Method = classOf[ServerReportCtl].getDeclaredMethod("createOutput",
       classOf[ReportEngine], classOf[ProcessInfo], classOf[String])
     method.setAccessible(true)
@@ -149,7 +159,7 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
         "the scenario is only meaningful while docx resolves to no exporter")
 
       When("the server creates the output")
-      createOutput(engine, processInfo)
+      val produced = createOutput(engine, processInfo)
 
       Then("no exception escaped and no report file was produced")
       assert(processInfo.getReportAsFile == null,
@@ -157,11 +167,14 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       And("the process was not marked as failed by the guard")
       assert(!processInfo.isError,
         s"skipping an unsupported export is not an error, summary was '${processInfo.getSummary}'")
+      And("createOutput answers false, so the caller knows nothing was produced")
+      assert(produced == false,
+        s"an export no exporter can serve must answer not produced, got '$produced'")
     }
 
     Scenario("every report type outside the supported list is skipped the same way") {
       Given("each report type that no exporter offers")
-      assert(UnsupportedExtensions.forall(ext => !SupportedExtensions.contains(ext)),
+      assert(UnsupportedExtensions.forall(extension => !SupportedExtensions.contains(extension)),
         "the unsupported list must stay disjoint from the supported extensions")
 
       When("the server creates the output for each of them")
@@ -180,13 +193,13 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       val handler = new ReportExportHandler(Env.getCtx, reportEngine())
 
       When("each supported extension is resolved")
-      val resolved = SupportedExtensions.map(ext => ext -> handler.getExporterFromExtension(ext))
+      val resolved = SupportedExtensions.map(extension => extension -> handler.getExporterFromExtension(extension))
 
       Then("every supported extension still resolves to its own exporter")
-      resolved.foreach { case (ext, exporter) =>
-        assert(exporter != null, s"supported extension '$ext' must resolve to an exporter")
-        assert(exporter.getExtension == ext,
-          s"'$ext' resolved to an exporter for '${exporter.getExtension}'")
+      resolved.foreach { case (extension, exporter) =>
+        assert(exporter != null, s"supported extension '$extension' must resolve to an exporter")
+        assert(exporter.getExtension == extension,
+          s"'$extension' resolved to an exporter for '${exporter.getExtension}'")
       }
       And("each exporter is distinct, so the list is not a single fallback")
       assert(resolved.map { case (_, exporter) => exporter }.distinct.size == SupportedExtensions.size,
@@ -199,9 +212,10 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       val processInfo = exportProcessInfo("csv")
 
       When("the server creates the output")
-      createOutput(engine, processInfo)
+      val produced = createOutput(engine, processInfo)
 
       Then("an exporter was found, so the guarded branch was not taken")
+      assert(produced == true, s"a supported export must answer produced, got '$produced'")
       val reportFile = processInfo.getReportAsFile
       assert(reportFile != null,
         "a supported type must produce a report file, not fall through the null guard")
@@ -215,6 +229,58 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
         s"the export reported no failure, summary was '${processInfo.getSummary}'")
 
       if (reportFile != null) reportFile.delete()
+    }
+  }
+
+  Feature("ServerReportCtl.startDocumentPrint does not confirm a skipped export as printed") {
+    info("adempiere/adempiere#4214 review: an order whose export was skipped must not be marked IsPrinted")
+
+    Scenario("an order whose export no exporter can serve is not confirmed as printed") {
+      Given("an unprinted order whose client resolves a non-Jasper order print format")
+      //	The document print format is resolved by AD_PrintForm of the document
+      //	client/org (ReportEngine.get), not by a format hung on C_Order, and a
+      //	Jasper format would take the other branch of startDocumentPrint. The
+      //	candidate is therefore an unprinted order whose resolved format is
+      //	non-Jasper, so the export branch is the one that runs.
+      val orderId = DB.getSQLValue(trxName,
+        "SELECT o.C_Order_ID FROM C_Order o" +
+          " JOIN AD_PrintForm pf ON (pf.AD_Client_ID = o.AD_Client_ID AND pf.AD_Org_ID IN (0, o.AD_Org_ID))" +
+          " JOIN AD_PrintFormat f ON f.AD_PrintFormat_ID = pf.Order_PrintFormat_ID" +
+          " JOIN C_BPartner bp ON bp.C_BPartner_ID = o.C_BPartner_ID" +
+          " WHERE o.IsPrinted = 'N' AND COALESCE(f.JasperProcess_ID, 0) = 0" +
+          " ORDER BY pf.AD_Org_ID DESC, o.C_Order_ID")
+      assume(orderId > 0,
+        "no unprinted order resolves a non-Jasper print format, so the export branch" +
+          " of startDocumentPrint cannot be exercised on this dictionary")
+      assume(ReportEngine.get(Env.getCtx, ReportEngine.ORDER, orderId, trxName) != null,
+        s"ReportEngine builds no print engine for order $orderId, so the flow would" +
+          " stop before reaching the exporter guard")
+
+      And("the order is not marked as printed")
+      assert(DB.getSQLValueString(trxName,
+        "SELECT IsPrinted FROM C_Order WHERE C_Order_ID = ?", orderId) == "N",
+        s"order $orderId was already printed before the scenario ran")
+
+      val processInfo = exportProcessInfo("docx")
+      processInfo.setTransactionName(trxName)
+
+      When("the server prints the order asking for a report type no exporter offers")
+      val completed = ServerReportCtl.startDocumentPrint(ReportEngine.ORDER,
+        null, orderId, null, processInfo)
+
+      Then("the print does not report success")
+      assert(!completed,
+        "a document no exporter can produce must not report a completed print")
+      And("no report file was produced")
+      assert(processInfo.getReportAsFile == null,
+        "the skipped export must not set a report file")
+      And("the process is marked as failed, so the user is never told it printed")
+      assert(processInfo.isError,
+        s"a skipped export must fail the process, summary was '${processInfo.getSummary}'")
+      And("the order keeps IsPrinted = 'N'")
+      assert(DB.getSQLValueString(trxName,
+        "SELECT IsPrinted FROM C_Order WHERE C_Order_ID = ?", orderId) == "N",
+        s"order $orderId must stay unprinted when its export was skipped")
     }
   }
 }

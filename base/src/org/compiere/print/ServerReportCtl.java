@@ -82,7 +82,14 @@ public class ServerReportCtl {
 				if (processInfo != null)
 					processInfo.setPDFReport(reportEngine.getPDF());
 
-				createOutput(reportEngine, processInfo, printerName);
+				if (!createOutput(reportEngine, processInfo, printerName)) {
+					//	Nothing was exported: the document was not printed, so it must
+					//	not be confirmed as printed and the process must not report OK.
+					//	A failed export already reported its own reason; keep it.
+					if (processInfo != null && !processInfo.isError())
+						processInfo.setSummary("OutputNotCreated", true);
+					return false;
+				}
 				ReportEngine.printConfirm (type, recordId, trxName);
 			}
 		}
@@ -144,29 +151,36 @@ public class ServerReportCtl {
 	 * @param reportEngine
 	 * @param processInfo
 	 * @param printerName
+	 * @return true if the output was created, false if no exporter could serve
+	 *         the requested report type or the export failed
 	 */
-	private static void createOutput(ReportEngine reportEngine, ProcessInfo processInfo, String printerName) {
+	private static boolean createOutput(ReportEngine reportEngine, ProcessInfo processInfo, String printerName) {
 		if(processInfo == null
 				|| Util.isEmpty(processInfo.getReportType())) {
 			if (printerName!=null) {
 				reportEngine.getPrintInfo().setPrinterName(printerName);
 			}
 			reportEngine.print();
-			return;
+			return true;
 		}
 		//	Export		
 		try {
 			ReportExportHandler exportHandler = new ReportExportHandler(Env.getCtx(), reportEngine);
 			AbstractExportFormat exporter = exportHandler.getExporterFromExtension(processInfo.getReportType());
-			if (exporter != null) {
-				//	Get File
-				File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
-				exporter.exportTo(tempFile);
-				//	Set to process info
-				processInfo.setReportAsFile(tempFile);
+			if (exporter == null) {
+				//	No exporter offers this report type: nothing is produced, say so
+				s_log.warning("createOutput - no exporter for report type " + processInfo.getReportType());
+				return false;
 			}
+			//	Get File
+			File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
+			exporter.exportTo(tempFile);
+			//	Set to process info
+			processInfo.setReportAsFile(tempFile);
+			return true;
 		} catch (IOException e) {
 			processInfo.setSummary(e.getLocalizedMessage(), true);
+			return false;
 		}
 	}
 	
