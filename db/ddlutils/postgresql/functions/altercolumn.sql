@@ -52,7 +52,7 @@ begin
 		    viewname[i] := v.relname;
 		end loop;
 		if i > 0 then
-          command := 'SELECT deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
+          command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
 		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
@@ -84,7 +84,7 @@ begin
       end if;
    end if;
     if i > 0 then
-        command := 'SELECT deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
+        command := 'SELECT public.deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
 		raise notice ' Execute : % ' , command;
         execute command;
     end if;

@@ -90,7 +90,7 @@ begin
 
 
   -- very important thing which property handles "PUBLIC", not PUBLIC role. They are not the same
-  create temporary view _role_table_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, privilege_type, is_grantable, with_hierarchy) as
+  create or replace temporary view _role_table_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, privilege_type, is_grantable, with_hierarchy) as
     with
       _table_table_privileges as (
         SELECT
@@ -153,7 +153,7 @@ begin
 
 
   -- very important thing which property handles "PUBLIC", not PUBLIC role. They are not the same
-  create temporary view _role_column_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, column_name, privilege_type, is_grantable) as
+  create or replace temporary view _role_column_grants(grantor, grantor_id, grantee, grantee_id, table_catalog, table_schema, table_name, column_name, privilege_type, is_grantable) as
     with
       _column_privileges as (
         SELECT u_grantor.rolname::information_schema.sql_identifier  AS grantor,
