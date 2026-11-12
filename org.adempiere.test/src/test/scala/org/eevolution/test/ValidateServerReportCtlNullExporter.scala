@@ -15,9 +15,9 @@
 
 package org.eevolution.test
 
-import org.compiere.model.{MQuery, PrintInfo}
+import org.compiere.model.{MOrder, MOrderLine, MPriceList, MQuery, PrintInfo}
 import org.compiere.print.{MPrintFormat, ReportEngine, ServerReportCtl}
-import org.compiere.process.ProcessInfo
+import org.compiere.process.{DocAction, ProcessInfo}
 import org.compiere.util.{DB, Env}
 import org.scalatest.featurespec.AnyFeatureSpec
 import org.scalatest.GivenWhenThen
@@ -134,15 +134,15 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
     * in an InvocationTargetException; the cause is rethrown so the spec reports
     * the exception the caller would actually have seen.
     *
-    * The answer is `Any`, not `Boolean`: before the fix the method is `void`
-    * and `invoke` returns null, and the spec must report that as a plain
-    * assertion failure rather than die on an unboxing NullPointerException.
+    * The answer is `Option[Boolean]`: before the fix the method is `void` and
+    * reflection answers null, which is `None`; after the fix the scenarios assert
+    * the exact `Some(true)` / `Some(false)` the guard must give its caller.
     */
-  private def createOutput(engine: ReportEngine, processInfo: ProcessInfo): Any = {
+  private def createOutput(engine: ReportEngine, processInfo: ProcessInfo): Option[Boolean] = {
     val method: Method = classOf[ServerReportCtl].getDeclaredMethod("createOutput",
       classOf[ReportEngine], classOf[ProcessInfo], classOf[String])
     method.setAccessible(true)
-    try method.invoke(null, engine, processInfo, null)
+    try Option(method.invoke(null, engine, processInfo, null)).map(_.asInstanceOf[Boolean])
     catch {
       case e: InvocationTargetException => throw e.getCause
     }
@@ -168,7 +168,7 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       assert(!processInfo.isError,
         s"skipping an unsupported export is not an error, summary was '${processInfo.getSummary}'")
       And("createOutput answers false, so the caller knows nothing was produced")
-      assert(produced == false,
+      assert(produced == Some(false),
         s"an export no exporter can serve must answer not produced, got '$produced'")
     }
 
@@ -215,7 +215,7 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       val produced = createOutput(engine, processInfo)
 
       Then("an exporter was found, so the guarded branch was not taken")
-      assert(produced == true, s"a supported export must answer produced, got '$produced'")
+      assert(produced == Some(true), s"a supported export must answer produced, got '$produced'")
       val reportFile = processInfo.getReportAsFile
       assert(reportFile != null,
         "a supported type must produce a report file, not fall through the null guard")
@@ -236,37 +236,86 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
     info("adempiere/adempiere#4214 review: an order whose export was skipped must not be marked IsPrinted")
 
     Scenario("an order whose export no exporter can serve is not confirmed as printed") {
-      Given("an unprinted order whose client resolves a non-Jasper order print format")
-      //	The document print format is resolved by AD_PrintForm of the document
-      //	client/org (ReportEngine.get), not by a format hung on C_Order, and a
-      //	Jasper format would take the other branch of startDocumentPrint. The
-      //	candidate is therefore an unprinted order whose resolved format is
-      //	non-Jasper, so the export branch is the one that runs.
-      val orderId = DB.getSQLValue(trxName,
-        "SELECT o.C_Order_ID FROM C_Order o" +
-          " JOIN AD_PrintForm pf ON (pf.AD_Client_ID = o.AD_Client_ID AND pf.AD_Org_ID IN (0, o.AD_Org_ID))" +
+      Given("a non-Jasper order print format offered by the dictionary")
+      //	startDocumentPrint only reaches the exporter guard on the non-Jasper
+      //	branch, and ReportEngine.get prefers C_DocType.AD_PrintFormat_ID over the
+      //	order format of AD_PrintForm. The format is therefore read from
+      //	AD_PrintForm, pinned non-Jasper here, and handed to the call as
+      //	customPrintFormat, so the branch under test is the one that runs no
+      //	matter what the document type of the order resolves to later.
+      val printFormatId = DB.getSQLValue(trxName,
+        "SELECT pf.Order_PrintFormat_ID FROM AD_PrintForm pf" +
           " JOIN AD_PrintFormat f ON f.AD_PrintFormat_ID = pf.Order_PrintFormat_ID" +
-          " JOIN C_BPartner bp ON bp.C_BPartner_ID = o.C_BPartner_ID" +
-          " WHERE o.IsPrinted = 'N' AND COALESCE(f.JasperProcess_ID, 0) = 0" +
-          " ORDER BY pf.AD_Org_ID DESC, o.C_Order_ID")
-      assume(orderId > 0,
-        "no unprinted order resolves a non-Jasper print format, so the export branch" +
-          " of startDocumentPrint cannot be exercised on this dictionary")
+          " WHERE pf.AD_Client_ID = ? AND COALESCE(pf.AD_Org_ID, 0) = 0" +
+          " AND COALESCE(f.JasperProcess_ID, 0) = 0" +
+          " ORDER BY pf.AD_PrintForm_ID", Env.getAD_Client_ID(Env.getCtx))
+      assume(printFormatId > 0,
+        s"client ${Env.getAD_Client_ID(Env.getCtx)} offers no non-Jasper order print"
+          + " format, so the export branch of startDocumentPrint cannot be exercised"
+          + " on this dictionary")
+
+      And("a drafted order created by this scenario inside the rolled back transaction")
+      //	The order is built here instead of being picked from the business data: a
+      //	dictionary without unprinted orders still pins the regression, and a
+      //	fixture built by the scenario cannot drift with the data of a developer.
+      //	It lives only in this transaction, so AdempiereTestCase rolls it back.
+      val clientId = Env.getAD_Client_ID(Env.getCtx)
+      val partnerId = DB.getSQLValue(trxName,
+        "SELECT C_BPartner_ID FROM C_BPartner WHERE AD_Client_ID = ? AND Value = ?" +
+          " AND IsActive = 'Y'", clientId, "JoeBlock")
+      val productId = DB.getSQLValue(trxName,
+        "SELECT M_Product_ID FROM M_Product WHERE AD_Client_ID = ? AND Value = ?" +
+          " AND IsActive = 'Y'", clientId, "Oak")
+      val priceListId = DB.getSQLValue(trxName,
+        "SELECT M_PriceList_ID FROM M_PriceList WHERE AD_Client_ID = ? AND IsSOPriceList = 'Y'" +
+          " AND IsActive = 'Y' ORDER BY AD_Org_ID DESC", clientId)
+      val docTypeId = DB.getSQLValue(trxName,
+        "SELECT C_DocType_ID FROM C_DocType WHERE AD_Client_ID = ? AND DocBaseType = 'SOO'" +
+          " AND DocSubTypeSO = 'SO' AND IsActive = 'Y' ORDER BY AD_Org_ID DESC", clientId)
+      val warehouseId = Env.getContextAsInt(Env.getCtx, "#M_Warehouse_ID")
+      //	#Date is the login date of the session; now() is the fallback, so the
+      //	fixture does not depend on how the context happened to be prepared.
+      val dateOrdered = Option(Env.getContextAsDate(Env.getCtx, "#Date"))
+        .getOrElse(new java.sql.Timestamp(System.currentTimeMillis))
+      assume(partnerId > 0 && productId > 0 && priceListId > 0 && docTypeId > 0
+        && warehouseId > 0,
+        s"the dictionary cannot build the fixture order (partner=$partnerId,"
+          + s" product=$productId, priceList=$priceListId, docType=$docTypeId,"
+          + s" warehouse=$warehouseId), so the export branch"
+          + " of startDocumentPrint cannot be exercised on this dictionary")
+
+      val order = new MOrder(Env.getCtx, 0, trxName)
+      order.setAD_Org_ID(Env.getAD_Org_ID(Env.getCtx))
+      order.setC_BPartner_ID(partnerId)
+      order.setM_Warehouse_ID(warehouseId)
+      order.setM_PriceList_ID(priceListId)
+      order.setC_DocType_ID(docTypeId)
+      order.setC_DocTypeTarget_ID(docTypeId)
+      order.setDateOrdered(dateOrdered)
+      order.setDocAction(DocAction.ACTION_Complete)
+      order.saveEx()
+
+      val line = new MOrderLine(order)
+      line.setM_Product_ID(productId, true)
+      line.setQty(new java.math.BigDecimal(1))
+      line.setPrice(priceListId)
+      line.saveEx()
+
+      val orderId = order.getC_Order_ID
       assume(ReportEngine.get(Env.getCtx, ReportEngine.ORDER, orderId, trxName) != null,
-        s"ReportEngine builds no print engine for order $orderId, so the flow would" +
-          " stop before reaching the exporter guard")
+        s"ReportEngine builds no print engine for the fixture order $orderId, so the"
+          + " flow would stop before reaching the exporter guard")
 
       And("the order is not marked as printed")
-      assert(DB.getSQLValueString(trxName,
-        "SELECT IsPrinted FROM C_Order WHERE C_Order_ID = ?", orderId) == "N",
-        s"order $orderId was already printed before the scenario ran")
+      assert(!order.isPrinted,
+        s"the fixture order $orderId was already printed before the scenario ran")
 
       val processInfo = exportProcessInfo("docx")
       processInfo.setTransactionName(trxName)
 
       When("the server prints the order asking for a report type no exporter offers")
       val completed = ServerReportCtl.startDocumentPrint(ReportEngine.ORDER,
-        null, orderId, null, processInfo)
+        new MPrintFormat(Env.getCtx, printFormatId, trxName), orderId, null, processInfo)
 
       Then("the print does not report success")
       assert(!completed,
@@ -278,8 +327,8 @@ class ValidateServerReportCtlNullExporter extends AnyFeatureSpec with AdempiereT
       assert(processInfo.isError,
         s"a skipped export must fail the process, summary was '${processInfo.getSummary}'")
       And("the order keeps IsPrinted = 'N'")
-      assert(DB.getSQLValueString(trxName,
-        "SELECT IsPrinted FROM C_Order WHERE C_Order_ID = ?", orderId) == "N",
+      order.load(trxName)
+      assert(!order.isPrinted,
         s"order $orderId must stay unprinted when its export was skipped")
     }
   }

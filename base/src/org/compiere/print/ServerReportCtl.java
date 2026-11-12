@@ -174,7 +174,14 @@ public class ServerReportCtl {
 			}
 			//	Get File
 			File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
-			exporter.exportTo(tempFile);
+			//	exportTo answers false when the exporter failed to write the file
+			//	(ExportFormatPDF, for instance, catches its generation errors and
+			//	answers false), so a false answer means nothing was produced and the
+			//	caller must not confirm the document as printed.
+			if (!exporter.exportTo(tempFile)) {
+				s_log.warning("createOutput - exporter failed to write " + tempFile.getName());
+				return false;
+			}
 			//	Set to process info
 			processInfo.setReportAsFile(tempFile);
 			return true;
