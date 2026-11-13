@@ -20,12 +20,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.Properties;
-
 import org.adempiere.core.domains.models.I_HR_Movement;
 import org.adempiere.core.domains.models.X_C_PaySelectionLine;
 import org.adempiere.core.domains.models.X_HR_Employee;
@@ -35,6 +29,13 @@ import org.adempiere.core.domains.models.X_HR_Process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.Properties;
+
 
 /**
  *	Payment Selection Line Model
@@ -131,16 +132,120 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setC_Invoice_ID (invoiceId);
 		set_ValueOfColumn("C_InvoicePaySchedule_ID",invoicepayscheduleId);
 		setIsSOTrx(isSOTrx);
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
+		setC_BPartner_ID(invoice.getC_BPartner_ID());
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
-		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
 		if(invoice.getC_ConversionType_ID() > 0) {
 			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
-	}	//	setInvoive
-	
+		setDescription(invoice.getDescription());
+		if(getPaymentRule() == null && invoice.getPaymentRule() != null)
+			setPaymentRule(invoice.getPaymentRule());
+
+		//	Only a direct deposit or a direct debit pays through a partner bank account, and
+		//	then only through one whose IsACH flag and BPBankAcctUse purpose serve that tender.
+		setC_BP_BankAccount_ID(payableBankAccountId(getPaymentRule(), invoice.getC_BPartner_ID()));
+
+	}	//	setInvoive	
+	/**
+	 *	Account the payment rule may pay through, or 0 when none may.
+	 *
+	 *	The rule decides, with the predicate the product already has on MBPBankAccount:
+	 *	isDirectDeposit and isDirectDebit. Only a direct deposit and a direct debit are paid
+	 *	through a bank account, so any other rule takes none, and a payroll account is only
+	 *	used by a payroll line. This is the same rule MPaySelectionCheck applies under its own
+	 *	"Add default account" comment; applying it here too is what keeps the account written
+	 *	onto the grid row one that the generated payment would accept, instead of the first
+	 *	active account whatever its IsACH flag or its BPBankAcctUse purpose.
+	 *
+	 *	The candidate, when one is given, is kept only if it really serves the partner and the
+	 *	rule. Otherwise it is re-resolved rather than trusted: MPaySelectionCheck used to take
+	 *	any non zero account from the line and isValid then accepted it, so an account set by a
+	 *	previous document, a stale one, or a manually typed one reached the payment unfiltered.
+	 *
+	 *	Payroll is matched in both directions. A payroll account does not pay an ordinary supplier,
+	 *	and an ordinary account does not receive a payroll payment: the check the selector replaced
+	 *	read "account.isPayrollAccount or not line.isPayrollAccount", which already refused the
+	 *	second crossing, and the developer asked for the first one too. Keeping both leaves the
+	 *	payroll and the ordinary account each on its own side of the line.
+	 *
+	 *	Among the eligible accounts the lowest id wins: MBPBankAccount.getByPartner sets no
+	 *	ORDER BY, so without an explicit tie break the same input could pay a different account
+	 *	every time.
+	 *
+	 *	@param ctx context
+	 *	@param partnerId partner to pay
+	 *	@param paymentRule payment rule of the document being paid
+	 *	@param isPayrollLine true when the line is a payroll line (HR_Movement_ID set)
+	 *	@param candidateId account already on the line, 0 when there is none
+	 *	@param trxName transaction
+	 *	@return account to pay through, 0 when the rule pays through none
+	 */
+	public static int payableBankAccountId(Properties ctx, int partnerId, String paymentRule,
+			boolean isPayrollLine, int candidateId, String trxName)
+	 {
+		boolean isDirectDeposit = PAYMENTRULE_DirectDeposit.equals(paymentRule);
+		boolean isDirectDebit = PAYMENTRULE_DirectDebit.equals(paymentRule);
+		//	A check, a wire outside ACH, cash, credit card, on credit or a mixed tender is not
+		//	paid through a partner bank account.
+		if (!isDirectDeposit && !isDirectDebit)
+			return 0;
+		if (partnerId <= 0)
+			return 0;
+
+		if (candidateId > 0) {
+			MBPBankAccount candidate = new MBPBankAccount(ctx, candidateId, trxName);
+			if (candidate.getC_BPartner_ID() == partnerId
+					&& candidate.isActive()
+					&& servesRule(candidate, isDirectDeposit, isDirectDebit)
+					&& candidate.isPayrollAccount() == isPayrollLine)
+				return candidateId;
+		}
+
+		int selected = 0;
+		for (MBPBankAccount bank : MBPBankAccount.getByPartner(ctx, partnerId, null, trxName)) {
+			if (bank == null || bank.getC_BP_BankAccount_ID() <= 0)
+				continue;
+			if (!servesRule(bank, isDirectDeposit, isDirectDebit))
+				continue;
+			//	A payroll account pays a payroll line, an ordinary account an ordinary line.
+			if (bank.isPayrollAccount() != isPayrollLine)
+				continue;
+			if (selected == 0 || bank.getC_BP_BankAccount_ID() < selected)
+				selected = bank.getC_BP_BankAccount_ID();
+		}
+		return selected;
+	}	//	payableBankAccountId
+
+	/**
+	 *	True when the account serves the direct rule asked for.
+	 *	@param account bank account
+	 *	@param isDirectDeposit the tender is a direct deposit
+	 *	@param isDirectDebit the tender is a direct debit
+	 *	@return true when the account may be paid through that tender
+	 */
+	private static boolean servesRule(MBPBankAccount account,
+			boolean isDirectDeposit, boolean isDirectDebit)
+	 {
+		if (isDirectDeposit)
+			return account.isDirectDeposit();
+		if (isDirectDebit)
+			return account.isDirectDebit();
+		return false;
+	}	//	servesRule
+
+	/**
+	 *	Account the payment rule of this line may pay through, keeping an account already set.
+	 *	@return account id, 0 when the rule pays through none
+	 */
+	private int payableBankAccountId(String paymentRule, int partnerId) {
+		return payableBankAccountId(getCtx(), partnerId, paymentRule,
+				getHR_Movement_ID() > 0, getC_BP_BankAccount_ID(), get_TrxName());
+	}	//	payableBankAccountId
+
 	/**
 	 * Set Invoice Info
 	 * @param invoiceId
@@ -168,6 +273,12 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
+		setDescription(invoice.getDescription());
+		//	Resolved in the current transaction, so an account saved earlier in the same
+		//	transaction is visible, and on every call: an account that cannot serve this
+		//	payment rule, or that belongs to the partner of a previous document, is cleared
+		//	rather than carried into the generated payment.
+		setC_BP_BankAccount_ID(payableBankAccountId(getPaymentRule(), invoice.getC_BPartner_ID()));
 	}	//	setInvoice
 
 	/**
@@ -198,6 +309,12 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
+		setDescription(order.getDescription());
+		//	The partner comes from the order, so any account already on the line belongs to
+		//	the previous document. It is kept only when it serves this order partner and this
+		//	payment rule, and the lookup runs in the current transaction so an account saved
+		//	earlier in the same transaction is seen.
+		setC_BP_BankAccount_ID(payableBankAccountId(getPaymentRule(), order.getC_BPartner_ID()));
 	}	//	setOrder
 	
 	/**
@@ -443,7 +560,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 					&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit) 
 					&& !getPaymentRule().equals(PAYMENTRULE_DirectDebit)) {
 				//	Set
-				setPaymentRule(PAYMENTRULE_Check);
+				setPaymentRule(PAYMENTRULE_DirectDeposit);
 			}
 		}
 	}
@@ -621,19 +738,21 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	}
 	
 	@Override
-	public void setPaymentRule(String PaymentRule) {
-		if (PaymentRule == null
-				||(
-						!getPaymentRule().equals(PAYMENTRULE_Check) 
-						&& !getPaymentRule().equals(PAYMENTRULE_CreditCard) 
-						&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit) 
+	public void setPaymentRule(String paymentRule) {
+		if (paymentRule == null
+				|| (
+				getPaymentRule() != null
+						&& !getPaymentRule().equals(PAYMENTRULE_Check)
+						&& !getPaymentRule().equals(PAYMENTRULE_CreditCard)
+						&& !getPaymentRule().equals(PAYMENTRULE_DirectDeposit)
 						&& !getPaymentRule().equals(PAYMENTRULE_DirectDebit)
-				)) {
+		)
+		) {
 			//	Set from Standard
-			PaymentRule = PAYMENTRULE_Check;
+			paymentRule = PAYMENTRULE_DirectDeposit;
 		}
 		//	Set
-		super.setPaymentRule(PaymentRule);
+		super.setPaymentRule(paymentRule);
 	}
 
 }	//	MPaySelectionLine
