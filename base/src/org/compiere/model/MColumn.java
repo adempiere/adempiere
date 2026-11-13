@@ -1006,6 +1006,7 @@ public class MColumn extends X_AD_Column
 			Boolean currentNotNull = false;
 			int currentDataType = 0;
 			int currentColumnSize = 0;
+			Integer currentDecimalDigits = null;
 			String currentTypeName = null;
 			String currentColumnDefault = null;
 			String columnDefault = getDefaultValueSQL();
@@ -1043,6 +1044,8 @@ public class MColumn extends X_AD_Column
 						currentDataType = rs.getInt("DATA_TYPE");
 						currentTypeName = rs.getString("TYPE_NAME");
 						currentColumnSize = rs.getInt("COLUMN_SIZE");
+						int physicalDigits = rs.getInt("DECIMAL_DIGITS");
+						currentDecimalDigits = rs.wasNull() ? null : Integer.valueOf(physicalDigits);
 						currentColumnDefault = rs.getString("COLUMN_DEF");
 					}
 				}
@@ -1088,7 +1091,7 @@ public class MColumn extends X_AD_Column
 					if (oldColumnName != null) {
 						returnMessage += MSG_ColumnNameChanged + " " + oldColumnName + " -> " + getColumnName() + "<br>";
 					}
-					if (!DisplayType.isSameType(this, currentDataType, currentColumnSize)) {
+					if (!DisplayType.isSameType(this, currentDataType, currentColumnSize, currentDecimalDigits)) {
 						
 						returnMessage += MSG_DataTypeChanged + " " + currentTypeName + "(" + currentColumnSize + ") -> " 
 											+ getSQLDataType() + "<br>";
@@ -1103,13 +1106,13 @@ public class MColumn extends X_AD_Column
 					}
 					
  					if(oldColumnName != null
- 							|| !DisplayType.isSameType(this, currentDataType, currentColumnSize)
+ 							|| !DisplayType.isSameType(this, currentDataType, currentColumnSize, currentDecimalDigits)
 							|| (isMandatory() != currentNotNull) 	//  If the column is not mandatory the database column should allow null
 							|| (isMandatory() && withDefault 		//  If mandatory with a default, the default should match the database
 									&& currentColumnDefault != null 
 									&& !currentColumnDefault.startsWith(columnDefault))) {  // TODO - what about Y/N fields?
 						
-						log.info(tableName + "." + getColumnName() + ": currentDataType: " + currentDataType + ", currentColumnSize: " + currentColumnSize
+						log.info(tableName + "." + getColumnName() + ": currentDataType: " + currentDataType + ", currentColumnSize: " + currentColumnSize + ", currentDecimalDigits: " + currentDecimalDigits
 								+ ", isMandatory(): " + isMandatory() + ", currentNotNull: " + currentNotNull
 								+ ", currentColumnDefault: " + currentColumnDefault + ", columnDefault: " + columnDefault);
 						sql = getSQLModify(table, null, isMandatory() != currentNotNull); // Can return a null string
