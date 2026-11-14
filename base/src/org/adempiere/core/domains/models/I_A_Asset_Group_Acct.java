@@ -538,21 +538,21 @@ public interface I_A_Asset_Group_Acct
 	/** Set Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears);
+	public void setUseLifeYears (BigDecimal UseLifeYears);
 
 	/** Get Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public int getUseLifeYears();
+	public BigDecimal getUseLifeYears();
 
     /** Column name UseLifeYears_F */
     public static final String COLUMNNAME_UseLifeYears_F = "UseLifeYears_F";
 
 	/** Set Use Life - Years (fiscal)	  */
-	public void setUseLifeYears_F (int UseLifeYears_F);
+	public void setUseLifeYears_F (BigDecimal UseLifeYears_F);
 
 	/** Get Use Life - Years (fiscal)	  */
-	public int getUseLifeYears_F();
+	public BigDecimal getUseLifeYears_F();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

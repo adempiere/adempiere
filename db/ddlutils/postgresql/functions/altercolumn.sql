@@ -55,10 +55,10 @@ begin
           command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
+		end if;
 		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
 		  raise notice ' Execute : % ' , command;
 		  execute command;
-		end if;
 	end if;
    end if;
 

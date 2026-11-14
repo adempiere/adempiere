@@ -835,12 +835,12 @@ public interface I_A_Asset
 	/** Set Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears);
+	public void setUseLifeYears (BigDecimal UseLifeYears);
 
 	/** Get Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public int getUseLifeYears();
+	public BigDecimal getUseLifeYears();
 
     /** Column name UseUnits */
     public static final String COLUMNNAME_UseUnits = "UseUnits";

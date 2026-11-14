@@ -19,6 +19,7 @@
 package org.compiere.asset.process;
 
 import java.sql.Timestamp;
+import java.math.BigDecimal;
 import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Project Create Asset)
@@ -43,13 +44,16 @@ public abstract class ProjectCreateAssetAbstract extends SvrProcess {
 	/**	Parameter Value for Transaction Date	*/
 	private Timestamp dateTrx;
 	/**	Parameter Value for Usable Life - Years	*/
-	private int useLifeYears;
+	private BigDecimal useLifeYears;
 
 	@Override
 	protected void prepare() {
 		projectId = getParameterAsInt(C_PROJECT_ID);
 		dateTrx = getParameterAsTimestamp(DATETRX);
-		useLifeYears = getParameterAsInt(USELIFEYEARS);
+		//	getParameterAsBigDecimal returns null when the parameter is absent, while the
+		//	getParameterAsInt this replaced returned 0: keep the non-null contract.
+		BigDecimal useLifeYearsParam = getParameterAsBigDecimal(USELIFEYEARS);
+		useLifeYears = useLifeYearsParam != null ? useLifeYearsParam : BigDecimal.ZERO;
 	}
 
 	/**	 Getter Parameter Value for Project	*/
@@ -73,12 +77,12 @@ public abstract class ProjectCreateAssetAbstract extends SvrProcess {
 	}
 
 	/**	 Getter Parameter Value for Usable Life - Years	*/
-	protected int getUseLifeYears() {
+	protected BigDecimal getUseLifeYears() {
 		return useLifeYears;
 	}
 
 	/**	 Setter Parameter Value for Usable Life - Years	*/
-	protected void setUseLifeYears(int useLifeYears) {
+	protected void setUseLifeYears(BigDecimal useLifeYears) {
 		this.useLifeYears = useLifeYears;
 	}
 

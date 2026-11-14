@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support for fractional years and Asset Name" ReleaseNo="3.9.5" SeqNo="10610">
+    <Comments>https://github.com/adempiere/adempiere/issues/4412
+Runs after SeqNo 10590, which installs the corrected altercolumn() / t_alter_column
+infrastructure. The previous DBType="ALL" on the t_alter_column step was wrong:
+t_alter_column exists only in db/ddlutils/postgresql, so on Oracle it raised ORA-00942.
+The step is now split PostgreSQL / Oracle. Type and length only: NOT NULL is preserved.
+
+ROLLBACK NARROWS a_asset.Name back to varchar(60). Unlike the numeric widening in SeqNo
+10600, this one fails loudly rather than truncating: any asset whose Name already
+exceeds 60 characters raises "value too long" and aborts the rollback step. Shorten
+those names by hand first.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59283" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="0">0.0</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59283" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8056" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">255</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">Name</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8056" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="Name"/>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="60" StepType="SQL">
+      <Comments>Widen UseLifeYears_F to unconstrained numeric, and a_asset.Name to varchar(255). Type/length only: NOT NULL is preserved.</Comments>
+      <SQLStatement>INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears_f','numeric',null,null)
+;INSERT INTO t_alter_column values('a_asset','name','varchar(255)',null,null)
+;</SQLStatement>
+      <RollbackStatement>INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears_f','numeric(10,0)',null,null)
+;INSERT INTO t_alter_column values('a_asset','name','varchar(60)',null,null)
+;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="70" StepType="SQL">
+      <Comments>Oracle has no t_alter_column; native MODIFY restates NOT NULL.</Comments>
+      <SQLStatement>ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears_F NUMBER DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset MODIFY Name NVARCHAR2(255) NOT NULL
+;</SQLStatement>
+      <RollbackStatement>ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears_F NUMBER(10,0) DEFAULT 0 NOT NULL
+;ALTER TABLE A_Asset MODIFY Name NVARCHAR2(60) NOT NULL
+;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
