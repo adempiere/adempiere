@@ -441,6 +441,10 @@ public abstract class Doc
 		{
 			String msg = className + ": " + e.getLocalizedMessage();
 			log.severe(msg);
+			//  The transaction registered above belongs to this Doc, and the Trx
+			//  cache never expires an entry: throwing with it open leaves one entry
+			//  behind for the life of the JVM on every rejected document.
+			releaseLocalTrx();
 			throw new IllegalArgumentException(msg);
 		}
 		//	The PO posts on the transaction this Doc owns, so its lines and
@@ -632,7 +636,10 @@ public abstract class Doc
 		}
 		if (p_Error != null)
 		{
+			//  lock() committed Processing='Y' outside the document transaction,
+			//  so this refusal has to unlock as well as release.
 			releaseLocalTrx();
+			unlock();
 			return p_Error;
 		}
 

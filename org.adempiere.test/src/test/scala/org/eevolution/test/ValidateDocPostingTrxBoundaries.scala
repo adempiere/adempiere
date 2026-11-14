@@ -305,6 +305,52 @@ class ValidateDocPostingTrxBoundaries
         "the detail-read catch swallows the exception instead of reporting it")
     }    //	Scenario
 
+    Scenario("a detail read that reports an error leaves the document postable again") {
+      Given("the refusal that returns what loadDocumentDetails reported")
+      val lines = postBodyLines()
+      val loadAt = lines.indexWhere(_.trim == "p_Error = loadDocumentDetails();")
+      assert(loadAt > 0, "post() no longer calls loadDocumentDetails()")
+
+      val refuseAt = lines.indexWhere(_.trim == "if (p_Error != null)", loadAt)
+      assert(refuseAt > loadAt,
+        "post() no longer refuses with what loadDocumentDetails reported")
+      val returnAt = lines.indexWhere(_.trim == "return p_Error;", refuseAt)
+      assert(returnAt > refuseAt, "the reported error is no longer returned to the caller")
+
+      Then("it unlocks as well as releases, because lock() committed Processing='Y' " +
+        "outside the document transaction and only unlock() takes it back")
+      //	Scoped to the refusal itself: the catch above already unlocks, so a wider
+      //	slice would pass on a refusal that leaves the record locked.
+      val refusal = lines.slice(refuseAt, returnAt + 1).map(_.trim)
+      assert(refusal.contains("releaseLocalTrx();"),
+        "the reported-error refusal does not release the transaction the Doc opened")
+      assert(refusal.contains("unlock();"),
+        "the reported-error refusal leaves Processing='Y' committed, so the document "
+          + "posts again only with force")
+    }    //	Scenario
+
+    Scenario("a document that cannot be constructed releases what it registered") {
+      Given("the constructor that registers a transaction before building the PO")
+      val file = new java.io.File(System.getProperty("user.dir"),
+        "../base/src/org/compiere/acct/Doc.java")
+      val source = scala.io.Source.fromFile(file)
+      val lines =
+        try source.getLines().map(_.trim).toVector
+        finally source.close()
+
+      val registered = lines.indexOf("Trx.get(m_trxName, true);")
+      assert(registered > 0, "the constructor no longer registers its own transaction")
+      val thrown = lines.indexWhere(_.startsWith("throw new IllegalArgumentException"), registered)
+      assert(thrown > registered, "the constructor no longer reports an unbuildable document")
+
+      Then("the exit between them releases what it registered, because the Trx cache " +
+        "never expires an entry and post() cannot release a document it never got")
+      val between = lines.slice(registered, thrown + 1)
+      assert(between.contains("releaseLocalTrx();"),
+        "the constructor throws with the transaction it registered still open, so every "
+          + "rejected document leaves one entry in the Trx cache for the life of the JVM")
+    }    //	Scenario
+
     Scenario("no spec deletes accounting rows without naming the table") {
       Given("the two specs that seed and clean accounting rows")
       val dir = new java.io.File(System.getProperty("user.dir"),
