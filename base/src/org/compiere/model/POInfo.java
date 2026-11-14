@@ -760,11 +760,11 @@ public class POInfo implements Serializable
 	 * 	Set all columns updateable
 	 * 	@param updateable updateable
 	 */
-	public void setUpdateable (boolean updateable)
+	public void setAllColumnUpdateable (boolean updateable)
 	{
 		for (int i = 0; i < columns.length; i++)
 			columns[i].IsUpdateable = updateable;
-	}	//	setUpdateable
+	}	//	setAllColumnUpdateable
 
 	/**
 	 *  Is Lookup Column

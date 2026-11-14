@@ -45,7 +45,7 @@ public class MResourceAssignment extends X_S_ResourceAssignment
 	public MResourceAssignment (Properties ctx, int S_ResourceAssignment_ID, String trxName)
 	{
 		super (ctx, S_ResourceAssignment_ID, trxName);
-		p_info.setUpdateable(true);		//	default table is not updateable
+		p_info.setAllColumnUpdateable(true);	//	default table is not updateable
 		//	Default values
 		if (S_ResourceAssignment_ID == 0)
 		{

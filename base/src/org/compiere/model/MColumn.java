@@ -277,7 +277,12 @@ public class MColumn extends X_AD_Column
 		setFieldLength(length);
 		setAD_Reference_ID(AD_Reference);
 		setDefaultValue(defaultValue);
-		setUpdateable(false);
+		//	Dictionary axis: this is the AD_Column.IsUpdateable field of the new row, not the
+		//	runtime POInfo of the parent table. 'true' matches the shipped default already set by
+		//	MColumn(ctx, AD_Column_ID=0, trxName) (see MColumn.java:222) and X_AD_Column.java:69.
+		//	Passing 'false' here would persist IsUpdateable='N' for every column this constructor
+		//	creates, including UUID, Created, Updated, CreatedBy and UpdatedBy.
+		setIsUpdateable(true);	// Y
 	}	//	MColumn
 	
 	/**
