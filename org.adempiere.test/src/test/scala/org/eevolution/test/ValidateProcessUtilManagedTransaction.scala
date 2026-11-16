@@ -106,9 +106,13 @@ class ValidateProcessUtilManagedTransaction extends AnyFeatureSpec
     val name = Trx.createTrxName("PUTrx")
     val trx = Trx.get(name, true)
     assert(trx != null, "test fixture could not register transaction " + name)
+    //	Tracked from the moment it is registered: Trx.get(name, true) leaves the
+    //	name in the Trx cache with no expiration, so it is handed to the cleanup
+    //	before anything that can still fail. Otherwise a fixture that died
+    //	opening its connection would stay registered for the rest of the run.
+    opened = name :: opened
     trx.getConnection()
     assert(trx.isActive, "test fixture transaction " + name + " is not active")
-    opened = name :: opened
     trx
   }
 
