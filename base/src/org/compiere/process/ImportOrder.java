@@ -237,11 +237,17 @@ public class ImportOrder extends ImportOrderAbstract {
                     Try.of(() -> {
                         //Create new transaction by order for each group lines
                         Trx.run(trxName -> {
+                            int firstImportOrderId = groupEntry.getValue().stream().findFirst().orElse(0);
+                            X_I_Order firstImportOrder = null;
+                            if (firstImportOrderId > 0) {
+                                firstImportOrder = new X_I_Order(getCtx(), firstImportOrderId, trxName);
+                            }
+
                             //Get or create Order
-                            getOrCreateOrder(getCtx(), orgId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName)
+                            getOrCreateOrder(getCtx(), orgId, documentNo, documentTypeId,
+                                    partnerId, partnerLocationId, billToId, firstImportOrder, trxName)
                                     .peek(order -> {
                                         noInsertOrdersReference.getAndUpdate(count -> count + 1);
-                                        int firstImportOrderId = groupEntry.getValue().stream().findFirst().orElse(0);
                                         //for each Order Import group lines
                                         groupEntry.getValue().forEach(importOrderId -> {
                                             //Get Import Order Model
@@ -390,10 +396,12 @@ public class ImportOrder extends ImportOrderAbstract {
             Integer partnerId,
             Integer partnerLocationId,
             Integer billToId,
+            X_I_Order importOrder,
             String trxName) {
         return Match(getOrder(ctx, organizationId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName)).option(
                 Case($Some($()), order -> order),
-                Case($None(), () -> createOrder(ctx, organizationId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName))
+                Case($None(), () -> createOrder(ctx, organizationId, documentNo, documentTypeId,
+                        partnerId, partnerLocationId, billToId, importOrder, trxName))
         );
     }
 
@@ -461,6 +469,7 @@ public class ImportOrder extends ImportOrderAbstract {
             Integer partnerId,
             Integer partnerLocationId,
             Integer billToId,
+            X_I_Order importOrder,
             String trxName
     ) {
         MOrder order = new MOrder(ctx, 0, trxName);
@@ -473,9 +482,22 @@ public class ImportOrder extends ImportOrderAbstract {
         order.setC_BPartner_ID(partnerId);
         order.setC_BPartner_Location_ID(partnerLocationId);
         order.setBill_BPartner_ID(billToId);
+        setWarehouseFromImport(order, importOrder);
         order.saveEx();
         ordersImported.put(order.getC_Order_ID(), true);
         return order;
+    }
+
+    /**
+     * Set the warehouse from the imported order when one is provided.
+     *
+     * @param order order being created
+     * @param importOrder imported order row
+     */
+    static void setWarehouseFromImport(MOrder order, X_I_Order importOrder) {
+        if (importOrder != null && importOrder.getM_Warehouse_ID() > 0) {
+            order.setM_Warehouse_ID(importOrder.getM_Warehouse_ID());
+        }
     }
 
     /**
