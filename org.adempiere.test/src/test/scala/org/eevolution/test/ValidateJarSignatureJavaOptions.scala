@@ -12,6 +12,8 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
   private val templatePath = "install/Adempiere/AdempiereEnvTemplate.properties"
   private val configurationDataPath = "install/src/org/compiere/install/ConfigurationData.java"
 
+  private val effectiveOption = "-Djdk.jar.maxSignatureFileSize=20000000"
+
   // The forked test JVM may start from any working directory (repo root or subproject),
   // so resolve the sources relative to the repository root instead of the CWD.
   private def repoRoot: java.nio.file.Path = {
@@ -29,17 +31,18 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
 
   Feature("Installer default Java options raise the jar signature file size limit") {
 
-    Scenario("AdempiereEnvTemplate.properties carries the flag on its single ADEMPIERE_JAVA_OPTIONS line") {
+    Scenario("AdempiereEnvTemplate.properties delivers the flag to Properties.load") {
       val lines = read(templatePath).split("\r?\n").filter(_.startsWith("ADEMPIERE_JAVA_OPTIONS="))
       assert(lines.length == 1,
         s"$templatePath: expected exactly 1 ADEMPIERE_JAVA_OPTIONS line, found ${lines.length}")
-      // In a properties file the '=' of the -D flag is escaped as '\='.
-      assert(lines(0).contains("-Djdk.jar.maxSignatureFileSize\\=20000000"),
-        s"$templatePath: ADEMPIERE_JAVA_OPTIONS must carry -Djdk.jar.maxSignatureFileSize=20000000 " +
-          s"(properties-escaped), found: ${lines(0)}")
+      // Properties.load unescapes '\=' to '=', which is the effective value the JVM receives.
+      val effective = lines(0).replace("\\=", "=")
+      assert(effective.contains(effectiveOption),
+        s"$templatePath: ADEMPIERE_JAVA_OPTIONS must load as an option carrying $effectiveOption, " +
+          s"found: ${lines(0)}")
     }
 
-    Scenario("ConfigurationData default Java options carry the flag instead of bare heap sizing") {
+    Scenario("ConfigurationData default Java options deliver the flag without a literal backslash") {
       val matcher = Pattern
         .compile("setProperty\\(ADEMPIERE_JAVA_OPTIONS,\\s*\"([^\"]*)\"\\)")
         .matcher(read(configurationDataPath))
@@ -47,10 +50,13 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
       while (matcher.find()) defaults += matcher.group(1)
       assert(defaults.size == 1,
         s"$configurationDataPath: expected exactly 1 default ADEMPIERE_JAVA_OPTIONS assignment, found ${defaults.size}")
-      // In the Java source the '=' of the -D flag is escaped as "\\=" inside the string literal.
-      assert(defaults(0).contains("-Djdk.jar.maxSignatureFileSize\\\\=20000000"),
-        s"$configurationDataPath: the default Java options must carry -Djdk.jar.maxSignatureFileSize " +
-          s"(Java-escaped), found: ${defaults(0)}")
+      // Decode the Java string-literal escape: two source backslashes are one backslash in
+      // the value. A backslash before '=' survives Properties persistence, so the JVM would
+      // set a property named jdk.jar.maxSignatureFileSize\ and the limit would stay default.
+      val effective = defaults(0).replace("\\\\", "\\")
+      assert(effective.contains(effectiveOption),
+        s"$configurationDataPath: the default must carry $effectiveOption with a plain '=', " +
+          s"found: ${defaults(0)}")
     }
   }
 }
