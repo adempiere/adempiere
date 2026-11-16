@@ -1,0 +1,57 @@
+#############################################################################
+# ADempiere Test Configuration Template
+#
+# Copy this file to ~/.Adempiere.properties or set ADEMPIERE_HOME and copy
+# to $ADEMPIERE_HOME/Adempiere.properties
+#
+# This configuration is set up for the Garden World sample database.
+#############################################################################
+
+# Application User (Garden World admin)
+ApplicationUserID=GardenAdmin
+ApplicationPassword=GardenAdmin
+StorePassword=Y
+
+# Trace Level: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL
+TraceLevel=WARNING
+TraceFile=N
+
+# Language
+Language=English
+
+# Database Connection String
+# Format: CConnection[name=<name>,AppsHost=<host>,AppsPort=<port>,type=<type>,DBhost=<host>,DBport=<port>,DBname=<name>,BQ=N,FW=N,FWhost=,FWport=,UID=,PWD=]
+#
+# For PostgreSQL with Garden World:
+Connection=CConnection[name=GardenWorld,AppsHost=localhost,AppsPort=0,type=PostgreSQL,DBhost=localhost,DBport=5432,DBname=adempiere,BQ=N,FW=N,FWhost=,FWport=,UID=adempiere,PWD=adempiere]
+
+# DataSource (for JNDI lookup, not typically used in tests)
+DataSource=java:adempiereDB
+
+# UI Settings (not relevant for headless tests)
+UILookFeel=Adempiere
+UITheme=Adempiere Theme
+
+# Auto settings
+AutoCommit=Y
+AutoLogin=N
+AutoNew=N
+
+# System settings
+AdempiereSys=N
+LogMigrationScript=N
+ShowAcct=Y
+ShowAdvanced=Y
+ShowTrl=N
+CacheWindow=Y
+
+# Default Role/Client/Org for testing (Garden World)
+Role=GardenWorld Admin
+Client=GardenWorld
+Organization=HQ
+
+# Printer (not relevant for tests)
+Printer=
+
+# Warehouse
+Warehouse=HQ Warehouse

@@ -1,0 +1,379 @@
+{
+  "metadata": {
+    "generatedAt": "2026-01-01",
+    "description": "Transaction units - groups of functions that must migrate together",
+    "totalUnits": 12,
+    "totalFunctionsInUnits": 50,
+    "orphanFunctions": 28
+  },
+  "transactionUnits": [
+    {
+      "id": "TU-001",
+      "name": "Core Utility Functions",
+      "description": "Foundation functions with no dependencies - migrate first",
+      "migrationOrder": 1,
+      "functions": [
+        {"name": "getDate", "role": "standalone", "file": "getDate.sql"},
+        {"name": "daysBetween", "role": "standalone", "file": "daysBetween.sql"},
+        {"name": "addDays", "role": "standalone", "file": "addDays.sql"},
+        {"name": "trunc", "role": "standalone", "file": "trunc.sql"},
+        {"name": "round", "role": "standalone", "file": "round.sql"},
+        {"name": "firstOf", "role": "standalone", "file": "firstOf.sql"},
+        {"name": "charAt", "role": "standalone", "file": "charAt.sql"}
+      ],
+      "internalDependencies": [],
+      "externalDependencies": [],
+      "dependentViews": [
+        "RV_BPARTNEROPEN.sql",
+        "Various date-based views"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "LOW",
+      "estimatedEffort": "1-2 days"
+    },
+    {
+      "id": "TU-002",
+      "name": "Currency Rounding",
+      "description": "Currency rounding - prerequisite for currency conversion",
+      "migrationOrder": 2,
+      "functions": [
+        {"name": "currencyRound", "role": "primary", "file": "C_Currency_Round.sql"}
+      ],
+      "internalDependencies": [],
+      "externalDependencies": [],
+      "dependentViews": [],
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "complexity": "LOW",
+      "estimatedEffort": "0.5 days"
+    },
+    {
+      "id": "TU-003",
+      "name": "Currency Rate Lookup",
+      "description": "Currency rate calculation with CURSOR - prerequisite for currency conversion",
+      "migrationOrder": 3,
+      "functions": [
+        {"name": "currencyRate", "role": "primary", "file": "C_Currency_Rate.sql"}
+      ],
+      "internalDependencies": [],
+      "externalDependencies": [
+        {"function": "getDate", "unit": "TU-001"}
+      ],
+      "dependentViews": [],
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "complexity": "HIGH",
+      "notes": "Uses CURSOR for fallback rate lookup logic",
+      "estimatedEffort": "2-3 days"
+    },
+    {
+      "id": "TU-004",
+      "name": "Currency Conversion Chain",
+      "description": "Core currency conversion - depends on rate and rounding",
+      "migrationOrder": 4,
+      "functions": [
+        {"name": "currencyConvert", "role": "primary", "file": "C_Currency_Convert.sql"},
+        {"name": "currencyBase", "role": "wrapper", "file": "C_Currency_Base.sql"},
+        {"name": "currencyBaseType", "role": "wrapper", "file": "C_Currency_Base_Type.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "currencyConvert", "to": ["currencyRate", "currencyRound"]},
+        {"from": "currencyBase", "to": ["currencyConvert"]},
+        {"from": "currencyBaseType", "to": ["currencyConvert"]}
+      ],
+      "externalDependencies": [
+        {"function": "currencyRate", "unit": "TU-003"},
+        {"function": "currencyRound", "unit": "TU-002"}
+      ],
+      "dependentViews": [
+        "RV_CASH_DETAIL.sql",
+        "RV_PROJECTCYCLE.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "MEDIUM",
+      "notes": "Most called function (45+ call sites). currencyBaseType is unused but included for completeness.",
+      "estimatedEffort": "2 days"
+    },
+    {
+      "id": "TU-005",
+      "name": "Payment Term Calculations",
+      "description": "Payment term discount and due date calculations",
+      "migrationOrder": 5,
+      "functions": [
+        {"name": "paymentTermDiscount", "role": "primary", "file": "C_PaymentTerm_Discount.sql"},
+        {"name": "paymentTermDueDate", "role": "primary", "file": "C_PaymentTerm_DueDate.sql"},
+        {"name": "paymentTermDueDays", "role": "primary", "file": "C_PaymentTerm_DueDays.sql"},
+        {"name": "nextBusinessDay", "role": "helper", "file": "nextBusinessDay.sql"},
+        {"name": "add_months", "role": "helper", "file": "Add_Months.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "paymentTermDiscount", "to": ["nextBusinessDay"]},
+        {"from": "paymentTermDueDate", "to": ["add_months"]},
+        {"from": "paymentTermDueDays", "to": ["getDate"]}
+      ],
+      "externalDependencies": [
+        {"function": "getDate", "unit": "TU-001"}
+      ],
+      "dependentViews": [],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "MEDIUM",
+      "estimatedEffort": "2-3 days"
+    },
+    {
+      "id": "TU-006",
+      "name": "Invoice Open Amount",
+      "description": "Core invoice functions - depends on currency conversion",
+      "migrationOrder": 6,
+      "functions": [
+        {"name": "invoiceOpen", "role": "primary", "file": "C_Invoice_Open.sql"},
+        {"name": "invoiceOpenToDate", "role": "variant", "file": "C_Invoice_OpenToDate.sql"},
+        {"name": "invoiceDiscount", "role": "related", "file": "C_Invoice_Discount.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "invoiceOpen", "to": ["getDate", "currencyConvert"]},
+        {"from": "invoiceOpenToDate", "to": ["currencyConvert"]},
+        {"from": "invoiceDiscount", "to": ["getDate", "paymentTermDiscount"]}
+      ],
+      "externalDependencies": [
+        {"function": "currencyConvert", "unit": "TU-004"},
+        {"function": "getDate", "unit": "TU-001"},
+        {"function": "paymentTermDiscount", "unit": "TU-005"}
+      ],
+      "dependentViews": [
+        "RV_OPENITEM.sql",
+        "RV_BPARTNEROPEN.sql",
+        "RV_OPENITEMTODATE.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "HIGH",
+      "notes": "Known Java duplicate: MInvoice.getOpenAmt() - requires shadow mode validation",
+      "existingJavaDuplicate": {
+        "class": "org.compiere.model.MInvoice",
+        "method": "getOpenAmt()",
+        "risk": "HIGH - Java has TODO for payment schedules"
+      },
+      "estimatedEffort": "3-4 days"
+    },
+    {
+      "id": "TU-007",
+      "name": "Invoice Paid Amount",
+      "description": "Invoice paid calculations - depends on currency conversion",
+      "migrationOrder": 7,
+      "functions": [
+        {"name": "invoicePaid", "role": "primary", "file": "C_Invoice_Paid.sql"},
+        {"name": "invoicePaidToDate", "role": "variant", "file": "C_Invoice_PaidToDate.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "invoicePaid", "to": ["currencyConvert"]},
+        {"from": "invoicePaidToDate", "to": ["currencyConvert"]}
+      ],
+      "externalDependencies": [
+        {"function": "currencyConvert", "unit": "TU-004"}
+      ],
+      "dependentViews": [
+        "RV_OPENITEM.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "MEDIUM",
+      "estimatedEffort": "1-2 days"
+    },
+    {
+      "id": "TU-008",
+      "name": "Payment Amounts",
+      "description": "Payment allocation and availability - depends on currency conversion",
+      "migrationOrder": 8,
+      "functions": [
+        {"name": "paymentAllocated", "role": "primary", "file": "C_Payment_Allocated.sql"},
+        {"name": "paymentAvailable", "role": "primary", "file": "C_Payment_Available.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "paymentAllocated", "to": ["currencyConvert"]},
+        {"from": "paymentAvailable", "to": ["currencyConvert"]}
+      ],
+      "externalDependencies": [
+        {"function": "currencyConvert", "unit": "TU-004"}
+      ],
+      "dependentViews": [
+        "RV_PAYMENT.sql",
+        "RV_BPARTNEROPEN.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "MEDIUM",
+      "estimatedEffort": "1-2 days"
+    },
+    {
+      "id": "TU-009",
+      "name": "ID Generation",
+      "description": "Sequence ID generation - critical infrastructure",
+      "migrationOrder": 9,
+      "functions": [
+        {"name": "nextID", "role": "primary", "file": "nextID.sql"},
+        {"name": "nextIDFunc", "role": "wrapper", "file": "nextIDFunc.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "nextIDFunc", "to": ["nextID"]}
+      ],
+      "externalDependencies": [],
+      "dependentViews": [],
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "complexity": "MEDIUM",
+      "notes": "Only function using CallableStatement pattern. Critical for record creation.",
+      "estimatedEffort": "2 days"
+    },
+    {
+      "id": "TU-010",
+      "name": "BOM Pricing",
+      "description": "Recursive BOM price calculations",
+      "migrationOrder": 10,
+      "functions": [
+        {"name": "bomPriceLimit", "role": "primary", "file": "BOM_PriceLimit.sql"},
+        {"name": "bomPriceList", "role": "primary", "file": "BOM_PriceList.sql"},
+        {"name": "bomPriceStd", "role": "primary", "file": "BOM_PriceStd.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "bomPriceLimit", "to": ["bomPriceLimit"], "type": "recursive"},
+        {"from": "bomPriceList", "to": ["bomPriceList"], "type": "recursive"},
+        {"from": "bomPriceStd", "to": ["bomPriceStd"], "type": "recursive"}
+      ],
+      "externalDependencies": [],
+      "dependentViews": [
+        "RV_WAREHOUSEPRICE.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "HIGH",
+      "notes": "Self-recursive functions. Must convert to iterative Java with stack-based traversal.",
+      "estimatedEffort": "4-5 days"
+    },
+    {
+      "id": "TU-011",
+      "name": "BOM Quantity",
+      "description": "Recursive BOM quantity calculations - most complex unit",
+      "migrationOrder": 11,
+      "functions": [
+        {"name": "bomQtyAvailable", "role": "aggregator", "file": "BOM_Qty_Available.sql"},
+        {"name": "bomQtyOnHand", "role": "primary", "file": "BOM_Qty_OnHand.sql"},
+        {"name": "bomQtyReserved", "role": "primary", "file": "BOM_Qty_Reserved.sql"},
+        {"name": "bomQtyOrdered", "role": "primary", "file": "BOM_Qty_Ordered.sql"}
+      ],
+      "internalDependencies": [
+        {"from": "bomQtyAvailable", "to": ["bomQtyOnHand", "bomQtyReserved"]},
+        {"from": "bomQtyOnHand", "to": ["bomQtyOnHand"], "type": "recursive"},
+        {"from": "bomQtyReserved", "to": ["bomQtyReserved"], "type": "recursive"},
+        {"from": "bomQtyOrdered", "to": ["bomQtyOrdered"], "type": "recursive"}
+      ],
+      "externalDependencies": [],
+      "dependentViews": [
+        "RV_WAREHOUSEPRICE.sql"
+      ],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "CRITICAL",
+      "notes": "Most complex functions. 135-145 LOC each with exception handling and recursion.",
+      "estimatedEffort": "5-7 days"
+    },
+    {
+      "id": "TU-012",
+      "name": "Miscellaneous Standalone",
+      "description": "Standalone functions with limited usage",
+      "migrationOrder": 12,
+      "functions": [
+        {"name": "acctBalance", "role": "standalone", "file": "Acct_Balance.sql"},
+        {"name": "productAttribute", "role": "standalone", "file": "ProductAttribute.sql"},
+        {"name": "documentNo", "role": "standalone", "file": "documentNo.sql"},
+        {"name": "get_Sysconfig", "role": "standalone", "file": "get_Sysconfig.sql"},
+        {"name": "linenetamtrealinvoiceline", "role": "standalone", "file": "linenetamtrealinvoiceline.sql"},
+        {"name": "linenetamtrealorderline", "role": "standalone", "file": "linenetamtrealorderline.sql"},
+        {"name": "maxpaydate", "role": "standalone", "file": "maxpaydate.sql"}
+      ],
+      "internalDependencies": [],
+      "externalDependencies": [],
+      "dependentViews": [],
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "complexity": "LOW-MEDIUM",
+      "estimatedEffort": "2-3 days"
+    }
+  ],
+  "orphanFunctions": {
+    "description": "Functions not in any transaction unit (dead code candidates)",
+    "count": 28,
+    "categories": {
+      "ddl-utility": {
+        "functions": ["altercolumn", "deps_save_and_drop_dependencies", "deps_restore_dependencies"],
+        "recommendation": "DO NOT MIGRATE - PostgreSQL administrative functions"
+      },
+      "hr-payroll": {
+        "functions": ["dailySalary", "dailySalaryToDate", "dailySalaryToDateByHRProcess", "monthlySalary", "monthlySalaryToDate", "ProcessReportSource"],
+        "recommendation": "DEPRECATE - Entire category unused"
+      },
+      "bom-quantity-asi": {
+        "functions": ["bomQtyAvailableASI", "bomQtyOnHandASI", "bomQtyOrderedASI", "bomQtyReservedASI"],
+        "recommendation": "DEPRECATE - ASI variants with no callers"
+      },
+      "utility-unused": {
+        "functions": ["subtractdays", "addweeks", "addyears", "instr", "nextIDByYear", "getUUID"],
+        "recommendation": "DEPRECATE or migrate only if needed"
+      },
+      "other-unused": {
+        "functions": ["bpartnerRemitLocation", "currencyBaseType", "financialRateToDate", "prodQtyOrdered", "prodQtyReserved"],
+        "recommendation": "DEPRECATE - No callers found"
+      }
+    }
+  },
+  "migrationSchedule": {
+    "description": "Recommended migration order based on dependencies",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Foundation",
+        "units": ["TU-001", "TU-002"],
+        "totalFunctions": 8,
+        "estimatedEffort": "1.5-2.5 days"
+      },
+      {
+        "phase": 2,
+        "name": "Currency",
+        "units": ["TU-003", "TU-004"],
+        "totalFunctions": 4,
+        "estimatedEffort": "4-5 days"
+      },
+      {
+        "phase": 3,
+        "name": "Payment Terms",
+        "units": ["TU-005"],
+        "totalFunctions": 5,
+        "estimatedEffort": "2-3 days"
+      },
+      {
+        "phase": 4,
+        "name": "Financial Core",
+        "units": ["TU-006", "TU-007", "TU-008"],
+        "totalFunctions": 7,
+        "estimatedEffort": "5-8 days"
+      },
+      {
+        "phase": 5,
+        "name": "Infrastructure",
+        "units": ["TU-009", "TU-012"],
+        "totalFunctions": 9,
+        "estimatedEffort": "4-5 days"
+      },
+      {
+        "phase": 6,
+        "name": "BOM (Complex)",
+        "units": ["TU-010", "TU-011"],
+        "totalFunctions": 7,
+        "estimatedEffort": "9-12 days"
+      }
+    ],
+    "totalEstimatedEffort": "25-35 days (for used functions only)"
+  }
+}
