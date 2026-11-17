@@ -35,7 +35,7 @@ public class X_M_SerNoCtl extends PO implements I_M_SerNoCtl, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20230102L;
+	private static final long serialVersionUID = 20261103L;
 
     /** Standard Constructor */
     public X_M_SerNoCtl (Properties ctx, int M_SerNoCtl_ID, String trxName)
@@ -100,6 +100,23 @@ public class X_M_SerNoCtl extends PO implements I_M_SerNoCtl, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Decimal Pattern.
+		@param DecimalPattern 
+		Java Decimal Pattern
+	  */
+	public void setDecimalPattern (String DecimalPattern)
+	{
+		set_Value (COLUMNNAME_DecimalPattern, DecimalPattern);
+	}
+
+	/** Get Decimal Pattern.
+		@return Java Decimal Pattern
+	  */
+	public String getDecimalPattern () 
+	{
+		return (String)get_Value(COLUMNNAME_DecimalPattern);
 	}
 
 	/** Set Description.
