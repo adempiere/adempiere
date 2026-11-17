@@ -149,7 +149,7 @@ class ValidateProcessUtilManagedTransaction extends AnyFeatureSpec
     pi
   }
 
-  Feature("the caller keeps the transaction it declared unmanaged") {
+  Feature("ProcessUtil (#4281) leaves a transaction the caller declared unmanaged alone") {
 
     Scenario("an unmanaged process leaves the caller's transaction registered, active and rollable") {
       Given("a Process Info that declares the transaction is managed by the caller")
@@ -235,7 +235,7 @@ class ValidateProcessUtilManagedTransaction extends AnyFeatureSpec
     }    //	Scenario
   }    //	Feature
 
-  Feature("a Process Info that never sets the flag keeps the old behavior") {
+  Feature("ProcessInfo (#4281) still manages the transaction unless told otherwise") {
 
     Scenario("IsManagedTransaction defaults to true for both constructors") {
       Given("a Process Info built without the flag")
