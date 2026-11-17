@@ -29,6 +29,10 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
   private def read(path: String): String =
     new String(Files.readAllBytes(repoRoot.resolve(path)), StandardCharsets.UTF_8)
 
+  // The options are a whitespace separated command line, so a flag is matched as one whole
+  // token: a substring match would also accept a different value that merely starts with it.
+  private def tokens(value: String): Set[String] = value.trim.split("\\s+").toSet
+
   Feature("Installer default Java options raise the jar signature file size limit") {
 
     Scenario("AdempiereEnvTemplate.properties delivers the flag to Properties.load") {
@@ -36,9 +40,9 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
       assert(lines.length == 1,
         s"$templatePath: expected exactly 1 ADEMPIERE_JAVA_OPTIONS line, found ${lines.length}")
       // Properties.load unescapes '\=' to '=', which is the effective value the JVM receives.
-      val effective = lines(0).replace("\\=", "=")
-      assert(effective.contains(effectiveOption),
-        s"$templatePath: ADEMPIERE_JAVA_OPTIONS must load as an option carrying $effectiveOption, " +
+      val value = lines(0).substring("ADEMPIERE_JAVA_OPTIONS=".length).replace("\\=", "=")
+      assert(tokens(value).contains(effectiveOption),
+        s"$templatePath: ADEMPIERE_JAVA_OPTIONS must load with $effectiveOption as one whole token, " +
           s"found: ${lines(0)}")
     }
 
@@ -54,9 +58,9 @@ class ValidateJarSignatureJavaOptions extends AnyFeatureSpec {
       // the value. A backslash before '=' survives Properties persistence, so the JVM would
       // set a property named jdk.jar.maxSignatureFileSize\ and the limit would stay default.
       val effective = defaults(0).replace("\\\\", "\\")
-      assert(effective.contains(effectiveOption),
-        s"$configurationDataPath: the default must carry $effectiveOption with a plain '=', " +
-          s"found: ${defaults(0)}")
+      assert(tokens(effective).contains(effectiveOption),
+        s"$configurationDataPath: the default must carry $effectiveOption as one whole token with a " +
+          s"plain '=', found: ${defaults(0)}")
     }
   }
 }
