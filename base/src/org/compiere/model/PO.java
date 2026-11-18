@@ -2748,8 +2748,7 @@ public abstract class PO
 
 			log.finest(sql.toString());
 			int no = 0;
-			if (Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
-				MigrationStatementContext.set(migrationSql.toString());
+			setMigrationStatement(migrationLogging ? migrationSql.toString() : null, migrationLogging);
 			try {
 				if (isUseTimeoutForUpdate())
 					no = DB.executeUpdateEx(sql.toString(), m_trxName, QUERY_TIME_OUT);
@@ -3010,7 +3009,7 @@ public abstract class PO
 			.append(")");
 		//
 		int no = executeUpdateWithMigrationStatement(sqlInsert.toString(),
-				migrationInsert.toString(), m_trxName);
+				migrationLogging ? migrationInsert.toString() : null, m_trxName);
 		boolean ok = no == 1;
 		if (ok)
 		{
@@ -3052,9 +3051,15 @@ public abstract class PO
 	}	//	saveNew_getID
 
 
+	private void setMigrationStatement(String migrationSql, boolean migrationLogging) {
+		// An ignored table must also suppress Convert's global logging fallback.
+		// Keep the default (logging disabled) path free of statement context.
+		if (migrationLogging || Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
+			MigrationStatementContext.set(migrationSql, migrationLogging);
+	}
+
 	private int executeUpdateWithMigrationStatement(String sql, String migrationSql, String trxName) {
-		if (Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) && !Util.isEmpty(migrationSql))
-			MigrationStatementContext.set(migrationSql);
+		setMigrationStatement(migrationSql, isLogMigrationScript());
 		try {
 			return DB.executeUpdate(sql, trxName);
 		} finally {
@@ -3232,12 +3237,12 @@ public abstract class PO
 			.append(p_info.getTableName())
 			.append(" WHERE ")
 			.append(get_WhereClause(true));
-		String migrationSql = isLogMigrationScript()
+		boolean migrationLogging = isLogMigrationScript();
+		String migrationSql = migrationLogging
 				? "DELETE FROM " + p_info.getTableName()
 					+ " WHERE " + new MigrationSQLBuilder(this, p_info).getWhereClause() : null;
 		int no = 0;
-		if (Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
-			MigrationStatementContext.set(migrationSql);
+		setMigrationStatement(migrationSql, migrationLogging);
 		try {
 			if (isUseTimeoutForUpdate())
 				no = DB.executeUpdateEx(sql.toString(), localTrxName, QUERY_TIME_OUT);
@@ -4241,7 +4246,7 @@ public abstract class PO
 	{
 		log.finest("Value=" + value);
 		PO_LOB lob = new PO_LOB (p_info.getTableName(), get_ColumnName(index),
-			Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT)
+			isLogMigrationScript()
 				? new MigrationSQLBuilder(this, p_info).getWhereClause() : get_WhereClause(true),
 			displayType, value);
 		if (m_lobInfo == null)
@@ -4261,10 +4266,14 @@ public abstract class PO
 		for (int i = 0; i < m_lobInfo.size(); i++)
 		{
 			PO_LOB lob = (PO_LOB)m_lobInfo.get(i);
-			if (!lob.save(get_TrxName()))
-			{
-				retValue = false;
-				break;
+			setMigrationStatement(null, isLogMigrationScript());
+			try {
+				if (!lob.save(get_TrxName())) {
+					retValue = false;
+					break;
+				}
+			} finally {
+				MigrationStatementContext.clear();
 			}
 		}	//	for all LOBs
 		lobReset();

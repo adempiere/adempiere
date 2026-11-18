@@ -436,15 +436,18 @@ public abstract class Convert
 	public abstract boolean isOracle();
 
 	public static void logMigrationScript(String oraStatement, String pgStatement, String mySQLStatement) {
-		String statementOverride = MigrationStatementContext.consume();
-		if (statementOverride != null) {
-			oraStatement = statementOverride;
+		MigrationStatementContext.Statement migrationStatement = MigrationStatementContext.consume();
+		boolean logMigrationScript = migrationStatement != null
+				? migrationStatement.isLoggingEnabled() : Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
+		if (!logMigrationScript)
+			return;
+		if (migrationStatement != null && migrationStatement.getSQL() != null) {
+			oraStatement = migrationStatement.getSQL();
 			pgStatement = null;
 			mySQLStatement = null;
 		}
 		// Check AdempiereSys
 		// check property Log migration script
-		boolean logMigrationScript = Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
 		if (logMigrationScript) {
 			if (dontLog(oraStatement))
 				return;

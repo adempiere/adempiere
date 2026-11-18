@@ -17,13 +17,32 @@
 package org.compiere.dbPort;
 
 /**
- * Holds the portable replacement for the next migration-log statement.
+ * Holds the logging decision and optional portable SQL for the next statement.
  *
  * @author Carlos Parada, cparada@erpya.com, https://erpya.com
  */
 public final class MigrationStatementContext {
 
-	private static final ThreadLocal<String> STATEMENT = new ThreadLocal<String>();
+	private static final ThreadLocal<Statement> STATEMENT = new ThreadLocal<Statement>();
+
+	/** An explicit decision also allows ignored tables to suppress global logging. */
+	public static final class Statement {
+		private final String sql;
+		private final boolean loggingEnabled;
+
+		private Statement(String sql, boolean loggingEnabled) {
+			this.sql = sql;
+			this.loggingEnabled = loggingEnabled;
+		}
+
+		public String getSQL() {
+			return sql;
+		}
+
+		public boolean isLoggingEnabled() {
+			return loggingEnabled;
+		}
+	}
 
 	private MigrationStatementContext() {
 	}
@@ -32,11 +51,19 @@ public final class MigrationStatementContext {
 		if (statement == null)
 			STATEMENT.remove();
 		else
-			STATEMENT.set(statement);
+			set(statement, true);
 	}
 
-	public static String consume() {
-		String statement = STATEMENT.get();
+	/**
+	 * Set the effective PO logging decision. A null SQL keeps the original SQL;
+	 * loggingEnabled=false suppresses logging even when the global flag is on.
+	 */
+	public static void set(String statement, boolean loggingEnabled) {
+		STATEMENT.set(new Statement(statement, loggingEnabled));
+	}
+
+	public static Statement consume() {
+		Statement statement = STATEMENT.get();
 		STATEMENT.remove();
 		return statement;
 	}

@@ -42,19 +42,19 @@ class MigrationStatementContextTest implements UnitTestTag {
 	void consumesAStatementOnlyOnce() {
 		MigrationStatementContext.set("UPDATE AD_Table SET Name='Portable'");
 
-		assertEquals("UPDATE AD_Table SET Name='Portable'", MigrationStatementContext.consume());
+		assertEquals("UPDATE AD_Table SET Name='Portable'", MigrationStatementContext.consume().getSQL());
 		assertNull(MigrationStatementContext.consume());
 	}
 
 	@Test
 	void doesNotExposeAStatementToAnotherThread() throws InterruptedException {
 		MigrationStatementContext.set("DELETE FROM AD_Table WHERE UUID='one'");
-		AtomicReference<String> otherThreadStatement = new AtomicReference<String>();
+		AtomicReference<MigrationStatementContext.Statement> otherThreadStatement = new AtomicReference<>();
 		Thread otherThread = new Thread(() -> otherThreadStatement.set(MigrationStatementContext.consume()));
 		otherThread.start();
 		otherThread.join();
 
 		assertNull(otherThreadStatement.get());
-		assertEquals("DELETE FROM AD_Table WHERE UUID='one'", MigrationStatementContext.consume());
+		assertEquals("DELETE FROM AD_Table WHERE UUID='one'", MigrationStatementContext.consume().getSQL());
 	}
 }
