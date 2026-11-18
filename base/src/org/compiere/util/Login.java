@@ -127,6 +127,9 @@ public class Login
 		//Add ADEMPIERE-86 Add JAVA 11.0 support in ADempiere
 		if (jVersion.startsWith("17"))
 			return true;
+		// Support for Java 21, 25 and later LTS versions
+		if (jVersion.startsWith("21") || jVersion.startsWith("25"))
+			return true;
         //end
 		//  Warning
 		boolean ok = false;
@@ -141,7 +144,7 @@ public class Login
 			msg.append("(untested)");
         msg.append(" <> 11, 17");
 		//
-		if (isClient)
+		if (isClient && !java.awt.GraphicsEnvironment.isHeadless())
 			JOptionPane.showMessageDialog(null, msg.toString(),
 				org.compiere.Adempiere.getName() + " - Java Version Check",
 				ok ? JOptionPane.WARNING_MESSAGE : JOptionPane.ERROR_MESSAGE);

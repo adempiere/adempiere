@@ -762,6 +762,7 @@ public final class DB
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("No SQL");
 		//
+		QueryCounter.increment();
 		return ProxyFactory.newCPreparedStatement(resultSetType, resultSetConcurrency, sql, trxName);
 	}	//	prepareStatement
 

@@ -1,0 +1,1026 @@
+{
+  "metadata": {
+    "generatedAt": "2026-01-01",
+    "repository": "/home/yv01p/adempiere",
+    "functionDirectory": "db/ddlutils/postgresql/functions/",
+    "totalFiles": 62,
+    "totalFunctions": 78,
+    "analysisScope": "PostgreSQL functions only (no Oracle)"
+  },
+  "functions": [
+    {
+      "name": "acctBalance",
+      "file": "Acct_Balance.sql",
+      "parameters": [
+        {"name": "p_Account_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_AmtDr", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_AmtCr", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 42,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "accounting"
+    },
+    {
+      "name": "add_months",
+      "file": "Add_Months.sql",
+      "parameters": [
+        {"name": "datetime", "type": "TIMESTAMPTZ", "direction": "IN"},
+        {"name": "months", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 14,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-date"
+    },
+    {
+      "name": "addDays",
+      "file": "addDays.sql",
+      "parameters": [
+        {"name": "datetime", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "days", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 34,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "utility-date"
+    },
+    {
+      "name": "subtractdays",
+      "file": "addDays.sql",
+      "parameters": [
+        {"name": "day", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "days", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 41,
+      "dependencies": ["addDays"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-date"
+    },
+    {
+      "name": "addweeks",
+      "file": "addweeks_postgresql.sql",
+      "parameters": [
+        {"name": "datetime", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "weeks", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 47,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-date"
+    },
+    {
+      "name": "addyears",
+      "file": "addyears_postgresql.sql",
+      "parameters": [
+        {"name": "datetime", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "years", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 47,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-date"
+    },
+    {
+      "name": "altercolumn",
+      "file": "altercolumn.sql",
+      "parameters": [
+        {"name": "tablename", "type": "NAME", "direction": "IN"},
+        {"name": "columnname", "type": "NAME", "direction": "IN"},
+        {"name": "datatype", "type": "NAME", "direction": "IN"},
+        {"name": "nullclause", "type": "VARCHAR", "direction": "IN"},
+        {"name": "defaultclause", "type": "VARCHAR", "direction": "IN"}
+      ],
+      "returnType": "VOID",
+      "loc": 99,
+      "dependencies": ["deps_save_and_drop_dependencies", "deps_restore_dependencies"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": true, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "ddl-utility"
+    },
+    {
+      "name": "bomPriceLimit",
+      "file": "BOM_PriceLimit.sql",
+      "parameters": [
+        {"name": "p_product_id", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_pricelist_version_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 51,
+      "dependencies": ["bomPriceLimit"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-pricing"
+    },
+    {
+      "name": "bomPriceList",
+      "file": "BOM_PriceList.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "PriceList_Version_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 61,
+      "dependencies": ["bomPriceList"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-pricing"
+    },
+    {
+      "name": "bomPriceStd",
+      "file": "BOM_PriceStd.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "PriceList_Version_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 60,
+      "dependencies": ["bomPriceStd"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-pricing"
+    },
+    {
+      "name": "bomQtyAvailable",
+      "file": "BOM_Qty_Available.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 26,
+      "dependencies": ["bomQtyOnHand", "bomQtyReserved"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyAvailableASI",
+      "file": "BOM_Qty_AvailableASI.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "AttributeSetInstance_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 28,
+      "dependencies": ["bomQtyOnHandASI", "bomQtyReservedASI"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyOnHand",
+      "file": "BOM_Qty_OnHand.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 135,
+      "dependencies": ["bomQtyOnHand"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyOnHandASI",
+      "file": "BOM_Qty_OnHandASI.sql",
+      "parameters": [
+        {"name": "Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "AttributeSetInstance_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 139,
+      "dependencies": ["bomQtyOnHandASI"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyOrdered",
+      "file": "BOM_Qty_Ordered.sql",
+      "parameters": [
+        {"name": "p_Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 143,
+      "dependencies": ["bomQtyOrdered"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyOrderedASI",
+      "file": "BOM_Qty_OrderedASI.sql",
+      "parameters": [
+        {"name": "p_Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "AttributeSetInstance_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 145,
+      "dependencies": ["bomQtyOrderedASI"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyReserved",
+      "file": "BOM_Qty_Reserved.sql",
+      "parameters": [
+        {"name": "p_Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 141,
+      "dependencies": ["bomQtyReserved"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bomQtyReservedASI",
+      "file": "BOM_Qty_ReservedASI.sql",
+      "parameters": [
+        {"name": "p_Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "AttributeSetInstance_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 145,
+      "dependencies": ["bomQtyReservedASI"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 5},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "bom-quantity"
+    },
+    {
+      "name": "bpartnerRemitLocation",
+      "file": "C_BPartner_RemitLocation.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 25,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "business-partner"
+    },
+    {
+      "name": "currencyBase",
+      "file": "C_Currency_Base.sql",
+      "parameters": [
+        {"name": "p_Amount", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurFrom_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_ConvDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_Client_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Org_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 34,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "currency"
+    },
+    {
+      "name": "currencyBaseType",
+      "file": "C_Currency_Base_Type.sql",
+      "parameters": [
+        {"name": "p_Amount", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurFrom_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_ConvDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_ConversionType_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Client_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Org_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 52,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "currency"
+    },
+    {
+      "name": "currencyConvert",
+      "file": "C_Currency_Convert.sql",
+      "parameters": [
+        {"name": "p_Amount", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurFrom_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurTo_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_ConvDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_ConversionType_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Client_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Org_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 63,
+      "dependencies": ["currencyRate", "currencyRound"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "currency"
+    },
+    {
+      "name": "currencyRate",
+      "file": "C_Currency_Rate.sql",
+      "parameters": [
+        {"name": "p_CurFrom_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurTo_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_ConvDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_ConversionType_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Client_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Org_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 179,
+      "dependencies": ["getdate"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": true, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "currency"
+    },
+    {
+      "name": "currencyRound",
+      "file": "C_Currency_Round.sql",
+      "parameters": [
+        {"name": "p_Amount", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CurTo_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Costing", "type": "CHARACTER VARYING", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 63,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "currency"
+    },
+    {
+      "name": "invoiceDiscount",
+      "file": "C_Invoice_Discount.sql",
+      "parameters": [
+        {"name": "p_C_Invoice_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_paydate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_C_InvoicePaySchedule_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 83,
+      "dependencies": ["getdate", "paymentTermDiscount"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "invoice"
+    },
+    {
+      "name": "invoiceOpen",
+      "file": "C_Invoice_Open.sql",
+      "parameters": [
+        {"name": "p_c_invoice_id", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_c_invoicepayschedule_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 121,
+      "dependencies": ["getdate", "currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "invoice"
+    },
+    {
+      "name": "invoiceOpenToDate",
+      "file": "C_Invoice_OpenToDate.sql",
+      "parameters": [
+        {"name": "p_C_Invoice_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_C_InvoicePaySchedule_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_DateAcct", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 126,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "invoice"
+    },
+    {
+      "name": "invoicePaid",
+      "file": "C_Invoice_Paid.sql",
+      "parameters": [
+        {"name": "p_C_Invoice_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_C_Currency_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_MultiplierAP", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 65,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "invoice"
+    },
+    {
+      "name": "invoicePaidToDate",
+      "file": "C_Invoice_PaidToDate.sql",
+      "parameters": [
+        {"name": "p_C_Invoice_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_C_Currency_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_MultiplierAP", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_DateAcct", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 74,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "invoice"
+    },
+    {
+      "name": "paymentAllocated",
+      "file": "C_Payment_Allocated.sql",
+      "parameters": [
+        {"name": "p_C_Payment_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_C_Currency_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 64,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "payment"
+    },
+    {
+      "name": "paymentAvailable",
+      "file": "C_Payment_Available.sql",
+      "parameters": [
+        {"name": "p_C_Payment_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 66,
+      "dependencies": ["currencyConvert"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "payment"
+    },
+    {
+      "name": "paymentTermDiscount",
+      "file": "C_PaymentTerm_Discount.sql",
+      "parameters": [
+        {"name": "Amount", "type": "NUMERIC", "direction": "IN"},
+        {"name": "Currency_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "PaymentTerm_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DocDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "PayDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 68,
+      "dependencies": ["nextBusinessDay"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "payment-term"
+    },
+    {
+      "name": "paymentTermDueDate",
+      "file": "C_PaymentTerm_DueDate.sql",
+      "parameters": [
+        {"name": "paymentterm_id", "type": "NUMERIC", "direction": "IN"},
+        {"name": "docdate", "type": "TIMESTAMPTZ", "direction": "IN"}
+      ],
+      "returnType": "TIMESTAMPTZ",
+      "loc": 50,
+      "dependencies": ["add_months"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "payment-term"
+    },
+    {
+      "name": "paymentTermDueDays",
+      "file": "C_PaymentTerm_DueDays.sql",
+      "parameters": [
+        {"name": "PaymentTerm_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DocDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "PayDate", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "INTEGER",
+      "loc": 123,
+      "dependencies": ["getdate"],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "payment-term"
+    },
+    {
+      "name": "charAt",
+      "file": "charAt.sql",
+      "parameters": [
+        {"name": "$1", "type": "VARCHAR", "direction": "IN"},
+        {"name": "$2", "type": "INTEGER", "direction": "IN"}
+      ],
+      "returnType": "VARCHAR",
+      "loc": 35,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": true,
+      "category": "utility-string"
+    },
+    {
+      "name": "dailySalary",
+      "file": "dailySalary.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 37,
+      "dependencies": ["dailySalaryToDate", "getdate"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "dailySalaryToDate",
+      "file": "dailySalaryToDate.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DateTo", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 66,
+      "dependencies": ["getdate"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "dailySalaryToDateByHRProcess",
+      "file": "DailySalaryToDateByHrProcess.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_HR_Process_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DateTo", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 55,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 4},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "daysBetween",
+      "file": "daysBetween.sql",
+      "parameters": [
+        {"name": "p_date1", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_date2", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "INTEGER",
+      "loc": 29,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "utility-date"
+    },
+    {
+      "name": "documentNo",
+      "file": "documentNo.sql",
+      "parameters": [
+        {"name": "p_PP_MRP_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "VARCHAR",
+      "loc": 51,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 6},
+      "calledFromJava": false,
+      "calledFromViews": true,
+      "category": "mrp"
+    },
+    {
+      "name": "financialRateToDate",
+      "file": "financialRateToDate.sql",
+      "parameters": [
+        {"name": "p_FM_Rate_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DateTo", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 43,
+      "dependencies": ["getdate"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "financial"
+    },
+    {
+      "name": "firstOf",
+      "file": "firstOf.sql",
+      "parameters": [
+        {"name": "$1", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "$2", "type": "VARCHAR", "direction": "IN"}
+      ],
+      "returnType": "DATE",
+      "loc": 77,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "utility-date"
+    },
+    {
+      "name": "getDate",
+      "file": "getDate.sql",
+      "parameters": [],
+      "returnType": "TIMESTAMP WITH TIME ZONE",
+      "loc": 7,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": true,
+      "category": "utility-date"
+    },
+    {
+      "name": "getUUID",
+      "file": "getUUIDWithPGCrypto.sql",
+      "parameters": [],
+      "returnType": "VARCHAR(36)",
+      "loc": 36,
+      "dependencies": ["gen_random_uuid"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility"
+    },
+    {
+      "name": "get_Sysconfig",
+      "file": "get_Sysconfig.sql",
+      "parameters": [
+        {"name": "sysconfig_name", "type": "VARCHAR", "direction": "IN"},
+        {"name": "defaultvalue", "type": "VARCHAR", "direction": "IN"},
+        {"name": "client_id", "type": "NUMERIC", "direction": "IN"},
+        {"name": "org_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "VARCHAR",
+      "loc": 47,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "system"
+    },
+    {
+      "name": "instr",
+      "file": "INSTR.sql",
+      "parameters": [
+        {"name": "string", "type": "VARCHAR", "direction": "IN"},
+        {"name": "string_to_search", "type": "VARCHAR", "direction": "IN"}
+      ],
+      "returnType": "INTEGER",
+      "loc": 20,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-string"
+    },
+    {
+      "name": "linenetamtrealinvoiceline",
+      "file": "linenetamtrealinvoiceline.sql",
+      "parameters": [
+        {"name": "p_c_invoiceline_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 18,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 4},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "commission"
+    },
+    {
+      "name": "linenetamtrealorderline",
+      "file": "linenetamtrealorderline.sql",
+      "parameters": [
+        {"name": "p_c_orderline_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 18,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 4},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "commission"
+    },
+    {
+      "name": "maxpaydate",
+      "file": "maxpaydate.sql",
+      "parameters": [
+        {"name": "p_c_invoice_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "TIMESTAMP WITH TIME ZONE",
+      "loc": 20,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "commission"
+    },
+    {
+      "name": "monthlySalary",
+      "file": "monthlySalary.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 37,
+      "dependencies": ["monthlySalaryToDate", "getdate"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "monthlySalaryToDate",
+      "file": "monthlySalaryToDate.sql",
+      "parameters": [
+        {"name": "p_C_BPartner_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "DateTo", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 66,
+      "dependencies": ["getdate"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "nextBusinessDay",
+      "file": "nextBusinessDay.sql",
+      "parameters": [
+        {"name": "p_date", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"},
+        {"name": "p_ad_client_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "TIMESTAMP WITH TIME ZONE",
+      "loc": 59,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "utility-date"
+    },
+    {
+      "name": "nextID",
+      "file": "nextID.sql",
+      "parameters": [
+        {"name": "p_AD_Sequence_ID", "type": "INTEGER", "direction": "IN"},
+        {"name": "p_System", "type": "VARCHAR", "direction": "IN"},
+        {"name": "o_NextID", "type": "INTEGER", "direction": "OUT"}
+      ],
+      "returnType": "INTEGER",
+      "loc": 56,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "id-generation"
+    },
+    {
+      "name": "nextIDByYear",
+      "file": "NextIDByYear.sql",
+      "parameters": [
+        {"name": "p_AD_Sequence_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_IncrementNo", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_CalendarYear", "type": "VARCHAR", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 25,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "id-generation"
+    },
+    {
+      "name": "nextIDFunc",
+      "file": "nextIDFunc.sql",
+      "parameters": [
+        {"name": "p_AD_Sequence_ID", "type": "INTEGER", "direction": "IN"},
+        {"name": "p_System", "type": "VARCHAR", "direction": "IN"}
+      ],
+      "returnType": "INTEGER",
+      "loc": 14,
+      "dependencies": ["nextID"],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": false,
+      "category": "id-generation"
+    },
+    {
+      "name": "ProcessReportSource",
+      "file": "ProcessReportSource.sql",
+      "parameters": [
+        {"name": "HR_Process_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "C_BPartner_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "HR_ProcessReportLine_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "_From", "type": "TIMESTAMP WITHOUT TIME ZONE", "direction": "IN"},
+        {"name": "_To", "type": "TIMESTAMP WITHOUT TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "TEXT",
+      "loc": 79,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "hr-payroll"
+    },
+    {
+      "name": "prodQtyOrdered",
+      "file": "prodQtyOrdered.sql",
+      "parameters": [
+        {"name": "p_product_id", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_warehouse_id", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 66,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 3},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "product"
+    },
+    {
+      "name": "prodQtyReserved",
+      "file": "Prod_Qty_Reserved.sql",
+      "parameters": [
+        {"name": "p_Product_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Warehouse_ID", "type": "NUMERIC", "direction": "IN"},
+        {"name": "p_Locator_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 96,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": true, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 4},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "product"
+    },
+    {
+      "name": "productAttribute",
+      "file": "ProductAttribute.sql",
+      "parameters": [
+        {"name": "p_M_AttributeSetInstance_ID", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "VARCHAR",
+      "loc": 93,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "product"
+    },
+    {
+      "name": "round",
+      "file": "round.sql",
+      "parameters": [
+        {"name": "$1", "type": "NUMERIC", "direction": "IN"},
+        {"name": "$2", "type": "NUMERIC", "direction": "IN"}
+      ],
+      "returnType": "NUMERIC",
+      "loc": 10,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": false,
+      "calledFromViews": true,
+      "category": "utility-math"
+    },
+    {
+      "name": "trunc",
+      "file": "trunc.sql",
+      "parameters": [
+        {"name": "datetime", "type": "TIMESTAMP WITH TIME ZONE", "direction": "IN"}
+      ],
+      "returnType": "TIMESTAMP WITH TIME ZONE",
+      "loc": 28,
+      "dependencies": [],
+      "complexity": {"hasLoops": false, "hasExceptionHandling": false, "hasDynamicSQL": false, "hasCursors": false, "tableCount": 0},
+      "calledFromJava": true,
+      "calledFromViews": true,
+      "category": "utility-date"
+    },
+    {
+      "name": "deps_save_and_drop_dependencies",
+      "file": "viewsDependencies.sql",
+      "parameters": [
+        {"name": "p_src_nsp_name", "type": "NAME", "direction": "IN"},
+        {"name": "p_src_rel_name", "type": "NAME", "direction": "IN"},
+        {"name": "p_options", "type": "JSONB", "direction": "IN"}
+      ],
+      "returnType": "VOID",
+      "loc": 607,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": true, "hasCursors": false, "tableCount": 2},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "ddl-utility"
+    },
+    {
+      "name": "deps_restore_dependencies",
+      "file": "viewsDependencies.sql",
+      "parameters": [
+        {"name": "p_view_schema", "type": "NAME", "direction": "IN"},
+        {"name": "p_view_name", "type": "NAME", "direction": "IN"},
+        {"name": "p_options", "type": "JSONB", "direction": "IN"}
+      ],
+      "returnType": "VOID",
+      "loc": 670,
+      "dependencies": [],
+      "complexity": {"hasLoops": true, "hasExceptionHandling": false, "hasDynamicSQL": true, "hasCursors": false, "tableCount": 1},
+      "calledFromJava": false,
+      "calledFromViews": false,
+      "category": "ddl-utility"
+    }
+  ],
+  "categories": {
+    "invoice": ["invoiceOpen", "invoiceOpenToDate", "invoicePaid", "invoicePaidToDate", "invoiceDiscount"],
+    "currency": ["currencyConvert", "currencyRate", "currencyRound", "currencyBase", "currencyBaseType"],
+    "bom-quantity": ["bomQtyAvailable", "bomQtyAvailableASI", "bomQtyOnHand", "bomQtyOnHandASI", "bomQtyOrdered", "bomQtyOrderedASI", "bomQtyReserved", "bomQtyReservedASI"],
+    "bom-pricing": ["bomPriceLimit", "bomPriceList", "bomPriceStd"],
+    "payment": ["paymentAllocated", "paymentAvailable"],
+    "payment-term": ["paymentTermDiscount", "paymentTermDueDate", "paymentTermDueDays"],
+    "id-generation": ["nextID", "nextIDFunc", "nextIDByYear"],
+    "utility-date": ["addDays", "subtractdays", "addweeks", "addyears", "add_months", "daysBetween", "firstOf", "getDate", "nextBusinessDay", "trunc"],
+    "utility-string": ["charAt", "instr"],
+    "utility-math": ["round"],
+    "hr-payroll": ["dailySalary", "dailySalaryToDate", "dailySalaryToDateByHRProcess", "monthlySalary", "monthlySalaryToDate", "ProcessReportSource"],
+    "product": ["productAttribute", "prodQtyOrdered", "prodQtyReserved"],
+    "commission": ["linenetamtrealinvoiceline", "linenetamtrealorderline", "maxpaydate"],
+    "accounting": ["acctBalance"],
+    "ddl-utility": ["altercolumn", "deps_save_and_drop_dependencies", "deps_restore_dependencies"],
+    "system": ["get_Sysconfig", "getUUID"],
+    "mrp": ["documentNo"],
+    "financial": ["financialRateToDate"],
+    "business-partner": ["bpartnerRemitLocation"]
+  },
+  "statistics": {
+    "totalFunctions": 78,
+    "calledFromJava": 33,
+    "calledFromViews": 23,
+    "notCalledAnywhere": 28,
+    "withLoops": 25,
+    "withExceptionHandling": 14,
+    "withDynamicSQL": 3,
+    "withCursors": 1,
+    "recursive": 12
+  }
+}

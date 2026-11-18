@@ -47,6 +47,7 @@
   	<pathelement path="../tools/lib/aws/aws-java-sdk-core-1.11.827.jar" />
   	<pathelement path="../tools/lib/aws/aws-java-sdk-kms-1.11.827.jar" />
   	<pathelement path="../tools/lib/aws/aws-java-sdk-s3-1.11.827.jar" />
+  	<pathelement path="../tools/lib/discord/jsr305-3.0.2.jar" />
   </path>
 		
   <target name="init" description="initialization target">
@@ -67,7 +68,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac encoding="UTF-8" fork="true" includeantruntime="false" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="../org.adempiere.request/src/main/java"/>
       <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
@@ -76,6 +77,7 @@
       <src path="../glassfishfacet/src"/>
       <src path="../jbossfacet/src"/>
       <classpath refid="project.class.path"/>
+      <compilerarg line="--release 11"/>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
     <copy todir="${build.dir}">
@@ -191,13 +193,13 @@
   <target name="compile.test" depends="compile, clean.tests"
   	    if="${test.performTests}">
     <mkdir dir="${test.build.dir}"/>
-    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false"
-    	destdir="${test.build.dir}" deprecation="on" debug="on" 
+    <javac encoding="UTF-8" fork="true" includeantruntime="false"
+    	destdir="${test.build.dir}" deprecation="on" debug="on"
     	memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>
       <src path="../org.adempiere.test/src/test/java"/>
       <classpath refid="test.class.path"/>
-      <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
+      <compilerarg line="--release 11"/>
     </javac>		
   </target>
 	
@@ -231,12 +233,33 @@
   </target>
 
 	
-  <target name="integration-tests" depends="unit-tests, alertIfIntegrationTestSkipped" 
+  <!-- Run only Wave3 tests - skips unit tests -->
+  <target name="wave3-tests" depends="compile.test"
+  	    description="Run Wave3 integration tests only">
+    <mkdir dir="../base/${test.results.dir}"/>
+    <junitlauncher
+    	printsummary="true"
+    	haltonfailure="no"
+    	failureproperty="test.failed">
+      <classpath refid="test.class.path"/>
+      <testclasses outputdir="${adempiere.base}/base/${test.results.dir}">
+        <fileset dir="${test.build.dir}">
+          <include name="**/Wave3*.class"/>
+        </fileset>
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+       	<fork>
+       	  <jvmarg value="-Djava.awt.headless=true"/>
+       	</fork>
+      </testclasses>
+    </junitlauncher>
+  </target>
+
+  <target name="integration-tests" depends="unit-tests, alertIfIntegrationTestSkipped"
   	    if="integrationTests.run">
     <mkdir dir="../base/${test.results.dir}"/>  	 
-    <junitlauncher 
-    	printsummary="false" 
-    	haltonfailure="yes" 
+    <junitlauncher
+    	printsummary="false"
+    	haltonfailure="yes"
     	failureproperty="test.failed"
     	excludeTags="UnitTest">
       <classpath refid="test.class.path"/>
@@ -245,8 +268,10 @@
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
       	<listener classname="org.adempiere.test.AdempiereTestExecutionListener"
       		sendSysErr="true" sendSysOut="true"/>
-       	<fork/>
-      </testclasses>	    	
+       	<fork>
+       	  <jvmarg value="-Djava.awt.headless=true"/>
+       	</fork>
+      </testclasses>
     </junitlauncher>
   </target>
 
