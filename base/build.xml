@@ -47,6 +47,7 @@
   	<pathelement path="../tools/lib/aws/aws-java-sdk-core-1.11.827.jar" />
   	<pathelement path="../tools/lib/aws/aws-java-sdk-kms-1.11.827.jar" />
   	<pathelement path="../tools/lib/aws/aws-java-sdk-s3-1.11.827.jar" />
+  	<pathelement path="../tools/lib/discord/jsr305-3.0.2.jar" />
   </path>
 		
   <target name="init" description="initialization target">
