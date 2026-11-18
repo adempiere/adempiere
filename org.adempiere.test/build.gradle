@@ -44,6 +44,10 @@ sourceSets {
 	}
 }
 
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
