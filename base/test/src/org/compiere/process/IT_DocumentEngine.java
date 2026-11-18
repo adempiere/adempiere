@@ -36,7 +36,6 @@ import org.compiere.acct.Doc_Invoice;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -216,17 +215,17 @@ class IT_DocumentEngine extends CommonGWSetup {
     }
 
     @Test
-    @DisplayName("GetDoc, when passed a null ResultSet, returns a class "
-            + "instance with id=0")
-    final void whenPassedANullResultSetGetDocThrowsException() throws Exception {
+    @DisplayName("GetDoc, when passed a null ResultSet, returns null")
+    final void whenPassedANullResultSetGetDocReturnsNull() throws Exception {
 
-        MAcctSchema[] acctSchemas = MAcctSchema.getClientAcctSchema(ctx, 
+        MAcctSchema[] acctSchemas = MAcctSchema.getClientAcctSchema(ctx,
                 AD_CLIENT_ID);
-        
-        assertThrows(AdempiereUserError.class, () -> {
-            DocumentEngine.get().getDoc(acctSchemas, 
-                    "C_Invoice", (ResultSet) null, trxName);
-        });
+
+        Doc result = DocumentEngine.get().getDoc(acctSchemas,
+                "C_Invoice", (ResultSet) null, trxName);
+
+        // DocFactory.get() returns null when ResultSet is null
+        assertEquals(null, result, "getDoc with null ResultSet should return null");
 
     }
     

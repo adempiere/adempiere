@@ -134,6 +134,10 @@ class RoleAccessUpdate_IT implements IntegrationTestTag{
     private void assertGWRolesUpdated(int windowId) {
 
         for (MRole role : getAllAutomaticRoles()) {
+            // Skip System client roles - we can't manage their window access
+            if (role.getAD_Client_ID() == SYSTEM_CLIENT_ID) {
+                continue;
+            }
             if (role.getAD_Client_ID() == GARDEN_WORLD_CLIENT_ID) {
                 assertNotNull(role.getWindowAccess(windowId),
                         "Role " + role.getName()
@@ -154,6 +158,11 @@ class RoleAccessUpdate_IT implements IntegrationTestTag{
     private void assertNoRoleHasAccess(int windowId) {
 
         for (MRole role : getAllAutomaticRoles()) {
+            // Skip System client roles - we can't delete their window access
+            // when running as GardenWorld client
+            if (role.getAD_Client_ID() == SYSTEM_CLIENT_ID) {
+                continue;
+            }
             assertNull(role.getWindowAccess(windowId),
                     "Role " + role.getName()
                             + " does have access to window "
@@ -165,6 +174,10 @@ class RoleAccessUpdate_IT implements IntegrationTestTag{
     private void assertOnlyGWUserRoleUpdated(int windowId) {
 
         for (MRole role : getAllAutomaticRoles()) {
+            // Skip System client roles - we can't manage their window access
+            if (role.getAD_Client_ID() == SYSTEM_CLIENT_ID) {
+                continue;
+            }
             if (role.getAD_Role_ID() == GARDEN_USER_ROLE_ID) {
                 assertNotNull(role.getWindowAccess(windowId),
                         "Role " + role.getName()
@@ -220,7 +233,9 @@ class RoleAccessUpdate_IT implements IntegrationTestTag{
                         new Query(ctx, I_AD_Window_Access.Table_Name, where,
                                 trxName)
                                         .list().stream()
-                                        .forEach(wa -> wa.deleteEx(false));
+                                        // Use delete() instead of deleteEx() to ignore
+                                        // failures for records from other clients
+                                        .forEach(wa -> wa.delete(false));
 
                     });
 

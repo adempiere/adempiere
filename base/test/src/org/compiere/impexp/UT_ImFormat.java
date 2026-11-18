@@ -37,11 +37,11 @@ import org.junit.jupiter.api.Test;
 @Tag("UnitTest")
 class UT_ImpFormat extends CommonGWSetup {
 
-	static MImpFormat importFormat = null;
+	private MImpFormat importFormat = null;
 
 
 	@BeforeEach
-	static void beforeEach() {
+	void beforeEach() {
 		// Accounting - Accounts
 		importFormat = new MImpFormat(ctx, 102, trxName);
 	}
