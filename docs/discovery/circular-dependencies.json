@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "generatedAt": "2026-01-01",
+    "description": "Circular and recursive dependencies in PostgreSQL functions",
+    "source": "discovery-inventory.json analysis"
+  },
+  "recursiveFunctions": {
+    "description": "Functions that call themselves (direct self-recursion)",
+    "count": 9,
+    "functions": [
+      {
+        "name": "bomPriceLimit",
+        "file": "BOM_PriceLimit.sql",
+        "category": "bom-pricing",
+        "recursionType": "self",
+        "purpose": "Recursively calculates limit price for BOM products by traversing component tree",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Must convert recursive SQL to iterative Java or use recursive CTE pattern"
+      },
+      {
+        "name": "bomPriceList",
+        "file": "BOM_PriceList.sql",
+        "category": "bom-pricing",
+        "recursionType": "self",
+        "purpose": "Recursively calculates list price for BOM products by traversing component tree",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Must convert recursive SQL to iterative Java or use recursive CTE pattern"
+      },
+      {
+        "name": "bomPriceStd",
+        "file": "BOM_PriceStd.sql",
+        "category": "bom-pricing",
+        "recursionType": "self",
+        "purpose": "Recursively calculates standard price for BOM products by traversing component tree",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Must convert recursive SQL to iterative Java or use recursive CTE pattern"
+      },
+      {
+        "name": "bomQtyOnHand",
+        "file": "BOM_Qty_OnHand.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "Recursively calculates on-hand quantity for BOM products by traversing component tree",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Complex recursion with exception handling, 135 LOC"
+      },
+      {
+        "name": "bomQtyOnHandASI",
+        "file": "BOM_Qty_OnHandASI.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "ASI variant - on-hand quantity with attribute set instance filtering",
+        "calledFromJava": false,
+        "calledFromViews": false,
+        "migrationImpact": "LOW - Unused, dead code candidate"
+      },
+      {
+        "name": "bomQtyOrdered",
+        "file": "BOM_Qty_Ordered.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "Recursively calculates ordered quantity for BOM products",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Complex recursion with exception handling, 143 LOC"
+      },
+      {
+        "name": "bomQtyOrderedASI",
+        "file": "BOM_Qty_OrderedASI.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "ASI variant - ordered quantity with attribute set instance filtering",
+        "calledFromJava": false,
+        "calledFromViews": false,
+        "migrationImpact": "LOW - Unused, dead code candidate"
+      },
+      {
+        "name": "bomQtyReserved",
+        "file": "BOM_Qty_Reserved.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "Recursively calculates reserved quantity for BOM products",
+        "calledFromJava": true,
+        "calledFromViews": true,
+        "migrationImpact": "HIGH - Complex recursion with exception handling, 141 LOC"
+      },
+      {
+        "name": "bomQtyReservedASI",
+        "file": "BOM_Qty_ReservedASI.sql",
+        "category": "bom-quantity",
+        "recursionType": "self",
+        "purpose": "ASI variant - reserved quantity with attribute set instance filtering",
+        "calledFromJava": false,
+        "calledFromViews": false,
+        "migrationImpact": "LOW - Unused, dead code candidate"
+      }
+    ]
+  },
+  "dependencyClusters": {
+    "description": "Groups of functions with mutual dependencies that must migrate together",
+    "clusters": [
+      {
+        "name": "BOM Quantity Cluster",
+        "category": "bom-quantity",
+        "functions": ["bomQtyAvailable", "bomQtyOnHand", "bomQtyReserved"],
+        "internalDependencies": [
+          {"from": "bomQtyAvailable", "to": ["bomQtyOnHand", "bomQtyReserved"]},
+          {"from": "bomQtyOnHand", "to": ["bomQtyOnHand"]},
+          {"from": "bomQtyReserved", "to": ["bomQtyReserved"]}
+        ],
+        "migrationConstraint": "Must migrate together - bomQtyAvailable calls bomQtyOnHand and bomQtyReserved",
+        "usedByViews": true,
+        "usedByJava": true
+      },
+      {
+        "name": "BOM Quantity ASI Cluster",
+        "category": "bom-quantity",
+        "functions": ["bomQtyAvailableASI", "bomQtyOnHandASI", "bomQtyReservedASI"],
+        "internalDependencies": [
+          {"from": "bomQtyAvailableASI", "to": ["bomQtyOnHandASI", "bomQtyReservedASI"]},
+          {"from": "bomQtyOnHandASI", "to": ["bomQtyOnHandASI"]},
+          {"from": "bomQtyReservedASI", "to": ["bomQtyReservedASI"]}
+        ],
+        "migrationConstraint": "Can be skipped - all functions are unused (dead code)",
+        "usedByViews": false,
+        "usedByJava": false
+      },
+      {
+        "name": "BOM Pricing Cluster",
+        "category": "bom-pricing",
+        "functions": ["bomPriceLimit", "bomPriceList", "bomPriceStd"],
+        "internalDependencies": [
+          {"from": "bomPriceLimit", "to": ["bomPriceLimit"]},
+          {"from": "bomPriceList", "to": ["bomPriceList"]},
+          {"from": "bomPriceStd", "to": ["bomPriceStd"]}
+        ],
+        "migrationConstraint": "Independent self-recursive functions, but share similar pattern - migrate together for consistency",
+        "usedByViews": true,
+        "usedByJava": true
+      },
+      {
+        "name": "Currency Conversion Cluster",
+        "category": "currency",
+        "functions": ["currencyConvert", "currencyRate", "currencyRound", "currencyBase", "currencyBaseType"],
+        "internalDependencies": [
+          {"from": "currencyConvert", "to": ["currencyRate", "currencyRound"]},
+          {"from": "currencyBase", "to": ["currencyConvert"]},
+          {"from": "currencyBaseType", "to": ["currencyConvert"]},
+          {"from": "currencyRate", "to": ["getdate"]}
+        ],
+        "migrationConstraint": "Must migrate currencyRate and currencyRound before currencyConvert",
+        "usedByViews": true,
+        "usedByJava": true
+      },
+      {
+        "name": "Invoice Cluster",
+        "category": "invoice",
+        "functions": ["invoiceOpen", "invoicePaid", "invoiceOpenToDate", "invoicePaidToDate", "invoiceDiscount"],
+        "internalDependencies": [
+          {"from": "invoiceOpen", "to": ["getdate", "currencyConvert"]},
+          {"from": "invoicePaid", "to": ["currencyConvert"]},
+          {"from": "invoiceOpenToDate", "to": ["currencyConvert"]},
+          {"from": "invoicePaidToDate", "to": ["currencyConvert"]},
+          {"from": "invoiceDiscount", "to": ["getdate", "paymentTermDiscount"]}
+        ],
+        "migrationConstraint": "Depends on Currency Conversion Cluster - must migrate currency functions first",
+        "usedByViews": true,
+        "usedByJava": true
+      },
+      {
+        "name": "Payment Cluster",
+        "category": "payment",
+        "functions": ["paymentAllocated", "paymentAvailable"],
+        "internalDependencies": [
+          {"from": "paymentAllocated", "to": ["currencyConvert"]},
+          {"from": "paymentAvailable", "to": ["currencyConvert"]}
+        ],
+        "migrationConstraint": "Depends on Currency Conversion Cluster - must migrate currency functions first",
+        "usedByViews": true,
+        "usedByJava": true
+      },
+      {
+        "name": "HR/Payroll Cluster",
+        "category": "hr-payroll",
+        "functions": ["dailySalary", "dailySalaryToDate", "monthlySalary", "monthlySalaryToDate"],
+        "internalDependencies": [
+          {"from": "dailySalary", "to": ["dailySalaryToDate", "getdate"]},
+          {"from": "dailySalaryToDate", "to": ["getdate"]},
+          {"from": "monthlySalary", "to": ["monthlySalaryToDate", "getdate"]},
+          {"from": "monthlySalaryToDate", "to": ["getdate"]}
+        ],
+        "migrationConstraint": "Can be skipped - all functions are unused (dead code)",
+        "usedByViews": false,
+        "usedByJava": false
+      }
+    ]
+  },
+  "circularDependencies": {
+    "description": "True circular dependencies between different functions (A->B->A)",
+    "count": 0,
+    "cycles": [],
+    "note": "No circular dependencies found between different functions. All recursion is self-recursion (function calls itself)."
+  },
+  "migrationRecommendations": {
+    "recursionStrategy": {
+      "description": "How to handle recursive BOM functions in Java",
+      "options": [
+        {
+          "name": "Iterative with Stack",
+          "description": "Convert recursion to iteration using explicit stack data structure",
+          "pros": ["No stack overflow risk", "Easier to debug", "Better performance control"],
+          "cons": ["More complex code", "Harder to read"],
+          "recommended": true
+        },
+        {
+          "name": "Recursive with Depth Limit",
+          "description": "Keep recursive pattern but add depth limit to prevent infinite loops",
+          "pros": ["Simpler code", "Easier to understand"],
+          "cons": ["Stack overflow risk with deep BOMs", "Less control over performance"],
+          "recommended": false
+        },
+        {
+          "name": "Memoization",
+          "description": "Use caching to avoid recalculating same BOM components",
+          "pros": ["Better performance for overlapping components", "Reduces database calls"],
+          "cons": ["Memory overhead", "Cache invalidation complexity"],
+          "recommended": true,
+          "note": "Can be combined with either approach above"
+        }
+      ]
+    },
+    "clusterMigrationOrder": [
+      {"order": 1, "cluster": "Utility Functions", "reason": "No dependencies, base layer"},
+      {"order": 2, "cluster": "Currency Conversion Cluster", "reason": "Required by Invoice and Payment clusters"},
+      {"order": 3, "cluster": "Payment Term Functions", "reason": "Required by Invoice Discount"},
+      {"order": 4, "cluster": "Invoice Cluster", "reason": "Depends on currency, used widely"},
+      {"order": 5, "cluster": "Payment Cluster", "reason": "Depends on currency"},
+      {"order": 6, "cluster": "BOM Pricing Cluster", "reason": "Self-contained recursive"},
+      {"order": 7, "cluster": "BOM Quantity Cluster", "reason": "Most complex, migrate last"}
+    ]
+  }
+}
