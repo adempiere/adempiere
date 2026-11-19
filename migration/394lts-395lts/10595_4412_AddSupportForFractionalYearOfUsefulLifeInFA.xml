@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add support for fractional years of useful life in FA" ReleaseNo="3.9.5" SeqNo="10600">
+  <Migration EntityType="D" Name="Add support for fractional years of useful life in FA" ReleaseNo="3.9.5" SeqNo="10595">
     <Comments>https://github.com/adempiere/adempiere/issues/4412
-The dictionary flip of these columns from AD_Reference_ID 11 (Integer) to 29 (Quantity)
-is not enough on its own: the physical columns stay numeric(10,0) and PostgreSQL rounds
-fractional input silently. This migration therefore widens them explicitly.
-Runs after SeqNo 10590, which installs the corrected altercolumn() / t_alter_column
-infrastructure that performs the ALTER even when no view depends on the column.
-t_alter_column is PostgreSQL-only, so the Oracle path uses native MODIFY.
-Each ALTER changes the type only: nullclause and defaultclause are SQL NULL so that the
-existing NOT NULL and DEFAULT 0 of the mandatory columns are preserved.
-Idempotent: altercolumn() compares format_type() output and skips the ALTER when the
-column is already unconstrained numeric.
-
-ROLLBACK DESTROYS FRACTIONAL DATA. Narrowing numeric back to numeric(10,0) does not
-raise an error in PostgreSQL: it ROUNDS. Any useful life already stored as 3.3333
-comes back as 3 after a rollback, silently. The RollbackStatement below is therefore
-only safe before fractional values are in use; once they exist, restore the fractions
-by hand instead of running it.</Comments>
+      MUST RUN AFTER 10590: the loader sorts the directory by file name
+      (MigrationFromXML:59), not by SeqNo, so this file is numbered 10595. 10590 installs
+      the altercolumn() body and the public.deps_* helpers this migration needs.
+      No INSERT INTO t_alter_column and no hand-written ALTER TABLE steps: MMigrationStep
+      calls MColumn.syncDatabase() on a changed AD_Column (MMigrationStep:620),
+      whatever DATABASE_AUTO_SYNC says, and that sync feeds the t_alter_column
+      rule. In a full migration run the sync is queued and performed by
+      MMigration.syncColumn at the end of the run instead of per column.
+      ROLLING THIS BACK NARROWS THE COLUMNS (MMigrationStep:746) and PostgreSQL ROUNDS on
+      narrowing, so a stored 3.3333 comes back as 3. The dictionary is left at 22/29.</Comments>
     <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
-      <Comments>Install the patched altercolumn() before touching any column, so this
-      migration does not depend on SeqNo 10590 having run here. The previous body only
-      issued ALTER TABLE ... ALTER COLUMN ... TYPE when a view depended on the column,
-      and the fixed asset tables have none: the type change was a silent no-op, the
-      dictionary said Quantity while the column stayed numeric(10,0), and PostgreSQL
-      rounded 3.3333 down to 3 with no error anywhere. Body verbatim from SeqNo 10590.
-      No RollbackStatement on purpose: restoring the older body would reintroduce that
-      silent rounding.</Comments>
-      <SQLStatement>CREATE OR REPLACE FUNCTION altercolumn(tablename name, columnname name, datatype name,
+      <Comments>Install the altercolumn() that the t_alter_column rule calls, from
+      db/ddlutils/postgresql/functions/altercolumn.sql, so an installed database gets the
+      same body a new database gets.</Comments>
+      <SQLStatement>
+CREATE OR REPLACE FUNCTION altercolumn(tablename name, columnname name, datatype name,
 nullclause varchar, defaultclause varchar) returns void as $$
 declare
    command text;
@@ -72,20 +62,32 @@ begin
 			and d.oid = e.attrelid
 			and e.attname = lower(columnname)
 			and c.refobjsubid = e.attnum
-			and a.relkind = 'v'
+			and a.relkind in ('v','m')
 		 loop
 		    i := i + 1;
 		    viewtext[i] := pg_get_viewdef(v.oid);
 		    viewname[i] := v.relname;
 		end loop;
 		if i &gt; 0 then
+          -- The deps helpers build pg_temp._role_table_grants and
+          -- pg_temp._role_column_grants with CREATE TEMPORARY VIEW and leave them
+          -- behind, so a second call in the same session aborts with 42P07 "relation
+          -- _role_table_grants already exists". A migration run synchronizes one
+          -- column after another through this same connection, so without this the
+          -- second column that has dependents silently keeps its old physical type
+          -- while the dictionary already advertises the new one, and the migration
+          -- still reports success. These two views are session scratch state that
+          -- deps_save_and_drop_dependencies rebuilds on entry, so clearing them here
+          -- costs nothing.
+          execute 'drop view if exists pg_temp._role_table_grants';
+          execute 'drop view if exists pg_temp._role_column_grants';
           command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
 		end if;
-		command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
-		raise notice ' Execute : % ' , command;
-		execute command;
+		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
+		  raise notice ' Execute : % ' , command;
+		  execute command;
 	end if;
    end if;
 
@@ -93,7 +95,7 @@ begin
        if lower(defaultclause) = 'null' then
           command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop default ';
        else
-          command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set default ''' || defaultclause || '''';
+	  	  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set default ''' || defaultclause || '''';
        end if;
 	   raise notice ' Execute : % ' , command;
        execute command;
@@ -116,7 +118,8 @@ begin
         execute command;
     end if;
 end;
-$$ language plpgsql;</SQLStatement>
+$$ language plpgsql;
+      </SQLStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="53497" Table="AD_Element">
@@ -287,60 +290,6 @@ $$ language plpgsql;</SQLStatement>
         <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
         <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="A_Asset_Life_Years_F"/>
       </PO>
-    </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="300" StepType="SQL">
-      <Comments>Widen the useful-life year columns to unconstrained numeric so fractions persist. Type only: NOT NULL and DEFAULT are preserved.</Comments>
-      <SQLStatement>INSERT INTO t_alter_column values('a_asset','uselifeyears','numeric',null,null)
-;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears','numeric',null,null)
-;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears_f','numeric',null,null)
-;INSERT INTO t_alter_column values('a_asset_change','uselifeyears','numeric',null,null)
-;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears','numeric',null,null)
-;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears_f','numeric',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years','numeric',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years_f','numeric',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears','numeric',null,null)
-;INSERT INTO t_alter_column values('i_asset','a_asset_life_years','numeric',null,null)
-;INSERT INTO t_alter_column values('i_asset','uselifeyears','numeric',null,null)
-;</SQLStatement>
-      <RollbackStatement>INSERT INTO t_alter_column values('a_asset','uselifeyears','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_asset_addition','deltauselifeyears_f','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_asset_change','uselifeyears','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_asset_group_acct','uselifeyears_f','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','a_asset_life_years_f','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('a_depreciation_workfile','uselifeyears','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('i_asset','a_asset_life_years','numeric(10,0)',null,null)
-;INSERT INTO t_alter_column values('i_asset','uselifeyears','numeric(10,0)',null,null)
-;</RollbackStatement>
-    </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="310" StepType="SQL">
-      <Comments>Oracle has no t_alter_column; native MODIFY preserves NOT NULL and DEFAULT when restated.</Comments>
-      <SQLStatement>ALTER TABLE A_Asset MODIFY UseLifeYears NUMBER DEFAULT NULL
-;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears_F NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE A_Asset_Change MODIFY UseLifeYears NUMBER DEFAULT NULL
-;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears NUMBER DEFAULT 0
-;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears_F NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years_F NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears NUMBER DEFAULT 0 NOT NULL
-;ALTER TABLE I_Asset MODIFY A_Asset_Life_Years NUMBER DEFAULT NULL
-;ALTER TABLE I_Asset MODIFY UseLifeYears NUMBER DEFAULT NULL
-;</SQLStatement>
-      <RollbackStatement>ALTER TABLE A_Asset MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
-;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE A_Asset_Addition MODIFY DeltaUseLifeYears_F NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE A_Asset_Change MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
-;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears NUMBER(10,0) DEFAULT 0
-;ALTER TABLE A_Asset_Group_Acct MODIFY UseLifeYears_F NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY A_Asset_Life_Years_F NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE A_Depreciation_Workfile MODIFY UseLifeYears NUMBER(10,0) DEFAULT 0 NOT NULL
-;ALTER TABLE I_Asset MODIFY A_Asset_Life_Years NUMBER(10,0) DEFAULT NULL
-;ALTER TABLE I_Asset MODIFY UseLifeYears NUMBER(10,0) DEFAULT NULL
-;</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>
