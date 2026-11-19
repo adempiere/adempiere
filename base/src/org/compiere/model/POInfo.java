@@ -172,10 +172,17 @@ public class POInfo implements Serializable
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT ")
 				.append(getPOInfoColumnList(baseLanguage));
+		//	Additional column, outside the cached getPOInfoColumnList() contract:
+		//	AD_Reference_ID of the key column named by AD_Ref_Table.AD_Key, so a
+		//	Table reference does not need a nested query per column (issue #4462).
+		//	Both joins are on primary keys, so they never multiply rows.
+		sql.append(", kc.AD_Reference_ID AS KeyColumnReference_ID");
 		sql.append(" FROM AD_Table t"
 				+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
 				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
-				+ " INNER JOIN AD_Element e ON (c.AD_Element_ID=e.AD_Element_ID) ");
+				+ " INNER JOIN AD_Element e ON (c.AD_Element_ID=e.AD_Element_ID) "
+				+ " LEFT OUTER JOIN AD_Ref_Table rt ON (rt.AD_Reference_ID=c.AD_Reference_Value_ID)"
+				+ " LEFT OUTER JOIN AD_Column kc ON (kc.AD_Column_ID=rt.AD_Key) ");
 		if (!baseLanguage) {
 			sql.append("LEFT JOIN AD_Element_Trl etrl ON (e.AD_Element_ID = etrl.AD_Element_ID)");
 		}
@@ -240,6 +247,10 @@ public class POInfo implements Serializable
 						isChangeLog="Y".equals(row.getString(22));
 						//	Load additional attributes
 						loadAdditionalAttributes(row);
+						//	ADEMPIERE-101: AD_Reference_ID of the key column that the Table
+						//	reference points at, resolved by the kc join above instead of a
+						//	nested query per column (issue #4462). Zero when there is none.
+						int keyColumnReferenceId = row.getInt("KeyColumnReference_ID");
 						return new POInfoColumn (
 								AD_Column_ID, ColumnName, ColumnSQL, AD_Reference_ID,
 								IsMandatory, IsUpdateable,
@@ -250,7 +261,7 @@ public class POInfo implements Serializable
 								IsTranslated, IsEncrypted,
 								IsAllowLogging,
 								isAllowCopy,
-								trxName);
+								trxName, keyColumnReferenceId);
 					}).toList();
 					list.addAll(infoColumns.asJava());
 				}).onFailure(throwable -> {

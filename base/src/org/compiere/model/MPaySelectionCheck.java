@@ -511,30 +511,20 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		}
 		boolean isPayrollAccount = paySelectionLine.getHR_Movement_ID() > 0;
 		//	Add default account
-		if(paySelectionLine.getC_BP_BankAccount_ID() != 0) {
-			setC_BP_BankAccount_ID(paySelectionLine.getC_BP_BankAccount_ID());
-		} else if (X_C_Order.PAYMENTRULE_DirectDebit.equals(paymentRule)) {
-			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
-			partnerBankAccounts.stream()
-					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
-					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
-					.findFirst()
-					.ifPresent( partnerBankAccount -> {
-						setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
-						paySelectionLine.setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
-						paySelectionLine.saveEx();
-					});
-		} else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(paymentRule)) {
-			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
-			partnerBankAccounts.stream()
-					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
-					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
-					.findFirst()
-					.ifPresent( partnerBankAccount -> {
-						setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
-						paySelectionLine.setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
-						paySelectionLine.saveEx();
-					});
+		//	One rule, shared with the grid callout and the pay selection line: the account
+		//	already on the line is kept only when it serves this partner and this tender, and
+		//	otherwise the default account for that tender is resolved, or none when the tender
+		//	is not a direct one. Before, any non zero account on the line was taken as is and
+		//	isValid accepted it, so an account that had never been filtered reached the payment.
+		int payableAccountId = MPaySelectionLine.payableBankAccountId(paySelectionLine.getCtx(),
+				partnerId, paymentRule, isPayrollAccount,
+				paySelectionLine.getC_BP_BankAccount_ID(), paySelectionLine.get_TrxName());
+		if (payableAccountId != 0) {
+			setC_BP_BankAccount_ID(payableAccountId);
+			if (payableAccountId != paySelectionLine.getC_BP_BankAccount_ID()) {
+				paySelectionLine.setC_BP_BankAccount_ID(payableAccountId);
+				paySelectionLine.saveEx();
+			}
 		}
 		setPaymentRule (paymentRule);
 		//

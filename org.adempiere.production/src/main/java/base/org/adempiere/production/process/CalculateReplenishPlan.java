@@ -220,20 +220,22 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract {
 		sql = "DELETE FROM M_MovementLine ml "
 				+ "WHERE EXISTS(SELECT 1 FROM M_Movement m "
 				+ "				WHERE m.M_Movement_ID = ml.M_Movement_ID "
+				+ "				AND m.AD_Client_ID = ? "
 				+ "				AND m.M_ProductionBatch_ID IS NOT NULL "
 				+ "				AND m.Processed = 'N' "
 				+ "					AND NOT EXISTS(SELECT 1 "
 				+ "							FROM M_ProductionBatch b "
 				+ "							WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID))";
-		noOfLinesDeleted = DB.executeUpdate(sql, get_TrxName());
+		noOfLinesDeleted = DB.executeUpdate(sql, getAD_Client_ID(), get_TrxName());
 		log.fine("No. of Movement Lines cleaned : " + noOfLinesDeleted);
 
 		sql = "DELETE FROM M_Movement m "
-				+ "WHERE m.M_ProductionBatch_ID IS NOT NULL "
-				+ "AND m.Processed = 'N'"
+				+ "WHERE m.AD_Client_ID = ? "
+				+ "AND m.M_ProductionBatch_ID IS NOT NULL "
+				+ "AND m.Processed = 'N' "
 				+ "AND NOT EXISTS(SELECT 1 FROM M_ProductionBatch b "
 				+ "				WHERE b.M_ProductionBatch_ID = m.M_ProductionBatch_ID)";
-		noOfLinesDeleted = DB.executeUpdate(sql, get_TrxName());
+		noOfLinesDeleted = DB.executeUpdate(sql, getAD_Client_ID(), get_TrxName());
 		log.fine("No. of Inventory Movements cleaned : " + noOfLinesDeleted);
 	}
 	
@@ -855,7 +857,7 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract {
 					+ "INNER JOIN M_ProductionLine pl ON (pl.M_Production_ID = p.M_Production_ID) "
 					+ "WHERE p.Processed='N' "
 					+ "AND pl.IsEndProduct = 'N' "
-					+ "AND pl.M_Product_ID = ?"
+					+ "AND pl.M_Product_ID = ? "
 					+ "AND p.C_DocType_ID=? "
 					+ "AND DatePromised BETWEEN ? AND ? "
 					+ "GROUP BY p.M_Production_ID, p.DocumentNo, p.DatePromised "

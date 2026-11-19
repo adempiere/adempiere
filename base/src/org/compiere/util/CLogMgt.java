@@ -280,8 +280,12 @@ public class CLogMgt
 			Handler handler = (Handler)s_handlers.get(i);
 			handler.setLevel(level);
 		}
-		//	JDBC if ALL
-		setJDBCDebug(s_currentLevel.intValue() == Level.ALL.intValue());
+		//	JDBC if ALL - decided from the level requested, not from the level
+		//	still held in s_currentLevel, which is only assigned at the end of
+		//	this method. Reading it here left the JDBC writer one call behind the
+		//	reported level: ALL got no tracing until a second call, and coming down
+		//	from ALL left every JDBC call writing to System.err.
+		setJDBCDebug(level.intValue() == Level.ALL.intValue());
 		//
 		if (level.intValue() != s_currentLevel.intValue())
 		{
