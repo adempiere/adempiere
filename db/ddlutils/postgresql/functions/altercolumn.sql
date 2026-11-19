@@ -38,7 +38,7 @@ begin
 			where a.oid = b.refobjid
 			and b.objid = c.objid
 			and b.refobjid <> c.refobjid
-			and b.deptype = 'n'
+			and b.deptype  in ('n','i')
 			and c.refobjid = d.oid
 			and d.relname = lower(tablename)
 			and d.relkind = 'r'
@@ -52,7 +52,7 @@ begin
 		    viewname[i] := v.relname;
 		end loop;
 		if i > 0 then
-          command := 'SELECT deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
+          command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
 		end if;
@@ -84,7 +84,7 @@ begin
       end if;
    end if;
     if i > 0 then
-        command := 'SELECT deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
+        command := 'SELECT public.deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
 		raise notice ' Execute : % ' , command;
         execute command;
     end if;
