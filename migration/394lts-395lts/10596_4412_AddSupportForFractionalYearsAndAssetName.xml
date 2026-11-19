@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support for fractional years and Asset Name" ReleaseNo="3.9.5" SeqNo="10596">
+    <Comments>https://github.com/adempiere/adempiere/issues/4412
+      Numbered 10596 so it runs after 10590, which the loader orders by file name
+      (MigrationFromXML:59) and not by SeqNo. The a_asset.Name widening is done by the
+      dictionary step below: MMigrationStep synchronizes the column
+      (MMigrationStep:620), per column or at the end of the run through
+      MMigration.syncColumn, so the INSERT INTO t_alter_column step this file used to
+      carry was redundant. Rollback narrows Name back to 60 and PostgreSQL truncates the values
+      that no longer fit.</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59283" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="0">0.0</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59283" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8056" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">255</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">Name</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8056" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="Name"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

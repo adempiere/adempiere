@@ -33,6 +33,7 @@ import org.compiere.util.Trx;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -289,8 +290,8 @@ public class MAssetAddition extends X_A_Asset_Addition
 		setSourceAmt(project.getProjectBalanceAmt());
 		setDateDoc(new Timestamp (System.currentTimeMillis()));
 		setA_CreateAsset(true); //added by @win as create from project will certainly for createnew
-		setDeltaUseLifeYears(I_ZERO);
-		setDeltaUseLifeYears_F(I_ZERO);
+		setDeltaUseLifeYears(Env.ZERO);
+		setDeltaUseLifeYears_F(Env.ZERO);
 		setC_DocType_ID();
 		
 		Timestamp dateAcct = new Timestamp (System.currentTimeMillis());
@@ -348,8 +349,10 @@ public class MAssetAddition extends X_A_Asset_Addition
 
 		setA_Accumulated_Depr(ifa.getA_Accumulated_Depr());
 		setA_Accumulated_Depr_F(ifa.getA_Accumulated_Depr_F());
-		setDeltaUseLifeYears((int)(ifa.getUseLifeMonths() / 12));
-		setDeltaUseLifeYears_F((int)(ifa.getUseLifeMonths_F() / 12));
+		BigDecimal useLifeYears = new BigDecimal(ifa.getUseLifeMonths()).divide(UseLifeImpl.MONTHS_PER_YEAR, UseLifeImpl.SCALE_USE_LIFE_YEARS, RoundingMode.HALF_UP);
+		setDeltaUseLifeYears(useLifeYears);
+		BigDecimal useLifeYears_F = new BigDecimal(ifa.getUseLifeMonths_F()).divide(UseLifeImpl.MONTHS_PER_YEAR, UseLifeImpl.SCALE_USE_LIFE_YEARS, RoundingMode.HALF_UP);
+		setDeltaUseLifeYears_F(useLifeYears_F);
 		
 		setA_CapvsExp(MAssetAddition.A_CAPVSEXP_Capital); //added by zuhri, import must be in Capital
 		setA_CreateAsset(true); //added by zuhri, import must be create asset
@@ -637,7 +640,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		}
 		
 		// Goodwill - can add asset value without adding asset usable life
-		if (!isA_CreateAsset() && getDeltaUseLifeYears() < 0)
+		if (!isA_CreateAsset() && getDeltaUseLifeYears().signum() < 0)
 		{
 			throw new AssetException("Delta Use Life Years cannot be negative values");
 		}
@@ -968,7 +971,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		
 		// adjust the asset value
 		assetwk.adjustCost(getAssetValueAmt().negate(), getA_QTY_Current().negate(), false);
-		assetwk.adjustUseLife(0 - getDeltaUseLifeYears(), 0 - getDeltaUseLifeYears_F(), false);
+		assetwk.adjustUseLife(Env.ZERO.subtract(getDeltaUseLifeYears()), Env.ZERO.subtract(getDeltaUseLifeYears_F()), false);
 		assetwk.saveEx();
 		
 		if (listAddition.size() == 0)
@@ -1308,9 +1311,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	public boolean hasZeroValues()
 	{
 		return
-				getDeltaUseLifeYears() <= 0 
-				//|| getDeltaUseLifeYears_F() <= 0								//commented by Goodwill
-				//|| getDeltaUseLifeYears() != getDeltaUseLifeYears_F() 
+				getDeltaUseLifeYears().signum() <= 0
 				|| getAssetValueAmt().signum() <= 0
 		;
 	}

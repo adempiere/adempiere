@@ -975,37 +975,38 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		@param UseLifeYears 
 		Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears)
+	public void setUseLifeYears (BigDecimal UseLifeYears)
 	{
-		set_Value (COLUMNNAME_UseLifeYears, Integer.valueOf(UseLifeYears));
+		
+		set_Value (COLUMNNAME_UseLifeYears, UseLifeYears);
 	}
 
 	/** Get Usable Life - Years.
 		@return Years of the usable life of the asset
 	  */
-	public int getUseLifeYears () 
+	public BigDecimal getUseLifeYears () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UseLifeYears);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UseLifeYears);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Use Life - Years (fiscal).
 		@param UseLifeYears_F Use Life - Years (fiscal)	  */
-	public void setUseLifeYears_F (int UseLifeYears_F)
+	public void setUseLifeYears_F (BigDecimal UseLifeYears_F)
 	{
-		set_Value (COLUMNNAME_UseLifeYears_F, Integer.valueOf(UseLifeYears_F));
+		set_Value (COLUMNNAME_UseLifeYears_F, UseLifeYears_F);
 	}
 
 	/** Get Use Life - Years (fiscal).
 		@return Use Life - Years (fiscal)	  */
-	public int getUseLifeYears_F () 
+	public BigDecimal getUseLifeYears_F () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_UseLifeYears_F);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UseLifeYears_F);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Immutable Universally Unique Identifier.
