@@ -128,10 +128,10 @@ public interface I_I_Asset
     public static final String COLUMNNAME_A_Asset_Life_Years = "A_Asset_Life_Years";
 
 	/** Set Life Years	  */
-	public void setA_Asset_Life_Years (int A_Asset_Life_Years);
+	public void setA_Asset_Life_Years (BigDecimal A_Asset_Life_Years);
 
 	/** Get Life Years	  */
-	public int getA_Asset_Life_Years();
+	public BigDecimal getA_Asset_Life_Years();
 
     /** Column name A_Asset_Spread_Type */
     public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
@@ -936,12 +936,12 @@ public interface I_I_Asset
 	/** Set Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public void setUseLifeYears (int UseLifeYears);
+	public void setUseLifeYears (BigDecimal UseLifeYears);
 
 	/** Get Usable Life - Years.
 	  * Years of the usable life of the asset
 	  */
-	public int getUseLifeYears();
+	public BigDecimal getUseLifeYears();
 
     /** Column name UseUnits */
     public static final String COLUMNNAME_UseUnits = "UseUnits";

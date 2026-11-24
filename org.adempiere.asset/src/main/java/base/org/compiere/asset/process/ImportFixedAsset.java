@@ -402,7 +402,7 @@ public class ImportFixedAsset extends ImportFixedAssetAbstract
 					if(ifa.getA_Current_Period() == 0)
 					{
 						MAsset asset = new MAsset(getCtx(), assetAdd.getA_Asset_ID(), get_TrxName());
-						asset.setUseLifeYears(0);
+						asset.setUseLifeYears(BigDecimal.ZERO);
 						asset.setUseLifeMonths(0);
 						asset.setLifeUseUnits(0);
 						asset.setUseUnits(0);

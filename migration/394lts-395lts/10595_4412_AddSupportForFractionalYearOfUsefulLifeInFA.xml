@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add support for fractional years of useful life in FA" ReleaseNo="3.9.5" SeqNo="10595">
+    <Comments>https://github.com/adempiere/adempiere/issues/4412
+      MUST RUN AFTER 10590: the loader sorts the directory by file name
+      (MigrationFromXML:59), not by SeqNo, so this file is numbered 10595. 10590 installs
+      the altercolumn() body and the public.deps_* helpers this migration needs.
+      No INSERT INTO t_alter_column and no hand-written ALTER TABLE steps: MMigrationStep
+      calls MColumn.syncDatabase() on a changed AD_Column (MMigrationStep:620),
+      whatever DATABASE_AUTO_SYNC says, and that sync feeds the t_alter_column
+      rule. In a full migration run the sync is queued and performed by
+      MMigration.syncColumn at the end of the run instead of per column.
+      ROLLING THIS BACK NARROWS THE COLUMNS (MMigrationStep:746) and PostgreSQL ROUNDS on
+      narrowing, so a stored 3.3333 comes back as 3. The dictionary is left at 22/29.</Comments>
+    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
+      <Comments>Install the altercolumn() that the t_alter_column rule calls, from
+      db/ddlutils/postgresql/functions/altercolumn.sql, so an installed database gets the
+      same body a new database gets.</Comments>
+      <SQLStatement>
+CREATE OR REPLACE FUNCTION altercolumn(tablename name, columnname name, datatype name,
+nullclause varchar, defaultclause varchar) returns void as $$
+declare
+   command text;
+   viewtext text[];
+   viewname name[];
+   dropviews name[];
+   i int;
+   j int;
+   v record;
+   sqltype       text;
+   sqltype_short text;
+   typename name;
+begin
+   if datatype is not null then
+	select pg_type.typname, format_type(pg_type.oid, pg_attribute.atttypmod)
+        into typename, sqltype
+        from pg_class, pg_attribute, pg_type
+        where relname = lower(tablename)
+        and relkind = 'r'
+        and pg_class.oid = pg_attribute.attrelid
+        and attname = lower(columnname)
+        and atttypid = pg_type.oid;
+        sqltype_short := sqltype;
+        if typename = 'numeric' then
+	   sqltype_short := replace(sqltype, ',0', '');
+        elsif strpos(sqltype,'character varying') = 1 then
+	   sqltype_short := replace(sqltype, 'character varying', 'varchar');
+        elsif sqltype = 'timestamp without time zone' then
+           sqltype_short := 'timestamp';
+        end if;
+        if lower(datatype) &lt;&gt; sqltype and lower(datatype) &lt;&gt; sqltype_short then
+		i := 0;
+		for v in select a.relname, a.oid
+			from pg_class a, pg_depend b, pg_depend c, pg_class d, pg_attribute e
+			where a.oid = b.refobjid
+			and b.objid = c.objid
+			and b.refobjid &lt;&gt; c.refobjid
+			and b.deptype  in ('n','i')
+			and c.refobjid = d.oid
+			and d.relname = lower(tablename)
+			and d.relkind = 'r'
+			and d.oid = e.attrelid
+			and e.attname = lower(columnname)
+			and c.refobjsubid = e.attnum
+			and a.relkind in ('v','m')
+		 loop
+		    i := i + 1;
+		    viewtext[i] := pg_get_viewdef(v.oid);
+		    viewname[i] := v.relname;
+		end loop;
+		if i &gt; 0 then
+          -- The deps helpers build pg_temp._role_table_grants and
+          -- pg_temp._role_column_grants with CREATE TEMPORARY VIEW and leave them
+          -- behind, so a second call in the same session aborts with 42P07 "relation
+          -- _role_table_grants already exists". A migration run synchronizes one
+          -- column after another through this same connection, so without this the
+          -- second column that has dependents silently keeps its old physical type
+          -- while the dictionary already advertises the new one, and the migration
+          -- still reports success. These two views are session scratch state that
+          -- deps_save_and_drop_dependencies rebuilds on entry, so clearing them here
+          -- costs nothing.
+          execute 'drop view if exists pg_temp._role_table_grants';
+          execute 'drop view if exists pg_temp._role_column_grants';
+          command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
+          raise notice ' Execute : % ' , command;
+          execute command;
+		end if;
+		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
+		  raise notice ' Execute : % ' , command;
+		  execute command;
+	end if;
+   end if;
+
+   if defaultclause is not null then
+       if lower(defaultclause) = 'null' then
+          command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop default ';
+       else
+	  	  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set default ''' || defaultclause || '''';
+       end if;
+	   raise notice ' Execute : % ' , command;
+       execute command;
+   end if;
+
+   if nullclause is not null then
+      if lower(nullclause) = 'not null' then
+          command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' set not null';
+		  raise notice ' Execute : % ' , command;
+          execute command;
+      elsif lower(nullclause) = 'null' then
+          command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' drop not null';
+		  raise notice ' Execute : % ' , command;
+          execute command;
+      end if;
+   end if;
+    if i &gt; 0 then
+        command := 'SELECT public.deps_restore_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true}''' ||');';
+		raise notice ' Execute : % ' , command;
+        execute command;
+    end if;
+end;
+$$ language plpgsql;
+      </SQLStatement>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="53497" Table="AD_Element">
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="11">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54176" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55418" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55418" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="A_Asset_Life_Years"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55997" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="1947" Table="AD_Element">
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" oldValue="11">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="56032" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54203" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59463" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">DeltaUseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59463" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="DeltaUseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59464" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">DeltaUseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59464" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="DeltaUseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="54204" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">29</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55772" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55772" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59408" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59408" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears_F"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8046" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8046" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59281" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59281" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55863" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">UseLifeYears</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55863" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="UseLifeYears"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59279" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="10">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="11">29</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">A_Asset_Life_Years_F</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59279" Table="AD_Column">
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="A_Asset_Life_Years_F"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

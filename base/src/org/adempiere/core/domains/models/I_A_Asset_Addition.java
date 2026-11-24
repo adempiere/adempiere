@@ -386,10 +386,10 @@ public interface I_A_Asset_Addition
     public static final String COLUMNNAME_DeltaUseLifeYears = "DeltaUseLifeYears";
 
 	/** Set Delta Use Life Years	  */
-	public void setDeltaUseLifeYears (int DeltaUseLifeYears);
+	public void setDeltaUseLifeYears (BigDecimal DeltaUseLifeYears);
 
 	/** Get Delta Use Life Years	  */
-	public int getDeltaUseLifeYears();
+	public BigDecimal getDeltaUseLifeYears();
 
     /** Column name DeltaUseLifeYears_F */
     public static final String COLUMNNAME_DeltaUseLifeYears_F = "DeltaUseLifeYears_F";
@@ -397,12 +397,12 @@ public interface I_A_Asset_Addition
 	/** Set Delta Use Life Years (fiscal).
 	  * Delta Use Life Years (fiscal)
 	  */
-	public void setDeltaUseLifeYears_F (int DeltaUseLifeYears_F);
+	public void setDeltaUseLifeYears_F (BigDecimal DeltaUseLifeYears_F);
 
 	/** Get Delta Use Life Years (fiscal).
 	  * Delta Use Life Years (fiscal)
 	  */
-	public int getDeltaUseLifeYears_F();
+	public BigDecimal getDeltaUseLifeYears_F();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

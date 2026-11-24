@@ -1,10 +1,12 @@
 package org.compiere.asset.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Properties;
 
 import org.adempiere.core.domains.models.I_A_Asset_Addition;
 import org.adempiere.model.GridTabWrapper;
+import org.compiere.asset.feature.UseLifeImpl;
 import org.compiere.asset.model.MAssetAddition;
 import org.compiere.asset.model.MConversionRateUtil;
 import org.compiere.model.CalloutEngine;
@@ -112,16 +114,20 @@ public class CalloutAssetAddition extends CalloutEngine
 			return "";
 		}
 		
-		int uselifeMonths = assetAddition.getDeltaUseLifeYears() * 12;
-		if (uselifeMonths == 0)
+		//	DeltaUseLifeYears is fractional since adempiere#4412: round to the nearest whole month
+		//	instead of truncating (3.3333 years is 40 months, not 39).
+		int uselifeMonths = assetAddition.getDeltaUseLifeYears().multiply(UseLifeImpl.MONTHS_PER_YEAR).setScale(0, RoundingMode.HALF_UP).intValue();
+		if (uselifeMonths <= 0)
 		{
 			return "";
 		}
-		double monthlyExpenseSL = assetAddition.getAssetValueAmt().doubleValue() / uselifeMonths * periods;
+		BigDecimal monthlyExpenseSL = assetAddition.getAssetValueAmt()
+				.multiply(BigDecimal.valueOf(periods))
+				.divide(BigDecimal.valueOf(uselifeMonths), 2, RoundingMode.HALF_UP);
 		
 		assetAddition.setA_Period_Start(periods + 1);
-		assetAddition.setA_Accumulated_Depr(BigDecimal.valueOf(monthlyExpenseSL));
-		assetAddition.setA_Accumulated_Depr_F(BigDecimal.valueOf(monthlyExpenseSL));
+		assetAddition.setA_Accumulated_Depr(monthlyExpenseSL);
+		assetAddition.setA_Accumulated_Depr_F(monthlyExpenseSL);
 		
 		return "";
 	}

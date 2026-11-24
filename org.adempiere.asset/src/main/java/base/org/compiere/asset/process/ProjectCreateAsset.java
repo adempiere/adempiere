@@ -70,7 +70,7 @@ public class ProjectCreateAsset extends ProjectCreateAssetAbstract
 		assetAdd.setDateAcct(getDateTrx());
 		assetAdd.setDateDoc(getDateTrx());
 		assetAdd.setM_Product_ID(getProjectId());
-		if(getUseLifeYears() > 0) {
+		if(getUseLifeYears().signum() > 0) {
 			assetAdd.setDeltaUseLifeYears(getUseLifeYears());
 			assetAdd.setDeltaUseLifeYears_F(getUseLifeYears());
 		}

@@ -469,7 +469,7 @@ public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 	/**
 	 * Adjust use life years
 	 */
-	public void adjustUseLife(int deltaUseLifeYears, int deltaUseLifeYears_F, boolean reset)
+	public void adjustUseLife(BigDecimal deltaUseLifeYears, BigDecimal deltaUseLifeYears_F, boolean reset)
 	{
 		if(CLogMgt.isLevelFine()) log.fine("Entering: deltaUseLifeYears=" + deltaUseLifeYears + ", deltaUseLifeYears_F=" + deltaUseLifeYears_F);
 		//

@@ -45,20 +45,32 @@ begin
 			and d.oid = e.attrelid
 			and e.attname = lower(columnname)
 			and c.refobjsubid = e.attnum
-			and a.relkind = 'v'
+			and a.relkind in ('v','m')
 		 loop
 		    i := i + 1;
 		    viewtext[i] := pg_get_viewdef(v.oid);
 		    viewname[i] := v.relname;
 		end loop;
 		if i > 0 then
+          -- The deps helpers build pg_temp._role_table_grants and
+          -- pg_temp._role_column_grants with CREATE TEMPORARY VIEW and leave them
+          -- behind, so a second call in the same session aborts with 42P07 "relation
+          -- _role_table_grants already exists". A migration run synchronizes one
+          -- column after another through this same connection, so without this the
+          -- second column that has dependents silently keeps its old physical type
+          -- while the dictionary already advertises the new one, and the migration
+          -- still reports success. These two views are session scratch state that
+          -- deps_save_and_drop_dependencies rebuilds on entry, so clearing them here
+          -- costs nothing.
+          execute 'drop view if exists pg_temp._role_table_grants';
+          execute 'drop view if exists pg_temp._role_column_grants';
           command := 'SELECT public.deps_save_and_drop_dependencies('''|| current_schema() || ''',''' || lower(tablename) || ''',' || '''{"dry_run": false,"verbose": true,"populate_materialized_view": true}''' ||');';
           raise notice ' Execute : % ' , command;
           execute command;
+		end if;
 		  command := 'alter table ' || lower(tablename) || ' alter column ' || lower(columnname) || ' type ' || lower(datatype);
 		  raise notice ' Execute : % ' , command;
 		  execute command;
-		end if;
 	end if;
    end if;
 
