@@ -802,7 +802,7 @@ public abstract class PO
 		if ( ( ! p_info.isColumnUpdateable(index) ) && ( ! is_new() ) )
 		{
 			colInfo += " - NewValue=" + value + " - OldValue=" + get_Value(index);
-			log.log(Level.WARNING, "Column not updateable" + colInfo);
+			log.log(Level.SEVERE, "Column not updateable" + colInfo);
 			return false;
 		}
 		//
@@ -1207,10 +1207,10 @@ public abstract class PO
 	 * 	Set all columns updateable
 	 * 	@param updateable updateable
 	 */
-	protected void setUpdateable (boolean updateable)
+	protected void setAllColumnUpdateable (boolean updateable)
 	{
-		p_info.setUpdateable (updateable);
-	}	//	setUpdateable
+		p_info.setAllColumnUpdateable (updateable);
+	}	//	setAllColumnUpdateable
 
 	/**
 	 *  Get Column DisplayType
