@@ -548,11 +548,50 @@ public final class DisplayType
 	 * @return
 	 */
 	public static boolean isSameType(MColumn column, int dataType, int dataLength) {
+		return isSameType(column, dataType, dataLength, null);
+	}	//	isSameType
+
+	/**
+	 * 	Report whether the physical column silently rounds the fraction that the display
+	 * 	type produces.
+	 *	@param displayType dictionary display type
+	 *	@param jdbcType resolved JDBC type of the dictionary column
+	 *	@param dataLength physical COLUMN_SIZE, zero when the column is unconstrained
+	 *	@param decimalDigits physical DECIMAL_DIGITS, or null when unknown
+	 *	@return true when the column has to be widened to keep the fraction
+	 */
+	private static boolean isRoundingFraction(int displayType, int jdbcType, int dataLength, Integer decimalDigits) {
+		//	An unknown scale is never evidence of a difference: do not invent one.
+		if (decimalDigits == null)
+			return false;
+		if (jdbcType != Types.NUMERIC && jdbcType != Types.DECIMAL)
+			return false;
+		//	An unconstrained numeric already keeps any fraction, so there is nothing to widen.
+		if (dataLength == 0)
+			return false;
+		return getDefaultPrecision(displayType) > decimalDigits.intValue();
+	}	//	isRoundingFraction
+
+	/**
+	 * 	Validate if is same Data Type, also weighing the physical scale.
+	 * 	<p>
+	 * 	Length alone is not enough for a numeric column: a physical numeric(p,0) cannot hold
+	 * 	the fraction that a fractional display type produces, and the value is rounded in
+	 * 	silence while the synchronization reports success.
+	 *	@param column dictionary column
+	 *	@param dataType physical JDBC data type
+	 *	@param dataLength physical COLUMN_SIZE, zero when the column is unconstrained
+	 *	@param decimalDigits physical DECIMAL_DIGITS, or null when the caller does not know it
+	 *	@return true when the physical column can store what the dictionary describes
+	 */
+	public static boolean isSameType(MColumn column, int dataType, int dataLength, Integer decimalDigits) {
 		int columnDataType = getDBDataType(column.getAD_Reference_ID(), column.getColumnName(), 
 				column.getFieldLength(), column.getAD_Reference_Value_ID());
 		int columnDataLength = getDBDataLength(column.getAD_Reference_ID(), column.getColumnName(), 
 				column.getFieldLength(), column.getAD_Reference_Value_ID());
 		if(columnDataType == dataType) {
+			if (isRoundingFraction(column.getAD_Reference_ID(), columnDataType, dataLength, decimalDigits))
+				return false;
 			return (columnDataLength == 0 || columnDataLength == dataLength);
 		}
 		//	Varchar
@@ -566,6 +605,8 @@ public final class DisplayType
 				|| dataType == Types.DECIMAL)
 				&& (columnDataType == Types.NUMERIC
 						|| columnDataType == Types.DECIMAL)) {
+			if (isRoundingFraction(column.getAD_Reference_ID(), columnDataType, dataLength, decimalDigits))
+				return false;
 			return (columnDataLength == 0 || columnDataLength == dataLength);
 		} else if((dataType == Types.TIMESTAMP
 				|| dataType == Types.TIMESTAMP_WITH_TIMEZONE
