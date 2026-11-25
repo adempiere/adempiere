@@ -19,12 +19,20 @@ allprojects {
 dependencies {
 	// Local
     api project(path: ':base')
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+	testImplementation 'org.mockito:mockito-core:3.6.0'
+}
+
+tasks.withType(Test) {
+	useJUnitPlatform()
 }
 
 sourceSets {
 	main {
 		java {
 			srcDirs = ['src']
+			exclude 'test/**'
 		}
 	}
 }
