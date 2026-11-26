@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fix Length for HR_Employee EmployeeStatus"
+             ReleaseNo="3.9.5" SeqNo="9991">
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(2)</SQLStatement>
+      <RollbackStatement>ALTER TABLE hr_employee ALTER COLUMN employeestatus TYPE VARCHAR(1)</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>ALTER TABLE HR_Employee
+MODIFY EmployeeStatus NVARCHAR2(2) DEFAULT NULL
+;</SQLStatement>
+      <RollbackStatement>ALTER TABLE HR_Employee
+MODIFY EmployeeStatus NVARCHAR2(1) DEFAULT NULL
+;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>
