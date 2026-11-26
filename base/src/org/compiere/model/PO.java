@@ -57,6 +57,7 @@ import org.adempiere.exceptions.DBException;
 import org.adempiere.model.GenericPO;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
+import org.compiere.dbPort.MigrationStatementContext;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
@@ -2494,16 +2495,58 @@ public abstract class PO
 	}	//	afterSave
 
 	/**
+	 * Check if logging migration scripts is enabled for the current context/user or globally.
+	 * @param ctx Context
+	 * @return true if enabled
+	 */
+	public static boolean isLogMigrationScript(Properties ctx) {
+		if (ctx != null) {
+			if ("Y".equalsIgnoreCase(Env.getContext(ctx, "#LogMigrationScript"))
+					|| "Y".equalsIgnoreCase(Env.getContext(ctx, "LogMigrationScript")))
+				return true;
+		}
+		if (ctx != Env.getCtx()) {
+			if ("Y".equalsIgnoreCase(Env.getContext(Env.getCtx(), "#LogMigrationScript"))
+					|| "Y".equalsIgnoreCase(Env.getContext(Env.getCtx(), "LogMigrationScript")))
+				return true;
+		}
+		return Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT);
+	}
+
+	/**
+	 * Check if logging migration scripts is enabled for this object's context.
+	 * @return true if enabled
+	 */
+	public boolean isLogMigrationScript() {
+		if (p_info != null) {
+			if (p_info.isIgnoreMigration())
+				return false;
+			String tableName = p_info.getTableName();
+			if (tableName != null && (tableName.startsWith("AD_Migration")
+					|| tableName.equals(I_AD_Session.Table_Name)
+					|| tableName.equals("AD_ChangeLog")
+					|| tableName.startsWith("AD_PInstance"))) {
+				return false;
+			}
+		}
+		return isLogMigrationScript(p_ctx != null ? p_ctx : getCtx());
+	}
+
+	/**
 	 * 	Update Record directly
 	 * 	@return true if updated
 	 */
 	protected boolean saveUpdate()
 	{
+		boolean migrationLogging = isLogMigrationScript();
+		MigrationSQLBuilder migrationBuilder = migrationLogging ? new MigrationSQLBuilder(this, p_info) : null;
 		String where = get_WhereClause(true);
 		//
 		boolean changes = false;
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(p_info.getTableName()).append( " SET ");
+		StringBuffer migrationSql = new StringBuffer ("UPDATE ");
+		migrationSql.append(p_info.getTableName()).append( " SET ");
 		boolean updated = false;
 		boolean updatedBy = false;
 		lobReset();
@@ -2559,6 +2602,10 @@ public abstract class PO
 					int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
 					set_ValueNoCheck("UpdatedBy", Integer.valueOf(AD_User_ID));
 					sql.append("UpdatedBy=").append(AD_User_ID);
+					if (migrationLogging)
+						migrationSql.append("UpdatedBy=").append(
+								migrationBuilder.getSQLValue(p_info.getColumnIndex("UpdatedBy"),
+										Integer.valueOf(AD_User_ID)));
 					changes = true;
 					updatedBy = true;
 				}
@@ -2586,10 +2633,15 @@ public abstract class PO
 				}
 			}
 
-			if (changes)
+			if (changes) {
 				sql.append(", ");
+				migrationSql.append(", ");
+			}
 			changes = true;
 			sql.append(columnName).append("=");
+			if (migrationLogging)
+				migrationSql.append(columnName).append("=")
+					.append(migrationBuilder.getUpdateSQLValue(i, value));
 
 			//  values
 			if (value == Null.NULL)
@@ -2649,14 +2701,18 @@ public abstract class PO
 			Iterator<String> it = m_custom.keySet().iterator();
 			while (it.hasNext())
 			{
-				if (changes)
+				if (changes) {
 					sql.append(", ");
+					migrationSql.append(", ");
+				}
 				changes = true;
 				//
 				String column = (String)it.next();
 				String value = (String)m_custom.get(column);
 				int index = p_info.getColumnIndex(column);
 				sql.append(column).append("=").append(encrypt(index,value));
+				if (migrationLogging)
+					migrationSql.append(column).append("=").append(encrypt(index,value));
 			}
 			m_custom = null;
 		}
@@ -2673,22 +2729,34 @@ public abstract class PO
 				Timestamp now = new Timestamp(System.currentTimeMillis());
 				set_ValueNoCheck("Updated", now);
 				sql.append(",Updated=").append(DB.TO_DATE(now, false));
+				migrationSql.append(",Updated=").append(DB.TO_DATE(now, false));
 			}
 			if (!updatedBy)	//	UpdatedBy not explicitly set
 			{
 				int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
 				set_ValueNoCheck("UpdatedBy", Integer.valueOf(AD_User_ID));
 				sql.append(",UpdatedBy=").append(AD_User_ID);
+				if (migrationLogging)
+					migrationSql.append(",UpdatedBy=").append(
+							migrationBuilder.getSQLValue(p_info.getColumnIndex("UpdatedBy"),
+									Integer.valueOf(AD_User_ID)));
 			}
 			sql.append(" WHERE ").append(where);
+			if (migrationLogging)
+				migrationSql.append(" WHERE ").append(migrationBuilder.getWhereClause());
 			/** @todo status locking goes here */
 
 			log.finest(sql.toString());
 			int no = 0;
-			if (isUseTimeoutForUpdate())
-				no = DB.executeUpdateEx(sql.toString(), m_trxName, QUERY_TIME_OUT);
-			else
-				no = DB.executeUpdate(sql.toString(), m_trxName);
+			setMigrationStatement(migrationLogging ? migrationSql.toString() : null, migrationLogging);
+			try {
+				if (isUseTimeoutForUpdate())
+					no = DB.executeUpdateEx(sql.toString(), m_trxName, QUERY_TIME_OUT);
+				else
+					no = DB.executeUpdate(sql.toString(), m_trxName);
+			} finally {
+				MigrationStatementContext.clear();
+			}
 			boolean ok = no == 1;
 			if (ok)
 				ok = lobSave();
@@ -2719,6 +2787,8 @@ public abstract class PO
 	 */
 	private boolean saveNew()
 	{
+		boolean migrationLogging = isLogMigrationScript();
+		MigrationSQLBuilder migrationBuilder = migrationLogging ? new MigrationSQLBuilder(this, p_info) : null;
 		//  Set ID for single key - Multi-Key values need explicitly be set previously
 		if (m_IDs.length == 1 && p_info.hasKeyColumn()
 			&& m_KeyColumns[0].endsWith("_ID")
@@ -2805,6 +2875,9 @@ public abstract class PO
 		StringBuffer sqlInsert = new StringBuffer("INSERT INTO ");
 		sqlInsert.append(p_info.getTableName()).append(" (");
 		StringBuffer sqlValues = new StringBuffer(") VALUES (");
+		StringBuffer migrationInsert = new StringBuffer("INSERT INTO ");
+		migrationInsert.append(p_info.getTableName()).append(" (");
+		StringBuffer migrationValues = new StringBuffer(") VALUES (");
 		int size = get_ColumnCount();
 		boolean doComma = false;
 		for (int i = 0; i < size; i++)
@@ -2828,15 +2901,23 @@ public abstract class PO
 			{
 				sqlInsert.append(",");
 				sqlValues.append(",");
+				migrationInsert.append(",");
+				migrationValues.append(",");
 			}
 			else
 				doComma = true;
 			sqlInsert.append(p_info.getColumnName(i));
+			migrationInsert.append(p_info.getColumnName(i));
 			//
 			//  Based on class of definition, not class of value
 			Class<?> c = p_info.getColumnClass(i);
 			try
 			{
+				if (migrationLogging) {
+					boolean customPrimaryKey = migrationBuilder.isCustomPrimaryKey(i, value);
+					migrationValues.append(customPrimaryKey
+							? migrationBuilder.getInsertKeySQL() : migrationBuilder.getSQLValue(i, value));
+				}
 				if (c == Object.class) //  may have need to deal with null values differently
 					sqlValues.append (saveNewSpecial (value, i));
 				else if (value == null || value.equals (Null.NULL))
@@ -2909,19 +2990,26 @@ public abstract class PO
 				{
 					sqlInsert.append(",");
 					sqlValues.append(",");
+					migrationInsert.append(",");
+					migrationValues.append(",");
 				}
 				else
 					doComma = true;
 				sqlInsert.append(column);
+				migrationInsert.append(column);
 				//jz for ad_issue, some value may include ' in a string???
 				sqlValues.append(encrypt(index, value));
+				migrationValues.append(encrypt(index, value));
 			}
 			m_custom = null;
 		}
 		sqlInsert.append(sqlValues)
 			.append(")");
+		migrationInsert.append(migrationValues)
+			.append(")");
 		//
-		int no = DB.executeUpdate(sqlInsert.toString(), m_trxName);
+		int no = executeUpdateWithMigrationStatement(sqlInsert.toString(),
+				migrationLogging ? migrationInsert.toString() : null, m_trxName);
 		boolean ok = no == 1;
 		if (ok)
 		{
@@ -2962,6 +3050,22 @@ public abstract class PO
 		return 0;
 	}	//	saveNew_getID
 
+
+	private void setMigrationStatement(String migrationSql, boolean migrationLogging) {
+		// An ignored table must also suppress Convert's global logging fallback.
+		// Keep the default (logging disabled) path free of statement context.
+		if (migrationLogging || Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT))
+			MigrationStatementContext.set(migrationSql, migrationLogging);
+	}
+
+	private int executeUpdateWithMigrationStatement(String sql, String migrationSql, String trxName) {
+		setMigrationStatement(migrationSql, isLogMigrationScript());
+		try {
+			return DB.executeUpdate(sql, trxName);
+		} finally {
+			MigrationStatementContext.clear();
+		}
+	}
 
 	/**
 	 * 	Create Single/Multi Key Where Clause
@@ -3019,7 +3123,7 @@ public abstract class PO
 	 *	@param xx data
 	 *	@return xx
 	 */
-	private Object encrypt (int index, Object xx)
+	Object encrypt (int index, Object xx)
 	{
 		if (xx == null)
 			return null;
@@ -3133,11 +3237,20 @@ public abstract class PO
 			.append(p_info.getTableName())
 			.append(" WHERE ")
 			.append(get_WhereClause(true));
+		boolean migrationLogging = isLogMigrationScript();
+		String migrationSql = migrationLogging
+				? "DELETE FROM " + p_info.getTableName()
+					+ " WHERE " + new MigrationSQLBuilder(this, p_info).getWhereClause() : null;
 		int no = 0;
-		if (isUseTimeoutForUpdate())
-			no = DB.executeUpdateEx(sql.toString(), localTrxName, QUERY_TIME_OUT);
-		else
-			no = DB.executeUpdate(sql.toString(), localTrxName);
+		setMigrationStatement(migrationSql, migrationLogging);
+		try {
+			if (isUseTimeoutForUpdate())
+				no = DB.executeUpdateEx(sql.toString(), localTrxName, QUERY_TIME_OUT);
+			else
+				no = DB.executeUpdate(sql.toString(), localTrxName);
+		} finally {
+			MigrationStatementContext.clear();
+		}
 		success = no == 1;
 
 		//	Save ID
@@ -4133,7 +4246,9 @@ public abstract class PO
 	{
 		log.finest("Value=" + value);
 		PO_LOB lob = new PO_LOB (p_info.getTableName(), get_ColumnName(index),
-			get_WhereClause(true), displayType, value);
+			isLogMigrationScript()
+				? new MigrationSQLBuilder(this, p_info).getWhereClause() : get_WhereClause(true),
+			displayType, value);
 		if (m_lobInfo == null)
 			m_lobInfo = new ArrayList<PO_LOB>();
 		m_lobInfo.add(lob);
@@ -4151,10 +4266,14 @@ public abstract class PO
 		for (int i = 0; i < m_lobInfo.size(); i++)
 		{
 			PO_LOB lob = (PO_LOB)m_lobInfo.get(i);
-			if (!lob.save(get_TrxName()))
-			{
-				retValue = false;
-				break;
+			setMigrationStatement(null, isLogMigrationScript());
+			try {
+				if (!lob.save(get_TrxName())) {
+					retValue = false;
+					break;
+				}
+			} finally {
+				MigrationStatementContext.clear();
 			}
 		}	//	for all LOBs
 		lobReset();
