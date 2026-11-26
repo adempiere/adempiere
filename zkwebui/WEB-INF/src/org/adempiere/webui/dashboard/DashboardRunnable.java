@@ -19,8 +19,9 @@ import org.adempiere.webui.util.ServerPushTemplate;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.zkoss.util.Locales;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Execution;
+import org.zkoss.zk.ui.DesktopUnavailableException;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -65,10 +66,15 @@ public class DashboardRunnable implements Runnable, Serializable {
 
     public DashboardRunnable(DashboardRunnable tmp, Desktop desktop, IDesktop applicationDesktop) {
         this(desktop, applicationDesktop);
-        this.dashboardPanels = tmp.dashboardPanels;
+        if (tmp.dashboardPanels != null) {
+            this.dashboardPanels = new ArrayList<>(tmp.dashboardPanels);
+        }
     }
 
     public void start() {
+        if (running.get()) {
+            return;
+        }
         worker = new Thread(this);
         worker.setDaemon(true);
         worker.start();
@@ -76,11 +82,12 @@ public class DashboardRunnable implements Runnable, Serializable {
 
     public void stop() {
         running.set(false);
+        interruptWorker();
     }
 
     public void interrupt() {
         running.set(false);
-        worker.interrupt();
+        interruptWorker();
     }
 
     public boolean isRunning() {
@@ -104,15 +111,24 @@ public class DashboardRunnable implements Runnable, Serializable {
                 break;
             }
 
-            getApplicationDesktop().flatMap(applicationDesktop -> getDesktop()).ifPresent(desktop -> {
-                Locales.setThreadLocal(locale);
-                try {
-                    refreshDashboard();
-                } catch (Exception exception) {
-                    logger.log(Level.INFO, "Refresh Dashboard stop execution ..." + exception.getMessage());
-                    running.set(false);
-                }
-            });
+            Optional<Desktop> maybeDesktop = getDesktop();
+            Optional<IDesktop> maybeApplicationDesktop = getApplicationDesktop();
+            if (!maybeDesktop.isPresent() || !maybeApplicationDesktop.isPresent()
+                    || !isRefreshable(maybeDesktop.get(), maybeApplicationDesktop.get())) {
+                running.set(false);
+                break;
+            }
+
+            Locales.setThreadLocal(locale);
+            try {
+                refreshDashboard(maybeDesktop.get(), maybeApplicationDesktop.get());
+            } catch (DesktopUnavailableException desktopUnavailableException) {
+                logger.log(Level.INFO, "Refresh Dashboard stop execution: desktop unavailable");
+                running.set(false);
+            } catch (Exception exception) {
+                logger.log(Level.INFO, "Refresh Dashboard stop execution ..." + exception.getMessage());
+                running.set(false);
+            }
         }
         cleanup();
         stopped.set(true);
@@ -122,16 +138,28 @@ public class DashboardRunnable implements Runnable, Serializable {
      * Refresh dashboard content
      */
     public void refreshDashboard() {
-        getApplicationDesktop().ifPresent(applicationDesktop ->
-                getDesktop().ifPresent(desktop -> {
-                    ServerPushTemplate template = new ServerPushTemplate(desktop);
-                    Optional<Execution> maybeExecution = Optional.ofNullable(desktop.getExecution());
-                    maybeExecution.ifPresent(execution -> {
-                        SessionContextListener.setContextForSession(execution);
-                        dashboardPanels.forEach(dashboardPanel -> dashboardPanel.refresh(template));
-                    });
-                    applicationDesktop.onServerPush(template);
-                }));
+        Optional<Desktop> maybeDesktop = getDesktop();
+        Optional<IDesktop> maybeApplicationDesktop = getApplicationDesktop();
+        if (!maybeDesktop.isPresent() || !maybeApplicationDesktop.isPresent()
+                || !isRefreshable(maybeDesktop.get(), maybeApplicationDesktop.get())) {
+            running.set(false);
+            return;
+        }
+        refreshDashboard(maybeDesktop.get(), maybeApplicationDesktop.get());
+    }
+
+    private void refreshDashboard(Desktop desktop, IDesktop applicationDesktop) {
+        if (!SessionContextListener.setContextForDesktop(desktop)) {
+            running.set(false);
+            return;
+        }
+
+        ServerPushTemplate template = new ServerPushTemplate(desktop);
+        if (dashboardPanels != null) {
+            dashboardPanels.removeIf(dashboardPanel -> !isPanelAttached(dashboardPanel, desktop));
+            dashboardPanels.forEach(dashboardPanel -> dashboardPanel.refresh(template));
+        }
+        applicationDesktop.onServerPush(template);
     }
 
     /**
@@ -152,21 +180,49 @@ public class DashboardRunnable implements Runnable, Serializable {
     }
 
     public void cleanup() {
-        dashboardPanels.forEach(dashboardPanel ->  dashboardPanel.getAttributes().clear());
-        dashboardPanels.clear();
+        if (dashboardPanels != null) {
+            dashboardPanels.forEach(dashboardPanel -> {
+                if (dashboardPanel != null) {
+                    dashboardPanel.getAttributes().clear();
+                }
+            });
+            dashboardPanels.clear();
+        }
         if (desktopReference != null) {
-            Desktop desktop = desktopReference.get();
             desktopReference.clear();
         }
 
         if (applicationDesktopReference != null) {
-            IDesktop desktopExecution = applicationDesktopReference.get();
             applicationDesktopReference.clear();
-            desktopExecution = null;
         }
 
         dashboardPanels = null;
         desktopReference = null;
         applicationDesktopReference = null;
+        worker = null;
+    }
+
+    private void interruptWorker() {
+        Thread currentWorker = worker;
+        if (currentWorker != null) {
+            currentWorker.interrupt();
+        }
+    }
+
+    private boolean isRefreshable(Desktop desktop, IDesktop applicationDesktop) {
+        if (desktop == null || !desktop.isAlive() || applicationDesktop == null) {
+            return false;
+        }
+
+        Component component = applicationDesktop.getComponent();
+        return component != null
+                && component.getPage() != null
+                && component.getDesktop() == desktop;
+    }
+
+    private boolean isPanelAttached(DashboardPanel dashboardPanel, Desktop desktop) {
+        return dashboardPanel != null
+                && dashboardPanel.getPage() != null
+                && dashboardPanel.getDesktop() == desktop;
     }
 }
