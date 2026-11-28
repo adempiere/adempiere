@@ -59,11 +59,14 @@ if [ $ADEMPIERE_APPS_TYPE = "tomcat" ]; then
       else      
         echo "CATALINA_BASE: ${CATALINA_BASE}"
         PID="${CATALINA_BASE}/tomcat.pid"
-        if [ -f $PID ] && pgrep -F $PID ; then
-         echo "ADempiere's Server is already running .."
-        else
-          echo "ADempiere Server $ADEMPIERE_APPS_TYPE starting ..."
-          $CATALINA_BASE/bin/startup.sh
+	if [ -f $PID ] && pgrep -F $PID ; then
+	  if [ "$(ps -p $( <${PID}) -o comm=)" == "java" ] ; then
+            echo "ADempiere's Server is already running .. with PID ${PID}"
+          else
+	    rm -f ${PID}
+            echo "ADempiere Server $ADEMPIERE_APPS_TYPE starting ..."
+            $CATALINA_BASE/bin/startup.sh
+          fi
         fi
     fi    
 fi
