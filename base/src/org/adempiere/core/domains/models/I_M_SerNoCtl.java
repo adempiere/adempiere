@@ -93,6 +93,19 @@ public interface I_M_SerNoCtl
 	  */
 	public int getCurrentNext();
 
+    /** Column name DecimalPattern */
+    public static final String COLUMNNAME_DecimalPattern = "DecimalPattern";
+
+	/** Set Decimal Pattern.
+	  * Java Decimal Pattern
+	  */
+	public void setDecimalPattern (String DecimalPattern);
+
+	/** Get Decimal Pattern.
+	  * Java Decimal Pattern
+	  */
+	public String getDecimalPattern();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
